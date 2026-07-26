@@ -1,4 +1,4 @@
-import { db } from 'db';
+import { getDb } from 'db';
 import { users } from 'db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -18,7 +18,16 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const [dbUser] = await db.select().from(users).where(eq(users.id, authUser.userId));
+  let dbUser = null;
+  try {
+    const db = getDb();
+    if (db) {
+      const [user] = await db.select().from(users).where(eq(users.id, authUser.userId));
+      dbUser = user;
+    }
+  } catch {
+    console.warn('[Kairos] me.get.ts DB fetch skipped (demo mode)');
+  }
 
   return {
     authenticated: true,
@@ -32,3 +41,4 @@ export default defineEventHandler(async (event) => {
       : authUser,
   };
 });
+

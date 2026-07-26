@@ -11,7 +11,7 @@
         {{ icon }}
       </div>
     </div>
-    <div v-[if]="trend" class="mt-3 flex items-center gap-1 text-xs" :class="trendPositive ? 'text-emerald-400' : 'text-purple-400'">
+    <div v-if="trend" class="mt-3 flex items-center gap-1 text-xs" :class="trendPositive ? 'text-emerald-400' : 'text-purple-400'">
       <span>{{ trendPositive ? '↑' : '✦' }}</span>
       <span>{{ trend }}</span>
     </div>

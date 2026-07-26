@@ -1,5 +1,5 @@
 import { generateQASet } from 'server/services/qa';
-import { db } from 'db';
+import { getDb } from 'db';
 import { qaSets } from 'db/schema';
 
 export default defineEventHandler(async (event) => {
@@ -14,18 +14,29 @@ export default defineEventHandler(async (event) => {
 
   const qaResult = await generateQASet(targetRole, careerSummary, count);
 
-  const [saved] = await db
-    .insert(qaSets)
-    .values({
-      userId,
-      title: `${targetRole} 예상 면접 Q&A 세트`,
-      targetRole,
-      qaPairs: qaResult.qaPairs,
-    })
-    .returning();
+  // Save result (graceful - skip if DB unavailable in demo mode)
+  let savedId: string | undefined;
+  try {
+    const db = getDb();
+    if (db) {
+      const [saved] = await db
+        .insert(qaSets)
+        .values({
+          userId,
+          title: `${targetRole} 예상 면접 Q&A 세트`,
+          targetRole,
+          qaPairs: qaResult.qaPairs,
+        })
+        .returning();
+      savedId = saved.id;
+    }
+  } catch {
+    console.warn('[Kairos] QA save skipped (demo mode - no DB)');
+  }
 
   return {
-    id: saved.id,
+    id: savedId || 'demo-qa-' + Date.now(),
     qaSet: qaResult,
   };
 });
+

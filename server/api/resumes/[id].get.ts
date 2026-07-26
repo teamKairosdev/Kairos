@@ -1,4 +1,4 @@
-import { db } from 'db';
+import { getDb } from 'db';
 import { resumes, resumeRefinements } from 'db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -6,7 +6,25 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
   if (!id) throw createError({ statusCode: 400, statusMessage: '이력서 ID가 필요합니다.' });
 
-  const [resume] = await db.select().from(resumes).where(eq(resumes.id, id));
+  let resume = null;
+  let refinements: any[] = [];
+
+  try {
+    const db = getDb();
+    if (db) {
+      const [res] = await db.select().from(resumes).where(eq(resumes.id, id));
+      resume = res;
+
+      if (resume) {
+        refinements = await db
+          .select()
+          .from(resumeRefinements)
+          .where(eq(resumeRefinements.resumeId, id));
+      }
+    }
+  } catch {
+    console.warn('[Kairos] resume.get.ts DB fetch skipped (demo mode)');
+  }
 
   if (!resume) {
     // Fallback demo object if not found in db
@@ -23,13 +41,9 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  const refinements = await db
-    .select()
-    .from(resumeRefinements)
-    .where(eq(resumeRefinements.resumeId, id));
-
   return {
     resume,
     refinements,
   };
 });
+

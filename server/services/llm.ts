@@ -9,6 +9,19 @@ export interface LLMOptions {
   temperature?: number;
 }
 
+/** API 키가 없을 때 데모 모드 여부를 감지합니다 */
+export function isDemoMode(): boolean {
+  const openaiKey = process.env.OPENAI_API_KEY || '';
+  const anthropicKey = process.env.ANTHROPIC_API_KEY || '';
+  const googleKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '';
+
+  const hasOpenAI = openaiKey.trim() !== '' && !openaiKey.includes('your-openai') && !openaiKey.includes('sk-proj-your');
+  const hasAnthropic = anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic') && !anthropicKey.includes('sk-ant-your');
+  const hasGoogle = googleKey.trim() !== '' && !googleKey.includes('your-google') && !googleKey.includes('AIzaSy-your');
+
+  return !hasOpenAI && !hasAnthropic && !hasGoogle;
+}
+
 export function getPreferredLanguageModel(): LanguageModelV1 {
   const config = useRuntimeConfig();
   

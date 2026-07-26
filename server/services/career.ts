@@ -1,4 +1,4 @@
-import { db } from 'db';
+import { getDb } from 'db';
 import { careers } from 'db/schema';
 import { eq, sql } from 'drizzle-orm';
 import { generateEmbedding } from './embedding';
@@ -11,6 +11,21 @@ export async function createCareerEntry(data: {
   description: string;
   achievements?: string[];
 }) {
+  const db = getDb();
+  if (!db) {
+    console.info('[Kairos Demo] 경력 등록 - 데모 모드 반환');
+    return {
+      id: 'demo-career-' + Date.now(),
+      userId: data.userId,
+      company: data.company,
+      role: data.role,
+      period: data.period,
+      description: data.description,
+      achievements: data.achievements || [],
+      createdAt: new Date(),
+    };
+  }
+
   // Generate 1536-dim vector embedding of description and achievements
   const textToEmbed = `${data.company} ${data.role}: ${data.description} ${data.achievements?.join(' ') || ''}`;
   const embedding = await generateEmbedding(textToEmbed);
@@ -32,6 +47,11 @@ export async function createCareerEntry(data: {
 }
 
 export async function searchCareersSemantic(userId: string, query: string, limit: number = 5) {
+  const db = getDb();
+  if (!db) {
+    throw new Error('Database connection is not available in demo mode');
+  }
+
   const queryEmbedding = await generateEmbedding(query);
   const vectorStr = JSON.stringify(queryEmbedding);
 
@@ -47,3 +67,4 @@ export async function searchCareersSemantic(userId: string, query: string, limit
 
   return results.rows;
 }
+

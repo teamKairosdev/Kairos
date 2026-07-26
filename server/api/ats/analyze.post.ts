@@ -1,5 +1,5 @@
 import { analyzeATSCompatibility } from 'server/services/ats';
-import { db } from 'db';
+import { getDb } from 'db';
 import { atsAnalyses } from 'db/schema';
 
 export default defineEventHandler(async (event) => {
@@ -18,24 +18,33 @@ export default defineEventHandler(async (event) => {
   // Real LLM ATS Analysis call
   const analysis = await analyzeATSCompatibility(resumeText, jobDescription);
 
-  // Save analysis record
-  const [saved] = await db
-    .insert(atsAnalyses)
-    .values({
-      userId,
-      jobTitle,
-      jobDescription,
-      resumeId: resumeId || null,
-      matchScore: analysis.matchScore,
-      missingKeywords: analysis.missingKeywords,
-      foundKeywords: analysis.foundKeywords,
-      recommendations: analysis.recommendations,
-      detailedBreakdown: analysis.detailedBreakdown,
-    })
-    .returning();
+  // Save analysis record (graceful - skip if DB unavailable in demo mode)
+  let savedId: string | undefined;
+  try {
+    const db = getDb();
+    if (db) {
+      const [saved] = await db
+        .insert(atsAnalyses)
+        .values({
+          userId,
+          jobTitle,
+          jobDescription,
+          resumeId: resumeId || null,
+          matchScore: analysis.matchScore,
+          missingKeywords: analysis.missingKeywords,
+          foundKeywords: analysis.foundKeywords,
+          recommendations: analysis.recommendations,
+          detailedBreakdown: analysis.detailedBreakdown,
+        })
+        .returning();
+      savedId = saved.id;
+    }
+  } catch {
+    console.warn('[Kairos] ATS save skipped (demo mode - no DB)');
+  }
 
   return {
-    id: saved.id,
+    id: savedId || 'demo-ats-' + Date.now(),
     analysis,
   };
 });

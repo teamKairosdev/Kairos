@@ -1,4 +1,7 @@
+import { resolve } from 'path'
 import { fileURLToPath } from 'node:url'
+
+const rootDir = fileURLToPath(new URL('.', import.meta.url))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -9,8 +12,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   alias: {
-    'db': fileURLToPath(new URL('./db', import.meta.url)),
-    'db/*': fileURLToPath(new URL('./db/*', import.meta.url)),
+    'db': resolve(rootDir, 'db/index'),
+    'db/schema': resolve(rootDir, 'db/schema'),
+    'db/index': resolve(rootDir, 'db/index'),
   },
 
   modules: [
@@ -52,6 +56,20 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    alias: {
+      'db': resolve(rootDir, 'db/index'),
+      'db/schema': resolve(rootDir, 'db/schema'),
+      'db/index': resolve(rootDir, 'db/index'),
+      'server/services/llm': resolve(rootDir, 'server/services/llm'),
+      'server/services/resume': resolve(rootDir, 'server/services/resume'),
+      'server/services/interview': resolve(rootDir, 'server/services/interview'),
+      'server/services/ats': resolve(rootDir, 'server/services/ats'),
+      'server/services/humanizer': resolve(rootDir, 'server/services/humanizer'),
+      'server/services/qa': resolve(rootDir, 'server/services/qa'),
+      'server/services/career': resolve(rootDir, 'server/services/career'),
+      'server/services/parser': resolve(rootDir, 'server/services/parser'),
+      'server/services/embedding': resolve(rootDir, 'server/services/embedding'),
+    },
     experimental: {
       asyncContext: true
     }
