@@ -57,11 +57,11 @@ export async function evaluateResumeDraft(draftContent: string): Promise<ResumeE
     return DEMO_EVALUATION;
   }
 
-  const systemPrompt = `You are a world-class executive recruiter and resume evaluator. 
+  const instructions = `You are a world-class executive recruiter and resume evaluator.
 Analyze the candidate's resume draft thoroughly and provide objective metrics, strengths, weaknesses, and clear actionable suggestions. Respond in Korean.`;
 
   return await callLLMStructured<ResumeEvaluation>({
-    system: systemPrompt,
+    instructions,
     prompt: `Analyze the following resume draft:\n\n${draftContent}`,
     schema: evaluationSchema,
     temperature: 0.3,
@@ -75,13 +75,13 @@ export async function generateImprovedResume(draftContent: string, evaluation: R
     return DEMO_IMPROVED;
   }
 
-  const systemPrompt = `You are an elite career steward and resume rewriting specialist (Kairos). 
+  const instructions = `You are an elite career steward and resume rewriting specialist (Kairos).
 Rewrite the candidate's resume applying the STAR method (Situation, Task, Action, Result), dynamic action verbs, quantified achievements, and professional tone. Respond in Korean.`;
 
   const prompt = `Original Draft:\n${draftContent}\n\nEvaluation Feedback:\nStrengths: ${evaluation.strengths.join(', ')}\nWeaknesses: ${evaluation.weaknesses.join(', ')}\nSuggestions: ${evaluation.suggestions.join(', ')}\n\nRewrite this resume to maximize professional impact.`;
 
   return await callLLMStructured<{ improvedContent: string; keyChanges: string[]; estimatedNewScore: number }>({
-    system: systemPrompt,
+    instructions,
     prompt,
     schema: improvedResumeSchema,
     temperature: 0.4,

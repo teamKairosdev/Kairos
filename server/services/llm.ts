@@ -1,19 +1,19 @@
 import { createOpenAI } from '@ai-sdk/openai';
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { generateText, generateObject, streamText, LanguageModelV1 } from 'ai';
+import { generateText, streamText, type LanguageModelV1 } from 'ai';
 
 export interface LLMOptions {
-  system?: string;
+  instructions?: string;
   prompt: string;
   temperature?: number;
 }
 
-/** API 키가 없을 때 데모 모드 여부를 감지합니다 */
 export function isDemoMode(): boolean {
-  const openaiKey = process.env.OPENAI_API_KEY || '';
-  const anthropicKey = process.env.ANTHROPIC_API_KEY || '';
-  const googleKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '';
+  const config = useRuntimeConfig();
+  const openaiKey = config.openaiApiKey || process.env.OPENAI_API_KEY || '';
+  const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
+  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || '';
 
   const hasOpenAI = openaiKey.trim() !== '' && !openaiKey.includes('your-openai') && !openaiKey.includes('sk-proj-your');
   const hasAnthropic = anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic') && !anthropicKey.includes('sk-ant-your');
@@ -24,61 +24,84 @@ export function isDemoMode(): boolean {
 
 export function getPreferredLanguageModel(): LanguageModelV1 {
   const config = useRuntimeConfig();
-  
-  const openaiKey = process.env.OPENAI_API_KEY || config.openaiApiKey;
-  if (openaiKey && openaiKey.trim() !== '' && !openaiKey.includes('your-openai')) {
-    const openai = createOpenAI({ apiKey: openaiKey });
-    return openai('gpt-4o-mini');
-  }
 
-  const anthropicKey = process.env.ANTHROPIC_API_KEY || config.anthropicApiKey;
-  if (anthropicKey && anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic')) {
+  const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
+  if (anthropicKey && anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic') && !anthropicKey.includes('sk-ant-your')) {
     const anthropic = createAnthropic({ apiKey: anthropicKey });
-    return anthropic('claude-3-5-haiku-20241022');
+    return anthropic('claude-haiku-4-5-20251001');
   }
 
-  const googleKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || config.googleApiKey;
-  if (googleKey && googleKey.trim() !== '' && !googleKey.includes('your-google')) {
+  const openaiKey = config.openaiApiKey || process.env.OPENAI_API_KEY || '';
+  if (openaiKey && openaiKey.trim() !== '' && !openaiKey.includes('your-openai') && !openaiKey.includes('sk-proj-your')) {
+    const openai = createOpenAI({ apiKey: openaiKey });
+    return openai('gpt-4.1-mini');
+  }
+
+  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || '';
+  if (googleKey && googleKey.trim() !== '' && !googleKey.includes('your-google') && !googleKey.includes('AIzaSy-your')) {
     const google = createGoogleGenerativeAI({ apiKey: googleKey });
-    return google('gemini-1.5-flash');
+    return google('gemini-3.5-flash');
   }
 
-  // Fallback default: OpenAI instance with env or process key
   const openai = createOpenAI({ apiKey: openaiKey || 'fallback-key' });
-  return openai('gpt-4o-mini');
+  return openai('gpt-4.1-mini');
 }
 
-// Single function = Single LLM call (generateText)
+export function getModelForComplexity(complexity: 'low' | 'medium' | 'high'): LanguageModelV1 {
+  const config = useRuntimeConfig();
+
+  if (complexity === 'high') {
+    const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
+    if (anthropicKey && anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic')) {
+      return createAnthropic({ apiKey: anthropicKey })('claude-sonnet-4-6-20250514');
+    }
+    const openaiKey = config.openaiApiKey || process.env.OPENAI_API_KEY || '';
+    if (openaiKey && openaiKey.trim() !== '' && !openaiKey.includes('your-openai')) {
+      return createOpenAI({ apiKey: openaiKey })('gpt-4.1');
+    }
+  }
+
+  if (complexity === 'medium') {
+    const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
+    if (anthropicKey && anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic')) {
+      return createAnthropic({ apiKey: anthropicKey })('claude-haiku-4-5-20251001');
+    }
+  }
+
+  return getPreferredLanguageModel();
+}
+
+// v7: system → instructions
 export async function callLLMText(options: LLMOptions): Promise<string> {
   const model = getPreferredLanguageModel();
   const result = await generateText({
     model,
-    system: options.system,
+    instructions: options.instructions,
     prompt: options.prompt,
     temperature: options.temperature ?? 0.7,
   });
   return result.text;
 }
 
-// Single function = Single LLM call (generateObject for structured output)
+// v7: generateObject removed — use generateText with output
 export async function callLLMStructured<T>(options: LLMOptions & { schema: any }): Promise<T> {
   const model = getPreferredLanguageModel();
-  const result = await generateObject({
+  const result = await generateText({
     model,
-    schema: options.schema,
-    system: options.system,
+    instructions: options.instructions,
     prompt: options.prompt,
     temperature: options.temperature ?? 0.3,
+    output: options.schema,
   });
   return result.object as T;
 }
 
-// SSE Streaming Interview Support
+// v7: system → instructions
 export async function streamLLMText(options: LLMOptions) {
   const model = getPreferredLanguageModel();
   return streamText({
     model,
-    system: options.system,
+    instructions: options.instructions,
     prompt: options.prompt,
     temperature: options.temperature ?? 0.7,
   });

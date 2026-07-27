@@ -24,11 +24,11 @@ export async function processAIHumanizer(originalText: string): Promise<Humanize
     return DEMO_HUMANIZER_RESULT;
   }
 
-  const systemPrompt = `You are the Kairos AI Humanizer module. Your task is to transform AI-generated or overly robotic Korean job application text into natural, persuasive, human-written professional language.
-Remove repetitive patterns (e.g., 과도한 '통해', '관점', '~함에 있어', 진부한 비유), fix passive voice, and ensure authentic human tone while preserving all facts.`;
+  const instructions = `You are the Kairos AI Humanizer module. Your task is to transform AI-generated or overly robotic Korean job application text into natural, persuasive, human-written professional language.
+Remove repetitive patterns (e.g., 과도한 'through', '관점', '~함에 있어', 진부한 비유), fix passive voice, and ensure authentic human tone while preserving all facts.`;
 
   return await callLLMStructured<HumanizedResult>({
-    system: systemPrompt,
+    instructions,
     prompt: `Transform the following text into natural human Korean:\n\n${originalText}`,
     schema: humanizerSchema,
     temperature: 0.5,

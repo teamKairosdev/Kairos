@@ -36,11 +36,11 @@ export async function analyzeATSCompatibility(resumeText: string, jobDescription
     return DEMO_ATS_RESULT;
   }
 
-  const systemPrompt = `You are an automated Applicant Tracking System (ATS) matching algorithm engine and recruiter AI at Kairos.
+  const instructions = `You are an automated Applicant Tracking System (ATS) matching algorithm engine and recruiter AI at Kairos.
 Evaluate the candidate's resume against the target job description. Identify exact keyword matches, missing critical skills/technologies, keyword density, and overall match score. Respond in Korean.`;
 
   return await callLLMStructured<ATSAnalysisResult>({
-    system: systemPrompt,
+    instructions,
     prompt: `Job Description:\n${jobDescription}\n\nCandidate Resume:\n${resumeText}`,
     schema: atsAnalysisSchema,
     temperature: 0.2,

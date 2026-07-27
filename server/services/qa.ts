@@ -66,10 +66,10 @@ export async function generateQASet(targetRole: string, careerSummary: string, c
     return { ...DEMO_QA_SET, targetRole, title: `${targetRole} 예상 면접 Q&A 세트` };
   }
 
-  const systemPrompt = `You are a interview prep expert at Kairos. Generate tailored high-probability interview questions and stellar model answers based on candidate background and target role. Respond in Korean.`;
+  const instructions = `You are a interview prep expert at Kairos. Generate tailored high-probability interview questions and stellar model answers based on candidate background and target role. Respond in Korean.`;
 
   return await callLLMStructured<QASetResult>({
-    system: systemPrompt,
+    instructions,
     prompt: `Target Role: ${targetRole}\nNumber of Questions: ${count}\n\nCandidate Background / Career Summary:\n${careerSummary}`,
     schema: qaSetSchema,
     temperature: 0.6,
