@@ -1,42 +1,26 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
-import pg from 'pg';
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from './schema';
 
-const { Pool } = pg;
-
-let poolInstance: pg.Pool | null = null;
 let dbInstance: ReturnType<typeof drizzle<typeof schema>> | null = null;
-let dbUnavailable = false;
 
 export function getDb() {
-  if (dbUnavailable) return null as any;
-  if (!dbInstance) {
-    const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/kairos';
+  if (dbInstance) return dbInstance;
 
-    try {
-      poolInstance = new Pool({
-        connectionString,
-        max: 5,
-        idleTimeoutMillis: 10000,
-        connectionTimeoutMillis: 3000,
-      });
-
-      // Catch pool-level errors silently so demo mode doesn't crash
-      poolInstance.on('error', (err) => {
-        console.warn('[Kairos] DB pool error (demo mode: DB ops will be skipped):', err.message);
-        dbUnavailable = true;
-      });
-
-      dbInstance = drizzle(poolInstance, { schema });
-    } catch (err: any) {
-      console.warn('[Kairos] DB initialization failed - running in demo mode:', err.message);
-      dbUnavailable = true;
-      return null as any;
-    }
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    console.warn('[Kairos] DATABASE_URL not set - running in demo mode');
+    return null;
   }
 
-  return dbInstance;
+  try {
+    const sql = neon(connectionString);
+    dbInstance = drizzle(sql, { schema });
+    return dbInstance;
+  } catch (err: any) {
+    console.warn('[Kairos] DB initialization failed - running in demo mode:', err.message);
+    return null;
+  }
 }
 
 export const db = getDb();
-
