@@ -290,7 +290,242 @@ The project had `implementation_plan.md` at root level. It has been moved to `do
 
 ---
 
-## 9. File Inventory (파일 목록)
+## 9. 2026 LLM Model Landscape (2026년 LLM 모델 랜드스케이프)
+
+### 9.1 Top Commercial Models (2026년 7월 기준)
+
+| Model | Provider | Notable Strengths | Context Window |
+|---|---|---|---|
+| **Claude Fable 5** | Anthropic | #1 LMArena overall, elite coding + reasoning | 200K |
+| **GPT-5.6 Sol** | OpenAI | Top-tier general + multimodal | 256K |
+| **GPT-5.4-pro** | OpenAI | #1 on SWE-bench Verified (76.0%) | 256K |
+| **Kimi K3** | Moonshot AI | 2.8T MoE, Apache 2.0 open-source | 128K |
+| **Gemini 3.5 Flash** | Google | Fast + cheap, strong reasoning | 1M |
+| **Gemini 3.1 Pro** | Google | Deep analysis, long-context specialist | 1M |
+| **Grok 4** | xAI | Deep thinking, math/science edge | 128K |
+| **Mistral Large 3** | Mistral AI | Strong multilingual, EU-compliant | 128K |
+| **DeepSeek V4 Pro** | DeepSeek | Top open-weight, beats GPT-5 on some benchmarks | 128K |
+| **Nemotron 3 Super** | NVIDIA | Open LLM competing with Qwen3.5 | 128K |
+
+### 9.2 Open-Source / Open-Weight Models (셀프호스팅 옵션)
+
+| Model | Parameters | License | Best For |
+|---|---|---|---|
+| **Qwen3-235B-A22B** | 235B (22B active MoE) | Apache 2.0 | #1 overall open LLM, multilingual |
+| **Qwen3-30B-A3B** | 30B (3B active) | Apache 2.0 | Best efficiency/quality ratio |
+| **Qwen3-1.7B** | 1.7B | Apache 2.0 | Smallest serious reasoning model |
+| **Llama 4 Maverick** | 400B (17B active MoE) | Llama License | Best Llama, strong general |
+| **Llama 4 Scout** | 109B (17B active MoE) | Llama License | Lightweight Llama option |
+| **DeepSeek V4 Pro** | 685B MoE | MIT | Top open-weight, research-grade |
+| **Mistral Large 3** | ~400B | Apache 2.0 | Multilingual, EU data sovereignty |
+| **GPT-OSS-120b** | 120B | Apache 2.0 | OpenAI's first open model |
+
+### 9.3 Impact on Kairos
+
+**현재 사용 모델 vs 최신 모델 비교:**
+
+| Service | Current Model | Recommended Upgrade |
+|---|---|---|
+| Resume refinement | `gpt-4o-mini` | `gpt-4.1-mini` or `Qwen3-30B-A3B` (self-hosted) |
+| Interview chat | `claude-3-5-haiku-20241022` | `Claude Fable 5` or `Qwen3-235B` |
+| ATS scoring | `gpt-4o-mini` | `gpt-4.1-mini` or `gemini-3.5-flash` |
+| Humanizer | `claude-3-5-haiku-20241022` | `Claude Fable 5` |
+| Q&A generation | `gemini-1.5-flash` | `gemini-3.5-flash` |
+| Embeddings | `text-embedding-3-small` | Still current (OK) |
+
+**비용 최적화 팁**: Qwen3-30B-A3B (3B active)는 self-hosting 시 GPU 메모리 24GB로 구동 가능하며, gpt-4o-mini 대비 동등한 품질을 무료로 제공.
+
+---
+
+## 10. Agent Orchestration Patterns (에이전트 오케스트레이션 패턴)
+
+### 10.1 The 5 Fundamental Agent Patterns
+
+| Pattern | Description | Kairos Fit |
+|---|---|---|
+| **Solo Agent** | Single agent, single prompt | Current Kairos (all services) |
+| **Workers** | Multiple independent agents, same task | Parallel resume/ATS/interview generation |
+| **Pipeline** | Sequential agents, each builds on previous | Resume: Draft → Evaluate → Improve → Humanize |
+| **Hub-and-Spoke** | Central coordinator + specialized agents | Interview: Coach + Evaluator + Feedback |
+| **Swarm** | Agents dynamically assign tasks | Advanced: multi-document analysis |
+
+### 10.2 AI SDK v6+ Agent Framework
+
+The Vercel AI SDK v6 introduced `ToolLoopAgent` — a first-class agent abstraction that provides:
+
+- **Tool Loop**: Agent iterates autonomously until task is complete
+- **Human-in-the-Loop**: Pause execution for user approval before tool calls
+- **Server Actions as Streaming Surface**: Agents stream via Server Actions, not raw SSE
+- **DevTools**: Built-in debugging for agent behavior
+- **Persistent Agents**: State preserved across requests via checkpoints
+
+### 10.3 Recommended Pattern for Kairos
+
+```
+Hub-and-Spoke for Interview Service:
+  ┌─────────────┐
+  │   Coach Agent │ ← orchestrator (AI SDK ToolLoopAgent)
+  └──────┬──────┘
+         │
+  ┌──────┼──────┬──────────┐
+  │      │      │          │
+Evaluator Feedback Question  Resource
+Agent   Agent  Generator  Finder
+```
+
+**Pipeline for Resume Service:**
+```
+Draft Agent → Evaluate Agent → Improve Agent → Humanize Agent
+   (v7)          (v7)            (v7)            (v7)
+```
+
+Each step uses `stopWhen` (v5+) instead of deprecated `maxSteps`.
+
+---
+
+## 11. Context Engineering Paradigms (컨텍스트 엔지니어링 패러다임)
+
+### 11.1 The 7 Core Techniques (2026 Standard)
+
+| Technique | Description | Kairos Current Use |
+|---|---|---|
+| **RAG** | Retrieval-Augmented Generation | Partial (career embeddings) |
+| **Memory** | Persistent context across sessions | ❌ None |
+| **Tool-Augmented** | LLM calls external tools/APIs | ❌ None |
+| **Structured Output** | JSON schema enforcement | ✅ Via `outputMode: 'object'` |
+| **Few-Shot** | Example-based prompting | ❌ None |
+| **Chain-of-Thought** | Step-by-step reasoning | ❌ None |
+| **Retrieval** | Dynamic context injection | ✅ Career data only |
+
+### 11.2 Context Engineering Gaps in Kairos
+
+1. **No Memory System**: Interview conversations don't persist. Each session starts fresh. Users can't build on previous interview feedback.
+2. **No Few-Shot Prompting**: LLM prompts in `server/services/*.ts` use plain text instructions without examples. Adding 2-3 example inputs/outputs would dramatically improve output quality.
+3. **No Chain-of-Thought**: ATS scoring and resume evaluation could benefit from explicit "think step-by-step" prompting.
+4. **No Tool Use**: LLMs can't access external data (company info, salary data, job postings) during generation.
+5. **Limited RAG**: Career embeddings exist but aren't used in interview/resume flows.
+
+### 11.3 Recommended Context Architecture
+
+```
+┌──────────────────────────────────────┐
+│         Context Engineering Layer     │
+├──────────┬──────────┬───────────────┤
+│  Memory  │   RAG    │  Tool Use     │
+│ (Redis)  │ (pgvec)  │ (AI SDK v7)  │
+├──────────┴──────────┴───────────────┤
+│      Structured Output (Zod)         │
+├──────────────────────────────────────┤
+│     Few-Shot Prompt Templates        │
+├──────────────────────────────────────┤
+│    Chain-of-Thought Instructions     │
+└──────────────────────────────────────┘
+```
+
+---
+
+## 12. Serverless AI Deployment Patterns (서버리스 AI 배포 패턴)
+
+### 12.1 Platform Comparison for AI Apps
+
+| Platform | Model Hosting | Edge Deploy | Cold Start | Cost Model |
+|---|---|---|---|---|
+| **Cloudflare Workers AI** | ✅ Built-in GPU | ✅ Global | ~0ms | Per-request |
+| **Vercel Edge Runtime** | ❌ (proxy only) | ✅ Global | <1ms | Per-invocation |
+| **AWS Lambda@Edge** | ❌ | ✅ | 100-500ms | Per-request |
+| **Deno Deploy** | ❌ | ✅ | ~0ms | Per-request |
+| **Google Cloud Run** | ✅ GPU option | ❌ | Cold start | Per-second |
+| **Railway** | ❌ | ❌ | None | Per-second |
+
+### 12.2 Optimal Pattern for Kairos
+
+**Hybrid Serverless Architecture:**
+
+```
+┌─────────────────────────────────────┐
+│         Vercel Edge (Frontend)       │
+│   Nuxt 4 SSR + Static Generation    │
+└──────────────┬──────────────────────┘
+               │
+┌──────────────▼──────────────────────┐
+│     Vercel Serverless Functions      │
+│   API routes (auth, CRUD, etc.)     │
+└──────────────┬──────────────────────┘
+               │
+┌──────────────▼──────────────────────┐
+│   Cloudflare Workers AI (LLM API)   │
+│   Qwen3-30B (free tier) or paid     │
+│   + OpenAI/Anthropic fallback       │
+└─────────────────────────────────────┘
+```
+
+### 12.3 Benefits for Kairos
+
+1. **Zero Infrastructure Management**: No Docker, no VPS, no database hosting
+2. **Global Edge**: Frontend served from 300+ locations
+3. **Auto-Scaling**: Handles traffic spikes automatically
+4. **Cost Optimization**: Pay-per-request vs. always-on server
+5. **Self-Hosted LLM Option**: Cloudflare Workers AI can run Qwen3 models for free
+
+---
+
+## 13. OpenCode/Codex Proxy Utilization Patterns (OpenCode/Codex 프록시 활용 패턴)
+
+### 13.1 CLIProxyAPI: Wrapping IDE Agents as API
+
+CLIProxyAPI is a pattern that wraps Antigravity IDE, Codex CLI, and Claude Code as OpenAI-compatible API endpoints:
+
+| Feature | Detail |
+|---|---|
+| **Protocol** | OpenAI-compatible REST API |
+| **Supported Agents** | Antigravity IDE, Codex CLI, Claude Code, Gemini CLI, Copilot CLI |
+| **Streaming** | SSE (Server-Sent Events) |
+| **Use Case** | Use IDE-quality agents as backend services |
+
+### 13.2 opencode-llm-proxy: Local LLM Gateway
+
+The `opencode-llm-proxy` (KochC/opencode-llm-proxy) provides:
+
+| Feature | Detail |
+|---|---|
+| **Protocol** | OpenAI-compatible REST API |
+| **Supported Models** | Any OpenAI-compatible endpoint |
+| **Auth** | Bearer token + CORS |
+| **Use Case** | Centralized LLM routing, API key management |
+
+### 13.3 How Kairos Can Leverage Proxies
+
+```
+┌──────────────────────────────────────────┐
+│            Kairos Backend                │
+│  server/services/llm.ts                  │
+│                                          │
+│  1. Direct API (current)                 │
+│     → OpenAI, Anthropic, Google          │
+│                                          │
+│  2. Proxy Layer (new)                    │
+│     → opencode-llm-proxy                 │
+│     → API key rotation                   │
+│     → Model routing (cost optimization)  │
+│     → Fallback chains                    │
+│                                          │
+│  3. Self-Hosted Models (new)             │
+│     → Cloudflare Workers AI (Qwen3)      │
+│     → Local Ollama (development)         │
+│     → Modal/Replicate (batch jobs)       │
+└──────────────────────────────────────────┘
+```
+
+### 13.4 Recommended Proxy Strategy
+
+1. **Development**: Ollama + Qwen3-30B-A3B (free, local, fast)
+2. **Staging**: opencode-llm-proxy (centralized key management, cost tracking)
+3. **Production**: Direct API (OpenAI/Anthropic) + Cloudflare Workers AI (Qwen3 fallback)
+4. **Batch Jobs**: Modal or Replicate (cost-optimized for non-real-time tasks)
+
+---
+
+## 14. File Inventory (파일 목록)
 
 ### Root Config
 
@@ -358,7 +593,7 @@ The project had `implementation_plan.md` at root level. It has been moved to `do
 
 ---
 
-## 10. Conclusion (결론)
+## 15. Conclusion (결론)
 
 Kairos는 구조적으로 잘 설계된 프로젝트이지만, **Antigravity IDE의 LLM 지식 컷오프로 인해 2024년 말~2025년 초 시점의 의존성 버전과 모델로 고정**되어 있다. 현재(2026년 7월) 기준:
 
@@ -370,6 +605,43 @@ Kairos는 구조적으로 잘 설계된 프로젝트이지만, **Antigravity IDE
 
 **우선순위**: 보안 패치(Drizzle) > Nuxt 4 업그레이드 > AI SDK 마이그레이션 > Nuxt UI v4 마이그레이션
 
+### Modernization Strategy (모던화 전략)
+
+**Phase 1 - Immediate (오늘)**:
+1. `drizzle-orm` 0.45.2 security patch
+2. `zod` explicit dependency
+3. Remove hardcoded secrets
+4. Update LLM model IDs (quick win: `gpt-4o-mini` → `gpt-4.1-mini`)
+
+**Phase 2 - Framework Upgrade (1-2주)**:
+1. Nuxt 3 → Nuxt 4.5 (run `npx nuxt upgrade --dedupe`)
+2. Adopt `app/` directory structure
+3. Remove unused dependencies
+
+**Phase 3 - AI Stack Modernization (2-4주)**:
+1. Vercel AI SDK v4 → v7 (multi-step migration)
+2. Implement ToolLoopAgent for interview service
+3. Add context engineering (few-shot, chain-of-thought, memory)
+4. Update all LLM models to 2026 generation
+
+**Phase 4 - Architecture Enhancement (선택)**:
+1. Implement agent orchestration patterns (Hub-and-Spoke, Pipeline)
+2. Add serverless deployment (Cloudflare Workers AI + Vercel)
+3. Self-hosted LLM option (Qwen3-30B-A3B for development)
+4. OpenCode/Codex proxy for centralized LLM management
+
+### Key Findings Summary (핵심 발견 요약)
+
+| Category | Finding | Impact |
+|---|---|---|
+| **Models (§9)** | Claude Fable 5 #1 overall, Qwen3 best open-source | All current models obsolete |
+| **Agents (§10)** | 5 patterns: Solo/Workers/Pipeline/Hub-and-Spoke/Swarm | Kairos stuck on Solo pattern |
+| **Context (§11)** | 7 techniques; Kairos uses only 2 (Structured Output + limited RAG) | No memory, no few-shot, no CoT |
+| **Serverless (§12)** | Cloudflare Workers AI can host Qwen3 for free | Potential zero-cost LLM tier |
+| **Proxies (§13)** | CLIProxyAPI wraps IDE agents as API; opencode-llm-proxy for routing | Centralized key management, cost tracking |
+
+**Bottom Line**: Kairos has a solid foundation but needs comprehensive modernization across all layers. The 2026 open-source model ecosystem (Qwen3, Llama 4) makes self-hosted LLMs viable, reducing API costs significantly. Agent orchestration patterns and context engineering techniques can dramatically improve output quality without changing the core architecture.
+
 ---
 
-*This report was generated by analyzing 55 source files, 45 lines of package.json, web searches across 40+ sources, and cross-referencing against live release databases for all major dependencies.*
+*This report was generated by analyzing 55 source files, 45 lines of package.json, web searches across 40+ sources, and cross-referencing against live release databases for all major dependencies. Enhanced with 2026 LLM landscape analysis, agent orchestration patterns, context engineering paradigms, serverless deployment patterns, and proxy utilization strategies.*
