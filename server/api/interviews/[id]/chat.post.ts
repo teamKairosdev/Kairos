@@ -1,67 +1,53 @@
+import { streamText, createUIMessageStreamResponse, convertToModelMessages, type UIMessage } from 'ai';
+import { getModelForComplexity } from 'server/services/interview';
 import { getDb } from 'db';
 import { mockInterviews, interviewMessages } from 'db/schema';
 import { eq, asc } from 'drizzle-orm';
-import { streamInterviewerResponse, evaluateCandidateAnswer, isDemoMode } from 'server/services/interview';
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
   if (!id) throw createError({ statusCode: 400, statusMessage: 'Interview ID missing' });
 
   const body = await readBody(event);
-  const { candidateMessage, stream = false } = body || {};
+  const { messages }: { messages: UIMessage[] } = body || {};
 
-  if (!candidateMessage) {
-    throw createError({ statusCode: 400, statusMessage: 'Candidate message is required' });
+  if (!messages || messages.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'Messages are required' });
   }
 
   let jobTitle = 'Software Engineer';
-  let history: { sender: string; message: string }[] = [];
 
-  // Load session & history from DB (skip if demo mode / no DB)
+  // Load session from DB
   const db = getDb();
   if (db && !id.startsWith('demo-')) {
     try {
       const [session] = await db.select().from(mockInterviews).where(eq(mockInterviews.id, id));
-      jobTitle = session ? session.jobTitle : jobTitle;
+      if (session) jobTitle = session.jobTitle;
 
-      await db.insert(interviewMessages).values({
-        interviewId: id,
-        sender: 'candidate',
-        message: candidateMessage,
-      });
-
-      const msgs = await db
-        .select()
-        .from(interviewMessages)
-        .where(eq(interviewMessages.interviewId, id))
-        .orderBy(asc(interviewMessages.createdAt));
-      history = msgs.map((h) => ({ sender: h.sender, message: h.message }));
+      // Save candidate message
+      const lastUserMsg = messages.filter((m) => m.role === 'user').pop();
+      if (lastUserMsg) {
+        await db.insert(interviewMessages).values({
+          interviewId: id,
+          sender: 'candidate',
+          message: typeof lastUserMsg.content === 'string' ? lastUserMsg.content : JSON.stringify(lastUserMsg.content),
+        });
+      }
     } catch {
-      console.warn('[Kairos] Interview chat DB load skipped (demo mode)');
-    }
-  } else {
-    // Demo mode: build minimal history from current message
-    history = [{ sender: 'candidate', message: candidateMessage }];
-  }
-
-  // Evaluate candidate answer using LLM (supports demo mode via service layer)
-  const feedback = await evaluateCandidateAnswer(jobTitle, history);
-
-  // Save AI response to DB if available
-  if (db && !id.startsWith('demo-')) {
-    try {
-      await db.insert(interviewMessages).values({
-        interviewId: id,
-        sender: 'interviewer',
-        message: feedback.nextQuestion,
-        questionType: feedback.nextQuestionType,
-        feedback: { score: feedback.score, summary: feedback.summary, tip: feedback.tip },
-      });
-    } catch {
-      console.warn('[Kairos] Interview response save skipped (demo mode)');
+      console.warn('[Kairos] Interview DB load skipped');
     }
   }
 
-  return { feedback, nextQuestion: feedback.nextQuestion };
+  const model = getModelForComplexity('medium');
+
+  const result = streamText({
+    model,
+    instructions: `You are an AI Interviewer at Kairos. Conduct a professional mock interview for a "${jobTitle}" position. 
+Ask realistic questions, evaluate answers, provide constructive feedback, and move to the next question. 
+Keep responses concise and natural in Korean.`,
+    messages: await convertToModelMessages(messages),
+    temperature: 0.7,
+  });
+
+  return createUIMessageStreamResponse({ stream: result.toUIMessageStream() });
 });
-
