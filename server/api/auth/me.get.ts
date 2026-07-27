@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
   const authUser = event.context.user;
 
   if (!authUser) {
-    // Guest fallback profile for immediate demo exploration
     return {
       authenticated: false,
       user: {
@@ -26,19 +25,13 @@ export default defineEventHandler(async (event) => {
       dbUser = user;
     }
   } catch {
-    console.warn('[Kairos] me.get.ts DB fetch skipped (demo mode)');
+    // Demo mode
   }
 
   return {
     authenticated: true,
     user: dbUser
-      ? {
-          id: dbUser.id,
-          email: dbUser.email,
-          name: dbUser.name,
-          avatarUrl: dbUser.avatarUrl,
-        }
+      ? { id: dbUser.id, email: dbUser.email, name: dbUser.name, avatarUrl: dbUser.avatarUrl }
       : authUser,
   };
 });
-

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { getDb } from 'db';
 import { users } from 'db/schema';
 import { eq } from 'drizzle-orm';
+import { getAuth } from '../../auth';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -12,10 +13,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: '이메일과 비밀번호를 입력해주세요.' });
   }
 
+  const auth = getAuth();
+
+  if (auth) {
+    // Production: Better Auth
+    try {
+      const result = await auth.api.signInEmail({
+        body: { email, password },
+      });
+      return result;
+    } catch (err: any) {
+      if (err?.statusCode) throw err;
+      console.warn('[Kairos] Better Auth login failed, falling back:', err.message);
+    }
+  }
+
+  // Fallback: manual JWT (demo mode)
   const config = useRuntimeConfig();
   const jwtSecret = process.env.JWT_SECRET || config.jwtSecret;
 
-  // Attempt DB login
   const db = getDb();
   if (db) {
     try {
@@ -31,7 +47,7 @@ export default defineEventHandler(async (event) => {
           jwtSecret,
           { expiresIn: '7d' }
         );
-        setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 });
+        setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 });
 
         return {
           user: { id: user.id, email: user.email, name: user.name, avatarUrl: user.avatarUrl },
@@ -40,16 +56,16 @@ export default defineEventHandler(async (event) => {
       }
     } catch (err: any) {
       if (err.statusCode) throw err;
-      console.warn('[Kairos] Login DB error, falling back to demo mode:', err.message);
+      console.warn('[Kairos] Login DB error:', err.message);
     }
   }
 
-  // Demo mode bypass: accept any credentials and issue a guest JWT
-  console.info('[Kairos Demo] 데모 모드 로그인 - 게스트 토큰 발급');
+  // Demo mode
+  console.info('[Kairos Demo] 데모 모드 로그인');
   const demoName = email.split('@')[0] || '데모 사용자';
   const demoId = 'demo-user-' + Buffer.from(email).toString('base64').slice(0, 8);
   const token = jwt.sign({ userId: demoId, email, name: demoName }, jwtSecret, { expiresIn: '1d' });
-  setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'lax', maxAge: 24 * 60 * 60 });
+  setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 });
 
   return {
     user: {
@@ -62,4 +78,3 @@ export default defineEventHandler(async (event) => {
     demo: true,
   };
 });
-

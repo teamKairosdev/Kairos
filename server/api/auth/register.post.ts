@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { getDb } from 'db';
 import { users } from 'db/schema';
 import { eq } from 'drizzle-orm';
+import { getAuth } from '../../auth';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -12,10 +13,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: '이메일, 비밀번호, 이름을 모두 입력해야 합니다.' });
   }
 
+  const auth = getAuth();
+
+  if (auth) {
+    // Production: Better Auth
+    try {
+      const result = await auth.api.signUpEmail({
+        body: { email, password, name },
+      });
+      return result;
+    } catch (err: any) {
+      if (err?.statusCode) throw err;
+      console.warn('[Kairos] Better Auth register failed, falling back:', err.message);
+    }
+  }
+
+  // Fallback: manual JWT (demo mode)
   const config = useRuntimeConfig();
   const jwtSecret = process.env.JWT_SECRET || config.jwtSecret;
 
-  // Attempt DB registration (graceful in demo mode)
   const db = getDb();
   if (db) {
     try {
@@ -38,22 +54,22 @@ export default defineEventHandler(async (event) => {
         { expiresIn: '7d' }
       );
 
-      setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 });
+      setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 });
 
       return {
         user: { id: newUser.id, email: newUser.email, name: newUser.name, avatarUrl: newUser.avatarUrl },
         token,
       };
     } catch (err: any) {
-      if (err.statusCode) throw err; // propagate validation errors
-      console.warn('[Kairos] Registration DB error, falling back to demo mode:', err.message);
+      if (err.statusCode) throw err;
+      console.warn('[Kairos] Registration DB error:', err.message);
     }
   }
 
-  // Demo mode: issue a guest token without DB
+  // Demo mode
   const demoId = 'demo-user-' + Date.now();
   const token = jwt.sign({ userId: demoId, email, name }, jwtSecret, { expiresIn: '1d' });
-  setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'lax', maxAge: 24 * 60 * 60 });
+  setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 });
 
   return {
     user: {
@@ -66,4 +82,3 @@ export default defineEventHandler(async (event) => {
     demo: true,
   };
 });
-
