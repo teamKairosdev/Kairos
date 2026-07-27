@@ -44,7 +44,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     databaseUrl: process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/kairos',
-    jwtSecret: process.env.JWT_SECRET || 'kairos-super-secret-jwt-key-2026',
+    jwtSecret: process.env.JWT_SECRET,
     openaiApiKey: process.env.OPENAI_API_KEY || '',
     anthropicApiKey: process.env.ANTHROPIC_API_KEY || '',
     googleApiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '',
