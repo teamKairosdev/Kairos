@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오르카 간단한 정리</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0c1445, #1a3a5c, #0c1445);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: #7ec8e3;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8ab4d0;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab-btn {
+            padding: 10px 22px;
+            border: 1px solid #3a6080;
+            background: transparent;
+            color: #8ab4d0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover { background: rgba(126, 200, 227, 0.1); }
+        .tab-btn.active {
+            background: #1a5276;
+            color: #7ec8e3;
+            border-color: #7ec8e3;
+        }
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(126, 200, 227, 0.15);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .card h2 {
+            color: #7ec8e3;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card p, .card li {
+            line-height: 1.8;
+            color: #c8dce8;
+        }
+        .card ul { padding-left: 20px; }
+        .card li { margin-bottom: 4px; }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 8px 16px;
+        }
+        .info-label {
+            color: #7ec8e3;
+            font-weight: 600;
+        }
+        .info-value { color: #c8dce8; }
+
+        .highlight { color: #f0c040; font-weight: 600; }
+        .tag {
+            display: inline-block;
+            background: rgba(126, 200, 227, 0.15);
+            color: #7ec8e3;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 3px;
+        }
+
+        .add-section { margin-top: 20px; }
+        .add-section textarea, .add-section input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #3a6080;
+            background: rgba(0,0,0,0.3);
+            color: #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .add-section textarea { min-height: 80px; }
+        .add-section label {
+            display: block;
+            color: #8ab4d0;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #1a5276;
+            color: #7ec8e3;
+            border: 1px solid #7ec8e3;
+        }
+        .btn-primary:hover { background: #1f6590; }
+        .btn-danger {
+            background: rgba(200,60,60,0.2);
+            color: #e07070;
+            border: 1px solid #a04040;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+        }
+        .btn-danger:hover { background: rgba(200,60,60,0.35); }
+
+        .note-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(126,200,227,0.1);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .note-item .note-title {
+            font-weight: 600;
+            color: #7ec8e3;
+            margin-bottom: 4px;
+        }
+        .note-item .note-body {
+            color: #b0c8d8;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+        .note-item .note-date {
+            font-size: 0.8rem;
+            color: #5a7a8a;
+            margin-top: 6px;
+        }
+        .note-item .btn-danger {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .empty-msg {
+            text-align: center;
+            color: #5a7a8a;
+            padding: 40px 0;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            color: #4a6a7a;
+            margin-top: 40px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>orca</h1>
+        <p class="subtitle">범고래(Orca) 정보 정리</p>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('basic')">기본 정보</button>
+            <button class="tab-btn" onclick="showTab('habitat')">서식지</button>
+            <button class="tab-btn" onclick="showTab('behavior')">행동/사회</button>
+            <button class="tab-btn" onclick="showTab('conservation')">보전 현황</button>
+            <button class="tab-btn" onclick="showTab('notes')">메모장</button>
+        </div>
+
+        <div id="basic" class="section active">
+            <div class="card">
+                <h2>기본 정보</h2>
+                <div class="info-grid">
+                    <span class="info-label">학명</span>
+                    <span class="info-value"><em>Orcinus orca</em></span>
+                    <span class="info-label">영명</span>
+                    <span class="info-value">Orca / Killer Whale</span>
+                    <span class="info-label">분류</span>
+                    <span class="info-value">포유강 > 고래목 > 돌고래과</span>
+                    <span class="info-label">크기</span>
+                    <span class="info-value">수컷 7~9.8m / 암컷 5~7m</span>
+                    <span class="info-label">체중</span>
+                    <span class="info-value">수컷 최대 6~8톤 / 암컷 3~4톤</span>
+                    <span class="info-label">수명</span>
+                    <span class="info-value">야생 50~80년 (암컷 최대 100년+)</span>
+                    <span class="info-label">식성</span>
+                    <span class="info-value">육식 (물고기, 해양 포유류, 해파리 등)</span>
+                    <span class="info-label">최고 속력</span>
+                    <span class="info-value">시속 56km</span>
+                </div>
+            </div>
+            <div class="card">
+                <h2>신체적 특징</h2>
+                <ul>
+                    <li><span class="highlight">흑백의 뚜렷한 체색</span> - 개체마다 무늬가 다르며, 이를 통해 개체 식별이 가능</li>
+                    <li><span class="highlight">등지느러미</span> - 수컷은 높이 1.8m까지 자라는 큰 등지느러미 보유</li>
+                    <li><span class="highlight">노치 이빨</span> - 이빨 수 약 40~56개, 원뿔형</li>
+                    <li>세계에서 <span class="highlight">가장 넓은 분포</span>를 보이는 포유류 중 하나</li>
+                    <li>모든 대양의 냉온대 해역에 서식</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="habitat" class="section">
+            <div class="card">
+                <h2>전 세계 분포</h2>
+                <ul>
+                    <li><span class="highlight">북극 및 아북극 해역</span> - 알래스카, 노르웨이, 아이슬란드 등</li>
+                    <li><span class="highlight">태평양</span> - 북미 서해안, 뉴질랜드, 일본 등</li>
+                    <li><span class="highlight">대서양</span> - 노르웨이, 아이슬란드, 남아메리카 해안</li>
+                    <li><span class="highlight">남극 해역</span> - 남쪽 고위도 해역</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h2>주요 서식 유형</h2>
+                <ul>
+                    <li><span class="tag">연안형</span> 해안가 근처, 비교적 고정된 이동 경로</li>
+                    <li><span class="tag">원양형</span> 개방된 바다에서 광범위 이동</li>
+                    <li><span class="tag">남극형</span> 남극 해역의 빙하 근처, 주로 청고래를 사냥</li>
+                    <li><span class="tag">열대형</span> 적도 근처의 온대 해역</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h2>한국 해역</h2>
+                <p>한국에서는 동해, 남해, 서해에서 간혹 목격되며, 주로 겨울철 한랭 해수의 남하와 함께 발견된다. 동해안에서의 목격 빈도가 가장 높으며, 최근 기후 변화로 인해 분포 패턴이 변화할 가능성이 있다.</p>
+            </div>
+        </div>
+
+        <div id="behavior" class="section">
+            <div class="card">
+                <h2>사회 구조</h2>
+                <ul>
+                    <li><span class="highlight">모계 사회</span> - 어미를 중심으로 가족 무리를 형성</li>
+                    <li>기본 단위: <span class="highlight">포드(Pod)</span> - 한 어미와 그 자손들로 구성</li>
+                    <li>여러 포드가 모여 <span class="highlight">클랜(Clan)</span>, 더 모여 <span class="highlight">커뮤니티(Community)</span> 형성</li>
+                    <li>같은 포드 구성원들은 <span class="highlight">고유한 '방언'</span> (보컬 디아렉트) 사용</li>
+                    <li>일부 수컷은 평생 모계 가족과 함께 머문다</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h2>사냥 전략</h2>
+                <ul>
+                    <li><span class="highlight">협동 사냥</span> - 무리를 지어 물고기 떼를 몰거나 포유류를 공격</li>
+                    <li><span class="highlight">파도 타기</span> - 빙판 위의 물개를 파도로 쓸어내림 (남극)</li>
+                    <li><span class="highlight">뱀장어 기절</span> - 꼬리로 뱀장어를 때려 기절시킴 (노르웨이)</li>
+                    <li><span class="highlight">물보라 작전</span> - 거품 장막으로 물고기 떼를 혼란시킴</li>
+                    <li><span class="highlight">전복 사냥</span> - 바다사자 등을 뒤집어 익사시킴</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h2>포유류 사냥 대상</h2>
+                <ul>
+                    <li>바다사자, 물범, 하비</li>
+                    <li>뱀장어, 가오리</li>
+                    <li>심지어 <span class="highlight">흰고래(벨루가)</span>, <span class="highlight">혹등고래</span> 새끼도 공격</li>
+                    <li><span class="highlight">상어</span>도 사냥 대상 (최근 연구에서 밝혀짐)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="conservation" class="section">
+            <div class="card">
+                <h2>보전 등급</h2>
+                <div class="info-grid">
+                    <span class="info-label">IUCN 적색목록</span>
+                    <span class="info-value">데이터 부족 (Data Deficient)</span>
+                    <span class="info-label">전세계 개체수</span>
+                    <span class="info-value">약 50,000마리 추정</span>
+                    <span class="info-label">CITES</span>
+                    <span class="info-value">부속서 II</span>
+                </div>
+            </div>
+            <div class="card">
+                <h2>주요 위협 요인</h2>
+                <ul>
+                    <li><span class="highlight">해양 오염</span> - PCB, 중금속 등 유해물질 축적 (특히 남방형)</li>
+                    <li><span class="highlight">음향 오염</span> - 선박 소음, 해양 탐사 음파로 의사소통 방해</li>
+                    <li><span class="highlight">먹이 원격 감소</span> - 과잉 어업으로 먹이 부족</li>
+                    <li><span class="highlight">기후 변화</span> - 해수 온도 변화로 서식지 이동</li>
+                    <li><span class="highlight">원정 교통</span> - 선박과의 충돌</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h2>보전 노력 및 이슈</h2>
+                <ul>
+                    <li><span class="highlight">탈리카 오르카</span> - 스페인 남부의 위험에 처한 남방형 개체군</li>
+                    <li>해양 공원에서의 <span class="highlight">사육 오르카 논쟁</span> (documentary: Blackfish)</li>
+                    <li>노르웨이, 아이슬란드에서의 <span class="highlight">관광 고래 관측</span> 산업</li>
+                    <li>다양한 국가에서 <span class="highlight">해양보호구역</span> 지정 확대</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="notes" class="section">
+            <div class="card">
+                <h2>메모 추가</h2>
+                <div class="add-section">
+                    <label>제목</label>
+                    <input type="text" id="noteTitle" placeholder="메모 제목...">
+                    <label>내용</label>
+                    <textarea id="noteBody" placeholder="오르카에 대한 메모를 작성하세요..."></textarea>
+                    <button class="btn btn-primary" onclick="addNote()">메모 추가</button>
+                </div>
+            </div>
+            <div id="notesList">
+                <p class="empty-msg" id="emptyMsg">작성한 메모가 없습니다.</p>
+            </div>
+        </div>
+
+        <footer>Orca Info - 간단한 오르카 정리 페이지</footer>
+    </div>
+
+    <script>
+        function showTab(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function getNotes() {
+            return JSON.parse(localStorage.getItem('orcaNotes') || '[]');
+        }
+
+        function saveNotes(notes) {
+            localStorage.setItem('orcaNotes', JSON.stringify(notes));
+        }
+
+        function renderNotes() {
+            const list = document.getElementById('notesList');
+            const notes = getNotes();
+            const empty = document.getElementById('emptyMsg');
+            list.innerHTML = '';
+
+            if (notes.length === 0) {
+                list.appendChild(empty);
+                return;
+            }
+
+            notes.forEach((note, i) => {
+                const div = document.createElement('div');
+                div.className = 'note-item';
+                div.innerHTML = `
+                    <button class="btn btn-danger" onclick="deleteNote(${i})">삭제</button>
+                    <div class="note-title">${escHtml(note.title)}</div>
+                    <div class="note-body">${escHtml(note.body)}</div>
+                    <div class="note-date">${note.date}</div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function escHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        function addNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const body = document.getElementById('noteBody').value.trim();
+            if (!title && !body) return;
+
+            const notes = getNotes();
+            notes.unshift({
+                title: title || '(제목 없음)',
+                body: body,
+                date: new Date().toLocaleDateString('ko-KR') + ' ' + new Date().toLocaleTimeString('ko-KR')
+            });
+            saveNotes(notes);
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteBody').value = '';
+            renderNotes();
+        }
+
+        function deleteNote(i) {
+            const notes = getNotes();
+            notes.splice(i, 1);
+            saveNotes(notes);
+            renderNotes();
+        }
+
+        renderNotes();
+    </script>
+</body>
+</html>
