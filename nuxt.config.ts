@@ -15,6 +15,8 @@ export default defineNuxtConfig({
     'db': resolve(rootDir, 'db/index'),
     'db/schema': resolve(rootDir, 'db/schema'),
     'db/index': resolve(rootDir, 'db/index'),
+    'shared': resolve(rootDir, 'shared'),
+    'shared/types': resolve(rootDir, 'shared/types'),
   },
 
   // SPA 모드: 인증된 라우트는 모두 클라이언트 사이드 렌더링
@@ -76,6 +78,8 @@ export default defineNuxtConfig({
       'db': resolve(rootDir, 'db/index'),
       'db/schema': resolve(rootDir, 'db/schema'),
       'db/index': resolve(rootDir, 'db/index'),
+      'shared': resolve(rootDir, 'shared'),
+      'shared/types': resolve(rootDir, 'shared/types'),
       'server/services/llm': resolve(rootDir, 'server/services/llm'),
       'server/services/resume': resolve(rootDir, 'server/services/resume'),
       'server/services/interview': resolve(rootDir, 'server/services/interview'),
