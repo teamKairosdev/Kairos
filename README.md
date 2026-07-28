@@ -104,3 +104,122 @@ Kairos-1/
 └── README.md                    # Project Documentation
 ```
 
+---
+
+## 📊 Database ERD (Entity Relationship Diagram)
+
+```mermaid
+erDiagram
+    users {
+        uuid id PK
+        varchar email UK
+        varchar password_hash
+        varchar name
+        text avatar_url
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    resumes {
+        uuid id PK
+        uuid user_id FK
+        varchar title
+        text original_content
+        text parsed_text
+        varchar status
+        integer current_score
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    resume_refinements {
+        uuid id PK
+        uuid resume_id FK
+        varchar step
+        text draft_content
+        jsonb evaluation_feedback
+        integer score
+        text improved_content
+        timestamp created_at
+    }
+
+    mock_interviews {
+        uuid id PK
+        uuid user_id FK
+        varchar job_title
+        varchar company_name
+        varchar difficulty
+        varchar status
+        integer overall_score
+        text overall_feedback
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    interview_messages {
+        uuid id PK
+        uuid interview_id FK
+        varchar sender
+        text message
+        varchar question_type
+        jsonb feedback
+        timestamp created_at
+    }
+
+    ats_analyses {
+        uuid id PK
+        uuid user_id FK
+        varchar job_title
+        text job_description
+        uuid resume_id FK
+        integer match_score
+        jsonb missing_keywords
+        jsonb found_keywords
+        jsonb recommendations
+        jsonb detailed_breakdown
+        timestamp created_at
+    }
+
+    humanized_texts {
+        uuid id PK
+        uuid user_id FK
+        text original_text
+        text humanized_text
+        integer style_score
+        text changes_summary
+        timestamp created_at
+    }
+
+    qa_sets {
+        uuid id PK
+        uuid user_id FK
+        varchar title
+        varchar target_role
+        jsonb qa_pairs
+        timestamp created_at
+    }
+
+    careers {
+        uuid id PK
+        uuid user_id FK
+        varchar company
+        varchar role
+        varchar period
+        text description
+        jsonb achievements
+        vector embedding
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    users ||--o{ resumes : "has"
+    users ||--o{ mock_interviews : "has"
+    users ||--o{ ats_analyses : "has"
+    users ||--o{ humanized_texts : "has"
+    users ||--o{ qa_sets : "has"
+    users ||--o{ careers : "has"
+    resumes ||--o{ resume_refinements : "has"
+    resumes ||--o{ ats_analyses : "references"
+    mock_interviews ||--o{ interview_messages : "contains"
+```
+
