@@ -5,7 +5,7 @@ env.allowLocalModels = true;
 let embeddingPipeline: any = null;
 let classifierPipeline: any = null;
 
-const hasWebGPU = typeof navigator !== 'undefined' && !!navigator.gpu;
+const hasWebGPU = typeof navigator !== 'undefined' && !!(navigator as any).gpu;
 const device = hasWebGPU ? 'webgpu' : 'wasm';
 
 export function useClientAI() {

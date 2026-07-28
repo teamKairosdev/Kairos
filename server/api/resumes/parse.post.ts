@@ -6,11 +6,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: '업로드할 파일이 존재하지 않습니다.' });
   }
 
-  const file = files[0];
+  const file = files[0]!;
   const extractedText = await parseDocumentText(file.data, file.type || '', file.filename || 'resume.pdf');
 
   return {
-    filename: file.filename,
+    filename: file.filename || 'resume',
     extractedText,
     charCount: extractedText.length,
   };

@@ -4,17 +4,14 @@ export function useLocalLLM() {
   async function initEngine() {
     if (engine) return engine;
 
-    if (typeof navigator === 'undefined' || !navigator.gpu) {
+    if (typeof navigator === 'undefined' || !(navigator as any).gpu) {
       console.warn('[useLocalLLM] WebGPU not supported');
       return null;
     }
 
     try {
-      const { CreateWebLLM } = await import('@mlc-ai/web-llm');
-      engine = await CreateWebLLM({
-        model: 'Qwen/Qwen3-1.7B-q4f16_1-MLC',
-        logLevel: 'INFO',
-      });
+      const webllm = await import('@mlc-ai/web-llm');
+      engine = await webllm.CreateMLCEngine(['Qwen/Qwen3-1.7B-q4f16_1-MLC']);
       return engine;
     } catch (err) {
       console.warn('[useLocalLLM] Failed to initialize:', err);
@@ -41,7 +38,7 @@ export function useLocalLLM() {
 
   async function isAvailable(): Promise<boolean> {
     if (typeof navigator === 'undefined') return false;
-    return !!navigator.gpu;
+    return !!(navigator as any).gpu;
   }
 
   return { chatLocal, isAvailable };

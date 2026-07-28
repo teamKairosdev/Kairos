@@ -10,12 +10,13 @@
         </p>
       </div>
 
-      <button
+      <UButton
+        color="primary"
+        variant="solid"
+        icon="i-lucide-plus"
+        label="신규 경력 등록 (임베딩 자동 생성)"
         @click="showCreateModal = true"
-        class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-sm shadow-md shadow-purple-600/30 transition-all flex items-center justify-center gap-2"
-      >
-        <span>+</span> 신규 경력 등록 (임베딩 자동 생성)
-      </button>
+      />
     </div>
 
     <!-- pgvector Semantic Search Bar Panel -->
@@ -25,21 +26,21 @@
       </h3>
 
       <div class="flex items-center gap-3">
-        <input
+        <UInput
           v-model="searchQuery"
-          type="text"
           placeholder="예: 백엔드 노드 노하우나 pgvector 데이터베이스 검색..."
+          color="info"
+          class="flex-1"
           @keyup.enter="performSearch"
-          class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500"
         />
-        <button
+        <UButton
+          color="info"
+          variant="solid"
+          :loading="searching"
+          :disabled="!searchQuery.trim()"
+          label="벡터 검색 ⚡"
           @click="performSearch"
-          :disabled="searching || !searchQuery.trim()"
-          class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50"
-        >
-          <span v-if="searching">검색 중...</span>
-          <span v-else>벡터 검색 ⚡</span>
-        </button>
+        />
       </div>
 
       <!-- Search Results -->
@@ -52,9 +53,9 @@
         <div v-for="res in searchResults.results" :key="res.id" class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-2">
           <div class="flex items-center justify-between">
             <span class="text-sm font-bold text-white">{{ res.company }} · {{ res.role }}</span>
-            <span v-if="res.similarity" class="text-xs font-mono text-cyan-300 bg-cyan-500/20 px-2 py-0.5 rounded border border-cyan-500/30">
+            <UBadge v-if="res.similarity" color="info" variant="subtle" size="xs">
               유사도: {{ (res.similarity * 100).toFixed(1) }}%
-            </span>
+            </UBadge>
           </div>
           <p class="text-xs text-gray-300">{{ res.description }}</p>
         </div>
@@ -73,9 +74,9 @@
         >
           <div class="flex items-start justify-between">
             <div>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+              <UBadge color="primary" variant="subtle" size="xs">
                 {{ c.period }}
-              </span>
+              </UBadge>
               <h3 class="text-lg font-bold text-white mt-1">{{ c.company }} — <span class="text-purple-300">{{ c.role }}</span></h3>
             </div>
             <span class="text-xs text-emerald-400 font-mono">pgvector Embedded</span>
@@ -99,76 +100,67 @@
     </div>
 
     <!-- Create Modal -->
-    <div v-if="showCreateModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="glass-panel rounded-3xl p-8 max-w-lg w-full space-y-6 border border-white/15">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold text-white">신규 경력 추가</h2>
-          <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
-        </div>
+    <UModal v-model:open="showCreateModal" :ui="{ width: 'max-w-lg' }">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">신규 경력 추가</h2>
+      </template>
 
+      <template #body>
         <form @submit.prevent="createCareer" class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-gray-300 mb-1">회사명</label>
-              <input
+            <UFormGroup label="회사명">
+              <UInput
                 v-model="company"
-                type="text"
-                required
                 placeholder="예: Kairos Labs"
-                class="w-full px-4 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
+                color="primary"
               />
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-300 mb-1">직무명</label>
-              <input
+            </UFormGroup>
+            <UFormGroup label="직무명">
+              <UInput
                 v-model="role"
-                type="text"
-                required
                 placeholder="예: Full-Stack Architect"
-                class="w-full px-4 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
+                color="primary"
               />
-            </div>
+            </UFormGroup>
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-300 mb-1">근무 기간</label>
-            <input
+          <UFormGroup label="근무 기간">
+            <UInput
               v-model="period"
-              type="text"
               placeholder="예: 2023.01 - 2026.07"
-              class="w-full px-4 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
+              color="primary"
             />
-          </div>
+          </UFormGroup>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-300 mb-1">주요 역량 및 역할 설명</label>
-            <textarea
+          <UFormGroup label="주요 역량 및 역할 설명">
+            <UTextarea
               v-model="description"
-              rows="4"
-              required
+              :rows="4"
               placeholder="수행한 업무와 주요 프로그래밍 경험을 기술해 주세요..."
-              class="w-full px-4 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
-            ></textarea>
-          </div>
-
-          <div class="flex justify-end gap-3 pt-2">
-            <button
-              type="button"
-              @click="showCreateModal = false"
-              class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-sm font-semibold"
-            >
-              취소
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold shadow-md shadow-purple-600/30"
-            >
-              저장 및 임베딩 생성
-            </button>
-          </div>
+              color="primary"
+            />
+          </UFormGroup>
         </form>
-      </div>
-    </div>
+      </template>
+
+      <template #footer>
+        <div class="flex justify-end gap-3">
+          <UButton
+            color="neutral"
+            variant="soft"
+            label="취소"
+            @click="showCreateModal = false"
+          />
+          <UButton
+            color="primary"
+            variant="solid"
+            label="저장 및 임베딩 생성"
+            :disabled="!company || !role || !description"
+            @click="createCareer"
+          />
+        </div>
+      </template>
+    </UModal>
   </div>
 </template>
 

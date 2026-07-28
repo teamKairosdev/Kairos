@@ -16,21 +16,23 @@
           <span>🤖</span> 원본 AI/정형화된 문장 입력
         </h3>
 
-        <textarea
+        <UTextarea
           v-model="originalText"
-          rows="12"
+          :rows="12"
           placeholder="교정할 자기소개서, 이력서 문장 또는 커버레터를 입력하세요..."
-          class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-500 leading-relaxed resize-none"
-        ></textarea>
+          color="warning"
+        />
 
-        <button
+        <UButton
+          color="warning"
+          variant="solid"
+          size="lg"
+          block
+          :loading="loading"
+          :disabled="!originalText.trim()"
+          label="AI 문체 휴머니즈 변환 ⚡"
           @click="processHumanize"
-          :disabled="loading || !originalText.trim()"
-          class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold text-sm shadow-lg shadow-amber-500/30 transition-all disabled:opacity-50"
-        >
-          <span v-if="loading">인간 문체로 자연스럽게 리라이팅 중...</span>
-          <span v-else>AI 문체 휴머니즈 변환 ⚡</span>
-        </button>
+        />
       </div>
 
       <!-- Result Panel -->
@@ -55,13 +57,15 @@
             <div class="font-bold text-amber-300">💡 변환 요약 & 제거된 상투적 표현</div>
             <p class="text-gray-300">{{ result.changesSummary }}</p>
             <div v-if="result.removedClichés && result.removedClichés.length > 0" class="flex flex-wrap gap-1.5 pt-1">
-              <span
+              <UBadge
                 v-for="(c, idx) in result.removedClichés"
                 :key="idx"
-                class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 text-[11px]"
+                color="error"
+                variant="subtle"
+                size="xs"
               >
                 <s>{{ c }}</s>
-              </span>
+              </UBadge>
             </div>
           </div>
         </div>

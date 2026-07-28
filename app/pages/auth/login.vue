@@ -7,40 +7,42 @@
       </div>
 
       <form @submit.prevent="handleLogin" class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 mb-1">이메일</label>
-          <input
+        <UFormGroup label="이메일">
+          <UInput
             v-model="email"
             type="email"
             required
             placeholder="user@example.com"
-            class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500 transition-colors"
+            color="primary"
           />
-        </div>
+        </UFormGroup>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 mb-1">비밀번호</label>
-          <input
+        <UFormGroup label="비밀번호">
+          <UInput
             v-model="password"
             type="password"
             required
             placeholder="••••••••"
-            class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500 transition-colors"
+            color="primary"
           />
-        </div>
+        </UFormGroup>
 
-        <div v-if="errorMsg" class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
-          {{ errorMsg }}
-        </div>
+        <UAlert
+          v-if="errorMsg"
+          color="error"
+          variant="soft"
+          :description="errorMsg"
+        />
 
-        <button
+        <UButton
           type="submit"
-          :disabled="loading"
-          class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition-all disabled:opacity-50"
-        >
-          <span v-if="loading">로그인 중...</span>
-          <span v-else>로그인</span>
-        </button>
+          :loading="loading"
+          color="primary"
+          variant="solid"
+          size="lg"
+          block
+          label="로그인"
+        />
       </form>
 
       <div class="text-center text-xs text-gray-400 pt-2">

@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
           detailedBreakdown: analysis.detailedBreakdown,
         })
         .returning();
-      savedId = saved.id;
+      savedId = saved!.id;
     }
   } catch {
     console.warn('[Kairos] ATS save skipped (demo mode - no DB)');

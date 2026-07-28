@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const initialQ = await createInitialInterviewQuestion(jobTitle, companyName, difficulty);
 
   // Attempt DB session creation (graceful in demo mode)
-  let session: { id: string; jobTitle: string; companyName: string; difficulty: string; status: string } = {
+  let session: { id: string; jobTitle: string; companyName: string | null; difficulty: string; status: string } = {
     id: 'demo-interview-' + Date.now(),
     jobTitle,
     companyName: companyName || '목표 기업',
@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
         .insert(mockInterviews)
         .values({ userId, jobTitle, companyName: companyName || '목표 기업', difficulty, status: 'in_progress' })
         .returning();
-      session = saved;
+      session = saved!;
 
       await db.insert(interviewMessages).values({
         interviewId: session.id,

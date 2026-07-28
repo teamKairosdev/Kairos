@@ -12,47 +12,46 @@
     <!-- Generator Input Panel -->
     <div class="glass-panel rounded-2xl p-6 space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 mb-1">목표 지원 직무</label>
-          <input
+        <UFormGroup label="목표 지원 직무">
+          <UInput
             v-model="targetRole"
-            type="text"
             placeholder="예: 백엔드 테크 리드"
-            class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
+            color="primary"
           />
-        </div>
+        </UFormGroup>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 mb-1">생성할 질문 개수</label>
-          <select
+        <UFormGroup label="생성할 질문 개수">
+          <USelect
             v-model="questionCount"
-            class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
-          >
-            <option :value="3">3 개 질문 세트</option>
-            <option :value="5">5 개 질문 세트</option>
-            <option :value="7">7 개 질문 세트</option>
-          </select>
-        </div>
+            :options="[
+              { label: '3 개 질문 세트', value: 3 },
+              { label: '5 개 질문 세트', value: 5 },
+              { label: '7 개 질문 세트', value: 7 },
+            ]"
+            color="primary"
+          />
+        </UFormGroup>
       </div>
 
-      <div>
-        <label class="block text-xs font-semibold text-gray-300 mb-1">본인 경력 요약 또는 기술 배경</label>
-        <textarea
+      <UFormGroup label="본인 경력 요약 또는 기술 배경">
+        <UTextarea
           v-model="careerSummary"
-          rows="4"
+          :rows="4"
           placeholder="주요 프로젝트, 사용 언어/프레임워크, 해결한 난관 등을 요약해 입력하세요..."
-          class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
-        ></textarea>
-      </div>
+          color="primary"
+        />
+      </UFormGroup>
 
-      <button
+      <UButton
+        color="primary"
+        variant="solid"
+        size="lg"
+        block
+        :loading="loading"
+        :disabled="!targetRole || !careerSummary"
+        label="Q&A 질문/모범답안 세트 생성 ⚡"
         @click="generateQA"
-        :disabled="loading || !targetRole || !careerSummary"
-        class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition-all disabled:opacity-50"
-      >
-        <span v-if="loading">맞춤형 Q&A 세트 생성 중...</span>
-        <span v-else>Q&A 질문/모범답안 세트 생성 ⚡</span>
-      </button>
+      />
     </div>
 
     <!-- Generated Q&A Cards List -->
@@ -70,9 +69,9 @@
           <div class="flex items-start justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                  Q{{ idx + 1 }} · {{ qa.questionCategory }}
-                </span>
+                <UBadge color="primary" variant="subtle" size="xs">
+                  Q{{ Number(idx) + 1 }} · {{ qa.questionCategory }}
+                </UBadge>
                 <span class="text-[10px] text-gray-400">난이도: {{ qa.difficulty }}</span>
               </div>
               <h3 class="text-base font-bold text-white leading-relaxed">{{ qa.question }}</h3>
@@ -86,13 +85,15 @@
 
           <div v-if="qa.keyPoints && qa.keyPoints.length > 0" class="flex flex-wrap gap-2 pt-1">
             <span class="text-xs text-purple-300 font-semibold">핵심 수록 포인트:</span>
-            <span
+            <UBadge
               v-for="(kp, kIdx) in qa.keyPoints"
               :key="kIdx"
-              class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-200 border border-purple-500/20 text-[11px]"
+              color="primary"
+              variant="subtle"
+              size="xs"
             >
               #{{ kp }}
-            </span>
+            </UBadge>
           </div>
         </div>
       </div>

@@ -10,9 +10,9 @@
         </div>
         <div>
           <span class="font-extrabold text-xl tracking-tight gradient-text">Kairos</span>
-          <span class="hidden sm:inline-block text-[10px] text-purple-300/70 ml-2 px-2 py-0.5 rounded-full border border-purple-500/20 bg-purple-500/10">
+          <UBadge color="primary" variant="subtle" size="xs" class="hidden sm:inline-flex ml-2">
             AI Steward v1.0
-          </span>
+          </UBadge>
         </div>
       </NuxtLink>
 
@@ -43,6 +43,6 @@
 </template>
 
 <script setup lang="ts">
-const { data } = await useFetch('/api/auth/me')
+const { data } = await useFetch<{ authenticated: boolean; user?: { id: string; email: string; name: string; avatarUrl: string } }>('/api/auth/me')
 const user = computed(() => data.value?.user)
 </script>

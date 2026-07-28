@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
           qaPairs: qaResult.qaPairs,
         })
         .returning();
-      savedId = saved.id;
+      savedId = saved!.id;
     }
   } catch {
     console.warn('[Kairos] QA save skipped (demo mode - no DB)');

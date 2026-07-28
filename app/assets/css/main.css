@@ -1,28 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-dark: #090d16;
-    --card-bg: rgba(18, 24, 38, 0.7);
-    --border-glass: rgba(255, 255, 255, 0.08);
-    --primary: #8b5cf6;
-    --primary-glow: rgba(139, 92, 246, 0.35);
-    --accent: #06b6d4;
-    --gold: #f59e0b;
-  }
+@theme {
+  --color-kairos-bg: #090d16;
+  --color-kairos-card: rgba(18, 24, 38, 0.7);
+  --color-kairos-border: rgba(255, 255, 255, 0.08);
+  --color-kairos-gold: #f59e0b;
+  --color-kairos-primary: #8b5cf6;
+  --color-kairos-primary-glow: rgba(139, 92, 246, 0.35);
+  --color-kairos-accent: #06b6d4;
+  --color-kairos-text: #f3f4f6;
+  --color-kairos-muted: #94a3b8;
 
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background-color: var(--bg-dark);
-    color: #f3f4f6;
-    overflow-x: hidden;
-  }
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', sans-serif;
-  }
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-kairos-bg);
+  color: var(--color-kairos-text);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
 }
 
 /* Glassmorphism Design System */
@@ -30,7 +31,7 @@
   background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-kairos-border);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
@@ -75,7 +76,7 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: var(--color-kairos-bg);
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);

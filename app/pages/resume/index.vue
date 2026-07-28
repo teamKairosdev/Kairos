@@ -10,12 +10,13 @@
         </p>
       </div>
 
-      <button
+      <UButton
+        color="primary"
+        variant="solid"
+        icon="i-lucide-plus"
+        label="신규 이력서 등록"
         @click="showCreateModal = true"
-        class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-sm shadow-md shadow-purple-600/30 transition-all flex items-center justify-center gap-2"
-      >
-        <span>+</span> 신규 이력서 등록
-      </button>
+      />
     </div>
 
     <!-- Async Refinement Chain Pipeline Step Visualizer Banner -->
@@ -53,7 +54,7 @@
     <!-- Resume List Cards -->
     <div class="space-y-4">
       <h2 class="text-lg font-bold text-white">내 이력서 목록</h2>
-      
+
       <div v-if="resumes && resumes.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div
           v-for="r in resumes"
@@ -62,9 +63,13 @@
         >
           <div class="flex items-start justify-between">
             <div>
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider" :class="statusBadgeClass(r.status)">
+              <UBadge
+                :color="r.status === 'improved' ? 'success' : r.status === 'evaluating' ? 'warning' : 'primary'"
+                variant="subtle"
+                size="xs"
+              >
                 {{ r.status }}
-              </span>
+              </UBadge>
               <h3 class="text-lg font-bold text-white mt-2">{{ r.title }}</h3>
             </div>
             <div class="text-right">
@@ -81,14 +86,14 @@
             <span class="text-[11px] text-gray-500">생성일: {{ new Date(r.createdAt).toLocaleDateString() }}</span>
 
             <div class="flex items-center gap-2">
-              <button
+              <UButton
+                color="primary"
+                variant="subtle"
+                size="xs"
+                :loading="refiningId === r.id"
+                label="⚡ AI 고도화 실행"
                 @click="triggerRefine(r.id)"
-                :disabled="refiningId === r.id"
-                class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 text-xs font-semibold border border-purple-500/30 transition-all disabled:opacity-50"
-              >
-                <span v-if="refiningId === r.id">⚡ 고도화 진행 중...</span>
-                <span v-else>⚡ AI 고도화 실행</span>
-              </button>
+              />
 
               <NuxtLink
                 :to="`/resume/${r.id}`"
@@ -108,69 +113,65 @@
     </div>
 
     <!-- Create Modal -->
-    <div v-if="showCreateModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
-      <div class="glass-panel rounded-3xl p-8 max-w-lg w-full space-y-6 border border-white/15">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-bold text-white">신규 이력서 등록</h2>
-          <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
-        </div>
+    <UModal v-model:open="showCreateModal" :ui="{ width: 'max-w-lg' }">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">신규 이력서 등록</h2>
+      </template>
 
-        <!-- Document Parser File Upload (pdf.js + mammoth) -->
-        <div class="p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2">
-          <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
-          <div class="text-2xl">📁</div>
-          <div class="text-xs font-semibold text-purple-300">PDF / DOCX 이력서 파싱</div>
-          <p class="text-[11px] text-gray-400">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>
-          <button
-            @click="($refs.fileInput as HTMLInputElement).click()"
-            type="button"
-            class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 text-xs font-semibold transition-all"
-          >
-            파일 선택 및 자동 텍스트 추출
-          </button>
-        </div>
-
-        <form @submit.prevent="createResume" class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-300 mb-1">이력서 제목</label>
-            <input
-              v-model="newTitle"
-              type="text"
-              required
-              placeholder="예: 시니어 백엔드 개발자 이력서 v1"
-              class="w-full px-4 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
+      <template #body>
+        <div class="space-y-4">
+          <!-- Document Parser File Upload -->
+          <div class="p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2">
+            <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
+            <div class="text-2xl">📁</div>
+            <div class="text-xs font-semibold text-purple-300">PDF / DOCX 이력서 파싱</div>
+            <p class="text-[11px] text-gray-400">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>
+            <UButton
+              color="primary"
+              variant="subtle"
+              size="xs"
+              label="파일 선택 및 자동 텍스트 추출"
+              @click="($refs.fileInput as HTMLInputElement).click()"
             />
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-300 mb-1">이력서 본문</label>
-            <textarea
-              v-model="newContent"
-              rows="6"
-              required
-              placeholder="경력 사항, 프로젝트 경험 및 기술 스택을 입력하세요..."
-              class="w-full px-4 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
-            ></textarea>
-          </div>
+          <UFormGroup label="이력서 제목">
+            <UInput
+              v-model="newTitle"
+              placeholder="예: 시니어 백엔드 개발자 이력서 v1"
+              color="primary"
+            />
+          </UFormGroup>
 
-          <div class="flex justify-end gap-3 pt-2">
-            <button
-              type="button"
-              @click="showCreateModal = false"
-              class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-sm font-semibold"
-            >
-              취소
-            </button>
-            <button
-              type="submit"
-              class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold shadow-md shadow-purple-600/30"
-            >
-              등록하기
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          <UFormGroup label="이력서 본문">
+            <UTextarea
+              v-model="newContent"
+              :rows="6"
+              placeholder="경력 사항, 프로젝트 경험 및 기술 스택을 입력하세요..."
+              color="primary"
+            />
+          </UFormGroup>
+        </div>
+      </template>
+
+      <template #footer>
+        <div class="flex justify-end gap-3">
+          <UButton
+            color="neutral"
+            variant="soft"
+            label="취소"
+            @click="showCreateModal = false"
+          />
+          <UButton
+            color="primary"
+            variant="solid"
+            label="등록하기"
+            :disabled="!newTitle || !newContent"
+            @click="createResume"
+          />
+        </div>
+      </template>
+    </UModal>
   </div>
 </template>
 
@@ -182,18 +183,15 @@ const newContent = ref('')
 const refiningId = ref<string | null>(null)
 const fileInput = ref<HTMLInputElement | null>(null)
 
-function statusBadgeClass(status: string) {
-  if (status === 'improved') return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-  if (status === 'evaluating') return 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-  return 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-}
-
 async function handleFileUpload(e: Event) {
   const target = e.target as HTMLInputElement
   if (!target.files || target.files.length === 0) return
 
+  const file = target.files[0]
+  if (!file) return
+
   const formData = new FormData()
-  formData.append('file', target.files[0])
+  formData.append('file', file)
 
   try {
     const res: any = await $fetch('/api/resumes/parse', {

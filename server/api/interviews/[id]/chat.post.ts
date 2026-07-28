@@ -1,5 +1,5 @@
 import { streamText, createUIMessageStreamResponse, convertToModelMessages, type UIMessage } from 'ai';
-import { getModelForComplexity } from 'server/services/interview';
+import { getModelForComplexity } from 'server/services/llm';
 import { getDb } from 'db';
 import { mockInterviews, interviewMessages } from 'db/schema';
 import { eq, asc } from 'drizzle-orm';
@@ -27,10 +27,12 @@ export default defineEventHandler(async (event) => {
       // Save candidate message
       const lastUserMsg = messages.filter((m) => m.role === 'user').pop();
       if (lastUserMsg) {
+        const textParts = (lastUserMsg.parts ?? []).filter((p: any) => p.type === 'text');
+        const content = textParts.length > 0 ? textParts.map((p: any) => p.text).join('') : JSON.stringify(lastUserMsg.parts);
         await db.insert(interviewMessages).values({
           interviewId: id,
           sender: 'candidate',
-          message: typeof lastUserMsg.content === 'string' ? lastUserMsg.content : JSON.stringify(lastUserMsg.content),
+          message: content,
         });
       }
     } catch {

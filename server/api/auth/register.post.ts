@@ -1,9 +1,16 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { getDb } from 'db';
 import { users } from 'db/schema';
 import { eq } from 'drizzle-orm';
 import { getAuth } from '../../auth';
+
+async function hmacSign(payload: string, secret: string): Promise<string> {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
+  const body = Buffer.from(payload).toString('base64url');
+  const signature = Buffer.from(sig).toString('base64url');
+  return `${body}.${signature}`;
+}
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -16,7 +23,6 @@ export default defineEventHandler(async (event) => {
   const auth = getAuth();
 
   if (auth) {
-    // Production: Better Auth
     try {
       const result = await auth.api.signUpEmail({
         body: { email, password, name },
@@ -28,7 +34,6 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  // Fallback: manual JWT (demo mode)
   const config = useRuntimeConfig();
   const jwtSecret = process.env.JWT_SECRET || config.jwtSecret;
 
@@ -48,11 +53,12 @@ export default defineEventHandler(async (event) => {
         avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(name)}`,
       }).returning();
 
-      const token = jwt.sign(
-        { userId: newUser.id, email: newUser.email, name: newUser.name },
-        jwtSecret,
-        { expiresIn: '7d' }
-      );
+      if (!newUser) {
+        throw createError({ statusCode: 500, statusMessage: '회원가입에 실패했습니다.' });
+      }
+
+      const payload = JSON.stringify({ userId: newUser.id, email: newUser.email, name: newUser.name, exp: Date.now() + 7 * 24 * 60 * 60 * 1000 });
+      const token = await hmacSign(payload, jwtSecret);
 
       setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 });
 
@@ -66,9 +72,9 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  // Demo mode
   const demoId = 'demo-user-' + Date.now();
-  const token = jwt.sign({ userId: demoId, email, name }, jwtSecret, { expiresIn: '1d' });
+  const payload = JSON.stringify({ userId: demoId, email, name, exp: Date.now() + 24 * 60 * 60 * 1000 });
+  const token = await hmacSign(payload, jwtSecret);
   setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 });
 
   return {

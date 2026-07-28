@@ -119,7 +119,7 @@ function scrollToBottom() {
 }
 
 async function sendMessage() {
-  if (!inputMessage.trim() || isStreaming.value) return
+  if (!inputMessage.value.trim() || isStreaming.value) return
 
   const candidateText = inputMessage.value.trim()
   messages.value.push({ sender: 'candidate', message: candidateText })
@@ -134,8 +134,8 @@ async function sendMessage() {
       body: { candidateMessage: candidateText, stream: false },
     })
 
-    if (res.feedback) {
-      messages.value[messages.value.length - 1].feedback = res.feedback
+    if (res.feedback && messages.value.length > 0) {
+      messages.value[messages.value.length - 1]!.feedback = res.feedback
     }
 
     messages.value.push({

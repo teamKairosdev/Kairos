@@ -34,7 +34,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
-    'nuxt-auth-utils',
   ],
 
   css: [

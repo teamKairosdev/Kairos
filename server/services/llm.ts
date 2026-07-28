@@ -1,7 +1,7 @@
 import { createOpenAI } from '@ai-sdk/openai';
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { generateText, streamText, type LanguageModelV1 } from 'ai';
+import { generateText, streamText, type LanguageModel } from 'ai';
 
 export interface LLMOptions {
   instructions?: string;
@@ -22,7 +22,7 @@ export function isDemoMode(): boolean {
   return !hasOpenAI && !hasAnthropic && !hasGoogle;
 }
 
-export function getPreferredLanguageModel(): LanguageModelV1 {
+export function getPreferredLanguageModel(): LanguageModel {
   const config = useRuntimeConfig();
 
   const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
@@ -47,7 +47,7 @@ export function getPreferredLanguageModel(): LanguageModelV1 {
   return openai('gpt-4.1-mini');
 }
 
-export function getModelForComplexity(complexity: 'low' | 'medium' | 'high'): LanguageModelV1 {
+export function getModelForComplexity(complexity: 'low' | 'medium' | 'high'): LanguageModel {
   const config = useRuntimeConfig();
 
   if (complexity === 'high') {
@@ -93,7 +93,7 @@ export async function callLLMStructured<T>(options: LLMOptions & { schema: any }
     temperature: options.temperature ?? 0.3,
     output: options.schema,
   });
-  return result.object as T;
+  return result.output as T;
 }
 
 // v7: system → instructions

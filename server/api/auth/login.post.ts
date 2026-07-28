@@ -1,9 +1,16 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { getDb } from 'db';
 import { users } from 'db/schema';
 import { eq } from 'drizzle-orm';
 import { getAuth } from '../../auth';
+
+async function hmacSign(payload: string, secret: string): Promise<string> {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
+  const body = Buffer.from(payload).toString('base64url');
+  const signature = Buffer.from(sig).toString('base64url');
+  return `${body}.${signature}`;
+}
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -16,7 +23,6 @@ export default defineEventHandler(async (event) => {
   const auth = getAuth();
 
   if (auth) {
-    // Production: Better Auth
     try {
       const result = await auth.api.signInEmail({
         body: { email, password },
@@ -28,7 +34,6 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  // Fallback: manual JWT (demo mode)
   const config = useRuntimeConfig();
   const jwtSecret = process.env.JWT_SECRET || config.jwtSecret;
 
@@ -42,11 +47,8 @@ export default defineEventHandler(async (event) => {
           throw createError({ statusCode: 401, statusMessage: '이메일 또는 비밀번호가 올바르지 않습니다.' });
         }
 
-        const token = jwt.sign(
-          { userId: user.id, email: user.email, name: user.name },
-          jwtSecret,
-          { expiresIn: '7d' }
-        );
+        const payload = JSON.stringify({ userId: user.id, email: user.email, name: user.name, exp: Date.now() + 7 * 24 * 60 * 60 * 1000 });
+        const token = await hmacSign(payload, jwtSecret);
         setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 });
 
         return {
@@ -60,11 +62,11 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  // Demo mode
   console.info('[Kairos Demo] 데모 모드 로그인');
   const demoName = email.split('@')[0] || '데모 사용자';
   const demoId = 'demo-user-' + Buffer.from(email).toString('base64').slice(0, 8);
-  const token = jwt.sign({ userId: demoId, email, name: demoName }, jwtSecret, { expiresIn: '1d' });
+  const payload = JSON.stringify({ userId: demoId, email, name: demoName, exp: Date.now() + 24 * 60 * 60 * 1000 });
+  const token = await hmacSign(payload, jwtSecret);
   setCookie(event, 'kairos_token', token, { httpOnly: true, sameSite: 'strict', maxAge: 24 * 60 * 60 });
 
   return {

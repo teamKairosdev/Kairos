@@ -16,25 +16,22 @@
           <span>📌</span> 채용 공고 (Job Description) 입력
         </h3>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 mb-1">지원 직무명</label>
-          <input
+        <UFormGroup label="지원 직무명">
+          <UInput
             v-model="jobTitle"
-            type="text"
             placeholder="예: 프론트엔드 리드 개발자"
-            class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
+            color="primary"
           />
-        </div>
+        </UFormGroup>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 mb-1">채용공고 주요 요구사항 & 우대사항</label>
-          <textarea
+        <UFormGroup label="채용공고 주요 요구사항 & 우대사항">
+          <UTextarea
             v-model="jobDescription"
-            rows="8"
+            :rows="8"
             placeholder="JD의 우대사항, 주요 자격요건 텍스트를 복사하여 붙여넣으세요..."
-            class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
-          ></textarea>
-        </div>
+            color="primary"
+          />
+        </UFormGroup>
       </div>
 
       <div class="glass-panel rounded-2xl p-6 space-y-4">
@@ -42,24 +39,25 @@
           <span>📑</span> 제출 이력서 텍스트 입력
         </h3>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-300 mb-1">본인의 이력서 텍스트</label>
-          <textarea
+        <UFormGroup label="본인의 이력서 텍스트">
+          <UTextarea
             v-model="resumeText"
-            rows="11"
+            :rows="11"
             placeholder="분석할 본인의 이력서 텍스트를 입력하거나 내 이력서에서 가져오세요..."
-            class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500"
-          ></textarea>
-        </div>
+            color="primary"
+          />
+        </UFormGroup>
 
-        <button
+        <UButton
+          color="primary"
+          variant="solid"
+          size="lg"
+          block
+          :loading="loading"
+          :disabled="!jobTitle || !jobDescription || !resumeText"
+          label="ATS 일치도 분석 실행 ⚡"
           @click="runATSAnalysis"
-          :disabled="loading || !jobTitle || !jobDescription || !resumeText"
-          class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition-all disabled:opacity-50"
-        >
-          <span v-if="loading">ATS 매칭 엔진 분석 중...</span>
-          <span v-else>ATS 일치도 분석 실행 ⚡</span>
-        </button>
+        />
       </div>
     </div>
 
@@ -67,9 +65,9 @@
     <div v-if="result" class="glass-panel rounded-3xl p-8 border border-purple-500/30 space-y-6">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10 pb-6">
         <div>
-          <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+          <UBadge color="primary" variant="subtle">
             ATS Match Score
-          </span>
+          </UBadge>
           <h2 class="text-2xl font-extrabold text-white mt-2">{{ jobTitle }} ATS 매칭 분석 결과</h2>
         </div>
 
@@ -106,13 +104,15 @@
             <span>✅</span> 이력서에서 발견된 주요 ATS 키워드
           </div>
           <div class="flex flex-wrap gap-2">
-            <span
+            <UBadge
               v-for="(k, idx) in result.foundKeywords"
               :key="idx"
-              class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-xs font-mono"
+              color="success"
+              variant="subtle"
+              size="xs"
             >
               {{ k }}
-            </span>
+            </UBadge>
           </div>
         </div>
 
@@ -121,13 +121,15 @@
             <span>⚠️</span> 누락된 필수 ATS 키워드 (추가 필요)
           </div>
           <div class="flex flex-wrap gap-2">
-            <span
+            <UBadge
               v-for="(k, idx) in result.missingKeywords"
               :key="idx"
-              class="px-2.5 py-1 rounded-lg bg-rose-500/10 text-rose-300 border border-rose-500/20 text-xs font-mono"
+              color="error"
+              variant="subtle"
+              size="xs"
             >
               {{ k }}
-            </span>
+            </UBadge>
           </div>
         </div>
       </div>
