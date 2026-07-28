@@ -4,11 +4,20 @@ export function useLocalVectorSearch() {
   async function initIndex() {
     if (documentIndex) return documentIndex;
 
-    const vectra = await import('vectra');
+    const { LocalDocumentIndex, TransformersEmbeddings, IndexedDBStorage } = await import('vectra/browser');
 
-    documentIndex = new vectra.LocalDocumentIndex({
-      folderPath: 'kairos-vector-db',
-    } as any);
+    const embeddings = await TransformersEmbeddings.create({
+      model: 'Xenova/all-MiniLM-L6-v2',
+      device: 'auto',
+    });
+
+    const storage = new IndexedDBStorage('kairos-vector-db');
+
+    documentIndex = new LocalDocumentIndex({
+      folderPath: 'kairos-index',
+      embeddings,
+      storage,
+    });
     return documentIndex;
   }
 

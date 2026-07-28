@@ -79,6 +79,7 @@ export async function callLLMText(options: LLMOptions): Promise<string> {
     instructions: options.instructions,
     prompt: options.prompt,
     temperature: options.temperature ?? 0.7,
+    ...(hasAnthropicKey() && { providerOptions: { anthropic: { cacheControl: { type: 'ephemeral' } } } }),
   });
   return result.text;
 }
@@ -92,6 +93,7 @@ export async function callLLMStructured<T>(options: LLMOptions & { schema: any }
     prompt: options.prompt,
     temperature: options.temperature ?? 0.3,
     output: options.schema,
+    ...(hasAnthropicKey() && { providerOptions: { anthropic: { cacheControl: { type: 'ephemeral' } } } }),
   });
   return result.output as T;
 }
@@ -104,5 +106,11 @@ export async function streamLLMText(options: LLMOptions) {
     instructions: options.instructions,
     prompt: options.prompt,
     temperature: options.temperature ?? 0.7,
+    ...(hasAnthropicKey() && { providerOptions: { anthropic: { cacheControl: { type: 'ephemeral' } } } }),
   });
+}
+
+function hasAnthropicKey(): boolean {
+  const key = process.env.ANTHROPIC_API_KEY || '';
+  return key.trim() !== '' && !key.includes('your-anthropic');
 }

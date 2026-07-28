@@ -182,6 +182,7 @@ const newTitle = ref('')
 const newContent = ref('')
 const refiningId = ref<string | null>(null)
 const fileInput = ref<HTMLInputElement | null>(null)
+const { parseResumeFile } = useDocumentParser()
 
 async function handleFileUpload(e: Event) {
   const target = e.target as HTMLInputElement
@@ -190,16 +191,10 @@ async function handleFileUpload(e: Event) {
   const file = target.files[0]
   if (!file) return
 
-  const formData = new FormData()
-  formData.append('file', file)
-
   try {
-    const res: any = await $fetch('/api/resumes/parse', {
-      method: 'POST',
-      body: formData,
-    })
-    newTitle.value = res.filename.replace(/\.[^/.]+$/, '')
-    newContent.value = res.extractedText
+    const text = await parseResumeFile(file)
+    newTitle.value = file.name.replace(/\.[^/.]+$/, '')
+    newContent.value = text
   } catch (err: any) {
     alert('파일 파싱 중 오류가 발생했습니다.')
   }
