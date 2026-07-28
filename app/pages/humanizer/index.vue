@@ -20,19 +20,19 @@
           v-model="originalText"
           :rows="12"
           placeholder="교정할 자기소개서, 이력서 문장 또는 커버레터를 입력하세요..."
-          color="warning"
+          color="amber"
         />
 
-        <UButton
-          color="warning"
-          variant="solid"
-          size="lg"
-          block
-          :loading="loading"
-          :disabled="!originalText.trim()"
-          label="AI 문체 휴머니즈 변환 ⚡"
-          @click="processHumanize"
-        />
+<UButton
+  color="amber"
+  variant="solid"
+  size="lg"
+  class="w-full"
+  :loading="loading"
+  :disabled="!originalText.trim()"
+  label="AI 문체 휴머니즈 변환 ⚡"
+  @click="processHumanize"
+/>
       </div>
 
       <!-- Result Panel -->
@@ -60,8 +60,8 @@
               <UBadge
                 v-for="(c, idx) in result.removedClichés"
                 :key="idx"
-                color="error"
-                variant="subtle"
+color="red"
+  variant="soft"
                 size="xs"
               >
                 <s>{{ c }}</s>

@@ -52,7 +52,7 @@
           color="primary"
           variant="solid"
           size="lg"
-          block
+          class="w-full"
           :loading="loading"
           :disabled="!jobTitle || !jobDescription || !resumeText"
           label="ATS 일치도 분석 실행 ⚡"
@@ -65,7 +65,8 @@
     <div v-if="result" class="glass-panel rounded-3xl p-8 border border-purple-500/30 space-y-6">
       <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10 pb-6">
         <div>
-          <UBadge color="primary" variant="subtle">
+          <UBadge color="primary"
+                  variant="soft">
             ATS Match Score
           </UBadge>
           <h2 class="text-2xl font-extrabold text-white mt-2">{{ jobTitle }} ATS 매칭 분석 결과</h2>
@@ -107,8 +108,8 @@
             <UBadge
               v-for="(k, idx) in result.foundKeywords"
               :key="idx"
-              color="success"
-              variant="subtle"
+              color="green"
+              variant="soft"
               size="xs"
             >
               {{ k }}
@@ -124,8 +125,8 @@
             <UBadge
               v-for="(k, idx) in result.missingKeywords"
               :key="idx"
-              color="error"
-              variant="subtle"
+              color="red"
+              variant="soft"
               size="xs"
             >
               {{ k }}

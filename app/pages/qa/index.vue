@@ -46,7 +46,7 @@
         color="primary"
         variant="solid"
         size="lg"
-        block
+        class="w-full"
         :loading="loading"
         :disabled="!targetRole || !careerSummary"
         label="Q&A 질문/모범답안 세트 생성 ⚡"

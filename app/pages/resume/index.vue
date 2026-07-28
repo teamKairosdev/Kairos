@@ -65,7 +65,7 @@
             <div>
               <UBadge
                 :color="r.status === 'improved' ? 'success' : r.status === 'evaluating' ? 'warning' : 'primary'"
-                variant="subtle"
+                variant="soft"
                 size="xs"
               >
                 {{ r.status }}
@@ -88,7 +88,7 @@
             <div class="flex items-center gap-2">
               <UButton
                 color="primary"
-                variant="subtle"
+                variant="soft"
                 size="xs"
                 :loading="refiningId === r.id"
                 label="⚡ AI 고도화 실행"
@@ -113,7 +113,7 @@
     </div>
 
     <!-- Create Modal -->
-    <UModal v-model:open="showCreateModal" :ui="{ width: 'max-w-lg' }">
+    <UModal v-model:open="showCreateModal" class="max-w-lg">
       <template #header>
         <h2 class="text-xl font-bold text-white">신규 이력서 등록</h2>
       </template>
@@ -128,7 +128,7 @@
             <p class="text-[11px] text-gray-400">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>
             <UButton
               color="primary"
-              variant="subtle"
+              variant="soft"
               size="xs"
               label="파일 선택 및 자동 텍스트 추출"
               @click="($refs.fileInput as HTMLInputElement).click()"
@@ -157,7 +157,7 @@
       <template #footer>
         <div class="flex justify-end gap-3">
           <UButton
-            color="neutral"
+            color="gray"
             variant="soft"
             label="취소"
             @click="showCreateModal = false"

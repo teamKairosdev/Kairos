@@ -39,9 +39,9 @@
 
         <UAlert
           v-if="errorMsg"
-          color="error"
-          variant="soft"
-          :description="errorMsg"
+color="red"
+  variant="soft"
+  :description="errorMsg"
         />
 
         <UButton

@@ -34,7 +34,7 @@
           @keyup.enter="performSearch"
         />
         <UButton
-          color="info"
+          color="cyan"
           variant="solid"
           :loading="searching"
           :disabled="!searchQuery.trim()"
@@ -53,7 +53,7 @@
         <div v-for="res in searchResults.results" :key="res.id" class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-2">
           <div class="flex items-center justify-between">
             <span class="text-sm font-bold text-white">{{ res.company }} · {{ res.role }}</span>
-            <UBadge v-if="res.similarity" color="info" variant="subtle" size="xs">
+            <UBadge v-if="res.similarity" color="info" variant="soft" size="xs">
               유사도: {{ (res.similarity * 100).toFixed(1) }}%
             </UBadge>
           </div>
@@ -74,7 +74,7 @@
         >
           <div class="flex items-start justify-between">
             <div>
-              <UBadge color="primary" variant="subtle" size="xs">
+              <UBadge color="primary" variant="soft" size="xs">
                 {{ c.period }}
               </UBadge>
               <h3 class="text-lg font-bold text-white mt-1">{{ c.company }} — <span class="text-purple-300">{{ c.role }}</span></h3>
@@ -100,7 +100,7 @@
     </div>
 
     <!-- Create Modal -->
-    <UModal v-model:open="showCreateModal" :ui="{ width: 'max-w-lg' }">
+    <UModal v-model:open="showCreateModal" class="max-w-lg">
       <template #header>
         <h2 class="text-xl font-bold text-white">신규 경력 추가</h2>
       </template>
@@ -146,7 +146,7 @@
       <template #footer>
         <div class="flex justify-end gap-3">
           <UButton
-            color="neutral"
+            color="gray"
             variant="soft"
             label="취소"
             @click="showCreateModal = false"

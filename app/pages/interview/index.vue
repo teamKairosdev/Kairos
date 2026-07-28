@@ -11,7 +11,7 @@
       </div>
 
       <UButton
-        color="info"
+        color="cyan"
         variant="solid"
         icon="i-lucide-zap"
         label="신규 모의 면접 시작"
@@ -31,7 +31,7 @@
         >
           <div class="flex items-start justify-between">
             <div>
-              <UBadge color="info" variant="subtle" size="xs">
+              <UBadge color="info" variant="soft" size="xs">
                 {{ item.difficulty }} 난이도
               </UBadge>
               <h3 class="text-lg font-bold text-white mt-2">{{ item.jobTitle }}</h3>
@@ -61,7 +61,7 @@
     </div>
 
     <!-- Create Session Modal -->
-    <UModal v-model:open="showCreateModal" :ui="{ width: 'max-w-md' }">
+    <UModal v-model:open="showCreateModal" class="max-w-md">
       <template #header>
         <h2 class="text-xl font-bold text-white">신규 모의 면접 설정</h2>
       </template>
@@ -98,14 +98,14 @@
 
           <div class="flex justify-end gap-3 pt-2">
             <UButton
-              color="neutral"
+              color="gray"
               variant="soft"
               label="취소"
               @click="showCreateModal = false"
             />
             <UButton
               type="submit"
-              color="info"
+              color="cyan"
               variant="solid"
               :loading="loading"
               label="면접장 입장 ⚡"

@@ -1,44 +1,31 @@
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
-let generalLimiter: Ratelimit | null = null;
-let llmLimiter: Ratelimit | null = null;
-
-function getLimiters() {
+function createRatelimit() {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
 
-  if (!url || !token) return { general: null, llm: null };
-
-  if (!generalLimiter) {
-    generalLimiter = new Ratelimit({
+  return {
+    general: new Ratelimit({
       redis: new Redis({ url, token }),
       limiter: Ratelimit.slidingWindow(30, '10 s'),
       analytics: true,
-    });
-  }
-
-  if (!llmLimiter) {
-    llmLimiter = new Ratelimit({
+    }),
+    llm: new Ratelimit({
       redis: new Redis({ url, token }),
       limiter: Ratelimit.slidingWindow(10, '60 s'),
       analytics: true,
-    });
-  }
-
-  return { general: generalLimiter, llm: llmLimiter };
+    }),
+  };
 }
 
+const ratelimiter = createRatelimit();
+
 export default defineEventHandler(async (event) => {
+  if (!ratelimiter) return;
+
   const path = getRequestURL(event).pathname;
-
-  // Skip rate limiting for public routes
-  if (path.startsWith('/_nuxt') || path.startsWith('/__nuxt') || path === '/' || path.startsWith('/auth')) {
-    return;
-  }
-
-  const { general, llm } = getLimiters();
-  if (!general) return; // No Redis configured, skip
 
   const isLLMRoute = path.includes('/refine') ||
     path.includes('/chat') ||
@@ -46,13 +33,9 @@ export default defineEventHandler(async (event) => {
     path.includes('/humanize') ||
     path.includes('/generate');
 
-  const limiter = isLLMRoute ? llm : general;
-  if (!limiter) return;
+  const limiter = isLLMRoute ? ratelimiter.llm : ratelimiter.general;
 
-  const ip = getRequestHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim()
-    || getRequestHeader(event, 'x-real-ip')
-    || '127.0.0.1';
-
+  const ip = getRequestHeader(event, 'x-forwarded-for') ?? '127.0.0.1';
   const { success, limit, remaining, reset } = await limiter.limit(ip);
 
   setResponseHeader(event, 'X-RateLimit-Limit', limit.toString());
@@ -61,7 +44,7 @@ export default defineEventHandler(async (event) => {
   if (!success) {
     throw createError({
       statusCode: 429,
-      statusMessage: 'Too many requests',
+      statusMessage: 'Rate limit exceeded',
       headers: { 'Retry-After': Math.ceil((reset - Date.now()) / 1000).toString() },
     });
   }
