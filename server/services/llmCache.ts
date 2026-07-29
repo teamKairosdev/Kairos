@@ -53,7 +53,8 @@ export async function invalidateCache(pattern: string): Promise<void> {
   if (!r) return;
 
   try {
-    const keys = await r.keys(`llm:cache:*`);
+    const scanPattern = pattern ? `llm:cache:*${pattern}*` : `llm:cache:*`;
+    const keys = await r.keys(scanPattern);
     if (keys.length > 0) {
       await r.del(...keys);
     }
