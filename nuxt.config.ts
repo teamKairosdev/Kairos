@@ -11,6 +11,10 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
 
+  features: {
+    inlineStyles: false,
+  },
+
   alias: {
     'db': resolve(rootDir, 'db/index'),
     'db/schema': resolve(rootDir, 'db/schema'),
