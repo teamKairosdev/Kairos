@@ -88,6 +88,7 @@ export default defineNuxtConfig({
     googleApiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY,
     upstashRedisUrl: process.env.UPSTASH_REDIS_REST_URL,
     upstashRedisToken: process.env.UPSTASH_REDIS_REST_TOKEN,
+    tossSecretKey: process.env.TOSS_SECRET_KEY || '',
 
     public: {
       appName: 'Kairos',
