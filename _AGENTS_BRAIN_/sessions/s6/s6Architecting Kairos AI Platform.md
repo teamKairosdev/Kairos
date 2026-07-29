@@ -1026,3 +1026,96 @@ docs/Idea-Real_tion/계획서/
 *Edited relevant file*
 
 *Viewed [심사기준_준수_QA.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/%EA%B3%84%ED%9A%8D%EC%84%9C/%EC%8B%AC%EC%82%AC%EA%B8%B0%EC%A4%80_%EC%A4%80%EC%88%98_QA.md) *
+
+### User Input
+
+이어서
+
+*Viewed [심사기준_준수_QA.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/%EA%B3%84%ED%9A%8D%EC%84%9C/%EC%8B%AC%EC%82%AC%EA%B8%B0%EC%A4%80_%EC%A4%80%EC%88%98_QA.md) *
+
+*Edited relevant file*
+
+*Viewed [README.txt](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/README.txt) *
+
+*Viewed [데모_시연_대본.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/%EA%B3%84%ED%9A%8D%EC%84%9C/%EB%8D%B0%EB%AA%A8_%EC%8B%9C%EC%97%B0_%EB%8C%80%EB%B3%B8.md) *
+
+*Edited relevant file*
+
+*Viewed [페르소나_사용자흐름.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/%EA%B3%84%ED%9A%8D%EC%84%9C/%ED%8E%98%EB%A5%B4%EC%86%8C%EB%82%98_%EC%82%AC%EC%9A%A9%EC%9E%90%ED%9D%90%EB%A6%84.md) *
+
+*Edited relevant file*
+
+*User accepted the command `cd /home/rheehoselenovo2/orca/Kairos && git status`*
+
+*User accepted the command `cd /home/rheehoselenovo2/orca/Kairos && git add "docs/Idea-Real_tion/계획서/" && git commit -m "docs: 계획서 전반 SSOT 정합성 보완 및 마일스톤 날짜 통일
+
+- KAIROS_MASTER_PLAN.md: Astro 아일랜드 + Nuxt 4 하이브리드, React Native Expo + Tauri v2 빌드 스택 동기화
+- KAIROS_PLAN_SUMMARY.md: 마스터 플랜 변경에 따라 아키텍처 및 플랫폼 요약 데이터 동기화
+- 심사기준_준수_QA.md: ChatGPT 차별성 답변에 Tauri v2 데스크탑 파일 접근, RN Expo 모바일 코어 로직 설명 보완
+- 페르소나_사용자흐름.md: 오프라인 / 멀티디바이스 비교표 수정 및 예선(7/31) 마일스톤 반영
+- 데모_시연_대본.md: PWA 및 Tauri v2 / RN 로컬 오프라인 SQLite/IndexedDB 데이터 복구 시나리오 명시"`*
+
+### Planner Response
+
+채팅 히스토리가 기록된 세션 로그(`s6Architecting Kairos AI Platform.md`)의 모든 맥락을 온전히 복기하고, 요청해 주신 계획서 루트 및 하위 폴더 내부의 모든 마크다운 문서 간의 모순점들을 상호 검증하여 **단일진실공급원(SSOT, Single Source of Truth)** 체계를 수립했습니다(커밋: `ae611f8`).
+
+---
+
+## 🛠️ 단일진실공급원(SSOT) 정합성 보완 사항
+
+1.  **플랫폼 스택 일관성 확보**:
+    *   기존 일부 계획서에 남아있던 레거시 스택(데스크탑: Electron, 모바일: Capacitor)을 **Tauri v2 (Rust + Webview) 및 React Native (Expo) 기반의 고성능 멀티플랫폼 스택**으로 완전히 대체하여 통일했습니다.
+    *   [KAIROS_MASTER_PLAN.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/KAIROS_MASTER_PLAN.md) 및 [KAIROS_PLAN_SUMMARY.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/KAIROS_PLAN_SUMMARY.md)의 플랫폼 챕터를 이에 맞추어 보정했습니다.
+2.  **하이브리드 프론트엔드 및 데이터 계층 통일**:
+    *   단순히 `ssr: false` 상태의 Nuxt 단일 앱 설명에서, **Astro(아일랜드 아키텍처, ISR/SSG)와 Nuxt 4(Hybrid SPA/SSR)의 물리적 이중 쉘 구성** 및 **Redis Cloud(시맨틱 캐싱) + Neon pgvector(HNSW 인덱싱)** 기술 정체성을 계획서 전반에 주입했습니다.
+3.  **예선(7/31) 마일스톤 정렬**:
+    *   [데모_시연_대본.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/데모_시연_대본.md), [페르소나_사용자흐름.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/페르소나_사용자흐름.md), [심사기준_준수_QA.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/심사기준_준수_QA.md) 파일들의 작성/수정일과 예선 스케줄 가이드를 `2026-07-31` 예선 마일스톤에 통일 연동했습니다.
+4.  **심사 질문 및 기술적 우위성 어필 보강**:
+    *   `심사기준_준수_QA.md` 내 "ChatGPT와 무엇이 다른가?"에 대한 모범답변 중 에이전트 성능 부분을 **"Tauri v2 기반 로컬 파일 시스템 직접 제어 및 React Native 기기 가속 STT/TTS 면접 준비"**로 개편하여, 단순 AI 자소서 첨삭기와의 질적인 차별점을 극대화했습니다.
+
+---
+
+현재 깃 상태는 완전히 깨끗하게 정리되어 있으며(Clean working directory), 모든 마크다운 계획서들이 동일한 비전, 동일한 기한, 동일한 기술 아키텍처 데이터를 갖추었습니다.
+
+### User Input
+
+README.md 를 이제 편집하라. 상대경로로, 이 안에 md 편집하라. 그러니까 이 폴더에도 README.md가 있다. 각 md들과 폴더들로 향하는 링크를 다 걸어놔라. 그리고 메인 루트의 README로 대대적으로 쳐내라. 이 README.md연결하고 아키텍쳐 컬러 ERD만 중심으로 루트 README를 하라.
+
+*Viewed [README.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/README.md) *
+
+*Viewed [README.md](file:///home/rheehoselenovo2/orca/Kairos/README.md) *
+
+*Edited relevant file*
+
+*Edited relevant file*
+
+*User accepted the command `cd /home/rheehoselenovo2/orca/Kairos && git diff --stat && git status`*
+
+*User accepted the command `cd /home/rheehoselenovo2/orca/Kairos && git add README.md docs/Idea-Real_tion/README.md && git commit -m "docs: 루트 및 기획 특화 README.md 구조 개편 및 연동
+
+- 루트 README.md: 아키텍처 다이어그램, Drizzle ERD 및 멀티플랫폼 스택 위주로 요약하고 기획 마스터 README.md 링크 제공
+- docs/Idea-Real_tion/README.md: 기획전용 마스터 README로 신규 리팩토링 및 15개 계획서 마크다운 파일/폴더 상대경로 링크 완성"`*
+
+*User accepted the command `cd /home/rheehoselenovo2/orca/Kairos && git status`*
+
+### Planner Response
+
+완료되었습니다. 커밋 `2789ff0`에 저장 완료했습니다.
+
+---
+
+## 🛠️ README.md 이중화 및 정합성 보완 완료 보고
+
+요청하신 가이드에 따라 프로젝트의 핵심 기술 아키텍처와 기획 상세 스펙이 서로 모순 없이 완벽하게 유기적으로 연동되도록 **README 파일 정비**를 마쳤습니다.
+
+### 1. [docs/Idea-Real_tion/README.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/README.md) (기획전용 마스터 README)
+*   **상대경로 매핑**: `계획서/` 내부에 분산되어 있던 모든 파일과 공통 및 도메인별 특화 아키텍처 설계 문서들을 기능별로 그룹화하고, **상대경로 `[문서명](./계획서/경로.md)`** 링크를 완벽히 구축하여 네비게이션 허브를 완성했습니다.
+
+### 2. [README.md](file:///home/rheehoselenovo2/orca/Kairos/README.md) (메인 루트 README)
+*   **심플화 및 기획 링크**: 장황했던 설명들을 정리하여 심플하게 축소하고, 최상단에 **[기획 특화 저장소 바로가기](./docs/Idea-Real_tion/README.md)** 상대경로 링크를 배치해 기획-기술 간 브릿지를 제공합니다.
+*   **기술/아키텍처 중심**: 
+    *   `Astro 아일랜드 + Nuxt 4 하이브리드` 아키텍처 레이아웃 다이어그램을 최상단 핵심으로 배치했습니다.
+    *   `Drizzle ORM + pgvector` 기반의 **1536차원 컬러 데이터베이스 ERD (Mermaid)**를 전면에 부각시켰습니다.
+    *   `Tauri v2 + React Native Expo` 멀티플랫폼 모노레포 구조 및 CLI/Extension 연동 스택을 깔끔하게 정리했습니다.
+
+두 개의 README.md 파일 간의 모순을 완벽하게 없앴으며, 현재 깃 작업 폴더는 아주 깨끗하게 정리 완료되었습니다.
