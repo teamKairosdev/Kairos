@@ -1,9 +1,9 @@
 <template>
   <div class="max-w-sm mx-auto py-16">
-    <div class="border border-white/5 rounded-xl p-8 bg-white/[0.02] space-y-6">
+    <div class="border border-stroke-neutral-muted rounded-xl p-8 bg-neutral-muted space-y-x4">
       <div class="text-center space-y-1.5">
-        <h1 class="text-xl font-semibold text-white">회원가입</h1>
-        <p class="text-xs text-gray-500">AI 기반 커리어 플랫폼에 가입하세요</p>
+        <h1 class="text-xl font-semibold text-fg-neutral">회원가입</h1>
+        <p class="text-xs text-fg-neutral-muted">AI 기반 커리어 플랫폼에 가입하세요</p>
       </div>
 
       <form @submit.prevent="handleRegister" class="space-y-4">
@@ -24,9 +24,9 @@
         <UButton type="submit" :loading="loading" color="black" variant="solid" size="lg" block label="가입하기" />
       </form>
 
-      <div class="text-center text-xs text-gray-500 pt-1">
+      <div class="text-center text-xs text-fg-neutral-muted pt-1">
         이미 계정이 있으신가요?
-        <NuxtLink to="/auth/login" class="text-white hover:underline">로그인</NuxtLink>
+        <NuxtLink to="/auth/login" class="text-fg-neutral hover:underline">로그인</NuxtLink>
       </div>
     </div>
   </div>

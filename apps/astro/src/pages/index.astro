@@ -1,10 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import HeroSection from '../components/HeroSection.vue'
+import SeedHero from '../components/SeedHero.tsx'
 import FeatureGrid from '../components/FeatureGrid.vue'
 ---
 
 <BaseLayout title="Kairos - AI Career Platform">
-  <HeroSection client:load />
+  <!-- SSR rendered Vue component (no JS needed) -->
+  <!-- React SEED Design component as interactive island -->
+  <SeedHero client:load />
+  <!-- Vue component loaded when idle -->
   <FeatureGrid client:idle />
 </BaseLayout>
