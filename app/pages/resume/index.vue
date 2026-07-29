@@ -67,7 +67,7 @@
       <template #body>
         <div class="space-y-4">
           <div class="p-4 rounded-lg border border-dashed border-stroke-neutral-muted text-center space-y-2">
-            <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
+            <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.doc,.txt,.hwp,.hwpx" class="hidden" />
             <p class="text-xs text-fg-neutral-muted">PDF / DOCX 파일 업로드</p>
             <UButton color="neutral" variant="soft" size="xs" label="파일 선택" @click="($refs.fileInput as HTMLInputElement).click()" />
           </div>
@@ -105,7 +105,16 @@ async function handleFileUpload(e: Event) {
   const file = target.files[0]
   if (!file) return
   try {
-    const text = await parseResumeFile(file)
+    const ext = file.name.split('.').pop()?.toLowerCase() || ''
+    let text: string
+    if (ext === 'hwp' || ext === 'hwpx') {
+      const form = new FormData()
+      form.append('file', file)
+      const res: any = await $fetch('/api/docs/parse', { method: 'POST', body: form })
+      text = res.text
+    } else {
+      text = await parseResumeFile(file)
+    }
     newTitle.value = file.name.replace(/\.[^/.]+$/, '')
     newContent.value = text
   } catch (err: any) {

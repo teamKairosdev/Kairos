@@ -222,3 +222,5 @@ export const chatSessions = pgTable('chat_sessions', {
 export const chatSessionsRelations = relations(chatSessions, ({ one }) => ({
   user: one(users, { fields: [chatSessions.userId], references: [users.id] }),
 }));
+
+

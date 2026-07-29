@@ -114,6 +114,7 @@ export default defineNuxtConfig({
       'server/services/parser': resolve(rootDir, 'server/services/parser'),
       'server/services/embedding': resolve(rootDir, 'server/services/embedding'),
       'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
+      'server/services/hwpParser': resolve(rootDir, 'server/services/hwpParser'),
     },
     experimental: {
       asyncContext: true,
