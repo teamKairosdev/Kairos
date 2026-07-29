@@ -1,3 +1,4 @@
+import type { TextItem } from 'pdfjs-dist/types/src/display/api';
 import mammoth from 'mammoth';
 
 export async function parseDocumentText(buffer: Buffer, mimeType: string, fileName: string): Promise<string> {
@@ -21,8 +22,7 @@ export async function parseDocumentText(buffer: Buffer, mimeType: string, fileNa
         const page = await pdfDocument.getPage(i);
         const tokenContent = await page.getTextContent();
         const pageText = tokenContent.items
-          // TODO: type this properly (pdfjs-dist PDFTextItem)
-          .map((item: { str: string }) => item.str)
+          .map((item: TextItem) => item.str)
           .join(' ');
         textContent += pageText + '\n';
       }
