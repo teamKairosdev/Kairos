@@ -1,18 +1,16 @@
 <template>
-  <div class="glass-card rounded-2xl p-5 relative overflow-hidden group">
+  <div class="rounded-xl border border-white/5 p-5 bg-white/[0.02]">
     <div class="flex items-center justify-between">
       <div>
-        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">{{ label }}</p>
-        <h3 class="text-2xl font-extrabold text-white mt-1 group-hover:scale-105 transition-transform origin-left">
-          {{ value }}
-        </h3>
+        <p class="text-xs font-medium text-gray-500 tracking-wide">{{ label }}</p>
+        <p class="text-2xl font-semibold text-white mt-1">{{ value }}</p>
       </div>
-      <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-purple-500/10 border border-purple-500/20 text-purple-300">
+      <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg text-gray-400">
         {{ icon }}
       </div>
     </div>
-    <div v-if="trend" class="mt-3 flex items-center gap-1 text-xs" :class="trendPositive ? 'text-emerald-400' : 'text-purple-400'">
-      <span>{{ trendPositive ? '↑' : '✦' }}</span>
+    <div v-if="trend" class="mt-3 flex items-center gap-1 text-xs" :class="trendPositive ? 'text-emerald-400' : 'text-gray-500'">
+      <span>{{ trendPositive ? '↑' : '·' }}</span>
       <span>{{ trend }}</span>
     </div>
   </div>

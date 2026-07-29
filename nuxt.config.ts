@@ -88,6 +88,7 @@ export default defineNuxtConfig({
       'server/services/career': resolve(rootDir, 'server/services/career'),
       'server/services/parser': resolve(rootDir, 'server/services/parser'),
       'server/services/embedding': resolve(rootDir, 'server/services/embedding'),
+      'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
     },
     experimental: {
       asyncContext: true,

@@ -2,162 +2,83 @@
   <div class="space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-          <span>🔍</span> 경력 포트폴리오 & pgvector 시맨틱 검색
-        </h1>
-        <p class="text-xs text-gray-400 mt-1">
-          저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.
-        </p>
+        <h1 class="text-xl font-semibold text-white">경력 &amp; 벡터 검색</h1>
+        <p class="text-xs text-gray-500 mt-0.5">pgvector 1536차원 시맨틱 검색</p>
       </div>
-
-      <UButton
-        color="primary"
-        variant="solid"
-        icon="i-lucide-plus"
-        label="신규 경력 등록 (임베딩 자동 생성)"
-        @click="showCreateModal = true"
-      />
+      <UButton color="black" variant="solid" icon="i-lucide-plus" label="경력 등록" @click="showCreateModal = true" />
     </div>
 
-    <!-- pgvector Semantic Search Bar Panel -->
-    <div class="glass-panel rounded-2xl p-6 space-y-4 border border-cyan-500/20">
-      <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
-        <span>⚡</span> pgvector 1536-dim Cosine Similarity Semantic Search
-      </h3>
-
+    <div class="rounded-xl border border-white/5 p-6 bg-white/[0.02] space-y-4">
       <div class="flex items-center gap-3">
-        <UInput
-          v-model="searchQuery"
-          placeholder="예: 백엔드 노드 노하우나 pgvector 데이터베이스 검색..."
-          color="info"
-          class="flex-1"
-          @keyup.enter="performSearch"
-        />
-        <UButton
-          color="cyan"
-          variant="solid"
-          :loading="searching"
-          :disabled="!searchQuery.trim()"
-          label="벡터 검색 ⚡"
-          @click="performSearch"
-        />
+        <UInput v-model="searchQuery" placeholder="검색어를 입력하세요..." class="flex-1" @keyup.enter="performSearch" />
+        <UButton color="black" variant="solid" :loading="searching" :disabled="!searchQuery.trim()" label="검색" @click="performSearch" />
       </div>
 
-      <!-- Search Results -->
-      <div v-if="searchResults" class="pt-4 border-t border-white/10 space-y-3">
-        <div class="text-xs font-bold text-gray-300 flex items-center justify-between">
-          <span>"{{ searchResults.query }}" 시맨틱 검색 결과</span>
-          <span class="text-cyan-400">{{ searchResults.results.length }} 건 발견</span>
+      <div v-if="searchResults" class="pt-4 border-t border-white/5 space-y-3">
+        <div class="text-xs text-gray-500 flex items-center justify-between">
+          <span>&quot;{{ searchResults.query }}&quot; 결과</span>
+          <span class="text-white">{{ searchResults.results.length }}건</span>
         </div>
-
-        <div v-for="res in searchResults.results" :key="res.id" class="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-2">
+        <div v-for="res in searchResults.results" :key="res.id" class="p-4 rounded-lg bg-white/5 space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-sm font-bold text-white">{{ res.company }} · {{ res.role }}</span>
-            <UBadge v-if="res.similarity" color="info" variant="soft" size="xs">
-              유사도: {{ (res.similarity * 100).toFixed(1) }}%
-            </UBadge>
+            <span class="text-sm font-medium text-white">{{ res.company }} &middot; {{ res.role }}</span>
+            <UBadge v-if="res.similarity" color="neutral" variant="soft" size="xs">유사도 {{ (res.similarity * 100).toFixed(1) }}%</UBadge>
           </div>
-          <p class="text-xs text-gray-300">{{ res.description }}</p>
+          <p class="text-xs text-gray-500">{{ res.description }}</p>
         </div>
       </div>
     </div>
 
-    <!-- Career Items List -->
     <div class="space-y-4">
-      <h2 class="text-lg font-bold text-white">등록된 경력 항목</h2>
-
+      <h2 class="text-base font-medium text-white">경력 목록</h2>
       <div v-if="careersList && careersList.length > 0" class="space-y-4">
-        <div
-          v-for="c in careersList"
-          :key="c.id"
-          class="glass-card rounded-2xl p-6 space-y-4 hover:border-purple-500/40 transition-all"
-        >
+        <div v-for="c in careersList" :key="c.id" class="rounded-xl border border-white/5 p-6 bg-white/[0.02] space-y-3">
           <div class="flex items-start justify-between">
             <div>
-              <UBadge color="primary" variant="soft" size="xs">
-                {{ c.period }}
-              </UBadge>
-              <h3 class="text-lg font-bold text-white mt-1">{{ c.company }} — <span class="text-purple-300">{{ c.role }}</span></h3>
+              <UBadge color="neutral" variant="soft" size="xs">{{ c.period }}</UBadge>
+              <h3 class="text-base font-medium text-white mt-1.5">{{ c.company }} &mdash; {{ c.role }}</h3>
             </div>
-            <span class="text-xs text-emerald-400 font-mono">pgvector Embedded</span>
           </div>
-
-          <p class="text-xs text-gray-300 leading-relaxed">{{ c.description }}</p>
-
+          <p class="text-xs text-gray-400 leading-relaxed">{{ c.description }}</p>
           <div v-if="c.achievements && c.achievements.length > 0" class="pt-2 border-t border-white/5 space-y-1">
-            <div class="text-[11px] font-bold text-gray-400">주요 성과:</div>
-            <ul class="text-xs text-gray-300 space-y-1 list-disc list-inside">
+            <div class="text-xs font-medium text-gray-500">주요 성과</div>
+            <ul class="text-xs text-gray-500 space-y-1 list-disc list-inside">
               <li v-for="(a, aIdx) in c.achievements" :key="aIdx">{{ a }}</li>
             </ul>
           </div>
         </div>
       </div>
-
-      <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-        <div class="text-4xl">🏢</div>
-        <p class="text-sm">등록된 경력이 없습니다. 경력을 추가해 보세요.</p>
+      <div v-else class="rounded-xl border border-white/5 p-12 text-center text-gray-500 bg-white/[0.02]">
+        <p class="text-sm">등록된 경력이 없습니다.</p>
       </div>
     </div>
 
-    <!-- Create Modal -->
-    <UModal v-model:open="showCreateModal" class="max-w-lg">
+    <UModal v-model:open="showCreateModal">
       <template #header>
-        <h2 class="text-xl font-bold text-white">신규 경력 추가</h2>
+        <h2 class="text-lg font-semibold text-white">경력 추가</h2>
       </template>
-
       <template #body>
         <form @submit.prevent="createCareer" class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
-            <UFormGroup label="회사명">
-              <UInput
-                v-model="company"
-                placeholder="예: Kairos Labs"
-                color="primary"
-              />
+            <UFormGroup label="회사">
+              <UInput v-model="company" placeholder="회사명" />
             </UFormGroup>
-            <UFormGroup label="직무명">
-              <UInput
-                v-model="role"
-                placeholder="예: Full-Stack Architect"
-                color="primary"
-              />
+            <UFormGroup label="직무">
+              <UInput v-model="role" placeholder="직무명" />
             </UFormGroup>
           </div>
-
-          <UFormGroup label="근무 기간">
-            <UInput
-              v-model="period"
-              placeholder="예: 2023.01 - 2026.07"
-              color="primary"
-            />
+          <UFormGroup label="기간">
+            <UInput v-model="period" placeholder="2023.01 - 2026.07" />
           </UFormGroup>
-
-          <UFormGroup label="주요 역량 및 역할 설명">
-            <UTextarea
-              v-model="description"
-              :rows="4"
-              placeholder="수행한 업무와 주요 프로그래밍 경험을 기술해 주세요..."
-              color="primary"
-            />
+          <UFormGroup label="설명">
+            <UTextarea v-model="description" :rows="4" placeholder="업무 내용과 기술 스택" />
           </UFormGroup>
         </form>
       </template>
-
       <template #footer>
         <div class="flex justify-end gap-3">
-          <UButton
-            color="gray"
-            variant="soft"
-            label="취소"
-            @click="showCreateModal = false"
-          />
-          <UButton
-            color="primary"
-            variant="solid"
-            label="저장 및 임베딩 생성"
-            :disabled="!company || !role || !description"
-            @click="createCareer"
-          />
+          <UButton color="neutral" variant="soft" label="취소" @click="showCreateModal = false" />
+          <UButton color="black" variant="solid" label="저장" :disabled="!company || !role || !description" @click="createCareer" />
         </div>
       </template>
     </UModal>
@@ -177,15 +98,7 @@ const searchResults = ref<any>(null)
 
 async function createCareer() {
   if (!company.value || !role.value || !description.value) return
-  await $fetch('/api/careers', {
-    method: 'POST',
-    body: {
-      company: company.value,
-      role: role.value,
-      period: period.value,
-      description: description.value,
-    },
-  })
+  await $fetch('/api/careers', { method: 'POST', body: { company: company.value, role: role.value, period: period.value, description: description.value } })
   showCreateModal.value = false
   company.value = ''
   role.value = ''
@@ -197,14 +110,9 @@ async function performSearch() {
   if (!searchQuery.value.trim()) return
   searching.value = true
   try {
-    const res: any = await $fetch('/api/careers/search', {
-      query: { q: searchQuery.value },
-    })
+    const res: any = await $fetch('/api/careers/search', { query: { q: searchQuery.value } })
     searchResults.value = res
-  } catch (err: any) {
-    alert('검색에 실패했습니다.')
-  } finally {
-    searching.value = false
-  }
+  } catch { alert('검색 실패') }
+  finally { searching.value = false }
 }
 </script>

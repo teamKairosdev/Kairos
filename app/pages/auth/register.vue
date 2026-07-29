@@ -1,63 +1,32 @@
 <template>
-  <div class="max-w-md mx-auto py-12">
-    <div class="glass-panel rounded-3xl p-8 border border-white/10 space-y-6">
-      <div class="text-center space-y-2">
-        <h1 class="text-2xl font-extrabold text-white">Kairos 회원가입</h1>
-        <p class="text-xs text-gray-400">새로운 AI 기반 취업 준비 계정을 작성하세요</p>
+  <div class="max-w-sm mx-auto py-16">
+    <div class="border border-white/5 rounded-xl p-8 bg-white/[0.02] space-y-6">
+      <div class="text-center space-y-1.5">
+        <h1 class="text-xl font-semibold text-white">회원가입</h1>
+        <p class="text-xs text-gray-500">AI 기반 커리어 플랫폼에 가입하세요</p>
       </div>
 
       <form @submit.prevent="handleRegister" class="space-y-4">
-        <UFormGroup label="성함 / 이름">
-          <UInput
-            v-model="name"
-            type="text"
-            required
-            placeholder="홍길동"
-            color="primary"
-          />
+        <UFormGroup label="성함">
+          <UInput v-model="name" type="text" required placeholder="홍길동" />
         </UFormGroup>
 
         <UFormGroup label="이메일">
-          <UInput
-            v-model="email"
-            type="email"
-            required
-            placeholder="user@example.com"
-            color="primary"
-          />
+          <UInput v-model="email" type="email" required placeholder="user@example.com" />
         </UFormGroup>
 
         <UFormGroup label="비밀번호">
-          <UInput
-            v-model="password"
-            type="password"
-            required
-            placeholder="••••••••"
-            color="primary"
-          />
+          <UInput v-model="password" type="password" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
         </UFormGroup>
 
-        <UAlert
-          v-if="errorMsg"
-color="red"
-  variant="soft"
-  :description="errorMsg"
-        />
+        <UAlert v-if="errorMsg" color="red" variant="soft" :description="errorMsg" />
 
-        <UButton
-          type="submit"
-          :loading="loading"
-          color="primary"
-          variant="solid"
-          size="lg"
-          block
-          label="가입하기"
-        />
+        <UButton type="submit" :loading="loading" color="black" variant="solid" size="lg" block label="가입하기" />
       </form>
 
-      <div class="text-center text-xs text-gray-400 pt-2">
+      <div class="text-center text-xs text-gray-500 pt-1">
         이미 계정이 있으신가요?
-        <NuxtLink to="/auth/login" class="text-purple-400 font-semibold hover:underline">로그인</NuxtLink>
+        <NuxtLink to="/auth/login" class="text-white hover:underline">로그인</NuxtLink>
       </div>
     </div>
   </div>
