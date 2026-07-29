@@ -4,9 +4,8 @@ import react from '@astrojs/react'
 
 export default defineConfig({
   integrations: [
-    vue({ appEntrypoint: '/src/app' }),
-    react(),
+    vue(),
   ],
-  output: 'hybrid',
+  output: 'static',
   server: { port: 4321 },
 })
