@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       message: '이력서 평가 및 개선 비동기 파이프라인이 성공적으로 완료되었습니다.',
       result,
     };
-  } catch (err: any) {
-    throw createError({ statusCode: 500, statusMessage: err.message || 'Refinement pipeline error' });
+  } catch (err: unknown) {
+    throw createError({ statusCode: 500, statusMessage: (err as Error).message || 'Refinement pipeline error' });
   }
 });

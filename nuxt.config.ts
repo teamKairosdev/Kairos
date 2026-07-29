@@ -11,13 +11,16 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
 
+  features: {
+    inlineStyles: false,
+  },
+
   alias: {
     'db': resolve(rootDir, 'db/index'),
     'db/schema': resolve(rootDir, 'db/schema'),
     'db/index': resolve(rootDir, 'db/index'),
     'shared': resolve(rootDir, 'shared'),
     'shared/types': resolve(rootDir, 'shared/types'),
-    'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
   },
 
   // SPA & ISR 하이브리드 라우트 룰
@@ -33,13 +36,31 @@ export default defineNuxtConfig({
     '/humanizer/**': { ssr: false },
     '/qa/**': { ssr: false },
     '/career/**': { ssr: false },
+    '/studio/**': { ssr: false },
   },
 
   modules: [
     '@nuxt/ui',
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
+    '@nuxtjs/i18n',
   ],
+
+  i18n: {
+    locales: [
+      { code: 'ko', language: 'ko', name: '한국어', file: 'ko.json' },
+      { code: 'en', language: 'en', name: 'English', file: 'en.json' },
+    ],
+    defaultLocale: 'ko',
+    lazy: true,
+    langDir: 'locales',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    },
+  },
 
   css: [
     '~/assets/css/main.css'
@@ -68,10 +89,12 @@ export default defineNuxtConfig({
     googleApiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY,
     upstashRedisUrl: process.env.UPSTASH_REDIS_REST_URL,
     upstashRedisToken: process.env.UPSTASH_REDIS_REST_TOKEN,
+    tossSecretKey: process.env.TOSS_SECRET_KEY || '',
 
     public: {
       appName: 'Kairos',
       appSubtitle: 'AI Job-Application Prep Platform',
+      tossClientKey: process.env.TOSS_CLIENT_KEY || '',
     }
   },
 
@@ -92,7 +115,16 @@ export default defineNuxtConfig({
       'server/services/parser': resolve(rootDir, 'server/services/parser'),
       'server/services/embedding': resolve(rootDir, 'server/services/embedding'),
       'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
+      'server/services/hwpParser': resolve(rootDir, 'server/services/hwpParser'),
+      'server/services/billing': resolve(rootDir, 'server/services/billing'),
     },
+    publicAssets: [
+      {
+        dir: resolve(rootDir, 'uploads'),
+        baseURL: '/uploads',
+        maxAge: 60 * 60 * 24, // 1 day
+      },
+    ],
     experimental: {
       asyncContext: true,
     },

@@ -1,28 +1,27 @@
-import * as pdfjsLib from 'pdfjs-dist';
-import mammoth from 'mammoth';
+let mammoth: any = null
 
-if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url
-  ).toString();
+async function getMammoth() {
+  if (!mammoth) mammoth = await import('mammoth')
+  return mammoth.default || mammoth
 }
 
 export function useDocumentParser() {
   async function parsePDF(arrayBuffer: ArrayBuffer): Promise<string> {
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    let text = '';
+    const pdfjsLib = await import('pdfjs-dist')
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
+    let text = ''
     for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      text += content.items.map((item: any) => item.str).join(' ') + '\n';
+      const page = await pdf.getPage(i)
+      const content = await page.getTextContent()
+      text += content.items.map((item: any) => item.str).join(' ') + '\n'
     }
-    return text.trim();
+    return text.trim()
   }
 
   async function parseDOCX(arrayBuffer: ArrayBuffer): Promise<string> {
-    const result = await mammoth.extractRawText({ arrayBuffer });
-    return result.value.trim();
+    const m = await getMammoth()
+    const result = await m.extractRawText({ arrayBuffer })
+    return result.value.trim()
   }
 
   async function parseResumeFile(file: File): Promise<string> {

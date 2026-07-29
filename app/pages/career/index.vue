@@ -2,60 +2,60 @@
   <div class="space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-xl font-semibold text-white">경력 &amp; 벡터 검색</h1>
-        <p class="text-xs text-gray-500 mt-0.5">pgvector 1536차원 시맨틱 검색</p>
+        <h1 class="text-xl font-semibold text-fg-neutral">경력 &amp; 벡터 검색</h1>
+        <p class="text-xs text-fg-neutral-muted mt-0.5">pgvector 1536차원 시맨틱 검색</p>
       </div>
       <UButton color="black" variant="solid" icon="i-lucide-plus" label="경력 등록" @click="showCreateModal = true" />
     </div>
 
-    <div class="rounded-xl border border-white/5 p-6 bg-white/[0.02] space-y-4">
+    <div class="rounded-xl border border-stroke-neutral-muted p-6 bg-neutral-muted space-y-4">
       <div class="flex items-center gap-3">
         <UInput v-model="searchQuery" placeholder="검색어를 입력하세요..." class="flex-1" @keyup.enter="performSearch" />
         <UButton color="black" variant="solid" :loading="searching" :disabled="!searchQuery.trim()" label="검색" @click="performSearch" />
       </div>
 
-      <div v-if="searchResults" class="pt-4 border-t border-white/5 space-y-3">
-        <div class="text-xs text-gray-500 flex items-center justify-between">
+      <div v-if="searchResults" class="pt-4 border-t border-stroke-neutral-muted space-y-3">
+        <div class="text-xs text-fg-neutral-muted flex items-center justify-between">
           <span>&quot;{{ searchResults.query }}&quot; 결과</span>
-          <span class="text-white">{{ searchResults.results.length }}건</span>
+          <span class="text-fg-neutral">{{ searchResults.results.length }}건</span>
         </div>
-        <div v-for="res in searchResults.results" :key="res.id" class="p-4 rounded-lg bg-white/5 space-y-2">
+        <div v-for="res in searchResults.results" :key="res.id" class="p-4 rounded-lg bg-neutral-muted space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-sm font-medium text-white">{{ res.company }} &middot; {{ res.role }}</span>
+            <span class="text-sm font-medium text-fg-neutral">{{ res.company }} &middot; {{ res.role }}</span>
             <UBadge v-if="res.similarity" color="neutral" variant="soft" size="xs">유사도 {{ (res.similarity * 100).toFixed(1) }}%</UBadge>
           </div>
-          <p class="text-xs text-gray-500">{{ res.description }}</p>
+          <p class="text-xs text-fg-neutral-muted">{{ res.description }}</p>
         </div>
       </div>
     </div>
 
     <div class="space-y-4">
-      <h2 class="text-base font-medium text-white">경력 목록</h2>
+      <h2 class="text-base font-medium text-fg-neutral">경력 목록</h2>
       <div v-if="careersList && careersList.length > 0" class="space-y-4">
-        <div v-for="c in careersList" :key="c.id" class="rounded-xl border border-white/5 p-6 bg-white/[0.02] space-y-3">
+        <div v-for="c in careersList" :key="c.id" class="rounded-xl border border-stroke-neutral-muted p-6 bg-neutral-muted space-y-3">
           <div class="flex items-start justify-between">
             <div>
               <UBadge color="neutral" variant="soft" size="xs">{{ c.period }}</UBadge>
-              <h3 class="text-base font-medium text-white mt-1.5">{{ c.company }} &mdash; {{ c.role }}</h3>
+              <h3 class="text-base font-medium text-fg-neutral mt-1.5">{{ c.company }} &mdash; {{ c.role }}</h3>
             </div>
           </div>
-          <p class="text-xs text-gray-400 leading-relaxed">{{ c.description }}</p>
-          <div v-if="c.achievements && c.achievements.length > 0" class="pt-2 border-t border-white/5 space-y-1">
-            <div class="text-xs font-medium text-gray-500">주요 성과</div>
-            <ul class="text-xs text-gray-500 space-y-1 list-disc list-inside">
+          <p class="text-xs text-fg-neutral-muted leading-relaxed">{{ c.description }}</p>
+          <div v-if="c.achievements && c.achievements.length > 0" class="pt-2 border-t border-stroke-neutral-muted space-y-1">
+            <div class="text-xs font-medium text-fg-neutral-muted">주요 성과</div>
+            <ul class="text-xs text-fg-neutral-muted space-y-1 list-disc list-inside">
               <li v-for="(a, aIdx) in c.achievements" :key="aIdx">{{ a }}</li>
             </ul>
           </div>
         </div>
       </div>
-      <div v-else class="rounded-xl border border-white/5 p-12 text-center text-gray-500 bg-white/[0.02]">
+      <div v-else class="rounded-xl border border-stroke-neutral-muted p-12 text-center text-fg-neutral-muted bg-neutral-muted">
         <p class="text-sm">등록된 경력이 없습니다.</p>
       </div>
     </div>
 
     <UModal v-model:open="showCreateModal">
       <template #header>
-        <h2 class="text-lg font-semibold text-white">경력 추가</h2>
+        <h2 class="text-lg font-semibold text-fg-neutral">경력 추가</h2>
       </template>
       <template #body>
         <form @submit.prevent="createCareer" class="space-y-4">

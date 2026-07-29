@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import HeroSection from '../components/HeroSection.vue'
+import FeatureGrid from '../components/FeatureGrid.vue'
+import SeedCta from '../components/SeedCta.tsx'
+---
+
+<BaseLayout title="Kairos - AI Career Platform">
+  <HeroSection client:load />
+  <FeatureGrid client:idle />
+  <SeedCta client:only="react" />
+</BaseLayout>

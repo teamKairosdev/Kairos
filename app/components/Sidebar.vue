@@ -1,15 +1,15 @@
 <template>
-  <aside class="space-y-1">
-    <div class="px-3 py-2 text-xs font-medium text-gray-500 tracking-wide">
+  <aside class="space-y-x1">
+    <div class="px-x3 py-x2 text-xs font-medium text-fg-neutral-muted tracking-wide">
       Menu
     </div>
-    <nav class="space-y-0.5">
+    <nav class="space-y-x0">
       <NuxtLink
         v-for="item in navItems"
         :key="item.path"
         :to="item.path"
-        class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all"
-        :class="route.path === item.path ? 'bg-white/10 text-white font-medium' : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'"
+        class="flex items-center gap-x3 px-x3 py-x2 rounded-r1 text-sm transition-all"
+        :class="route.path === item.path ? 'bg-neutral-muted text-fg-neutral font-medium' : 'text-fg-neutral-muted hover:text-fg-neutral hover:bg-neutral-muted'"
       >
         <span class="text-base">{{ item.icon }}</span>
         <span>{{ item.label }}</span>
@@ -28,6 +28,10 @@ const navItems = [
   { label: 'ATS 분석', path: '/ats', icon: '🎯' },
   { label: '휴머나이저', path: '/humanizer', icon: '✨' },
   { label: 'Q&A 생성', path: '/qa', icon: '💡' },
+  { label: '문서', path: '/docs', icon: '📄' },
+  { label: '포토스튜디오', path: '/studio', icon: '🎨' },
   { label: '경력 검색', path: '/career', icon: '🔍' },
+  { label: '프리미엄', path: '/premium', icon: '⭐' },
+  { label: '설정', path: '/settings', icon: '⚙️' },
 ]
 </script>

@@ -9,12 +9,32 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"],
-      "@/*": ["./app/*"],
-      "~~/*": ["./*"],
-      "@@/*": ["./*"],
-      "db/*": ["./db/*"],
-      "server/*": ["./server/*"]
-    }
+      "~/*": [
+        "./app/*"
+      ],
+      "@/*": [
+        "./app/*"
+      ],
+      "~~/*": [
+        "./*"
+      ],
+      "@@/*": [
+        "./*"
+      ],
+      "db/*": [
+        "./db/*"
+      ],
+      "server/*": [
+        "./server/*"
+      ],
+      "seed-design/*": [
+        "./seed-design/*"
+      ],
+      "shared/*": [
+        "./shared/*"
+      ]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   }
 }

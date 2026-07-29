@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
   return {
     authenticated: true,
     user: dbUser
-      ? { id: dbUser.id, email: dbUser.email, name: dbUser.name, avatarUrl: dbUser.avatarUrl }
-      : authUser,
+      ? { id: dbUser.id, email: dbUser.email, name: dbUser.name, avatarUrl: dbUser.avatarUrl, walletAddress: dbUser.walletAddress }
+      : { ...authUser, walletAddress: authUser.walletAddress || null },
   };
 });

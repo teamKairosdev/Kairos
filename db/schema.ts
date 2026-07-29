@@ -28,6 +28,7 @@ export const users = pgTable('users', {
   passwordHash: varchar('password_hash', { length: 255 }).notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   avatarUrl: text('avatar_url'),
+  walletAddress: varchar('wallet_address', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -206,3 +207,88 @@ export const careersRelations = relations(careers, ({ one }) => ({
 export const communityPostsRelations = relations(communityPosts, ({ one }) => ({
   user: one(users, { fields: [communityPosts.userId], references: [users.id] }),
 }));
+
+// 12. Chat Sessions (Persistent Shareable URLs)
+export const chatSessions = pgTable('chat_sessions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+  title: varchar('title', { length: 255 }).notNull().default('AI 채팅'),
+  messages: jsonb('messages').notNull().default([]),
+  context: text('context'),
+  isPublic: varchar('is_public', { length: 10 }).default('true').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const chatSessionsRelations = relations(chatSessions, ({ one }) => ({
+  user: one(users, { fields: [chatSessions.userId], references: [users.id] }),
+}));
+
+// 13. Studio Images (AI Photo Studio)
+export const studioImages = pgTable('studio_images', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  type: varchar('type', { length: 20 }).notNull().default('generated'), // 'generated' | 'uploaded'
+  prompt: text('prompt'),
+  imageUrl: text('image_url').notNull(),
+  width: integer('width').default(1024),
+  height: integer('height').default(1024),
+  originalFileName: varchar('original_file_name', { length: 255 }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const studioImagesRelations = relations(studioImages, ({ one }) => ({
+  user: one(users, { fields: [studioImages.userId], references: [users.id] }),
+}));
+
+// 14. Subscriptions (Auto Margin Billing)
+export const subscriptions = pgTable('subscriptions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull().unique(),
+  plan: varchar('plan', { length: 20 }).notNull().default('free'), // 'free' | 'pro' | 'enterprise'
+  status: varchar('status', { length: 20 }).notNull().default('active'), // 'active' | 'canceled' | 'past_due'
+  tossPaymentKey: varchar('toss_payment_key', { length: 255 }),
+  tossOrderId: varchar('toss_order_id', { length: 255 }),
+  periodStart: timestamp('period_start').defaultNow().notNull(),
+  periodEnd: timestamp('period_end'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// 15. Usage Records
+export const usageRecords = pgTable('usage_records', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  feature: varchar('feature', { length: 50 }).notNull(), // 'chat' | 'ats' | 'studio' | 'hwp'
+  count: integer('count').notNull().default(1),
+  period: varchar('period', { length: 7 }).notNull(), // 'YYYY-MM'
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// 16. Billing Invoices
+export const billingInvoices = pgTable('billing_invoices', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  amount: integer('amount').notNull(), // in KRW
+  status: varchar('status', { length: 20 }).notNull().default('pending'), // 'pending' | 'paid' | 'failed' | 'refunded'
+  tossPaymentKey: varchar('toss_payment_key', { length: 255 }),
+  tossOrderId: varchar('toss_order_id', { length: 255 }),
+  description: text('description'),
+  period: varchar('period', { length: 7 }).notNull(),
+  paidAt: timestamp('paid_at'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
+  user: one(users, { fields: [subscriptions.userId], references: [users.id] }),
+}));
+
+export const usageRecordsRelations = relations(usageRecords, ({ one }) => ({
+  user: one(users, { fields: [usageRecords.userId], references: [users.id] }),
+}));
+
+export const billingInvoicesRelations = relations(billingInvoices, ({ one }) => ({
+  user: one(users, { fields: [billingInvoices.userId], references: [users.id] }),
+}));
+
+
