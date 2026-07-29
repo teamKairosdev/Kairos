@@ -34,6 +34,7 @@
     "@seed-design/react": "^2.1.0",
     "@seed-design/tailwind4-theme": "^2.3.0",
     "@seed-design/vite-plugin": "^2.1.0",
+    "@tosspayments/payment-widget-sdk": "^0.12.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@upstash/ratelimit": "^2.0.8",

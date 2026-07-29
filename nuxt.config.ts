@@ -92,6 +92,7 @@ export default defineNuxtConfig({
     public: {
       appName: 'Kairos',
       appSubtitle: 'AI Job-Application Prep Platform',
+      tossClientKey: process.env.TOSS_CLIENT_KEY || '',
     }
   },
 
