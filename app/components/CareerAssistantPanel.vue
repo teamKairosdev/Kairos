@@ -66,7 +66,7 @@
       </div>
 
       <!-- Input Bar -->
-      <div class="p-3 border-t border-white/10 bg-white/[0.01]">
+      <div class="p-3 border-t border-white/10 bg-white/[0.01] space-y-2">
         <form @submit.prevent="sendMessage" class="flex gap-2">
           <UInput
             v-model="inputQuery"
@@ -83,6 +83,31 @@
             :disabled="!inputQuery.trim()"
           />
         </form>
+        <div class="flex gap-2 justify-end">
+          <UButton
+            v-if="messages.length > 1"
+            color="neutral"
+            variant="ghost"
+            size="xs"
+            icon="i-lucide-link"
+            label="공유"
+            :loading="saving"
+            class="text-fg-neutral-muted hover:text-fg-neutral"
+            @click="shareChat"
+          />
+          <span v-if="sharedUrl" class="text-[10px] text-purple-400 self-center truncate max-w-[200px]">
+            <NuxtLink :to="sharedUrl" target="_blank" class="hover:underline">{{ sharedUrl }}</NuxtLink>
+          </span>
+          <UButton
+            v-if="sharedUrl"
+            color="neutral"
+            variant="ghost"
+            size="xs"
+            icon="i-lucide-copy"
+            class="text-fg-neutral-muted hover:text-fg-neutral"
+            @click="copyUrl"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -95,6 +120,8 @@ const isThinking = ref(false)
 const thinkingStep = ref(1)
 const thinkingTitle = ref('의도 파악 및 경험 벡터 매칭 중...')
 const thinkingLog = ref('')
+const saving = ref(false)
+const sharedUrl = ref('')
 
 const messages = ref<Array<{ role: 'user' | 'assistant'; content: string }>>([
   {
@@ -102,6 +129,32 @@ const messages = ref<Array<{ role: 'user' | 'assistant'; content: string }>>([
     content: '안녕하세요! Kairos AI 어시스턴트입니다. 이력서 고도화, ATS 분석, 실시간 면접 준비에 대해 무엇이든 도와드릴까요?',
   },
 ])
+
+async function shareChat() {
+  saving.value = true
+  try {
+    const res: any = await $fetch('/api/chat/save', {
+      method: 'POST',
+      body: {
+        title: 'AI 채팅',
+        messages: messages.value,
+      },
+    })
+    sharedUrl.value = res.url
+  } catch {
+    sharedUrl.value = '/'
+  } finally {
+    saving.value = false
+  }
+}
+
+async function copyUrl() {
+  try {
+    await navigator.clipboard.writeText(window.location.origin + sharedUrl.value)
+  } catch {
+    // fallback
+  }
+}
 
 async function sendMessage() {
   if (!inputQuery.value.trim() || isThinking.value) return
@@ -130,7 +183,7 @@ async function sendMessage() {
 
     const res: any = await $fetch('/api/llm/chat', {
       method: 'POST',
-      body: { prompt: userText },
+      body: { messages: messages.value.map(m => ({ role: m.role, content: m.content })) },
     })
 
     setTimeout(() => {

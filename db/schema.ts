@@ -206,3 +206,19 @@ export const careersRelations = relations(careers, ({ one }) => ({
 export const communityPostsRelations = relations(communityPosts, ({ one }) => ({
   user: one(users, { fields: [communityPosts.userId], references: [users.id] }),
 }));
+
+// 12. Chat Sessions (Persistent Shareable URLs)
+export const chatSessions = pgTable('chat_sessions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+  title: varchar('title', { length: 255 }).notNull().default('AI 채팅'),
+  messages: jsonb('messages').notNull().default([]),
+  context: text('context'),
+  isPublic: varchar('is_public', { length: 10 }).default('true').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const chatSessionsRelations = relations(chatSessions, ({ one }) => ({
+  user: one(users, { fields: [chatSessions.userId], references: [users.id] }),
+}));
