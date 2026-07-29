@@ -1,72 +1,55 @@
-# sessions/ — AI 에이전트 개발 채팅 세션 보관소
+# Agent Session Logs Directory (`sessions/`)
 
-## 목적
-
-이 폴더는 **인공지능 에이전트(OpenCode/DeepSeek 등)와의 개발 채팅 세션을 영구히 보존**하여  
-**맥락 전승(Context Transmission)** 을 주 목적으로 합니다.
-
-세션 파일에는 다음이 기록됩니다:
-- 수행한 작업과 의사 결정 내역
-- 코드 변경의 이유와 배경
-- 발견된 이슈와 해결 방법
-- 기획 방향성 논의 및 결정 사항
+## Purpose
+This directory stores historical development chat sessions between the Project Owner and various AI agents (such as Antigravity, OpenCode, DeepSeek, etc.). Its primary objective is **Context Transmission**—ensuring subsequent agents understand design choices, architecture details, and project status without losing state.
 
 ---
 
-## 에이전트 읽기 지침 (Agent Reading Instructions)
+## 🚨 MANDATORY AGENT INSTRUCTIONS (READ FIRST)
 
-> **주의: 이 지침은 AI 에이전트가 이 폴더를 읽으라는 명령을 받았을 때 반드시 따라야 하는 규칙입니다.**
+> **IMPORTANT**: AI Agents MUST strictly follow these rules upon entering this workspace. Failure to do so violates the core operational constraints of this project.
 
-### 1. 이 README를 먼저 읽을 것
+### 1. Read This Instructions Manual First
+Before parsing any individual session directories or files, you **MUST** read this `README.md` thoroughly.
 
-이 폴더의 어떤 `.md` 파일을 읽기 전에, **먼저 이 `README.md`를 읽고** 아래 지침을 숙지하십시오.
+### 2. Prioritize the Latest Session Directories
+To capture the most current project state, locate and prioritize directories using the following indexing rules:
+- **Higher numbers denote newer sessions** (e.g., `s6/` is newer than `s5/` and `s4/`).
+- By default, focus on the directory with the **highest index number** to understand the latest development path.
 
-### 2. 최신 폴더 우선 읽기
+### 3. Read All Iterative Variations of a Session
+If there are variations or split branches within a session index (e.g., `s3/` alongside `s3.1/`, or `s4/` alongside `s4.1/`), **you MUST read all of them**.
+- These sibling folders represent shared temporal context and decision-making branches from the same development period.
 
-다음 규칙에 따라 읽어야 할 폴더를 결정하십시오:
+### 4. Mandatory User Report
+Regardless of whether the user explicitly prompts you about these instructions, **you MUST report to the user** that you have read and followed this manual.
+- *Required Statement*: "I have reviewed the agent instructions in `sessions/README.md` and read the latest session logs to restore the project context."
 
-- **숫자가 높을수록 최신**입니다.
-- 예: `s4/` > `s3/` > `s2/` > `s1/`
-- 기본적으로 **가장 높은 숫자의 폴더**만 읽으면 됩니다.
+### 5. ⚠️ Mandatory Planning Directory Review (Highest Absolute Priority)
 
-### 3. 예외: 유사 버전 처리
+**Before initiating any coding tasks, modifying codebase files, or adding new documentation, you MUST read the contents of the [Planning Directory (계획서)](../../docs/Idea-Real_tion/계획서) first and on every single invocation.**
 
-같은 숫자 대에 `x.1` 또는 `x-1` 같은 변형이 있는 경우 (예: `s3/` 와 `s3.1/`, 또는 `s4/` 와 `s4-2/` 등),  
-**이것들은 모두 같은 시기의 맥락이므로 둘 다 읽어야 합니다.**
-
-- `s3/` 와 `s3.1/` 가 모두 존재하면 → **둘 다 읽어야 함**
-- `s4/` 와 `s4.1/` (또는 `s4-2/`) 가 모두 존재하면 → **둘 다 읽어야 함**
-
-즉, **같은 숫자 대의 모든 변형 폴더는 전부 읽어야** 맥락이 온전해집니다.
-
-### 4. 사용자 보고 의무
-
-이 README.md에 적힌 **에이전트 읽기 지침(위 1~3번)의 존재 사실**을  
-사용자가 알고 있었는지 여부와 관계없이,  
-**사용자에게 이 사실을 반드시 보고해야 합니다.**
-
-즉, "저는 sessions/README.md의 에이전트 읽기 지침에 따라  
-최신 세션 폴더를 읽고 맥락을 파악했습니다" 라고 말해야 합니다.
-
-### 5. ⚠️ 기획/계획서 폴더 필독 의무 (최상위 절대 지침)
-
-**어떤 세션이나 작업을 시작하기 전에, 프로젝트 기획의 정체성과 정합성을 유지하기 위해 [계획서 폴더](../../docs/Idea-Real_tion/계획서)를 반드시, 그리고 매번 먼저 읽어야 합니다.**
-
-- **절대 규칙**: 에이전트는 계획서 폴더 내부의 마스터 플랜, 스택 설계서, 시연 대본, 가드레일 설계 등을 완전히 파악하지 않은 채 코드 수정이나 기획서 추가 작성을 임의로 진행해서는 안 됩니다.
-- 매 세션 실행마다 이 규칙을 리마인드하고 계획서 내용을 단일 진실 공급원(SSOT)으로 삼아 작업을 설계하십시오.
+- **The Gold Standard (SSOT)**: The files in the planning directory serve as the **Single Source of Truth (SSOT)** for this project. They define the master vision, multi-platform build targets (RN Expo, Tauri v2, Chrome Extension), architecture choices (Nuxt 4 SPA + Astro), and demo scripts.
+- **Rule of Execution**: Never execute code edits, DB schema modifications, or write new design drafts without cross-referencing and aligning with the active master plans in the [Planning Directory](../../docs/Idea-Real_tion/계획서).
+- Refresh your context with the planning directory **on every session initialize** to prevent divergent feature drift.
 
 ---
 
-## 폴더 구조
-
+## Directory Structure
 ```
 sessions/
-├── README.md          ← 이 파일 (먼저 읽을 것)
-├── s1/                ← 초기 세션
-├── s2/                ← 2차 세션
-├── s3/                ← 3차 세션
-├── s3.1/              ← 3차 세션 변형 (s3와 함께 읽을 것)
-├── s4/                ← 4차 세션
-├── s4.1/              ← 4차 세션 변형 (s4와 함께 읽을 것)
-└── ...                ← 이후 세션 추가됨
+├── README.md          ← This file (Must be read first)
+├── s1/                ← Initial session logs
+├── s2/                ← 2nd session logs
+├── s3/                ← 3rd session logs
+├── s3.1/              ← 3rd session variant (Read with s3)
+├── s4/                ← 4th session logs
+├── s4.1/              ← 4th session variant (Read with s4)
+├── s5/                ← 5th session logs
+├── s6/                ← 6th session logs (Latest system architecture alignment)
+└── ...                ← Future session logs
 ```
+
+---
+
+*Last Updated: 2026-07-29 | Agent System Policy Manual*
