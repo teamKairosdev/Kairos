@@ -2,8 +2,7 @@
   <div class="space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-          <span>🔍</span> 경력 포트폴리오 & pgvector 시맨틱 검색
+        <h1 class="text-2xl font-extrabold text-white">경력 포트폴리오 및 pgvector 시맨틱 검색
         </h1>
         <p class="text-xs text-gray-400 mt-1">
           저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.

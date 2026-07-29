@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     resume,
-    refinements,
+    refinementHistory: refinements,
   };
 });
 

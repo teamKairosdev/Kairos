@@ -3,6 +3,9 @@ export interface User {
   email: string;
   name: string;
   avatarUrl?: string | null;
+  applicantType?: 'high_school' | 'university' | 'experienced' | null;
+  weaknessType?: 'resume' | 'interview' | 'comprehensive' | null;
+  profileCompleted?: boolean;
 }
 
 export interface AuthResponse {
@@ -14,6 +17,7 @@ export interface AuthResponse {
 export interface Resume {
   id: string;
   userId: string;
+  companyId?: string | null;
   title: string;
   originalContent: string;
   parsedText?: string | null;
@@ -82,6 +86,7 @@ export interface ATSAnalysis {
     skillsScore: number;
     experienceScore: number;
     educationScore: number;
+    keywordDensityScore: number;
   } | null;
   createdAt: string;
 }
@@ -143,6 +148,66 @@ export interface QueuedRequest {
   method: string;
   body: any;
   timestamp: number;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  description: string;
+  industry: string;
+  size?: string | null;
+  location?: string | null;
+  techStack?: string[] | null;
+  cultureKeywords?: string[] | null;
+  hiringCriteria?: {
+    technical: string[];
+    soft: string[];
+    values: string[];
+  } | null;
+  idealCandidate?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CompanyEvaluation {
+  id: string;
+  userId: string;
+  resumeId: string;
+  companyId: string;
+  matchScore: number;
+  breakdown: {
+    techFit: number;
+    cultureFit: number;
+    experienceFit: number;
+    overallFit: number;
+  };
+  strengths: string[];
+  gaps: string[];
+  recommendations: string[];
+  aiSummary: string;
+  createdAt: string;
+}
+
+export interface PortfolioProject {
+  title: string;
+  description: string;
+  techStack: string[];
+  projectUrl?: string;
+  sourceUrl?: string;
+  highlights: string[];
+  duration?: string;
+  isAIFetched?: boolean;
+}
+
+export interface Portfolio {
+  id: string;
+  userId: string;
+  bio?: string | null;
+  socialLinks?: { platform: string; url: string }[] | null;
+  projects: PortfolioProject[];
+  isPublic: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ChatMessage {

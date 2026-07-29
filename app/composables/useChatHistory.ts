@@ -1,12 +1,6 @@
 import { openDB, type IDBPDatabase } from 'idb';
 
-interface ChatMessage {
-  id?: number;
-  sessionId: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: number;
-}
+import type { ChatMessage } from 'shared/types';
 
 let dbInstance: IDBPDatabase | null = null;
 

@@ -1,12 +1,6 @@
 import { openDB, type IDBPDatabase } from 'idb';
 
-interface QueuedRequest {
-  id?: number;
-  url: string;
-  method: string;
-  body: any;
-  timestamp: number;
-}
+import type { QueuedRequest } from 'shared/types';
 
 let dbInstance: IDBPDatabase | null = null;
 

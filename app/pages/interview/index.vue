@@ -2,8 +2,7 @@
   <div class="space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-          <span>🎙️</span> AI 모의 면접 (Mock Interview via SSE)
+        <h1 class="text-2xl font-extrabold text-white">AI 모의 면접 (Mock Interview via SSE)
         </h1>
         <p class="text-xs text-gray-400 mt-1">
           실시간 SSE 스트리밍 기술로 끊김 없는 맞춤형 면접관 LLM과의 일대일 면접 세션을 진행하세요.

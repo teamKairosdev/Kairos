@@ -48,12 +48,13 @@ export async function setCachedResponse(
   }
 }
 
-export async function invalidateCache(pattern: string): Promise<void> {
+export async function invalidateCache(pattern: string = '*'): Promise<void> {
   const r = getRedis();
   if (!r) return;
 
   try {
-    const keys = await r.keys(`llm:cache:*`);
+    const glob = pattern === '*' ? `llm:cache:*` : `llm:cache:${pattern}*`;
+    const keys = await r.keys(glob);
     if (keys.length > 0) {
       await r.del(...keys);
     }

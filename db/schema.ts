@@ -28,6 +28,9 @@ export const users = pgTable('users', {
   passwordHash: varchar('password_hash', { length: 255 }).notNull(),
   name: varchar('name', { length: 255 }).notNull(),
   avatarUrl: text('avatar_url'),
+  applicantType: varchar('applicant_type', { length: 50 }), // 'high_school' | 'university' | 'experienced'
+  weaknessType: varchar('weakness_type', { length: 50 }), // 'resume' | 'interview' | 'comprehensive'
+  profileCompleted: boolean('profile_completed').default(false),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -36,6 +39,7 @@ export const users = pgTable('users', {
 export const resumes = pgTable('resumes', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  companyId: uuid('company_id').references(() => companies.id, { onDelete: 'set null' }),
   title: varchar('title', { length: 255 }).notNull(),
   originalContent: text('original_content').notNull(),
   parsedText: text('parsed_text'),
@@ -118,6 +122,62 @@ export const qaSets = pgTable('qa_sets', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+  // 10. Companies Database (target company profiles)
+export const companies = pgTable('companies', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: varchar('name', { length: 255 }).notNull().unique(),
+  description: text('description').notNull(),
+  industry: varchar('industry', { length: 100 }).notNull(),
+  size: varchar('size', { length: 50 }), // 'startup' | 'sme' | 'large' | 'conglomerate'
+  location: varchar('location', { length: 200 }),
+  techStack: jsonb('tech_stack'), // string[]
+  cultureKeywords: jsonb('culture_keywords'), // string[]
+  hiringCriteria: jsonb('hiring_criteria'), // { technical: string[], soft: string[], values: string[] }
+  idealCandidate: text('ideal_candidate'), // AI가 뽑는 이상적인 인재상
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// 11. Company-Specific Resume Evaluations
+export const companyEvaluations = pgTable('company_evaluations', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  resumeId: uuid('resume_id').references(() => resumes.id, { onDelete: 'cascade' }).notNull(),
+  companyId: uuid('company_id').references(() => companies.id, { onDelete: 'cascade' }).notNull(),
+  matchScore: integer('match_score').notNull(),
+  breakdown: jsonb('breakdown').notNull(), // { techFit: number, cultureFit: number, experienceFit: number, overallFit: number }
+  strengths: jsonb('strengths'), // string[]
+  gaps: jsonb('gaps'), // string[]
+  recommendations: jsonb('recommendations'), // string[]
+  aiSummary: text('ai_summary'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// 12. Public Portfolios (project showcase + AI-fetched data)
+export const portfolios = pgTable('portfolios', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull().unique(),
+  bio: text('bio'),
+  socialLinks: jsonb('social_links'), // [{ platform: string, url: string }]
+  projects: jsonb('projects'), // [{ title, description, techStack[], projectUrl, sourceUrl, highlights[], duration, isAIFetched }]
+  isPublic: boolean('is_public').default(true).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// 13. Interview Recordings (metrics, transcript, scores)
+export const interviewRecordings = pgTable('interview_recordings', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  interviewId: uuid('interview_id').references(() => mockInterviews.id, { onDelete: 'cascade' }).notNull(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  recordingUrl: text('recording_url'),
+  duration: integer('duration'), // seconds
+  transcript: text('transcript'),
+  metrics: jsonb('metrics'), // { eyeContact, posture, voiceClarity, pace, confidence }
+  overallScore: integer('overall_score'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 // 9. Career History (with pgvector semantic search)
 export const careers = pgTable('careers', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -136,6 +196,7 @@ export const careers = pgTable('careers', {
 export const usersRelations = relations(users, ({ many }) => ({
   resumes: many(resumes),
   mockInterviews: many(mockInterviews),
+  interviewRecordings: many(interviewRecordings),
   atsAnalyses: many(atsAnalyses),
   humanizedTexts: many(humanizedTexts),
   qaSets: many(qaSets),
@@ -144,8 +205,10 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 export const resumesRelations = relations(resumes, ({ one, many }) => ({
   user: one(users, { fields: [resumes.userId], references: [users.id] }),
+  company: one(companies, { fields: [resumes.companyId], references: [companies.id] }),
   refinements: many(resumeRefinements),
   atsAnalyses: many(atsAnalyses),
+  companyEvaluations: many(companyEvaluations),
 }));
 
 export const resumeRefinementsRelations = relations(resumeRefinements, ({ one }) => ({
@@ -155,6 +218,12 @@ export const resumeRefinementsRelations = relations(resumeRefinements, ({ one })
 export const mockInterviewsRelations = relations(mockInterviews, ({ one, many }) => ({
   user: one(users, { fields: [mockInterviews.userId], references: [users.id] }),
   messages: many(interviewMessages),
+  recordings: many(interviewRecordings),
+}));
+
+export const interviewRecordingsRelations = relations(interviewRecordings, ({ one }) => ({
+  interview: one(mockInterviews, { fields: [interviewRecordings.interviewId], references: [mockInterviews.id] }),
+  user: one(users, { fields: [interviewRecordings.userId], references: [users.id] }),
 }));
 
 export const interviewMessagesRelations = relations(interviewMessages, ({ one }) => ({
@@ -172,6 +241,20 @@ export const humanizedTextsRelations = relations(humanizedTexts, ({ one }) => ({
 
 export const qaSetsRelations = relations(qaSets, ({ one }) => ({
   user: one(users, { fields: [qaSets.userId], references: [users.id] }),
+}));
+
+export const companiesRelations = relations(companies, ({ many }) => ({
+  evaluations: many(companyEvaluations),
+}));
+
+export const companyEvaluationsRelations = relations(companyEvaluations, ({ one }) => ({
+  user: one(users, { fields: [companyEvaluations.userId], references: [users.id] }),
+  resume: one(resumes, { fields: [companyEvaluations.resumeId], references: [resumes.id] }),
+  company: one(companies, { fields: [companyEvaluations.companyId], references: [companies.id] }),
+}));
+
+export const portfoliosRelations = relations(portfolios, ({ one }) => ({
+  user: one(users, { fields: [portfolios.userId], references: [users.id] }),
 }));
 
 export const careersRelations = relations(careers, ({ one }) => ({
