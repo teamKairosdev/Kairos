@@ -174,6 +174,35 @@ export const qaSetsRelations = relations(qaSets, ({ one }) => ({
   user: one(users, { fields: [qaSets.userId], references: [users.id] }),
 }));
 
+// 10. Company Meta Intelligence (Job Korea x Saramin x Reddit Meta Analysis)
+export const companyMeta = pgTable('company_meta', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  companyName: varchar('company_name', { length: 255 }).notNull().unique(),
+  industry: varchar('industry', { length: 100 }),
+  wlbScore: integer('wlb_score').default(80),
+  cultureScore: integer('culture_score').default(85),
+  salaryScore: integer('salary_score').default(88),
+  prosSummary: text('pros_summary'),
+  consSummary: text('cons_summary'),
+  aiInsight: text('ai_insight'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// 11. Community SNS Posts
+export const communityPosts = pgTable('community_posts', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  title: varchar('title', { length: 255 }).notNull(),
+  content: text('content').notNull(),
+  category: varchar('category', { length: 50 }).default('career_tip').notNull(), // 'interview_pass' | 'career_tip' | 'qna'
+  likesCount: integer('likes_count').default(0).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const careersRelations = relations(careers, ({ one }) => ({
   user: one(users, { fields: [careers.userId], references: [users.id] }),
+}));
+
+export const communityPostsRelations = relations(communityPosts, ({ one }) => ({
+  user: one(users, { fields: [communityPosts.userId], references: [users.id] }),
 }));
