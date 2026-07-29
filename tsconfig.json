@@ -15,7 +15,8 @@
       "@@/*": ["./*"],
       "db/*": ["./db/*"],
       "server/*": ["./server/*"],
-      "seed-design/*": ["./seed-design/*"]
+      "seed-design/*": ["./seed-design/*"],
+      "shared/*": ["./shared/*"]
     }
   }
 }

@@ -1,6 +1,6 @@
 import { streamText, createUIMessageStreamResponse } from 'ai';
 import { getModelForComplexity } from '../../services/llm';
-import { getCachedResponse, setCachedResponse } from '../../services/llmCache';
+import { getCachedResponse, setCachedResponse } from 'server/services/llmCache';
 
 export default defineEventHandler(async (event) => {
   const { resumeText, jobDescription } = await readBody(event);

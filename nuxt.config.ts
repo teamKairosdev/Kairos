@@ -17,7 +17,6 @@ export default defineNuxtConfig({
     'db/index': resolve(rootDir, 'db/index'),
     'shared': resolve(rootDir, 'shared'),
     'shared/types': resolve(rootDir, 'shared/types'),
-    'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
   },
 
   // SPA & ISR 하이브리드 라우트 룰

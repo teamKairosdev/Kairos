@@ -21,7 +21,8 @@ export async function parseDocumentText(buffer: Buffer, mimeType: string, fileNa
         const page = await pdfDocument.getPage(i);
         const tokenContent = await page.getTextContent();
         const pageText = tokenContent.items
-          .map((item: any) => item.str)
+          // TODO: type this properly (pdfjs-dist PDFTextItem)
+          .map((item: { str: string }) => item.str)
           .join(' ');
         textContent += pageText + '\n';
       }

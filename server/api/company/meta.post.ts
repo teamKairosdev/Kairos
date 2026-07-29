@@ -1,5 +1,5 @@
 import { analyzeCompanyMetaInfo } from '../../services/companyMeta';
-import { getCachedResponse, setCachedResponse } from '../../services/llmCache';
+import { getCachedResponse, setCachedResponse } from 'server/services/llmCache';
 
 export default defineEventHandler(async (event) => {
   const { companyName, rawReviews } = await readBody(event);

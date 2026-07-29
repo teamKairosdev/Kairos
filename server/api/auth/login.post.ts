@@ -16,8 +16,8 @@ export default defineEventHandler(async (event) => {
         body: { email, password },
       });
       return result;
-    } catch (err: any) {
-      if (err?.statusCode) throw err;
+    } catch (err: unknown) {
+      if ((err as { statusCode?: number }).statusCode) throw err;
     }
   }
 

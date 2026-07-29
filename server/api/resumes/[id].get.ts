@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   if (!id) throw createError({ statusCode: 400, statusMessage: '이력서 ID가 필요합니다.' });
 
   let resume = null;
-  let refinements: any[] = [];
+  let refinements: Array<{ id: string; resumeId: string; step: string; draftContent: string; evaluationFeedback: unknown; score: number; improvedContent: string | null; createdAt: Date }> = [];
 
   try {
     const db = getDb();

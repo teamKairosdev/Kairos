@@ -16,8 +16,8 @@ export default defineEventHandler(async (event) => {
       query: q,
       results,
     };
-  } catch (err: any) {
-    console.warn('pgvector search fallback notice:', err.message);
+  } catch (err: unknown) {
+    console.warn('pgvector search fallback notice:', (err as Error).message);
     // Fallback response if vector query is running without local pgvector DB connection initialized
     return {
       query: q,
