@@ -153,8 +153,8 @@ changelog 섹션 형식: `## {version}` 아래 `### Major Changes` / `### Minor 
 ```md
 | 패키지 | 현재 | 목표/최신 | 호환 | 액션 |
 | --- | --- | --- | --- | --- |
-| @seed-design/react | ... | ... | ✓/⚠ | ... |
-| @seed-design/css   | ... | ... | ✓/⚠ | ... |
+| @seed-design/react | ... | ... | [v]/[!] | ... |
+| @seed-design/css   | ... | ... | [v]/[!] | ... |
 ```
 
 ### Step 8: 업그레이드 안내

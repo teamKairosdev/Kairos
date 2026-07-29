@@ -390,12 +390,12 @@ Each step uses `stopWhen` (v5+) instead of deprecated `maxSteps`.
 | Technique | Description | Kairos Current Use |
 |---|---|---|
 | **RAG** | Retrieval-Augmented Generation | Partial (career embeddings) |
-| **Memory** | Persistent context across sessions | ❌ None |
-| **Tool-Augmented** | LLM calls external tools/APIs | ❌ None |
-| **Structured Output** | JSON schema enforcement | ✅ Via `outputMode: 'object'` |
-| **Few-Shot** | Example-based prompting | ❌ None |
-| **Chain-of-Thought** | Step-by-step reasoning | ❌ None |
-| **Retrieval** | Dynamic context injection | ✅ Career data only |
+| **Memory** | Persistent context across sessions | [x] None |
+| **Tool-Augmented** | LLM calls external tools/APIs | [x] None |
+| **Structured Output** | JSON schema enforcement | [v] Via `outputMode: 'object'` |
+| **Few-Shot** | Example-based prompting | [x] None |
+| **Chain-of-Thought** | Step-by-step reasoning | [x] None |
+| **Retrieval** | Dynamic context injection | [v] Career data only |
 
 ### 11.2 Context Engineering Gaps in Kairos
 
@@ -430,12 +430,12 @@ Each step uses `stopWhen` (v5+) instead of deprecated `maxSteps`.
 
 | Platform | Model Hosting | Edge Deploy | Cold Start | Cost Model |
 |---|---|---|---|---|
-| **Cloudflare Workers AI** | ✅ Built-in GPU | ✅ Global | ~0ms | Per-request |
-| **Vercel Edge Runtime** | ❌ (proxy only) | ✅ Global | <1ms | Per-invocation |
-| **AWS Lambda@Edge** | ❌ | ✅ | 100-500ms | Per-request |
-| **Deno Deploy** | ❌ | ✅ | ~0ms | Per-request |
-| **Google Cloud Run** | ✅ GPU option | ❌ | Cold start | Per-second |
-| **Railway** | ❌ | ❌ | None | Per-second |
+| **Cloudflare Workers AI** | [v] Built-in GPU | [v] Global | ~0ms | Per-request |
+| **Vercel Edge Runtime** | [x] (proxy only) | [v] Global | <1ms | Per-invocation |
+| **AWS Lambda@Edge** | [x] | [v] | 100-500ms | Per-request |
+| **Deno Deploy** | [x] | [v] | ~0ms | Per-request |
+| **Google Cloud Run** | [v] GPU option | [x] | Cold start | Per-second |
+| **Railway** | [x] | [x] | None | Per-second |
 
 ### 12.2 Optimal Pattern for Kairos
 

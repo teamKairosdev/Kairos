@@ -38,7 +38,7 @@ Let me start by reading the file and exploring the project structure in parallel
 <path>/home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/KAIROS_MASTER_PLAN.md</path>
 <type>file</type>
 <content>
-1: # ⚡ KAIROS — 마스터 계획서 (Master Plan)
+1: #  KAIROS — 마스터 계획서 (Master Plan)
 2: 
 3: > **작성일**: 2026-07-29 | **최종 수정**: 2026-07-29  
 4: > **버전**: v1.1 — 커리어개발관리 최우선 도메인 선언, 슬로건 재정의  
@@ -79,7 +79,7 @@ Let me start by reading the file and exploring the project structure in parallel
 39: - **메타포: 우주, 무채색, 긴 여정** — 광활하고 차분하며 깊다. 화려하지 않지만 무겁고 진지하다.
 40: - **당신의 커리어 전 생애를 기억하고, 분석하고, 대신 행동하는 AI** — 흩어진 모든 경험과 지식을 하나의 공간에서 꺼내 쓸 수 있게 한다.
 41: 
-42: > ⚠️ **"개인의 대시보드"라는 표현은 사용하지 않는다** — 추상적이고 차별성이 없다. 위의 문구를 사용할 것.
+42: > [!]️ **"개인의 대시보드"라는 표현은 사용하지 않는다** — 추상적이고 차별성이 없다. 위의 문구를 사용할 것.
 43: 
 44: ---
 45: 
@@ -124,25 +124,25 @@ Let me start by reading the file and exploring the project structure in parallel
 84: 
 85: Kairos는 **5대 핵심 도메인**으로 구성된다.
 86: 
-87: > 🏆 **도메인 위계**: **커리어 개발 관리**가 5대 도메인 중 **으뜸이자 핵심 도메인**이다.  
+87: >  **도메인 위계**: **커리어 개발 관리**가 5대 도메인 중 **으뜸이자 핵심 도메인**이다.  
 88: > 나머지 4개 도메인은 커리어 개발 관리를 강화·확장하는 보조 레이어다.  
 89: > Kairos를 한마디로 정의한다면 "커리어 개발 관리 플랫폼"이며, 나머지는 그 위에 쌓이는 것이다.
 90: 
 91: | 우선순위 | 도메인 | 한마디 |
 92: |:--------:|--------|--------|
-93: | 🥇 **1위** | **커리어 개발 관리** | Kairos의 정체성 그 자체. 이력서·면접·ATS·문서·지식베이스 |
-94: | 🥈 2위 | 업무 자동화 | 커리어 관련 반복 작업을 자동화 |
-95: | 🥉 3위 | 업무 대리 에이전트 | AI가 직접 행동 (검색·결제·실행) |
+93: |  **1위** | **커리어 개발 관리** | Kairos의 정체성 그 자체. 이력서·면접·ATS·문서·지식베이스 |
+94: |  2위 | 업무 자동화 | 커리어 관련 반복 작업을 자동화 |
+95: |  3위 | 업무 대리 에이전트 | AI가 직접 행동 (검색·결제·실행) |
 96: | 4위 | 미술 창작 | 커리어에 필요한 창작물 생성 |
 97: | 5위 | 배포 & 개발 | 포트폴리오·프로젝트 원스탑 배포 |
 98: 
 99: ---
 100: 
-101: ### 3.1 🏆 커리어 개발 관리 (Career Development Hub) — **최우선 핵심 도메인**
+101: ### 3.1  커리어 개발 관리 (Career Development Hub) — **최우선 핵심 도메인**
 102: 
 103: > "자신의 많은 경험과 지식들, 막상 어느 기회에 지원하려고 하면 생각이 안 나고 어떻게 말과 글로 풀어내야 할지 모르는 법이다."
 104: 
-105: > 🎯 **이 도메인이 왜 으뜸인가?**  
+105: >  **이 도메인이 왜 으뜸인가?**  
 106: > Kairos의 모든 사용자는 결국 커리어 때문에 온다. 이력서를 쓰고, 면접을 준비하고, 서류를 통과하기 위해 온다.  
 107: > 이 도메인은 **Kairos가 존재하는 근본 이유**이며, 여기서의 경험이 사용자를 붙잡는다.  
 108: > 나머지 4개 도메인(자동화, 에이전트, 창작, 개발)은 이 도메인의 경험을 더 깊고 강력하게 만드는 레이어다.
@@ -252,10 +252,10 @@ Let me start by reading the file and exploring the project structure in parallel
 212: 
 213: | 플랫폼 | 기술 스택 | 상태 | 비고 |
 214: |--------|-----------|------|------|
-215: | **웹 (SPA)** | Nuxt.js 4 + Vercel | ✅ 프로토타입 완료 | 메인 채널 |
-216: | **모바일 앱** | Capacitor (iOS/Android) | 🔜 예정 | 웹 코드 재사용 |
-217: | **데스크탑 프로그램** | Electron | 🔜 예정 | 로컬-first 기능 |
-218: | **브라우저 확장** | Chrome Extension API | 🔮 고려 | 채용공고 자동 스크래핑 |
+215: | **웹 (SPA)** | Nuxt.js 4 + Vercel | [v] 프로토타입 완료 | 메인 채널 |
+216: | **모바일 앱** | Capacitor (iOS/Android) |  예정 | 웹 코드 재사용 |
+217: | **데스크탑 프로그램** | Electron |  예정 | 로컬-first 기능 |
+218: | **브라우저 확장** | Chrome Extension API |  고려 | 채용공고 자동 스크래핑 |
 219: 
 220: ### 4.2 웹 SPA (현재)
 221: 
@@ -570,23 +570,23 @@ Let me start by reading the file and exploring the project structure in parallel
 530: 
 531: | Phase | 내용 | 상태 |
 532: |-------|------|:----:|
-533: | **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | ✅ |
-534: | **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | ✅ |
-535: | **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | ✅ |
-536: | **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | ✅ |
-537: | **4** | Neon Serverless DB, Upstash Rate Limiting | ✅ |
-538: | **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | ✅ |
-539: | **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | ✅ |
-540: | **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | ✅ |
-541: | **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | ✅ |
+533: | **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | [v] |
+534: | **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | [v] |
+535: | **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | [v] |
+536: | **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | [v] |
+537: | **4** | Neon Serverless DB, Upstash Rate Limiting | [v] |
+538: | **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | [v] |
+539: | **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | [v] |
+540: | **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | [v] |
+541: | **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | [v] |
 542: 
 543: ### 현재 빌드 상태
 544: 
 545: ```
-546: ✅ npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)
-547: ✅ TypeScript strict mode 통과
-548: ✅ Vercel 배포 가능 상태
-549: ⚠️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)
+546: [v] npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)
+547: [v] TypeScript strict mode 통과
+548: [v] Vercel 배포 가능 상태
+549: [!]️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)
 550: ```
 551: 
 552: ### 구현된 페이지
@@ -1354,7 +1354,7 @@ The MASTER_PLAN.md mentions Phase 0-8 and then has "Sprint 1-4" as future work. 
 
 Let me identify the gaps between what's in the plan as "future/planned" vs what's actually implemented:
 
-**What's in the plan as "Phase 0-8 ✅" but actually also has s6/s7 done:**
+**What's in the plan as "Phase 0-8 [v]" but actually also has s6/s7 done:**
 - Payment (Toss Payments) - marked as Sprint 4 in the plan but actually implemented
 - Profile settings (Sprint 2 in plan) - actually implemented
 - Web3 wallet login - mentioned in section 12 as "초초 베타" for Phase B/C but actually implemented
@@ -1366,7 +1366,7 @@ Let me identify the gaps between what's in the plan as "future/planned" vs what'
 - Chat sessions with sharing (ISR) - not mentioned
 
 **What's still not done (matching the plan's gaps):**
-- Tests (0%) ✅ still true
+- Tests (0%) [v] still true
 - CI/CD - still missing
 - OAuth (Google/Kakao) - not implemented
 - Community/SNS features - only schema, no UI
@@ -1581,8 +1581,8 @@ Edit applied successfully.
 ```json
 {
   "filePath": "/home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/KAIROS_MASTER_PLAN.md",
-  "oldString": "### Phase 0-8 완료 현황 (2026-07-29 기준)\n\n| Phase | 내용 | 상태 |\n|-------|------|:----:|\n| **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | ✅ |\n| **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | ✅ |\n| **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | ✅ |\n| **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | ✅ |\n| **4** | Neon Serverless DB, Upstash Rate Limiting | ✅ |\n| **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | ✅ |\n| **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | ✅ |\n| **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | ✅ |\n| **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | ✅ |",
-  "newString": "### Phase 0-9 완료 현황 (2026-07-29 기준)\n\n| Phase | 내용 | 상태 |\n|-------|------|:----:|\n| **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | ✅ |\n| **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | ✅ |\n| **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | ✅ |\n| **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | ✅ |\n| **4** | Neon Serverless DB, Upstash Rate Limiting | ✅ |\n| **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | ✅ |\n| **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | ✅ |\n| **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | ✅ |\n| **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | ✅ |\n| **s6-2** | **Toss Payments** 결제 연동 (위젯 + 검증 API + 성공/실패 콜백) | ✅ |\n| **s6-3** | **프로필 설정 페이지** (이름, 이메일, 지갑 주소, 알림 설정) | ✅ |\n| **s6-4** | **Web3 지갑 로그인** (Kaikas + MetaMask, SIWE 인증, 논스 발급) | ✅ |\n| **s6-5** | **AI Photo Studio** (DALL-E 3 생성 + 업로드 + 갤러리) | ✅ |\n| **s6-6** | **자동마진장치 빌링** (구독 관리, 사용량 추적, 플랜 제한) | ✅ |\n| **s7** | **Seed Design** 통합, 협업 문서, HWP/HWPX 편집기 (rhwp + hwplib-js), `.env` 정리 | ✅ |"
+  "oldString": "### Phase 0-8 완료 현황 (2026-07-29 기준)\n\n| Phase | 내용 | 상태 |\n|-------|------|:----:|\n| **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | [v] |\n| **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | [v] |\n| **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | [v] |\n| **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | [v] |\n| **4** | Neon Serverless DB, Upstash Rate Limiting | [v] |\n| **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | [v] |\n| **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | [v] |\n| **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | [v] |\n| **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | [v] |",
+  "newString": "### Phase 0-9 완료 현황 (2026-07-29 기준)\n\n| Phase | 내용 | 상태 |\n|-------|------|:----:|\n| **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | [v] |\n| **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | [v] |\n| **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | [v] |\n| **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | [v] |\n| **4** | Neon Serverless DB, Upstash Rate Limiting | [v] |\n| **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | [v] |\n| **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | [v] |\n| **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | [v] |\n| **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | [v] |\n| **s6-2** | **Toss Payments** 결제 연동 (위젯 + 검증 API + 성공/실패 콜백) | [v] |\n| **s6-3** | **프로필 설정 페이지** (이름, 이메일, 지갑 주소, 알림 설정) | [v] |\n| **s6-4** | **Web3 지갑 로그인** (Kaikas + MetaMask, SIWE 인증, 논스 발급) | [v] |\n| **s6-5** | **AI Photo Studio** (DALL-E 3 생성 + 업로드 + 갤러리) | [v] |\n| **s6-6** | **자동마진장치 빌링** (구독 관리, 사용량 추적, 플랜 제한) | [v] |\n| **s7** | **Seed Design** 통합, 협업 문서, HWP/HWPX 편집기 (rhwp + hwplib-js), `.env` 정리 | [v] |"
 }
 ```
 
@@ -1685,8 +1685,8 @@ Now update the platform strategy (Electron → Tauri, add Astro), DB schema, Web
 ```json
 {
   "filePath": "/home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/KAIROS_MASTER_PLAN.md",
-  "oldString": "| **웹 (SPA)** | Nuxt.js 4 + Vercel | ✅ 프로토타입 완료 | 메인 채널 |\n| **모바일 앱** | Capacitor (iOS/Android) | 🔜 예정 | 웹 코드 재사용 |\n| **데스크탑 프로그램** | Electron | 🔜 예정 | 로컬-first 기능 |\n| **브라우저 확장** | Chrome Extension API | 🔮 고려 | 채용공고 자동 스크래핑 |",
-  "newString": "| **웹 (SPA)** | Nuxt.js 4 + Vercel | ✅ 운영 가능 | 메인 채널 |\n| **랜딩/SEO** | Astro 7 (Islands) | ✅ 운영 가능 | SEO, 공유 페이지 ISR |\n| **모바일 앱** | packages/mobile-bridge (Expo RN) | 🔜 예정 | 네이티브 브릿지 스캐폴딩 완료 |\n| **데스크탑 프로그램** | Tauri (Rust + Webview) | 🔜 예정 | 로컬-first 기능 (Electron → Tauri로 변경) |\n| **브라우저 확장** | Chrome Extension API | 🔮 고려 | 채용공고 자동 스크래핑 |"
+  "oldString": "| **웹 (SPA)** | Nuxt.js 4 + Vercel | [v] 프로토타입 완료 | 메인 채널 |\n| **모바일 앱** | Capacitor (iOS/Android) |  예정 | 웹 코드 재사용 |\n| **데스크탑 프로그램** | Electron |  예정 | 로컬-first 기능 |\n| **브라우저 확장** | Chrome Extension API |  고려 | 채용공고 자동 스크래핑 |",
+  "newString": "| **웹 (SPA)** | Nuxt.js 4 + Vercel | [v] 운영 가능 | 메인 채널 |\n| **랜딩/SEO** | Astro 7 (Islands) | [v] 운영 가능 | SEO, 공유 페이지 ISR |\n| **모바일 앱** | packages/mobile-bridge (Expo RN) |  예정 | 네이티브 브릿지 스캐폴딩 완료 |\n| **데스크탑 프로그램** | Tauri (Rust + Webview) |  예정 | 로컬-first 기능 (Electron → Tauri로 변경) |\n| **브라우저 확장** | Chrome Extension API |  고려 | 채용공고 자동 스크래핑 |"
 }
 ```
 
@@ -1821,8 +1821,8 @@ Now update the final line with the version. Let me also update the build status 
 ```json
 {
   "filePath": "/home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/KAIROS_MASTER_PLAN.md",
-  "oldString": "```\n✅ npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)\n✅ TypeScript strict mode 통과\n✅ Vercel 배포 가능 상태\n⚠️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)\n```",
-  "newString": "```\n✅ npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)\n✅ TypeScript strict mode 통과\n✅ Vercel 배포 가능 상태\n✅ Astro 빌드 별도 통과\n⚠️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)\n```"
+  "oldString": "```\n[v] npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)\n[v] TypeScript strict mode 통과\n[v] Vercel 배포 가능 상태\n[!]️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)\n```",
+  "newString": "```\n[v] npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)\n[v] TypeScript strict mode 통과\n[v] Vercel 배포 가능 상태\n[v] Astro 빌드 별도 통과\n[!]️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)\n```"
 }
 ```
 
@@ -1912,30 +1912,30 @@ Let me verify the final state of the document by checking the key updated sectio
 547: 
 548: | Phase | 내용 | 상태 |
 549: |-------|------|:----:|
-550: | **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | ✅ |
-551: | **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | ✅ |
-552: | **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | ✅ |
-553: | **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | ✅ |
-554: | **4** | Neon Serverless DB, Upstash Rate Limiting | ✅ |
-555: | **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | ✅ |
-556: | **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | ✅ |
-557: | **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | ✅ |
-558: | **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | ✅ |
-559: | **s6-2** | **Toss Payments** 결제 연동 (위젯 + 검증 API + 성공/실패 콜백) | ✅ |
-560: | **s6-3** | **프로필 설정 페이지** (이름, 이메일, 지갑 주소, 알림 설정) | ✅ |
-561: | **s6-4** | **Web3 지갑 로그인** (Kaikas + MetaMask, SIWE 인증, 논스 발급) | ✅ |
-562: | **s6-5** | **AI Photo Studio** (DALL-E 3 생성 + 업로드 + 갤러리) | ✅ |
-563: | **s6-6** | **자동마진장치 빌링** (구독 관리, 사용량 추적, 플랜 제한) | ✅ |
-564: | **s7** | **Seed Design** 통합, 협업 문서, HWP/HWPX 편집기 (rhwp + hwplib-js), `.env` 정리 | ✅ |
+550: | **0** | 보안 패치 (Drizzle CVE), 시크릿 제거, Docker 정리 | [v] |
+551: | **1** | Nuxt 3→4, Nuxt UI v4, Tailwind v4, 6개 패키지 제거 | [v] |
+552: | **2** | AI SDK v4→v7, 8개 클라이언트 컴포저블 신규 | [v] |
+553: | **3** | Better Auth 완전 전환 (JWT/HMAC 제거) | [v] |
+554: | **4** | Neon Serverless DB, Upstash Rate Limiting | [v] |
+555: | **5** | Anthropic cacheControl (비용 -90%), Redis 캐시 | [v] |
+556: | **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | [v] |
+557: | **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | [v] |
+558: | **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | [v] |
+559: | **s6-2** | **Toss Payments** 결제 연동 (위젯 + 검증 API + 성공/실패 콜백) | [v] |
+560: | **s6-3** | **프로필 설정 페이지** (이름, 이메일, 지갑 주소, 알림 설정) | [v] |
+561: | **s6-4** | **Web3 지갑 로그인** (Kaikas + MetaMask, SIWE 인증, 논스 발급) | [v] |
+562: | **s6-5** | **AI Photo Studio** (DALL-E 3 생성 + 업로드 + 갤러리) | [v] |
+563: | **s6-6** | **자동마진장치 빌링** (구독 관리, 사용량 추적, 플랜 제한) | [v] |
+564: | **s7** | **Seed Design** 통합, 협업 문서, HWP/HWPX 편집기 (rhwp + hwplib-js), `.env` 정리 | [v] |
 565: 
 566: ### 현재 빌드 상태
 567: 
 568: ```
-569: ✅ npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)
-570: ✅ TypeScript strict mode 통과
-571: ✅ Vercel 배포 가능 상태
-572: ✅ Astro 빌드 별도 통과
-573: ⚠️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)
+569: [v] npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)
+570: [v] TypeScript strict mode 통과
+571: [v] Vercel 배포 가능 상태
+572: [v] Astro 빌드 별도 통과
+573: [!]️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)
 574: ```
 575: 
 576: ### 구현된 페이지
@@ -2974,11 +2974,11 @@ Now I have comprehensive answers to the user's three questions. Let me summarize
 
 | 기능 | 상태 | 상세 |
 |------|------|------|
-| **텍스트 추출** (파싱) | ✅ | `hwplib-js`로 서버사이드 텍스트 추출 — 단, section 0만, plain text만 |
-| **업로드/다운로드** | ✅ | `.hwp/.hwpx/.docx/.pdf` 업로드 지원, MIME 타입 서빙 |
-| **뷰어/에디터** | ⚠️ **외부 의존** | `edwardkim.github.io/rhwp/editor.html` iframe embed — 외부 사이트 다운되면 깨짐 |
-| **저장/수정** | ❌ | iframe에서 편집 후 서버로 저장하는 플로우 없음 |
-| **자체 WASM 렌더링** | ❌ | `@rhwp/core` 설치만 되고 미사용 |
+| **텍스트 추출** (파싱) | [v] | `hwplib-js`로 서버사이드 텍스트 추출 — 단, section 0만, plain text만 |
+| **업로드/다운로드** | [v] | `.hwp/.hwpx/.docx/.pdf` 업로드 지원, MIME 타입 서빙 |
+| **뷰어/에디터** | [!]️ **외부 의존** | `edwardkim.github.io/rhwp/editor.html` iframe embed — 외부 사이트 다운되면 깨짐 |
+| **저장/수정** | [x] | iframe에서 편집 후 서버로 저장하는 플로우 없음 |
+| **자체 WASM 렌더링** | [x] | `@rhwp/core` 설치만 되고 미사용 |
 
 **결론**: HWP 텍스트 추출은 되지만, 편집 기능은 외부 iframe에 의존한 스캐폴딩 수준.
 
@@ -2988,10 +2988,10 @@ Now I have comprehensive answers to the user's three questions. Let me summarize
 
 | 방식 | 상태 | 설명 |
 |------|------|------|
-| **Vercel AI SDK** (`ai` v7) | ✅ **주력** | 모든 텍스트 LLM 호출 (`generateText`, `streamText`) |
-| **환경변수만으로 동작** | ✅ **가능** | `.env`에 `ANTHROPIC_API_KEY` 하나만 넣으면 바로 작동. 추가 설정 불필요 |
-| **Raw API (직접 fetch)** | ⚠️ **DALL-E 전용** | `studio/generate.post.ts`에서 `fetch('https://api.openai.com/v1/images/generations')`만 직접 호출. 텍스트 LLM은 전부 AI SDK |
-| **Demo 모드** | ✅ | 키 없으면 모든 API가 하드코딩된 목업 응답 반환 — 앱이 절대 안 깨짐 |
+| **Vercel AI SDK** (`ai` v7) | [v] **주력** | 모든 텍스트 LLM 호출 (`generateText`, `streamText`) |
+| **환경변수만으로 동작** | [v] **가능** | `.env`에 `ANTHROPIC_API_KEY` 하나만 넣으면 바로 작동. 추가 설정 불필요 |
+| **Raw API (직접 fetch)** | [!]️ **DALL-E 전용** | `studio/generate.post.ts`에서 `fetch('https://api.openai.com/v1/images/generations')`만 직접 호출. 텍스트 LLM은 전부 AI SDK |
+| **Demo 모드** | [v] | 키 없으면 모든 API가 하드코딩된 목업 응답 반환 — 앱이 절대 안 깨짐 |
 
 **결론**: "API 키만 env에 넣으면 된다"는 방식은 맞음. 하지만 **텍스트 LLM은 Vercel AI SDK에 단단히 묶여 있어서** SDK 없이 raw fetch로 전환하는 추상화 레이어는 없음. DALL-E(이미지)만 raw fetch.
 
@@ -5542,10 +5542,10 @@ continue with more Seed Design fixes.
 25:     </div>
 26: 
 27:     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-28:       <StatCard label="등록된 이력서" value="3" icon="📝" trend="최근 평가 94점" trendPositive />
-29:       <StatCard label="완료된 면접" value="8" icon="🎙️" trend="답변 완성도 +15%" trendPositive />
-30:       <StatCard label="ATS 매칭" value="92%" icon="🎯" trend="목표 직무 최적화" trendPositive />
-31:       <StatCard label="벡터 경력" value="12" icon="⚡" trend="pgvector 1536-dim" />
+28:       <StatCard label="등록된 이력서" value="3" icon="" trend="최근 평가 94점" trendPositive />
+29:       <StatCard label="완료된 면접" value="8" icon="️" trend="답변 완성도 +15%" trendPositive />
+30:       <StatCard label="ATS 매칭" value="92%" icon="" trend="목표 직무 최적화" trendPositive />
+31:       <StatCard label="벡터 경력" value="12" icon="" trend="pgvector 1536-dim" />
 32:     </div>
 33: 
 34:     <div>
@@ -5553,7 +5553,7 @@ continue with more Seed Design fixes.
 36:       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 37:         <NuxtLink to="/resume" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors">
 38:           <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg mb-3 text-fg-neutral-muted">
-39:             📑
+39:             
 40:           </div>
 41:           <h3 class="text-base font-medium text-fg-neutral mb-1">Resume Refinement</h3>
 42:           <p class="text-xs text-fg-neutral-muted leading-relaxed">
@@ -5563,7 +5563,7 @@ continue with more Seed Design fixes.
 46: 
 47:         <NuxtLink to="/interview" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors">
 48:           <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg mb-3 text-fg-neutral-muted">
-49:             🎙️
+49:             ️
 50:           </div>
 51:           <h3 class="text-base font-medium text-fg-neutral mb-1">Mock Interview</h3>
 52:           <p class="text-xs text-fg-neutral-muted leading-relaxed">
@@ -5573,7 +5573,7 @@ continue with more Seed Design fixes.
 56: 
 57:         <NuxtLink to="/humanizer" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors">
 58:           <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg mb-3 text-fg-neutral-muted">
-59:             ✨
+59:             
 60:           </div>
 61:           <h3 class="text-base font-medium text-fg-neutral mb-1">Humanizer</h3>
 62:           <p class="text-xs text-fg-neutral-muted leading-relaxed">

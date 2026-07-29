@@ -155,13 +155,13 @@ Nuxt 3 SSR 모노리스 기반 Kairos 플랫폼을 **SPA + Serverless + 클라�
 
 ### Typecheck
 ```
-npx nuxt typecheck → ✅ 통과
+npx nuxt typecheck → [v] 통과
 (잔존 오류: .nuxt/pwa-icons-plugin.ts 내부 PWA 모듈 오류 2건 — 프로젝트 코드 아님)
 ```
 
 ### Drizzle 마이그레이션
 ```
-npx drizzle-kit generate → ✅ 9개 테이블, 1개 마이그레이션 파일 생성
+npx drizzle-kit generate → [v] 9개 테이블, 1개 마이그레이션 파일 생성
 ```
 
 ### 패키지 정리
@@ -188,9 +188,9 @@ npx drizzle-kit generate → ✅ 9개 테이블, 1개 마이그레이션 파일 
 ### 현재 상태
 | 항목 | 상태 |
 |---|---|
-| Nuxt typecheck | ✅ 통과 (PWA 모듈 오류 2건 제외) |
-| Drizzle 마이그레이션 | ✅ 생성 완료 (DB 연결 시 `drizzle-kit migrate` 실행 필요) |
-| 런타임 동작 | ✅ 데모 모드 정상 동작 예상 |
+| Nuxt typecheck | [v] 통과 (PWA 모듈 오류 2건 제외) |
+| Drizzle 마이그레이션 | [v] 생성 완료 (DB 연결 시 `drizzle-kit migrate` 실행 필요) |
+| 런타임 동작 | [v] 데모 모드 정상 동작 예상 |
 
 ### 향후 작업 (프로덕션 배포 시)
 1. **환경변수 설정**: Vercel/Neon/Upstash 대시보드에서 실제 시크릿 배포

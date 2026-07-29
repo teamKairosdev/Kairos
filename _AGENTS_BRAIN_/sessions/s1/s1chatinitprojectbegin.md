@@ -269,13 +269,13 @@ full-stack AI 취업 준비 플랫폼 Kairos 신규 구축 (Nuxt 4, Drizzle ORM,
 
 ### Planner Response
 
-모든 작업이 완료되었습니다. ✨
+모든 작업이 완료되었습니다. 
 
 ---
 
-## ✅ Kairos 구축 완료 요약
+## [v] Kairos 구축 완료 요약
 
-**빌드**: `✨ Build complete!` (Nuxt 4, Nitro 서버 번들, 4.75MB)  
+**빌드**: ` Build complete!` (Nuxt 4, Nitro 서버 번들, 4.75MB)  
 **개발 서버**: `http://localhost:3000/` 실행 중  
 
 ### 최종 커밋 이력
@@ -507,7 +507,7 @@ PowerShell에서는 따옴표 이스케이프에 각별히 유의해야 하므�
 
 ---
 
-## 🛠️ 작업 수행 결과 요약
+## ️ 작업 수행 결과 요약
 
 ### 1. `.gitignore` 고도화 및 Git 추적 정상화
 - `.nuxt/` 디렉토리 아래의 임시 파일들이 이미 과거 커밋 과정에서 Git 추적(Tracking) 대상에 들어가 있어 `.gitignore`를 수정하더라도 계속 변경 내역으로 남았던 현상을 해결했습니다.
@@ -567,7 +567,7 @@ git log -n 5 로 최신 커밋들을 조회한다. 꼬리질문 및 검토 준�
 
 ---
 
-## 🚀 Vercel 배포 가능 여부 및 가이드
+##  Vercel 배포 가능 여부 및 가이드
 
 **네, Vercel에서 즉시 배포가 가능합니다!** 본 프로젝트는 Vercel 환경에서 완벽하게 빌드 및 배포되도록 구조화되어 있습니다.
 
@@ -584,7 +584,7 @@ git log -n 5 로 최신 커밋들을 조회한다. 꼬리질문 및 검토 준�
 
 ---
 
-## 🛠️ 작업 수행 결과 요약
+## ️ 작업 수행 결과 요약
 
 1. **[README.md](file:///c:/Users/user/Kairos-1/README.md) 업데이트**: Vercel 배포 절차, 환경변수 구성, 타임아웃 팁 및 DB-Free 데모 폴백 동작에 대한 내용을 한글로 보완하여 문서를 업데이트했습니다.
 2. **커밋 완료**: `"docs: update README with Vercel deployment instructions and fallback details / README.md 파일에 Vercel 배포 가이드 및 데모 모드 작동 정보 보강"` 메시지로 최종 커밋을 마쳤습니다.

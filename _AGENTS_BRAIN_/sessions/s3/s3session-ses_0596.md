@@ -50,7 +50,7 @@ Let me check a few more pages to understand the full scope.
 3:     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 4:       <div>
 5:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-6:           <span>📝</span> 이력서 생성 & 비동기 고도화 파이프라인
+6:           <span></span> 이력서 생성 & 비동기 고도화 파이프라인
 7:         </h1>
 8:         <p class="text-xs text-gray-400 mt-1">
 9:           Draft $\rightarrow$ Evaluate $\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.
@@ -74,7 +74,7 @@ Let me check a few more pages to understand the full scope.
 27:         <div class="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2">
 28:           <div class="text-xs font-bold text-gray-400">STEP 01</div>
 29:           <div class="text-sm font-bold text-white flex items-center gap-2">
-30:             <span>📄</span> Draft Generation
+30:             <span></span> Draft Generation
 31:           </div>
 32:           <p class="text-xs text-gray-400">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>
 33:         </div>
@@ -82,7 +82,7 @@ Let me check a few more pages to understand the full scope.
 35:         <div class="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2">
 36:           <div class="text-xs font-bold text-purple-400">STEP 02</div>
 37:           <div class="text-sm font-bold text-purple-200 flex items-center gap-2">
-38:             <span>🔍</span> LLM Evaluation
+38:             <span></span> LLM Evaluation
 39:           </div>
 40:           <p class="text-xs text-purple-200/70">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>
 41:         </div>
@@ -90,7 +90,7 @@ Let me check a few more pages to understand the full scope.
 43:         <div class="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2">
 44:           <div class="text-xs font-bold text-indigo-400">STEP 03</div>
 45:           <div class="text-sm font-bold text-indigo-200 flex items-center gap-2">
-46:             <span>✨</span> Intelligent Rewrite
+46:             <span></span> Intelligent Rewrite
 47:           </div>
 48:           <p class="text-xs text-indigo-200/70">정량적 성과 중심의 고도화된 이력서 재작성 완성</p>
 49:         </div>
@@ -133,8 +133,8 @@ Let me check a few more pages to understand the full scope.
 86:                 :disabled="refiningId === r.id"
 87:                 class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 text-xs font-semibold border border-purple-500/30 transition-all disabled:opacity-50"
 88:               >
-89:                 <span v-if="refiningId === r.id">⚡ 고도화 진행 중...</span>
-90:                 <span v-else>⚡ AI 고도화 실행</span>
+89:                 <span v-if="refiningId === r.id"> 고도화 진행 중...</span>
+90:                 <span v-else> AI 고도화 실행</span>
 91:               </button>
 92: 
 93:               <NuxtLink
@@ -149,7 +149,7 @@ Let me check a few more pages to understand the full scope.
 102:       </div>
 103: 
 104:       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-105:         <div class="text-4xl">📄</div>
+105:         <div class="text-4xl"></div>
 106:         <p class="text-sm">등록된 이력서가 없습니다. 신규 이력서를 등록해 보세요.</p>
 107:       </div>
 108:     </div>
@@ -159,13 +159,13 @@ Let me check a few more pages to understand the full scope.
 112:       <div class="glass-panel rounded-3xl p-8 max-w-lg w-full space-y-6 border border-white/15">
 113:         <div class="flex items-center justify-between">
 114:           <h2 class="text-xl font-bold text-white">신규 이력서 등록</h2>
-115:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
+115:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">[x]</button>
 116:         </div>
 117: 
 118:         <!-- Document Parser File Upload (pdf.js + mammoth) -->
 119:         <div class="p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2">
 120:           <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
-121:           <div class="text-2xl">📁</div>
+121:           <div class="text-2xl"></div>
 122:           <div class="text-xs font-semibold text-purple-300">PDF / DOCX 이력서 파싱</div>
 123:           <p class="text-[11px] text-gray-400">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>
 124:           <button
@@ -302,7 +302,7 @@ Let me check a few more pages to understand the full scope.
 3:     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 4:       <div>
 5:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-6:           <span>🎙️</span> AI 모의 면접 (Mock Interview via SSE)
+6:           <span>️</span> AI 모의 면접 (Mock Interview via SSE)
 7:         </h1>
 8:         <p class="text-xs text-gray-400 mt-1">
 9:           실시간 SSE 스트리밍 기술로 끊김 없는 맞춤형 면접관 LLM과의 일대일 면접 세션을 진행하세요.
@@ -313,7 +313,7 @@ Let me check a few more pages to understand the full scope.
 14:         @click="showCreateModal = true"
 15:         class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold text-sm shadow-md shadow-cyan-600/30 transition-all flex items-center justify-center gap-2"
 16:       >
-17:         <span>⚡</span> 신규 모의 면접 시작
+17:         <span></span> 신규 모의 면접 시작
 18:       </button>
 19:     </div>
 20: 
@@ -336,7 +336,7 @@ Let me check a few more pages to understand the full scope.
 37:               <p class="text-xs text-gray-400">{{ item.companyName || '목표 기업' }}</p>
 38:             </div>
 39:             <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-300 flex items-center justify-center text-xl">
-40:               🎙️
+40:               ️
 41:             </div>
 42:           </div>
 43: 
@@ -346,14 +346,14 @@ Let me check a few more pages to understand the full scope.
 47:               :to="`/interview/${item.id}`"
 48:               class="px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold shadow-md shadow-cyan-600/30 transition-all"
 49:             >
-50:               면접장 입장 ⚡
+50:               면접장 입장 
 51:             </NuxtLink>
 52:           </div>
 53:         </div>
 54:       </div>
 55: 
 56:       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-57:         <div class="text-4xl">🎙️</div>
+57:         <div class="text-4xl">️</div>
 58:         <p class="text-sm">생성된 모의 면접 세션이 없습니다. 신규 면접을 시작해 보세요.</p>
 59:       </div>
 60:     </div>
@@ -363,7 +363,7 @@ Let me check a few more pages to understand the full scope.
 64:       <div class="glass-panel rounded-3xl p-8 max-w-md w-full space-y-6 border border-white/15">
 65:         <div class="flex items-center justify-between">
 66:           <h2 class="text-xl font-bold text-white">신규 모의 면접 설정</h2>
-67:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
+67:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">[x]</button>
 68:         </div>
 69: 
 70:         <form @submit.prevent="startSession" class="space-y-4">
@@ -414,7 +414,7 @@ Let me check a few more pages to understand the full scope.
 115:               class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50"
 116:             >
 117:               <span v-if="loading">면접 세션 생성 중...</span>
-118:               <span v-else>면접장 입장 ⚡</span>
+118:               <span v-else>면접장 입장 </span>
 119:             </button>
 120:           </div>
 121:         </form>
@@ -475,7 +475,7 @@ Let me check a few more pages to understand the full scope.
 2:   <div class="space-y-8">
 3:     <div>
 4:       <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-5:         <span>🎯</span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)
+5:         <span></span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)
 6:       </h1>
 7:       <p class="text-xs text-gray-400 mt-1">
 8:         지원하려는 채용 공고(JD)와 본인의 이력서를 실시간 비교분석하여 ATS 필터링 통과율과 필수 키워드를 추출합니다.
@@ -486,7 +486,7 @@ Let me check a few more pages to understand the full scope.
 13:     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 14:       <div class="glass-panel rounded-2xl p-6 space-y-4">
 15:         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-16:           <span>📌</span> 채용 공고 (Job Description) 입력
+16:           <span></span> 채용 공고 (Job Description) 입력
 17:         </h3>
 18: 
 19:         <div>
@@ -512,7 +512,7 @@ Let me check a few more pages to understand the full scope.
 39: 
 40:       <div class="glass-panel rounded-2xl p-6 space-y-4">
 41:         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-42:           <span>📑</span> 제출 이력서 텍스트 입력
+42:           <span></span> 제출 이력서 텍스트 입력
 43:         </h3>
 44: 
 45:         <div>
@@ -531,7 +531,7 @@ Let me check a few more pages to understand the full scope.
 58:           class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition-all disabled:opacity-50"
 59:         >
 60:           <span v-if="loading">ATS 매칭 엔진 분석 중...</span>
-61:           <span v-else>ATS 일치도 분석 실행 ⚡</span>
+61:           <span v-else>ATS 일치도 분석 실행 </span>
 62:         </button>
 63:       </div>
 64:     </div>
@@ -576,7 +576,7 @@ Let me check a few more pages to understand the full scope.
 103:       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 104:         <div class="p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3">
 105:           <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-106:             <span>✅</span> 이력서에서 발견된 주요 ATS 키워드
+106:             <span>[v]</span> 이력서에서 발견된 주요 ATS 키워드
 107:           </div>
 108:           <div class="flex flex-wrap gap-2">
 109:             <span
@@ -591,7 +591,7 @@ Let me check a few more pages to understand the full scope.
 118: 
 119:         <div class="p-5 rounded-2xl bg-rose-950/20 border border-rose-500/30 space-y-3">
 120:           <div class="text-xs font-bold text-rose-400 flex items-center gap-1.5">
-121:             <span>⚠️</span> 누락된 필수 ATS 키워드 (추가 필요)
+121:             <span>[!]️</span> 누락된 필수 ATS 키워드 (추가 필요)
 122:           </div>
 123:           <div class="flex flex-wrap gap-2">
 124:             <span
@@ -607,7 +607,7 @@ Let me check a few more pages to understand the full scope.
 134: 
 135:       <!-- Recommendations -->
 136:       <div class="p-5 rounded-2xl bg-purple-950/30 border border-purple-500/30 space-y-2">
-137:         <div class="text-xs font-bold text-purple-300">💡 Kairos ATS 합격률 향상 추천 조언</div>
+137:         <div class="text-xs font-bold text-purple-300"> Kairos ATS 합격률 향상 추천 조언</div>
 138:         <ul class="text-xs text-purple-200/80 space-y-1 list-disc list-inside">
 139:           <li v-for="(rec, idx) in result.recommendations" :key="idx">{{ rec }}</li>
 140:         </ul>
@@ -779,7 +779,7 @@ I should check the remaining pages first to understand the full scope before sta
 2:   <div class="space-y-8">
 3:     <div>
 4:       <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-5:         <span>✨</span> AI 문장 휴머니자이저 (Humanizer)
+5:         <span></span> AI 문장 휴머니자이저 (Humanizer)
 6:       </h1>
 7:       <p class="text-xs text-gray-400 mt-1">
 8:         AI 특유의 진부한 어조(~에 대한, ~의 관점에서, 피동형 표현)를 감쪽같이 걷어내고 설득력 높은 자연스러운 인간 문체로 리라이팅합니다.
@@ -790,7 +790,7 @@ I should check the remaining pages first to understand the full scope before sta
 13:       <!-- Input Panel -->
 14:       <div class="glass-panel rounded-2xl p-6 space-y-4">
 15:         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-16:           <span>🤖</span> 원본 AI/정형화된 문장 입력
+16:           <span></span> 원본 AI/정형화된 문장 입력
 17:         </h3>
 18: 
 19:         <textarea
@@ -806,7 +806,7 @@ I should check the remaining pages first to understand the full scope before sta
 29:           class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold text-sm shadow-lg shadow-amber-500/30 transition-all disabled:opacity-50"
 30:         >
 31:           <span v-if="loading">인간 문체로 자연스럽게 리라이팅 중...</span>
-32:           <span v-else>AI 문체 휴머니즈 변환 ⚡</span>
+32:           <span v-else>AI 문체 휴머니즈 변환 </span>
 33:         </button>
 34:       </div>
 35: 
@@ -814,7 +814,7 @@ I should check the remaining pages first to understand the full scope before sta
 37:       <div class="glass-panel rounded-2xl p-6 space-y-4 border border-amber-500/20">
 38:         <div class="flex items-center justify-between">
 39:           <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
-40:             <span>✨</span> 자연스러운 인간 작성 변환 결과
+40:             <span></span> 자연스러운 인간 작성 변환 결과
 41:           </h3>
 42: 
 43:           <div v-if="result" class="text-right">
@@ -829,7 +829,7 @@ I should check the remaining pages first to understand the full scope before sta
 52:           </div>
 53: 
 54:           <div class="p-4 rounded-xl bg-amber-950/20 border border-amber-500/20 text-xs space-y-2">
-55:             <div class="font-bold text-amber-300">💡 변환 요약 & 제거된 상투적 표현</div>
+55:             <div class="font-bold text-amber-300"> 변환 요약 & 제거된 상투적 표현</div>
 56:             <p class="text-gray-300">{{ result.changesSummary }}</p>
 57:             <div v-if="result.removedClichés && result.removedClichés.length > 0" class="flex flex-wrap gap-1.5 pt-1">
 58:               <span
@@ -844,7 +844,7 @@ I should check the remaining pages first to understand the full scope before sta
 67:         </div>
 68: 
 69:         <div v-else class="h-64 flex flex-col items-center justify-center text-center text-gray-500 space-y-2">
-70:           <div class="text-3xl">✨</div>
+70:           <div class="text-3xl"></div>
 71:           <p class="text-xs">왼쪽에서 문장을 입력하고 변환 버튼을 누르면 이곳에 세련된 변환 결과가 표시됩니다.</p>
 72:         </div>
 73:       </div>
@@ -896,7 +896,7 @@ I should check the remaining pages first to understand the full scope before sta
 2:   <div class="space-y-8">
 3:     <div>
 4:       <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-5:         <span>💡</span> 예상 면접 Q&A 플래시카드 생성기
+5:         <span></span> 예상 면접 Q&A 플래시카드 생성기
 6:       </h1>
 7:       <p class="text-xs text-gray-400 mt-1">
 8:         지원 직무와 경력 사항을 기반으로 적중률 높고 심도 있는 예상 질문과 최고 품질 모범 답안 세트를 생성합니다.
@@ -945,14 +945,14 @@ I should check the remaining pages first to understand the full scope before sta
 51:         class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition-all disabled:opacity-50"
 52:       >
 53:         <span v-if="loading">맞춤형 Q&A 세트 생성 중...</span>
-54:         <span v-else>Q&A 질문/모범답안 세트 생성 ⚡</span>
+54:         <span v-else>Q&A 질문/모범답안 세트 생성 </span>
 55:       </button>
 56:     </div>
 57: 
 58:     <!-- Generated Q&A Cards List -->
 59:     <div v-if="qaSet" class="space-y-4">
 60:       <h2 class="text-lg font-bold text-white flex items-center gap-2">
-61:         <span>📚</span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드
+61:         <span></span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드
 62:       </h2>
 63: 
 64:       <div class="space-y-4">
@@ -974,7 +974,7 @@ I should check the remaining pages first to understand the full scope before sta
 80:           </div>
 81: 
 82:           <div class="p-4 rounded-xl bg-slate-900/80 border border-white/10 space-y-2">
-83:             <div class="text-xs font-bold text-emerald-400">✅ 추천 모범 답변 (Model Answer)</div>
+83:             <div class="text-xs font-bold text-emerald-400">[v] 추천 모범 답변 (Model Answer)</div>
 84:             <p class="text-xs text-gray-200 leading-relaxed whitespace-pre-wrap">{{ qa.sampleAnswer }}</p>
 85:           </div>
 86: 
@@ -1045,7 +1045,7 @@ I should check the remaining pages first to understand the full scope before sta
 3:     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 4:       <div>
 5:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-6:           <span>🔍</span> 경력 포트폴리오 & pgvector 시맨틱 검색
+6:           <span></span> 경력 포트폴리오 & pgvector 시맨틱 검색
 7:         </h1>
 8:         <p class="text-xs text-gray-400 mt-1">
 9:           저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.
@@ -1063,7 +1063,7 @@ I should check the remaining pages first to understand the full scope before sta
 21:     <!-- pgvector Semantic Search Bar Panel -->
 22:     <div class="glass-panel rounded-2xl p-6 space-y-4 border border-cyan-500/20">
 23:       <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
-24:         <span>⚡</span> pgvector 1536-dim Cosine Similarity Semantic Search
+24:         <span></span> pgvector 1536-dim Cosine Similarity Semantic Search
 25:       </h3>
 26: 
 27:       <div class="flex items-center gap-3">
@@ -1080,7 +1080,7 @@ I should check the remaining pages first to understand the full scope before sta
 38:           class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50"
 39:         >
 40:           <span v-if="searching">검색 중...</span>
-41:           <span v-else>벡터 검색 ⚡</span>
+41:           <span v-else>벡터 검색 </span>
 42:         </button>
 43:       </div>
 44: 
@@ -1135,7 +1135,7 @@ I should check the remaining pages first to understand the full scope before sta
 93:       </div>
 94: 
 95:       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-96:         <div class="text-4xl">🏢</div>
+96:         <div class="text-4xl"></div>
 97:         <p class="text-sm">등록된 경력이 없습니다. 경력을 추가해 보세요.</p>
 98:       </div>
 99:     </div>
@@ -1145,7 +1145,7 @@ I should check the remaining pages first to understand the full scope before sta
 103:       <div class="glass-panel rounded-3xl p-8 max-w-lg w-full space-y-6 border border-white/15">
 104:         <div class="flex items-center justify-between">
 105:           <h2 class="text-xl font-bold text-white">신규 경력 추가</h2>
-106:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
+106:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">[x]</button>
 107:         </div>
 108: 
 109:         <form @submit.prevent="createCareer" class="space-y-4">
@@ -1557,7 +1557,7 @@ Now I have a complete picture. Let me also check the resume detail page and inte
 7:           ← 이력서 목록으로 돌아가기
 8:         </NuxtLink>
 9:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-3">
-10:           <span>📄</span> {{ data.resume.title }}
+10:           <span></span> {{ data.resume.title }}
 11:         </h1>
 12:       </div>
 13: 
@@ -1570,7 +1570,7 @@ Now I have a complete picture. Let me also check the resume detail page and inte
 20:     <!-- Refinement History Steps -->
 21:     <div v-if="data.refinementHistory && data.refinementHistory.length > 0" class="space-y-6">
 22:       <h2 class="text-lg font-bold text-white flex items-center gap-2">
-23:         <span>✨</span> AI 비동기 체인 평가 & 개선 결과
+23:         <span></span> AI 비동기 체인 평가 & 개선 결과
 24:       </h2>
 25: 
 26:       <div v-for="ref in data.refinementHistory" :key="ref.id" class="glass-panel rounded-2xl p-6 space-y-6">
@@ -1587,14 +1587,14 @@ Now I have a complete picture. Let me also check the resume detail page and inte
 37:         <!-- Evaluation Feedback Card -->
 38:         <div v-if="ref.evaluationFeedback" class="grid grid-cols-1 md:grid-cols-2 gap-4">
 39:           <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-2">
-40:             <div class="text-xs font-bold text-emerald-400">💡 주요 강점 (Strengths)</div>
+40:             <div class="text-xs font-bold text-emerald-400"> 주요 강점 (Strengths)</div>
 41:             <ul class="text-xs text-emerald-200/80 space-y-1 list-disc list-inside">
 42:               <li v-for="(s, idx) in ref.evaluationFeedback.strengths" :key="idx">{{ s }}</li>
 43:             </ul>
 44:           </div>
 45: 
 46:           <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-500/30 space-y-2">
-47:             <div class="text-xs font-bold text-rose-400">⚠️ 개선 권장사항 (Weaknesses)</div>
+47:             <div class="text-xs font-bold text-rose-400">[!]️ 개선 권장사항 (Weaknesses)</div>
 48:             <ul class="text-xs text-rose-200/80 space-y-1 list-disc list-inside">
 49:               <li v-for="(w, idx) in ref.evaluationFeedback.weaknesses" :key="idx">{{ w }}</li>
 50:             </ul>
@@ -1603,7 +1603,7 @@ Now I have a complete picture. Let me also check the resume detail page and inte
 53: 
 54:         <!-- Improved Content Diff Box -->
 55:         <div v-if="ref.improvedContent" class="space-y-2">
-56:           <div class="text-xs font-bold text-purple-300">✨ AI 최종 고도화 재작성 이력서 본문</div>
+56:           <div class="text-xs font-bold text-purple-300"> AI 최종 고도화 재작성 이력서 본문</div>
 57:           <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-xs text-gray-200 leading-relaxed whitespace-pre-wrap font-mono">
 58:             {{ ref.improvedContent }}
 59:           </div>
@@ -1654,7 +1654,7 @@ Now I have a complete picture. Let me also check the resume detail page and inte
 8:         </NuxtLink>
 9:         <div class="h-4 w-[1px] bg-white/10"></div>
 10:         <h1 class="text-lg font-bold text-white flex items-center gap-2">
-11:           <span>🎙️</span> AI 면접 스튜디오 실시간 세션
+11:           <span>️</span> AI 면접 스튜디오 실시간 세션
 12:         </h1>
 13:       </div>
 14: 
@@ -1692,7 +1692,7 @@ Now I have a complete picture. Let me also check the resume detail page and inte
 46:           <!-- Per Answer Feedback Card if present -->
 47:           <div v-if="msg.feedback" class="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs space-y-1">
 48:             <div class="flex items-center justify-between text-cyan-300 font-bold">
-49:               <span>💡 AI 답변 피드백</span>
+49:               <span> AI 답변 피드백</span>
 50:               <span>{{ msg.feedback.score }}점</span>
 51:             </div>
 52:             <p class="text-gray-300">{{ msg.feedback.summary }}</p>
@@ -1728,7 +1728,7 @@ Now I have a complete picture. Let me also check the resume detail page and inte
 82:           :disabled="isStreaming || !inputMessage.trim()"
 83:           class="px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-sm shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50 h-full"
 84:         >
-85:           답변 제출 ⚡
+85:           답변 제출 
 86:         </button>
 87:       </form>
 88:     </div>
@@ -2730,7 +2730,7 @@ Now update the resume index page with Nuxt UI v4 components:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>📝</span> 이력서 생성 & 비동기 고도화 파이프라인\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          Draft $\\rightarrow$ Evaluate $\\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 이력서 등록\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Async Refinement Chain Pipeline Step Visualizer Banner -->\n    <div class=\"glass-card rounded-2xl p-6 border border-purple-500/20\">\n      <h3 class=\"text-sm font-bold text-purple-300 uppercase tracking-wider mb-4\">\n        Kairos Resume Async Refinement Chain Workflow\n      </h3>\n      <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 relative\">\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2\">\n          <div class=\"text-xs font-bold text-gray-400\">STEP 01</div>\n          <div class=\"text-sm font-bold text-white flex items-center gap-2\">\n            <span>📄</span> Draft Generation\n          </div>\n          <p class=\"text-xs text-gray-400\">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2\">\n          <div class=\"text-xs font-bold text-purple-400\">STEP 02</div>\n          <div class=\"text-sm font-bold text-purple-200 flex items-center gap-2\">\n            <span>🔍</span> LLM Evaluation\n          </div>\n          <p class=\"text-xs text-purple-200/70\">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2\">\n          <div class=\"text-xs font-bold text-indigo-400\">STEP 03</div>\n          <div class=\"text-sm font-bold text-indigo-200 flex items-center gap-2\">\n            <span>✨</span> Intelligent Rewrite\n          </div>\n          <p class=\"text-xs text-indigo-200/70\">정량적 성과 중심의 고도화된 이력서 재작성 완성</p>\n        </div>\n      </div>\n    </div>\n\n    <!-- Resume List Cards -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">내 이력서 목록</h2>\n\n      <div v-if=\"resumes && resumes.length > 0\" class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <div\n          v-for=\"r in resumes\"\n          :key=\"r.id\"\n          class=\"glass-panel rounded-2xl p-6 hover:border-purple-500/40 transition-all space-y-4\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge\n                :color=\"r.status === 'improved' ? 'success' : r.status === 'evaluating' ? 'warning' : 'primary'\"\n                variant=\"subtle\"\n                size=\"xs\"\n              >\n                {{ r.status }}\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-2\">{{ r.title }}</h3>\n            </div>\n            <div class=\"text-right\">\n              <div class=\"text-2xl font-extrabold gradient-text\">{{ r.currentScore || 0 }}점</div>\n              <div class=\"text-[10px] text-gray-400\">완성도 점수</div>\n            </div>\n          </div>\n\n          <p class=\"text-xs text-gray-400 line-clamp-2 leading-relaxed\">\n            {{ r.originalContent }}\n          </p>\n\n          <div class=\"pt-2 flex items-center justify-between border-t border-white/5\">\n            <span class=\"text-[11px] text-gray-500\">생성일: {{ new Date(r.createdAt).toLocaleDateString() }}</span>\n\n            <div class=\"flex items-center gap-2\">\n              <UButton\n                color=\"primary\"\n                variant=\"subtle\"\n                size=\"xs\"\n                :loading=\"refiningId === r.id\"\n                label=\"⚡ AI 고도화 실행\"\n                @click=\"triggerRefine(r.id)\"\n              />\n\n              <NuxtLink\n                :to=\"`/resume/${r.id}`\"\n                class=\"px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold border border-white/10 transition-all\"\n              >\n                상세보기\n              </NuxtLink>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div v-else class=\"glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3\">\n        <div class=\"text-4xl\">📄</div>\n        <p class=\"text-sm\">등록된 이력서가 없습니다. 신규 이력서를 등록해 보세요.</p>\n      </div>\n    </div>\n\n    <!-- Create Modal -->\n    <UModal v-model:open=\"showCreateModal\" :ui=\"{ width: 'max-w-lg' }\">\n      <template #header>\n        <h2 class=\"text-xl font-bold text-white\">신규 이력서 등록</h2>\n      </template>\n\n      <template #body>\n        <div class=\"space-y-4\">\n          <!-- Document Parser File Upload -->\n          <div class=\"p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2\">\n            <input type=\"file\" ref=\"fileInput\" @change=\"handleFileUpload\" accept=\".pdf,.docx,.txt\" class=\"hidden\" />\n            <div class=\"text-2xl\">📁</div>\n            <div class=\"text-xs font-semibold text-purple-300\">PDF / DOCX 이력서 파싱</div>\n            <p class=\"text-[11px] text-gray-400\">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>\n            <UButton\n              color=\"primary\"\n              variant=\"subtle\"\n              size=\"xs\"\n              label=\"파일 선택 및 자동 텍스트 추출\"\n              @click=\"($refs.fileInput as HTMLInputElement).click()\"\n            />\n          </div>\n\n          <UFormGroup label=\"이력서 제목\">\n            <UInput\n              v-model=\"newTitle\"\n              placeholder=\"예: 시니어 백엔드 개발자 이력서 v1\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"이력서 본문\">\n            <UTextarea\n              v-model=\"newContent\"\n              :rows=\"6\"\n              placeholder=\"경력 사항, 프로젝트 경험 및 기술 스택을 입력하세요...\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n        </div>\n      </template>\n\n      <template #footer>\n        <div class=\"flex justify-end gap-3\">\n          <UButton\n            color=\"neutral\"\n            variant=\"soft\"\n            label=\"취소\"\n            @click=\"showCreateModal = false\"\n          />\n          <UButton\n            color=\"primary\"\n            variant=\"solid\"\n            label=\"등록하기\"\n            :disabled=\"!newTitle || !newContent\"\n            @click=\"createResume\"\n          />\n        </div>\n      </template>\n    </UModal>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: resumes, refresh } = await useFetch<any[]>('/api/resumes')\nconst showCreateModal = ref(false)\nconst newTitle = ref('')\nconst newContent = ref('')\nconst refiningId = ref<string | null>(null)\nconst fileInput = ref<HTMLInputElement | null>(null)\n\nasync function handleFileUpload(e: Event) {\n  const target = e.target as HTMLInputElement\n  if (!target.files || target.files.length === 0) return\n\n  const formData = new FormData()\n  formData.append('file', target.files[0])\n\n  try {\n    const res: any = await $fetch('/api/resumes/parse', {\n      method: 'POST',\n      body: formData,\n    })\n    newTitle.value = res.filename.replace(/\\.[^/.]+$/, '')\n    newContent.value = res.extractedText\n  } catch (err: any) {\n    alert('파일 파싱 중 오류가 발생했습니다.')\n  }\n}\n\nasync function createResume() {\n  if (!newTitle.value || !newContent.value) return\n  await $fetch('/api/resumes', {\n    method: 'POST',\n    body: { title: newTitle.value, originalContent: newContent.value },\n  })\n  showCreateModal.value = false\n  newTitle.value = ''\n  newContent.value = ''\n  refresh()\n}\n\nasync function triggerRefine(id: string) {\n  refiningId.value = id\n  try {\n    await $fetch(`/api/resumes/${id}/refine`, { method: 'POST' })\n    await refresh()\n  } catch (err: any) {\n    alert('AI 이력서 고도화 중 오류가 발생했습니다.')\n  } finally {\n    refiningId.value = null\n  }\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span></span> 이력서 생성 & 비동기 고도화 파이프라인\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          Draft $\\rightarrow$ Evaluate $\\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 이력서 등록\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Async Refinement Chain Pipeline Step Visualizer Banner -->\n    <div class=\"glass-card rounded-2xl p-6 border border-purple-500/20\">\n      <h3 class=\"text-sm font-bold text-purple-300 uppercase tracking-wider mb-4\">\n        Kairos Resume Async Refinement Chain Workflow\n      </h3>\n      <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 relative\">\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2\">\n          <div class=\"text-xs font-bold text-gray-400\">STEP 01</div>\n          <div class=\"text-sm font-bold text-white flex items-center gap-2\">\n            <span></span> Draft Generation\n          </div>\n          <p class=\"text-xs text-gray-400\">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2\">\n          <div class=\"text-xs font-bold text-purple-400\">STEP 02</div>\n          <div class=\"text-sm font-bold text-purple-200 flex items-center gap-2\">\n            <span></span> LLM Evaluation\n          </div>\n          <p class=\"text-xs text-purple-200/70\">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2\">\n          <div class=\"text-xs font-bold text-indigo-400\">STEP 03</div>\n          <div class=\"text-sm font-bold text-indigo-200 flex items-center gap-2\">\n            <span></span> Intelligent Rewrite\n          </div>\n          <p class=\"text-xs text-indigo-200/70\">정량적 성과 중심의 고도화된 이력서 재작성 완성</p>\n        </div>\n      </div>\n    </div>\n\n    <!-- Resume List Cards -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">내 이력서 목록</h2>\n\n      <div v-if=\"resumes && resumes.length > 0\" class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <div\n          v-for=\"r in resumes\"\n          :key=\"r.id\"\n          class=\"glass-panel rounded-2xl p-6 hover:border-purple-500/40 transition-all space-y-4\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge\n                :color=\"r.status === 'improved' ? 'success' : r.status === 'evaluating' ? 'warning' : 'primary'\"\n                variant=\"subtle\"\n                size=\"xs\"\n              >\n                {{ r.status }}\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-2\">{{ r.title }}</h3>\n            </div>\n            <div class=\"text-right\">\n              <div class=\"text-2xl font-extrabold gradient-text\">{{ r.currentScore || 0 }}점</div>\n              <div class=\"text-[10px] text-gray-400\">완성도 점수</div>\n            </div>\n          </div>\n\n          <p class=\"text-xs text-gray-400 line-clamp-2 leading-relaxed\">\n            {{ r.originalContent }}\n          </p>\n\n          <div class=\"pt-2 flex items-center justify-between border-t border-white/5\">\n            <span class=\"text-[11px] text-gray-500\">생성일: {{ new Date(r.createdAt).toLocaleDateString() }}</span>\n\n            <div class=\"flex items-center gap-2\">\n              <UButton\n                color=\"primary\"\n                variant=\"subtle\"\n                size=\"xs\"\n                :loading=\"refiningId === r.id\"\n                label=\" AI 고도화 실행\"\n                @click=\"triggerRefine(r.id)\"\n              />\n\n              <NuxtLink\n                :to=\"`/resume/${r.id}`\"\n                class=\"px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold border border-white/10 transition-all\"\n              >\n                상세보기\n              </NuxtLink>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div v-else class=\"glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3\">\n        <div class=\"text-4xl\"></div>\n        <p class=\"text-sm\">등록된 이력서가 없습니다. 신규 이력서를 등록해 보세요.</p>\n      </div>\n    </div>\n\n    <!-- Create Modal -->\n    <UModal v-model:open=\"showCreateModal\" :ui=\"{ width: 'max-w-lg' }\">\n      <template #header>\n        <h2 class=\"text-xl font-bold text-white\">신규 이력서 등록</h2>\n      </template>\n\n      <template #body>\n        <div class=\"space-y-4\">\n          <!-- Document Parser File Upload -->\n          <div class=\"p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2\">\n            <input type=\"file\" ref=\"fileInput\" @change=\"handleFileUpload\" accept=\".pdf,.docx,.txt\" class=\"hidden\" />\n            <div class=\"text-2xl\"></div>\n            <div class=\"text-xs font-semibold text-purple-300\">PDF / DOCX 이력서 파싱</div>\n            <p class=\"text-[11px] text-gray-400\">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>\n            <UButton\n              color=\"primary\"\n              variant=\"subtle\"\n              size=\"xs\"\n              label=\"파일 선택 및 자동 텍스트 추출\"\n              @click=\"($refs.fileInput as HTMLInputElement).click()\"\n            />\n          </div>\n\n          <UFormGroup label=\"이력서 제목\">\n            <UInput\n              v-model=\"newTitle\"\n              placeholder=\"예: 시니어 백엔드 개발자 이력서 v1\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"이력서 본문\">\n            <UTextarea\n              v-model=\"newContent\"\n              :rows=\"6\"\n              placeholder=\"경력 사항, 프로젝트 경험 및 기술 스택을 입력하세요...\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n        </div>\n      </template>\n\n      <template #footer>\n        <div class=\"flex justify-end gap-3\">\n          <UButton\n            color=\"neutral\"\n            variant=\"soft\"\n            label=\"취소\"\n            @click=\"showCreateModal = false\"\n          />\n          <UButton\n            color=\"primary\"\n            variant=\"solid\"\n            label=\"등록하기\"\n            :disabled=\"!newTitle || !newContent\"\n            @click=\"createResume\"\n          />\n        </div>\n      </template>\n    </UModal>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: resumes, refresh } = await useFetch<any[]>('/api/resumes')\nconst showCreateModal = ref(false)\nconst newTitle = ref('')\nconst newContent = ref('')\nconst refiningId = ref<string | null>(null)\nconst fileInput = ref<HTMLInputElement | null>(null)\n\nasync function handleFileUpload(e: Event) {\n  const target = e.target as HTMLInputElement\n  if (!target.files || target.files.length === 0) return\n\n  const formData = new FormData()\n  formData.append('file', target.files[0])\n\n  try {\n    const res: any = await $fetch('/api/resumes/parse', {\n      method: 'POST',\n      body: formData,\n    })\n    newTitle.value = res.filename.replace(/\\.[^/.]+$/, '')\n    newContent.value = res.extractedText\n  } catch (err: any) {\n    alert('파일 파싱 중 오류가 발생했습니다.')\n  }\n}\n\nasync function createResume() {\n  if (!newTitle.value || !newContent.value) return\n  await $fetch('/api/resumes', {\n    method: 'POST',\n    body: { title: newTitle.value, originalContent: newContent.value },\n  })\n  showCreateModal.value = false\n  newTitle.value = ''\n  newContent.value = ''\n  refresh()\n}\n\nasync function triggerRefine(id: string) {\n  refiningId.value = id\n  try {\n    await $fetch(`/api/resumes/${id}/refine`, { method: 'POST' })\n    await refresh()\n  } catch (err: any) {\n    alert('AI 이력서 고도화 중 오류가 발생했습니다.')\n  } finally {\n    refiningId.value = null\n  }\n}\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\resume\\index.vue"
 }
 ```
@@ -2755,7 +2755,7 @@ Now update the interview page:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>🎙️</span> AI 모의 면접 (Mock Interview via SSE)\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          실시간 SSE 스트리밍 기술로 끊김 없는 맞춤형 면접관 LLM과의 일대일 면접 세션을 진행하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"info\"\n        variant=\"solid\"\n        icon=\"i-lucide-zap\"\n        label=\"신규 모의 면접 시작\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Active Interview Sessions List -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">진행 중 및 이전 면접 세션</h2>\n\n      <div v-if=\"interviews && interviews.length > 0\" class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <div\n          v-for=\"item in interviews\"\n          :key=\"item.id\"\n          class=\"glass-panel rounded-2xl p-6 hover:border-cyan-500/40 transition-all space-y-4\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge color=\"info\" variant=\"subtle\" size=\"xs\">\n                {{ item.difficulty }} 난이도\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-2\">{{ item.jobTitle }}</h3>\n              <p class=\"text-xs text-gray-400\">{{ item.companyName || '목표 기업' }}</p>\n            </div>\n            <div class=\"w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-300 flex items-center justify-center text-xl\">\n              🎙️\n            </div>\n          </div>\n\n          <div class=\"pt-2 flex items-center justify-between border-t border-white/5\">\n            <span class=\"text-[11px] text-gray-500\">{{ new Date(item.createdAt).toLocaleDateString() }}</span>\n            <NuxtLink\n              :to=\"`/interview/${item.id}`\"\n              class=\"px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold shadow-md shadow-cyan-600/30 transition-all\"\n            >\n              면접장 입장 ⚡\n            </NuxtLink>\n          </div>\n        </div>\n      </div>\n\n      <div v-else class=\"glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3\">\n        <div class=\"text-4xl\">🎙️</div>\n        <p class=\"text-sm\">생성된 모의 면접 세션이 없습니다. 신규 면접을 시작해 보세요.</p>\n      </div>\n    </div>\n\n    <!-- Create Session Modal -->\n    <UModal v-model:open=\"showCreateModal\" :ui=\"{ width: 'max-w-md' }\">\n      <template #header>\n        <h2 class=\"text-xl font-bold text-white\">신규 모의 면접 설정</h2>\n      </template>\n\n      <template #body>\n        <form @submit.prevent=\"startSession\" class=\"space-y-4\">\n          <UFormGroup label=\"지원 직무명\">\n            <UInput\n              v-model=\"jobTitle\"\n              placeholder=\"예: 시니어 풀스택 엔지니어\"\n              color=\"info\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"목표 기업명 (선택)\">\n            <UInput\n              v-model=\"companyName\"\n              placeholder=\"예: 카카오, 네이버, Kairos Labs\"\n              color=\"info\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"면접 난이도\">\n            <USelect\n              v-model=\"difficulty\"\n              :options=\"[\n                { label: '주니어 (기초 꼬리질문)', value: 'junior' },\n                { label: '미들 (실무 및 행동질문 중심)', value: 'medium' },\n                { label: '시니어 (아키텍처 및 심층 기술 질문)', value: 'senior' },\n              ]\"\n              color=\"info\"\n            />\n          </UFormGroup>\n\n          <div class=\"flex justify-end gap-3 pt-2\">\n            <UButton\n              color=\"neutral\"\n              variant=\"soft\"\n              label=\"취소\"\n              @click=\"showCreateModal = false\"\n            />\n            <UButton\n              type=\"submit\"\n              color=\"info\"\n              variant=\"solid\"\n              :loading=\"loading\"\n              label=\"면접장 입장 ⚡\"\n            />\n          </div>\n        </form>\n      </template>\n    </UModal>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: interviews } = await useFetch<any[]>('/api/interviews')\nconst showCreateModal = ref(false)\nconst jobTitle = ref('')\nconst companyName = ref('')\nconst difficulty = ref('medium')\nconst loading = ref(false)\nconst router = useRouter()\n\nasync function startSession() {\n  if (!jobTitle.value) return\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/interviews', {\n      method: 'POST',\n      body: {\n        jobTitle: jobTitle.value,\n        companyName: companyName.value,\n        difficulty: difficulty.value,\n      },\n    })\n    router.push(`/interview/${res.session.id}`)\n  } catch (err: any) {\n    alert('면접 세션 생성에 실패했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>️</span> AI 모의 면접 (Mock Interview via SSE)\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          실시간 SSE 스트리밍 기술로 끊김 없는 맞춤형 면접관 LLM과의 일대일 면접 세션을 진행하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"info\"\n        variant=\"solid\"\n        icon=\"i-lucide-zap\"\n        label=\"신규 모의 면접 시작\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Active Interview Sessions List -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">진행 중 및 이전 면접 세션</h2>\n\n      <div v-if=\"interviews && interviews.length > 0\" class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <div\n          v-for=\"item in interviews\"\n          :key=\"item.id\"\n          class=\"glass-panel rounded-2xl p-6 hover:border-cyan-500/40 transition-all space-y-4\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge color=\"info\" variant=\"subtle\" size=\"xs\">\n                {{ item.difficulty }} 난이도\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-2\">{{ item.jobTitle }}</h3>\n              <p class=\"text-xs text-gray-400\">{{ item.companyName || '목표 기업' }}</p>\n            </div>\n            <div class=\"w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-300 flex items-center justify-center text-xl\">\n              ️\n            </div>\n          </div>\n\n          <div class=\"pt-2 flex items-center justify-between border-t border-white/5\">\n            <span class=\"text-[11px] text-gray-500\">{{ new Date(item.createdAt).toLocaleDateString() }}</span>\n            <NuxtLink\n              :to=\"`/interview/${item.id}`\"\n              class=\"px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold shadow-md shadow-cyan-600/30 transition-all\"\n            >\n              면접장 입장 \n            </NuxtLink>\n          </div>\n        </div>\n      </div>\n\n      <div v-else class=\"glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3\">\n        <div class=\"text-4xl\">️</div>\n        <p class=\"text-sm\">생성된 모의 면접 세션이 없습니다. 신규 면접을 시작해 보세요.</p>\n      </div>\n    </div>\n\n    <!-- Create Session Modal -->\n    <UModal v-model:open=\"showCreateModal\" :ui=\"{ width: 'max-w-md' }\">\n      <template #header>\n        <h2 class=\"text-xl font-bold text-white\">신규 모의 면접 설정</h2>\n      </template>\n\n      <template #body>\n        <form @submit.prevent=\"startSession\" class=\"space-y-4\">\n          <UFormGroup label=\"지원 직무명\">\n            <UInput\n              v-model=\"jobTitle\"\n              placeholder=\"예: 시니어 풀스택 엔지니어\"\n              color=\"info\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"목표 기업명 (선택)\">\n            <UInput\n              v-model=\"companyName\"\n              placeholder=\"예: 카카오, 네이버, Kairos Labs\"\n              color=\"info\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"면접 난이도\">\n            <USelect\n              v-model=\"difficulty\"\n              :options=\"[\n                { label: '주니어 (기초 꼬리질문)', value: 'junior' },\n                { label: '미들 (실무 및 행동질문 중심)', value: 'medium' },\n                { label: '시니어 (아키텍처 및 심층 기술 질문)', value: 'senior' },\n              ]\"\n              color=\"info\"\n            />\n          </UFormGroup>\n\n          <div class=\"flex justify-end gap-3 pt-2\">\n            <UButton\n              color=\"neutral\"\n              variant=\"soft\"\n              label=\"취소\"\n              @click=\"showCreateModal = false\"\n            />\n            <UButton\n              type=\"submit\"\n              color=\"info\"\n              variant=\"solid\"\n              :loading=\"loading\"\n              label=\"면접장 입장 \"\n            />\n          </div>\n        </form>\n      </template>\n    </UModal>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: interviews } = await useFetch<any[]>('/api/interviews')\nconst showCreateModal = ref(false)\nconst jobTitle = ref('')\nconst companyName = ref('')\nconst difficulty = ref('medium')\nconst loading = ref(false)\nconst router = useRouter()\n\nasync function startSession() {\n  if (!jobTitle.value) return\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/interviews', {\n      method: 'POST',\n      body: {\n        jobTitle: jobTitle.value,\n        companyName: companyName.value,\n        difficulty: difficulty.value,\n      },\n    })\n    router.push(`/interview/${res.session.id}`)\n  } catch (err: any) {\n    alert('면접 세션 생성에 실패했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\interview\\index.vue"
 }
 ```
@@ -2780,7 +2780,7 @@ Now update the ATS page:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span>🎯</span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원하려는 채용 공고(JD)와 본인의 이력서를 실시간 비교분석하여 ATS 필터링 통과율과 필수 키워드를 추출합니다.\n      </p>\n    </div>\n\n    <!-- ATS Form & Input -->\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span>📌</span> 채용 공고 (Job Description) 입력\n        </h3>\n\n        <UFormGroup label=\"지원 직무명\">\n          <UInput\n            v-model=\"jobTitle\"\n            placeholder=\"예: 프론트엔드 리드 개발자\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"채용공고 주요 요구사항 & 우대사항\">\n          <UTextarea\n            v-model=\"jobDescription\"\n            :rows=\"8\"\n            placeholder=\"JD의 우대사항, 주요 자격요건 텍스트를 복사하여 붙여넣으세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span>📑</span> 제출 이력서 텍스트 입력\n        </h3>\n\n        <UFormGroup label=\"본인의 이력서 텍스트\">\n          <UTextarea\n            v-model=\"resumeText\"\n            :rows=\"11\"\n            placeholder=\"분석할 본인의 이력서 텍스트를 입력하거나 내 이력서에서 가져오세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UButton\n          color=\"primary\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!jobTitle || !jobDescription || !resumeText\"\n          label=\"ATS 일치도 분석 실행 ⚡\"\n          @click=\"runATSAnalysis\"\n        />\n      </div>\n    </div>\n\n    <!-- Analysis Result Section -->\n    <div v-if=\"result\" class=\"glass-panel rounded-3xl p-8 border border-purple-500/30 space-y-6\">\n      <div class=\"flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10 pb-6\">\n        <div>\n          <UBadge color=\"primary\" variant=\"subtle\">\n            ATS Match Score\n          </UBadge>\n          <h2 class=\"text-2xl font-extrabold text-white mt-2\">{{ jobTitle }} ATS 매칭 분석 결과</h2>\n        </div>\n\n        <div class=\"text-center md:text-right\">\n          <div class=\"text-5xl font-black gradient-text\">{{ result.matchScore }}%</div>\n          <div class=\"text-xs text-gray-400 mt-1\">예상 ATS 서류 합격률</div>\n        </div>\n      </div>\n\n      <!-- Breakdown Grid -->\n      <div v-if=\"result.detailedBreakdown\" class=\"grid grid-cols-2 sm:grid-cols-4 gap-4\">\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">기술 매칭</div>\n          <div class=\"text-xl font-bold text-purple-400 mt-1\">{{ result.detailedBreakdown.skillsScore }}%</div>\n        </div>\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">경력 요구도</div>\n          <div class=\"text-xl font-bold text-cyan-400 mt-1\">{{ result.detailedBreakdown.experienceScore }}%</div>\n        </div>\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">학력/자격</div>\n          <div class=\"text-xl font-bold text-indigo-400 mt-1\">{{ result.detailedBreakdown.educationScore }}%</div>\n        </div>\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">키워드 밀도</div>\n          <div class=\"text-xl font-bold text-emerald-400 mt-1\">{{ result.detailedBreakdown.keywordDensityScore }}%</div>\n        </div>\n      </div>\n\n      <!-- Missing vs Found Keywords -->\n      <div class=\"grid grid-cols-1 md:grid-cols-2 gap-6\">\n        <div class=\"p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3\">\n          <div class=\"text-xs font-bold text-emerald-400 flex items-center gap-1.5\">\n            <span>✅</span> 이력서에서 발견된 주요 ATS 키워드\n          </div>\n          <div class=\"flex flex-wrap gap-2\">\n            <UBadge\n              v-for=\"(k, idx) in result.foundKeywords\"\n              :key=\"idx\"\n              color=\"success\"\n              variant=\"subtle\"\n              size=\"xs\"\n            >\n              {{ k }}\n            </UBadge>\n          </div>\n        </div>\n\n        <div class=\"p-5 rounded-2xl bg-rose-950/20 border border-rose-500/30 space-y-3\">\n          <div class=\"text-xs font-bold text-rose-400 flex items-center gap-1.5\">\n            <span>⚠️</span> 누락된 필수 ATS 키워드 (추가 필요)\n          </div>\n          <div class=\"flex flex-wrap gap-2\">\n            <UBadge\n              v-for=\"(k, idx) in result.missingKeywords\"\n              :key=\"idx\"\n              color=\"error\"\n              variant=\"subtle\"\n              size=\"xs\"\n            >\n              {{ k }}\n            </UBadge>\n          </div>\n        </div>\n      </div>\n\n      <!-- Recommendations -->\n      <div class=\"p-5 rounded-2xl bg-purple-950/30 border border-purple-500/30 space-y-2\">\n        <div class=\"text-xs font-bold text-purple-300\">💡 Kairos ATS 합격률 향상 추천 조언</div>\n        <ul class=\"text-xs text-purple-200/80 space-y-1 list-disc list-inside\">\n          <li v-for=\"(rec, idx) in result.recommendations\" :key=\"idx\">{{ rec }}</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst jobTitle = ref('시니어 프론트엔드 개발자')\nconst jobDescription = ref(`- Nuxt.js, Vue 3, TypeScript 실무 경험 3년 이상\\n- SSR / SSG 및 성능 최적화 경험\\n- 상태 관리 및 REST / GraphQL API 연동\\n- CI/CD 파이프라인 및 Docker 경험 우대`)\nconst resumeText = ref(`시니어 웹 개발자로서 Vue.js 및 TypeScript 기반 웹 애플리케이션을 다수 구축했습니다. Nuxt 프레임워크와 Tailwind CSS를 활용한 반응형 UI 구현 경험이 풍부합니다.`)\nconst loading = ref(false)\nconst result = ref<any>(null)\n\nasync function runATSAnalysis() {\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/ats/analyze', {\n      method: 'POST',\n      body: {\n        jobTitle: jobTitle.value,\n        jobDescription: jobDescription.value,\n        resumeText: resumeText.value,\n      },\n    })\n    result.value = res.analysis\n  } catch (err: any) {\n    alert('ATS 분석 중 오류가 발생했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span></span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원하려는 채용 공고(JD)와 본인의 이력서를 실시간 비교분석하여 ATS 필터링 통과율과 필수 키워드를 추출합니다.\n      </p>\n    </div>\n\n    <!-- ATS Form & Input -->\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span></span> 채용 공고 (Job Description) 입력\n        </h3>\n\n        <UFormGroup label=\"지원 직무명\">\n          <UInput\n            v-model=\"jobTitle\"\n            placeholder=\"예: 프론트엔드 리드 개발자\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"채용공고 주요 요구사항 & 우대사항\">\n          <UTextarea\n            v-model=\"jobDescription\"\n            :rows=\"8\"\n            placeholder=\"JD의 우대사항, 주요 자격요건 텍스트를 복사하여 붙여넣으세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span></span> 제출 이력서 텍스트 입력\n        </h3>\n\n        <UFormGroup label=\"본인의 이력서 텍스트\">\n          <UTextarea\n            v-model=\"resumeText\"\n            :rows=\"11\"\n            placeholder=\"분석할 본인의 이력서 텍스트를 입력하거나 내 이력서에서 가져오세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UButton\n          color=\"primary\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!jobTitle || !jobDescription || !resumeText\"\n          label=\"ATS 일치도 분석 실행 \"\n          @click=\"runATSAnalysis\"\n        />\n      </div>\n    </div>\n\n    <!-- Analysis Result Section -->\n    <div v-if=\"result\" class=\"glass-panel rounded-3xl p-8 border border-purple-500/30 space-y-6\">\n      <div class=\"flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10 pb-6\">\n        <div>\n          <UBadge color=\"primary\" variant=\"subtle\">\n            ATS Match Score\n          </UBadge>\n          <h2 class=\"text-2xl font-extrabold text-white mt-2\">{{ jobTitle }} ATS 매칭 분석 결과</h2>\n        </div>\n\n        <div class=\"text-center md:text-right\">\n          <div class=\"text-5xl font-black gradient-text\">{{ result.matchScore }}%</div>\n          <div class=\"text-xs text-gray-400 mt-1\">예상 ATS 서류 합격률</div>\n        </div>\n      </div>\n\n      <!-- Breakdown Grid -->\n      <div v-if=\"result.detailedBreakdown\" class=\"grid grid-cols-2 sm:grid-cols-4 gap-4\">\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">기술 매칭</div>\n          <div class=\"text-xl font-bold text-purple-400 mt-1\">{{ result.detailedBreakdown.skillsScore }}%</div>\n        </div>\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">경력 요구도</div>\n          <div class=\"text-xl font-bold text-cyan-400 mt-1\">{{ result.detailedBreakdown.experienceScore }}%</div>\n        </div>\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">학력/자격</div>\n          <div class=\"text-xl font-bold text-indigo-400 mt-1\">{{ result.detailedBreakdown.educationScore }}%</div>\n        </div>\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 text-center\">\n          <div class=\"text-xs text-gray-400\">키워드 밀도</div>\n          <div class=\"text-xl font-bold text-emerald-400 mt-1\">{{ result.detailedBreakdown.keywordDensityScore }}%</div>\n        </div>\n      </div>\n\n      <!-- Missing vs Found Keywords -->\n      <div class=\"grid grid-cols-1 md:grid-cols-2 gap-6\">\n        <div class=\"p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3\">\n          <div class=\"text-xs font-bold text-emerald-400 flex items-center gap-1.5\">\n            <span>[v]</span> 이력서에서 발견된 주요 ATS 키워드\n          </div>\n          <div class=\"flex flex-wrap gap-2\">\n            <UBadge\n              v-for=\"(k, idx) in result.foundKeywords\"\n              :key=\"idx\"\n              color=\"success\"\n              variant=\"subtle\"\n              size=\"xs\"\n            >\n              {{ k }}\n            </UBadge>\n          </div>\n        </div>\n\n        <div class=\"p-5 rounded-2xl bg-rose-950/20 border border-rose-500/30 space-y-3\">\n          <div class=\"text-xs font-bold text-rose-400 flex items-center gap-1.5\">\n            <span>[!]️</span> 누락된 필수 ATS 키워드 (추가 필요)\n          </div>\n          <div class=\"flex flex-wrap gap-2\">\n            <UBadge\n              v-for=\"(k, idx) in result.missingKeywords\"\n              :key=\"idx\"\n              color=\"error\"\n              variant=\"subtle\"\n              size=\"xs\"\n            >\n              {{ k }}\n            </UBadge>\n          </div>\n        </div>\n      </div>\n\n      <!-- Recommendations -->\n      <div class=\"p-5 rounded-2xl bg-purple-950/30 border border-purple-500/30 space-y-2\">\n        <div class=\"text-xs font-bold text-purple-300\"> Kairos ATS 합격률 향상 추천 조언</div>\n        <ul class=\"text-xs text-purple-200/80 space-y-1 list-disc list-inside\">\n          <li v-for=\"(rec, idx) in result.recommendations\" :key=\"idx\">{{ rec }}</li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst jobTitle = ref('시니어 프론트엔드 개발자')\nconst jobDescription = ref(`- Nuxt.js, Vue 3, TypeScript 실무 경험 3년 이상\\n- SSR / SSG 및 성능 최적화 경험\\n- 상태 관리 및 REST / GraphQL API 연동\\n- CI/CD 파이프라인 및 Docker 경험 우대`)\nconst resumeText = ref(`시니어 웹 개발자로서 Vue.js 및 TypeScript 기반 웹 애플리케이션을 다수 구축했습니다. Nuxt 프레임워크와 Tailwind CSS를 활용한 반응형 UI 구현 경험이 풍부합니다.`)\nconst loading = ref(false)\nconst result = ref<any>(null)\n\nasync function runATSAnalysis() {\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/ats/analyze', {\n      method: 'POST',\n      body: {\n        jobTitle: jobTitle.value,\n        jobDescription: jobDescription.value,\n        resumeText: resumeText.value,\n      },\n    })\n    result.value = res.analysis\n  } catch (err: any) {\n    alert('ATS 분석 중 오류가 발생했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\ats\\index.vue"
 }
 ```
@@ -2805,7 +2805,7 @@ Now update the humanizer page:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span>✨</span> AI 문장 휴머니자이저 (Humanizer)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        AI 특유의 진부한 어조(~에 대한, ~의 관점에서, 피동형 표현)를 감쪽같이 걷어내고 설득력 높은 자연스러운 인간 문체로 리라이팅합니다.\n      </p>\n    </div>\n\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <!-- Input Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span>🤖</span> 원본 AI/정형화된 문장 입력\n        </h3>\n\n        <UTextarea\n          v-model=\"originalText\"\n          :rows=\"12\"\n          placeholder=\"교정할 자기소개서, 이력서 문장 또는 커버레터를 입력하세요...\"\n          color=\"warning\"\n        />\n\n        <UButton\n          color=\"warning\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!originalText.trim()\"\n          label=\"AI 문체 휴머니즈 변환 ⚡\"\n          @click=\"processHumanize\"\n        />\n      </div>\n\n      <!-- Result Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-amber-500/20\">\n        <div class=\"flex items-center justify-between\">\n          <h3 class=\"text-sm font-bold text-amber-300 flex items-center gap-2\">\n            <span>✨</span> 자연스러운 인간 작성 변환 결과\n          </h3>\n\n          <div v-if=\"result\" class=\"text-right\">\n            <span class=\"text-xs text-gray-400\">자연스러움 지수: </span>\n            <span class=\"text-lg font-bold text-amber-400\">{{ result.styleScore }}점</span>\n          </div>\n        </div>\n\n        <div v-if=\"result\" class=\"space-y-4\">\n          <div class=\"p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-sm text-gray-100 leading-relaxed whitespace-pre-wrap font-medium\">\n            {{ result.humanizedText }}\n          </div>\n\n          <div class=\"p-4 rounded-xl bg-amber-950/20 border border-amber-500/20 text-xs space-y-2\">\n            <div class=\"font-bold text-amber-300\">💡 변환 요약 & 제거된 상투적 표현</div>\n            <p class=\"text-gray-300\">{{ result.changesSummary }}</p>\n            <div v-if=\"result.removedClichés && result.removedClichés.length > 0\" class=\"flex flex-wrap gap-1.5 pt-1\">\n              <UBadge\n                v-for=\"(c, idx) in result.removedClichés\"\n                :key=\"idx\"\n                color=\"error\"\n                variant=\"subtle\"\n                size=\"xs\"\n              >\n                <s>{{ c }}</s>\n              </UBadge>\n            </div>\n          </div>\n        </div>\n\n        <div v-else class=\"h-64 flex flex-col items-center justify-center text-center text-gray-500 space-y-2\">\n          <div class=\"text-3xl\">✨</div>\n          <p class=\"text-xs\">왼쪽에서 문장을 입력하고 변환 버튼을 누르면 이곳에 세련된 변환 결과가 표시됩니다.</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst originalText = ref(`본 지원자는 지난 3년간 웹 프론트엔드 개발 프로젝트 수행에 있어 프론트엔드 성능 최적화 관점에서 다각도로 접근하여 효율적인 리팩토링을 완수함에 있어 큰 성과를 거두었습니다.`)\nconst loading = ref(false)\nconst result = ref<any>(null)\n\nasync function processHumanize() {\n  if (!originalText.value.trim()) return\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/humanizer/process', {\n      method: 'POST',\n      body: { originalText: originalText.value },\n    })\n    result.value = res\n  } catch (err: any) {\n    alert('휴머니나이즈 변환에 실패했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span></span> AI 문장 휴머니자이저 (Humanizer)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        AI 특유의 진부한 어조(~에 대한, ~의 관점에서, 피동형 표현)를 감쪽같이 걷어내고 설득력 높은 자연스러운 인간 문체로 리라이팅합니다.\n      </p>\n    </div>\n\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <!-- Input Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span></span> 원본 AI/정형화된 문장 입력\n        </h3>\n\n        <UTextarea\n          v-model=\"originalText\"\n          :rows=\"12\"\n          placeholder=\"교정할 자기소개서, 이력서 문장 또는 커버레터를 입력하세요...\"\n          color=\"warning\"\n        />\n\n        <UButton\n          color=\"warning\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!originalText.trim()\"\n          label=\"AI 문체 휴머니즈 변환 \"\n          @click=\"processHumanize\"\n        />\n      </div>\n\n      <!-- Result Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-amber-500/20\">\n        <div class=\"flex items-center justify-between\">\n          <h3 class=\"text-sm font-bold text-amber-300 flex items-center gap-2\">\n            <span></span> 자연스러운 인간 작성 변환 결과\n          </h3>\n\n          <div v-if=\"result\" class=\"text-right\">\n            <span class=\"text-xs text-gray-400\">자연스러움 지수: </span>\n            <span class=\"text-lg font-bold text-amber-400\">{{ result.styleScore }}점</span>\n          </div>\n        </div>\n\n        <div v-if=\"result\" class=\"space-y-4\">\n          <div class=\"p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-sm text-gray-100 leading-relaxed whitespace-pre-wrap font-medium\">\n            {{ result.humanizedText }}\n          </div>\n\n          <div class=\"p-4 rounded-xl bg-amber-950/20 border border-amber-500/20 text-xs space-y-2\">\n            <div class=\"font-bold text-amber-300\"> 변환 요약 & 제거된 상투적 표현</div>\n            <p class=\"text-gray-300\">{{ result.changesSummary }}</p>\n            <div v-if=\"result.removedClichés && result.removedClichés.length > 0\" class=\"flex flex-wrap gap-1.5 pt-1\">\n              <UBadge\n                v-for=\"(c, idx) in result.removedClichés\"\n                :key=\"idx\"\n                color=\"error\"\n                variant=\"subtle\"\n                size=\"xs\"\n              >\n                <s>{{ c }}</s>\n              </UBadge>\n            </div>\n          </div>\n        </div>\n\n        <div v-else class=\"h-64 flex flex-col items-center justify-center text-center text-gray-500 space-y-2\">\n          <div class=\"text-3xl\"></div>\n          <p class=\"text-xs\">왼쪽에서 문장을 입력하고 변환 버튼을 누르면 이곳에 세련된 변환 결과가 표시됩니다.</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst originalText = ref(`본 지원자는 지난 3년간 웹 프론트엔드 개발 프로젝트 수행에 있어 프론트엔드 성능 최적화 관점에서 다각도로 접근하여 효율적인 리팩토링을 완수함에 있어 큰 성과를 거두었습니다.`)\nconst loading = ref(false)\nconst result = ref<any>(null)\n\nasync function processHumanize() {\n  if (!originalText.value.trim()) return\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/humanizer/process', {\n      method: 'POST',\n      body: { originalText: originalText.value },\n    })\n    result.value = res\n  } catch (err: any) {\n    alert('휴머니나이즈 변환에 실패했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\humanizer\\index.vue"
 }
 ```
@@ -2830,7 +2830,7 @@ Now update the QA page:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span>💡</span> 예상 면접 Q&A 플래시카드 생성기\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원 직무와 경력 사항을 기반으로 적중률 높고 심도 있는 예상 질문과 최고 품질 모범 답안 세트를 생성합니다.\n      </p>\n    </div>\n\n    <!-- Generator Input Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n      <div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <UFormGroup label=\"목표 지원 직무\">\n          <UInput\n            v-model=\"targetRole\"\n            placeholder=\"예: 백엔드 테크 리드\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"생성할 질문 개수\">\n          <USelect\n            v-model=\"questionCount\"\n            :options=\"[\n              { label: '3 개 질문 세트', value: 3 },\n              { label: '5 개 질문 세트', value: 5 },\n              { label: '7 개 질문 세트', value: 7 },\n            ]\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <UFormGroup label=\"본인 경력 요약 또는 기술 배경\">\n        <UTextarea\n          v-model=\"careerSummary\"\n          :rows=\"4\"\n          placeholder=\"주요 프로젝트, 사용 언어/프레임워크, 해결한 난관 등을 요약해 입력하세요...\"\n          color=\"primary\"\n        />\n      </UFormGroup>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        size=\"lg\"\n        block\n        :loading=\"loading\"\n        :disabled=\"!targetRole || !careerSummary\"\n        label=\"Q&A 질문/모범답안 세트 생성 ⚡\"\n        @click=\"generateQA\"\n      />\n    </div>\n\n    <!-- Generated Q&A Cards List -->\n    <div v-if=\"qaSet\" class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white flex items-center gap-2\">\n        <span>📚</span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드\n      </h2>\n\n      <div class=\"space-y-4\">\n        <div\n          v-for=\"(qa, idx) in qaSet.qaPairs\"\n          :key=\"idx\"\n          class=\"glass-card rounded-2xl p-6 space-y-4 hover:border-purple-500/40 transition-all\"\n        >\n          <div class=\"flex items-start justify-between gap-4\">\n            <div class=\"space-y-1\">\n              <div class=\"flex items-center gap-2\">\n                <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\">\n                  Q{{ idx + 1 }} · {{ qa.questionCategory }}\n                </UBadge>\n                <span class=\"text-[10px] text-gray-400\">난이도: {{ qa.difficulty }}</span>\n              </div>\n              <h3 class=\"text-base font-bold text-white leading-relaxed\">{{ qa.question }}</h3>\n            </div>\n          </div>\n\n          <div class=\"p-4 rounded-xl bg-slate-900/80 border border-white/10 space-y-2\">\n            <div class=\"text-xs font-bold text-emerald-400\">✅ 추천 모범 답변 (Model Answer)</div>\n            <p class=\"text-xs text-gray-200 leading-relaxed whitespace-pre-wrap\">{{ qa.sampleAnswer }}</p>\n          </div>\n\n          <div v-if=\"qa.keyPoints && qa.keyPoints.length > 0\" class=\"flex flex-wrap gap-2 pt-1\">\n            <span class=\"text-xs text-purple-300 font-semibold\">핵심 수록 포인트:</span>\n            <UBadge\n              v-for=\"(kp, kIdx) in qa.keyPoints\"\n              :key=\"kIdx\"\n              color=\"primary\"\n              variant=\"subtle\"\n              size=\"xs\"\n            >\n              #{{ kp }}\n            </UBadge>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst targetRole = ref('시니어 풀스택 개발자')\nconst questionCount = ref(5)\nconst careerSummary = ref(`TypeScript, Nuxt 4, Node.js 기반 Web App 구축 4년 경력. PostgreSQL 및 pgvector 시맨틱 검색 엔진 구현 경험 보유.`)\nconst loading = ref(false)\nconst qaSet = ref<any>(null)\n\nasync function generateQA() {\n  if (!targetRole.value || !careerSummary.value) return\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/qa/generate', {\n      method: 'POST',\n      body: {\n        targetRole: targetRole.value,\n        careerSummary: careerSummary.value,\n        count: questionCount.value,\n      },\n    })\n    qaSet.value = res.qaSet\n  } catch (err: any) {\n    alert('Q&A 세트 생성에 실패했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span></span> 예상 면접 Q&A 플래시카드 생성기\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원 직무와 경력 사항을 기반으로 적중률 높고 심도 있는 예상 질문과 최고 품질 모범 답안 세트를 생성합니다.\n      </p>\n    </div>\n\n    <!-- Generator Input Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n      <div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <UFormGroup label=\"목표 지원 직무\">\n          <UInput\n            v-model=\"targetRole\"\n            placeholder=\"예: 백엔드 테크 리드\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"생성할 질문 개수\">\n          <USelect\n            v-model=\"questionCount\"\n            :options=\"[\n              { label: '3 개 질문 세트', value: 3 },\n              { label: '5 개 질문 세트', value: 5 },\n              { label: '7 개 질문 세트', value: 7 },\n            ]\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <UFormGroup label=\"본인 경력 요약 또는 기술 배경\">\n        <UTextarea\n          v-model=\"careerSummary\"\n          :rows=\"4\"\n          placeholder=\"주요 프로젝트, 사용 언어/프레임워크, 해결한 난관 등을 요약해 입력하세요...\"\n          color=\"primary\"\n        />\n      </UFormGroup>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        size=\"lg\"\n        block\n        :loading=\"loading\"\n        :disabled=\"!targetRole || !careerSummary\"\n        label=\"Q&A 질문/모범답안 세트 생성 \"\n        @click=\"generateQA\"\n      />\n    </div>\n\n    <!-- Generated Q&A Cards List -->\n    <div v-if=\"qaSet\" class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white flex items-center gap-2\">\n        <span></span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드\n      </h2>\n\n      <div class=\"space-y-4\">\n        <div\n          v-for=\"(qa, idx) in qaSet.qaPairs\"\n          :key=\"idx\"\n          class=\"glass-card rounded-2xl p-6 space-y-4 hover:border-purple-500/40 transition-all\"\n        >\n          <div class=\"flex items-start justify-between gap-4\">\n            <div class=\"space-y-1\">\n              <div class=\"flex items-center gap-2\">\n                <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\">\n                  Q{{ idx + 1 }} · {{ qa.questionCategory }}\n                </UBadge>\n                <span class=\"text-[10px] text-gray-400\">난이도: {{ qa.difficulty }}</span>\n              </div>\n              <h3 class=\"text-base font-bold text-white leading-relaxed\">{{ qa.question }}</h3>\n            </div>\n          </div>\n\n          <div class=\"p-4 rounded-xl bg-slate-900/80 border border-white/10 space-y-2\">\n            <div class=\"text-xs font-bold text-emerald-400\">[v] 추천 모범 답변 (Model Answer)</div>\n            <p class=\"text-xs text-gray-200 leading-relaxed whitespace-pre-wrap\">{{ qa.sampleAnswer }}</p>\n          </div>\n\n          <div v-if=\"qa.keyPoints && qa.keyPoints.length > 0\" class=\"flex flex-wrap gap-2 pt-1\">\n            <span class=\"text-xs text-purple-300 font-semibold\">핵심 수록 포인트:</span>\n            <UBadge\n              v-for=\"(kp, kIdx) in qa.keyPoints\"\n              :key=\"kIdx\"\n              color=\"primary\"\n              variant=\"subtle\"\n              size=\"xs\"\n            >\n              #{{ kp }}\n            </UBadge>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst targetRole = ref('시니어 풀스택 개발자')\nconst questionCount = ref(5)\nconst careerSummary = ref(`TypeScript, Nuxt 4, Node.js 기반 Web App 구축 4년 경력. PostgreSQL 및 pgvector 시맨틱 검색 엔진 구현 경험 보유.`)\nconst loading = ref(false)\nconst qaSet = ref<any>(null)\n\nasync function generateQA() {\n  if (!targetRole.value || !careerSummary.value) return\n  loading.value = true\n  try {\n    const res: any = await $fetch('/api/qa/generate', {\n      method: 'POST',\n      body: {\n        targetRole: targetRole.value,\n        careerSummary: careerSummary.value,\n        count: questionCount.value,\n      },\n    })\n    qaSet.value = res.qaSet\n  } catch (err: any) {\n    alert('Q&A 세트 생성에 실패했습니다.')\n  } finally {\n    loading.value = false\n  }\n}\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\qa\\index.vue"
 }
 ```
@@ -2855,7 +2855,7 @@ Now update the career page:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>🔍</span> 경력 포트폴리오 & pgvector 시맨틱 검색\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 경력 등록 (임베딩 자동 생성)\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- pgvector Semantic Search Bar Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-cyan-500/20\">\n      <h3 class=\"text-sm font-bold text-cyan-300 flex items-center gap-2\">\n        <span>⚡</span> pgvector 1536-dim Cosine Similarity Semantic Search\n      </h3>\n\n      <div class=\"flex items-center gap-3\">\n        <UInput\n          v-model=\"searchQuery\"\n          placeholder=\"예: 백엔드 노드 노하우나 pgvector 데이터베이스 검색...\"\n          color=\"info\"\n          class=\"flex-1\"\n          @keyup.enter=\"performSearch\"\n        />\n        <UButton\n          color=\"info\"\n          variant=\"solid\"\n          :loading=\"searching\"\n          :disabled=\"!searchQuery.trim()\"\n          label=\"벡터 검색 ⚡\"\n          @click=\"performSearch\"\n        />\n      </div>\n\n      <!-- Search Results -->\n      <div v-if=\"searchResults\" class=\"pt-4 border-t border-white/10 space-y-3\">\n        <div class=\"text-xs font-bold text-gray-300 flex items-center justify-between\">\n          <span>\"{{ searchResults.query }}\" 시맨틱 검색 결과</span>\n          <span class=\"text-cyan-400\">{{ searchResults.results.length }} 건 발견</span>\n        </div>\n\n        <div v-for=\"res in searchResults.results\" :key=\"res.id\" class=\"p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-2\">\n          <div class=\"flex items-center justify-between\">\n            <span class=\"text-sm font-bold text-white\">{{ res.company }} · {{ res.role }}</span>\n            <UBadge v-if=\"res.similarity\" color=\"info\" variant=\"subtle\" size=\"xs\">\n              유사도: {{ (res.similarity * 100).toFixed(1) }}%\n            </UBadge>\n          </div>\n          <p class=\"text-xs text-gray-300\">{{ res.description }}</p>\n        </div>\n      </div>\n    </div>\n\n    <!-- Career Items List -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">등록된 경력 항목</h2>\n\n      <div v-if=\"careersList && careersList.length > 0\" class=\"space-y-4\">\n        <div\n          v-for=\"c in careersList\"\n          :key=\"c.id\"\n          class=\"glass-card rounded-2xl p-6 space-y-4 hover:border-purple-500/40 transition-all\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\">\n                {{ c.period }}\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-1\">{{ c.company }} — <span class=\"text-purple-300\">{{ c.role }}</span></h3>\n            </div>\n            <span class=\"text-xs text-emerald-400 font-mono\">pgvector Embedded</span>\n          </div>\n\n          <p class=\"text-xs text-gray-300 leading-relaxed\">{{ c.description }}</p>\n\n          <div v-if=\"c.achievements && c.achievements.length > 0\" class=\"pt-2 border-t border-white/5 space-y-1\">\n            <div class=\"text-[11px] font-bold text-gray-400\">주요 성과:</div>\n            <ul class=\"text-xs text-gray-300 space-y-1 list-disc list-inside\">\n              <li v-for=\"(a, aIdx) in c.achievements\" :key=\"aIdx\">{{ a }}</li>\n            </ul>\n          </div>\n        </div>\n      </div>\n\n      <div v-else class=\"glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3\">\n        <div class=\"text-4xl\">🏢</div>\n        <p class=\"text-sm\">등록된 경력이 없습니다. 경력을 추가해 보세요.</p>\n      </div>\n    </div>\n\n    <!-- Create Modal -->\n    <UModal v-model:open=\"showCreateModal\" :ui=\"{ width: 'max-w-lg' }\">\n      <template #header>\n        <h2 class=\"text-xl font-bold text-white\">신규 경력 추가</h2>\n      </template>\n\n      <template #body>\n        <form @submit.prevent=\"createCareer\" class=\"space-y-4\">\n          <div class=\"grid grid-cols-2 gap-4\">\n            <UFormGroup label=\"회사명\">\n              <UInput\n                v-model=\"company\"\n                placeholder=\"예: Kairos Labs\"\n                color=\"primary\"\n              />\n            </UFormGroup>\n            <UFormGroup label=\"직무명\">\n              <UInput\n                v-model=\"role\"\n                placeholder=\"예: Full-Stack Architect\"\n                color=\"primary\"\n              />\n            </UFormGroup>\n          </div>\n\n          <UFormGroup label=\"근무 기간\">\n            <UInput\n              v-model=\"period\"\n              placeholder=\"예: 2023.01 - 2026.07\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"주요 역량 및 역할 설명\">\n            <UTextarea\n              v-model=\"description\"\n              :rows=\"4\"\n              placeholder=\"수행한 업무와 주요 프로그래밍 경험을 기술해 주세요...\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n        </form>\n      </template>\n\n      <template #footer>\n        <div class=\"flex justify-end gap-3\">\n          <UButton\n            color=\"neutral\"\n            variant=\"soft\"\n            label=\"취소\"\n            @click=\"showCreateModal = false\"\n          />\n          <UButton\n            color=\"primary\"\n            variant=\"solid\"\n            label=\"저장 및 임베딩 생성\"\n            :disabled=\"!company || !role || !description\"\n            @click=\"createCareer\"\n          />\n        </div>\n      </template>\n    </UModal>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: careersList, refresh } = await useFetch<any[]>('/api/careers')\nconst showCreateModal = ref(false)\nconst company = ref('')\nconst role = ref('')\nconst period = ref('2024 - 현재')\nconst description = ref('')\nconst searchQuery = ref('')\nconst searching = ref(false)\nconst searchResults = ref<any>(null)\n\nasync function createCareer() {\n  if (!company.value || !role.value || !description.value) return\n  await $fetch('/api/careers', {\n    method: 'POST',\n    body: {\n      company: company.value,\n      role: role.value,\n      period: period.value,\n      description: description.value,\n    },\n  })\n  showCreateModal.value = false\n  company.value = ''\n  role.value = ''\n  description.value = ''\n  refresh()\n}\n\nasync function performSearch() {\n  if (!searchQuery.value.trim()) return\n  searching.value = true\n  try {\n    const res: any = await $fetch('/api/careers/search', {\n      query: { q: searchQuery.value },\n    })\n    searchResults.value = res\n  } catch (err: any) {\n    alert('검색에 실패했습니다.')\n  } finally {\n    searching.value = false\n  }\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span></span> 경력 포트폴리오 & pgvector 시맨틱 검색\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 경력 등록 (임베딩 자동 생성)\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- pgvector Semantic Search Bar Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-cyan-500/20\">\n      <h3 class=\"text-sm font-bold text-cyan-300 flex items-center gap-2\">\n        <span></span> pgvector 1536-dim Cosine Similarity Semantic Search\n      </h3>\n\n      <div class=\"flex items-center gap-3\">\n        <UInput\n          v-model=\"searchQuery\"\n          placeholder=\"예: 백엔드 노드 노하우나 pgvector 데이터베이스 검색...\"\n          color=\"info\"\n          class=\"flex-1\"\n          @keyup.enter=\"performSearch\"\n        />\n        <UButton\n          color=\"info\"\n          variant=\"solid\"\n          :loading=\"searching\"\n          :disabled=\"!searchQuery.trim()\"\n          label=\"벡터 검색 \"\n          @click=\"performSearch\"\n        />\n      </div>\n\n      <!-- Search Results -->\n      <div v-if=\"searchResults\" class=\"pt-4 border-t border-white/10 space-y-3\">\n        <div class=\"text-xs font-bold text-gray-300 flex items-center justify-between\">\n          <span>\"{{ searchResults.query }}\" 시맨틱 검색 결과</span>\n          <span class=\"text-cyan-400\">{{ searchResults.results.length }} 건 발견</span>\n        </div>\n\n        <div v-for=\"res in searchResults.results\" :key=\"res.id\" class=\"p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 space-y-2\">\n          <div class=\"flex items-center justify-between\">\n            <span class=\"text-sm font-bold text-white\">{{ res.company }} · {{ res.role }}</span>\n            <UBadge v-if=\"res.similarity\" color=\"info\" variant=\"subtle\" size=\"xs\">\n              유사도: {{ (res.similarity * 100).toFixed(1) }}%\n            </UBadge>\n          </div>\n          <p class=\"text-xs text-gray-300\">{{ res.description }}</p>\n        </div>\n      </div>\n    </div>\n\n    <!-- Career Items List -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">등록된 경력 항목</h2>\n\n      <div v-if=\"careersList && careersList.length > 0\" class=\"space-y-4\">\n        <div\n          v-for=\"c in careersList\"\n          :key=\"c.id\"\n          class=\"glass-card rounded-2xl p-6 space-y-4 hover:border-purple-500/40 transition-all\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\">\n                {{ c.period }}\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-1\">{{ c.company }} — <span class=\"text-purple-300\">{{ c.role }}</span></h3>\n            </div>\n            <span class=\"text-xs text-emerald-400 font-mono\">pgvector Embedded</span>\n          </div>\n\n          <p class=\"text-xs text-gray-300 leading-relaxed\">{{ c.description }}</p>\n\n          <div v-if=\"c.achievements && c.achievements.length > 0\" class=\"pt-2 border-t border-white/5 space-y-1\">\n            <div class=\"text-[11px] font-bold text-gray-400\">주요 성과:</div>\n            <ul class=\"text-xs text-gray-300 space-y-1 list-disc list-inside\">\n              <li v-for=\"(a, aIdx) in c.achievements\" :key=\"aIdx\">{{ a }}</li>\n            </ul>\n          </div>\n        </div>\n      </div>\n\n      <div v-else class=\"glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3\">\n        <div class=\"text-4xl\"></div>\n        <p class=\"text-sm\">등록된 경력이 없습니다. 경력을 추가해 보세요.</p>\n      </div>\n    </div>\n\n    <!-- Create Modal -->\n    <UModal v-model:open=\"showCreateModal\" :ui=\"{ width: 'max-w-lg' }\">\n      <template #header>\n        <h2 class=\"text-xl font-bold text-white\">신규 경력 추가</h2>\n      </template>\n\n      <template #body>\n        <form @submit.prevent=\"createCareer\" class=\"space-y-4\">\n          <div class=\"grid grid-cols-2 gap-4\">\n            <UFormGroup label=\"회사명\">\n              <UInput\n                v-model=\"company\"\n                placeholder=\"예: Kairos Labs\"\n                color=\"primary\"\n              />\n            </UFormGroup>\n            <UFormGroup label=\"직무명\">\n              <UInput\n                v-model=\"role\"\n                placeholder=\"예: Full-Stack Architect\"\n                color=\"primary\"\n              />\n            </UFormGroup>\n          </div>\n\n          <UFormGroup label=\"근무 기간\">\n            <UInput\n              v-model=\"period\"\n              placeholder=\"예: 2023.01 - 2026.07\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n\n          <UFormGroup label=\"주요 역량 및 역할 설명\">\n            <UTextarea\n              v-model=\"description\"\n              :rows=\"4\"\n              placeholder=\"수행한 업무와 주요 프로그래밍 경험을 기술해 주세요...\"\n              color=\"primary\"\n            />\n          </UFormGroup>\n        </form>\n      </template>\n\n      <template #footer>\n        <div class=\"flex justify-end gap-3\">\n          <UButton\n            color=\"neutral\"\n            variant=\"soft\"\n            label=\"취소\"\n            @click=\"showCreateModal = false\"\n          />\n          <UButton\n            color=\"primary\"\n            variant=\"solid\"\n            label=\"저장 및 임베딩 생성\"\n            :disabled=\"!company || !role || !description\"\n            @click=\"createCareer\"\n          />\n        </div>\n      </template>\n    </UModal>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: careersList, refresh } = await useFetch<any[]>('/api/careers')\nconst showCreateModal = ref(false)\nconst company = ref('')\nconst role = ref('')\nconst period = ref('2024 - 현재')\nconst description = ref('')\nconst searchQuery = ref('')\nconst searching = ref(false)\nconst searchResults = ref<any>(null)\n\nasync function createCareer() {\n  if (!company.value || !role.value || !description.value) return\n  await $fetch('/api/careers', {\n    method: 'POST',\n    body: {\n      company: company.value,\n      role: role.value,\n      period: period.value,\n      description: description.value,\n    },\n  })\n  showCreateModal.value = false\n  company.value = ''\n  role.value = ''\n  description.value = ''\n  refresh()\n}\n\nasync function performSearch() {\n  if (!searchQuery.value.trim()) return\n  searching.value = true\n  try {\n    const res: any = await $fetch('/api/careers/search', {\n      query: { q: searchQuery.value },\n    })\n    searchResults.value = res\n  } catch (err: any) {\n    alert('검색에 실패했습니다.')\n  } finally {\n    searching.value = false\n  }\n}\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\career\\index.vue"
 }
 ```
@@ -2880,7 +2880,7 @@ Now update the Navbar component:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <header class=\"sticky top-0 z-50 glass-panel border-b border-white/10\">\n    <div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between\">\n      <!-- Logo Branding -->\n      <NuxtLink to=\"/\" class=\"flex items-center gap-3 group\">\n        <div class=\"w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg group-hover:shadow-purple-500/50 transition-all duration-300\">\n          <div class=\"w-full h-full bg-[#090d16] rounded-[11px] flex items-center justify-center font-bold text-lg text-purple-400\">\n            K\n          </div>\n        </div>\n        <div>\n          <span class=\"font-extrabold text-xl tracking-tight gradient-text\">Kairos</span>\n          <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\" class=\"hidden sm:inline-flex ml-2\">\n            AI Steward v1.0\n          </UBadge>\n        </div>\n      </NuxtLink>\n\n      <!-- Quick Action Right Nav -->\n      <div class=\"flex items-center gap-4\">\n        <NuxtLink\n          to=\"/interview\"\n          class=\"hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md hover:shadow-purple-500/25 transition-all\"\n        >\n          <span>⚡ AI 모의 면접</span>\n        </NuxtLink>\n\n        <!-- User Profile Badge -->\n        <div v-if=\"user\" class=\"flex items-center gap-3 border-l border-white/10 pl-4\">\n          <img :src=\"user.avatarUrl\" :alt=\"user.name\" class=\"w-8 h-8 rounded-full border border-purple-500/30 bg-purple-900/30\" />\n          <span class=\"hidden md:inline text-sm font-medium text-gray-200\">{{ user.name }}</span>\n        </div>\n        <NuxtLink\n          v-else\n          to=\"/auth/login\"\n          class=\"text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors\"\n        >\n          로그인\n        </NuxtLink>\n      </div>\n    </div>\n  </header>\n</template>\n\n<script setup lang=\"ts\">\nconst { data } = await useFetch('/api/auth/me')\nconst user = computed(() => data.value?.user)\n</script>\n",
+  "content": "<template>\n  <header class=\"sticky top-0 z-50 glass-panel border-b border-white/10\">\n    <div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between\">\n      <!-- Logo Branding -->\n      <NuxtLink to=\"/\" class=\"flex items-center gap-3 group\">\n        <div class=\"w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg group-hover:shadow-purple-500/50 transition-all duration-300\">\n          <div class=\"w-full h-full bg-[#090d16] rounded-[11px] flex items-center justify-center font-bold text-lg text-purple-400\">\n            K\n          </div>\n        </div>\n        <div>\n          <span class=\"font-extrabold text-xl tracking-tight gradient-text\">Kairos</span>\n          <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\" class=\"hidden sm:inline-flex ml-2\">\n            AI Steward v1.0\n          </UBadge>\n        </div>\n      </NuxtLink>\n\n      <!-- Quick Action Right Nav -->\n      <div class=\"flex items-center gap-4\">\n        <NuxtLink\n          to=\"/interview\"\n          class=\"hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md hover:shadow-purple-500/25 transition-all\"\n        >\n          <span> AI 모의 면접</span>\n        </NuxtLink>\n\n        <!-- User Profile Badge -->\n        <div v-if=\"user\" class=\"flex items-center gap-3 border-l border-white/10 pl-4\">\n          <img :src=\"user.avatarUrl\" :alt=\"user.name\" class=\"w-8 h-8 rounded-full border border-purple-500/30 bg-purple-900/30\" />\n          <span class=\"hidden md:inline text-sm font-medium text-gray-200\">{{ user.name }}</span>\n        </div>\n        <NuxtLink\n          v-else\n          to=\"/auth/login\"\n          class=\"text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors\"\n        >\n          로그인\n        </NuxtLink>\n      </div>\n    </div>\n  </header>\n</template>\n\n<script setup lang=\"ts\">\nconst { data } = await useFetch('/api/auth/me')\nconst user = computed(() => data.value?.user)\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\components\\Navbar.vue"
 }
 ```
@@ -2905,7 +2905,7 @@ Now update the Sidebar component:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <aside class=\"glass-panel rounded-2xl p-4 space-y-6\">\n    <div class=\"px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider\">\n      주요 서비스 메뉴\n    </div>\n\n    <nav class=\"space-y-1\">\n      <NuxtLink\n        v-for=\"item in navItems\"\n        :key=\"item.path\"\n        :to=\"item.path\"\n        class=\"flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group\"\n        :class=\"route.path === item.path ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30' : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'\"\n      >\n        <span class=\"text-lg group-hover:scale-110 transition-transform\">{{ item.icon }}</span>\n        <span>{{ item.label }}</span>\n      </NuxtLink>\n    </nav>\n\n    <div class=\"pt-4 border-t border-white/5\">\n      <div class=\"p-3.5 rounded-xl bg-purple-950/40 border border-purple-500/20 space-y-2\">\n        <div class=\"text-xs font-bold text-purple-300 flex items-center gap-1.5\">\n          <span>✨</span> Kairos LLM Engine\n        </div>\n        <p class=\"text-[11px] text-purple-200/70 leading-relaxed\">\n          OpenAI, Anthropic, Google Gemini 실시간 자동 Fallback 체인이 활성화되어 있습니다.\n        </p>\n      </div>\n    </div>\n  </aside>\n</template>\n\n<script setup lang=\"ts\">\nconst route = useRoute()\n\nconst navItems = [\n  { label: '대시보드 개요', path: '/', icon: '📊' },\n  { label: '이력서 생성을 및 평가', path: '/resume', icon: '📝' },\n  { label: 'AI 모의 면접 (SSE)', path: '/interview', icon: '🎙️' },\n  { label: 'ATS 채용공고 분석', path: '/ats', icon: '🎯' },\n  { label: 'AI 문장 휴머니자이저', path: '/humanizer', icon: '✨' },\n  { label: '예상 질문 Q&A 세트', path: '/qa', icon: '💡' },\n  { label: '경력 관리 & 벡터 검색', path: '/career', icon: '🔍' },\n]\n</script>\n",
+  "content": "<template>\n  <aside class=\"glass-panel rounded-2xl p-4 space-y-6\">\n    <div class=\"px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider\">\n      주요 서비스 메뉴\n    </div>\n\n    <nav class=\"space-y-1\">\n      <NuxtLink\n        v-for=\"item in navItems\"\n        :key=\"item.path\"\n        :to=\"item.path\"\n        class=\"flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group\"\n        :class=\"route.path === item.path ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30' : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'\"\n      >\n        <span class=\"text-lg group-hover:scale-110 transition-transform\">{{ item.icon }}</span>\n        <span>{{ item.label }}</span>\n      </NuxtLink>\n    </nav>\n\n    <div class=\"pt-4 border-t border-white/5\">\n      <div class=\"p-3.5 rounded-xl bg-purple-950/40 border border-purple-500/20 space-y-2\">\n        <div class=\"text-xs font-bold text-purple-300 flex items-center gap-1.5\">\n          <span></span> Kairos LLM Engine\n        </div>\n        <p class=\"text-[11px] text-purple-200/70 leading-relaxed\">\n          OpenAI, Anthropic, Google Gemini 실시간 자동 Fallback 체인이 활성화되어 있습니다.\n        </p>\n      </div>\n    </div>\n  </aside>\n</template>\n\n<script setup lang=\"ts\">\nconst route = useRoute()\n\nconst navItems = [\n  { label: '대시보드 개요', path: '/', icon: '' },\n  { label: '이력서 생성을 및 평가', path: '/resume', icon: '' },\n  { label: 'AI 모의 면접 (SSE)', path: '/interview', icon: '️' },\n  { label: 'ATS 채용공고 분석', path: '/ats', icon: '' },\n  { label: 'AI 문장 휴머니자이저', path: '/humanizer', icon: '' },\n  { label: '예상 질문 Q&A 세트', path: '/qa', icon: '' },\n  { label: '경력 관리 & 벡터 검색', path: '/career', icon: '' },\n]\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\components\\Sidebar.vue"
 }
 ```
@@ -2930,7 +2930,7 @@ Now update the StatCard component:
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"glass-card rounded-2xl p-5 relative overflow-hidden group\">\n    <div class=\"flex items-center justify-between\">\n      <div>\n        <p class=\"text-xs font-medium text-gray-400 uppercase tracking-wider\">{{ label }}</p>\n        <h3 class=\"text-2xl font-extrabold text-white mt-1 group-hover:scale-105 transition-transform origin-left\">\n          {{ value }}\n        </h3>\n      </div>\n      <div class=\"w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-purple-500/10 border border-purple-500/20 text-purple-300\">\n        {{ icon }}\n      </div>\n    </div>\n    <div v-if=\"trend\" class=\"mt-3 flex items-center gap-1 text-xs\" :class=\"trendPositive ? 'text-emerald-400' : 'text-purple-400'\">\n      <span>{{ trendPositive ? '↑' : '✦' }}</span>\n      <span>{{ trend }}</span>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\ndefineProps<{\n  label: string\n  value: string | number\n  icon: string\n  trend?: string\n  trendPositive?: boolean\n}>()\n</script>\n",
+  "content": "<template>\n  <div class=\"glass-card rounded-2xl p-5 relative overflow-hidden group\">\n    <div class=\"flex items-center justify-between\">\n      <div>\n        <p class=\"text-xs font-medium text-gray-400 uppercase tracking-wider\">{{ label }}</p>\n        <h3 class=\"text-2xl font-extrabold text-white mt-1 group-hover:scale-105 transition-transform origin-left\">\n          {{ value }}\n        </h3>\n      </div>\n      <div class=\"w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-purple-500/10 border border-purple-500/20 text-purple-300\">\n        {{ icon }}\n      </div>\n    </div>\n    <div v-if=\"trend\" class=\"mt-3 flex items-center gap-1 text-xs\" :class=\"trendPositive ? 'text-emerald-400' : 'text-purple-400'\">\n      <span>{{ trendPositive ? '↑' : '' }}</span>\n      <span>{{ trend }}</span>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\ndefineProps<{\n  label: string\n  value: string | number\n  icon: string\n  trend?: string\n  trendPositive?: boolean\n}>()\n</script>\n",
   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\components\\StatCard.vue"
 }
 ```
@@ -7723,16 +7723,16 @@ Phase 8 is now committed. All phases 0-8 are complete. Let me summarize what was
 
 | 작업 | 상태 |
 |------|------|
-| Tailwind CSS v3 → v4 (`@import` + `@theme`) | ✅ |
-| Nuxt UI v4 컴포넌트 통합 (전체 11개 페이지) | ✅ |
-| `app.vue`에 `<UApp>` 래퍼 추가 | ✅ |
-| 미사용 패키지 6개 제거 | ✅ |
-| `jsonwebtoken` → Web Crypto HMAC 교체 | ✅ |
-| AI SDK v7 타입 에러 수정 (`LanguageModel`, `result.output`) | ✅ |
-| 전체 null/undefined 세이프티 수정 | ✅ |
-| 패키지 버전 실제 최신 stable로 정정 | ✅ |
-| `@neondatabase/serverless` 누락 설치 | ✅ |
-| `nuxt typecheck` 통과 | ✅ |
+| Tailwind CSS v3 → v4 (`@import` + `@theme`) | [v] |
+| Nuxt UI v4 컴포넌트 통합 (전체 11개 페이지) | [v] |
+| `app.vue`에 `<UApp>` 래퍼 추가 | [v] |
+| 미사용 패키지 6개 제거 | [v] |
+| `jsonwebtoken` → Web Crypto HMAC 교체 | [v] |
+| AI SDK v7 타입 에러 수정 (`LanguageModel`, `result.output`) | [v] |
+| 전체 null/undefined 세이프티 수정 | [v] |
+| 패키지 버전 실제 최신 stable로 정정 | [v] |
+| `@neondatabase/serverless` 누락 설치 | [v] |
+| `nuxt typecheck` 통과 | [v] |
 
 **모든 Phase (0~8) 완료.** 전체 모던화 작업이 끝났습니다. 커밋: `aa67a28`
 
@@ -9111,30 +9111,30 @@ _Thinking:_
 Let me analyze what the plan says and what's actually been done. I need to check every file mentioned in the plan to see what's missing.
 
 From the plan, the "신규 파일 (17개)" section lists:
-1. `app/composables/useClientAI.ts` ✅ (exists)
-2. `app/composables/useLocalATS.ts` ❓ need to check
-3. `app/composables/useDocumentParser.ts` ❓ need to check
-4. `app/composables/useLocalVectorSearch.ts` ✅ (exists)
-5. `app/composables/useLocalLLM.ts` ✅ (exists)
-6. `app/composables/useAuth.ts` ❓ need to check
-7. `app/composables/useChatHistory.ts` ❓ need to check
-8. `app/composables/useOfflineQueue.ts` ❓ need to check
-9. `server/auth.ts` ❓ need to check
-10. `server/middleware/rateLimit.ts` ❓ need to check
-11. `server/services/llmCache.ts` ❓ need to check
-12. `server/api/llm/refine.post.ts` ❓ need to check
-13. `server/api/llm/stream.post.ts` ❓ need to check
-14. `shared/types.ts` ❓ need to check
-15. `vercel.json` ❓ need to check
-16. `.env.example` ❓ need to check
-17. `drizzle/` ❓ need to check
+1. `app/composables/useClientAI.ts` [v] (exists)
+2. `app/composables/useLocalATS.ts`  need to check
+3. `app/composables/useDocumentParser.ts`  need to check
+4. `app/composables/useLocalVectorSearch.ts` [v] (exists)
+5. `app/composables/useLocalLLM.ts` [v] (exists)
+6. `app/composables/useAuth.ts`  need to check
+7. `app/composables/useChatHistory.ts`  need to check
+8. `app/composables/useOfflineQueue.ts`  need to check
+9. `server/auth.ts`  need to check
+10. `server/middleware/rateLimit.ts`  need to check
+11. `server/services/llmCache.ts`  need to check
+12. `server/api/llm/refine.post.ts`  need to check
+13. `server/api/llm/stream.post.ts`  need to check
+14. `shared/types.ts`  need to check
+15. `vercel.json`  need to check
+16. `.env.example`  need to check
+17. `drizzle/`  need to check
 
 Also checking modified files:
-- `drizzle.config.ts` ❓ need to check
-- `server/services/embedding.ts` ❓ need to check
-- `server/services/parser.ts` ❓ need to check
-- `server/middleware/auth.ts` ❓ need to check
-- `.env.example` ❓ need to checkLet me check which files exist.
+- `drizzle.config.ts`  need to check
+- `server/services/embedding.ts`  need to check
+- `server/services/parser.ts`  need to check
+- `server/middleware/auth.ts`  need to check
+- `.env.example`  need to checkLet me check which files exist.
 
 Let me systematically check what's actually implemented vs what the plan specifies.
 
@@ -9425,26 +9425,26 @@ The user wants me to continue working on the project. Let me analyze what's been
 From the file search results, I can see:
 
 **Composables (client-side) - All created:**
-- useClientAI.ts ✅
-- useChatHistory.ts ✅
-- useLocalATS.ts ✅
-- useDocumentParser.ts ✅
-- useLocalLLM.ts ✅
-- useLocalVectorSearch.ts ✅
-- useOfflineQueue.ts ✅
+- useClientAI.ts [v]
+- useChatHistory.ts [v]
+- useLocalATS.ts [v]
+- useDocumentParser.ts [v]
+- useLocalLLM.ts [v]
+- useLocalVectorSearch.ts [v]
+- useOfflineQueue.ts [v]
 
 **Server-side - Mostly created:**
-- server/auth.ts ✅
-- server/middleware/rateLimit.ts ✅
-- server/middleware/auth.ts ✅
-- server/services/llmCache.ts ✅
-- server/services/llm.ts ✅
+- server/auth.ts [v]
+- server/middleware/rateLimit.ts [v]
+- server/middleware/auth.ts [v]
+- server/services/llmCache.ts [v]
+- server/services/llm.ts [v]
 - All other services exist**Missing files according to the plan:**
-1. `shared/types.ts` - ❌ NOT FOUND
-2. `drizzle/` directory - ❌ NOT FOUND (no migration files)
-3. `vercel.json` - ❌ NOT FOUND
-4. `server/api/llm/refine.post.ts` - ❌ NOT FOUND
-5. `server/api/llm/stream.post.ts` - ❌ NOT FOUND (only chat.post.ts exists)
+1. `shared/types.ts` - [x] NOT FOUND
+2. `drizzle/` directory - [x] NOT FOUND (no migration files)
+3. `vercel.json` - [x] NOT FOUND
+4. `server/api/llm/refine.post.ts` - [x] NOT FOUND
+5. `server/api/llm/stream.post.ts` - [x] NOT FOUND (only chat.post.ts exists)
 
 The plan says there should be 17 new files, and we're missing:
 - shared/types.ts
@@ -10936,11 +10936,11 @@ _Thinking:_
 Now I have a clear picture. Let me read the remaining key files to understand the current state of implementation:
 
 **Missing from plan's "17 new files":**
-1. `shared/types.ts` — ❌ Missing (shared directory doesn't exist)
-2. `drizzle/` directory — ❌ Missing (no migration files)
-3. `vercel.json` — ❌ Missing
-4. `server/api/llm/refine.post.ts` — ❌ Missing (but refine exists at `server/api/resumes/[id]/refine.post.ts`)
-5. `server/api/llm/stream.post.ts` — ❌ Missing
+1. `shared/types.ts` — [x] Missing (shared directory doesn't exist)
+2. `drizzle/` directory — [x] Missing (no migration files)
+3. `vercel.json` — [x] Missing
+4. `server/api/llm/refine.post.ts` — [x] Missing (but refine exists at `server/api/resumes/[id]/refine.post.ts`)
+5. `server/api/llm/stream.post.ts` — [x] Missing
 
 Wait, let me reconsider. The plan lists "신규 파일 (17개)" but some of these might not be strictly necessary. Let me think about what's actually needed:
 
@@ -10954,13 +10954,13 @@ So the critical missing items are:
 1. `shared/types.ts` — For shared type safety
 2. Drizzle migrations — Need to generate these
 3. Missing `useAuth.ts` composable — Wait, let me check if it was createdActually, looking at the composables list, I see:
-- useClientAI.ts ✅
-- useChatHistory.ts ✅
-- useLocalATS.ts ✅
-- useDocumentParser.ts ✅
-- useLocalLLM.ts ✅
-- useLocalVectorSearch.ts ✅
-- useOfflineQueue.ts ✅
+- useClientAI.ts [v]
+- useChatHistory.ts [v]
+- useLocalATS.ts [v]
+- useDocumentParser.ts [v]
+- useLocalLLM.ts [v]
+- useLocalVectorSearch.ts [v]
+- useOfflineQueue.ts [v]
 
 But the plan mentions `useAuth.ts` as a new file. Let me check if it exists.
 
@@ -12040,25 +12040,25 @@ Let me check what else might be missing. The plan says:
 - New files (17): useClientAI, useLocalATS, useDocumentParser, useLocalVectorSearch, useLocalLLM, useAuth, useChatHistory, useOfflineQueue, server/auth, server/middleware/rateLimit, server/services/llmCache, server/api/llm/refine, server/api/llm/stream, shared/types, vercel.json, .env.example, drizzle/
 
 Present:
-- useClientAI ✅
-- useLocalATS ✅ 
-- useDocumentParser ✅
-- useLocalVectorSearch ✅
-- useLocalLLM ✅
-- useChatHistory ✅
-- useOfflineQueue ✅
-- server/auth ✅
-- server/middleware/rateLimit ✅
-- server/services/llmCache ✅
-- .env.example ✅
+- useClientAI [v]
+- useLocalATS [v] 
+- useDocumentParser [v]
+- useLocalVectorSearch [v]
+- useLocalLLM [v]
+- useChatHistory [v]
+- useOfflineQueue [v]
+- server/auth [v]
+- server/middleware/rateLimit [v]
+- server/services/llmCache [v]
+- .env.example [v]
 
 Missing:
-- useAuth ❌ (use the plan's spec)
-- server/api/llm/refine.post.ts ❌ (but refine exists at resumes/[id]/refine - may be redundant)
-- server/api/llm/stream.post.ts ❌ (but chat.post.ts already does streaming)
-- shared/types.ts ❌
-- vercel.json ❌ (optional per plan)
-- drizzle/ ❌ (needs drizzle-kit generate)
+- useAuth [x] (use the plan's spec)
+- server/api/llm/refine.post.ts [x] (but refine exists at resumes/[id]/refine - may be redundant)
+- server/api/llm/stream.post.ts [x] (but chat.post.ts already does streaming)
+- shared/types.ts [x]
+- vercel.json [x] (optional per plan)
+- drizzle/ [x] (needs drizzle-kit generate)
 
 Also a critical bug: `server/middleware/auth.ts` still uses `jsonwebtoken` which was removed from package.json! This would cause a runtime error.
 

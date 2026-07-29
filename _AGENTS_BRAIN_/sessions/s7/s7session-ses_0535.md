@@ -1415,9 +1415,9 @@ Now let me build to check if there are any issues.
 ```
   └─ .output/server/package.json (44.1 kB) (11.1 kB gzip)
 Σ Total size: 22.8 MB (5.77 MB gzip)
-[nitro] ✔ You can preview this build using node .output/server/index.mjs
+[nitro] [v] You can preview this build using node .output/server/index.mjs
 │
-└  ✨ Build complete!
+└   Build complete!
 
 ```
 
@@ -1436,7 +1436,7 @@ Build passes. Now add wallet connect UI to the login page and wallet info to set
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"max-w-sm mx-auto py-16\">\n    <div class=\"border border-stroke-neutral-muted rounded-xl p-8 bg-neutral-muted space-y-x4\">\n      <div class=\"text-center space-y-1.5\">\n        <h1 class=\"text-xl font-semibold text-fg-neutral\">{{ $t('auth.login.title') }}</h1>\n        <p class=\"text-xs text-fg-neutral-muted\">{{ $t('auth.login.subtitle') }}</p>\n      </div>\n\n      <form @submit.prevent=\"handleLogin\" class=\"space-y-4\">\n        <UFormGroup :label=\"$t('auth.login.email')\">\n          <UInput v-model=\"email\" type=\"email\" required placeholder=\"user@example.com\" />\n        </UFormGroup>\n\n        <UFormGroup :label=\"$t('auth.login.password')\">\n          <UInput v-model=\"password\" type=\"password\" required placeholder=\"......\" />\n        </UFormGroup>\n\n        <UAlert v-if=\"errorMsg\" color=\"red\" variant=\"soft\" :description=\"errorMsg\" />\n\n        <UButton type=\"submit\" :loading=\"loading\" color=\"black\" variant=\"solid\" size=\"lg\" block>{{ $t('auth.login.submit') }}</UButton>\n      </form>\n\n      <div class=\"relative my-4\">\n        <div class=\"absolute inset-0 flex items-center\"><div class=\"w-full border-t border-stroke-neutral-muted\" /></div>\n        <div class=\"relative flex justify-center text-xs text-fg-neutral-muted\"><span class=\"bg-neutral-muted px-2\">{{ $t('auth.login.or') }}</span></div>\n      </div>\n\n      <div class=\"space-y-2\">\n        <UButton color=\"purple\" variant=\"outline\" size=\"lg\" block @click=\"connectKaikas\" :loading=\"walletLoading\">\n          <template #leading><span class=\"text-lg\">🦊</span></template>\n          Kaikas 로그인\n        </UButton>\n        <UButton color=\"neutral\" variant=\"outline\" size=\"lg\" block @click=\"connectMetaMask\" :loading=\"walletLoading\">\n          <template #leading><span class=\"text-lg\">🦊</span></template>\n          MetaMask 로그인\n        </UButton>\n      </div>\n\n      <div class=\"text-center text-xs text-fg-neutral-muted pt-1\">\n        {{ $t('auth.login.noAccount') }}\n        <NuxtLink to=\"/auth/register\" class=\"text-fg-neutral hover:underline\">{{ $t('auth.login.register') }}</NuxtLink>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst email = ref('')\nconst password = ref('')\nconst loading = ref(false)\nconst walletLoading = ref(false)\nconst errorMsg = ref('')\nconst router = useRouter()\n\nasync function handleLogin() {\n  loading.value = true\n  errorMsg.value = ''\n  try {\n    await $fetch('/api/auth/login', {\n      method: 'POST',\n      body: { email: email.value, password: password.value },\n    })\n    router.push('/')\n  } catch (err: any) {\n    errorMsg.value = err.data?.statusMessage || '로그인에 실패했습니다.'\n  } finally {\n    loading.value = false\n  }\n}\n\nasync function connectWallet(getProvider: () => any, networkName: string) {\n  walletLoading.value = true\n  errorMsg.value = ''\n\n  try {\n    const provider = getProvider()\n    if (!provider) {\n      errorMsg.value = `${networkName}을(를) 찾을 수 없습니다. 확장 프로그램을 설치해주세요.`\n      return\n    }\n\n    // Request accounts\n    const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' })\n    const address = accounts[0].toLowerCase()\n\n    // Get nonce\n    const { nonce, id } = await $fetch('/api/auth/nonce')\n\n    // Create message\n    const message = `Kairos Sign-In\\n${nonce}\\n${address}`\n\n    // Sign message\n    const signature: `0x${string}` = await provider.request({\n      method: 'personal_sign',\n      params: [message, address],\n    })\n\n    // Send to server\n    const result = await $fetch('/api/auth/wallet', {\n      method: 'POST',\n      body: { address, message, signature, nonce: id },\n    })\n\n    router.push('/')\n  } catch (err: any) {\n    errorMsg.value = err.data?.statusMessage || err.message || '지갑 로그인에 실패했습니다.'\n  } finally {\n    walletLoading.value = false\n  }\n}\n\nfunction connectKaikas() {\n  connectWallet(() => (window as any).klaytn, 'Kaikas')\n}\n\nfunction connectMetaMask() {\n  connectWallet(() => {\n    const ethereum = (window as any).ethereum\n    return ethereum?.isMetaMask ? ethereum : null\n  }, 'MetaMask')\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"max-w-sm mx-auto py-16\">\n    <div class=\"border border-stroke-neutral-muted rounded-xl p-8 bg-neutral-muted space-y-x4\">\n      <div class=\"text-center space-y-1.5\">\n        <h1 class=\"text-xl font-semibold text-fg-neutral\">{{ $t('auth.login.title') }}</h1>\n        <p class=\"text-xs text-fg-neutral-muted\">{{ $t('auth.login.subtitle') }}</p>\n      </div>\n\n      <form @submit.prevent=\"handleLogin\" class=\"space-y-4\">\n        <UFormGroup :label=\"$t('auth.login.email')\">\n          <UInput v-model=\"email\" type=\"email\" required placeholder=\"user@example.com\" />\n        </UFormGroup>\n\n        <UFormGroup :label=\"$t('auth.login.password')\">\n          <UInput v-model=\"password\" type=\"password\" required placeholder=\"......\" />\n        </UFormGroup>\n\n        <UAlert v-if=\"errorMsg\" color=\"red\" variant=\"soft\" :description=\"errorMsg\" />\n\n        <UButton type=\"submit\" :loading=\"loading\" color=\"black\" variant=\"solid\" size=\"lg\" block>{{ $t('auth.login.submit') }}</UButton>\n      </form>\n\n      <div class=\"relative my-4\">\n        <div class=\"absolute inset-0 flex items-center\"><div class=\"w-full border-t border-stroke-neutral-muted\" /></div>\n        <div class=\"relative flex justify-center text-xs text-fg-neutral-muted\"><span class=\"bg-neutral-muted px-2\">{{ $t('auth.login.or') }}</span></div>\n      </div>\n\n      <div class=\"space-y-2\">\n        <UButton color=\"purple\" variant=\"outline\" size=\"lg\" block @click=\"connectKaikas\" :loading=\"walletLoading\">\n          <template #leading><span class=\"text-lg\"></span></template>\n          Kaikas 로그인\n        </UButton>\n        <UButton color=\"neutral\" variant=\"outline\" size=\"lg\" block @click=\"connectMetaMask\" :loading=\"walletLoading\">\n          <template #leading><span class=\"text-lg\"></span></template>\n          MetaMask 로그인\n        </UButton>\n      </div>\n\n      <div class=\"text-center text-xs text-fg-neutral-muted pt-1\">\n        {{ $t('auth.login.noAccount') }}\n        <NuxtLink to=\"/auth/register\" class=\"text-fg-neutral hover:underline\">{{ $t('auth.login.register') }}</NuxtLink>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst email = ref('')\nconst password = ref('')\nconst loading = ref(false)\nconst walletLoading = ref(false)\nconst errorMsg = ref('')\nconst router = useRouter()\n\nasync function handleLogin() {\n  loading.value = true\n  errorMsg.value = ''\n  try {\n    await $fetch('/api/auth/login', {\n      method: 'POST',\n      body: { email: email.value, password: password.value },\n    })\n    router.push('/')\n  } catch (err: any) {\n    errorMsg.value = err.data?.statusMessage || '로그인에 실패했습니다.'\n  } finally {\n    loading.value = false\n  }\n}\n\nasync function connectWallet(getProvider: () => any, networkName: string) {\n  walletLoading.value = true\n  errorMsg.value = ''\n\n  try {\n    const provider = getProvider()\n    if (!provider) {\n      errorMsg.value = `${networkName}을(를) 찾을 수 없습니다. 확장 프로그램을 설치해주세요.`\n      return\n    }\n\n    // Request accounts\n    const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' })\n    const address = accounts[0].toLowerCase()\n\n    // Get nonce\n    const { nonce, id } = await $fetch('/api/auth/nonce')\n\n    // Create message\n    const message = `Kairos Sign-In\\n${nonce}\\n${address}`\n\n    // Sign message\n    const signature: `0x${string}` = await provider.request({\n      method: 'personal_sign',\n      params: [message, address],\n    })\n\n    // Send to server\n    const result = await $fetch('/api/auth/wallet', {\n      method: 'POST',\n      body: { address, message, signature, nonce: id },\n    })\n\n    router.push('/')\n  } catch (err: any) {\n    errorMsg.value = err.data?.statusMessage || err.message || '지갑 로그인에 실패했습니다.'\n  } finally {\n    walletLoading.value = false\n  }\n}\n\nfunction connectKaikas() {\n  connectWallet(() => (window as any).klaytn, 'Kaikas')\n}\n\nfunction connectMetaMask() {\n  connectWallet(() => {\n    const ethereum = (window as any).ethereum\n    return ethereum?.isMetaMask ? ethereum : null\n  }, 'MetaMask')\n}\n</script>\n",
   "filePath": "/home/rheehoselenovo2/orca/Kairos/app/pages/auth/login.vue"
 }
 ```
@@ -1763,7 +1763,7 @@ Now add wallet auth keys to auth section in both locales.
 {
   "filePath": "/home/rheehoselenovo2/orca/Kairos/i18n/locales/ko.json",
   "oldString": "    \"namePlaceholder\": \"홍길동\"\n  },",
-  "newString": "    \"namePlaceholder\": \"홍길동\",\n    \"passwordLabel\": \"비밀번호\",\n    \"wallet\": {\n      \"kaikas\": \"🦊 Kaikas 로그인\",\n      \"metamask\": \"🦊 MetaMask 로그인\",\n      \"notFound\": \"확장 프로그램을 찾을 수 없습니다. 설치해주세요.\",\n      \"error\": \"지갑 로그인에 실패했습니다.\"\n    }\n  },"
+  "newString": "    \"namePlaceholder\": \"홍길동\",\n    \"passwordLabel\": \"비밀번호\",\n    \"wallet\": {\n      \"kaikas\": \" Kaikas 로그인\",\n      \"metamask\": \" MetaMask 로그인\",\n      \"notFound\": \"확장 프로그램을 찾을 수 없습니다. 설치해주세요.\",\n      \"error\": \"지갑 로그인에 실패했습니다.\"\n    }\n  },"
 }
 ```
 
@@ -1783,7 +1783,7 @@ Edit applied successfully.
 {
   "filePath": "/home/rheehoselenovo2/orca/Kairos/i18n/locales/en.json",
   "oldString": "    \"namePlaceholder\": \"Hong Gil-dong\"\n  },",
-  "newString": "    \"namePlaceholder\": \"Hong Gil-dong\",\n    \"passwordLabel\": \"Password\",\n    \"wallet\": {\n      \"kaikas\": \"🦊 Sign in with Kaikas\",\n      \"metamask\": \"🦊 Sign in with MetaMask\",\n      \"notFound\": \"Wallet extension not found. Please install it.\",\n      \"error\": \"Wallet login failed.\"\n    }\n  },"
+  "newString": "    \"namePlaceholder\": \"Hong Gil-dong\",\n    \"passwordLabel\": \"Password\",\n    \"wallet\": {\n      \"kaikas\": \" Sign in with Kaikas\",\n      \"metamask\": \" Sign in with MetaMask\",\n      \"notFound\": \"Wallet extension not found. Please install it.\",\n      \"error\": \"Wallet login failed.\"\n    }\n  },"
 }
 ```
 
@@ -1879,7 +1879,7 @@ Found 1 matches
 {
   "filePath": "/home/rheehoselenovo2/orca/Kairos/i18n/locales/en.json",
   "oldString": "    \"namePlaceholder\": \"John Doe\"\n  },\n  \"ats\": {",
-  "newString": "    \"namePlaceholder\": \"John Doe\",\n    \"passwordLabel\": \"Password\",\n    \"wallet\": {\n      \"kaikas\": \"🦊 Sign in with Kaikas\",\n      \"metamask\": \"🦊 Sign in with MetaMask\",\n      \"notFound\": \"Wallet extension not found. Please install it.\",\n      \"error\": \"Wallet login failed.\"\n    }\n  },\n  \"ats\": {"
+  "newString": "    \"namePlaceholder\": \"John Doe\",\n    \"passwordLabel\": \"Password\",\n    \"wallet\": {\n      \"kaikas\": \" Sign in with Kaikas\",\n      \"metamask\": \" Sign in with MetaMask\",\n      \"notFound\": \"Wallet extension not found. Please install it.\",\n      \"error\": \"Wallet login failed.\"\n    }\n  },\n  \"ats\": {"
 }
 ```
 
@@ -2004,7 +2004,7 @@ Now let me add wallet connection info to the settings page. I'll add a section s
 **Input:**
 ```json
 {
-  "content": "<template>\n  <div class=\"max-w-2xl mx-auto p-6\">\n    <h1 class=\"text-2xl font-bold mb-6\">설정</h1>\n\n    <UCard class=\"mb-6\">\n      <template #header><h2 class=\"text-lg font-semibold\">프로필</h2></template>\n      <UForm :state=\"form\" @submit=\"saveProfile\" class=\"space-y-4\">\n        <UFormGroup label=\"성함\">\n          <UInput v-model=\"form.name\" placeholder=\"홍길동\" />\n        </UFormGroup>\n        <UFormGroup label=\"이메일\">\n          <UInput v-model=\"form.email\" type=\"email\" disabled />\n        </UFormGroup>\n        <UButton type=\"submit\" color=\"purple\" :loading=\"saving\">저장</UButton>\n      </UForm>\n    </UCard>\n\n    <UCard class=\"mb-6\">\n      <template #header><h2 class=\"text-lg font-semibold\">연결된 지갑</h2></template>\n      <div v-if=\"walletAddress\" class=\"flex items-center justify-between\">\n        <div class=\"flex items-center gap-3\">\n          <span class=\"text-lg\">🦊</span>\n          <div>\n            <p class=\"text-sm font-mono\">{{ walletAddress }}</p>\n            <p class=\"text-xs text-fg-neutral-muted\">Kaikas / MetaMask</p>\n          </div>\n        </div>\n        <UButton color=\"red\" variant=\"outline\" size=\"sm\" @click=\"disconnectWallet\">연결 해제</UButton>\n      </div>\n      <div v-else>\n        <p class=\"text-sm text-fg-neutral-muted mb-3\">연결된 지갑이 없습니다. 지갑을 연결하면 지갑으로 로그인할 수 있습니다.</p>\n        <div class=\"flex gap-2\">\n          <UButton color=\"purple\" variant=\"outline\" size=\"sm\" @click=\"connectWallet('kaikas')\">Kaikas 연결</UButton>\n          <UButton color=\"neutral\" variant=\"outline\" size=\"sm\" @click=\"connectWallet('metamask')\">MetaMask 연결</UButton>\n        </div>\n      </div>\n    </UCard>\n\n    <UCard class=\"mb-6\">\n      <template #header><h2 class=\"text-lg font-semibold\">알림 설정</h2></template>\n      <div class=\"space-y-3\">\n        <UCheckbox v-model=\"notifyInterview\" label=\"모의 면접 알림\" />\n        <UCheckbox v-model=\"notifyResume\" label=\"이력서 분석 완료 알림\" />\n        <UCheckbox v-model=\"notifyMarketing\" label=\"마케팅 및 프로모션\" />\n      </div>\n    </UCard>\n\n    <UCard>\n      <template #header><h2 class=\"text-lg font-semibold\">계정</h2></template>\n      <p class=\"text-sm text-fg-neutral-muted mb-4\">계정을 삭제하면 모든 데이터가 영구적으로 삭제됩니다.</p>\n      <UButton color=\"red\" variant=\"outline\" @click=\"confirmDelete\">계정 삭제</UButton>\n    </UCard>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: user, refresh } = useFetch('/api/auth/me')\nconst saving = ref(false)\nconst connecting = ref(false)\nconst notifyInterview = ref(true)\nconst notifyResume = ref(true)\nconst notifyMarketing = ref(false)\n\nconst walletAddress = computed(() => (user.value as any)?.user?.walletAddress || '')\n\nconst form = reactive({\n  name: user.value?.name || '',\n  email: user.value?.email || '',\n})\n\nwatchEffect(() => {\n  if (user.value) {\n    form.name = (user.value as any).user?.name || ''\n    form.email = (user.value as any).user?.email || ''\n  }\n})\n\nasync function saveProfile() {\n  saving.value = true\n  try {\n    await $fetch('/api/auth/me', { method: 'PATCH', body: { name: form.name } })\n    useToast().add({ title: '프로필이 저장되었습니다.', icon: 'i-lucide-check' })\n  } catch {\n    useToast().add({ title: '저장에 실패했습니다.', color: 'red' })\n  } finally {\n    saving.value = false\n  }\n}\n\nasync function connectWallet(type: 'kaikas' | 'metamask') {\n  connecting.value = true\n  try {\n    let provider: any\n    if (type === 'kaikas') {\n      provider = (window as any).klaytn\n    } else {\n      const eth = (window as any).ethereum\n      provider = eth?.isMetaMask ? eth : null\n    }\n    if (!provider) {\n      useToast().add({ title: '지갑 확장 프로그램을 찾을 수 없습니다.', color: 'yellow' })\n      return\n    }\n\n    const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' })\n    const address = accounts[0].toLowerCase()\n    const { nonce, id } = await $fetch('/api/auth/nonce')\n    const message = `Kairos Sign-In\\n${nonce}\\n${address}`\n    const signature: `0x${string}` = await provider.request({ method: 'personal_sign', params: [message, address] })\n\n    await $fetch('/api/auth/wallet', {\n      method: 'POST',\n      body: { address, message, signature, nonce: id },\n    })\n    await refresh()\n    useToast().add({ title: '지갑이 연결되었습니다.', icon: 'i-lucide-check' })\n  } catch (err: any) {\n    useToast().add({ title: '지갑 연결에 실패했습니다.', description: err.message, color: 'red' })\n  } finally {\n    connecting.value = false\n  }\n}\n\nasync function disconnectWallet() {\n  try {\n    await $fetch('/api/auth/me', { method: 'PATCH', body: { walletAddress: null } })\n    await refresh()\n    useToast().add({ title: '지갑이 연결 해제되었습니다.', icon: 'i-lucice-check' })\n  } catch {\n    useToast().add({ title: '연결 해제에 실패했습니다.', color: 'red' })\n  }\n}\n\nfunction confirmDelete() {\n  useToast().add({ title: '계정 삭제 기능은 준비 중입니다.', color: 'yellow' })\n}\n</script>\n",
+  "content": "<template>\n  <div class=\"max-w-2xl mx-auto p-6\">\n    <h1 class=\"text-2xl font-bold mb-6\">설정</h1>\n\n    <UCard class=\"mb-6\">\n      <template #header><h2 class=\"text-lg font-semibold\">프로필</h2></template>\n      <UForm :state=\"form\" @submit=\"saveProfile\" class=\"space-y-4\">\n        <UFormGroup label=\"성함\">\n          <UInput v-model=\"form.name\" placeholder=\"홍길동\" />\n        </UFormGroup>\n        <UFormGroup label=\"이메일\">\n          <UInput v-model=\"form.email\" type=\"email\" disabled />\n        </UFormGroup>\n        <UButton type=\"submit\" color=\"purple\" :loading=\"saving\">저장</UButton>\n      </UForm>\n    </UCard>\n\n    <UCard class=\"mb-6\">\n      <template #header><h2 class=\"text-lg font-semibold\">연결된 지갑</h2></template>\n      <div v-if=\"walletAddress\" class=\"flex items-center justify-between\">\n        <div class=\"flex items-center gap-3\">\n          <span class=\"text-lg\"></span>\n          <div>\n            <p class=\"text-sm font-mono\">{{ walletAddress }}</p>\n            <p class=\"text-xs text-fg-neutral-muted\">Kaikas / MetaMask</p>\n          </div>\n        </div>\n        <UButton color=\"red\" variant=\"outline\" size=\"sm\" @click=\"disconnectWallet\">연결 해제</UButton>\n      </div>\n      <div v-else>\n        <p class=\"text-sm text-fg-neutral-muted mb-3\">연결된 지갑이 없습니다. 지갑을 연결하면 지갑으로 로그인할 수 있습니다.</p>\n        <div class=\"flex gap-2\">\n          <UButton color=\"purple\" variant=\"outline\" size=\"sm\" @click=\"connectWallet('kaikas')\">Kaikas 연결</UButton>\n          <UButton color=\"neutral\" variant=\"outline\" size=\"sm\" @click=\"connectWallet('metamask')\">MetaMask 연결</UButton>\n        </div>\n      </div>\n    </UCard>\n\n    <UCard class=\"mb-6\">\n      <template #header><h2 class=\"text-lg font-semibold\">알림 설정</h2></template>\n      <div class=\"space-y-3\">\n        <UCheckbox v-model=\"notifyInterview\" label=\"모의 면접 알림\" />\n        <UCheckbox v-model=\"notifyResume\" label=\"이력서 분석 완료 알림\" />\n        <UCheckbox v-model=\"notifyMarketing\" label=\"마케팅 및 프로모션\" />\n      </div>\n    </UCard>\n\n    <UCard>\n      <template #header><h2 class=\"text-lg font-semibold\">계정</h2></template>\n      <p class=\"text-sm text-fg-neutral-muted mb-4\">계정을 삭제하면 모든 데이터가 영구적으로 삭제됩니다.</p>\n      <UButton color=\"red\" variant=\"outline\" @click=\"confirmDelete\">계정 삭제</UButton>\n    </UCard>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nconst { data: user, refresh } = useFetch('/api/auth/me')\nconst saving = ref(false)\nconst connecting = ref(false)\nconst notifyInterview = ref(true)\nconst notifyResume = ref(true)\nconst notifyMarketing = ref(false)\n\nconst walletAddress = computed(() => (user.value as any)?.user?.walletAddress || '')\n\nconst form = reactive({\n  name: user.value?.name || '',\n  email: user.value?.email || '',\n})\n\nwatchEffect(() => {\n  if (user.value) {\n    form.name = (user.value as any).user?.name || ''\n    form.email = (user.value as any).user?.email || ''\n  }\n})\n\nasync function saveProfile() {\n  saving.value = true\n  try {\n    await $fetch('/api/auth/me', { method: 'PATCH', body: { name: form.name } })\n    useToast().add({ title: '프로필이 저장되었습니다.', icon: 'i-lucide-check' })\n  } catch {\n    useToast().add({ title: '저장에 실패했습니다.', color: 'red' })\n  } finally {\n    saving.value = false\n  }\n}\n\nasync function connectWallet(type: 'kaikas' | 'metamask') {\n  connecting.value = true\n  try {\n    let provider: any\n    if (type === 'kaikas') {\n      provider = (window as any).klaytn\n    } else {\n      const eth = (window as any).ethereum\n      provider = eth?.isMetaMask ? eth : null\n    }\n    if (!provider) {\n      useToast().add({ title: '지갑 확장 프로그램을 찾을 수 없습니다.', color: 'yellow' })\n      return\n    }\n\n    const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' })\n    const address = accounts[0].toLowerCase()\n    const { nonce, id } = await $fetch('/api/auth/nonce')\n    const message = `Kairos Sign-In\\n${nonce}\\n${address}`\n    const signature: `0x${string}` = await provider.request({ method: 'personal_sign', params: [message, address] })\n\n    await $fetch('/api/auth/wallet', {\n      method: 'POST',\n      body: { address, message, signature, nonce: id },\n    })\n    await refresh()\n    useToast().add({ title: '지갑이 연결되었습니다.', icon: 'i-lucide-check' })\n  } catch (err: any) {\n    useToast().add({ title: '지갑 연결에 실패했습니다.', description: err.message, color: 'red' })\n  } finally {\n    connecting.value = false\n  }\n}\n\nasync function disconnectWallet() {\n  try {\n    await $fetch('/api/auth/me', { method: 'PATCH', body: { walletAddress: null } })\n    await refresh()\n    useToast().add({ title: '지갑이 연결 해제되었습니다.', icon: 'i-lucice-check' })\n  } catch {\n    useToast().add({ title: '연결 해제에 실패했습니다.', color: 'red' })\n  }\n}\n\nfunction confirmDelete() {\n  useToast().add({ title: '계정 삭제 기능은 준비 중입니다.', color: 'yellow' })\n}\n</script>\n",
   "filePath": "/home/rheehoselenovo2/orca/Kairos/app/pages/settings.vue"
 }
 ```
@@ -2103,9 +2103,9 @@ Now let me build and check.
 ```
   └─ .output/server/package.json (44.1 kB) (11.1 kB gzip)
 Σ Total size: 22.9 MB (5.77 MB gzip)
-[nitro] ✔ You can preview this build using node .output/server/index.mjs
+[nitro] [v] You can preview this build using node .output/server/index.mjs
 │
-└  ✨ Build complete!
+└   Build complete!
 
 ```
 
@@ -2133,9 +2133,9 @@ Let me also verify the Astro apps/astro still builds properly.
 
 **Output:**
 ```
-21:08:36 ✓ Completed in 239ms.
+21:08:36 [v] Completed in 239ms.
 
-21:08:36 [build] ✓ Completed in 1.56s.
+21:08:36 [build] [v] Completed in 1.56s.
 21:08:36 [build] 1 page(s) built in 2.26s
 21:08:36 [build] Complete!
 
@@ -2250,7 +2250,7 @@ Let me start implementing.
   "todos": [
     {
       "priority": "high",
-      "content": "[s6-4] Web3 지갑 연동 ✅",
+      "content": "[s6-4] Web3 지갑 연동 [v]",
       "status": "completed"
     },
     {
@@ -2276,7 +2276,7 @@ Let me start implementing.
 ```
 [
   {
-    "content": "[s6-4] Web3 지갑 연동 ✅",
+    "content": "[s6-4] Web3 지갑 연동 [v]",
     "status": "completed",
     "priority": "high"
   },
@@ -2801,9 +2801,9 @@ Now let me also add the Astro route rule for the studio page (ssr: false because
   ├─ .output/server/index.mjs (679 B) (318 B gzip)
   └─ .output/server/package.json (44.1 kB) (11.1 kB gzip)
 Σ Total size: 22.9 MB (5.78 MB gzip)
-[nitro] ✔ You can preview this build using node .output/server/index.mjs
+[nitro] [v] You can preview this build using node .output/server/index.mjs
 │
-└  ✨ Build complete!
+└   Build complete!
 
 ```
 
@@ -2893,7 +2893,7 @@ No files found
 ```
 Found 2 matches
 /home/rheehoselenovo2/orca/Kairos/app/components/Sidebar.vue:
-  Line 31:   { label: '문서', path: '/docs', icon: '📄' },
+  Line 31:   { label: '문서', path: '/docs', icon: '' },
 
   Line 33:   { label: '프리미엄', path: '/premium', icon: '⭐' },
 
@@ -2919,16 +2919,16 @@ Found 2 matches
 <path>/home/rheehoselenovo2/orca/Kairos/app/components/Sidebar.vue</path>
 <type>file</type>
 <content>
-25:   { label: '대시보드', path: '/', icon: '📊' },
-26:   { label: '이력서', path: '/resume', icon: '📝' },
-27:   { label: '모의 면접', path: '/interview', icon: '🎙️' },
-28:   { label: 'ATS 분석', path: '/ats', icon: '🎯' },
-29:   { label: '휴머나이저', path: '/humanizer', icon: '✨' },
-30:   { label: 'Q&A 생성', path: '/qa', icon: '💡' },
-31:   { label: '문서', path: '/docs', icon: '📄' },
-32:   { label: '경력 검색', path: '/career', icon: '🔍' },
+25:   { label: '대시보드', path: '/', icon: '' },
+26:   { label: '이력서', path: '/resume', icon: '' },
+27:   { label: '모의 면접', path: '/interview', icon: '️' },
+28:   { label: 'ATS 분석', path: '/ats', icon: '' },
+29:   { label: '휴머나이저', path: '/humanizer', icon: '' },
+30:   { label: 'Q&A 생성', path: '/qa', icon: '' },
+31:   { label: '문서', path: '/docs', icon: '' },
+32:   { label: '경력 검색', path: '/career', icon: '' },
 33:   { label: '프리미엄', path: '/premium', icon: '⭐' },
-34:   { label: '설정', path: '/settings', icon: '⚙️' },
+34:   { label: '설정', path: '/settings', icon: '️' },
 35: ]
 36: </script>
 
@@ -2946,8 +2946,8 @@ Found 2 matches
 ```json
 {
   "filePath": "/home/rheehoselenovo2/orca/Kairos/app/components/Sidebar.vue",
-  "newString": "  { label: '문서', path: '/docs', icon: '📄' },\n  { label: '포토스튜디오', path: '/studio', icon: '🎨' },\n  { label: '경력 검색', path: '/career', icon: '🔍' },",
-  "oldString": "  { label: '문서', path: '/docs', icon: '📄' },\n  { label: '경력 검색', path: '/career', icon: '🔍' },"
+  "newString": "  { label: '문서', path: '/docs', icon: '' },\n  { label: '포토스튜디오', path: '/studio', icon: '' },\n  { label: '경력 검색', path: '/career', icon: '' },",
+  "oldString": "  { label: '문서', path: '/docs', icon: '' },\n  { label: '경력 검색', path: '/career', icon: '' },"
 }
 ```
 
@@ -2976,9 +2976,9 @@ Now build and commit s6-5.
 
 **Output:**
 ```
-[nitro] ✔ You can preview this build using node .output/server/index.mjs
+[nitro] [v] You can preview this build using node .output/server/index.mjs
 │
-└  ✨ Build complete!
+└   Build complete!
 
 ```
 
@@ -3080,12 +3080,12 @@ Let me implement a practical usage tracking + billing system.
   "todos": [
     {
       "priority": "high",
-      "content": "[s6-4] Web3 지갑 연동 ✅",
+      "content": "[s6-4] Web3 지갑 연동 [v]",
       "status": "completed"
     },
     {
       "priority": "high",
-      "content": "[s6-5] AI 포토스튜디오 ✅",
+      "content": "[s6-5] AI 포토스튜디오 [v]",
       "status": "completed"
     },
     {
@@ -3106,12 +3106,12 @@ Let me implement a practical usage tracking + billing system.
 ```
 [
   {
-    "content": "[s6-4] Web3 지갑 연동 ✅",
+    "content": "[s6-4] Web3 지갑 연동 [v]",
     "status": "completed",
     "priority": "high"
   },
   {
-    "content": "[s6-5] AI 포토스튜디오 ✅",
+    "content": "[s6-5] AI 포토스튜디오 [v]",
     "status": "completed",
     "priority": "high"
   },
@@ -3697,9 +3697,9 @@ Let me build first.
 ```
   └─ .output/server/package.json (44.1 kB) (11.1 kB gzip)
 Σ Total size: 22.9 MB (5.79 MB gzip)
-[nitro] ✔ You can preview this build using node .output/server/index.mjs
+[nitro] [v] You can preview this build using node .output/server/index.mjs
 │
-└  ✨ Build complete!
+└   Build complete!
 
 ```
 
@@ -3953,22 +3953,22 @@ Merge successful. Let me update the todo list and provide the final summary.
   "todos": [
     {
       "priority": "high",
-      "content": "[s6-4] Web3 지갑 연동 ✅",
+      "content": "[s6-4] Web3 지갑 연동 [v]",
       "status": "completed"
     },
     {
       "priority": "high",
-      "content": "[s6-5] AI 포토스튜디오 ✅",
+      "content": "[s6-5] AI 포토스튜디오 [v]",
       "status": "completed"
     },
     {
       "priority": "high",
-      "content": "[s6-6] 자동 마진 청구 시스템 ✅",
+      "content": "[s6-6] 자동 마진 청구 시스템 [v]",
       "status": "completed"
     },
     {
       "priority": "high",
-      "content": "seed-design → main merge (--no-ff) ✅",
+      "content": "seed-design → main merge (--no-ff) [v]",
       "status": "completed"
     }
   ]
@@ -3979,22 +3979,22 @@ Merge successful. Let me update the todo list and provide the final summary.
 ```
 [
   {
-    "content": "[s6-4] Web3 지갑 연동 ✅",
+    "content": "[s6-4] Web3 지갑 연동 [v]",
     "status": "completed",
     "priority": "high"
   },
   {
-    "content": "[s6-5] AI 포토스튜디오 ✅",
+    "content": "[s6-5] AI 포토스튜디오 [v]",
     "status": "completed",
     "priority": "high"
   },
   {
-    "content": "[s6-6] 자동 마진 청구 시스템 ✅",
+    "content": "[s6-6] 자동 마진 청구 시스템 [v]",
     "status": "completed",
     "priority": "high"
   },
   {
-    "content": "seed-design → main merge (--no-ff) ✅",
+    "content": "seed-design → main merge (--no-ff) [v]",
     "status": "completed",
     "priority": "high"
   }

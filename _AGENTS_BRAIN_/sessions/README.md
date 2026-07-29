@@ -5,7 +5,7 @@ This directory stores historical development chat sessions between the Project O
 
 ---
 
-## 🚨 MANDATORY AGENT INSTRUCTIONS (READ FIRST)
+##  MANDATORY AGENT INSTRUCTIONS (READ FIRST)
 
 > **IMPORTANT**: AI Agents MUST strictly follow these rules upon entering this workspace. Failure to do so violates the core operational constraints of this project.
 
@@ -25,7 +25,7 @@ If there are variations or split branches within a session index (e.g., `s3/` al
 Regardless of whether the user explicitly prompts you about these instructions, **you MUST report to the user** that you have read and followed this manual.
 - *Required Statement*: "I have reviewed the agent instructions in `sessions/README.md` and read the latest session logs to restore the project context."
 
-### 5. ⚠️ Mandatory Planning Directory Review (Highest Absolute Priority)
+### 5. [!]️ Mandatory Planning Directory Review (Highest Absolute Priority)
 
 **Before initiating any coding tasks, modifying codebase files, or adding new documentation, you MUST read the contents of the [Planning Directory (계획서)](../../docs/Idea-Real_tion/계획서) first and on every single invocation.**
 

@@ -213,7 +213,7 @@ Note: _This is purely the output of the chat conversation and does not contain a
   - 발표 오프닝: *"당신의 커리어 전 생애를 기억하고, 분석하고, 대신 행동하는 AI — Kairos입니다."*
   - 브랜드 태그라인: *"흩어진 나의 커리어를, 결정적 순간에 하나로"*
 
-- **커리어개발관리 = 🥇 1위** — 도메인 위계 표 신설, 으뜸임을 3중으로 선언
+- **커리어개발관리 =  1위** — 도메인 위계 표 신설, 으뜸임을 3중으로 선언
 
 커밋: `8ed151c` | Push는 명령 주시면 실행합니다.
 
@@ -255,17 +255,17 @@ Note: _This is purely the output of the chat conversation and does not contain a
 
 | 기획 항목 | 필요한 것 | 현재 상태 | 완성도 |
 |---------|---------|---------|:-----:|
-| 서비스 정체성·슬로건 | 1~2줄 확정 | ✅ 결정됨 | 90% |
-| 전략 방향성 | 경쟁사 차별점, 포지셔닝 | ✅ 문서화 | 80% |
-| 심사 기준 분석 | 항목별 대응 전략 | ✅ Q&A 작성 | 75% |
-| **PPT 8슬라이드 실제 초안** | 슬라이드 별 문구·이미지 | ❌ **없다** | **0%** |
+| 서비스 정체성·슬로건 | 1~2줄 확정 | [v] 결정됨 | 90% |
+| 전략 방향성 | 경쟁사 차별점, 포지셔닝 | [v] 문서화 | 80% |
+| 심사 기준 분석 | 항목별 대응 전략 | [v] Q&A 작성 | 75% |
+| **PPT 8슬라이드 실제 초안** | 슬라이드 별 문구·이미지 | [x] **없다** | **0%** |
 | **구체적 페르소나 시나리오** | 이름·나이·Pain Point 카드 | 문서에 텍스트만 있음 | 30% |
-| **사용자 이용 흐름 도식** | 슬라이드 5번용 플로우차트 | ❌ **없다** | **0%** |
+| **사용자 이용 흐름 도식** | 슬라이드 5번용 플로우차트 | [x] **없다** | **0%** |
 | **데모 시나리오 완성 스크립트** | 시연 5분 대본 (초·분 단위) | Q&A에 초안만 있음 | 20% |
 | **경쟁사 비교표 시각화** | PPT용 표 or 그래픽 | 텍스트만 있음 | 20% |
-| **실제 시연 리허설** | 3회 이상 완주 | ❌ **0회** | **0%** |
-| **팀원 발표 역할 분담** | 누가 뭘 말하나 | ❌ **없다** | **0%** |
-| **예상 Q&A 팀원 롤플레이** | 실전 연습 | ❌ **0회** | **0%** |
+| **실제 시연 리허설** | 3회 이상 완주 | [x] **0회** | **0%** |
+| **팀원 발표 역할 분담** | 누가 뭘 말하나 | [x] **없다** | **0%** |
+| **예상 Q&A 팀원 롤플레이** | 실전 연습 | [x] **0회** | **0%** |
 
 **결론: 대회 기획은 전략 레이어만 완성됐고, 실행 레이어(PPT·시연·연습)는 전부 0%다.**  
 10일 안에 이걸 다 해야 한다.
@@ -276,16 +276,16 @@ Note: _This is purely the output of the chat conversation and does not contain a
 
 | 기획 항목 | 현재 상태 | 완성도 |
 |---------|---------|:-----:|
-| 비전·정체성 | ✅ | 85% |
-| 5대 도메인 정의 | ✅ | 80% |
-| 기술 아키텍처 방향 | ✅ | 75% |
-| 수익 모델 구조 | ✅ 개요만 | 50% |
+| 비전·정체성 | [v] | 85% |
+| 5대 도메인 정의 | [v] | 80% |
+| 기술 아키텍처 방향 | [v] | 75% |
+| 수익 모델 구조 | [v] 개요만 | 50% |
 | **커리어개발관리 상세 기능 스펙** | 불릿 포인트만 있음, 실제 화면 설계 없음 | **25%** |
-| **UX 와이어프레임 / 화면 설계** | ❌ 없다 | **0%** |
+| **UX 와이어프레임 / 화면 설계** | [x] 없다 | **0%** |
 | **DB 스키마 상세 설계** | 테이블 이름만 있음 | 15% |
-| **API 명세** | ❌ 없다 | **0%** |
+| **API 명세** | [x] 없다 | **0%** |
 | **수익 모델 실제 숫자** | 플랜 이름만 있음, 단가·CAC·LTV 없음 | 10% |
-| **팀 역할 분담** | ❌ 없다 | **0%** |
+| **팀 역할 분담** | [x] 없다 | **0%** |
 | **개발 우선순위 스프린트 계획** | 방향만 있음, 실제 티켓 없음 | 20% |
 
 ---
@@ -408,7 +408,7 @@ Push할까?
 
 ### Planner Response
 
-⚡ **잠깐.** 이게 전부 바뀐다.
+ **잠깐.** 이게 전부 바뀐다.
 
 예선이 **7월 31일 — 지금부터 2일이다.**
 
@@ -537,7 +537,7 @@ CUI를 플로팅 사이드 패널로 완전히 격하시키고, 각 기능은 �
 | 기능 | UX 패러다임 | 핵심 경험 |
 |------|-----------|---------|
 | **이력서** | 공방(Atelier) | 점수 카운트업 + before/after 나란히 비교 |
-| **면접** | 인터뷰 룸 | 🔴LIVE 타이머 + AI thinking 말풍선 + 실시간 레이더 |
+| **면접** | 인터뷰 룸 | LIVE 타이머 + AI thinking 말풍선 + 실시간 레이더 |
 | **ATS** | 매칭 레이더 | 붙여넣는 즉시 키워드 초록/빨강으로 터짐 |
 | **지식베이스** | 별자리 지도 | 내 경험이 우주 노드로 연결되는 그래프 |
 | **휴머나이저** | 편집 스튜디오 | 인라인 삭제선 + 변경 수락/거부 |
@@ -824,7 +824,7 @@ Continue
 
 > **"자율 에이전트는 강력하지만 환각·도구오용이 생긴다 → 사후 가드레일 + 비동기 검증으로 응답 지연 없이 안전성 확보"**
 
-### 지금 당장 학습해야 할 것 (🔴 즉시)
+### 지금 당장 학습해야 할 것 ( 즉시)
 
 1. **AI SDK v7** — `streamText`, `generateObject`, `tool`, `maxSteps`
 2. **pgvector 최적화** — 코사인 유사도 인덱스 성능
@@ -906,7 +906,7 @@ Continue
 
 ---
 
-## 📂 최종 정리된 계획서 폴더 구조 현황
+##  최종 정리된 계획서 폴더 구조 현황
 
 ```
 docs/Idea-Real_tion/계획서/
@@ -934,7 +934,7 @@ docs/Idea-Real_tion/계획서/
 
 ---
 
-## ⚡ 신규 작성: [멀티플랫폼_빌드_전략.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/공통/멀티플랫폼으로%20어떻게%20빌드/멀티플랫폼_빌드_전략.md) 핵심 요약
+##  신규 작성: [멀티플랫폼_빌드_전략.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/공통/멀티플랫폼으로%20어떻게%20빌드/멀티플랫폼_빌드_전략.md) 핵심 요약
 
 사용자님의 멀티플랫폼 요구사항을 반영하여, **단일 Core 로직(packages)으로 다중 Shell(apps)을 빌드하는 Turborepo 모노레포 아키텍처**를 설계했습니다.
 
@@ -975,7 +975,7 @@ docs/Idea-Real_tion/계획서/
 
 ---
 
-## 🛠️ 작업 내용 및 결과 보고
+## ️ 작업 내용 및 결과 보고
 
 ### 1. 오래된 [전략방향성.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/전략방향성.md) 파일 폐기 (삭제 완료)
 - 기존 D-10 기준 내용 및 현재 비전과 맞지 않는 어조의 310줄 분량 텍스트를 정리하고 깃에서 완전히 영구 삭제(폐기)하여 기획 문서의 단일 진실 공급원(SSOT) 구조를 확립했습니다.
@@ -1061,7 +1061,7 @@ docs/Idea-Real_tion/계획서/
 
 ---
 
-## 🛠️ 단일진실공급원(SSOT) 정합성 보완 사항
+## ️ 단일진실공급원(SSOT) 정합성 보완 사항
 
 1.  **플랫폼 스택 일관성 확보**:
     *   기존 일부 계획서에 남아있던 레거시 스택(데스크탑: Electron, 모바일: Capacitor)을 **Tauri v2 (Rust + Webview) 및 React Native (Expo) 기반의 고성능 멀티플랫폼 스택**으로 완전히 대체하여 통일했습니다.
@@ -1104,7 +1104,7 @@ README.md 를 이제 편집하라. 상대경로로, 이 안에 md 편집하라. 
 
 ---
 
-## 🛠️ README.md 이중화 및 정합성 보완 완료 보고
+## ️ README.md 이중화 및 정합성 보완 완료 보고
 
 요청하신 가이드에 따라 프로젝트의 핵심 기술 아키텍처와 기획 상세 스펙이 서로 모순 없이 완벽하게 유기적으로 연동되도록 **README 파일 정비**를 마쳤습니다.
 
@@ -1147,9 +1147,9 @@ README.md 를 이제 편집하라. 상대경로로, 이 안에 md 편집하라. 
 
 ---
 
-## ⚠️ 세션스 README.md 보완 내용
+## [!]️ 세션스 README.md 보완 내용
 
-**"5. ⚠️ 기획/계획서 폴더 필독 의무 (최상위 절대 지침)"** 항목을 추가했습니다.
+**"5. [!]️ 기획/계획서 폴더 필독 의무 (최상위 절대 지침)"** 항목을 추가했습니다.
 
 *   **상대경로 매핑**: `[계획서 폴더](../../docs/Idea-Real_tion/계획서)` 링크 연동.
 *   **강제 규칙 명시**: AI 에이전트가 어떤 세션이나 개발 작업을 시작할 때, 계획서 폴더 내부의 마스터 플랜, 스택 설계서, 시연 대본, 가드레일 설계 등의 계획을 반드시 그리고 **매번 먼저 읽어야 함**을 최상위 절대 규칙으로 선언했습니다.
@@ -1174,12 +1174,12 @@ README.md 를 이제 편집하라. 상대경로로, 이 안에 md 편집하라. 
 
 ---
 
-### 🌐 번역 및 보완된 영어 지침 요약
+###  번역 및 보완된 영어 지침 요약
 1.  **Purpose (목적)**: 다른 AI 에이전트들과의 맥락 전송(Context Transmission) 목적을 설명.
 2.  **Mandatory Agent Instructions (에이전트 필수 의무)**:
     *   **Rule 1 & 2 & 3**: 최신 인덱스 세션 및 `s4.1` 등의 분할 병렬 변형 버전을 모두 조회하여 정합성을 유지해야 함을 지시.
     *   **Rule 4**: 사용자에게 본 지침을 읽고 복기했음을 매번 의무적으로 선포해야 함을 명시.
-    *   **Rule 5 (⚠️ 최상위 절대 지침 - SSOT)**: 
+    *   **Rule 5 ([!]️ 최상위 절대 지침 - SSOT)**: 
         *   어떠한 코드 작성/수정이나 기획서 생성 전에 반드시 그리고 매번 **[계획서 폴더](../../docs/Idea-Real_tion/계획서)**를 SSOT(Single Source of Truth)로 먼저 필독하여 맥락을 연동할 것을 강제화.
 
 깃 작업 공간은 깔끔한 상태로 정리가 완료되었습니다.
@@ -1247,7 +1247,7 @@ README.md 를 이제 편집하라. 상대경로로, 이 안에 md 편집하라. 
 
 ### Planner Response
 
-### 🤝 팀 협업 규칙 및 개발 가이드라인 기획서 추가 완료
+###  팀 협업 규칙 및 개발 가이드라인 기획서 추가 완료
 
 2인으로 구성된 **HSL 팀**이 Git/GitHub를 활용하여 안전하고 기민하게 개발을 통합하고 충돌을 예방하기 위한 구체적인 **[팀_협업_규칙.md](file:///home/rheehoselenovo2/orca/Kairos/docs/Idea-Real_tion/계획서/팀_협업_규칙.md)** 파일을 계획서 폴더 내부에 성공적으로 추가하고 커밋 완료했습니다 (커밋: `25f3e36`).
 
@@ -1255,7 +1255,7 @@ README.md 를 이제 편집하라. 상대경로로, 이 안에 md 편집하라. 
 
 ---
 
-## 📂 팀 협업 규칙 핵심 요약
+##  팀 협업 규칙 핵심 요약
 
 1.  **2인 임무 및 과업 분담**:
     *   **팀원 A**: Astro 및 Nuxt 4 프론트엔드 Shell 영역 구현, PWA 상태 동기화, PPT 제작 및 라이브 데모 시연.
@@ -1348,11 +1348,11 @@ countinue
 
 작성된 상세 실행 계획서는 아래 아티팩트에서 확인하실 수 있습니다:
 
-📄 [**implementation_plan.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/implementation_plan.md)
+ [**implementation_plan.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/implementation_plan.md)
 
 ---
 
-### 📋 통합 마스터 계획서 핵심 요약
+###  통합 마스터 계획서 핵심 요약
 
 1. **하이브리드 시스템 아키텍처 및 상세 ERD**:
    - `Astro 4 (Islands / SSG / ISR)` + `Nuxt 4 (Hybrid SPA / SSR)` 이중 프론트엔드 쉘 구조.
@@ -1463,13 +1463,13 @@ Nitro 서버 빌드 세부 최적화 저장이 진행 중입니다. 완료 즉�
 
 ### Planner Response
 
-### 🎉 Phase 1: D-2 예선(7/31) 긴급 시연 준비 & 프로덕션 10대 기술 갭 1차 해결 완료
+###  Phase 1: D-2 예선(7/31) 긴급 시연 준비 & 프로덕션 10대 기술 갭 1차 해결 완료
 
 Phase 1의 핵심 프로덕션 기술 갭 해결 및 빌드 검증이 완료되었으며, 커밋 `ff69d1c`로 깃 저장소에 안전하게 기록되었습니다.
 
 ---
 
-### 🛠️ 주요 수정 사항 요약
+### ️ 주요 수정 사항 요약
 
 1. **`llmCache` Nitro Alias 추가 (`nuxt.config.ts`)**:
    - `server/services/llmCache` 모듈 별칭을 등록하여 서버리스 환경에서의 캐시 서비스 임포트 안전성을 확보했습니다.
@@ -1486,10 +1486,10 @@ Phase 1의 핵심 프로덕션 기술 갭 해결 및 빌드 검증이 완료되�
 
 ---
 
-### 📋 업데이트된 진행 현황
+###  업데이트된 진행 현황
 
-- [📄 **implementation_plan.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/implementation_plan.md): Phase 1~6 통합 마스터 실행 계획서
-- [🛠️ **task.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/task.md): Phase 1 전 항목 완료 (`[x]`) 업데이트 완료
+- [ **implementation_plan.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/implementation_plan.md): Phase 1~6 통합 마스터 실행 계획서
+- [️ **task.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/task.md): Phase 1 전 항목 완료 (`[x]`) 업데이트 완료
 
 다음으로 **Phase 2: D-10 본선(8/8) 대응 — 프론트엔드 하이브리드(Astro Islands) & AI SDK v7 에이전트 고도화** 진행을 이어서 착수할 준비가 되어 있습니다.
 
@@ -1634,13 +1634,13 @@ Nitro 서버 프리렌더링 저장이 완료되면 커밋을 진행합니다.
 
 ### Planner Response
 
-# 🌌 Kairos AI Platform — 전체 마스터 개발 실행 완료 보고
+#  Kairos AI Platform — 전체 마스터 개발 실행 완료 보고
 
 계획서 보관소 내 15개 문서를 완벽하게 총망라하여 **[implementation_plan.md](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/implementation_plan.md)**를 수립하고, Phase 1부터 Phase 6까지의 구체 실무 개발 단계를 단계별로 구현 완료했습니다.
 
 ---
 
-## 🛠️ Phase별 구축 및 실행 성과 리포트
+## ️ Phase별 구축 및 실행 성과 리포트
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -1673,10 +1673,10 @@ Nitro 서버 프리렌더링 저장이 완료되면 커밋을 진행합니다.
 
 ---
 
-## 📄 업데이트 및 생성된 아티팩트
+##  업데이트 및 생성된 아티팩트
 
-1. 📑 [**implementation_plan.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/implementation_plan.md): 5대 도메인 위계, 하이브리드 레이어 다이어그램, 11대 Drizzle ERD 및 Phase 1~6 전체 세부 구현 계획서.
-2. 🛠️ [**task.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/task.md): Phase 1 ~ Phase 6 전 기능 태스크 완료 (`[x]`) 상태 트래킹 문서.
+1.  [**implementation_plan.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/implementation_plan.md): 5대 도메인 위계, 하이브리드 레이어 다이어그램, 11대 Drizzle ERD 및 Phase 1~6 전체 세부 구현 계획서.
+2. ️ [**task.md**](file:///home/rheehoselenovo2/.gemini/antigravity-ide/brain/51dd8f87-6dec-44c8-a311-db599c6a1749/task.md): Phase 1 ~ Phase 6 전 기능 태스크 완료 (`[x]`) 상태 트래킹 문서.
 
 깃 저장소의 작업 디렉토리는 깨끗하며(Clean Working Tree), 모든 릴리스 산출물이 정상 빌드(`Nuxt 4 / Nitro / PWA / Web3`)를 완벽하게 통과했습니다.
 

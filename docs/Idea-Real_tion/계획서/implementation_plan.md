@@ -1,4 +1,4 @@
-# 🌌 Kairos AI Platform — 통합 마스터 개발 실행 계획서 (Master Execution Plan)
+#  Kairos AI Platform — 통합 마스터 개발 실행 계획서 (Master Execution Plan)
 
 > **문서 성격**: 기획서 폴더 내 15개 문서를 완벽히 총망라한 구체 실무적 개발 실행 로드맵  
 > **핵심 슬로건**: "당신의 커리어 전 생애를 기억하고, 분석하고, 대신 행동하는 AI — Kairos"  
@@ -183,7 +183,7 @@ erDiagram
 
 ---
 
-### 🚨 PHASE 1: D-2 예선(7/31) 긴급 시연 & 프로덕션 10대 갭 1차 해결
+###  PHASE 1: D-2 예선(7/31) 긴급 시연 & 프로덕션 10대 갭 1차 해결
 
 > **목표**: 7/31 예선 3분/5분 라이브 시연 완벽 수행 및 기존 코드베이스의 10대 프로덕션 갭 즉시 보원.
 
@@ -201,7 +201,7 @@ erDiagram
 
 ---
 
-### ⚡ PHASE 2: D-10 본선(8/8) 대응 — 프론트엔드 하이브리드 & AI SDK v7 에이전트 고도화
+###  PHASE 2: D-10 본선(8/8) 대응 — 프론트엔드 하이브리드 & AI SDK v7 에이전트 고도화
 
 > **목표**: Astro (Islands) + Nuxt 4 (Hybrid SPA) 물리적 이중 쉘 완성 및 Vercel AI SDK v7 기반 5대 에이전트 루프 구축.
 
@@ -227,7 +227,7 @@ erDiagram
 
 ---
 
-### 🏢 PHASE 3: B2B2C 채용 인텔리전스 & 커뮤니티(SNS) & MCP 에이전트 허브
+###  PHASE 3: B2B2C 채용 인텔리전스 & 커뮤니티(SNS) & MCP 에이전트 허브
 
 > **목표**: 잡코리아 x 사람인 x Reddit 융합 메타 데이터 파이프라인 구축 및 MCP (Model Context Protocol) 연동.
 
@@ -242,7 +242,7 @@ erDiagram
 
 ---
 
-### 💻 PHASE 4: 멀티플랫폼 모노레포 구축 (Desktop, Mobile, Extensions, CLI)
+###  PHASE 4: 멀티플랫폼 모노레포 구축 (Desktop, Mobile, Extensions, CLI)
 
 > **목표**: Core-Shell 구조의 Turborepo 모노레포 환경에서 6대 타깃 플랫폼 빌드 파이프라인 가동.
 
@@ -262,7 +262,7 @@ erDiagram
 
 ---
 
-### 🏛️ PHASE 5: 공익성 데이터 서비스 & 자동 마진 제어 / Web3 결제
+### ️ PHASE 5: 공익성 데이터 서비스 & 자동 마진 제어 / Web3 결제
 
 > **목표**: 지자체/대학용 스킬 갭 리포트 시스템 구축 및 B2B/B2C 비용 보호 자동마진장치 완성.
 
@@ -277,7 +277,7 @@ erDiagram
 
 ---
 
-### 🔮 PHASE 6: 독점 커리어 OS 생태계 완성 & AI 예측 모델 튜닝
+###  PHASE 6: 독점 커리어 OS 생태계 완성 & AI 예측 모델 튜닝
 
 > **목표**: 경력/이직 예측 AI 엔진 구축 및 B2B HR 솔루션 파이프라인 개방.
 

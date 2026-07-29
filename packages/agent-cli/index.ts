@@ -13,13 +13,13 @@ export async function runAgentCLI(options: CLICallOptions): Promise<string> {
 
   switch (command) {
     case 'init':
-      return '🚀 [Kairos CLI] Initialized local career knowledge base directory (.kairos)';
+      return '[Kairos CLI] Initialized local career knowledge base directory (.kairos)';
     case 'push':
-      return `📄 [Kairos CLI] Resume "${filePath || 'resume.pdf'}" pushed successfully! Evaluator-Optimizer chain running...`;
+      return `[Kairos CLI] Resume "${filePath || 'resume.pdf'}" pushed successfully! Evaluator-Optimizer chain running...`;
     case 'status':
-      return '📊 [Kairos CLI] Resume Score: 94/100 | ATS Match: 88% | Pending Interviews: 1';
+      return '[Kairos CLI] Resume Score: 94/100 | ATS Match: 88% | Pending Interviews: 1';
     case 'interview':
-      return `🎙️ [Kairos CLI] Starting interactive CUI interview for topic: "${query || 'General Technical'}"`;
+      return `[Kairos CLI] Starting interactive CUI interview for topic: "${query || 'General Technical'}"`;
     default:
       return 'Unknown Kairos CLI command';
   }

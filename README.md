@@ -1,14 +1,14 @@
-# 🌌 Kairos: AI-Driven Career Operating System
+# Kairos: AI-Driven Career Operating System
 > **"당신의 커리어 전 생애를 기억하고, 분석하고, 대신 행동하는 AI"**
 
 Kairos는 **Astro(아일랜드 아키텍처)**와 **Nuxt 4(하이브리드 SPA)**를 결합하여 사용자 경험을 고도화하고, **NeonDB(pgvector)**와 **Redis Cloud(시맨틱 캐시)**를 활용하여 저지연 AI 연산을 수행하는 크로스플랫폼 커리어 관리 엔진입니다.
 
-> 📁 **기획 및 전략 로드맵 문서 저장소**: [Kairos 기획 특화 저장소 바로가기](./docs/Idea-Real_tion/README.md)  
+> **기획 및 전략 로드맵 문서 저장소**: [Kairos 기획 특화 저장소 바로가기](./docs/Idea-Real_tion/README.md)  
 > 경진대회 PPT 대본, 심사기준 Q&A, 데모 시연 대본은 위 링크를 클릭하여 확인하세요.
 
 ---
 
-## 🛠️ 하이브리드 시스템 아키텍처
+## 하이브리드 시스템 아키텍처
 
 ```
                   ┌────────────────────────────────────────┐
@@ -45,7 +45,7 @@ Kairos는 **Astro(아일랜드 아키텍처)**와 **Nuxt 4(하이브리드 SPA)*
 
 ---
 
-## 📊 Database ERD (Entity Relationship Diagram)
+## Database ERD (Entity Relationship Diagram)
 
 ```mermaid
 erDiagram
@@ -164,7 +164,7 @@ erDiagram
 
 ---
 
-## 🛠️ Multi-Platform Stack (Core-Shell)
+## Multi-Platform Stack (Core-Shell)
 
 Kairos는 단일 Core 비즈니스 로직(`packages/`)을 중심으로 각 타깃 디바이스에 전용 Shell을 씌워 컴파일하는 모노레포 구조로 기획되었습니다.
 
@@ -175,7 +175,7 @@ Kairos는 단일 Core 비즈니스 로직(`packages/`)을 중심으로 각 타�
 
 ---
 
-## 🚀 Local Quick Start
+## Local Quick Start
 
 ```bash
 # 1. 의존성 설치 (pnpm 권장)

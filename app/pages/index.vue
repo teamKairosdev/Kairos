@@ -25,10 +25,10 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <StatCard label="등록된 이력서" value="3" icon="📝" trend="최근 평가 94점" trendPositive />
-      <StatCard label="완료된 면접" value="8" icon="🎙️" trend="답변 완성도 +15%" trendPositive />
-      <StatCard label="ATS 매칭" value="92%" icon="🎯" trend="목표 직무 최적화" trendPositive />
-      <StatCard label="벡터 경력" value="12" icon="⚡" trend="pgvector 1536-dim" />
+      <StatCard label="등록된 이력서" value="3" icon="i-lucide-file-text" trend="최근 평가 94점" trendPositive />
+      <StatCard label="완료된 면접" value="8" icon="i-lucide-mic" trend="답변 완성도 +15%" trendPositive />
+      <StatCard label="ATS 매칭" value="92%" icon="i-lucide-crosshair" trend="목표 직무 최적화" trendPositive />
+      <StatCard label="벡터 경력" value="12" icon="i-lucide-zap" trend="pgvector 1536-dim" />
     </div>
 
     <div>
@@ -36,7 +36,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <NuxtLink to="/resume" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors">
           <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg mb-3 text-fg-neutral-muted">
-            📑
+            <UIcon name="i-lucide-file-text" class="w-5 h-5" />
           </div>
           <h3 class="text-base font-medium text-fg-neutral mb-1">Resume Refinement</h3>
           <p class="text-xs text-fg-neutral-muted leading-relaxed">
@@ -46,7 +46,7 @@
 
         <NuxtLink to="/interview" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors">
           <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg mb-3 text-fg-neutral-muted">
-            🎙️
+            <UIcon name="i-lucide-mic" class="w-5 h-5" />
           </div>
           <h3 class="text-base font-medium text-fg-neutral mb-1">Mock Interview</h3>
           <p class="text-xs text-fg-neutral-muted leading-relaxed">
@@ -56,7 +56,7 @@
 
         <NuxtLink to="/humanizer" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors">
           <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-lg mb-3 text-fg-neutral-muted">
-            ✨
+            <UIcon name="i-lucide-sparkles" class="w-5 h-5" />
           </div>
           <h3 class="text-base font-medium text-fg-neutral mb-1">Humanizer</h3>
           <p class="text-xs text-fg-neutral-muted leading-relaxed">

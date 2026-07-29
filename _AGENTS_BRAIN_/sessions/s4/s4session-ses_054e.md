@@ -427,7 +427,7 @@ The user wants me to read two session files to understand past conversations, th
 393:       "title": "Best AI Model Comparison 2026 — GPT-5 vs Claude vs Gemini vs DeepSeek | AI Stack Digest",
 394:       "publish_date": "2026-07-06",
 395:       "excerpts": [
-396:         "AI Model Comparison Table 2026 — GPT-5, Claude, Gemini, Llama & More\n\n# AI Model Comparison Table 2026 — GPT-5, Claude, Gemini, Llama & More\n\n📅 Last Updated: July 6, 2026\n\n# AI Model Comparison 2026\n\nCompare leading AI models side-by-side — pricing, context windows, reasoning, multimodal & more. Updated weekly.\n\n40 Models Tracked\n\n11 Providers\n\nWeekly Updates\n\nFree No Signup\n\nThis **AI model comparison 2026** tracks the **best AI models** available today — from frontier giants like **GPT-5 vs Claude vs Gemini** to open-source alternatives you can self-host for free. Whether you need the smartest reasoning model, the cheapest API, or multimodal vision capabilities, this table cuts through the noise. Pricing reflects official API rates per 1M tokens; open-source models are free to run locally via Ollama or Hugging Face.\n\n🔍 Search\n\nProvider All Providers Anthropic OpenAI Google Meta xAI DeepSeek Mistral Moonshot Alibaba/Qwen Microsoft Perplexity\n\nAccess All Paid API Open Source\nReasoning All Yes No\n\nMultimodal All Yes No\n\n✖ Reset\n\n22 models\n\n0 filters 📋 Copy as Markdown Missing a model? Suggest one\n\n| |Model _⇅_ |Provider _⇅_ |Context _⇅_ |Input $/1M _⇅_ |Output $/1M _⇅_ |Reasoning |Multimodal |Access |Score _⇅_ |Best For |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n\nPrices per 1M tokens via API. Free = open-source / self-hostable. Updated July 6, 2026. Suggest a correction .\n\nComparing: Clear selection\n\n## Frequently Asked Questions\n\nWhich AI model is best in 2026?\n\nFor top-tier quality, **Claude Fable 5** , **Claude Mythos 5** , **Claude Sonnet 5** , **GPT-5.6** , **GPT-5.5** , **Gemini 3.2 Pro** , **Gemini 3.5 Flash** , and **Claude Opus 4.8** all score 5/5 and are excellent choices for demanding tasks. For budget-conscious users, **Gemini 2.5 Flash** ($0.30/1M) offers remarkable value.\n\nWhat is the cheapest AI model API?\n\n**Gemini 2.0 Flash** at $0.10/1M input tokens is the cheap... (line truncated to 2000 chars)
+396:         "AI Model Comparison Table 2026 — GPT-5, Claude, Gemini, Llama & More\n\n# AI Model Comparison Table 2026 — GPT-5, Claude, Gemini, Llama & More\n\n Last Updated: July 6, 2026\n\n# AI Model Comparison 2026\n\nCompare leading AI models side-by-side — pricing, context windows, reasoning, multimodal & more. Updated weekly.\n\n40 Models Tracked\n\n11 Providers\n\nWeekly Updates\n\nFree No Signup\n\nThis **AI model comparison 2026** tracks the **best AI models** available today — from frontier giants like **GPT-5 vs Claude vs Gemini** to open-source alternatives you can self-host for free. Whether you need the smartest reasoning model, the cheapest API, or multimodal vision capabilities, this table cuts through the noise. Pricing reflects official API rates per 1M tokens; open-source models are free to run locally via Ollama or Hugging Face.\n\n Search\n\nProvider All Providers Anthropic OpenAI Google Meta xAI DeepSeek Mistral Moonshot Alibaba/Qwen Microsoft Perplexity\n\nAccess All Paid API Open Source\nReasoning All Yes No\n\nMultimodal All Yes No\n\n Reset\n\n22 models\n\n0 filters  Copy as Markdown Missing a model? Suggest one\n\n| |Model _⇅_ |Provider _⇅_ |Context _⇅_ |Input $/1M _⇅_ |Output $/1M _⇅_ |Reasoning |Multimodal |Access |Score _⇅_ |Best For |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n\nPrices per 1M tokens via API. Free = open-source / self-hostable. Updated July 6, 2026. Suggest a correction .\n\nComparing: Clear selection\n\n## Frequently Asked Questions\n\nWhich AI model is best in 2026?\n\nFor top-tier quality, **Claude Fable 5** , **Claude Mythos 5** , **Claude Sonnet 5** , **GPT-5.6** , **GPT-5.5** , **Gemini 3.2 Pro** , **Gemini 3.5 Flash** , and **Claude Opus 4.8** all score 5/5 and are excellent choices for demanding tasks. For budget-conscious users, **Gemini 2.5 Flash** ($0.30/1M) offers remarkable value.\n\nWhat is the cheapest AI model API?\n\n**Gemini 2.0 Flash** at $0.10/1M input tokens is the cheap... (line truncated to 2000 chars)
 397:       ]
 398:     },
 399:     {
@@ -494,7 +494,7 @@ The user wants me to read two session files to understand past conversations, th
 460:       "title": "Top Open-Source LLMs 2026: The Best Models & Comparison",
 461:       "publish_date": "2026-04-09",
 462:       "excerpts": [
-463:         "Best Open-Source LLMs in 2026:** The best open-source LLMs in 2026 are **Meta Llama 4** for general reasoning, **Mistral Large** for speed and efficiency, and **Qwen 2.5** for multilingual tasks. Other top models include **DeepSeek** for coding and **Microsoft Phi-4** for high-performance reasoning in small-scale deployments.\n\n## **Understanding Open-Source LLMs**\n\n### **What Is an Open-Source LLM?**\n\nAn **open-source Large Language Model (LLM)** is a machine learning model trained on vast collections of **text data** to perform tasks like question answering, summarization, code generation, and text classification. What distinguishes these models is the **public availability** of their underlying **source code** , model weights, and sometimes even the training datasets.\n\nUnlike proprietary or closed LLMs, **open-source models** can be **audited, modified, and integrated freely** , depending on the license.\n\n...\n\nOpen-source LLMs continue to evolve rapidly, combining **performance** , accessibility, and flexibility. This selection is based on several criteria: **model capabilities** , **community support** , **licensing transparency** , and **practical applications** across industries. Each entry provides key data to help you choose the best fit for your **context** and technological needs.\n\n### **1\\. Meta LLaMA 4**\n\nDeveloped by Meta, LLaMA 4 pushes language modeling further with versions ranging from 16\\*17B to 128\\*17B parameters. It’s highly performant on reasoning and multilingual tasks. Access to weights is available under Meta’s custom license.  \n🔗 [Meta AI](https://huggingface.co/meta-llama/Llama-3.1-8B)\n\n### **2\\. Mistral 7B / Mistral Large**\n\nMistral models, by Mistral AI, offer compact, high-speed alternatives with strong text generation capabilities.\nThe Mistral 7B is efficient and fully open-weight, while the newer Mistral Large offers advanced performance with a more permissive use policy.  \n🔗 [Mistral AI GitHub](ht... (line truncated to 2000 chars)
+463:         "Best Open-Source LLMs in 2026:** The best open-source LLMs in 2026 are **Meta Llama 4** for general reasoning, **Mistral Large** for speed and efficiency, and **Qwen 2.5** for multilingual tasks. Other top models include **DeepSeek** for coding and **Microsoft Phi-4** for high-performance reasoning in small-scale deployments.\n\n## **Understanding Open-Source LLMs**\n\n### **What Is an Open-Source LLM?**\n\nAn **open-source Large Language Model (LLM)** is a machine learning model trained on vast collections of **text data** to perform tasks like question answering, summarization, code generation, and text classification. What distinguishes these models is the **public availability** of their underlying **source code** , model weights, and sometimes even the training datasets.\n\nUnlike proprietary or closed LLMs, **open-source models** can be **audited, modified, and integrated freely** , depending on the license.\n\n...\n\nOpen-source LLMs continue to evolve rapidly, combining **performance** , accessibility, and flexibility. This selection is based on several criteria: **model capabilities** , **community support** , **licensing transparency** , and **practical applications** across industries. Each entry provides key data to help you choose the best fit for your **context** and technological needs.\n\n### **1\\. Meta LLaMA 4**\n\nDeveloped by Meta, LLaMA 4 pushes language modeling further with versions ranging from 16\\*17B to 128\\*17B parameters. It’s highly performant on reasoning and multilingual tasks. Access to weights is available under Meta’s custom license.  \n [Meta AI](https://huggingface.co/meta-llama/Llama-3.1-8B)\n\n### **2\\. Mistral 7B / Mistral Large**\n\nMistral models, by Mistral AI, offer compact, high-speed alternatives with strong text generation capabilities.\nThe Mistral 7B is efficient and fully open-weight, while the newer Mistral Large offers advanced performance with a more permissive use policy.  \n [Mistral AI GitHub](ht... (line truncated to 2000 chars)
 464:       ]
 465:     },
 466:     {
@@ -558,7 +558,7 @@ The user wants me to read two session files to understand past conversations, th
 524:       "title": "Best Open Source LLMs in 2026: Llama 3 vs Mistral vs Qwen vs Phi-4 Compared | AI Nav",
 525:       "publish_date": "2026-06-22",
 526:       "excerpts": [
-527:         "⚡ AI . Nav\n\nDirectory Blog About [🎮 小游戏](https://game.yuzec.com)\n\nEN 中\n\nHome › Blog › Best Open Source LLMs 2026\n\n🧠 LLM Guide\n\n# Best Open Source LLMs in 2026:  \nLlama 3 vs Mistral vs Qwen vs Phi-4 Compared\n\nOpen source LLMs have reached a turning point in 2026. Several models now match or exceed GPT-4o performance on specific tasks — while running entirely on your own hardware. This guide covers every major model with real benchmark numbers, honest hardware requirements, and clear recommendations for nine common use cases.\n\n🗓 June 2026 ⏱ 11 min read ✍️ Nolan\n\nTwo years ago, \"open source LLM\" meant accepting a significant quality penalty compared to GPT-4. In 2026, that tradeoff has largely disappeared for well-defined tasks. Llama 3.1 70B matches GPT-3.5 Turbo quality for most instruction-following tasks. DeepSeek-V3 beats GPT-4o on several coding benchmarks. Qwen 2.5-Coder achieves 88.4% on HumanEval — higher than GPT-4's original score.\n\n...\n\nHardware requirements are for Q4\\_K\\_M quantization via Ollama or llama.cpp .\n\n|Model |Params |Context |License |MMLU |HumanEval |Min VRAM/RAM |Best For |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n|Llama 3.1 8B |8B |128K |Meta Custom |73\\.0% |72\\.6% |6 GB |General assistant, privacy |\n|Llama 3.1 70B |70B |128K |Meta Custom |82\\.6% |80\\.5% |40 GB |Long docs, complex reasoning |\n|Llama 3.1 405B |405B |128K |Meta Custom |88\\.6% |89\\.0% |256 GB |GPT-4o replacement |\n|Llama 3.3 70B |70B |128K |Meta Custom |86\\.0% |83\\.1% |40 GB |Best 70B overall (2025 release) |\n|Mistral Small 3.1 |24B |128K |Apache 2.0 |81\\.2% |75\\.0% |16 GB |Commercial use, EU privacy |\n|Mistral Large 2 |123B |128K |Mistral Research |84\\.0% |92\\.0% |80 GB |Code + multilingual |\n|Qwen 2.5 7B |7B |128K |Apache 2.0 |74\\.2% |79\\.9% |6 GB |Code generation, Chinese NLP |\n|Qwen 2.5 72B |72B |128K |Apache 2.0 |86\\.1% |86\\.7% |40 GB |Enterprise, multilingual reasoning |\n|Qwen 2.5-Coder 7B |7B |128K... (line truncated to 2000 chars)
+527:         " AI . Nav\n\nDirectory Blog About [ 小游戏](https://game.yuzec.com)\n\nEN 中\n\nHome › Blog › Best Open Source LLMs 2026\n\n LLM Guide\n\n# Best Open Source LLMs in 2026:  \nLlama 3 vs Mistral vs Qwen vs Phi-4 Compared\n\nOpen source LLMs have reached a turning point in 2026. Several models now match or exceed GPT-4o performance on specific tasks — while running entirely on your own hardware. This guide covers every major model with real benchmark numbers, honest hardware requirements, and clear recommendations for nine common use cases.\n\n June 2026 ⏱ 11 min read ️ Nolan\n\nTwo years ago, \"open source LLM\" meant accepting a significant quality penalty compared to GPT-4. In 2026, that tradeoff has largely disappeared for well-defined tasks. Llama 3.1 70B matches GPT-3.5 Turbo quality for most instruction-following tasks. DeepSeek-V3 beats GPT-4o on several coding benchmarks. Qwen 2.5-Coder achieves 88.4% on HumanEval — higher than GPT-4's original score.\n\n...\n\nHardware requirements are for Q4\\_K\\_M quantization via Ollama or llama.cpp .\n\n|Model |Params |Context |License |MMLU |HumanEval |Min VRAM/RAM |Best For |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n|Llama 3.1 8B |8B |128K |Meta Custom |73\\.0% |72\\.6% |6 GB |General assistant, privacy |\n|Llama 3.1 70B |70B |128K |Meta Custom |82\\.6% |80\\.5% |40 GB |Long docs, complex reasoning |\n|Llama 3.1 405B |405B |128K |Meta Custom |88\\.6% |89\\.0% |256 GB |GPT-4o replacement |\n|Llama 3.3 70B |70B |128K |Meta Custom |86\\.0% |83\\.1% |40 GB |Best 70B overall (2025 release) |\n|Mistral Small 3.1 |24B |128K |Apache 2.0 |81\\.2% |75\\.0% |16 GB |Commercial use, EU privacy |\n|Mistral Large 2 |123B |128K |Mistral Research |84\\.0% |92\\.0% |80 GB |Code + multilingual |\n|Qwen 2.5 7B |7B |128K |Apache 2.0 |74\\.2% |79\\.9% |6 GB |Code generation, Chinese NLP |\n|Qwen 2.5 72B |72B |128K |Apache 2.0 |86\\.1% |86\\.7% |40 GB |Enterprise, multilingual reasoning |\n|Qwen 2.5-Coder 7B |7B |128K... (line truncated to 2000 chars)
 528:       ]
 529:     }
 530:   ],
@@ -688,7 +688,7 @@ The user wants me to read two session files to understand past conversations, th
 50: 3:     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 51: 4:       <div>
 52: 5:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-53: 6:           <span>📝</span> 이력서 생성 & 비동기 고도화 파이프라인
+53: 6:           <span></span> 이력서 생성 & 비동기 고도화 파이프라인
 54: 7:         </h1>
 55: 8:         <p class="text-xs text-gray-400 mt-1">
 56: 9:           Draft $\rightarrow$ Evaluate $\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.
@@ -712,7 +712,7 @@ The user wants me to read two session files to understand past conversations, th
 74: 27:         <div class="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2">
 75: 28:           <div class="text-xs font-bold text-gray-400">STEP 01</div>
 76: 29:           <div class="text-sm font-bold text-white flex items-center gap-2">
-77: 30:             <span>📄</span> Draft Generation
+77: 30:             <span></span> Draft Generation
 78: 31:           </div>
 79: 32:           <p class="text-xs text-gray-400">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>
 80: 33:         </div>
@@ -720,7 +720,7 @@ The user wants me to read two session files to understand past conversations, th
 82: 35:         <div class="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2">
 83: 36:           <div class="text-xs font-bold text-purple-400">STEP 02</div>
 84: 37:           <div class="text-sm font-bold text-purple-200 flex items-center gap-2">
-85: 38:             <span>🔍</span> LLM Evaluation
+85: 38:             <span></span> LLM Evaluation
 86: 39:           </div>
 87: 40:           <p class="text-xs text-purple-200/70">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>
 88: 41:         </div>
@@ -728,7 +728,7 @@ The user wants me to read two session files to understand past conversations, th
 90: 43:         <div class="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2">
 91: 44:           <div class="text-xs font-bold text-indigo-400">STEP 03</div>
 92: 45:           <div class="text-sm font-bold text-indigo-200 flex items-center gap-2">
-93: 46:             <span>✨</span> Intelligent Rewrite
+93: 46:             <span></span> Intelligent Rewrite
 94: 47:           </div>
 95: 48:           <p class="text-xs text-indigo-200/70">정량적 성과 중심의 고도화된 이력서 재작성 완성</p>
 96: 49:         </div>
@@ -771,8 +771,8 @@ The user wants me to read two session files to understand past conversations, th
 133: 86:                 :disabled="refiningId === r.id"
 134: 87:                 class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 text-xs font-semibold border border-purple-500/30 transition-all disabled:opacity-50"
 135: 88:               >
-136: 89:                 <span v-if="refiningId === r.id">⚡ 고도화 진행 중...</span>
-137: 90:                 <span v-else>⚡ AI 고도화 실행</span>
+136: 89:                 <span v-if="refiningId === r.id"> 고도화 진행 중...</span>
+137: 90:                 <span v-else> AI 고도화 실행</span>
 138: 91:               </button>
 139: 92: 
 140: 93:               <NuxtLink
@@ -787,7 +787,7 @@ The user wants me to read two session files to understand past conversations, th
 149: 102:       </div>
 150: 103: 
 151: 104:       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-152: 105:         <div class="text-4xl">📄</div>
+152: 105:         <div class="text-4xl"></div>
 153: 106:         <p class="text-sm">등록된 이력서가 없습니다. 신규 이력서를 등록해 보세요.</p>
 154: 107:       </div>
 155: 108:     </div>
@@ -797,13 +797,13 @@ The user wants me to read two session files to understand past conversations, th
 159: 112:       <div class="glass-panel rounded-3xl p-8 max-w-lg w-full space-y-6 border border-white/15">
 160: 113:         <div class="flex items-center justify-between">
 161: 114:           <h2 class="text-xl font-bold text-white">신규 이력서 등록</h2>
-162: 115:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
+162: 115:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">[x]</button>
 163: 116:         </div>
 164: 117: 
 165: 118:         <!-- Document Parser File Upload (pdf.js + mammoth) -->
 166: 119:         <div class="p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2">
 167: 120:           <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
-168: 121:           <div class="text-2xl">📁</div>
+168: 121:           <div class="text-2xl"></div>
 169: 122:           <div class="text-xs font-semibold text-purple-300">PDF / DOCX 이력서 파싱</div>
 170: 123:           <p class="text-[11px] text-gray-400">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>
 171: 124:           <button
@@ -940,7 +940,7 @@ The user wants me to read two session files to understand past conversations, th
 302: 3:     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 303: 4:       <div>
 304: 5:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-305: 6:           <span>🎙️</span> AI 모의 면접 (Mock Interview via SSE)
+305: 6:           <span>️</span> AI 모의 면접 (Mock Interview via SSE)
 306: 7:         </h1>
 307: 8:         <p class="text-xs text-gray-400 mt-1">
 308: 9:           실시간 SSE 스트리밍 기술로 끊김 없는 맞춤형 면접관 LLM과의 일대일 면접 세션을 진행하세요.
@@ -951,7 +951,7 @@ The user wants me to read two session files to understand past conversations, th
 313: 14:         @click="showCreateModal = true"
 314: 15:         class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold text-sm shadow-md shadow-cyan-600/30 transition-all flex items-center justify-center gap-2"
 315: 16:       >
-316: 17:         <span>⚡</span> 신규 모의 면접 시작
+316: 17:         <span></span> 신규 모의 면접 시작
 317: 18:       </button>
 318: 19:     </div>
 319: 20: 
@@ -974,7 +974,7 @@ The user wants me to read two session files to understand past conversations, th
 336: 37:               <p class="text-xs text-gray-400">{{ item.companyName || '목표 기업' }}</p>
 337: 38:             </div>
 338: 39:             <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-300 flex items-center justify-center text-xl">
-339: 40:               🎙️
+339: 40:               ️
 340: 41:             </div>
 341: 42:           </div>
 342: 43: 
@@ -984,14 +984,14 @@ The user wants me to read two session files to understand past conversations, th
 346: 47:               :to="`/interview/${item.id}`"
 347: 48:               class="px-4 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold shadow-md shadow-cyan-600/30 transition-all"
 348: 49:             >
-349: 50:               면접장 입장 ⚡
+349: 50:               면접장 입장 
 350: 51:             </NuxtLink>
 351: 52:           </div>
 352: 53:         </div>
 353: 54:       </div>
 354: 55: 
 355: 56:       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-356: 57:         <div class="text-4xl">🎙️</div>
+356: 57:         <div class="text-4xl">️</div>
 357: 58:         <p class="text-sm">생성된 모의 면접 세션이 없습니다. 신규 면접을 시작해 보세요.</p>
 358: 59:       </div>
 359: 60:     </div>
@@ -1001,7 +1001,7 @@ The user wants me to read two session files to understand past conversations, th
 363: 64:       <div class="glass-panel rounded-3xl p-8 max-w-md w-full space-y-6 border border-white/15">
 364: 65:         <div class="flex items-center justify-between">
 365: 66:           <h2 class="text-xl font-bold text-white">신규 모의 면접 설정</h2>
-366: 67:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
+366: 67:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">[x]</button>
 367: 68:         </div>
 368: 69: 
 369: 70:         <form @submit.prevent="startSession" class="space-y-4">
@@ -1052,7 +1052,7 @@ The user wants me to read two session files to understand past conversations, th
 414: 115:               class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50"
 415: 116:             >
 416: 117:               <span v-if="loading">면접 세션 생성 중...</span>
-417: 118:               <span v-else>면접장 입장 ⚡</span>
+417: 118:               <span v-else>면접장 입장 </span>
 418: 119:             </button>
 419: 120:           </div>
 420: 121:         </form>
@@ -1113,7 +1113,7 @@ The user wants me to read two session files to understand past conversations, th
 475: 2:   <div class="space-y-8">
 476: 3:     <div>
 477: 4:       <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-478: 5:         <span>🎯</span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)
+478: 5:         <span></span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)
 479: 6:       </h1>
 480: 7:       <p class="text-xs text-gray-400 mt-1">
 481: 8:         지원하려는 채용 공고(JD)와 본인의 이력서를 실시간 비교분석하여 ATS 필터링 통과율과 필수 키워드를 추출합니다.
@@ -1124,7 +1124,7 @@ The user wants me to read two session files to understand past conversations, th
 486: 13:     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 487: 14:       <div class="glass-panel rounded-2xl p-6 space-y-4">
 488: 15:         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-489: 16:           <span>📌</span> 채용 공고 (Job Description) 입력
+489: 16:           <span></span> 채용 공고 (Job Description) 입력
 490: 17:         </h3>
 491: 18: 
 492: 19:         <div>
@@ -1150,7 +1150,7 @@ The user wants me to read two session files to understand past conversations, th
 512: 39: 
 513: 40:       <div class="glass-panel rounded-2xl p-6 space-y-4">
 514: 41:         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-515: 42:           <span>📑</span> 제출 이력서 텍스트 입력
+515: 42:           <span></span> 제출 이력서 텍스트 입력
 516: 43:         </h3>
 517: 44: 
 518: 45:         <div>
@@ -1169,7 +1169,7 @@ The user wants me to read two session files to understand past conversations, th
 531: 58:           class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition-all disabled:opacity-50"
 532: 59:         >
 533: 60:           <span v-if="loading">ATS 매칭 엔진 분석 중...</span>
-534: 61:           <span v-else>ATS 일치도 분석 실행 ⚡</span>
+534: 61:           <span v-else>ATS 일치도 분석 실행 </span>
 535: 62:         </button>
 536: 63:       </div>
 537: 64:     </div>
@@ -1214,7 +1214,7 @@ The user wants me to read two session files to understand past conversations, th
 576: 103:       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 577: 104:         <div class="p-5 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3">
 578: 105:           <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-579: 106:             <span>✅</span> 이력서에서 발견된 주요 ATS 키워드
+579: 106:             <span>[v]</span> 이력서에서 발견된 주요 ATS 키워드
 580: 107:           </div>
 581: 108:           <div class="flex flex-wrap gap-2">
 582: 109:             <span
@@ -1229,7 +1229,7 @@ The user wants me to read two session files to understand past conversations, th
 591: 118: 
 592: 119:         <div class="p-5 rounded-2xl bg-rose-950/20 border border-rose-500/30 space-y-3">
 593: 120:           <div class="text-xs font-bold text-rose-400 flex items-center gap-1.5">
-594: 121:             <span>⚠️</span> 누락된 필수 ATS 키워드 (추가 필요)
+594: 121:             <span>[!]️</span> 누락된 필수 ATS 키워드 (추가 필요)
 595: 122:           </div>
 596: 123:           <div class="flex flex-wrap gap-2">
 597: 124:             <span
@@ -1245,7 +1245,7 @@ The user wants me to read two session files to understand past conversations, th
 607: 134: 
 608: 135:       <!-- Recommendations -->
 609: 136:       <div class="p-5 rounded-2xl bg-purple-950/30 border border-purple-500/30 space-y-2">
-610: 137:         <div class="text-xs font-bold text-purple-300">💡 Kairos ATS 합격률 향상 추천 조언</div>
+610: 137:         <div class="text-xs font-bold text-purple-300"> Kairos ATS 합격률 향상 추천 조언</div>
 611: 138:         <ul class="text-xs text-purple-200/80 space-y-1 list-disc list-inside">
 612: 139:           <li v-for="(rec, idx) in result.recommendations" :key="idx">{{ rec }}</li>
 613: 140:         </ul>
@@ -1417,7 +1417,7 @@ The user wants me to read two session files to understand past conversations, th
 779: 2:   <div class="space-y-8">
 780: 3:     <div>
 781: 4:       <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-782: 5:         <span>✨</span> AI 문장 휴머니자이저 (Humanizer)
+782: 5:         <span></span> AI 문장 휴머니자이저 (Humanizer)
 783: 6:       </h1>
 784: 7:       <p class="text-xs text-gray-400 mt-1">
 785: 8:         AI 특유의 진부한 어조(~에 대한, ~의 관점에서, 피동형 표현)를 감쪽같이 걷어내고 설득력 높은 자연스러운 인간 문체로 리라이팅합니다.
@@ -1428,7 +1428,7 @@ The user wants me to read two session files to understand past conversations, th
 790: 13:       <!-- Input Panel -->
 791: 14:       <div class="glass-panel rounded-2xl p-6 space-y-4">
 792: 15:         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-793: 16:           <span>🤖</span> 원본 AI/정형화된 문장 입력
+793: 16:           <span></span> 원본 AI/정형화된 문장 입력
 794: 17:         </h3>
 795: 18: 
 796: 19:         <textarea
@@ -1444,7 +1444,7 @@ The user wants me to read two session files to understand past conversations, th
 806: 29:           class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold text-sm shadow-lg shadow-amber-500/30 transition-all disabled:opacity-50"
 807: 30:         >
 808: 31:           <span v-if="loading">인간 문체로 자연스럽게 리라이팅 중...</span>
-809: 32:           <span v-else>AI 문체 휴머니즈 변환 ⚡</span>
+809: 32:           <span v-else>AI 문체 휴머니즈 변환 </span>
 810: 33:         </button>
 811: 34:       </div>
 812: 35: 
@@ -1452,7 +1452,7 @@ The user wants me to read two session files to understand past conversations, th
 814: 37:       <div class="glass-panel rounded-2xl p-6 space-y-4 border border-amber-500/20">
 815: 38:         <div class="flex items-center justify-between">
 816: 39:           <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
-817: 40:             <span>✨</span> 자연스러운 인간 작성 변환 결과
+817: 40:             <span></span> 자연스러운 인간 작성 변환 결과
 818: 41:           </h3>
 819: 42: 
 820: 43:           <div v-if="result" class="text-right">
@@ -1467,7 +1467,7 @@ The user wants me to read two session files to understand past conversations, th
 829: 52:           </div>
 830: 53: 
 831: 54:           <div class="p-4 rounded-xl bg-amber-950/20 border border-amber-500/20 text-xs space-y-2">
-832: 55:             <div class="font-bold text-amber-300">💡 변환 요약 & 제거된 상투적 표현</div>
+832: 55:             <div class="font-bold text-amber-300"> 변환 요약 & 제거된 상투적 표현</div>
 833: 56:             <p class="text-gray-300">{{ result.changesSummary }}</p>
 834: 57:             <div v-if="result.removedClichés && result.removedClichés.length > 0" class="flex flex-wrap gap-1.5 pt-1">
 835: 58:               <span
@@ -1482,7 +1482,7 @@ The user wants me to read two session files to understand past conversations, th
 844: 67:         </div>
 845: 68: 
 846: 69:         <div v-else class="h-64 flex flex-col items-center justify-center text-center text-gray-500 space-y-2">
-847: 70:           <div class="text-3xl">✨</div>
+847: 70:           <div class="text-3xl"></div>
 848: 71:           <p class="text-xs">왼쪽에서 문장을 입력하고 변환 버튼을 누르면 이곳에 세련된 변환 결과가 표시됩니다.</p>
 849: 72:         </div>
 850: 73:       </div>
@@ -1534,7 +1534,7 @@ The user wants me to read two session files to understand past conversations, th
 896: 2:   <div class="space-y-8">
 897: 3:     <div>
 898: 4:       <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-899: 5:         <span>💡</span> 예상 면접 Q&A 플래시카드 생성기
+899: 5:         <span></span> 예상 면접 Q&A 플래시카드 생성기
 900: 6:       </h1>
 901: 7:       <p class="text-xs text-gray-400 mt-1">
 902: 8:         지원 직무와 경력 사항을 기반으로 적중률 높고 심도 있는 예상 질문과 최고 품질 모범 답안 세트를 생성합니다.
@@ -1583,14 +1583,14 @@ The user wants me to read two session files to understand past conversations, th
 945: 51:         class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-purple-600/30 transition-all disabled:opacity-50"
 946: 52:       >
 947: 53:         <span v-if="loading">맞춤형 Q&A 세트 생성 중...</span>
-948: 54:         <span v-else>Q&A 질문/모범답안 세트 생성 ⚡</span>
+948: 54:         <span v-else>Q&A 질문/모범답안 세트 생성 </span>
 949: 55:       </button>
 950: 56:     </div>
 951: 57: 
 952: 58:     <!-- Generated Q&A Cards List -->
 953: 59:     <div v-if="qaSet" class="space-y-4">
 954: 60:       <h2 class="text-lg font-bold text-white flex items-center gap-2">
-955: 61:         <span>📚</span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드
+955: 61:         <span></span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드
 956: 62:       </h2>
 957: 63: 
 958: 64:       <div class="space-y-4">
@@ -1612,7 +1612,7 @@ The user wants me to read two session files to understand past conversations, th
 974: 80:           </div>
 975: 81: 
 976: 82:           <div class="p-4 rounded-xl bg-slate-900/80 border border-white/10 space-y-2">
-977: 83:             <div class="text-xs font-bold text-emerald-400">✅ 추천 모범 답변 (Model Answer)</div>
+977: 83:             <div class="text-xs font-bold text-emerald-400">[v] 추천 모범 답변 (Model Answer)</div>
 978: 84:             <p class="text-xs text-gray-200 leading-relaxed whitespace-pre-wrap">{{ qa.sampleAnswer }}</p>
 979: 85:           </div>
 980: 86: 
@@ -1683,7 +1683,7 @@ The user wants me to read two session files to understand past conversations, th
 1045: 3:     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 1046: 4:       <div>
 1047: 5:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-1048: 6:           <span>🔍</span> 경력 포트폴리오 & pgvector 시맨틱 검색
+1048: 6:           <span></span> 경력 포트폴리오 & pgvector 시맨틱 검색
 1049: 7:         </h1>
 1050: 8:         <p class="text-xs text-gray-400 mt-1">
 1051: 9:           저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.
@@ -1701,7 +1701,7 @@ The user wants me to read two session files to understand past conversations, th
 1063: 21:     <!-- pgvector Semantic Search Bar Panel -->
 1064: 22:     <div class="glass-panel rounded-2xl p-6 space-y-4 border border-cyan-500/20">
 1065: 23:       <h3 class="text-sm font-bold text-cyan-300 flex items-center gap-2">
-1066: 24:         <span>⚡</span> pgvector 1536-dim Cosine Similarity Semantic Search
+1066: 24:         <span></span> pgvector 1536-dim Cosine Similarity Semantic Search
 1067: 25:       </h3>
 1068: 26: 
 1069: 27:       <div class="flex items-center gap-3">
@@ -1718,7 +1718,7 @@ The user wants me to read two session files to understand past conversations, th
 1080: 38:           class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50"
 1081: 39:         >
 1082: 40:           <span v-if="searching">검색 중...</span>
-1083: 41:           <span v-else>벡터 검색 ⚡</span>
+1083: 41:           <span v-else>벡터 검색 </span>
 1084: 42:         </button>
 1085: 43:       </div>
 1086: 44: 
@@ -1773,7 +1773,7 @@ The user wants me to read two session files to understand past conversations, th
 1135: 93:       </div>
 1136: 94: 
 1137: 95:       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-1138: 96:         <div class="text-4xl">🏢</div>
+1138: 96:         <div class="text-4xl"></div>
 1139: 97:         <p class="text-sm">등록된 경력이 없습니다. 경력을 추가해 보세요.</p>
 1140: 98:       </div>
 1141: 99:     </div>
@@ -1783,7 +1783,7 @@ The user wants me to read two session files to understand past conversations, th
 1145: 103:       <div class="glass-panel rounded-3xl p-8 max-w-lg w-full space-y-6 border border-white/15">
 1146: 104:         <div class="flex items-center justify-between">
 1147: 105:           <h2 class="text-xl font-bold text-white">신규 경력 추가</h2>
-1148: 106:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">✕</button>
+1148: 106:           <button @click="showCreateModal = false" class="text-gray-400 hover:text-white">[x]</button>
 1149: 107:         </div>
 1150: 108: 
 1151: 109:         <form @submit.prevent="createCareer" class="space-y-4">
@@ -2266,7 +2266,7 @@ Let me continue reading the s3 session and also check the current state of the p
 1557: 7:           ← 이력서 목록으로 돌아가기
 1558: 8:         </NuxtLink>
 1559: 9:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-3">
-1560: 10:           <span>📄</span> {{ data.resume.title }}
+1560: 10:           <span></span> {{ data.resume.title }}
 1561: 11:         </h1>
 1562: 12:       </div>
 1563: 13: 
@@ -2279,7 +2279,7 @@ Let me continue reading the s3 session and also check the current state of the p
 1570: 20:     <!-- Refinement History Steps -->
 1571: 21:     <div v-if="data.refinementHistory && data.refinementHistory.length > 0" class="space-y-6">
 1572: 22:       <h2 class="text-lg font-bold text-white flex items-center gap-2">
-1573: 23:         <span>✨</span> AI 비동기 체인 평가 & 개선 결과
+1573: 23:         <span></span> AI 비동기 체인 평가 & 개선 결과
 1574: 24:       </h2>
 1575: 25: 
 1576: 26:       <div v-for="ref in data.refinementHistory" :key="ref.id" class="glass-panel rounded-2xl p-6 space-y-6">
@@ -2296,14 +2296,14 @@ Let me continue reading the s3 session and also check the current state of the p
 1587: 37:         <!-- Evaluation Feedback Card -->
 1588: 38:         <div v-if="ref.evaluationFeedback" class="grid grid-cols-1 md:grid-cols-2 gap-4">
 1589: 39:           <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-2">
-1590: 40:             <div class="text-xs font-bold text-emerald-400">💡 주요 강점 (Strengths)</div>
+1590: 40:             <div class="text-xs font-bold text-emerald-400"> 주요 강점 (Strengths)</div>
 1591: 41:             <ul class="text-xs text-emerald-200/80 space-y-1 list-disc list-inside">
 1592: 42:               <li v-for="(s, idx) in ref.evaluationFeedback.strengths" :key="idx">{{ s }}</li>
 1593: 43:             </ul>
 1594: 44:           </div>
 1595: 45: 
 1596: 46:           <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-500/30 space-y-2">
-1597: 47:             <div class="text-xs font-bold text-rose-400">⚠️ 개선 권장사항 (Weaknesses)</div>
+1597: 47:             <div class="text-xs font-bold text-rose-400">[!]️ 개선 권장사항 (Weaknesses)</div>
 1598: 48:             <ul class="text-xs text-rose-200/80 space-y-1 list-disc list-inside">
 1599: 49:               <li v-for="(w, idx) in ref.evaluationFeedback.weaknesses" :key="idx">{{ w }}</li>
 1600: 50:             </ul>
@@ -2312,7 +2312,7 @@ Let me continue reading the s3 session and also check the current state of the p
 1603: 53: 
 1604: 54:         <!-- Improved Content Diff Box -->
 1605: 55:         <div v-if="ref.improvedContent" class="space-y-2">
-1606: 56:           <div class="text-xs font-bold text-purple-300">✨ AI 최종 고도화 재작성 이력서 본문</div>
+1606: 56:           <div class="text-xs font-bold text-purple-300"> AI 최종 고도화 재작성 이력서 본문</div>
 1607: 57:           <div class="p-4 rounded-xl bg-slate-900/90 border border-purple-500/30 text-xs text-gray-200 leading-relaxed whitespace-pre-wrap font-mono">
 1608: 58:             {{ ref.improvedContent }}
 1609: 59:           </div>
@@ -2363,7 +2363,7 @@ Let me continue reading the s3 session and also check the current state of the p
 1654: 8:         </NuxtLink>
 1655: 9:         <div class="h-4 w-[1px] bg-white/10"></div>
 1656: 10:         <h1 class="text-lg font-bold text-white flex items-center gap-2">
-1657: 11:           <span>🎙️</span> AI 면접 스튜디오 실시간 세션
+1657: 11:           <span>️</span> AI 면접 스튜디오 실시간 세션
 1658: 12:         </h1>
 1659: 13:       </div>
 1660: 14: 
@@ -2401,7 +2401,7 @@ Let me continue reading the s3 session and also check the current state of the p
 1692: 46:           <!-- Per Answer Feedback Card if present -->
 1693: 47:           <div v-if="msg.feedback" class="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs space-y-1">
 1694: 48:             <div class="flex items-center justify-between text-cyan-300 font-bold">
-1695: 49:               <span>💡 AI 답변 피드백</span>
+1695: 49:               <span> AI 답변 피드백</span>
 1696: 50:               <span>{{ msg.feedback.score }}점</span>
 1697: 51:             </div>
 1698: 52:             <p class="text-gray-300">{{ msg.feedback.summary }}</p>
@@ -2437,7 +2437,7 @@ Let me continue reading the s3 session and also check the current state of the p
 1728: 82:           :disabled="isStreaming || !inputMessage.trim()"
 1729: 83:           class="px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-sm shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50 h-full"
 1730: 84:         >
-1731: 85:           답변 제출 ⚡
+1731: 85:           답변 제출 
 1732: 86:         </button>
 1733: 87:       </form>
 1734: 88:     </div>
@@ -3646,11 +3646,11 @@ Now I have a much clearer picture. Let me summarize:
 **Session 3 (s3session-ses_0596.md):**
 - This was about Phase 8: Nuxt UI v4 UI redesign + cleanup
 - The assistant was doing the migration work:
-  1. ✅ Tailwind CSS v3 → v4 migration (main.css updated)
-  2. ✅ Removed unused packages from package.json (lucide-vue-next, clsx, tailwind-merge, nuxt-auth-utils)
-  3. ✅ Cleaned up nuxt.config.ts (removed nuxt-auth-utils module)
-  4. ✅ Updated app.vue to use Nuxt UI v4 UApp wrapper
-  5. 🔄 In progress: Integrating Nuxt UI v4 components into Vue templates
+  1. [v] Tailwind CSS v3 → v4 migration (main.css updated)
+  2. [v] Removed unused packages from package.json (lucide-vue-next, clsx, tailwind-merge, nuxt-auth-utils)
+  3. [v] Cleaned up nuxt.config.ts (removed nuxt-auth-utils module)
+  4. [v] Updated app.vue to use Nuxt UI v4 UApp wrapper
+  5.  In progress: Integrating Nuxt UI v4 components into Vue templates
 - The session was cut off at line 2684 while the assistant was writing a UButton/UModal component integration
 
 So the work that was left incomplete is:
@@ -4200,7 +4200,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2730: **Input:**
 2731: ```json
 2732: {
-2733:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>📝</span> 이력서 생성 & 비동기 고도화 파이프라인\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          Draft $\\rightarrow$ Evaluate $\\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 이력서 등록\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Async Refinement Chain Pipeline Step Visualizer Banner -->\n    <div class=\"glass-card rounded-2xl p-6 border border-purple-500/20\">\n      <h3 class=\"text-sm font-bold text-purple-300 uppercase tracking-wider mb-4\">\n        Kairos Resume Async Refinement Chain Workflow\n      </h3>\n      <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 relative\">\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2\">\n          <div class=\"text-xs font-bold text-gray-400\">STEP 01</div>\n          <div class=\"text-sm font-bold text-white flex items-center gap-2\">\n            <span>📄</span> Draft Generation\n          </div>\n          <p class=\"text-xs text-gray-400\">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2\">\n          <div class=\"text-xs font-bold text-purple-400\">STEP 02</div>\n          <div class=\"text-sm font-bold text-purple-200 flex items-center gap-2\">\n            <span>🔍</span> LLM Evaluation\n          </div>\n          <p class=\"text-xs text-purple-200/70\">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2\">\n          <div class=\"text-xs font-bo... (line truncated to 2000 chars)
+2733:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span></span> 이력서 생성 & 비동기 고도화 파이프라인\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          Draft $\\rightarrow$ Evaluate $\\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 이력서 등록\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Async Refinement Chain Pipeline Step Visualizer Banner -->\n    <div class=\"glass-card rounded-2xl p-6 border border-purple-500/20\">\n      <h3 class=\"text-sm font-bold text-purple-300 uppercase tracking-wider mb-4\">\n        Kairos Resume Async Refinement Chain Workflow\n      </h3>\n      <div class=\"grid grid-cols-1 md:grid-cols-3 gap-4 relative\">\n        <div class=\"p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2\">\n          <div class=\"text-xs font-bold text-gray-400\">STEP 01</div>\n          <div class=\"text-sm font-bold text-white flex items-center gap-2\">\n            <span></span> Draft Generation\n          </div>\n          <p class=\"text-xs text-gray-400\">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2\">\n          <div class=\"text-xs font-bold text-purple-400\">STEP 02</div>\n          <div class=\"text-sm font-bold text-purple-200 flex items-center gap-2\">\n            <span></span> LLM Evaluation\n          </div>\n          <p class=\"text-xs text-purple-200/70\">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>\n        </div>\n\n        <div class=\"p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2\">\n          <div class=\"text-xs font-bo... (line truncated to 2000 chars)
 2734:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\resume\\index.vue"
 2735: }
 2736: ```
@@ -4225,7 +4225,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2755: **Input:**
 2756: ```json
 2757: {
-2758:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>🎙️</span> AI 모의 면접 (Mock Interview via SSE)\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          실시간 SSE 스트리밍 기술로 끊김 없는 맞춤형 면접관 LLM과의 일대일 면접 세션을 진행하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"info\"\n        variant=\"solid\"\n        icon=\"i-lucide-zap\"\n        label=\"신규 모의 면접 시작\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Active Interview Sessions List -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">진행 중 및 이전 면접 세션</h2>\n\n      <div v-if=\"interviews && interviews.length > 0\" class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <div\n          v-for=\"item in interviews\"\n          :key=\"item.id\"\n          class=\"glass-panel rounded-2xl p-6 hover:border-cyan-500/40 transition-all space-y-4\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge color=\"info\" variant=\"subtle\" size=\"xs\">\n                {{ item.difficulty }} 난이도\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-2\">{{ item.jobTitle }}</h3>\n              <p class=\"text-xs text-gray-400\">{{ item.companyName || '목표 기업' }}</p>\n            </div>\n            <div class=\"w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-300 flex items-center justify-center text-xl\">\n              🎙️\n            </div>\n          </div>\n\n          <div class=\"pt-2 flex items-center justify-between border-t border-white/5\">\n            <span class=\"text-[11px] text-gray-500\">{{ new Date(item.createdAt).toLocaleDateString() }}</span>\n            <NuxtLink\n              :to=\"`/interview/${item.id}`\"\n              class=\"px-4 py-1.... (line truncated to 2000 chars)
+2758:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>️</span> AI 모의 면접 (Mock Interview via SSE)\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          실시간 SSE 스트리밍 기술로 끊김 없는 맞춤형 면접관 LLM과의 일대일 면접 세션을 진행하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"info\"\n        variant=\"solid\"\n        icon=\"i-lucide-zap\"\n        label=\"신규 모의 면접 시작\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- Active Interview Sessions List -->\n    <div class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white\">진행 중 및 이전 면접 세션</h2>\n\n      <div v-if=\"interviews && interviews.length > 0\" class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <div\n          v-for=\"item in interviews\"\n          :key=\"item.id\"\n          class=\"glass-panel rounded-2xl p-6 hover:border-cyan-500/40 transition-all space-y-4\"\n        >\n          <div class=\"flex items-start justify-between\">\n            <div>\n              <UBadge color=\"info\" variant=\"subtle\" size=\"xs\">\n                {{ item.difficulty }} 난이도\n              </UBadge>\n              <h3 class=\"text-lg font-bold text-white mt-2\">{{ item.jobTitle }}</h3>\n              <p class=\"text-xs text-gray-400\">{{ item.companyName || '목표 기업' }}</p>\n            </div>\n            <div class=\"w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-300 flex items-center justify-center text-xl\">\n              ️\n            </div>\n          </div>\n\n          <div class=\"pt-2 flex items-center justify-between border-t border-white/5\">\n            <span class=\"text-[11px] text-gray-500\">{{ new Date(item.createdAt).toLocaleDateString() }}</span>\n            <NuxtLink\n              :to=\"`/interview/${item.id}`\"\n              class=\"px-4 py-1.... (line truncated to 2000 chars)
 2759:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\interview\\index.vue"
 2760: }
 2761: ```
@@ -4250,7 +4250,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2780: **Input:**
 2781: ```json
 2782: {
-2783:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span>🎯</span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원하려는 채용 공고(JD)와 본인의 이력서를 실시간 비교분석하여 ATS 필터링 통과율과 필수 키워드를 추출합니다.\n      </p>\n    </div>\n\n    <!-- ATS Form & Input -->\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span>📌</span> 채용 공고 (Job Description) 입력\n        </h3>\n\n        <UFormGroup label=\"지원 직무명\">\n          <UInput\n            v-model=\"jobTitle\"\n            placeholder=\"예: 프론트엔드 리드 개발자\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"채용공고 주요 요구사항 & 우대사항\">\n          <UTextarea\n            v-model=\"jobDescription\"\n            :rows=\"8\"\n            placeholder=\"JD의 우대사항, 주요 자격요건 텍스트를 복사하여 붙여넣으세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span>📑</span> 제출 이력서 텍스트 입력\n        </h3>\n\n        <UFormGroup label=\"본인의 이력서 텍스트\">\n          <UTextarea\n            v-model=\"resumeText\"\n            :rows=\"11\"\n            placeholder=\"분석할 본인의 이력서 텍스트를 입력하거나 내 이력서에서 가져오세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UButton\n          color=\"primary\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!jobTitle || !jobDescription || !resumeText\"\n          label=\"ATS 일치도 분석 실행 ⚡\"\n          @click=\"runATSAnalysis\"\n        />\n      </div>\n    </div>\n\n    <!-- Analysis Result Section -->\n    <d... (line truncated to 2000 chars)
+2783:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span></span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원하려는 채용 공고(JD)와 본인의 이력서를 실시간 비교분석하여 ATS 필터링 통과율과 필수 키워드를 추출합니다.\n      </p>\n    </div>\n\n    <!-- ATS Form & Input -->\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span></span> 채용 공고 (Job Description) 입력\n        </h3>\n\n        <UFormGroup label=\"지원 직무명\">\n          <UInput\n            v-model=\"jobTitle\"\n            placeholder=\"예: 프론트엔드 리드 개발자\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"채용공고 주요 요구사항 & 우대사항\">\n          <UTextarea\n            v-model=\"jobDescription\"\n            :rows=\"8\"\n            placeholder=\"JD의 우대사항, 주요 자격요건 텍스트를 복사하여 붙여넣으세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span></span> 제출 이력서 텍스트 입력\n        </h3>\n\n        <UFormGroup label=\"본인의 이력서 텍스트\">\n          <UTextarea\n            v-model=\"resumeText\"\n            :rows=\"11\"\n            placeholder=\"분석할 본인의 이력서 텍스트를 입력하거나 내 이력서에서 가져오세요...\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UButton\n          color=\"primary\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!jobTitle || !jobDescription || !resumeText\"\n          label=\"ATS 일치도 분석 실행 \"\n          @click=\"runATSAnalysis\"\n        />\n      </div>\n    </div>\n\n    <!-- Analysis Result Section -->\n    <d... (line truncated to 2000 chars)
 2784:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\ats\\index.vue"
 2785: }
 2786: ```
@@ -4275,7 +4275,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2805: **Input:**
 2806: ```json
 2807: {
-2808:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span>✨</span> AI 문장 휴머니자이저 (Humanizer)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        AI 특유의 진부한 어조(~에 대한, ~의 관점에서, 피동형 표현)를 감쪽같이 걷어내고 설득력 높은 자연스러운 인간 문체로 리라이팅합니다.\n      </p>\n    </div>\n\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <!-- Input Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span>🤖</span> 원본 AI/정형화된 문장 입력\n        </h3>\n\n        <UTextarea\n          v-model=\"originalText\"\n          :rows=\"12\"\n          placeholder=\"교정할 자기소개서, 이력서 문장 또는 커버레터를 입력하세요...\"\n          color=\"warning\"\n        />\n\n        <UButton\n          color=\"warning\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!originalText.trim()\"\n          label=\"AI 문체 휴머니즈 변환 ⚡\"\n          @click=\"processHumanize\"\n        />\n      </div>\n\n      <!-- Result Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-amber-500/20\">\n        <div class=\"flex items-center justify-between\">\n          <h3 class=\"text-sm font-bold text-amber-300 flex items-center gap-2\">\n            <span>✨</span> 자연스러운 인간 작성 변환 결과\n          </h3>\n\n          <div v-if=\"result\" class=\"text-right\">\n            <span class=\"text-xs text-gray-400\">자연스러움 지수: </span>\n            <span class=\"text-lg font-bold text-amber-400\">{{ result.styleScore }}점</span>\n          </div>\n        </div>\n\n        <div v-if=\"result\" class=\"space-y-4\">\n          <div class=\"p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-sm text-gray-100 leading-relaxed whitespace-pre-wrap font-medium\">\n            {{ result.humanizedText }}\n          </div>\n\n          <div cla... (line truncated to 2000 chars)
+2808:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span></span> AI 문장 휴머니자이저 (Humanizer)\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        AI 특유의 진부한 어조(~에 대한, ~의 관점에서, 피동형 표현)를 감쪽같이 걷어내고 설득력 높은 자연스러운 인간 문체로 리라이팅합니다.\n      </p>\n    </div>\n\n    <div class=\"grid grid-cols-1 lg:grid-cols-2 gap-6\">\n      <!-- Input Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n        <h3 class=\"text-sm font-bold text-white flex items-center gap-2\">\n          <span></span> 원본 AI/정형화된 문장 입력\n        </h3>\n\n        <UTextarea\n          v-model=\"originalText\"\n          :rows=\"12\"\n          placeholder=\"교정할 자기소개서, 이력서 문장 또는 커버레터를 입력하세요...\"\n          color=\"warning\"\n        />\n\n        <UButton\n          color=\"warning\"\n          variant=\"solid\"\n          size=\"lg\"\n          block\n          :loading=\"loading\"\n          :disabled=\"!originalText.trim()\"\n          label=\"AI 문체 휴머니즈 변환 \"\n          @click=\"processHumanize\"\n        />\n      </div>\n\n      <!-- Result Panel -->\n      <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-amber-500/20\">\n        <div class=\"flex items-center justify-between\">\n          <h3 class=\"text-sm font-bold text-amber-300 flex items-center gap-2\">\n            <span></span> 자연스러운 인간 작성 변환 결과\n          </h3>\n\n          <div v-if=\"result\" class=\"text-right\">\n            <span class=\"text-xs text-gray-400\">자연스러움 지수: </span>\n            <span class=\"text-lg font-bold text-amber-400\">{{ result.styleScore }}점</span>\n          </div>\n        </div>\n\n        <div v-if=\"result\" class=\"space-y-4\">\n          <div class=\"p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 text-sm text-gray-100 leading-relaxed whitespace-pre-wrap font-medium\">\n            {{ result.humanizedText }}\n          </div>\n\n          <div cla... (line truncated to 2000 chars)
 2809:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\humanizer\\index.vue"
 2810: }
 2811: ```
@@ -4300,7 +4300,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2830: **Input:**
 2831: ```json
 2832: {
-2833:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span>💡</span> 예상 면접 Q&A 플래시카드 생성기\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원 직무와 경력 사항을 기반으로 적중률 높고 심도 있는 예상 질문과 최고 품질 모범 답안 세트를 생성합니다.\n      </p>\n    </div>\n\n    <!-- Generator Input Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n      <div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <UFormGroup label=\"목표 지원 직무\">\n          <UInput\n            v-model=\"targetRole\"\n            placeholder=\"예: 백엔드 테크 리드\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"생성할 질문 개수\">\n          <USelect\n            v-model=\"questionCount\"\n            :options=\"[\n              { label: '3 개 질문 세트', value: 3 },\n              { label: '5 개 질문 세트', value: 5 },\n              { label: '7 개 질문 세트', value: 7 },\n            ]\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <UFormGroup label=\"본인 경력 요약 또는 기술 배경\">\n        <UTextarea\n          v-model=\"careerSummary\"\n          :rows=\"4\"\n          placeholder=\"주요 프로젝트, 사용 언어/프레임워크, 해결한 난관 등을 요약해 입력하세요...\"\n          color=\"primary\"\n        />\n      </UFormGroup>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        size=\"lg\"\n        block\n        :loading=\"loading\"\n        :disabled=\"!targetRole || !careerSummary\"\n        label=\"Q&A 질문/모범답안 세트 생성 ⚡\"\n        @click=\"generateQA\"\n      />\n    </div>\n\n    <!-- Generated Q&A Cards List -->\n    <div v-if=\"qaSet\" class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white flex items-center gap-2\">\n        <span>📚</span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드\n      </h2>\n\n      <div class=\"space-y-4\">\n        <div\n          v-for=\"(qa, idx) in qaSet.qaPairs\"\n          :key=\"idx\"\n        ... (line truncated to 2000 chars)
+2833:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div>\n      <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n        <span></span> 예상 면접 Q&A 플래시카드 생성기\n      </h1>\n      <p class=\"text-xs text-gray-400 mt-1\">\n        지원 직무와 경력 사항을 기반으로 적중률 높고 심도 있는 예상 질문과 최고 품질 모범 답안 세트를 생성합니다.\n      </p>\n    </div>\n\n    <!-- Generator Input Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4\">\n      <div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">\n        <UFormGroup label=\"목표 지원 직무\">\n          <UInput\n            v-model=\"targetRole\"\n            placeholder=\"예: 백엔드 테크 리드\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n\n        <UFormGroup label=\"생성할 질문 개수\">\n          <USelect\n            v-model=\"questionCount\"\n            :options=\"[\n              { label: '3 개 질문 세트', value: 3 },\n              { label: '5 개 질문 세트', value: 5 },\n              { label: '7 개 질문 세트', value: 7 },\n            ]\"\n            color=\"primary\"\n          />\n        </UFormGroup>\n      </div>\n\n      <UFormGroup label=\"본인 경력 요약 또는 기술 배경\">\n        <UTextarea\n          v-model=\"careerSummary\"\n          :rows=\"4\"\n          placeholder=\"주요 프로젝트, 사용 언어/프레임워크, 해결한 난관 등을 요약해 입력하세요...\"\n          color=\"primary\"\n        />\n      </UFormGroup>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        size=\"lg\"\n        block\n        :loading=\"loading\"\n        :disabled=\"!targetRole || !careerSummary\"\n        label=\"Q&A 질문/모범답안 세트 생성 \"\n        @click=\"generateQA\"\n      />\n    </div>\n\n    <!-- Generated Q&A Cards List -->\n    <div v-if=\"qaSet\" class=\"space-y-4\">\n      <h2 class=\"text-lg font-bold text-white flex items-center gap-2\">\n        <span></span> {{ qaSet.targetRole }} 맞춤형 Q&A 플래시카드\n      </h2>\n\n      <div class=\"space-y-4\">\n        <div\n          v-for=\"(qa, idx) in qaSet.qaPairs\"\n          :key=\"idx\"\n        ... (line truncated to 2000 chars)
 2834:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\qa\\index.vue"
 2835: }
 2836: ```
@@ -4325,7 +4325,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2855: **Input:**
 2856: ```json
 2857: {
-2858:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span>🔍</span> 경력 포트폴리오 & pgvector 시맨틱 검색\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 경력 등록 (임베딩 자동 생성)\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- pgvector Semantic Search Bar Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-cyan-500/20\">\n      <h3 class=\"text-sm font-bold text-cyan-300 flex items-center gap-2\">\n        <span>⚡</span> pgvector 1536-dim Cosine Similarity Semantic Search\n      </h3>\n\n      <div class=\"flex items-center gap-3\">\n        <UInput\n          v-model=\"searchQuery\"\n          placeholder=\"예: 백엔드 노드 노하우나 pgvector 데이터베이스 검색...\"\n          color=\"info\"\n          class=\"flex-1\"\n          @keyup.enter=\"performSearch\"\n        />\n        <UButton\n          color=\"info\"\n          variant=\"solid\"\n          :loading=\"searching\"\n          :disabled=\"!searchQuery.trim()\"\n          label=\"벡터 검색 ⚡\"\n          @click=\"performSearch\"\n        />\n      </div>\n\n      <!-- Search Results -->\n      <div v-if=\"searchResults\" class=\"pt-4 border-t border-white/10 space-y-3\">\n        <div class=\"text-xs font-bold text-gray-300 flex items-center justify-between\">\n          <span>\"{{ searchResults.query }}\" 시맨틱 검색 결과</span>\n          <span class=\"text-cyan-400\">{{ searchResults.results.length }} 건 발견</span>\n        </div>\n\n        <div v-for=\"res in searchResults.results\" :key=\"res.id\" class=\"p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 spac... (line truncated to 2000 chars)
+2858:   "content": "<template>\n  <div class=\"space-y-8\">\n    <div class=\"flex flex-col sm:flex-row sm:items-center justify-between gap-4\">\n      <div>\n        <h1 class=\"text-2xl font-extrabold text-white flex items-center gap-2\">\n          <span></span> 경력 포트폴리오 & pgvector 시맨틱 검색\n        </h1>\n        <p class=\"text-xs text-gray-400 mt-1\">\n          저장된 경력 이력과 프로젝트 성과를 1536 차원 고성능 pgvector 벡터 검색으로 자유롭게 탐색하세요.\n        </p>\n      </div>\n\n      <UButton\n        color=\"primary\"\n        variant=\"solid\"\n        icon=\"i-lucide-plus\"\n        label=\"신규 경력 등록 (임베딩 자동 생성)\"\n        @click=\"showCreateModal = true\"\n      />\n    </div>\n\n    <!-- pgvector Semantic Search Bar Panel -->\n    <div class=\"glass-panel rounded-2xl p-6 space-y-4 border border-cyan-500/20\">\n      <h3 class=\"text-sm font-bold text-cyan-300 flex items-center gap-2\">\n        <span></span> pgvector 1536-dim Cosine Similarity Semantic Search\n      </h3>\n\n      <div class=\"flex items-center gap-3\">\n        <UInput\n          v-model=\"searchQuery\"\n          placeholder=\"예: 백엔드 노드 노하우나 pgvector 데이터베이스 검색...\"\n          color=\"info\"\n          class=\"flex-1\"\n          @keyup.enter=\"performSearch\"\n        />\n        <UButton\n          color=\"info\"\n          variant=\"solid\"\n          :loading=\"searching\"\n          :disabled=\"!searchQuery.trim()\"\n          label=\"벡터 검색 \"\n          @click=\"performSearch\"\n        />\n      </div>\n\n      <!-- Search Results -->\n      <div v-if=\"searchResults\" class=\"pt-4 border-t border-white/10 space-y-3\">\n        <div class=\"text-xs font-bold text-gray-300 flex items-center justify-between\">\n          <span>\"{{ searchResults.query }}\" 시맨틱 검색 결과</span>\n          <span class=\"text-cyan-400\">{{ searchResults.results.length }} 건 발견</span>\n        </div>\n\n        <div v-for=\"res in searchResults.results\" :key=\"res.id\" class=\"p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 spac... (line truncated to 2000 chars)
 2859:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\pages\\career\\index.vue"
 2860: }
 2861: ```
@@ -4350,7 +4350,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2880: **Input:**
 2881: ```json
 2882: {
-2883:   "content": "<template>\n  <header class=\"sticky top-0 z-50 glass-panel border-b border-white/10\">\n    <div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between\">\n      <!-- Logo Branding -->\n      <NuxtLink to=\"/\" class=\"flex items-center gap-3 group\">\n        <div class=\"w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg group-hover:shadow-purple-500/50 transition-all duration-300\">\n          <div class=\"w-full h-full bg-[#090d16] rounded-[11px] flex items-center justify-center font-bold text-lg text-purple-400\">\n            K\n          </div>\n        </div>\n        <div>\n          <span class=\"font-extrabold text-xl tracking-tight gradient-text\">Kairos</span>\n          <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\" class=\"hidden sm:inline-flex ml-2\">\n            AI Steward v1.0\n          </UBadge>\n        </div>\n      </NuxtLink>\n\n      <!-- Quick Action Right Nav -->\n      <div class=\"flex items-center gap-4\">\n        <NuxtLink\n          to=\"/interview\"\n          class=\"hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md hover:shadow-purple-500/25 transition-all\"\n        >\n          <span>⚡ AI 모의 면접</span>\n        </NuxtLink>\n\n        <!-- User Profile Badge -->\n        <div v-if=\"user\" class=\"flex items-center gap-3 border-l border-white/10 pl-4\">\n          <img :src=\"user.avatarUrl\" :alt=\"user.name\" class=\"w-8 h-8 rounded-full border border-purple-500/30 bg-purple-900/30\" />\n          <span class=\"hidden md:inline text-sm font-medium text-gray-200\">{{ user.name }}</span>\n        </div>\n        <NuxtLink\n          v-else\n          to=\"/auth/login\"\n          class=\"text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors\"\n        >\n          로그인\n   ... (line truncated to 2000 chars)
+2883:   "content": "<template>\n  <header class=\"sticky top-0 z-50 glass-panel border-b border-white/10\">\n    <div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between\">\n      <!-- Logo Branding -->\n      <NuxtLink to=\"/\" class=\"flex items-center gap-3 group\">\n        <div class=\"w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg group-hover:shadow-purple-500/50 transition-all duration-300\">\n          <div class=\"w-full h-full bg-[#090d16] rounded-[11px] flex items-center justify-center font-bold text-lg text-purple-400\">\n            K\n          </div>\n        </div>\n        <div>\n          <span class=\"font-extrabold text-xl tracking-tight gradient-text\">Kairos</span>\n          <UBadge color=\"primary\" variant=\"subtle\" size=\"xs\" class=\"hidden sm:inline-flex ml-2\">\n            AI Steward v1.0\n          </UBadge>\n        </div>\n      </NuxtLink>\n\n      <!-- Quick Action Right Nav -->\n      <div class=\"flex items-center gap-4\">\n        <NuxtLink\n          to=\"/interview\"\n          class=\"hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium text-sm shadow-md hover:shadow-purple-500/25 transition-all\"\n        >\n          <span> AI 모의 면접</span>\n        </NuxtLink>\n\n        <!-- User Profile Badge -->\n        <div v-if=\"user\" class=\"flex items-center gap-3 border-l border-white/10 pl-4\">\n          <img :src=\"user.avatarUrl\" :alt=\"user.name\" class=\"w-8 h-8 rounded-full border border-purple-500/30 bg-purple-900/30\" />\n          <span class=\"hidden md:inline text-sm font-medium text-gray-200\">{{ user.name }}</span>\n        </div>\n        <NuxtLink\n          v-else\n          to=\"/auth/login\"\n          class=\"text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors\"\n        >\n          로그인\n   ... (line truncated to 2000 chars)
 2884:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\components\\Navbar.vue"
 2885: }
 2886: ```
@@ -4375,7 +4375,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2905: **Input:**
 2906: ```json
 2907: {
-2908:   "content": "<template>\n  <aside class=\"glass-panel rounded-2xl p-4 space-y-6\">\n    <div class=\"px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider\">\n      주요 서비스 메뉴\n    </div>\n\n    <nav class=\"space-y-1\">\n      <NuxtLink\n        v-for=\"item in navItems\"\n        :key=\"item.path\"\n        :to=\"item.path\"\n        class=\"flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group\"\n        :class=\"route.path === item.path ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30' : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'\"\n      >\n        <span class=\"text-lg group-hover:scale-110 transition-transform\">{{ item.icon }}</span>\n        <span>{{ item.label }}</span>\n      </NuxtLink>\n    </nav>\n\n    <div class=\"pt-4 border-t border-white/5\">\n      <div class=\"p-3.5 rounded-xl bg-purple-950/40 border border-purple-500/20 space-y-2\">\n        <div class=\"text-xs font-bold text-purple-300 flex items-center gap-1.5\">\n          <span>✨</span> Kairos LLM Engine\n        </div>\n        <p class=\"text-[11px] text-purple-200/70 leading-relaxed\">\n          OpenAI, Anthropic, Google Gemini 실시간 자동 Fallback 체인이 활성화되어 있습니다.\n        </p>\n      </div>\n    </div>\n  </aside>\n</template>\n\n<script setup lang=\"ts\">\nconst route = useRoute()\n\nconst navItems = [\n  { label: '대시보드 개요', path: '/', icon: '📊' },\n  { label: '이력서 생성을 및 평가', path: '/resume', icon: '📝' },\n  { label: 'AI 모의 면접 (SSE)', path: '/interview', icon: '🎙️' },\n  { label: 'ATS 채용공고 분석', path: '/ats', icon: '🎯' },\n  { label: 'AI 문장 휴머니자이저', path: '/humanizer', icon: '✨' },\n  { label: '예상 질문 Q&A 세트', path: '/qa', icon: '💡' },\n  { label: '경력 관리 & 벡터 검색', path: '/career', icon: '🔍' },\n]\n</script>\n",
+2908:   "content": "<template>\n  <aside class=\"glass-panel rounded-2xl p-4 space-y-6\">\n    <div class=\"px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider\">\n      주요 서비스 메뉴\n    </div>\n\n    <nav class=\"space-y-1\">\n      <NuxtLink\n        v-for=\"item in navItems\"\n        :key=\"item.path\"\n        :to=\"item.path\"\n        class=\"flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group\"\n        :class=\"route.path === item.path ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30' : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'\"\n      >\n        <span class=\"text-lg group-hover:scale-110 transition-transform\">{{ item.icon }}</span>\n        <span>{{ item.label }}</span>\n      </NuxtLink>\n    </nav>\n\n    <div class=\"pt-4 border-t border-white/5\">\n      <div class=\"p-3.5 rounded-xl bg-purple-950/40 border border-purple-500/20 space-y-2\">\n        <div class=\"text-xs font-bold text-purple-300 flex items-center gap-1.5\">\n          <span></span> Kairos LLM Engine\n        </div>\n        <p class=\"text-[11px] text-purple-200/70 leading-relaxed\">\n          OpenAI, Anthropic, Google Gemini 실시간 자동 Fallback 체인이 활성화되어 있습니다.\n        </p>\n      </div>\n    </div>\n  </aside>\n</template>\n\n<script setup lang=\"ts\">\nconst route = useRoute()\n\nconst navItems = [\n  { label: '대시보드 개요', path: '/', icon: '' },\n  { label: '이력서 생성을 및 평가', path: '/resume', icon: '' },\n  { label: 'AI 모의 면접 (SSE)', path: '/interview', icon: '️' },\n  { label: 'ATS 채용공고 분석', path: '/ats', icon: '' },\n  { label: 'AI 문장 휴머니자이저', path: '/humanizer', icon: '' },\n  { label: '예상 질문 Q&A 세트', path: '/qa', icon: '' },\n  { label: '경력 관리 & 벡터 검색', path: '/career', icon: '' },\n]\n</script>\n",
 2909:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\components\\Sidebar.vue"
 2910: }
 2911: ```
@@ -4400,7 +4400,7 @@ Actually, I already have the last part. The session was writing Nuxt UI v4 compo
 2930: **Input:**
 2931: ```json
 2932: {
-2933:   "content": "<template>\n  <div class=\"glass-card rounded-2xl p-5 relative overflow-hidden group\">\n    <div class=\"flex items-center justify-between\">\n      <div>\n        <p class=\"text-xs font-medium text-gray-400 uppercase tracking-wider\">{{ label }}</p>\n        <h3 class=\"text-2xl font-extrabold text-white mt-1 group-hover:scale-105 transition-transform origin-left\">\n          {{ value }}\n        </h3>\n      </div>\n      <div class=\"w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-purple-500/10 border border-purple-500/20 text-purple-300\">\n        {{ icon }}\n      </div>\n    </div>\n    <div v-if=\"trend\" class=\"mt-3 flex items-center gap-1 text-xs\" :class=\"trendPositive ? 'text-emerald-400' : 'text-purple-400'\">\n      <span>{{ trendPositive ? '↑' : '✦' }}</span>\n      <span>{{ trend }}</span>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\ndefineProps<{\n  label: string\n  value: string | number\n  icon: string\n  trend?: string\n  trendPositive?: boolean\n}>()\n</script>\n",
+2933:   "content": "<template>\n  <div class=\"glass-card rounded-2xl p-5 relative overflow-hidden group\">\n    <div class=\"flex items-center justify-between\">\n      <div>\n        <p class=\"text-xs font-medium text-gray-400 uppercase tracking-wider\">{{ label }}</p>\n        <h3 class=\"text-2xl font-extrabold text-white mt-1 group-hover:scale-105 transition-transform origin-left\">\n          {{ value }}\n        </h3>\n      </div>\n      <div class=\"w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-purple-500/10 border border-purple-500/20 text-purple-300\">\n        {{ icon }}\n      </div>\n    </div>\n    <div v-if=\"trend\" class=\"mt-3 flex items-center gap-1 text-xs\" :class=\"trendPositive ? 'text-emerald-400' : 'text-purple-400'\">\n      <span>{{ trendPositive ? '↑' : '' }}</span>\n      <span>{{ trend }}</span>\n    </div>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\ndefineProps<{\n  label: string\n  value: string | number\n  icon: string\n  trend?: string\n  trendPositive?: boolean\n}>()\n</script>\n",
 2934:   "filePath": "C:\\Users\\Administrator\\orca\\Kairos\\app\\components\\StatCard.vue"
 2935: }
 2936: ```
@@ -5818,12 +5818,12 @@ _Thinking:_
 
 Now I have the full picture. The session 3 was working on Phase 8: Nuxt UI v4 migration. The assistant:
 
-1. ✅ Migrated Tailwind CSS v3 → v4 (main.css)
-2. ✅ Removed unused packages (lucide-vue-next, clsx, tailwind-merge, nuxt-auth-utils)
-3. ✅ Updated nuxt.config.ts (removed nuxt-auth-utils module)
-4. ✅ Updated app.vue to use `<UApp>` wrapper
-5. ✅ Integrated Nuxt UI v4 components into all pages (auth/login, auth/register, resume/index, interview/index, ats, humanizer, qa, career) and components (Navbar, Sidebar, StatCard)
-6. 🔄 The typecheck failed because `@ai-sdk/vue@^7.0.0` doesn't exist (latest is 4.0.38). The session was fixing the version numbers.
+1. [v] Migrated Tailwind CSS v3 → v4 (main.css)
+2. [v] Removed unused packages (lucide-vue-next, clsx, tailwind-merge, nuxt-auth-utils)
+3. [v] Updated nuxt.config.ts (removed nuxt-auth-utils module)
+4. [v] Updated app.vue to use `<UApp>` wrapper
+5. [v] Integrated Nuxt UI v4 components into all pages (auth/login, auth/register, resume/index, interview/index, ats, humanizer, qa, career) and components (Navbar, Sidebar, StatCard)
+6.  The typecheck failed because `@ai-sdk/vue@^7.0.0` doesn't exist (latest is 4.0.38). The session was fixing the version numbers.
 
 Let me continue reading to see exactly where it stopped:
 
@@ -7230,10 +7230,10 @@ _Thinking:_
 
 Now I have a clear picture of where the work was left off. The session was in the middle of fixing type errors:
 
-1. ✅ Fixed `navigator.gpu` type assertions
-2. ✅ Fixed `CreateWebLLM` → `CreateMLCEngine` import
-3. ✅ Fixed `LanguageModelV1` → `LanguageModel`
-4. 🔄 Still needs to fix `result.object` → should use `output` from AI SDK v7
+1. [v] Fixed `navigator.gpu` type assertions
+2. [v] Fixed `CreateWebLLM` → `CreateMLCEngine` import
+3. [v] Fixed `LanguageModelV1` → `LanguageModel`
+4.  Still needs to fix `result.object` → should use `output` from AI SDK v7
 
 And then there are more type errors that need fixing. Let me now check the current state of this machine's files to understand what's committed vs what's pending. The commit `aa67a28` shows that Phase 8 was already committed but looks like it was amended/rebased.
 
@@ -7613,9 +7613,9 @@ PWA 아이콘 플러그인 타입 에러만 남았다 (`.nuxt/` 내 생성 파�
   ├─ .output/server/index.mjs (657 B) (311 B gzip)
   └─ .output/server/package.json (34.5 kB) (8.95 kB gzip)
 Σ Total size: 18.4 MB (4.5 MB gzip)
-[nitro] ✔ You can preview this build using node .output/server/index.mjs
+[nitro] [v] You can preview this build using node .output/server/index.mjs
 │
-└  ✨ Build complete!
+└   Build complete!
 
 ```
 
@@ -7868,14 +7868,14 @@ Phase 8 완료. 요약:
 - 커밋 완료: `f6f11e3`
 
 **Phase 8 총괄 (커밋 `81df22b` + `f6f11e3`):**
-1. ✅ Tailwind CSS v3 → v4 (`@import "tailwindcss"` + `@theme` 블록)
-2. ✅ 불필요 패키지 제거 (`lucide-vue-next`, `clsx`, `tailwind-merge`, `nuxt-auth-utils`, `pg`, `jsonwebtoken`)
-3. ✅ `nuxt.config.ts` 정리 (모듈 제거, alias 정리)
-4. ✅ `app.vue` → `<UApp>` 래퍼 사용
-5. ✅ **모든 페이지에 Nuxt UI v4 컴포넌트 통합** (UButton, UInput, UTextarea, USelect, UModal, UBadge, UAlert, UFormGroup) — auth, resume, interview, ats, humanizer, qa, career
-6. ✅ **Navbar / Sidebar / StatCard** 컴포넌트 Nuxt UI v4 적용
-7. ✅ 타입 에러 전면 수정 (`LanguageModelV1` → `LanguageModel`, `navigator.gpu` 단언, `CreateWebLLM` → `CreateMLCEngine`, `result.object` 수정 등)
-8. ✅ **`npm run build` 성공** (18.4MB)
+1. [v] Tailwind CSS v3 → v4 (`@import "tailwindcss"` + `@theme` 블록)
+2. [v] 불필요 패키지 제거 (`lucide-vue-next`, `clsx`, `tailwind-merge`, `nuxt-auth-utils`, `pg`, `jsonwebtoken`)
+3. [v] `nuxt.config.ts` 정리 (모듈 제거, alias 정리)
+4. [v] `app.vue` → `<UApp>` 래퍼 사용
+5. [v] **모든 페이지에 Nuxt UI v4 컴포넌트 통합** (UButton, UInput, UTextarea, USelect, UModal, UBadge, UAlert, UFormGroup) — auth, resume, interview, ats, humanizer, qa, career
+6. [v] **Navbar / Sidebar / StatCard** 컴포넌트 Nuxt UI v4 적용
+7. [v] 타입 에러 전면 수정 (`LanguageModelV1` → `LanguageModel`, `navigator.gpu` 단언, `CreateWebLLM` → `CreateMLCEngine`, `result.object` 수정 등)
+8. [v] **`npm run build` 성공** (18.4MB)
 
 이제 `git push` 할까? 아니면 Session 2에서 중단된 웹서치/보고서 보강 작업을 할까?
 
@@ -9314,17 +9314,17 @@ The session started with the assistant understanding the state and looking at Ph
 But wait - the user says "작업 완수되지 않은채로 끊나있지 않나" (the work was cut off unfinished). Looking at the end of session 3, it was in the middle of fixing type errors in llm.ts and other files after the Nuxt UI v4 migration.
 
 The typecheck output showed many errors:
-1. PWA icons plugin (generated code) ✓
-2. Navbar.vue - user property ✓ (was being fixed in the session)
-3. useClientAI.ts - navigator.gpu ✓ (fixed)
-4. useLocalLLM.ts - CreateWebLLM ✓ (fixed)
+1. PWA icons plugin (generated code) [v]
+2. Navbar.vue - user property [v] (was being fixed in the session)
+3. useClientAI.ts - navigator.gpu [v] (fixed)
+4. useLocalLLM.ts - CreateWebLLM [v] (fixed)
 5. useLocalVectorSearch.ts - constructor issues
 6. interview/[id].vue - trim on Ref
 7. qa/index.vue - operator issue
 8. resume/index.vue - File undefined
 9. db/index.ts - missing @neondatabase/serverless
 10. server services - various type errors
-11. llm.ts - LanguageModelV1 → LanguageModel ✓ (fixed)
+11. llm.ts - LanguageModelV1 → LanguageModel [v] (fixed)
 
 The session was actively fixing these but was cut off. Now on this machine, I already ran the typecheck and it only showed 2 errors from .nuxt/pwa-icons-plugin.ts. This means the files on this machine are different from the Windows machine.
 
@@ -9387,7 +9387,7 @@ Let me focus on what the user explicitly says: they say I should look at Session
 
 OK so let me ask: what exactly was the state when Session 3 got cut off? I already verified:
 - `npx nuxt typecheck` → only 2 errors from `.nuxt/pwa-icons-plugin.ts` (generated code, ignorable)
-- `npm run build` → ✅ SUCCESS
+- `npm run build` → [v] SUCCESS
 - package.json was restored and committed
 
 So the Phase 8 implementation (Nuxt UI v4 UI redesign) is essentially complete. But the user says there's unfinished work.
@@ -9397,16 +9397,16 @@ Let me re-read Session 3 completely to find what specific tasks were planned but
 Looking at the session, the assistant goes through these steps:
 1. Reads the implementation_plan, reads all pages
 2. Sets up todo list: Tailwind v4, Remove packages, Nuxt UI v4 integration, UApp wrapper, Clean nuxt.config, Typecheck
-3. ✅ Completes CSS migration
-4. ✅ Removes unused packages
-5. ✅ Updates nuxt.config
-6. ✅ Updates app.vue with UApp
-7. ✅ Integrates Nuxt UI v4 into ALL pages (auth, resume, interview, ats, humanizer, qa, career) and components (Navbar, Sidebar, StatCard)
+3. [v] Completes CSS migration
+4. [v] Removes unused packages
+5. [v] Updates nuxt.config
+6. [v] Updates app.vue with UApp
+7. [v] Integrates Nuxt UI v4 into ALL pages (auth, resume, interview, ats, humanizer, qa, career) and components (Navbar, Sidebar, StatCard)
 8. Runs typecheck, finds errors
 9. Fixes:
-   - ✅ navigator.gpu type assertions
-   - ✅ CreateWebLLM → CreateMLCEngine
-   - ✅ LanguageModelV1 → LanguageModel
+   - [v] navigator.gpu type assertions
+   - [v] CreateWebLLM → CreateMLCEngine
+   - [v] LanguageModelV1 → LanguageModel
    - Was working on `result.object` fix when session ended
 
 So the remaining work from Session 3 was:
@@ -10347,7 +10347,7 @@ Let me read them all in parallel.
 3:     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 4:       <div>
 5:         <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-6:           <span>📝</span> 이력서 생성 & 비동기 고도화 파이프라인
+6:           <span></span> 이력서 생성 & 비동기 고도화 파이프라인
 7:         </h1>
 8:         <p class="text-xs text-gray-400 mt-1">
 9:           Draft $\rightarrow$ Evaluate $\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.
@@ -10372,7 +10372,7 @@ Let me read them all in parallel.
 28:         <div class="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2">
 29:           <div class="text-xs font-bold text-gray-400">STEP 01</div>
 30:           <div class="text-sm font-bold text-white flex items-center gap-2">
-31:             <span>📄</span> Draft Generation
+31:             <span></span> Draft Generation
 32:           </div>
 33:           <p class="text-xs text-gray-400">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>
 34:         </div>
@@ -10380,7 +10380,7 @@ Let me read them all in parallel.
 36:         <div class="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2">
 37:           <div class="text-xs font-bold text-purple-400">STEP 02</div>
 38:           <div class="text-sm font-bold text-purple-200 flex items-center gap-2">
-39:             <span>🔍</span> LLM Evaluation
+39:             <span></span> LLM Evaluation
 40:           </div>
 41:           <p class="text-xs text-purple-200/70">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>
 42:         </div>
@@ -10388,7 +10388,7 @@ Let me read them all in parallel.
 44:         <div class="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2">
 45:           <div class="text-xs font-bold text-indigo-400">STEP 03</div>
 46:           <div class="text-sm font-bold text-indigo-200 flex items-center gap-2">
-47:             <span>✨</span> Intelligent Rewrite
+47:             <span></span> Intelligent Rewrite
 48:           </div>
 49:           <p class="text-xs text-indigo-200/70">정량적 성과 중심의 고도화된 이력서 재작성 완성</p>
 50:         </div>
@@ -10435,7 +10435,7 @@ Let me read them all in parallel.
 91:                 variant="subtle"
 92:                 size="xs"
 93:                 :loading="refiningId === r.id"
-94:                 label="⚡ AI 고도화 실행"
+94:                 label=" AI 고도화 실행"
 95:                 @click="triggerRefine(r.id)"
 96:               />
 97: 
@@ -10451,7 +10451,7 @@ Let me read them all in parallel.
 107:       </div>
 108: 
 109:       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-110:         <div class="text-4xl">📄</div>
+110:         <div class="text-4xl"></div>
 111:         <p class="text-sm">등록된 이력서가 없습니다. 신규 이력서를 등록해 보세요.</p>
 112:       </div>
 113:     </div>
@@ -10467,7 +10467,7 @@ Let me read them all in parallel.
 123:           <!-- Document Parser File Upload -->
 124:           <div class="p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2">
 125:             <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
-126:             <div class="text-2xl">📁</div>
+126:             <div class="text-2xl"></div>
 127:             <div class="text-xs font-semibold text-purple-300">PDF / DOCX 이력서 파싱</div>
 128:             <p class="text-[11px] text-gray-400">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>
 129:             <UButton
@@ -11192,11 +11192,11 @@ Let me write the summary.
 
 ## Relevant Files
 - `docs/MODERNIZATION_PLAN.md`: master plan document for all Phases 0-8
-- `app/composables/useLocalVectorSearch.ts`: ✓ fixed to vectra/browser
-- `server/middleware/auth.ts`: ✓ fixed to pure Better Auth
-- `server/api/auth/login.post.ts`: ✓ fixed to pure Better Auth
-- `server/api/auth/register.post.ts`: ✓ fixed to pure Better Auth
-- `package.json`: ✓ @ai-sdk/otel added
+- `app/composables/useLocalVectorSearch.ts`: [v] fixed to vectra/browser
+- `server/middleware/auth.ts`: [v] fixed to pure Better Auth
+- `server/api/auth/login.post.ts`: [v] fixed to pure Better Auth
+- `server/api/auth/register.post.ts`: [v] fixed to pure Better Auth
+- `package.json`: [v] @ai-sdk/otel added
 - `server/services/llm.ts`: needs Anthropic cacheControl addition
 - `app/pages/resume/index.vue`: needs client-side parser integration
 - `app/composables/useDocumentParser.ts`: exists but unused by resume page
@@ -11937,7 +11937,8 @@ Only expected `.nuxt/pwa-icons-plugin.ts` errors remain (generated file). Let me
 
 ℹ Building client...
 ℹ vite v8.1.5 building client environment for production...
-[2Ktransforming...✓ 1186 modules transformed.
+[2K
+transforming...[v] 1186 modules transformed.
 rendering chunks...
 computing gzip size...
 ℹ node_modules/.cache/nuxt/.nuxt/dist/client/manifest.json                          9.43 kB │ gzip:   1.44 kB
@@ -12000,11 +12001,12 @@ See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more det
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
 
-ℹ ✓ built in 13.17s
-✔ Client built in 13283ms
+ℹ [v] built in 13.17s
+[v] Client built in 13283ms
 ℹ Building server...
 ℹ vite v8.1.5 building ssr environment for production...
-[2Ktransforming...✓ 756 modules transformed.
+[2K
+transforming...[v] 756 modules transformed.
 rendering chunks...
 ℹ node_modules/.cache/nuxt/.nuxt/dist/server/_nuxt/error-404-styles.CiqRMCWG.mjs                                    0.08 kB
 node_modules/.cache/nuxt/.nuxt/dist/server/_nuxt/error-500-styles.CgvVbW11.mjs                                    0.08 kB
@@ -12053,8 +12055,8 @@ node_modules/.cache/nuxt/.nuxt/dist/server/_nuxt/Select-OckssZ26.js             
 See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
 
 
-ℹ ✓ built in 7.88s
-✔ Server built in 7952ms
+ℹ [v] built in 7.88s
+[v] Server built in 7952ms
 [nitro] ℹ Initializing prerenderer
 
  WARN  "server/services/llmCache" is imported by "server/api/resumes/[id]/refine.post.ts", but could not be resolved – treating it as an external dependency.
@@ -12072,7 +12074,7 @@ See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more det
 
 [nitro]   ├─ /_payload.json (6ms)
 [nitro] ℹ Prerendered 2 routes in 13.291 seconds
-[nitro] ✔ Generated public .output/public
+[nitro] [v] Generated public .output/public
 
 PWA v1.3.0
 mode      generateSW
@@ -12082,7 +12084,7 @@ files generated
   ../.output/public/workbox-6829fd8d.js
 [nitro] ℹ Building Nuxt Nitro server (preset: node-server, compatibility date: 2026-07-28)
 "server/services/llmCache" is imported by "server/api/resumes/[id]/refine.post.ts", but could not be resolved – treating it as an external dependency.
-[nitro] ✔ Nuxt Nitro server built
+[nitro] [v] Nuxt Nitro server built
   ├─ .output/server/chunks/_/career.mjs (3.04 kB) (1.34 kB gzip)
   ├─ .output/server/chunks/_/career.mjs.map (3.09 kB) (838 B gzip)
   ├─ .output/server/chunks/_/error-500.mjs (5.08 kB) (2.08 kB gzip)
@@ -12188,9 +12190,9 @@ files generated
   ├─ .output/server/index.mjs (657 B) (311 B gzip)
   └─ .output/server/package.json (34.5 kB) (8.95 kB gzip)
 Σ Total size: 19.2 MB (4.65 MB gzip)
-[nitro] ✔ You can preview this build using node .output/server/index.mjs
+[nitro] [v] You can preview this build using node .output/server/index.mjs
 │
-└  ✨ Build complete!
+└   Build complete!
 
 ```
 

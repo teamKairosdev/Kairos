@@ -19,7 +19,7 @@
       <template #header><h2 class="text-lg font-semibold">연결된 지갑</h2></template>
       <div v-if="walletAddress" class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <span class="text-lg">🦊</span>
+          <UIcon name="i-lucide-wallet" class="w-5 h-5 text-fg-brand" />
           <div>
             <p class="text-sm font-mono">{{ walletAddress }}</p>
             <p class="text-xs text-fg-neutral-muted">Kaikas / MetaMask</p>
