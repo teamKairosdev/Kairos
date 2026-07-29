@@ -1,5 +1,11 @@
 # Kairos | AI Job-Application Preparation Platform
 
+> **📁 `docs/Idea-Real_tion/`** — 이 프로젝트의 **기획특화전용폴더**입니다.  
+> Kairos는 *"커리어의 총체적 추적, 종합적 활용 및 관리를 지원하는 종합 경력개발 에이전트 서비스 플랫폼"* 으로,  
+> Notion/Obsidian 같은 커리어 지식베이스 + Threads/X 같은 성장자극 SNS + 다중 AI 에이전트 오케스트레이션을 통합합니다.  
+> **AI 자소서 첨삭은 빙산의 일각이며, 전체는 커리어 OS + 커리어 SNS입니다.**  
+> 기획 문서는 `docs/Idea-Real_tion/` 에서 확인하세요.
+
 > **Kairos (카이로스)** — *"크리티컬 케이(kairos)가 곧 합격의 순간입니다."*
 
 Kairos는 **Nuxt 4 SPA + Serverless**, **Better Auth**, **Drizzle ORM + Neon PostgreSQL + pgvector**, 그리고 **Vercel AI SDK v7**을 기반으로 하는 **클라이언트-사이드 AI 취업 준비 플랫폼**입니다.
