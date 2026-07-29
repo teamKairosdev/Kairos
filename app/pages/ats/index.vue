@@ -82,6 +82,7 @@
 </template>
 
 <script setup lang="ts">
+const toast = useToast()
 const jobTitle = ref('시니어 프론트엔드 개발자')
 const jobDescription = ref('- Nuxt.js, Vue 3, TypeScript 실무 경험 3년 이상\n- SSR / SSG 및 성능 최적화 경험\n- CI/CD 파이프라인 및 Docker 경험 우대')
 const resumeText = ref('시니어 웹 개발자로서 Vue.js 및 TypeScript 기반 웹 애플리케이션을 다수 구축했습니다.')
@@ -93,7 +94,9 @@ async function runATSAnalysis() {
   try {
     const res: any = await $fetch('/api/ats/analyze', { method: 'POST', body: { jobTitle: jobTitle.value, jobDescription: jobDescription.value, resumeText: resumeText.value } })
     result.value = res.analysis
-  } catch { alert('ATS 분석 실패') }
+  } catch (err: any) {
+    toast.add({ title: 'ATS 분석 실패', description: err.data?.message || '분석 중 오류가 발생했습니다.', color: 'red' })
+  }
   finally { loading.value = false }
 }
 </script>

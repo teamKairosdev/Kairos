@@ -31,6 +31,11 @@ Focus on maximizing professional impact and ATS compatibility.`;
     instructions,
     prompt,
     temperature: 0.4,
+    onFinish: async (event) => {
+      if (event.text) {
+        await setCachedResponse(cacheKey, 'refine', JSON.stringify({ text: event.text }), 3600);
+      }
+    },
   });
 
   return createUIMessageStreamResponse({ stream: result.toUIMessageStream() });

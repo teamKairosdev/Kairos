@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     'db/index': resolve(rootDir, 'db/index'),
     'shared': resolve(rootDir, 'shared'),
     'shared/types': resolve(rootDir, 'shared/types'),
+    'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
   },
 
   // SPA 모드: 인증된 라우트는 모두 클라이언트 사이드 렌더링

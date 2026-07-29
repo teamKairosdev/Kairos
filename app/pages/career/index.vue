@@ -86,6 +86,7 @@
 </template>
 
 <script setup lang="ts">
+const toast = useToast()
 const { data: careersList, refresh } = await useFetch<any[]>('/api/careers')
 const showCreateModal = ref(false)
 const company = ref('')
@@ -98,12 +99,16 @@ const searchResults = ref<any>(null)
 
 async function createCareer() {
   if (!company.value || !role.value || !description.value) return
-  await $fetch('/api/careers', { method: 'POST', body: { company: company.value, role: role.value, period: period.value, description: description.value } })
-  showCreateModal.value = false
-  company.value = ''
-  role.value = ''
-  description.value = ''
-  refresh()
+  try {
+    await $fetch('/api/careers', { method: 'POST', body: { company: company.value, role: role.value, period: period.value, description: description.value } })
+    showCreateModal.value = false
+    company.value = ''
+    role.value = ''
+    description.value = ''
+    refresh()
+  } catch (err: any) {
+    toast.add({ title: '경력 등록 실패', description: err.data?.message || '경력 등록 중 오류가 발생했습니다.', color: 'red' })
+  }
 }
 
 async function performSearch() {
@@ -112,7 +117,9 @@ async function performSearch() {
   try {
     const res: any = await $fetch('/api/careers/search', { query: { q: searchQuery.value } })
     searchResults.value = res
-  } catch { alert('검색 실패') }
+  } catch (err: any) {
+    toast.add({ title: '검색 실패', description: err.data?.message || '시맨틱 검색 중 오류가 발생했습니다.', color: 'red' })
+  }
   finally { searching.value = false }
 }
 </script>

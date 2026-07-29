@@ -37,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+const toast = useToast()
 const originalText = ref('본 지원자는 지난 3년간 웹 프론트엔드 개발 프로젝트 수행에 있어 프론트엔드 성능 최적화 관점에서 다각도로 접근하여 효율적인 리팩토링을 완수함에 있어 큰 성과를 거두었습니다.')
 const loading = ref(false)
 const result = ref<any>(null)
@@ -47,7 +48,9 @@ async function processHumanize() {
   try {
     const res: any = await $fetch('/api/humanizer/process', { method: 'POST', body: { originalText: originalText.value } })
     result.value = res
-  } catch { alert('변환 실패') }
+  } catch (err: any) {
+    toast.add({ title: '변환 실패', description: err.data?.message || '휴머나이저 변환 중 오류가 발생했습니다.', color: 'red' })
+  }
   finally { loading.value = false }
 }
 </script>

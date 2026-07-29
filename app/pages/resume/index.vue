@@ -90,6 +90,7 @@
 </template>
 
 <script setup lang="ts">
+const toast = useToast()
 const { data: resumes, refresh } = await useFetch<any[]>('/api/resumes')
 const showCreateModal = ref(false)
 const newTitle = ref('')
@@ -107,16 +108,22 @@ async function handleFileUpload(e: Event) {
     const text = await parseResumeFile(file)
     newTitle.value = file.name.replace(/\.[^/.]+$/, '')
     newContent.value = text
-  } catch { alert('파일 파싱 중 오류') }
+  } catch (err: any) {
+    toast.add({ title: '파일 파싱 중 오류', description: err.message || '파일을 읽는 도중 오류가 발생했습니다.', color: 'red' })
+  }
 }
 
 async function createResume() {
   if (!newTitle.value || !newContent.value) return
-  await $fetch('/api/resumes', { method: 'POST', body: { title: newTitle.value, originalContent: newContent.value } })
-  showCreateModal.value = false
-  newTitle.value = ''
-  newContent.value = ''
-  refresh()
+  try {
+    await $fetch('/api/resumes', { method: 'POST', body: { title: newTitle.value, originalContent: newContent.value } })
+    showCreateModal.value = false
+    newTitle.value = ''
+    newContent.value = ''
+    refresh()
+  } catch (err: any) {
+    toast.add({ title: '이력서 등록 실패', description: err.data?.message || '이력서 저장 중 오류가 발생했습니다.', color: 'red' })
+  }
 }
 
 async function triggerRefine(id: string) {
@@ -124,7 +131,10 @@ async function triggerRefine(id: string) {
   try {
     await $fetch(`/api/resumes/${id}/refine`, { method: 'POST' })
     await refresh()
-  } catch { alert('AI 고도화 중 오류') }
+    toast.add({ title: 'AI 고도화 완료', description: '이력서 3단계 고도화가 정상 처리되었습니다.', color: 'green' })
+  } catch (err: any) {
+    toast.add({ title: 'AI 고도화 중 오류', description: err.data?.message || '고도화 처리 중 문제가 발생했습니다.', color: 'red' })
+  }
   finally { refiningId.value = null }
 }
 </script>

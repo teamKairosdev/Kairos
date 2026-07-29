@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+const toast = useToast()
 const { data: interviews } = await useFetch<any[]>('/api/interviews')
 const showCreateModal = ref(false)
 const jobTitle = ref('')
@@ -74,7 +75,9 @@ async function startSession() {
   try {
     const res: any = await $fetch('/api/interviews', { method: 'POST', body: { jobTitle: jobTitle.value, companyName: companyName.value, difficulty: difficulty.value } })
     router.push(`/interview/${res.session.id}`)
-  } catch { alert('면접 생성 실패') }
+  } catch (err: any) {
+    toast.add({ title: '면접 생성 실패', description: err.data?.message || '면접 생성 중 오류가 발생했습니다.', color: 'red' })
+  }
   finally { loading.value = false }
 }
 </script>

@@ -19,8 +19,5 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/((?!api|_nuxt|__nuxt|sw\\.js|workbox.*).*)", "destination": "/index.html" }
   ]
 }

@@ -52,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+const toast = useToast()
 const targetRole = ref('시니어 풀스택 개발자')
 const questionCount = ref(5)
 const careerSummary = ref('TypeScript, Nuxt 4, Node.js 기반 Web App 구축 4년 경력. PostgreSQL 및 pgvector 시맨틱 검색 엔진 구현 경험.')
@@ -64,7 +65,9 @@ async function generateQA() {
   try {
     const res: any = await $fetch('/api/qa/generate', { method: 'POST', body: { targetRole: targetRole.value, careerSummary: careerSummary.value, count: questionCount.value } })
     qaSet.value = res.qaSet
-  } catch { alert('Q&A 생성 실패') }
+  } catch (err: any) {
+    toast.add({ title: 'Q&A 생성 실패', description: err.data?.message || 'Q&A 생성 중 오류가 발생했습니다.', color: 'red' })
+  }
   finally { loading.value = false }
 }
 </script>
