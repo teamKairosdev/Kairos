@@ -116,6 +116,7 @@ export default defineNuxtConfig({
       'server/services/embedding': resolve(rootDir, 'server/services/embedding'),
       'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
       'server/services/hwpParser': resolve(rootDir, 'server/services/hwpParser'),
+      'server/services/billing': resolve(rootDir, 'server/services/billing'),
     },
     publicAssets: [
       {
