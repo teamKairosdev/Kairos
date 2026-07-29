@@ -33,7 +33,7 @@
           variant="ghost"
           icon="i-lucide-x"
           size="xs"
-          class="text-gray-400 hover:text-white"
+          class="text-fg-neutral-muted hover:text-fg-neutral"
           @click="isOpen = false"
         />
       </div>
@@ -47,7 +47,7 @@
                 'max-w-[85%] p-3 rounded-xl leading-relaxed whitespace-pre-wrap',
                 msg.role === 'user'
                   ? 'bg-purple-600 text-white rounded-tr-none'
-                  : 'bg-white/5 border border-white/10 text-gray-200 rounded-tl-none'
+                  : 'bg-white/5 border border-white/10 text-fg-neutral rounded-tl-none'
               ]"
             >
               {{ msg.content }}

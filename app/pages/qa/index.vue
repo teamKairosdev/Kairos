@@ -1,11 +1,11 @@
 <template>
   <div class="space-y-8">
     <div>
-      <h1 class="text-xl font-semibold text-white">Q&A 생성</h1>
-      <p class="text-xs text-gray-500 mt-0.5">직무와 경력 기반 예상 면접 질문을 생성합니다</p>
+      <h1 class="text-xl font-semibold text-fg-neutral">Q&A 생성</h1>
+      <p class="text-xs text-fg-neutral-muted mt-0.5">직무와 경력 기반 예상 면접 질문을 생성합니다</p>
     </div>
 
-    <div class="rounded-xl border border-white/5 p-6 bg-white/[0.02] space-y-4">
+    <div class="rounded-xl border border-stroke-neutral-muted p-6 bg-neutral-muted space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <UFormGroup label="지원 직무">
           <UInput v-model="targetRole" placeholder="예: 백엔드 테크 리드" />
@@ -25,24 +25,24 @@
     </div>
 
     <div v-if="qaSet" class="space-y-4">
-      <h2 class="text-base font-medium text-white">{{ qaSet.targetRole }} 맞춤 Q&A</h2>
+      <h2 class="text-base font-medium text-fg-neutral">{{ qaSet.targetRole }} 맞춤 Q&A</h2>
       <div class="space-y-4">
-        <div v-for="(qa, idx) in qaSet.qaPairs" :key="idx" class="rounded-xl border border-white/5 p-6 bg-white/[0.02] space-y-4">
+        <div v-for="(qa, idx) in qaSet.qaPairs" :key="idx" class="rounded-xl border border-stroke-neutral-muted p-6 bg-neutral-muted space-y-4">
           <div class="flex items-start justify-between gap-4">
             <div class="space-y-1">
               <div class="flex items-center gap-2">
                 <UBadge color="neutral" variant="soft" size="xs">Q{{ Number(idx) + 1 }}</UBadge>
-                <span class="text-xs text-gray-500">{{ qa.difficulty }}</span>
+                <span class="text-xs text-fg-neutral-muted">{{ qa.difficulty }}</span>
               </div>
-              <h3 class="text-base font-medium text-white leading-relaxed">{{ qa.question }}</h3>
+              <h3 class="text-base font-medium text-fg-neutral leading-relaxed">{{ qa.question }}</h3>
             </div>
           </div>
-          <div class="p-4 rounded-lg bg-white/5 space-y-2">
+          <div class="p-4 rounded-lg bg-neutral-muted space-y-2">
             <div class="text-xs font-medium text-emerald-400">모범 답안</div>
-            <p class="text-xs text-gray-300 leading-relaxed whitespace-pre-wrap">{{ qa.sampleAnswer }}</p>
+            <p class="text-xs text-fg-neutral-muted leading-relaxed whitespace-pre-wrap">{{ qa.sampleAnswer }}</p>
           </div>
           <div v-if="qa.keyPoints && qa.keyPoints.length > 0" class="flex flex-wrap gap-1.5">
-            <span class="text-xs text-gray-500">핵심:</span>
+            <span class="text-xs text-fg-neutral-muted">핵심:</span>
             <UBadge v-for="(kp, kIdx) in qa.keyPoints" :key="kIdx" color="neutral" variant="soft" size="xs">#{{ kp }}</UBadge>
           </div>
         </div>

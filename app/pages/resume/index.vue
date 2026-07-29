@@ -2,73 +2,73 @@
   <div class="space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-xl font-semibold text-white">이력서</h1>
-        <p class="text-xs text-gray-500 mt-0.5">Draft &rarr; Evaluate &rarr; Improve 3단계 LLM 체인</p>
+        <h1 class="text-xl font-semibold text-fg-neutral">이력서</h1>
+        <p class="text-xs text-fg-neutral-muted mt-0.5">Draft &rarr; Evaluate &rarr; Improve 3단계 LLM 체인</p>
       </div>
       <UButton color="black" variant="solid" icon="i-lucide-plus" label="신규 등록" @click="showCreateModal = true" />
     </div>
 
-    <div class="rounded-xl border border-white/5 p-5 bg-white/[0.02]">
-      <div class="text-xs font-medium text-gray-500 mb-4 uppercase tracking-wide">Workflow</div>
+    <div class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted">
+      <div class="text-xs font-medium text-fg-neutral-muted mb-4 uppercase tracking-wide">Workflow</div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="p-4 rounded-lg bg-white/5 space-y-1.5">
-          <div class="text-xs text-gray-500">STEP 01</div>
-          <div class="text-sm font-medium text-white">Draft Generation</div>
-          <p class="text-xs text-gray-500">초안 작성 또는 PDF/DOCX 파싱</p>
+        <div class="p-4 rounded-lg bg-neutral-muted space-y-1.5">
+          <div class="text-xs text-fg-neutral-muted">STEP 01</div>
+          <div class="text-sm font-medium text-fg-neutral">Draft Generation</div>
+          <p class="text-xs text-fg-neutral-muted">초안 작성 또는 PDF/DOCX 파싱</p>
         </div>
-        <div class="p-4 rounded-lg bg-white/5 space-y-1.5">
-          <div class="text-xs text-gray-500">STEP 02</div>
-          <div class="text-sm font-medium text-white">LLM Evaluation</div>
-          <p class="text-xs text-gray-500">점수, 강약점, STAR 프레임워크 분석</p>
+        <div class="p-4 rounded-lg bg-neutral-muted space-y-1.5">
+          <div class="text-xs text-fg-neutral-muted">STEP 02</div>
+          <div class="text-sm font-medium text-fg-neutral">LLM Evaluation</div>
+          <p class="text-xs text-fg-neutral-muted">점수, 강약점, STAR 프레임워크 분석</p>
         </div>
-        <div class="p-4 rounded-lg bg-white/5 space-y-1.5">
-          <div class="text-xs text-gray-500">STEP 03</div>
-          <div class="text-sm font-medium text-white">Intelligent Rewrite</div>
-          <p class="text-xs text-gray-500">성과 중심 고도화 재작성</p>
+        <div class="p-4 rounded-lg bg-neutral-muted space-y-1.5">
+          <div class="text-xs text-fg-neutral-muted">STEP 03</div>
+          <div class="text-sm font-medium text-fg-neutral">Intelligent Rewrite</div>
+          <p class="text-xs text-fg-neutral-muted">성과 중심 고도화 재작성</p>
         </div>
       </div>
     </div>
 
     <div class="space-y-4">
-      <h2 class="text-base font-medium text-white">내 이력서</h2>
+      <h2 class="text-base font-medium text-fg-neutral">내 이력서</h2>
 
       <div v-if="resumes && resumes.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div v-for="r in resumes" :key="r.id" class="rounded-xl border border-white/5 p-5 bg-white/[0.02] hover:border-white/20 transition-colors space-y-3">
+        <div v-for="r in resumes" :key="r.id" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors space-y-3">
           <div class="flex items-start justify-between">
             <div>
               <UBadge :color="r.status === 'improved' ? 'success' : r.status === 'evaluating' ? 'warning' : 'neutral'" variant="soft" size="xs">{{ r.status }}</UBadge>
-              <h3 class="text-base font-medium text-white mt-1.5">{{ r.title }}</h3>
+              <h3 class="text-base font-medium text-fg-neutral mt-1.5">{{ r.title }}</h3>
             </div>
             <div class="text-right">
-              <div class="text-xl font-semibold text-white">{{ r.currentScore || 0 }}</div>
-              <div class="text-[10px] text-gray-500">점수</div>
+              <div class="text-xl font-semibold text-fg-neutral">{{ r.currentScore || 0 }}</div>
+              <div class="text-[10px] text-fg-neutral-muted">점수</div>
             </div>
           </div>
-          <p class="text-xs text-gray-500 line-clamp-2">{{ r.originalContent }}</p>
-          <div class="pt-2 flex items-center justify-between border-t border-white/5">
-            <span class="text-xs text-gray-600">{{ new Date(r.createdAt).toLocaleDateString() }}</span>
+          <p class="text-xs text-fg-neutral-muted line-clamp-2">{{ r.originalContent }}</p>
+          <div class="pt-2 flex items-center justify-between border-t border-stroke-neutral-muted">
+            <span class="text-xs text-fg-neutral-muted">{{ new Date(r.createdAt).toLocaleDateString() }}</span>
             <div class="flex items-center gap-2">
               <UButton color="neutral" variant="soft" size="xs" :loading="refiningId === r.id" label="AI 고도화" @click="triggerRefine(r.id)" />
-              <NuxtLink :to="`/resume/${r.id}`" class="px-3 py-1 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/15 transition-colors">상세</NuxtLink>
+              <NuxtLink :to="`/resume/${r.id}`" class="px-3 py-1 rounded-lg bg-neutral-muted text-fg-neutral-muted text-xs hover:bg-neutral-strong transition-colors">상세</NuxtLink>
             </div>
           </div>
         </div>
       </div>
 
-      <div v-else class="rounded-xl border border-white/5 p-12 text-center text-gray-500 bg-white/[0.02]">
+      <div v-else class="rounded-xl border border-stroke-neutral-muted p-12 text-center text-fg-neutral-muted bg-neutral-muted">
         <p class="text-sm">등록된 이력서가 없습니다.</p>
       </div>
     </div>
 
     <UModal v-model:open="showCreateModal">
       <template #header>
-        <h2 class="text-lg font-semibold text-white">신규 이력서 등록</h2>
+        <h2 class="text-lg font-semibold text-fg-neutral">신규 이력서 등록</h2>
       </template>
       <template #body>
         <div class="space-y-4">
-          <div class="p-4 rounded-lg border border-dashed border-white/10 text-center space-y-2">
+          <div class="p-4 rounded-lg border border-dashed border-stroke-neutral-muted text-center space-y-2">
             <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
-            <p class="text-xs text-gray-500">PDF / DOCX 파일 업로드</p>
+            <p class="text-xs text-fg-neutral-muted">PDF / DOCX 파일 업로드</p>
             <UButton color="neutral" variant="soft" size="xs" label="파일 선택" @click="($refs.fileInput as HTMLInputElement).click()" />
           </div>
           <UFormGroup label="제목">

@@ -2,37 +2,37 @@
   <div class="space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-xl font-semibold text-white">AI 모의 면접</h1>
-        <p class="text-xs text-gray-500 mt-0.5">SSE 실시간 스트리밍 기반 맞춤형 면접</p>
+        <h1 class="text-xl font-semibold text-fg-neutral">AI 모의 면접</h1>
+        <p class="text-xs text-fg-neutral-muted mt-0.5">SSE 실시간 스트리밍 기반 맞춤형 면접</p>
       </div>
       <UButton color="black" variant="solid" icon="i-lucide-zap" label="새 면접 시작" @click="showCreateModal = true" />
     </div>
 
     <div class="space-y-4">
-      <h2 class="text-base font-medium text-white">면접 세션</h2>
+      <h2 class="text-base font-medium text-fg-neutral">면접 세션</h2>
       <div v-if="interviews && interviews.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div v-for="item in interviews" :key="item.id" class="rounded-xl border border-white/5 p-5 bg-white/[0.02] hover:border-white/20 transition-colors space-y-3">
+        <div v-for="item in interviews" :key="item.id" class="rounded-xl border border-stroke-neutral-muted p-5 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors space-y-3">
           <div class="flex items-start justify-between">
             <div>
               <UBadge color="neutral" variant="soft" size="xs">{{ item.difficulty }}</UBadge>
-              <h3 class="text-base font-medium text-white mt-1.5">{{ item.jobTitle }}</h3>
-              <p class="text-xs text-gray-500">{{ item.companyName || '일반' }}</p>
+              <h3 class="text-base font-medium text-fg-neutral mt-1.5">{{ item.jobTitle }}</h3>
+              <p class="text-xs text-fg-neutral-muted">{{ item.companyName || '일반' }}</p>
             </div>
           </div>
-          <div class="pt-2 flex items-center justify-between border-t border-white/5">
-            <span class="text-xs text-gray-600">{{ new Date(item.createdAt).toLocaleDateString() }}</span>
-            <NuxtLink :to="`/interview/${item.id}`" class="px-3 py-1 rounded-lg bg-white/10 text-gray-300 text-xs hover:bg-white/15 transition-colors">입장</NuxtLink>
+          <div class="pt-2 flex items-center justify-between border-t border-stroke-neutral-muted">
+            <span class="text-xs text-fg-neutral-muted">{{ new Date(item.createdAt).toLocaleDateString() }}</span>
+            <NuxtLink :to="`/interview/${item.id}`" class="px-3 py-1 rounded-lg bg-neutral-muted text-fg-neutral-muted text-xs hover:bg-neutral-strong transition-colors">입장</NuxtLink>
           </div>
         </div>
       </div>
-      <div v-else class="rounded-xl border border-white/5 p-12 text-center text-gray-500 bg-white/[0.02]">
+      <div v-else class="rounded-xl border border-stroke-neutral-muted p-12 text-center text-fg-neutral-muted bg-neutral-muted">
         <p class="text-sm">면접 세션이 없습니다.</p>
       </div>
     </div>
 
     <UModal v-model:open="showCreateModal">
       <template #header>
-        <h2 class="text-lg font-semibold text-white">새 면접 설정</h2>
+        <h2 class="text-lg font-semibold text-fg-neutral">새 면접 설정</h2>
       </template>
       <template #body>
         <form @submit.prevent="startSession" class="space-y-4">
