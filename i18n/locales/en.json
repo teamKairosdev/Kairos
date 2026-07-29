@@ -136,7 +136,14 @@
     "emailPlaceholder": "user{'@'}example.com",
     "passwordLabel": "Password",
     "nameLabel": "Name",
-    "namePlaceholder": "John Doe"
+    "namePlaceholder": "John Doe",
+    "passwordLabel": "Password",
+    "wallet": {
+      "kaikas": "🦊 Sign in with Kaikas",
+      "metamask": "🦊 Sign in with MetaMask",
+      "notFound": "Wallet extension not found. Please install it.",
+      "error": "Wallet login failed."
+    }
   },
   "ats": {
     "title": "ATS Matching Analysis",
@@ -222,6 +229,7 @@
   "common": {
     "appName": "Kairos",
     "appSubtitle": "AI Job-Application Prep Platform",
+    "or": "or",
     "footer": "© 2026 Kairos"
   },
   "assistant": {
