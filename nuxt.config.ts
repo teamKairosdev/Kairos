@@ -20,9 +20,11 @@ export default defineNuxtConfig({
     'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
   },
 
-  // SPA 모드: 인증된 라우트는 모두 클라이언트 사이드 렌더링
+  // SPA & ISR 하이브리드 라우트 룰
   routeRules: {
     '/': { prerender: true },
+    '/r/**': { isr: 60, headers: { 'Cache-Control': 'public, max-age=0, s-maxage=60, stale-while-revalidate=600' } },
+    '/community/**': { isr: 60 },
     '/auth/**': { ssr: false },
     '/dashboard/**': { ssr: false },
     '/resume/**': { ssr: false },

@@ -11,6 +11,7 @@
       <footer class="border-t border-white/5 py-6 text-center text-xs text-gray-600 mt-auto">
         <p>&copy; 2026 Kairos</p>
       </footer>
+      <CareerAssistantPanel />
     </div>
   </UApp>
 </template>
@@ -18,4 +19,5 @@
 <script setup lang="ts">
 import Navbar from '~/components/Navbar.vue'
 import Sidebar from '~/components/Sidebar.vue'
+import CareerAssistantPanel from '~/components/CareerAssistantPanel.vue'
 </script>
