@@ -1,6 +1,6 @@
-import { streamText, createUIMessageStreamResponse } from 'ai';
-import { getModelForComplexity } from '../../services/llm';
-import { getCachedResponse, setCachedResponse } from '../../services/llmCache';
+import { generateText } from 'ai';
+import { getModelForComplexity } from 'server/services/llm';
+import { getCachedResponse, setCachedResponse } from 'server/services/llmCache';
 
 export default defineEventHandler(async (event) => {
   const { resumeText, jobDescription } = await readBody(event);
@@ -10,9 +10,17 @@ export default defineEventHandler(async (event) => {
   }
 
   const cacheKey = `refine:${resumeText.slice(0, 200)}:${jobDescription?.slice(0, 200) || ''}`;
-  const cached = await getCachedResponse(cacheKey, 'refine');
-  if (cached) {
-    return JSON.parse(cached);
+  try {
+    const cached = await getCachedResponse(cacheKey, 'refine');
+    if (cached) {
+      try {
+        return { success: true, cached: true, result: JSON.parse(cached) };
+      } catch {
+        // malformed cache, fall through
+      }
+    }
+  } catch {
+    // cache error, fall through
   }
 
   const model = getModelForComplexity('high');
@@ -26,12 +34,20 @@ Focus on maximizing professional impact and ATS compatibility.`;
     ? `Target Job Description:\n${jobDescription}\n\nCandidate Resume:\n${resumeText}`
     : `Candidate Resume:\n${resumeText}`;
 
-  const result = streamText({
+  const result = await generateText({
     model,
     instructions,
     prompt,
     temperature: 0.4,
   });
 
-  return createUIMessageStreamResponse({ stream: result.toUIMessageStream() });
+  const response = { success: true, cached: false, result: result.text };
+
+  try {
+    await setCachedResponse(cacheKey, 'refine', JSON.stringify(response), 3600);
+  } catch {
+    // non-critical
+  }
+
+  return response;
 });

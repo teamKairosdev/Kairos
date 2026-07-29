@@ -2,8 +2,8 @@
   <div class="space-y-8">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-          <span>📝</span> 이력서 생성 & 비동기 고도화 파이프라인
+        <h1 class="text-2xl font-extrabold text-white">
+          이력서 생성 & 비동기 고도화 파이프라인
         </h1>
         <p class="text-xs text-gray-400 mt-1">
           Draft $\rightarrow$ Evaluate $\rightarrow$ Improve 3단계 LLM 체인을 통해 내 이력서를 완성합니다.
@@ -27,24 +27,24 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
         <div class="p-4 rounded-xl bg-slate-900/60 border border-white/10 space-y-2">
           <div class="text-xs font-bold text-gray-400">STEP 01</div>
-          <div class="text-sm font-bold text-white flex items-center gap-2">
-            <span>📄</span> Draft Generation
+          <div class="text-sm font-bold text-white">
+            Draft Generation
           </div>
           <p class="text-xs text-gray-400">초안 작성 또는 PDF/DOCX 파싱하여 원본 텍스트 추출</p>
         </div>
 
         <div class="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 space-y-2">
           <div class="text-xs font-bold text-purple-400">STEP 02</div>
-          <div class="text-sm font-bold text-purple-200 flex items-center gap-2">
-            <span>🔍</span> LLM Evaluation
+          <div class="text-sm font-bold text-purple-200">
+            LLM Evaluation
           </div>
           <p class="text-xs text-purple-200/70">객관적 점수, 강약점 및 STAR 프레임워크 제안 분석</p>
         </div>
 
         <div class="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/30 space-y-2">
           <div class="text-xs font-bold text-indigo-400">STEP 03</div>
-          <div class="text-sm font-bold text-indigo-200 flex items-center gap-2">
-            <span>✨</span> Intelligent Rewrite
+          <div class="text-sm font-bold text-indigo-200">
+            Intelligent Rewrite
           </div>
           <p class="text-xs text-indigo-200/70">정량적 성과 중심의 고도화된 이력서 재작성 완성</p>
         </div>
@@ -107,7 +107,6 @@
       </div>
 
       <div v-else class="glass-panel rounded-2xl p-12 text-center text-gray-400 space-y-3">
-        <div class="text-4xl">📄</div>
         <p class="text-sm">등록된 이력서가 없습니다. 신규 이력서를 등록해 보세요.</p>
       </div>
     </div>
@@ -123,7 +122,6 @@
           <!-- Document Parser File Upload -->
           <div class="p-4 rounded-xl bg-purple-950/30 border border-dashed border-purple-500/40 text-center space-y-2">
             <input type="file" ref="fileInput" @change="handleFileUpload" accept=".pdf,.docx,.txt" class="hidden" />
-            <div class="text-2xl">📁</div>
             <div class="text-xs font-semibold text-purple-300">PDF / DOCX 이력서 파싱</div>
             <p class="text-[11px] text-gray-400">pdf.js 및 mammoth 엔진을 사용하여 텍스트를 파싱합니다.</p>
             <UButton

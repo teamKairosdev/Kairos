@@ -30,6 +30,7 @@ export default defineNuxtConfig({
     '/humanizer/**': { ssr: false },
     '/qa/**': { ssr: false },
     '/career/**': { ssr: false },
+    '/portfolio/**': { ssr: false },
   },
 
   modules: [
@@ -88,6 +89,8 @@ export default defineNuxtConfig({
       'server/services/career': resolve(rootDir, 'server/services/career'),
       'server/services/parser': resolve(rootDir, 'server/services/parser'),
       'server/services/embedding': resolve(rootDir, 'server/services/embedding'),
+      'server/services/company': resolve(rootDir, 'server/services/company'),
+      'server/services/portfolio': resolve(rootDir, 'server/services/portfolio'),
     },
     experimental: {
       asyncContext: true,

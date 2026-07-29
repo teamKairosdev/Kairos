@@ -1,0 +1,39 @@
+=== Kairos 세션 기록 (2026-07-29) ===
+
+[완료]
+- README에 Mermaid ERD 추가 및 푸시
+- git config 전역 설정 (kdy6251 / gim50292@gmail.com), 로컬 config 제거
+- kdy 브랜치 생성
+- docs/ideas-2026-07-29.md (아이디어 덤프)
+- docs/recruitment-types-planning.md (3x3 기업 평가 분류 기획)
+- docs/service-simplification.md (서비스 단순화 방안)
+- companies + company_evaluations 테이블, API, seed, 프론트
+- users 테이블에 applicantType / weaknessType / profileCompleted 컬럼 추가
+- portfolios 테이블, service, CRUD API, AI auto-fetch, manage 페이지, public 뷰
+- 사이드바 업데이트, nuxt.config alias/route rules
+- server/services/resume.ts: compareResume(), mergeResume() 함수 추가
+- app/pages/resume/[id].vue: 평가/비교/병합 3탭 구조로 재작성
+- server/api/resumes/compare.post.ts, merge.post.ts 엔드포인트 생성
+- app/components/Sidebar.vue: 이모지 제거 및 정리
+
+[진행 중]
+- (없음)
+
+[다음 예정]
+- export 기능, 기타 UI 개선
+
+[분석 결과]
+- 총 36개 이슈 발견 (HIGH 10, MEDIUM 10, LOW 16)
+- 면접 채팅 API 완전히 망가짐 (HIGH)
+
+[파일 구조]
+- server/services/resume.ts: compareResumes(), mergeResumes()
+- server/services/company.ts: 기업 평가 서비스
+- server/services/portfolio.ts: 포트폴리오 + AI fetch
+- server/services/llm.ts: callLLMStructured() 베이스
+- db/schema.ts: users, resumes, resume_refinements, companies, company_evaluations, portfolios, mock_interviews, interview_messages, ats_analyses, humanized_texts, qa_sets, careers
+- shared/types.ts: User, Resume, Company, CompanyEvaluation, Portfolio, PortfolioProject
+- app/pages/resume/index.vue, [id].vue
+- app/pages/portfolio/manage.vue, [userId].vue
+- app/components/Sidebar.vue
+- docs/*.md

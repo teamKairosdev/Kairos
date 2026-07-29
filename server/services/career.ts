@@ -23,6 +23,7 @@ export async function createCareerEntry(data: {
       description: data.description,
       achievements: data.achievements || [],
       createdAt: new Date(),
+      updatedAt: new Date(),
     };
   }
 
@@ -49,22 +50,26 @@ export async function createCareerEntry(data: {
 export async function searchCareersSemantic(userId: string, query: string, limit: number = 5) {
   const db = getDb();
   if (!db) {
-    throw new Error('Database connection is not available in demo mode');
+    console.warn('[Kairos] searchCareersSemantic - DB not available in demo mode');
+    return { rows: [] };
   }
 
   const queryEmbedding = await generateEmbedding(query);
   const vectorStr = JSON.stringify(queryEmbedding);
 
-  // pgvector cosine similarity search using sql template
-  const results = await db.execute(
-    sql`SELECT id, company, role, period, description, achievements, created_at,
-        1 - (embedding <=> ${vectorStr}::vector) AS similarity
-        FROM careers
-        WHERE user_id = ${userId}::uuid
-        ORDER BY embedding <=> ${vectorStr}::vector ASC
-        LIMIT ${limit};`
-  );
-
-  return results.rows;
+  try {
+    const results = await db.execute(
+      sql`SELECT id, company, role, period, description, achievements, created_at,
+          1 - (embedding <=> ${vectorStr}::vector) AS similarity
+          FROM careers
+          WHERE user_id = ${userId}::uuid
+          ORDER BY embedding <=> ${vectorStr}::vector ASC
+          LIMIT ${limit};`
+    );
+    return results.rows;
+  } catch {
+    console.warn('[Kairos] searchCareersSemantic query failed');
+    return { rows: [] };
+  }
 }
 

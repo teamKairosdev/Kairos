@@ -7,14 +7,12 @@
           ← 면접 목록
         </NuxtLink>
         <div class="h-4 w-[1px] bg-white/10"></div>
-        <h1 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>🎙️</span> AI 면접 스튜디오 실시간 세션
-        </h1>
+        <h1 class="text-lg font-bold text-white">AI 면접 스튜디오 실시간 세션</h1>
       </div>
 
       <div class="flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="text-xs text-emerald-300 font-semibold">SSE Streaming Active</span>
+        <span class="text-xs text-emerald-300 font-semibold">AI Interview Active</span>
       </div>
     </div>
 
@@ -46,7 +44,7 @@
           <!-- Per Answer Feedback Card if present -->
           <div v-if="msg.feedback" class="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs space-y-1">
             <div class="flex items-center justify-between text-cyan-300 font-bold">
-              <span>💡 AI 답변 피드백</span>
+              <span>AI 답변 피드백</span>
               <span>{{ msg.feedback.score }}점</span>
             </div>
             <p class="text-gray-300">{{ msg.feedback.summary }}</p>
@@ -82,7 +80,7 @@
           :disabled="isStreaming || !inputMessage.trim()"
           class="px-6 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-sm shadow-md shadow-cyan-600/30 transition-all disabled:opacity-50 h-full"
         >
-          답변 제출 ⚡
+          답변 제출
         </button>
       </form>
     </div>
@@ -99,12 +97,23 @@ interface MessageItem {
   feedback?: { score: number; summary: string; tip: string }
 }
 
-const messages = ref<MessageItem[]>([
-  {
-    sender: 'interviewer',
+const messages = ref<MessageItem[]>([])
+
+// Load existing conversation history on mount
+onMounted(async () => {
+  try {
+    const history: { sender: string; message: string; feedback?: any }[] = await $fetch(`/api/interviews/${interviewId}/chat`, { method: 'GET' }).catch(() => [])
+    if (history && history.length > 0) {
+      messages.value = history.map(h => ({ sender: h.sender as 'interviewer' | 'candidate', message: h.message, feedback: h.feedback }))
+      scrollToBottom()
+      return
+    }
+  } catch {}
+  messages.value = [{
+    sender: 'interviewer' as const,
     message: '안녕하세요! Kairos AI 면접에 오신 것을 환영합니다. 먼저 지원하신 직무와 핵심 경험에 대해 간단히 소개해 주시겠습니까?',
-  },
-])
+  }]
+})
 
 const inputMessage = ref('')
 const isStreaming = ref(false)

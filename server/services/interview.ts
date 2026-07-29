@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { callLLMStructured, streamLLMText, isDemoMode } from './llm';
-export { isDemoMode } from './llm'; // re-export for API route consumers
 
 const initialQuestionSchema = z.object({
   question: z.string(),
@@ -32,7 +31,7 @@ export async function createInitialInterviewQuestion(jobTitle: string, companyNa
   const instructions = `You are a senior tech interviewer conducting a professional job interview at Kairos platform.
 Ask an engaging, realistic initial interview question tailored to the target role, company, and difficulty level. Speak in polite Korean (존댓말).`;
 
-  return await callLLMStructured<{ question: string; questionType: string; intent: string }>({
+  return await callLLMStructured<z.infer<typeof initialQuestionSchema>>({
     instructions,
     prompt: `Target Job Title: ${jobTitle}\nCompany: ${companyName || 'Top Tier Tech Firm'}\nDifficulty Level: ${difficulty}`,
     schema: initialQuestionSchema,

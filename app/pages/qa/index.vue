@@ -1,8 +1,7 @@
 <template>
   <div class="space-y-8">
     <div>
-      <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-        <span>💡</span> 예상 면접 Q&A 플래시카드 생성기
+        <h1 class="text-2xl font-extrabold text-white">예상 면접 Q&A 플래시카드 생성기
       </h1>
       <p class="text-xs text-gray-400 mt-1">
         지원 직무와 경력 사항을 기반으로 적중률 높고 심도 있는 예상 질문과 최고 품질 모범 답안 세트를 생성합니다.

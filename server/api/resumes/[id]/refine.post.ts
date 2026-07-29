@@ -5,11 +5,18 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
   if (!id) throw createError({ statusCode: 400, statusMessage: 'Resume ID is required' });
 
-  // Check cache
   const cacheKey = `refine:${id}`;
-  const cached = await getCachedResponse(cacheKey, 'refine');
-  if (cached) {
-    return { success: true, message: '캐시된 결과 반환', result: JSON.parse(cached), cached: true };
+  try {
+    const cached = await getCachedResponse(cacheKey, 'refine');
+    if (cached) {
+      try {
+        return { success: true, message: '캐시된 결과 반환', result: JSON.parse(cached), cached: true };
+      } catch {
+        // malformed cache, fall through
+      }
+    }
+  } catch {
+    // cache error, fall through
   }
 
   try {

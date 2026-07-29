@@ -1,8 +1,7 @@
 <template>
   <div class="space-y-8">
     <div>
-      <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-        <span>✨</span> AI 문장 휴머니자이저 (Humanizer)
+        <h1 class="text-2xl font-extrabold text-white">AI 문장 휴머니자이저 (Humanizer)
       </h1>
       <p class="text-xs text-gray-400 mt-1">
         AI 특유의 진부한 어조(~에 대한, ~의 관점에서, 피동형 표현)를 감쪽같이 걷어내고 설득력 높은 자연스러운 인간 문체로 리라이팅합니다.
@@ -39,7 +38,7 @@
       <div class="glass-panel rounded-2xl p-6 space-y-4 border border-amber-500/20">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-bold text-amber-300 flex items-center gap-2">
-            <span>✨</span> 자연스러운 인간 작성 변환 결과
+            자연스러운 인간 작성 변환 결과
           </h3>
 
           <div v-if="result" class="text-right">

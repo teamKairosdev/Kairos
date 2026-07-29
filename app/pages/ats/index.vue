@@ -1,8 +1,7 @@
 <template>
   <div class="space-y-8">
     <div>
-      <h1 class="text-2xl font-extrabold text-white flex items-center gap-2">
-        <span>🎯</span> ATS 채용 공고 일치도 매칭 분석 (LLM Engine)
+        <h1 class="text-2xl font-extrabold text-white">ATS 채용 공고 일치도 매칭 분석 (LLM Engine)
       </h1>
       <p class="text-xs text-gray-400 mt-1">
         지원하려는 채용 공고(JD)와 본인의 이력서를 실시간 비교분석하여 ATS 필터링 통과율과 필수 키워드를 추출합니다.
