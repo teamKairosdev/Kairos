@@ -1,7 +1,7 @@
 # ⚡ KAIROS — 마스터 계획서 (Master Plan)
 
 > **작성일**: 2026-07-29 | **최종 수정**: 2026-07-29  
-> **버전**: v1.1 — 커리어개발관리 최우선 도메인 선언, 슬로건 재정의  
+> **버전**: v1.2 — s6/s7 반영: Toss 결제, Web3 지갑 로그인, AI Photo Studio, HWP 편집, Seed Design 통합, 프로필/빌링, 협업 문서  
 > **근거 자료**: s5 세션 로그, 전략방향성.md, 심사기준.md, ideas-2026-07-29.md, s4.1 감사 결과  
 > **작성자**: AI 에이전트 (Antigravity) + 프로젝트 오너 통합
 
@@ -189,7 +189,7 @@ Kairos는 **5대 핵심 도메인**으로 구성된다.
 | **캐시/Vector** | Upstash Redis & Vector | 2.0 / 1.x | 시맨틱 캐싱 및 Rate Limit |
 | **로컬 임베딩** | @huggingface/transformers | 4.2 | PWA 오프라인 로컬 임베딩 |
 | **로컬 벡터 검색** | vectra/browser | 0.15 | IndexedDB 기반 브라우저 내 검색 |
-| **배포** | Vercel (Edge / Serverless) | — | CDN 캐시 & ISR 적용 |�리 (갱신/취소 자동화)
+| **배포** | Vercel (Edge / Serverless) | — | CDN 캐시 & ISR 적용 |�리 (갱신/취소 자동화)
 - 최저가 탐색 후 구매 트리거
 
 **C. 웹 리서치 에이전트**
@@ -212,9 +212,10 @@ Kairos는 **5대 핵심 도메인**으로 구성된다.
 
 | 플랫폼 | 기술 스택 | 상태 | 비고 |
 |--------|-----------|------|------|
-| **웹 (SPA)** | Nuxt.js 4 + Vercel | ✅ 프로토타입 완료 | 메인 채널 |
-| **모바일 앱** | Capacitor (iOS/Android) | 🔜 예정 | 웹 코드 재사용 |
-| **데스크탑 프로그램** | Electron | 🔜 예정 | 로컬-first 기능 |
+| **웹 (SPA)** | Nuxt.js 4 + Vercel | ✅ 운영 가능 | 메인 채널 |
+| **랜딩/SEO** | Astro 7 (Islands) | ✅ 운영 가능 | SEO, 공유 페이지 ISR |
+| **모바일 앱** | packages/mobile-bridge (Expo RN) | 🔜 예정 | 네이티브 브릿지 스캐폴딩 완료 |
+| **데스크탑 프로그램** | Tauri (Rust + Webview) | 🔜 예정 | 로컬-first 기능 (Electron → Tauri로 변경) |
 | **브라우저 확장** | Chrome Extension API | 🔮 고려 | 채용공고 자동 스크래핑 |
 
 ### 4.2 웹 SPA (현재)
@@ -231,9 +232,11 @@ Kairos는 **5대 핵심 도메인**으로 구성된다.
 - iOS App Store / Google Play 배포
 - Push Notification (채용공고 알림, 면접 일정 알림)
 
-### 4.4 데스크탑 (Electron)
+### 4.4 데스크탑 (Tauri)
 
-반드시 Electron으로 가야 하는 이유:
+> **변경**: 기존 Electron → Tauri (Rust + Webview)로 전환. 더 가볍고 안전하며 Rust 네이티브 성능.
+
+Tauri로 가야 하는 이유:
 
 | 기능 | Web 한계 | Desktop 장점 |
 |------|----------|--------------|
@@ -307,26 +310,33 @@ Kairos는 **5대 핵심 도메인**으로 구성된다.
 └────────────────────────────────────────────────────────────┘
 ```
 
-### 5.2 현재 기술 스택 (Phase 0-8 완료)
+### 5.2 현재 기술 스택 (Phase 0-9 완료)
 
-| 카테고리 | 기술 | 버전 |
-|---------|------|------|
-| **프레임워크** | Nuxt.js | 4.5.1 |
-| **UI** | Vue.js | 3.5.40 |
-| **라우터** | Vue Router | 5.0.0 |
-| **컴포넌트** | Nuxt UI | 4.10.0 |
-| **CSS** | Tailwind CSS | 4.x |
-| **AI SDK** | ai (Vercel AI SDK) | 7.0.32 |
-| **AI 프로바이더** | @ai-sdk/openai / anthropic / google | 4.0.0 |
-| **인증** | better-auth | 1.6.x |
-| **DB ORM** | drizzle-orm | 0.45.2 |
-| **DB** | Neon PostgreSQL + pgvector | — |
-| **캐시/RateLimit** | Upstash Redis | 2.0 / 1.38 |
-| **문서 파싱** | pdfjs-dist + mammoth | 6.1 / 1.12 |
-| **임베딩** | @huggingface/transformers | 4.2 |
-| **로컬 벡터 검색** | vectra/browser | 0.15 |
-| **PWA** | @vite-pwa/nuxt | — |
-| **배포** | Vercel (서버리스) | — |
+| 카테고리 | 기술 | 버전 | 비고 |
+|---------|------|------|------|
+| **메인 프레임워크** | Nuxt.js | 4.5.1 | SPA + SSR 하이브리드 |
+| **랜딩/SEO 셸** | Astro | 7.1 | Vue/React 아일랜드, ISR |
+| **UI** | Vue.js | 3.5.40 | |
+| **컴포넌트** | Nuxt UI + Seed Design | 4.10.0 | 당근마켓 디자인시스템 통합 |
+| **CSS** | Tailwind CSS | 4.x | |
+| **AI SDK** | ai (Vercel AI SDK) | 7.0.32 | streamText, generateObject |
+| **AI 프로바이더** | @ai-sdk/openai / anthropic / google | 4.0.0 | 다중 모델 라우팅 |
+| **인증** | better-auth + SIWE | 1.6.x | 이메일 + Web3 지갑 |
+| **DB ORM** | drizzle-orm | 0.45.2 | 16개 테이블 |
+| **DB** | Neon PostgreSQL + pgvector | — | 1536차원 HNSW 인덱싱 |
+| **캐시/RateLimit** | Upstash Redis | 2.0 / 1.38 | 시맨틱 캐싱 |
+| **문서 파싱** | pdfjs-dist + mammoth + hwplib-js | 6.1 / 1.12 / 최신 | HWP/HWPX 지원 |
+| **HWP 편집** | @rhwp/core | — | 브라우저 기반 HWP 에디터 |
+| **임베딩** | @huggingface/transformers | 4.2 | 클라이언트 사이드 |
+| **로컬 LLM** | @mlc-ai/web-llm | — | WebGPU Qwen |
+| **로컬 벡터 검색** | vectra/browser | 0.15 | IndexedDB 기반 |
+| **결제** | @tosspayments/payment-widget-sdk | — | 토스페이먼츠 |
+| **Web3** | viem + Kaikas/MetaMask | — | 폴리곤 L2 |
+| **데스크탑** | Tauri (packages/tauri-bridge) | — | Rust + Webview (Electron → Tauri로 변경) |
+| **모바일 브릿지** | packages/mobile-bridge | — | Expo React Native 연동 |
+| **PWA** | @vite-pwa/nuxt | — | 서비스워커 + IndexedDB |
+| **i18n** | @nuxtjs/i18n | — | ko/en |
+| **배포** | Vercel (서버리스) + Docker | — | Docker: pgvector + 앱 |
 
 ### 5.3 8개 클라이언트 컴포저블
 
@@ -503,30 +513,37 @@ Kairos MCP Server Hub
 ### 8.3 DB 스키마 (현재 + 확장 계획)
 
 ```sql
--- 현재 구축된 테이블
+-- 현재 구축된 테이블 (16개, 2026-07-29 기준)
 users              -- Better Auth 기본 (sessions, accounts 포함)
 resumes            -- 이력서 + 고도화 히스토리
 resume_refinements -- 이력서 버전별 고도화 기록
-interviews         -- 모의 면접 세션
-ats_results        -- ATS 분석 결과
-career_entries     -- 커리어 경험 지식베이스 (pgvector)
+mock_interviews    -- 모의 면접 세션
+interview_messages -- SSE 스트리밍 면접 대화
+ats_analyses       -- ATS 분석 결과 (키워드, 매치스코어)
+humanized_texts    -- AI 문장 휴머나이저 결과
+qa_sets            -- Q&A 플래시카드 세트
+careers            -- 커리어 경험 지식베이스 (vector(1536))
+company_meta       -- 기업 인텔리전스 메타데이터
+community_posts    -- 커뮤니티 SNS 게시글 (스키마만, UI 미구현)
+chat_sessions      -- 공유 가능 채팅 세션
+studio_images      -- AI Photo Studio 생성 이미지
+subscriptions      -- 구독 플랜 (토스 결제 키 연동)
+usage_records      -- 기능별 사용량 추적
+billing_invoices   -- 청구서 / 결제 내역
 
 -- 확장 예정 테이블
-profiles           -- 사용자 확장 프로필 (직종, 기술스택, 희망직무)
 messages           -- 1:1 메시지 (면접관 ↔ 지원자)
-posts              -- 커뮤니티 게시글
 comments           -- 댓글
 likes              -- 좋아요
 company_posts      -- 기업 채용공고 게시판
 agent_sessions     -- 에이전트 실행 세션 로그
-billing_records    -- 사용량 / 결제 기록
 ```
 
 ---
 
 ## 9. 현재 프로젝트 상태
 
-### Phase 0-8 완료 현황 (2026-07-29 기준)
+### Phase 0-9 완료 현황 (2026-07-29 기준)
 
 | Phase | 내용 | 상태 |
 |-------|------|:----:|
@@ -539,6 +556,12 @@ billing_records    -- 사용량 / 결제 기록
 | **6** | PWA, 서비스워커, 오프라인 큐, IndexedDB | ✅ |
 | **7** | 문서 파싱 클라이언트 전환, LLM API 라우트 | ✅ |
 | **8** | Nuxt UI v4 컴포넌트 마이그레이션, Glassmorphism | ✅ |
+| **s6-2** | **Toss Payments** 결제 연동 (위젯 + 검증 API + 성공/실패 콜백) | ✅ |
+| **s6-3** | **프로필 설정 페이지** (이름, 이메일, 지갑 주소, 알림 설정) | ✅ |
+| **s6-4** | **Web3 지갑 로그인** (Kaikas + MetaMask, SIWE 인증, 논스 발급) | ✅ |
+| **s6-5** | **AI Photo Studio** (DALL-E 3 생성 + 업로드 + 갤러리) | ✅ |
+| **s6-6** | **자동마진장치 빌링** (구독 관리, 사용량 추적, 플랜 제한) | ✅ |
+| **s7** | **Seed Design** 통합, 협업 문서, HWP/HWPX 편집기 (rhwp + hwplib-js), `.env` 정리 | ✅ |
 
 ### 현재 빌드 상태
 
@@ -546,6 +569,7 @@ billing_records    -- 사용량 / 결제 기록
 ✅ npm run build — PASS (Nuxt 4.5.1, Nitro 2.13.4, Vite 8.1.5)
 ✅ TypeScript strict mode 통과
 ✅ Vercel 배포 가능 상태
+✅ Astro 빌드 별도 통과
 ⚠️ BUILD WARN: llmCache nitro.alias 누락 (중요도: 중)
 ```
 
@@ -554,73 +578,83 @@ billing_records    -- 사용량 / 결제 기록
 | 경로 | 기능 |
 |------|------|
 | `/` | 대시보드 홈 |
+| `/auth/login` | 로그인 (이메일 + Web3 지갑) |
+| `/auth/register` | 회원가입 |
 | `/resume` | 이력서 목록 + 신규 등록 |
-| `/resume/[id]` | 이력서 상세 + 고도화 |
+| `/resume/[id]` | 이력서 상세 + 고도화 (3단계 LLM 체인) |
 | `/interview` | 모의 면접 세션 목록 |
-| `/interview/[id]` | 면접 채팅 (SSE 스트리밍) |
+| `/interview/[id]` | 면접 채팅 (SSE 스트리밍 + thinking bubble) |
 | `/ats` | ATS 채용공고 매칭 분석 |
 | `/humanizer` | AI 문장 휴머나이저 |
 | `/qa` | Q&A 플래시카드 생성기 |
-| `/career` | 커리어 지식베이스 |
-| `/auth/login` | 로그인 |
-| `/auth/register` | 회원가입 |
+| `/career` | 커리어 지식베이스 (pgvector 검색) |
+| `/docs` | 문서 관리 (HWP/DOCX/PDF 업로드) |
+| `/docs/[id]` | 문서 뷰어 |
+| `/studio` | AI Photo Studio (DALL-E 3 생성) |
+| `/premium` | 구독 플랜 + 사용량 현황 |
+| `/settings` | 프로필 설정 (이름, 이메일, 지갑, 알림) |
+| `/payment` | 토스페이먼츠 결제 |
+| `/payment/success` | 결제 성공 콜백 |
+| `/payment/fail` | 결제 실패 콜백 |
+| `/r/[id]` | 공유 채팅 세션 (ISR, SEO) |
 
-### 지금 당장 실서비스가 안 되는 이유 (10가지 갭)
+### 아직 실서비스 전환에 필요한 갭 (2026-07-29 기준)
 
 | # | 항목 | 현황 | 필요한 것 |
 |---|------|------|---------|
-| P1 | **테스트** | 0% | vitest 단위 + playwright E2E |
+| P1 | **테스트** | 0% (여전히) | vitest 단위 + playwright E2E |
 | P2 | **모니터링** | 미연동 | @ai-sdk/otel 활성화 + Sentry |
 | P3 | **CI/CD** | 없음 | GitHub Actions 파이프라인 |
-| P4 | **OAuth** | 이메일만 | 구글/카카오 소셜 로그인 |
-| P5 | **SEO** | SPA 한계 | 공개 페이지 SSR/prerender |
-| P6 | **에러 UI** | alert() | UToast + error.vue |
+| P4 | **OAuth** | 이메일 + Web3 지갑 로그인 완료 | 구글/카카오 소셜 로그인 필요 |
+| P5 | **SEO** | Astro 셸로 랜딩/공유페이지 SSR 처리 중 | 전체 페이지 SSR 최적화 |
+| P6 | **에러 UI** | 일부 개선됐으나 전역 `error.vue` 미구현 | UToast + error.vue |
 | P7 | **접근성** | 미검증 | WCAG AA 대비 + 키보드 네비 |
-| P8 | **i18n** | 한국어 고정 | @nuxtjs/i18n 도입 |
-| P9 | **비용 튜닝** | 미조정 | 실사용량 기반 모델 라우팅 |
+| P8 | **i18n** | ko/en 완료 | 번역 품질 개선 + 추가 언어 |
+| P9 | **비용 튜닝** | Anthropic cacheControl + Redis 캐시 적용 | 실사용량 기반 모델 라우팅 고도화 |
 | P10 | **성능** | 미측정 | LCP/FCP, 청크 분할 최적화 |
+| P11 | **마이그레이션** | 신규 테이블 7개 마이그레이션 파일 누락 | drizzle-kit generate 필요 |
 
 ---
 
 ## 10. 단기 로드맵 (실서비스 전환)
 
-### Sprint 1 (즉시 — 1주일)
+### Sprint 1 (즉시 — 1주일) [진행 중]
 
-**긴급 버그 수정:**
+**긴급 버그 수정 (미완료):**
 - [ ] `nuxt.config.ts` — `llmCache` nitro.alias 추가
-- [ ] `vercel.json` — `rewrites` 블록 제거
-- [ ] `server/api/llm/refine.post.ts` — `setCachedResponse` 누락 추가
-- [ ] `server/api/llm/chat.post.ts` — 미사용 import 제거
-- [ ] `.env.example` — `GOOGLE_API_KEY` 추가, `JWT_SECRET` 주석 처리
+- [ ] `server/api/llm/refine.post.ts` — `setCachedResponse` 누락 (확인 필요)
+- [ ] `server/api/llm/chat.post.ts` — 미사용 import 정리 (확인 필요)
+- [ ] `server/api/interviews/[id]/chat.post.ts` — `asc` 미사용 import
+- [ ] `server/services/llmCache.ts` — `invalidateCache` 데드 파라미터
 
 **기반 인프라:**
 - [ ] GitHub Actions CI/CD 파이프라인 구축
-- [ ] 에러 핸들링: `alert()` → `useToast()` 전환
-- [ ] 전역 에러 바운더리 (`error.vue`)
+- [ ] 전역 에러 바운더리 (`error.vue`) + `useToast()` 전환
+- [ ] drizzle-kit generate: 신규 테이블 7개 마이그레이션
 
 ### Sprint 2 (2-3주)
 
 **핵심 기능 안정화:**
-- [ ] Better Auth OAuth: 구글 + 카카오 소셜 로그인
-- [ ] 프로필 생성 시스템 (필수 온보딩 플로우)
+- [ ] 구글 + 카카오 소셜 로그인 (Better Auth OAuth)
+- [ ] 온보딩 플로우 (신규 가입 시 프로필/직종/희망직무 설정)
 - [ ] vitest 핵심 서비스 단위 테스트 추가
-- [ ] @ai-sdk/otel 모니터링 활성화
+- [ ] @ai-sdk/otel 모니터링 활성화 + Sentry
 
 ### Sprint 3 (4-6주)
 
 **신규 기능:**
 - [ ] 면접 유형별 세분화 (고졸/대졸/경력자)
-- [ ] 통합 검색 시스템 (pgvector 기반)
-- [ ] 메시지 기능 (1:1)
+- [ ] 메시지 기능 (1:1 면접관 ↔ 지원자)
 - [ ] PWA 푸시 알림 (채용공고 알림)
+- [ ] HWPX 저장/편집 기능 고도화
 
 ### Sprint 4 (7-10주)
 
 **플랫폼 확장:**
-- [ ] 커뮤니티 시스템 (게시판, 댓글, 좋아요)
+- [ ] 커뮤니티 시스템 (게시판, 댓글, 좋아요) — DB 스키마만 있음
 - [ ] 기업 채용공고 게시판 (캐러셀 UI)
-- [ ] HWP/HWPX 편집 기능
-- [ ] Stripe 결제 연동 + 자동마진장치
+- [ ] 공개 API 커넥터 (워크넷, 고용24, 링크드인)
+- [ ] 성능 측정 (LCP/FCP) + 청크 분할 최적화
 
 ---
 
@@ -675,15 +709,17 @@ billing_records    -- 사용량 / 결제 기록
 
 ### 12.1 개요
 
-Web3 결제는 **초초 베타** 기능으로, 실험적 옵션이다. 일반 결제(Stripe)와 병행 운영.
+> **상태 업데이트 (2026-07-29)**: Web3 **지갑 로그인** (Kaikas + MetaMask, SIWE 인증)은 s6-4에서 구현 완료. 온체인 결제는 초초 베타로 계획 유지.
+
+Web3 결제는 **초초 베타** 기능으로, 실험적 옵션이다. 일반 결제(토스페이먼츠)와 병행 운영.
 
 ### 12.2 기술 스택
 
 | 컴포넌트 | 기술 |
 |---------|------|
-| 스마트 컨트랙트 | Solidity (EVM 호환) |
+| 스마트 컨트랙트 | Solidity (EVM 호환) — `contracts/KairosSubscription.sol` |
 | 배포 체인 | Polygon (이더리움 L2 — 가스비 저렴) |
-| 지갑 연동 | ethers.js + MetaMask / WalletConnect |
+| 지갑 연동 | **viem** + Kaikas / MetaMask (SIWE) — **s6-4 구현 완료** |
 | NFT (선택) | ERC-721 (커리어 인증 배지) |
 | 결제 토큰 | USDC, MATIC |
 
@@ -866,20 +902,19 @@ Kairos 서비스 자체를 MCP 서버로 노출:
 
 ---
 
-## 부록: 현재 코드베이스 마이너 이슈 (즉시 수정 대상)
+## 부록: 현재 코드베이스 마이너 이슈 (s7 검토 기준)
 
-병렬 에이전트 감사에서 발견된 항목 — Sprint 1에서 처리:
+병렬 에이전트 감사에서 발견된 항목 — Sprint 1에서 처리 필요:
 
 | 우선순위 | 파일 | 이슈 |
 |---------|------|------|
 | MEDIUM | `nuxt.config.ts` | `llmCache` nitro.alias 누락 |
-| MEDIUM | `server/api/llm/refine.post.ts` | 캐시 쓰기(`setCachedResponse`) 누락 |
-| LOW | `vercel.json` | `rewrites` 블록 Nitro 충돌 가능 |
-| LOW | `server/api/llm/chat.post.ts` | 미사용 import 2개 |
+| MEDIUM | `drizzle/` | 신규 테이블 7개 마이그레이션 누락 (drizzle-kit generate 필요) |
+| LOW | `server/api/llm/refine.post.ts` | 캐시 쓰기(`setCachedResponse`) 누락 여부 확인 |
+| LOW | `server/api/llm/chat.post.ts` | 미사용 import 확인 |
 | LOW | `server/api/interviews/[id]/chat.post.ts` | `asc` 미사용 import |
 | LOW | `server/services/llmCache.ts` | `invalidateCache` 데드 파라미터 |
-| LOW | `.env.example` | `GOOGLE_API_KEY` 누락 |
-| LOW | `.env.example` / `docker-compose.yml` | `JWT_SECRET` 미사용 잔존 |
+| LOW | `server/services/parser.ts:24` | TODO: pdfjs-dist PDFTextItem 타입 |
 
 ---
 
@@ -892,4 +927,4 @@ Kairos 서비스 자체를 MCP 서버로 노출:
 
 ---
 
-*최종 수정: 2026-07-29 | 문서 버전: v1.0*
+*최종 수정: 2026-07-29 | 문서 버전: v1.2*
