@@ -29,7 +29,7 @@
             </ul>
           </div>
           <div class="p-4 rounded-lg bg-neutral-muted space-y-2">
-            <div class="text-xs font-medium text-red-400">개선 필요</div>
+            <div class="text-xs font-medium text-fg-danger">개선 필요</div>
             <ul class="text-xs text-fg-neutral-muted space-y-1 list-disc list-inside">
               <li v-for="(w, idx) in ref.evaluationFeedback.weaknesses" :key="idx">{{ w }}</li>
             </ul>

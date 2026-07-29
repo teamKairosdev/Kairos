@@ -14,10 +14,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0a0a0b 0%, #1a0a2e 50%, #0a0a0b 100%);
+  background: linear-gradient(135deg, var(--color-bg-neutral-default) 0%, var(--color-bg-neutral-strong) 50%, var(--color-bg-neutral-default) 100%);
 }
 .hero-content { text-align: center; max-width: 640px; padding: 2rem; }
-.hero-title { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, #c084fc, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
-.hero-subtitle { font-size: 1.125rem; color: #9ca3af; margin-bottom: 2rem; }
-.cta-button { display: inline-block; padding: 0.75rem 2rem; border-radius: 9999px; background: white; color: #0a0a0b; font-weight: 600; text-decoration: none; }
+.hero-title { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, var(--color-fg-brand), var(--color-fg-info)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+.hero-subtitle { font-size: 1.125rem; color: var(--color-fg-neutral-muted); margin-bottom: 2rem; }
+.cta-button { display: inline-block; padding: 0.75rem 2rem; border-radius: 9999px; background: var(--color-bg-neutral-inverse); color: var(--color-fg-neutral-inverse); font-weight: 600; text-decoration: none; }
 </style>

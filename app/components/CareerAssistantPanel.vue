@@ -6,7 +6,7 @@
       color="purple"
       variant="solid"
       size="xl"
-      class="rounded-full shadow-2xl shadow-purple-900/50 border border-purple-400/30 hover:scale-105 transition-transform"
+      class="rounded-full shadow-2xl border border-stroke-brand-muted hover:scale-105 transition-transform"
       icon="i-lucide-sparkles"
       label="Kairos AI"
       @click="isOpen = true"
@@ -15,17 +15,17 @@
     <!-- Sliding CUI Panel -->
     <div
       v-else
-      class="w-96 max-w-[calc(100vw-3rem)] h-[540px] rounded-2xl border border-purple-500/20 bg-[#0f0a1a]/95 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300"
+      class="w-96 max-w-[calc(100vw-3rem)] h-[540px] rounded-2xl border border-stroke-neutral-muted bg-bg-neutral-default/95 backdrop-blur-xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300"
     >
       <!-- Panel Header -->
-      <div class="p-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+      <div class="p-4 border-b border-stroke-neutral-muted flex items-center justify-between bg-bg-neutral-muted">
         <div class="flex items-center gap-2.5">
-          <div class="p-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
+          <div class="p-2 rounded-xl bg-bg-brand-muted border border-stroke-brand-muted text-fg-brand">
             <UIcon name="i-lucide-bot" class="w-5 h-5" />
           </div>
           <div>
             <h3 class="text-sm font-semibold text-white">Kairos Career Steward</h3>
-            <p class="text-[10px] text-purple-300/70">Orchestrator Agent &amp; CUI Assistant</p>
+            <p class="text-[10px] text-fg-brand-muted">Orchestrator Agent &amp; CUI Assistant</p>
           </div>
         </div>
         <UButton
@@ -46,8 +46,8 @@
               :class="[
                 'max-w-[85%] p-3 rounded-xl leading-relaxed whitespace-pre-wrap',
                 msg.role === 'user'
-                  ? 'bg-purple-600 text-white rounded-tr-none'
-                  : 'bg-white/5 border border-white/10 text-fg-neutral rounded-tl-none'
+                  ? 'bg-bg-brand-solid text-fg-neutral-inverse rounded-tr-none'
+                  : 'bg-bg-neutral-muted border border-stroke-neutral-muted text-fg-neutral rounded-tl-none'
               ]"
             >
               {{ msg.content }}
@@ -66,7 +66,7 @@
       </div>
 
       <!-- Input Bar -->
-      <div class="p-3 border-t border-white/10 bg-white/[0.01] space-y-2">
+      <div class="p-3 border-t border-stroke-neutral-muted bg-bg-neutral-default space-y-2">
         <form @submit.prevent="sendMessage" class="flex gap-2">
           <UInput
             v-model="inputQuery"
@@ -95,7 +95,7 @@
             class="text-fg-neutral-muted hover:text-fg-neutral"
             @click="shareChat"
           />
-          <span v-if="sharedUrl" class="text-[10px] text-purple-400 self-center truncate max-w-[200px]">
+          <span v-if="sharedUrl" class="text-[10px] text-fg-brand self-center truncate max-w-[200px]">
             <NuxtLink :to="sharedUrl" target="_blank" class="hover:underline">{{ sharedUrl }}</NuxtLink>
           </span>
           <UButton

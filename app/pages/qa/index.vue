@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="p-4 rounded-lg bg-neutral-muted space-y-2">
-            <div class="text-xs font-medium text-emerald-400">모범 답안</div>
+            <div class="text-xs font-medium text-fg-success">모범 답안</div>
             <p class="text-xs text-fg-neutral-muted leading-relaxed whitespace-pre-wrap">{{ qa.sampleAnswer }}</p>
           </div>
           <div v-if="qa.keyPoints && qa.keyPoints.length > 0" class="flex flex-wrap gap-1.5">

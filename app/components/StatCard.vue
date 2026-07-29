@@ -5,7 +5,7 @@
         <p class="text-xs font-medium text-fg-neutral-muted tracking-wide">{{ label }}</p>
         <p class="text-2xl font-semibold text-fg-neutral mt-1">{{ value }}</p>
       </div>
-      <div class="w-10 h-10 rounded-lg bg-neutral-muted flex items-center justify-center text-lg text-gray-400">
+      <div class="w-10 h-10 rounded-lg bg-neutral-muted flex items-center justify-center text-lg text-fg-neutral-muted">
         {{ icon }}
       </div>
     </div>

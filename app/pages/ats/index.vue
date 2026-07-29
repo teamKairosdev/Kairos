@@ -58,13 +58,13 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="p-5 rounded-lg bg-neutral-muted space-y-3">
-          <div class="text-xs font-medium text-emerald-400">발견된 키워드</div>
+          <div class="text-xs font-medium text-fg-success">발견된 키워드</div>
           <div class="flex flex-wrap gap-1.5">
             <UBadge v-for="(k, idx) in result.foundKeywords" :key="idx" color="green" variant="soft" size="xs">{{ k }}</UBadge>
           </div>
         </div>
         <div class="p-5 rounded-lg bg-neutral-muted space-y-3">
-          <div class="text-xs font-medium text-red-400">누락된 키워드</div>
+          <div class="text-xs font-medium text-fg-danger">누락된 키워드</div>
           <div class="flex flex-wrap gap-1.5">
             <UBadge v-for="(k, idx) in result.missingKeywords" :key="idx" color="red" variant="soft" size="xs">{{ k }}</UBadge>
           </div>

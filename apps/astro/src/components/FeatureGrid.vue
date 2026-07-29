@@ -18,7 +18,7 @@ const features = [
 
 <style scoped>
 .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
-.feature-card { border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; background: rgba(255,255,255,0.02); }
-.feature-card h3 { color: white; font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
-.feature-card p { color: #9ca3af; font-size: 0.875rem; }
+.feature-card { border: 1px solid var(--color-stroke-neutral-muted); border-radius: 12px; padding: 1.5rem; background: var(--color-bg-neutral-muted); }
+.feature-card h3 { color: var(--color-fg-neutral); font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
+.feature-card p { color: var(--color-fg-neutral-muted); font-size: 0.875rem; }
 </style>

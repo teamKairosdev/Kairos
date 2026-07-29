@@ -73,6 +73,6 @@ function renderMarkdown(text: string): string {
 .loading { text-align: center; padding: 4rem 1rem; color: var(--color-fg-neutral-muted); }
 .error { text-align: center; padding: 4rem 1rem; }
 .error a { color: var(--color-fg-brand); text-decoration: underline; }
-:deep(pre) { background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; overflow-x: auto; }
+:deep(pre) { background: var(--color-bg-neutral-muted); padding: 1rem; border-radius: 8px; overflow-x: auto; }
 :deep(code) { font-size: 0.875rem; }
 </style>

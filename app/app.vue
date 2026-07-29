@@ -1,6 +1,6 @@
 <template>
   <UApp>
-    <div class="min-h-screen bg-bg-neutral-default text-fg-neutral flex flex-col selection:bg-purple-500/30 selection:text-white">
+    <div class="min-h-screen bg-bg-neutral-default text-fg-neutral flex flex-col">
       <Navbar />
       <div class="flex-1 flex w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 gap-8" style="max-width: 1280px;">
         <Sidebar class="hidden md:block w-56 shrink-0" />

@@ -12,11 +12,11 @@
         <UButton color="purple" variant="outline" class="mt-4" @click="showUpload = true">문서 업로드</UButton>
       </div>
 
-      <div v-else class="divide-y divide-white/5">
-        <div v-for="f in files" :key="f.id" class="flex items-center gap-4 py-4 px-2 hover:bg-white/[0.02] rounded-lg transition-colors">
-          <UIcon :name="fileIcon(f.ext)" class="w-8 h-8 text-purple-400" />
+      <div v-else class="divide-y divide-stroke-neutral-muted">
+        <div v-for="f in files" :key="f.id" class="flex items-center gap-4 py-4 px-2 hover:bg-bg-neutral-muted rounded-lg transition-colors">
+          <UIcon :name="fileIcon(f.ext)" class="w-8 h-8 text-fg-brand" />
           <div class="flex-1 min-w-0">
-            <NuxtLink :to="`/docs/${f.id}`" class="font-medium hover:text-purple-400 transition-colors truncate block">
+            <NuxtLink :to="`/docs/${f.id}`" class="font-medium hover:text-fg-brand transition-colors truncate block">
               {{ f.name }}
             </NuxtLink>
             <p class="text-xs text-fg-neutral-muted">{{ f.ext.toUpperCase() }} · {{ formatSize(f.size) }}</p>
@@ -40,7 +40,7 @@
               ref="fileInput"
               type="file"
               accept=".hwp,.hwpx,.docx,.doc,.pdf"
-              class="block w-full text-sm text-fg-neutral-muted file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-purple-500/10 file:text-purple-400 hover:file:bg-purple-500/20"
+              class="block w-full text-sm text-fg-neutral-muted file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-bg-brand-muted file:text-fg-brand hover:file:bg-bg-brand-solid hover:file:text-fg-neutral-inverse"
               @change="onFileSelect"
             />
           </UFormGroup>

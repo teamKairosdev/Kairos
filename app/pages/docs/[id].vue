@@ -22,20 +22,21 @@
     </div>
 
     <div v-else-if="error" class="text-center py-20">
-      <UIcon name="i-lucide-file-x" class="w-12 h-12 mx-auto mb-3 text-red-400" />
+      <UIcon name="i-lucide-file-x" class="w-12 h-12 mx-auto mb-3 text-fg-danger" />
       <p class="text-fg-neutral-muted mb-4">문서를 불러올 수 없습니다.</p>
       <UButton color="purple" variant="outline" to="/docs">문서 목록</UButton>
     </div>
 
-    <div v-else-if="isHwp && showEditor" class="h-[80vh] rounded-xl overflow-hidden border border-white/10">
-      <iframe
-        :src="`https://edwardkim.github.io/rhwp/editor.html?url=${encodeURIComponent(`${baseUrl}/api/docs/${id}`)}`"
-        class="w-full h-full"
-        allow="clipboard-read; clipboard-write"
-      />
+    <div v-else-if="isHwp && showEditor" class="h-[80vh] rounded-xl overflow-hidden border border-stroke-neutral-muted flex flex-col">
+      <div ref="editorContainer" class="flex-1" />
+      <div v-if="editorDirty" class="p-2 bg-bg-neutral-muted border-t border-stroke-neutral-muted flex justify-end gap-2">
+        <UButton color="purple" size="sm" icon="i-lucide-save" :loading="saving" @click="saveEditor">
+          저장
+        </UButton>
+      </div>
     </div>
 
-    <div v-else class="text-center py-20 text-fg-neutral-muted border border-dashed border-white/10 rounded-xl">
+    <div v-else class="text-center py-20 text-fg-neutral-muted border border-dashed border-stroke-neutral-muted rounded-xl">
       <UIcon :name="fileIcon" class="w-16 h-16 mx-auto mb-4 opacity-40" />
       <p class="mb-2">문서 파일이 업로드되었습니다.</p>
       <p class="text-sm mb-4">다운로드하거나 편집기로 열어 확인하세요.</p>
@@ -47,14 +48,19 @@
 </template>
 
 <script setup lang="ts">
+import { createEditor } from '@rhwp/editor'
+
 const route = useRoute()
 const id = route.params.id as string
-const baseUrl = computed(() => window.location.origin)
 
 const doc = ref<{ title: string; ext: string; size: number } | null>(null)
 const loading = ref(true)
 const error = ref(false)
 const showEditor = ref(false)
+const editorContainer = ref<HTMLElement | null>(null)
+const editorInstance = ref<Awaited<ReturnType<typeof createEditor>> | null>(null)
+const editorDirty = ref(false)
+const saving = ref(false)
 const isHwp = computed(() => doc.value?.ext === 'hwp' || doc.value?.ext === 'hwpx')
 
 const fileIcon = computed(() => {
@@ -74,6 +80,44 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+watch(showEditor, async (open) => {
+  if (!open) {
+    editorInstance.value?.destroy()
+    editorInstance.value = null
+    return
+  }
+  await nextTick()
+  if (!editorContainer.value) return
+  try {
+    const editor = await createEditor(editorContainer.value)
+    editorInstance.value = editor
+    const resp = await fetch(`/api/docs/${id}`)
+    const buffer = await resp.arrayBuffer()
+    await editor.loadFile(buffer, doc.value?.title || 'document.hwp')
+    editorDirty.value = false
+  } catch (e) {
+    console.error('[hwp editor] failed to load:', e)
+  }
+})
+
+async function saveEditor() {
+  const editor = editorInstance.value
+  if (!editor) return
+  saving.value = true
+  try {
+    const hwpBytes = await editor.exportHwp()
+    const form = new FormData()
+    form.append('file', new Blob([hwpBytes], { type: 'application/x-hwp' }), doc.value?.title || 'document.hwp')
+    await $fetch('/api/docs/upload', { method: 'POST', body: form })
+    await editor.notifySaved(doc.value?.title || 'document.hwp')
+    editorDirty.value = false
+  } catch (e) {
+    console.error('[hwp editor] save failed:', e)
+  } finally {
+    saving.value = false
+  }
+}
 
 function formatSize(bytes: number): string {
   if (bytes < 1024) return `${bytes}B`

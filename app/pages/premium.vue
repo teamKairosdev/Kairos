@@ -43,7 +43,7 @@
 
         <div class="space-y-2 py-4">
           <div v-for="f in plan.features" :key="f" class="flex items-center gap-2 text-sm">
-            <UIcon name="i-lucide-check" class="text-green-400 w-4 h-4" />
+            <UIcon name="i-lucide-check" class="text-fg-success w-4 h-4" />
             <span>{{ f }}</span>
           </div>
         </div>

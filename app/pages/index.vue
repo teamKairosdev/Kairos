@@ -14,10 +14,10 @@
           <NuxtLink to="/resume" class="px-4 py-2 rounded-lg bg-white text-bg-neutral-default text-sm font-medium hover:bg-neutral-strong transition-colors">
             이력서 시작
           </NuxtLink>
-          <NuxtLink to="/interview" class="px-4 py-2 rounded-lg bg-neutral-muted text-gray-300 text-sm font-medium hover:bg-neutral-strong transition-colors">
+          <NuxtLink to="/interview" class="px-4 py-2 rounded-lg bg-neutral-muted text-fg-neutral-muted text-sm font-medium hover:bg-neutral-strong transition-colors">
             모의 면접
           </NuxtLink>
-          <NuxtLink to="/ats" class="px-4 py-2 rounded-lg bg-neutral-muted text-gray-300 text-sm font-medium hover:bg-neutral-strong transition-colors">
+          <NuxtLink to="/ats" class="px-4 py-2 rounded-lg bg-neutral-muted text-fg-neutral-muted text-sm font-medium hover:bg-neutral-strong transition-colors">
             ATS 분석
           </NuxtLink>
         </div>
