@@ -1,7 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nuxt",
-  "buildCommand": "nuxt build",
+  "buildCommand": "npx nuxt build",
   "outputDirectory": ".output",
   "installCommand": "npm install",
   "regions": ["icn1"],
