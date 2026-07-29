@@ -29,6 +29,7 @@ const navItems = [
   { label: '휴머나이저', path: '/humanizer', icon: '✨' },
   { label: 'Q&A 생성', path: '/qa', icon: '💡' },
   { label: '문서', path: '/docs', icon: '📄' },
+  { label: '포토스튜디오', path: '/studio', icon: '🎨' },
   { label: '경력 검색', path: '/career', icon: '🔍' },
   { label: '프리미엄', path: '/premium', icon: '⭐' },
   { label: '설정', path: '/settings', icon: '⚙️' },

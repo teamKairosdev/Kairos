@@ -224,4 +224,21 @@ export const chatSessionsRelations = relations(chatSessions, ({ one }) => ({
   user: one(users, { fields: [chatSessions.userId], references: [users.id] }),
 }));
 
+// 13. Studio Images (AI Photo Studio)
+export const studioImages = pgTable('studio_images', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  type: varchar('type', { length: 20 }).notNull().default('generated'), // 'generated' | 'uploaded'
+  prompt: text('prompt'),
+  imageUrl: text('image_url').notNull(),
+  width: integer('width').default(1024),
+  height: integer('height').default(1024),
+  originalFileName: varchar('original_file_name', { length: 255 }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const studioImagesRelations = relations(studioImages, ({ one }) => ({
+  user: one(users, { fields: [studioImages.userId], references: [users.id] }),
+}));
+
 

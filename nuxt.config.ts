@@ -36,6 +36,7 @@ export default defineNuxtConfig({
     '/humanizer/**': { ssr: false },
     '/qa/**': { ssr: false },
     '/career/**': { ssr: false },
+    '/studio/**': { ssr: false },
   },
 
   modules: [
@@ -116,6 +117,13 @@ export default defineNuxtConfig({
       'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
       'server/services/hwpParser': resolve(rootDir, 'server/services/hwpParser'),
     },
+    publicAssets: [
+      {
+        dir: resolve(rootDir, 'uploads'),
+        baseURL: '/uploads',
+        maxAge: 60 * 60 * 24, // 1 day
+      },
+    ],
     experimental: {
       asyncContext: true,
     },
