@@ -25,7 +25,7 @@
           </div>
           <div>
             <h3 class="text-sm font-semibold text-white">Kairos Career Steward</h3>
-            <p class="text-[10px] text-fg-brand-muted">Orchestrator Agent &amp; CUI Assistant</p>
+            <p class="text-xs text-fg-brand-muted">Orchestrator Agent &amp; CUI Assistant</p>
           </div>
         </div>
         <UButton
@@ -95,7 +95,7 @@
             class="text-fg-neutral-muted hover:text-fg-neutral"
             @click="shareChat"
           />
-          <span v-if="sharedUrl" class="text-[10px] text-fg-brand self-center truncate max-w-[200px]">
+          <span v-if="sharedUrl" class="text-xs text-fg-brand self-center truncate max-w-[200px]">
             <NuxtLink :to="sharedUrl" target="_blank" class="hover:underline">{{ sharedUrl }}</NuxtLink>
           </span>
           <UButton

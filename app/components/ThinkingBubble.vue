@@ -8,7 +8,7 @@
         </div>
         <span class="text-xs font-semibold text-fg-brand tracking-wide uppercase">Kairos AI Thinking Engine</span>
       </div>
-      <span class="text-[10px] text-fg-brand font-mono">Step {{ step }}/{{ totalSteps }}</span>
+      <span class="text-xs text-fg-brand font-mono">Step {{ step }}/{{ totalSteps }}</span>
     </div>
 
     <div class="flex items-start gap-2.5 text-xs text-fg-neutral leading-relaxed">
@@ -17,7 +17,7 @@
       </div>
       <div class="flex-1 space-y-1">
         <p class="font-medium">{{ stepTitle }}</p>
-        <p v-if="thinkingDetails" class="text-[11px] text-fg-neutral-muted font-mono leading-normal whitespace-pre-wrap line-clamp-3">
+        <p v-if="thinkingDetails" class="text-xs text-fg-neutral-muted font-mono leading-normal whitespace-pre-wrap line-clamp-3">
           {{ thinkingDetails }}
         </p>
       </div>

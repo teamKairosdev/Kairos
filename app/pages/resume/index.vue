@@ -41,7 +41,7 @@
             </div>
             <div class="text-right">
               <div class="text-xl font-semibold text-fg-neutral">{{ r.currentScore || 0 }}</div>
-              <div class="text-[10px] text-fg-neutral-muted">점수</div>
+              <div class="text-xs text-fg-neutral-muted">점수</div>
             </div>
           </div>
           <p class="text-xs text-fg-neutral-muted line-clamp-2">{{ r.originalContent }}</p>
