@@ -42,7 +42,24 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@vite-pwa/nuxt',
     '@vueuse/nuxt',
+    '@nuxtjs/i18n',
   ],
+
+  i18n: {
+    locales: [
+      { code: 'ko', language: 'ko', name: '한국어', file: 'ko.json' },
+      { code: 'en', language: 'en', name: 'English', file: 'en.json' },
+    ],
+    defaultLocale: 'ko',
+    lazy: true,
+    langDir: 'locales',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    },
+  },
 
   css: [
     '~/assets/css/main.css'

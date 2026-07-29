@@ -29,6 +29,7 @@
     "@mlc-ai/web-llm": "^0.2.84",
     "@neondatabase/serverless": "^1.1.0",
     "@nuxt/ui": "^4.10.0",
+    "@nuxtjs/i18n": "^10.5.0",
     "@seed-design/css": "^2.3.0",
     "@seed-design/react": "^2.1.0",
     "@seed-design/tailwind4-theme": "^2.3.0",
