@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import HeroSection from '../components/HeroSection.vue'
+import FeatureGrid from '../components/FeatureGrid.vue'
+---
+
+<BaseLayout title="Kairos - AI Career Platform">
+  <HeroSection client:load />
+  <FeatureGrid client:idle />
+</BaseLayout>

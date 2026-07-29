@@ -14,7 +14,8 @@
       "~~/*": ["./*"],
       "@@/*": ["./*"],
       "db/*": ["./db/*"],
-      "server/*": ["./server/*"]
+      "server/*": ["./server/*"],
+      "seed-design/*": ["./seed-design/*"]
     }
   }
 }
