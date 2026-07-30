@@ -19,8 +19,7 @@
     <div class="max-w-6xl mx-auto pt-6 px-6 relative z-20">
       <div class="flex items-center justify-between px-6 py-3 rounded-full border border-slate-200/50 bg-white/70 backdrop-blur-md shadow-xs">
         <div class="flex items-center gap-3">
-          <img src="/logo.svg" alt="Kairos Logo" class="h-5 w-auto object-contain no-select-drag" style="user-select: none; -webkit-user-drag: none; filter: brightness(0);" draggable="false" />
-          <span class="font-bold text-slate-900 tracking-tight text-sm">Kairos</span>
+          <LogoImage img-class="h-5 w-auto object-contain" style="filter: brightness(0);" />
         </div>
         <div class="flex items-center gap-4">
           <NuxtLink to="/auth/login" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">로그인</NuxtLink>

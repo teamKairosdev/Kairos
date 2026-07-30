@@ -19,8 +19,7 @@
                 <!-- Drawer header -->
                 <div class="flex items-center justify-between px-5 h-14 border-b border-gray-100">
                   <div class="flex items-center gap-2">
-                    <div class="w-7 h-7 rounded-lg bg-gray-900 text-white flex items-center justify-center font-black text-sm">K</div>
-                    <span class="font-bold text-gray-900">Kairos</span>
+                    <LogoImage img-class="h-6 w-auto object-contain" style="filter: brightness(0);" />
                   </div>
                   <button @click="drawerOpen = false" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>

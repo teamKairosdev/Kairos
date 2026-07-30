@@ -16,8 +16,7 @@
         </button>
 
         <NuxtLink to="/" class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded-lg bg-gray-900 text-white flex items-center justify-center font-black text-sm">K</div>
-          <span class="font-bold text-base text-gray-900 tracking-tight">Kairos</span>
+          <LogoImage img-class="h-6 w-auto object-contain" style="filter: brightness(0);" />
         </NuxtLink>
       </div>
 
