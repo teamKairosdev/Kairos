@@ -582,3 +582,425 @@ cms를 관리자 대시보드로 개조하라.
 ```bash
 97cf327 chore: 레거시 CI 및 GitHub Actions 설정 파일 제거
 ```
+
+### User Input
+
+16:44:05.985 Running build in Washington, D.C., USA (East) – iad1
+16:44:05.986 Build machine configuration: 2 cores, 8 GB
+16:44:06.183 Cloning github.com/teamKairosdev/Kairos (Branch: main, Commit: 22c4397)
+16:44:07.589 Cloning completed: 1.405s
+16:44:09.545 Restored build cache from previous deployment (CJAnZnoFGWZ7TW3BzuKnpq4HvAKK)
+16:44:09.971 Running "vercel build"
+16:44:10.074 Vercel CLI 58.1.0
+16:44:10.886 Running "install" command: `npm ci`...
+16:44:34.764 npm error code EUSAGE
+16:44:34.806 npm error
+16:44:34.807 npm error `npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync. Please update your lock file with `npm install` before continuing.
+16:44:34.807 npm error
+16:44:34.808 npm error Missing: @payloadcms/db-postgres@3.86.0 from lock file
+16:44:34.808 npm error Missing: payload@3.86.0 from lock file
+16:44:34.808 npm error Missing: graphql@16.14.2 from lock file
+16:44:34.810 npm error Missing: @payloadcms/richtext-lexical@3.86.0 from lock file
+16:44:34.811 npm error Missing: @payloadcms/next@3.86.0 from lock file
+16:44:34.811 npm error Missing: next@16.2.12 from lock file
+16:44:34.812 npm error Missing: @faceless-ui/modal@3.0.0 from lock file
+16:44:34.812 npm error Missing: @faceless-ui/scroll-info@2.0.0 from lock file
+16:44:34.813 npm error Missing: @types/qrcode@1.5.6 from lock file
+16:44:34.813 npm error Missing: @vercel/blob@0.27.3 from lock file
+16:44:34.813 npm error Invalid: lock file's jose@6.2.5 does not satisfy jose@5.10.0
+16:44:34.813 npm error Missing: otplib@12.0.1 from lock file
+16:44:34.813 npm error Missing: qrcode@1.5.4 from lock file
+16:44:34.813 npm error Missing: body-scroll-lock@4.0.0-beta.0 from lock file
+16:44:34.814 npm error Missing: focus-trap@7.5.4 from lock file
+16:44:34.814 npm error Missing: react-transition-group@4.4.5 from lock file
+16:44:34.814 npm error Missing: @payloadcms/drizzle@3.86.0 from lock file
+16:44:34.814 npm error Missing: @types/pg@8.20.0 from lock file
+16:44:34.814 npm error Missing: console-table-printer@2.12.1 from lock file
+16:44:34.814 npm error Missing: drizzle-kit@0.31.7 from lock file
+16:44:34.814 npm error Missing: pg@8.20.0 from lock file
+16:44:34.814 npm error Missing: prompts@2.4.2 from lock file
+16:44:34.815 npm error Missing: to-snake-case@1.0.0 from lock file
+16:44:34.815 npm error Missing: @dnd-kit/core@6.3.1 from lock file
+16:44:34.815 npm error Missing: @dnd-kit/modifiers@9.0.0 from lock file
+16:44:34.815 npm error Missing: @dnd-kit/sortable@10.0.0 from lock file
+16:44:34.815 npm error Missing: @payloadcms/graphql@3.86.0 from lock file
+16:44:34.815 npm error Missing: @payloadcms/translations@3.86.0 from lock file
+16:44:34.815 npm error Missing: @payloadcms/ui@3.86.0 from lock file
+16:44:34.815 npm error Missing: busboy@1.6.0 from lock file
+16:44:34.815 npm error Missing: file-type@21.3.4 from lock file
+16:44:34.816 npm error Missing: graphql-http@1.22.4 from lock file
+16:44:34.816 npm error Missing: graphql-playground-html@1.6.30 from lock file
+16:44:34.819 npm error Missing: http-status@2.1.0 from lock file
+16:44:34.820 npm error Missing: path-to-regexp@6.3.0 from lock file
+16:44:34.820 npm error Missing: qs-esm@8.0.1 from lock file
+16:44:34.821 npm error Missing: sass@1.77.4 from lock file
+16:44:34.821 npm error Missing: @dnd-kit/accessibility@3.1.1 from lock file
+16:44:34.821 npm error Missing: @dnd-kit/utilities@3.2.2 from lock file
+16:44:34.822 npm error Missing: graphql-scalars@1.22.2 from lock file
+16:44:34.822 npm error Missing: pluralize@8.0.0 from lock file
+16:44:34.822 npm error Missing: ts-essentials@10.0.3 from lock file
+16:44:34.822 npm error Missing: tsx@4.22.4 from lock file
+16:44:34.822 npm error Missing: @lexical/clipboard@0.41.0 from lock file
+16:44:34.822 npm error Missing: @lexical/headless@0.41.0 from lock file
+16:44:34.822 npm error Missing: @lexical/html@0.41.0 from lock file
+16:44:34.824 npm error Missing: @lexical/link@0.41.0 from lock file
+16:44:34.824 npm error Missing: @lexical/list@0.41.0 from lock file
+16:44:34.824 npm error Missing: @lexical/mark@0.41.0 from lock file
+16:44:34.825 npm error Missing: @lexical/react@0.41.0 from lock file
+16:44:34.825 npm error Missing: @lexical/rich-text@0.41.0 from lock file
+16:44:34.825 npm error Missing: @lexical/selection@0.41.0 from lock file
+16:44:34.825 npm error Missing: @lexical/table@0.41.0 from lock file
+16:44:34.826 npm error Missing: @lexical/utils@0.41.0 from lock file
+16:44:34.826 npm error Missing: acorn@8.16.0 from lock file
+16:44:34.826 npm error Missing: bson-objectid@2.0.4 from lock file
+16:44:34.826 npm error Missing: csstype@3.1.3 from lock file
+16:44:34.826 npm error Missing: jsox@1.2.121 from lock file
+16:44:34.826 npm error Missing: lexical@0.41.0 from lock file
+16:44:34.826 npm error Missing: mdast-util-from-markdown@2.0.2 from lock file
+16:44:34.826 npm error Missing: mdast-util-mdx-jsx@3.1.3 from lock file
+16:44:34.827 npm error Missing: micromark-extension-mdx-jsx@3.0.1 from lock file
+16:44:34.827 npm error Missing: react-error-boundary@4.1.2 from lock file
+16:44:34.827 npm error Missing: @lexical/extension@0.41.0 from lock file
+16:44:34.834 npm error Missing: @preact/signals-core@1.14.4 from lock file
+16:44:34.835 npm error Missing: @lexical/devtools-core@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/dragon@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/hashtag@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/history@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/markdown@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/overflow@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/plain-text@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/text@0.41.0 from lock file
+16:44:34.836 npm error Missing: @lexical/yjs@0.41.0 from lock file
+16:44:34.837 npm error Missing: react-error-boundary@6.1.2 from lock file
+16:44:34.837 npm error Missing: @lexical/code@0.41.0 from lock file
+16:44:34.837 npm error Missing: @lexical/offset@0.41.0 from lock file
+16:44:34.837 npm error Missing: date-fns@4.1.0 from lock file
+16:44:34.837 npm error Missing: @date-fns/tz@1.2.0 from lock file
+16:44:34.837 npm error Missing: @faceless-ui/window-info@3.0.1 from lock file
+16:44:34.837 npm error Missing: @monaco-editor/react@4.7.0 from lock file
+16:44:34.837 npm error Missing: monaco-editor@0.56.0 from lock file
+16:44:34.837 npm error Missing: md5@2.3.0 from lock file
+16:44:34.837 npm error Missing: object-to-formdata@4.5.1 from lock file
+16:44:34.843 npm error Missing: react-datepicker@7.6.0 from lock file
+16:44:34.844 npm error Missing: react-image-crop@10.1.8 from lock file
+16:44:34.845 npm error Missing: react-select@5.9.0 from lock file
+16:44:34.845 npm error Missing: scheduler@0.25.0 from lock file
+16:44:34.845 npm error Missing: sonner@1.7.4 from lock file
+16:44:34.845 npm error Missing: use-context-selector@2.0.0 from lock file
+16:44:34.845 npm error Missing: @monaco-editor/loader@1.7.0 from lock file
+16:44:34.845 npm error Missing: state-local@1.0.7 from lock file
+16:44:34.845 npm error Missing: pg-protocol@1.15.0 from lock file
+16:44:34.845 npm error Missing: pg-types@2.2.0 from lock file
+16:44:34.845 npm error Missing: async-retry@1.3.3 from lock file
+16:44:34.845 npm error Missing: is-buffer@2.0.5 from lock file
+16:44:34.845 npm error Missing: is-node-process@1.2.0 from lock file
+16:44:34.845 npm error Missing: throttleit@2.1.0 from lock file
+16:44:34.845 npm error Missing: undici@5.29.0 from lock file
+16:44:34.845 npm error Missing: retry@0.13.1 from lock file
+16:44:34.845 npm error Missing: streamsearch@1.1.0 from lock file
+16:44:34.845 npm error Missing: simple-wcswidth@1.1.2 from lock file
+16:44:34.845 npm error Missing: @tokenizer/inflate@0.4.1 from lock file
+16:44:34.845 npm error Missing: strtok3@10.3.5 from lock file
+16:44:34.846 npm error Missing: token-types@6.1.2 from lock file
+16:44:34.846 npm error Missing: uint8array-extras@1.5.0 from lock file
+16:44:34.846 npm error Missing: xss@1.0.15 from lock file
+16:44:34.846 npm error Missing: charenc@0.0.2 from lock file
+16:44:34.846 npm error Missing: crypt@0.0.2 from lock file
+16:44:34.846 npm error Missing: is-buffer@1.1.6 from lock file
+16:44:34.846 npm error Missing: decode-named-character-reference@1.3.0 from lock file
+16:44:34.846 npm error Missing: mdast-util-to-string@4.0.0 from lock file
+16:44:34.846 npm error Missing: micromark@4.0.2 from lock file
+16:44:34.846 npm error Missing: micromark-util-decode-numeric-character-reference@2.0.2 from lock file
+16:44:34.846 npm error Missing: micromark-util-decode-string@2.0.1 from lock file
+16:44:34.846 npm error Missing: micromark-util-normalize-identifier@2.0.1 from lock file
+16:44:34.846 npm error Missing: character-entities@2.0.2 from lock file
+16:44:34.846 npm error Missing: mdast-util-to-markdown@2.1.2 from lock file
+16:44:34.846 npm error Missing: parse-entities@4.0.2 from lock file
+16:44:34.846 npm error Missing: longest-streak@3.1.0 from lock file
+16:44:34.846 npm error Missing: mdast-util-phrasing@4.1.0 from lock file
+16:44:34.847 npm error Missing: micromark-util-classify-character@2.0.1 from lock file
+16:44:34.847 npm error Missing: @types/debug@4.1.13 from lock file
+16:44:34.847 npm error Missing: micromark-core-commonmark@2.0.3 from lock file
+16:44:34.847 npm error Missing: micromark-factory-space@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-util-chunked@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-util-combine-extensions@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-util-resolve-all@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-util-subtokenize@2.1.0 from lock file
+16:44:34.847 npm error Missing: @types/ms@2.1.0 from lock file
+16:44:34.847 npm error Missing: micromark-factory-destination@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-factory-label@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-factory-title@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-factory-whitespace@2.0.1 from lock file
+16:44:34.847 npm error Missing: micromark-util-html-tag-name@2.0.1 from lock file
+16:44:34.848 npm error Missing: @types/acorn@4.0.6 from lock file
+16:44:34.848 npm error Missing: estree-util-is-identifier-name@3.0.0 from lock file
+16:44:34.848 npm error Missing: micromark-factory-mdx-expression@2.0.3 from lock file
+16:44:34.848 npm error Missing: micromark-util-events-to-acorn@2.0.3 from lock file
+16:44:34.848 npm error Missing: unist-util-position-from-estree@2.0.0 from lock file
+16:44:34.848 npm error Missing: estree-util-visit@2.0.0 from lock file
+16:44:34.848 npm error Missing: dompurify@3.4.8 from lock file
+16:44:34.848 npm error Missing: marked@14.0.0 from lock file
+16:44:34.851 npm error Missing: @next/env@16.2.12 from lock file
+16:44:34.852 npm error Missing: @next/swc-darwin-arm64@16.2.12 from lock file
+16:44:34.852 npm error Missing: @next/swc-darwin-x64@16.2.12 from lock file
+16:44:34.852 npm error Missing: @next/swc-linux-arm64-gnu@16.2.12 from lock file
+16:44:34.852 npm error Missing: @next/swc-linux-arm64-musl@16.2.12 from lock file
+16:44:34.852 npm error Missing: @next/swc-linux-x64-gnu@16.2.12 from lock file
+16:44:34.852 npm error Missing: @next/swc-linux-x64-musl@16.2.12 from lock file
+16:44:34.853 npm error Missing: @next/swc-win32-arm64-msvc@16.2.12 from lock file
+16:44:34.853 npm error Missing: @next/swc-win32-x64-msvc@16.2.12 from lock file
+16:44:34.853 npm error Missing: @swc/helpers@0.5.15 from lock file
+16:44:34.853 npm error Missing: postcss@8.4.31 from lock file
+16:44:34.853 npm error Missing: styled-jsx@5.1.6 from lock file
+16:44:34.853 npm error Missing: @otplib/core@12.0.1 from lock file
+16:44:34.853 npm error Missing: @otplib/preset-default@12.0.1 from lock file
+16:44:34.853 npm error Missing: @otplib/preset-v11@12.0.1 from lock file
+16:44:34.853 npm error Missing: @otplib/plugin-crypto@12.0.1 from lock file
+16:44:34.853 npm error Missing: @otplib/plugin-thirty-two@12.0.1 from lock file
+16:44:34.853 npm error Missing: thirty-two@1.0.2 from lock file
+16:44:34.853 npm error Missing: @types/unist@2.0.11 from lock file
+16:44:34.853 npm error Missing: character-reference-invalid@2.0.1 from lock file
+16:44:34.853 npm error Missing: is-alphanumerical@2.0.1 from lock file
+16:44:34.853 npm error Missing: is-decimal@2.0.1 from lock file
+16:44:34.853 npm error Missing: is-hexadecimal@2.0.1 from lock file
+16:44:34.853 npm error Missing: is-alphabetical@2.0.1 from lock file
+16:44:34.853 npm error Missing: @next/env@15.5.22 from lock file
+16:44:34.853 npm error Missing: @types/busboy@1.5.4 from lock file
+16:44:34.854 npm error Missing: ajv@8.18.0 from lock file
+16:44:34.854 npm error Missing: dataloader@2.2.3 from lock file
+16:44:34.854 npm error Missing: get-tsconfig@4.8.1 from lock file
+16:44:34.854 npm error Missing: image-size@2.0.2 from lock file
+16:44:34.854 npm error Missing: ipaddr.js@2.2.0 from lock file
+16:44:34.854 npm error Missing: json-schema-to-typescript@15.0.3 from lock file
+16:44:34.854 npm error Missing: pino@9.14.0 from lock file
+16:44:34.854 npm error Missing: pino-pretty@13.1.2 from lock file
+16:44:34.854 npm error Missing: range-parser@1.2.1 from lock file
+16:44:34.854 npm error Missing: sanitize-filename@1.6.3 from lock file
+16:44:34.854 npm error Missing: tsx@4.22.4 from lock file
+16:44:34.854 npm error Missing: undici@7.28.0 from lock file
+16:44:34.854 npm error Missing: @apidevtools/json-schema-ref-parser@11.9.3 from lock file
+16:44:34.854 npm error Missing: @types/lodash@4.17.24 from lock file
+16:44:34.854 npm error Missing: prettier@3.9.6 from lock file
+16:44:34.854 npm error Missing: @jsdevtools/ono@7.1.3 from lock file
+16:44:34.854 npm error Missing: pg-cloudflare@1.4.0 from lock file
+16:44:34.854 npm error Missing: pg-connection-string@2.14.0 from lock file
+16:44:34.855 npm error Missing: pg-pool@3.14.0 from lock file
+16:44:34.855 npm error Missing: pgpass@1.0.5 from lock file
+16:44:34.855 npm error Missing: pg-int8@1.0.1 from lock file
+16:44:34.855 npm error Missing: postgres-array@2.0.0 from lock file
+16:44:34.855 npm error Missing: postgres-bytea@1.0.1 from lock file
+16:44:34.855 npm error Missing: postgres-date@1.0.7 from lock file
+16:44:34.855 npm error Missing: postgres-interval@1.2.0 from lock file
+16:44:34.855 npm error Missing: split2@4.2.0 from lock file
+16:44:34.855 npm error Missing: @pinojs/redact@0.4.0 from lock file
+16:44:34.855 npm error Missing: atomic-sleep@1.0.0 from lock file
+16:44:34.855 npm error Missing: on-exit-leak-free@2.1.2 from lock file
+16:44:34.855 npm error Missing: pino-abstract-transport@2.0.0 from lock file
+16:44:34.855 npm error Missing: pino-std-serializers@7.1.0 from lock file
+16:44:34.855 npm error Missing: process-warning@5.0.0 from lock file
+16:44:34.855 npm error Missing: quick-format-unescaped@4.0.4 from lock file
+16:44:34.855 npm error Missing: real-require@0.2.0 from lock file
+16:44:34.855 npm error Missing: safe-stable-stringify@2.5.0 from lock file
+16:44:34.855 npm error Missing: sonic-boom@4.2.1 from lock file
+16:44:34.855 npm error Missing: thread-stream@3.2.0 from lock file
+16:44:34.855 npm error Missing: dateformat@4.6.3 from lock file
+16:44:34.856 npm error Missing: fast-copy@3.0.2 from lock file
+16:44:34.856 npm error Missing: fast-safe-stringify@2.1.1 from lock file
+16:44:34.856 npm error Missing: help-me@5.0.0 from lock file
+16:44:34.856 npm error Missing: joycon@3.1.1 from lock file
+16:44:34.856 npm error Missing: pump@3.0.4 from lock file
+16:44:34.856 npm error Missing: secure-json-parse@4.1.0 from lock file
+16:44:34.856 npm error Missing: strip-json-comments@5.0.3 from lock file
+16:44:34.856 npm error Missing: xtend@4.0.2 from lock file
+16:44:34.862 npm error Missing: kleur@3.0.3 from lock file
+16:44:34.862 npm error Missing: end-of-stream@1.4.5 from lock file
+16:44:34.863 npm error Missing: once@1.4.0 from lock file
+16:44:34.863 npm error Missing: wrappy@1.0.2 from lock file
+16:44:34.864 npm error Missing: dijkstrajs@1.0.3 from lock file
+16:44:34.864 npm error Missing: pngjs@5.0.0 from lock file
+16:44:34.866 npm error Missing: yargs@15.4.1 from lock file
+16:44:34.867 npm error Missing: date-fns@3.6.0 from lock file
+16:44:34.867 npm error Missing: @emotion/cache@11.14.0 from lock file
+16:44:34.867 npm error Missing: @emotion/react@11.14.0 from lock file
+16:44:34.867 npm error Missing: @types/react-transition-group@4.4.12 from lock file
+16:44:34.868 npm error Missing: memoize-one@6.0.0 from lock file
+16:44:34.868 npm error Missing: prop-types@15.8.1 from lock file
+16:44:34.868 npm error Missing: use-isomorphic-layout-effect@1.2.1 from lock file
+16:44:34.868 npm error Missing: @emotion/memoize@0.9.0 from lock file
+16:44:34.868 npm error Missing: @emotion/sheet@1.4.0 from lock file
+16:44:34.868 npm error Missing: @emotion/utils@1.4.2 from lock file
+16:44:34.868 npm error Missing: @emotion/weak-memoize@0.4.0 from lock file
+16:44:34.868 npm error Missing: stylis@4.2.0 from lock file
+16:44:34.868 npm error Missing: @emotion/babel-plugin@11.13.5 from lock file
+16:44:34.868 npm error Missing: @emotion/serialize@1.3.3 from lock file
+16:44:34.868 npm error Missing: @emotion/use-insertion-effect-with-fallbacks@1.2.0 from lock file
+16:44:34.868 npm error Missing: hoist-non-react-statics@3.3.2 from lock file
+16:44:34.868 npm error Missing: @emotion/hash@0.9.2 from lock file
+16:44:34.868 npm error Missing: babel-plugin-macros@3.1.0 from lock file
+16:44:34.868 npm error Missing: convert-source-map@1.9.0 from lock file
+16:44:34.869 npm error Missing: find-root@1.1.0 from lock file
+16:44:34.869 npm error Missing: source-map@0.5.7 from lock file
+16:44:34.869 npm error Missing: @emotion/unitless@0.10.0 from lock file
+16:44:34.869 npm error Missing: cosmiconfig@7.1.0 from lock file
+16:44:34.869 npm error Missing: @types/parse-json@4.0.2 from lock file
+16:44:34.869 npm error Missing: import-fresh@3.3.1 from lock file
+16:44:34.869 npm error Missing: parse-json@5.2.0 from lock file
+16:44:34.869 npm error Missing: path-type@4.0.0 from lock file
+16:44:34.869 npm error Missing: yaml@1.10.3 from lock file
+16:44:34.869 npm error Missing: react-is@16.13.1 from lock file
+16:44:34.869 npm error Missing: parent-module@1.0.1 from lock file
+16:44:34.869 npm error Missing: resolve-from@4.0.0 from lock file
+16:44:34.870 npm error Missing: callsites@3.1.0 from lock file
+16:44:34.871 npm error Missing: error-ex@1.3.4 from lock file
+16:44:34.872 npm error Missing: json-parse-even-better-errors@2.3.1 from lock file
+16:44:34.872 npm error Missing: lines-and-columns@1.2.4 from lock file
+16:44:34.872 npm error Missing: is-arrayish@0.2.1 from lock file
+16:44:34.872 npm error Missing: loose-envify@1.4.0 from lock file
+16:44:34.872 npm error Missing: object-assign@4.1.1 from lock file
+16:44:34.873 npm error Missing: dom-helpers@5.2.1 from lock file
+16:44:34.873 npm error Missing: truncate-utf8-bytes@1.0.2 from lock file
+16:44:34.873 npm error Missing: chokidar@3.6.0 from lock file
+16:44:34.873 npm error Missing: immutable@4.3.9 from lock file
+16:44:34.874 npm error Missing: @tokenizer/token@0.3.0 from lock file
+16:44:34.874 npm error Missing: client-only@0.0.1 from lock file
+16:44:34.874 npm error Missing: to-space-case@1.0.0 from lock file
+16:44:34.874 npm error Missing: to-no-case@1.0.2 from lock file
+16:44:34.875 npm error Missing: @borewit/text-codec@0.2.2 from lock file
+16:44:34.875 npm error Missing: utf8-byte-length@1.0.5 from lock file
+16:44:34.875 npm error Missing: commander@2.20.3 from lock file
+16:44:34.875 npm error Missing: cssfilter@0.0.10 from lock file
+16:44:34.875 npm error Missing: esbuild@0.25.12 from lock file
+16:44:34.875 npm error Missing: esbuild-register@3.6.0 from lock file
+16:44:34.875 npm error Missing: @esbuild/aix-ppc64@0.25.12 from lock file
+16:44:34.876 npm error Missing: @esbuild/android-arm@0.25.12 from lock file
+16:44:34.876 npm error Missing: @esbuild/android-arm64@0.25.12 from lock file
+16:44:34.876 npm error Missing: @esbuild/android-x64@0.25.12 from lock file
+16:44:34.876 npm error Missing: @esbuild/darwin-arm64@0.25.12 from lock file
+16:44:34.876 npm error Missing: @esbuild/darwin-x64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/freebsd-arm64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/freebsd-x64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-arm@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-arm64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-ia32@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-loong64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-mips64el@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-ppc64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-riscv64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-s390x@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/linux-x64@0.25.12 from lock file
+16:44:34.877 npm error Missing: @esbuild/netbsd-arm64@0.25.12 from lock file
+16:44:34.878 npm error Missing: @esbuild/netbsd-x64@0.25.12 from lock file
+16:44:34.878 npm error Missing: @esbuild/openbsd-arm64@0.25.12 from lock file
+16:44:34.878 npm error Missing: @esbuild/openbsd-x64@0.25.12 from lock file
+16:44:34.878 npm error Missing: @esbuild/openharmony-arm64@0.25.12 from lock file
+16:44:34.879 npm error Missing: @esbuild/sunos-x64@0.25.12 from lock file
+16:44:34.880 npm error Missing: @esbuild/win32-arm64@0.25.12 from lock file
+16:44:34.880 npm error Missing: @esbuild/win32-ia32@0.25.12 from lock file
+16:44:34.881 npm error Missing: @esbuild/win32-x64@0.25.12 from lock file
+16:44:34.881 npm error Missing: @fastify/busboy@2.1.1 from lock file
+16:44:34.881 npm error Missing: json-schema-traverse@1.0.0 from lock file
+16:44:34.881 npm error Missing: cliui@6.0.0 from lock file
+16:44:34.881 npm error Missing: decamelize@1.2.0 from lock file
+16:44:34.882 npm error Missing: find-up@4.1.0 from lock file
+16:44:34.882 npm error Missing: require-main-filename@2.0.0 from lock file
+16:44:34.882 npm error Missing: set-blocking@2.0.0 from lock file
+16:44:34.882 npm error Missing: string-width@4.2.3 from lock file
+16:44:34.882 npm error Missing: which-module@2.0.1 from lock file
+16:44:34.882 npm error Missing: y18n@4.0.3 from lock file
+16:44:34.882 npm error Missing: yargs-parser@18.1.3 from lock file
+16:44:34.882 npm error Missing: strip-ansi@6.0.1 from lock file
+16:44:34.882 npm error Missing: wrap-ansi@6.2.0 from lock file
+16:44:34.882 npm error Missing: locate-path@5.0.0 from lock file
+16:44:34.882 npm error Missing: p-locate@4.1.0 from lock file
+16:44:34.882 npm error Missing: p-limit@2.3.0 from lock file
+16:44:34.883 npm error Missing: p-try@2.2.0 from lock file
+16:44:34.883 npm error Missing: emoji-regex@8.0.0 from lock file
+16:44:34.883 npm error Missing: ansi-regex@5.0.1 from lock file
+16:44:34.883 npm error Missing: ansi-styles@4.3.0 from lock file
+16:44:34.883 npm error Missing: camelcase@5.3.1 from lock file
+16:44:34.883 npm error Missing: glob-parent@5.1.2 from lock file
+16:44:34.883 npm error Missing: is-binary-path@2.1.0 from lock file
+16:44:34.883 npm error Missing: readdirp@3.6.0 from lock file
+16:44:34.883 npm error Missing: binary-extensions@2.3.0 from lock file
+16:44:34.883 npm error Missing: picomatch@2.3.2 from lock file
+16:44:34.883 npm error
+16:44:34.883 npm error Clean install a project
+16:44:34.883 npm error
+16:44:34.883 npm error Usage:
+16:44:34.883 npm error npm ci
+16:44:34.884 npm error
+16:44:34.884 npm error Options:
+16:44:34.884 npm error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+16:44:34.884 npm error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+16:44:34.884 npm error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+16:44:34.884 npm error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts]
+16:44:34.886 npm error [--allow-git <all|none|root>] [--no-audit] [--no-bin-links] [--no-fund]
+16:44:34.887 npm error [--dry-run]
+16:44:34.889 npm error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+16:44:34.889 npm error [--workspaces] [--include-workspace-root] [--install-links]
+16:44:34.890 npm error
+16:44:34.891 npm error   --install-strategy
+16:44:34.892 npm error     Sets the strategy for installing packages in node_modules.
+16:44:34.892 npm error
+16:44:34.893 npm error   --legacy-bundling
+16:44:34.893 npm error     Instead of hoisting package installs in `node_modules`, install packages
+16:44:34.894 npm error
+16:44:34.894 npm error   --global-style
+16:44:34.894 npm error     Only install direct dependencies in the top level `node_modules`,
+16:44:34.894 npm error
+16:44:34.894 npm error   --omit
+16:44:34.894 npm error     Dependency types to omit from the installation tree on disk.
+16:44:34.894 npm error
+16:44:34.895 npm error   --include
+16:44:34.895 npm error     Option that allows for defining which types of dependencies to install.
+16:44:34.895 npm error
+16:44:34.895 npm error   --strict-peer-deps
+16:44:34.895 npm error     If set to `true`, and `--legacy-peer-deps` is not set, then _any_
+16:44:34.895 npm error
+16:44:34.895 npm error   --foreground-scripts
+16:44:34.895 npm error     Run all build scripts (ie, `preinstall`, `install`, and
+16:44:34.895 npm error
+16:44:34.895 npm error   --ignore-scripts
+16:44:34.895 npm error     If true, npm does not run scripts specified in package.json files.
+16:44:34.901 npm error
+16:44:34.902 npm error   --allow-git
+16:44:34.902 npm error     Limits the ability for npm to fetch dependencies from git references.
+16:44:34.902 npm error
+16:44:34.902 npm error   --audit
+16:44:34.902 npm error     When "true" submit audit reports alongside the current npm command to the
+16:44:34.902 npm error
+16:44:34.902 npm error   --bin-links
+16:44:34.902 npm error     Tells npm to create symlinks (or `.cmd` shims on Windows) for package
+16:44:34.902 npm error
+16:44:34.902 npm error   --fund
+16:44:34.902 npm error     When "true" displays the message at the end of each `npm install`
+16:44:34.903 npm error
+16:44:34.903 npm error   --dry-run
+16:44:34.903 npm error     Indicates that you don't want npm to make any changes and that it should
+16:44:34.903 npm error
+16:44:34.903 npm error   -w|--workspace
+16:44:34.903 npm error     Enable running a command in the context of the configured workspaces of the
+16:44:34.903 npm error
+16:44:34.903 npm error   --workspaces
+16:44:34.903 npm error     Set to true to run the command in the context of **all** configured
+16:44:34.903 npm error
+16:44:34.903 npm error   --include-workspace-root
+16:44:34.903 npm error     Include the workspace root when workspaces are enabled for a command.
+16:44:34.903 npm error
+16:44:34.903 npm error   --install-links
+16:44:34.903 npm error     When set file: protocol dependencies will be packed and installed as
+16:44:34.903 npm error
+16:44:34.904 npm error
+16:44:34.904 npm error aliases: clean-install, ic, install-clean, isntall-clean
+16:44:34.904 npm error
+16:44:34.904 npm error Run "npm help ci" for more info
+16:44:34.913 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-07-30T07_44_11_673Z-debug-0.log
+16:44:34.965 Error: Command "npm ci" exited with 1
+
+vercel 배포에러
+
+*User accepted the command `npm install`*
+
+### Planner Response
+
+`npm install` 명령어로 `package-lock.json` 동기화를 진행하고 있습니다. 작업이 완료되는 대로 Git 커밋을 진행하겠습니다.
