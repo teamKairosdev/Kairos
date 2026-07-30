@@ -8,6 +8,13 @@
       "when": 1785218646252,
       "tag": "0000_soft_dark_beast",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1785374137937,
+      "tag": "0001_perpetual_sabretooth",
+      "breakpoints": true
     }
   ]
 }

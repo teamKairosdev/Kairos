@@ -208,6 +208,7 @@ export async function streamLLMText(options: LLMOptions) {
 }
 
 function hasAnthropicKey(): boolean {
-  const key = process.env.ANTHROPIC_API_KEY || '';
+  const config = useRuntimeConfig();
+  const key = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
   return isValidKey(key);
 }
