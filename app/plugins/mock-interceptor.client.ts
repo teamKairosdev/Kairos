@@ -1,4 +1,5 @@
 import { defineNuxtPlugin } from '#app'
+import { getSimulatedLLMResponse } from '~/data/mock/mockup'
 
 export default defineNuxtPlugin((nuxtApp) => {
   if (!process.client) return
@@ -71,8 +72,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       const msg = body.message || ''
       const currentContent = body.currentContent || ''
       
-      const responseText = `작성하신 이력서 내용을 분석하여 피드백 드립니다. "${msg}"에 관련된 상세 프로젝트 내용을 조금 더 강조하시려면, 해당 프로젝트의 성과 부분을 수치(KPI) 위주로 변경해 보는 것을 권장합니다.`
-      const suggestedContent = currentContent + `\n\n- [AI 보강] ${msg} 관련 프로젝트에서 MSA 아키텍처 및 분산 캐싱을 도입하여 동시성 문제를 완벽히 조율하고 트래픽 처리 능력을 40% 향상함.`
+      const { responseText, suggestedContent } = getSimulatedLLMResponse(msg, currentContent)
 
       return {
         responseText,

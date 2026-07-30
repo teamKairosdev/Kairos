@@ -1,4 +1,7 @@
-// Deterministic generation of 50 high-quality Korean career profiles for Mock Mode
+// ============================================================
+// Kairos Unified Mock Database (mockup.ts)
+// ============================================================
+
 export interface MockUser {
   id: string
   name: string
@@ -35,8 +38,8 @@ export interface MockInterview {
   companyName: string
   difficulty: 'junior' | 'medium' | 'senior'
   status: 'in_progress' | 'completed'
-  overallScore: number
-  overallFeedback: string
+  overallScore: number | null
+  overallFeedback: string | null
   createdAt: string
 }
 
@@ -61,6 +64,7 @@ export interface MockQA {
     question: string
     sampleAnswer: string
     keyPoints: string[]
+    difficulty: string
   }>
   createdAt: string
 }
@@ -96,7 +100,7 @@ const COMPANIES = [
   '삼성전자', 'SK텔레콤', '무신사', '쏘카', '크래프톤', '넷마블', '엔씨소프트', '비바리퍼블리카', '두나무', '빗썸'
 ]
 
-// Simple deterministic hash based on a seed
+// Simple deterministic hash based on seed for consistent 50 profiles
 function seedRandom(seedStr: string) {
   let h = 0
   for (let i = 0; i < seedStr.length; i++) {
@@ -116,9 +120,7 @@ export function generateProfiles(): MockProfile[] {
     const seed = `profile-seed-${i}`
     const rand = seedRandom(seed)
 
-    // Helper to get random item
     const pick = <T>(arr: T[]): T => arr[Math.floor(rand() * arr.length)]
-    // Helper to get random number in range
     const num = (min: number, max: number) => Math.floor(rand() * (max - min + 1)) + min
 
     const firstName = pick(FIRST_NAMES)
@@ -246,12 +248,14 @@ ${job.tech}
           {
             question: `${job.field} 아키텍처 설계 시 가장 중요하게 생각하는 원칙은 무엇인가요?`,
             sampleAnswer: '단일 책임 원칙(SRP)과 관심사 분리(SoC)를 중요시합니다. 이를 통해 컴포넌트의 결합도를 낮추고 테스트 가능성을 극대화합니다.',
-            keyPoints: ['결합도 최소화', '관심사 분리', '테스트 가능성']
+            keyPoints: ['결합도 최소화', '관심사 분리', '테스트 가능성'],
+            difficulty: '🌱 주니어'
           },
           {
             question: '성능 튜닝이나 부하 테스트를 진행해 본 실무적 경험이 있습니까?',
             sampleAnswer: '부하 테스트 툴을 활용해 병목 레이어를 찾아내고 Redis 캐싱 또는 데이터베이스 쿼리 최적화를 통해 TPS를 향상시켰습니다.',
-            keyPoints: ['병목 현상 발굴', 'Redis 캐싱', '쿼리 최적화']
+            keyPoints: ['병목 현상 발굴', 'Redis 캐싱', '쿼리 최적화'],
+            difficulty: '⚡ 미들'
           }
         ]
       }
@@ -269,4 +273,28 @@ ${job.tech}
   }
 
   return profiles
+}
+
+// Global LLM Mock API Response simulation
+export function getSimulatedLLMResponse(message: string, context?: string): { responseText: string; suggestedContent?: string } {
+  const lowercaseMsg = message.toLowerCase()
+
+  if (lowercaseMsg.includes('이력서') || lowercaseMsg.includes('자기소개서') || lowercaseMsg.includes('경력')) {
+    return {
+      responseText: `이력서의 직무 기여도와 성과 지표를 분석한 보완 제안입니다. 주요 기여 내용을 단순 서술형에서 탈피하여 정량적 성과 단위로 구체화했습니다. 아래 Diff 창에서 개선 제안된 상세 내용을 확인하고 즉시 반영하실 수 있습니다.`,
+      suggestedContent: (context || '') + `\n\n- [AI 수정제안] 대고객 핵심 결제 모듈 리팩토링 및 쿼리 캐싱 패턴 도입으로 전체 트랜잭션 에러율 0.05% 이하 제어 및 응답속도 LCP 지표 45% 단축 달성.`
+    }
+  }
+
+  if (lowercaseMsg.includes('스택') || lowercaseMsg.includes('기술')) {
+    return {
+      responseText: `기술 스택의 깊이를 보여줄 수 있는 프로젝트 문장 구조를 제안해 드립니다. 단순 스택의 나열보다는 해당 기술이 비즈니스 문제를 해결한 과정을 서술하는 것이 훨씬 영향력이 큽니다.`,
+      suggestedContent: (context || '') + `\n\n- [AI 수정제안] Next.js 14 App Router 및 Server Component 패턴을 점진적 채택하여 데이터 페칭 아키텍처 단순화 및 초기 TBT(Total Blocking Time) 300ms 감소.`
+    }
+  }
+
+  return {
+    responseText: `질문하신 내용에 대한 보강 추천 피드백을 전달해 드립니다. 프로젝트의 맥락과 구현 과정을 수치로 증명하는 내용을 추가하면 서류 평가와 면접에서 더욱 유리한 피드백을 받을 수 있습니다.`,
+    suggestedContent: (context || '') + `\n\n- [AI 수정제안] 클라우드 인프라 자원의 프로비저닝 자동화(IaC, Terraform) 기법을 설계하여 아키텍처 일관성 유지 및 리소스 유휴 비용 20% 최적화.`
+  }
 }

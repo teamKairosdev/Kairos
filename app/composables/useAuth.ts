@@ -53,7 +53,7 @@ export function useAuth() {
         localStorage.setItem('is_mock_mode', 'true');
         localStorage.setItem('mock_profile_idx', String(randIndex));
         
-        const { generateProfiles } = await import('~/data/mock/profiles');
+        const { generateProfiles } = await import('~/data/mock/mockup');
         const profiles = generateProfiles();
         const activeProfile = profiles[randIndex - 1];
         
