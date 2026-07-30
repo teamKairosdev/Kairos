@@ -64,6 +64,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const router = useRouter()
 const usageData = ref<any>(null)
 const currentPlan = ref('free')

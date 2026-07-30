@@ -16,10 +16,13 @@
         </NuxtLink>
       </nav>
 
-      <nav v-else class="hidden md:flex items-center gap-x6 text-sm text-fg-neutral-muted">
-        <NuxtLink to="/interview" class="flex items-center gap-x1 px-x3 py-x1 rounded-r1 bg-neutral-muted hover:bg-neutral-muted transition-all">
-          AI 모의 면접
-        </NuxtLink>
+      <nav v-else class="hidden md:flex items-center gap-x4 text-sm text-fg-neutral-muted">
+        <NuxtLink to="/resume" class="hover:text-fg-neutral transition-colors">이력서</NuxtLink>
+        <NuxtLink to="/interview" class="hover:text-fg-neutral transition-colors">면접</NuxtLink>
+        <NuxtLink to="/ats" class="hover:text-fg-neutral transition-colors">ATS</NuxtLink>
+        <NuxtLink to="/humanizer" class="hover:text-fg-neutral transition-colors">휴머나이저</NuxtLink>
+        <NuxtLink to="/docs" class="hover:text-fg-neutral transition-colors">문서</NuxtLink>
+        <NuxtLink to="/studio" class="hover:text-fg-neutral transition-colors">스튜디오</NuxtLink>
       </nav>
 
       <div v-if="state.authenticated && state.user" class="flex items-center gap-x3 border-l border-stroke-neutral-muted pl-x3 relative">

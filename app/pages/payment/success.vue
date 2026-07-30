@@ -22,6 +22,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const route = useRoute()
 const plan = route.query.plan as string || 'pro'
 const verifying = ref(true)

@@ -52,6 +52,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const toast = useToast()
 const targetRole = ref('시니어 풀스택 개발자')
 const questionCount = ref(5)

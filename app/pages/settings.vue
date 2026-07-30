@@ -54,6 +54,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const { data: user, refresh } = useFetch('/api/auth/me')
 const saving = ref(false)
 const connecting = ref(false)

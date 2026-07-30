@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const toast = useToast()
 const originalText = ref('본 지원자는 지난 3년간 웹 프론트엔드 개발 프로젝트 수행에 있어 프론트엔드 성능 최적화 관점에서 다각도로 접근하여 효율적인 리팩토링을 완수함에 있어 큰 성과를 거두었습니다.')
 const loading = ref(false)

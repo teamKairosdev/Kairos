@@ -48,6 +48,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const route = useRoute()
 const interviewId = route.params.id as string
 

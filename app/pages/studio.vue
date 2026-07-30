@@ -72,6 +72,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const prompt = ref('')
 const size = ref('1024x1024')
 const sizes = [

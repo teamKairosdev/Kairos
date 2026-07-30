@@ -27,9 +27,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true },
     '/r/**': { isr: 60, headers: { 'Cache-Control': 'public, max-age=0, s-maxage=60, stale-while-revalidate=600' } },
-    '/community/**': { isr: 60 },
     '/auth/**': { ssr: false },
-    '/dashboard/**': { ssr: false },
     '/resume/**': { ssr: false },
     '/interview/**': { ssr: false },
     '/ats/**': { ssr: false },

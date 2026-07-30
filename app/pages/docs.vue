@@ -58,6 +58,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const showUpload = ref(false)
 const uploading = ref(false)
 const selectedFile = ref<File | null>(null)

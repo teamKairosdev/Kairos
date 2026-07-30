@@ -48,6 +48,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 import { createEditor } from '@rhwp/editor'
 
 const route = useRoute()

@@ -50,6 +50,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const route = useRoute()
 const { data } = await useFetch<any>(`/api/resumes/${route.params.id}`)
 </script>

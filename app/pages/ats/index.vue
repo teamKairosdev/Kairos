@@ -82,6 +82,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const toast = useToast()
 const jobTitle = ref('시니어 프론트엔드 개발자')
 const jobDescription = ref('- Nuxt.js, Vue 3, TypeScript 실무 경험 3년 이상\n- SSR / SSG 및 성능 최적화 경험\n- CI/CD 파이프라인 및 Docker 경험 우대')

@@ -90,6 +90,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const toast = useToast()
 const { data: resumes, refresh } = await useFetch<any[]>('/api/resumes')
 const showCreateModal = ref(false)

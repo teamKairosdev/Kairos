@@ -86,6 +86,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
+
 const toast = useToast()
 const { data: careersList, refresh } = await useFetch<any[]>('/api/careers')
 const showCreateModal = ref(false)
