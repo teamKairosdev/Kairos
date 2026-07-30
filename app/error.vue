@@ -41,8 +41,7 @@ const props = defineProps<Props>()
 
 useHead({
   htmlAttrs: {
-    'data-seed-color-mode': 'system',
-    'data-seed-user-color-scheme': 'dark',
+    'data-seed-color-mode': 'light',
   },
   title: `Error ${props.error.statusCode || 500} — Kairos`,
 })

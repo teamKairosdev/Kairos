@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { callLLMStructured, streamLLMText } from './llm';
+import { buildContextWindow, type ContextMessage } from './context';
 
 const initialQuestionSchema = z.object({
   question: z.string(),
@@ -30,33 +31,39 @@ Ask an engaging, realistic initial interview question tailored to the target rol
   });
 }
 
-// Single function = Single LLM call (Evaluate candidate response & generate follow-up)
 export async function evaluateCandidateAnswer(jobTitle: string, conversationHistory: { sender: string; message: string }[]) {
   const instructions = `You are an expert interviewer at Kairos platform. Evaluate the candidate's latest response objectively. Provide constructive feedback, a performance score (0-100), and formulate a sharp follow-up or next topic question. Speak in Korean.`;
 
-  const formattedHistory = conversationHistory
-    .map((h) => `${h.sender.toUpperCase()}: ${h.message}`)
-    .join('\n');
+  const messages: ContextMessage[] = conversationHistory.map((h) => ({
+    role: h.sender === 'ai' || h.sender === 'interviewer' ? 'assistant' : 'user',
+    content: h.message,
+  }));
+  messages.unshift({ role: 'system', content: instructions });
+
+  const context = buildContextWindow(messages, { windowSize: 15, maxTokens: 4000 });
 
   return await callLLMStructured<AnswerFeedback>({
     instructions,
-    prompt: `Job Context: ${jobTitle}\n\nInterview Conversation Log:\n${formattedHistory}`,
+    prompt: `Job Context: ${jobTitle}\n\n${context}`,
     schema: answerFeedbackSchema,
     temperature: 0.6,
   });
 }
 
-// SSE Streaming Interview Turn Response
 export async function streamInterviewerResponse(jobTitle: string, conversationHistory: { sender: string; message: string }[]) {
   const instructions = `You are an AI Interviewer at Kairos. Respond dynamically, acknowledge the candidate's last answer, provide subtle live feedback, and ask the next logical interview question. Keep it concise, natural, and immersive in Korean.`;
 
-  const formattedHistory = conversationHistory
-    .map((h) => `${h.sender.toUpperCase()}: ${h.message}`)
-    .join('\n');
+  const messages: ContextMessage[] = conversationHistory.map((h) => ({
+    role: h.sender === 'ai' || h.sender === 'interviewer' ? 'assistant' : 'user',
+    content: h.message,
+  }));
+  messages.unshift({ role: 'system', content: instructions });
+
+  const context = buildContextWindow(messages, { windowSize: 15, maxTokens: 4000 });
 
   return await streamLLMText({
     instructions,
-    prompt: `Job Role: ${jobTitle}\n\nInterview History:\n${formattedHistory}\n\nINTERVIEWER:`,
+    prompt: `Job Role: ${jobTitle}\n\n${context}\n\nINTERVIEWER:`,
     temperature: 0.7,
   });
 }

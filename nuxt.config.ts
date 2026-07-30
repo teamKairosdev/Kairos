@@ -44,6 +44,11 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
   ],
 
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+  },
+
   i18n: {
     locales: [
       { code: 'ko', language: 'ko', name: '한국어', file: 'ko.json' },
@@ -153,8 +158,8 @@ export default defineNuxtConfig({
       name: 'Kairos - AI Job Prep',
       short_name: 'Kairos',
       description: 'AI Job Application Prep Platform',
-      theme_color: '#0f0a1a',
-      background_color: '#0f0a1a',
+      theme_color: '#ffffff',
+      background_color: '#ffffff',
       display: 'standalone',
       icons: [
         { src: '/pwa-icon-192.png', sizes: '192x192', type: 'image/png' },

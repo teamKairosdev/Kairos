@@ -9,25 +9,13 @@ export interface LLMOptions {
   temperature?: number;
 }
 
-export function isDemoMode(): boolean {
-  const config = useRuntimeConfig();
-  const openaiKey = config.openaiApiKey || process.env.OPENAI_API_KEY || '';
-  const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
-  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '';
-
-  const hasOpenAI = openaiKey.trim() !== '' && !openaiKey.includes('your-openai') && !openaiKey.includes('sk-proj-your');
-  const hasAnthropic = anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic') && !anthropicKey.includes('sk-ant-your');
-  const hasGoogle = googleKey.trim() !== '' && !googleKey.includes('your-google') && !googleKey.includes('AIzaSy-your') && !googleKey.includes('AIzaSy-your-google');
-
-  return !hasOpenAI && !hasAnthropic && !hasGoogle;
-}
-
-function getKeys() {
+function getConfig() {
   const config = useRuntimeConfig();
   return {
-    anthropic: config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '',
-    openai: config.openaiApiKey || process.env.OPENAI_API_KEY || '',
-    google: config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '',
+    googleKey: config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '',
+    anthropicKey: config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '',
+    openaiKey: config.openaiApiKey || process.env.OPENAI_API_KEY || '',
+    gatewayUrl: (config as Record<string, string>).vercelAiGatewayUrl || process.env.VERCEL_AI_GATEWAY_URL || '',
   };
 }
 
@@ -35,179 +23,54 @@ function isValidKey(key: string): boolean {
   return key.trim() !== '' && !key.includes('your-') && !key.includes('sk-proj-your') && !key.includes('sk-ant-your') && !key.includes('AIzaSy-your');
 }
 
-/** Pick the first available provider name */
-function pickProvider(): { provider: 'anthropic' | 'openai' | 'google'; key: string } | null {
-  const keys = getKeys();
-  if (isValidKey(keys.anthropic)) return { provider: 'anthropic', key: keys.anthropic };
-  if (isValidKey(keys.openai)) return { provider: 'openai', key: keys.openai };
-  if (isValidKey(keys.google)) return { provider: 'google', key: keys.google };
-  return null;
-}
-
-/* ── AI SDK path ── */
-
 export function getPreferredLanguageModel(): LanguageModel {
-  if (isDemoMode()) {
-    throw new Error('Demo mode: no valid API key configured');
+  const { googleKey, anthropicKey, openaiKey, gatewayUrl } = getConfig();
+
+  if (isValidKey(googleKey)) {
+    const opts: Record<string, string> = { apiKey: googleKey };
+    if (gatewayUrl) opts.baseURL = `${gatewayUrl}/google`;
+    const google = createGoogleGenerativeAI(opts);
+    return google('gemini-2.0-flash-001');
   }
 
-  const config = useRuntimeConfig();
-
-  const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
   if (isValidKey(anthropicKey)) {
-    const anthropic = createAnthropic({ apiKey: anthropicKey });
+    const opts: Record<string, string> = { apiKey: anthropicKey };
+    if (gatewayUrl) opts.baseURL = `${gatewayUrl}/anthropic`;
+    const anthropic = createAnthropic(opts);
     return anthropic('claude-haiku-4-5-20251001');
   }
 
-  const openaiKey = config.openaiApiKey || process.env.OPENAI_API_KEY || '';
   if (isValidKey(openaiKey)) {
-    const openai = createOpenAI({ apiKey: openaiKey });
+    const opts: Record<string, string> = { apiKey: openaiKey };
+    if (gatewayUrl) opts.baseURL = `${gatewayUrl}/openai`;
+    const openai = createOpenAI(opts);
     return openai('gpt-4.1-mini');
   }
 
-  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '';
-  if (isValidKey(googleKey)) {
-    const google = createGoogleGenerativeAI({ apiKey: googleKey });
-    return google('gemini-3.5-flash');
-  }
-
-  throw new Error('No valid API key configured for any provider');
+  throw new Error('No valid API key configured. Set GOOGLE_GENERATIVE_AI_API_KEY, ANTHROPIC_API_KEY, or OPENAI_API_KEY');
 }
-
-export function getModelForComplexity(complexity: 'low' | 'medium' | 'high'): LanguageModel {
-  const config = useRuntimeConfig();
-
-  if (complexity === 'high') {
-    const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
-    if (isValidKey(anthropicKey)) {
-      return createAnthropic({ apiKey: anthropicKey })('claude-sonnet-4-6-20250514');
-    }
-    const openaiKey = config.openaiApiKey || process.env.OPENAI_API_KEY || '';
-    if (isValidKey(openaiKey)) {
-      return createOpenAI({ apiKey: openaiKey })('gpt-4.1');
-    }
-  }
-
-  if (complexity === 'medium') {
-    const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
-    if (isValidKey(anthropicKey)) {
-      return createAnthropic({ apiKey: anthropicKey })('claude-haiku-4-5-20251001');
-    }
-  }
-
-  return getPreferredLanguageModel();
-}
-
-/* ── Raw API path (fallback when AI SDK fails) ── */
-
-function getApiUrls() {
-  const config = useRuntimeConfig();
-  return {
-    anthropic: (config as Record<string, string>).anthropicApiUrl,
-    openai: (config as Record<string, string>).openaiApiUrl,
-    google: (config as Record<string, string>).googleApiUrl,
-  };
-}
-
-async function callLLMTextRaw(options: LLMOptions): Promise<string> {
-  const picked = pickProvider();
-  if (!picked) throw new Error('No valid API key configured');
-
-  const body: Record<string, unknown> = {
-    temperature: options.temperature ?? 0.7,
-    max_tokens: 4096,
-  };
-
-  const apiUrls = getApiUrls();
-
-  if (picked.provider === 'anthropic') {
-    const messages: { role: string; content: string }[] = [];
-    if (options.instructions) messages.push({ role: 'user', content: options.instructions });
-    messages.push({ role: 'user', content: options.prompt });
-
-    const resp = await fetch(`${apiUrls.anthropic}/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': picked.key,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({ ...body, model: 'claude-haiku-4-5-20251001', max_tokens: 4096, messages }),
-    });
-    if (!resp.ok) throw new Error(`Anthropic raw API error: ${resp.status}`);
-    const json = await resp.json();
-    return json.content?.[0]?.text || '';
-  }
-
-  if (picked.provider === 'openai') {
-    const messages: { role: string; content: string }[] = [];
-    if (options.instructions) messages.push({ role: 'system', content: options.instructions });
-    messages.push({ role: 'user', content: options.prompt });
-
-    const resp = await fetch(`${apiUrls.openai}/chat/completions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${picked.key}` },
-      body: JSON.stringify({ ...body, model: 'gpt-4.1-mini', messages }),
-    });
-    if (!resp.ok) throw new Error(`OpenAI raw API error: ${resp.status}`);
-    const json = await resp.json();
-    return json.choices?.[0]?.message?.content || '';
-  }
-
-  if (picked.provider === 'google') {
-    const contents: { role: string; parts: { text: string }[] }[] = [];
-    if (options.instructions) contents.push({ role: 'user', parts: [{ text: options.instructions }] });
-    contents.push({ role: 'user', parts: [{ text: options.prompt }] });
-
-    const resp = await fetch(`${apiUrls.google}/models/gemini-3.5-flash:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': picked.key },
-      body: JSON.stringify({ contents }),
-    });
-    if (!resp.ok) throw new Error(`Google raw API error: ${resp.status}`);
-    const json = await resp.json();
-    return json.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  }
-
-  throw new Error('No supported provider for raw API call');
-}
-
-/* ── Exported functions (SDK + raw fallback) ── */
 
 export async function callLLMText(options: LLMOptions): Promise<string> {
-  try {
-    const model = getPreferredLanguageModel();
-    const result = await generateText({
-      model,
-      instructions: options.instructions,
-      prompt: options.prompt,
-      temperature: options.temperature ?? 0.7,
-      ...(hasAnthropicKey() && { providerOptions: { anthropic: { cacheControl: { type: 'ephemeral' } } } }),
-    });
-    return result.text;
-  } catch (sdkErr) {
-    console.warn('[llm] AI SDK failed, falling back to raw API:', sdkErr);
-    return callLLMTextRaw(options);
-  }
+  const model = getPreferredLanguageModel();
+  const result = await generateText({
+    model,
+    instructions: options.instructions,
+    prompt: options.prompt,
+    temperature: options.temperature ?? 0.7,
+  });
+  return result.text;
 }
 
 export async function callLLMStructured<T>(options: LLMOptions & { schema: Record<string, unknown> }): Promise<T> {
-  try {
-    const model = getPreferredLanguageModel();
-    const result = await generateText({
-      model,
-      instructions: options.instructions,
-      prompt: options.prompt,
-      temperature: options.temperature ?? 0.3,
-      output: Output.object({ schema: options.schema as Parameters<typeof Output.object>[0]['schema'] }),
-      ...(hasAnthropicKey() && { providerOptions: { anthropic: { cacheControl: { type: 'ephemeral' } } } }),
-    });
-    return result.output as T;
-  } catch (sdkErr) {
-    console.warn('[llm] AI SDK failed, falling back to raw API for structured:', sdkErr);
-    const text = await callLLMTextRaw({ instructions: options.instructions, prompt: `Return valid JSON:\n${options.prompt}`, temperature: options.temperature ?? 0.3 });
-    return JSON.parse(text) as T;
-  }
+  const model = getPreferredLanguageModel();
+  const result = await generateText({
+    model,
+    instructions: options.instructions,
+    prompt: options.prompt,
+    temperature: options.temperature ?? 0.3,
+    output: Output.object({ schema: options.schema as Parameters<typeof Output.object>[0]['schema'] }),
+  });
+  return result.output as T;
 }
 
 export async function streamLLMText(options: LLMOptions) {
@@ -217,12 +80,5 @@ export async function streamLLMText(options: LLMOptions) {
     instructions: options.instructions,
     prompt: options.prompt,
     temperature: options.temperature ?? 0.7,
-    ...(hasAnthropicKey() && { providerOptions: { anthropic: { cacheControl: { type: 'ephemeral' } } } }),
   });
-}
-
-function hasAnthropicKey(): boolean {
-  const config = useRuntimeConfig();
-  const key = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
-  return isValidKey(key);
 }
