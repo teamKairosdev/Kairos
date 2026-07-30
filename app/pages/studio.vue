@@ -1,68 +1,110 @@
 <template>
-  <div class="max-w-5xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-      <div>
-        <h1 class="text-2xl font-bold">AI 포토스튜디오</h1>
-        <p class="text-sm text-fg-neutral-muted">DALL·E 3 이미지 생성 및 편집</p>
-      </div>
+  <div class="space-y-8">
+    <!-- Header -->
+    <div>
+      <p class="text-xs font-semibold tracking-widest text-purple-500 uppercase mb-1">AI Photo Studio</p>
+      <h1 class="text-2xl font-bold text-gray-900 tracking-tight">AI 포토스튜디오</h1>
+      <p class="text-sm text-gray-500 mt-1">DALL·E 3로 커리어 프로필 이미지와 포트폴리오 비주얼을 생성하세요.</p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Generation Panel -->
+      <!-- Left: Generation Panel -->
       <div class="lg:col-span-1 space-y-4">
-        <UCard>
-          <template #header><h2 class="font-semibold">이미지 생성</h2></template>
-          <form @submit.prevent="generateImage" class="space-y-3">
-            <UFormGroup label="프롬프트">
-              <UTextarea v-model="prompt" placeholder="생성할 이미지를 설명해주세요..." :rows="4" />
-            </UFormGroup>
-            <UFormGroup label="크기">
-              <USelect v-model="size" :options="sizes" />
-            </UFormGroup>
-            <UButton type="submit" color="purple" block :loading="generating">
-              생성하기
-            </UButton>
-          </form>
-        </UCard>
+        <!-- Generate -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-gray-700">이미지 생성</h2>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1.5">프롬프트</label>
+            <textarea
+              v-model="prompt"
+              rows="4"
+              placeholder="예: 전문적인 프로필 사진, 화이트 배경, 정장 착용, 자연스러운 미소"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all resize-none leading-relaxed"
+            ></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 mb-1.5">크기</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button
+                v-for="s in sizes"
+                :key="s.value"
+                @click="size = s.value"
+                class="py-2 rounded-xl text-xs font-medium border transition-all"
+                :class="size === s.value ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300'"
+              >{{ s.label }}</button>
+            </div>
+          </div>
+          <button
+            @click="generateImage"
+            :disabled="!prompt.trim() || generating"
+            class="w-full py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            <svg v-if="generating" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+            <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            {{ generating ? '생성 중...' : '이미지 생성' }}
+          </button>
+        </div>
 
-        <UCard>
-          <template #header><h2 class="font-semibold">이미지 업로드</h2></template>
-          <form @submit.prevent="uploadImage" class="space-y-3">
-            <UInput type="file" accept="image/*" @change="onFileChange" />
-            <UButton type="submit" color="neutral" variant="outline" block :loading="uploading">
-              업로드
-            </UButton>
-          </form>
-        </UCard>
+        <!-- Upload -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 space-y-4">
+          <h2 class="text-sm font-semibold text-gray-700">이미지 업로드</h2>
+          <label
+            class="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 cursor-pointer hover:border-purple-300 hover:bg-purple-50/30 transition-all"
+            :class="selectedFile ? 'border-purple-400 bg-purple-50/50' : ''"
+          >
+            <input type="file" accept="image/*" @change="onFileChange" class="hidden" />
+            <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+            <p class="text-xs text-gray-500">{{ selectedFile ? selectedFile.name : '클릭하여 파일 선택' }}</p>
+          </label>
+          <button
+            @click="uploadImage"
+            :disabled="!selectedFile || uploading"
+            class="w-full py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {{ uploading ? '업로드 중...' : '업로드' }}
+          </button>
+        </div>
       </div>
 
-      <!-- Gallery -->
+      <!-- Right: Gallery -->
       <div class="lg:col-span-2">
-        <div v-if="loading" class="text-center py-20 text-fg-neutral-muted">
-          <UIcon name="i-lucide-loader-2" class="w-8 h-8 mx-auto mb-3 animate-spin" />
-          <p>이미지를 불러오는 중...</p>
+        <div v-if="loading" class="bg-white rounded-2xl border border-gray-100 shadow-xs p-16 flex flex-col items-center justify-center gap-3">
+          <svg class="w-8 h-8 text-purple-300 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+          <p class="text-sm text-gray-400">이미지를 불러오는 중...</p>
         </div>
 
-        <div v-else-if="images.length === 0" class="text-center py-20 text-fg-neutral-muted border border-dashed border-white/10 rounded-xl">
-          <UIcon name="i-lucide-image" class="w-16 h-16 mx-auto mb-4 opacity-40" />
-          <p>생성하거나 업로드한 이미지가 없습니다.</p>
+        <div v-else-if="images.length === 0" class="bg-white rounded-2xl border border-dashed border-gray-200 p-16 flex flex-col items-center justify-center gap-3 text-center">
+          <div class="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center">
+            <svg class="w-8 h-8 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-600">갤러리가 비어 있습니다</h3>
+          <p class="text-xs text-gray-400">왼쪽 패널에서 이미지를 생성하거나 업로드하세요</p>
         </div>
 
-        <div v-else class="grid grid-cols-2 gap-4">
-          <div v-for="img in images" :key="img.id" class="group relative rounded-xl overflow-hidden border border-white/10 bg-white/5">
-            <img :src="img.imageUrl" :alt="img.prompt || img.originalFileName" class="w-full aspect-square object-cover" />
-            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
-              <p v-if="img.prompt" class="text-xs text-white/80 line-clamp-2">{{ img.prompt }}</p>
-              <p v-else class="text-xs text-white/60">{{ img.originalFileName }}</p>
-              <div class="flex gap-2 mt-2">
-                <UButton size="xs" color="white" variant="ghost" icon="i-lucide-download" @click="downloadImage(img)" />
-                <UButton size="xs" color="red" variant="ghost" icon="i-lucide-trash-2" @click="deleteImage(img.id)" />
+        <div v-else class="grid grid-cols-2 gap-3">
+          <div
+            v-for="img in images"
+            :key="img.id"
+            class="group relative rounded-2xl overflow-hidden border border-gray-100 bg-gray-50 aspect-square"
+          >
+            <img :src="img.imageUrl" :alt="img.prompt || img.originalFileName" class="w-full h-full object-cover" />
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all">
+              <div class="absolute bottom-0 left-0 right-0 p-3 space-y-2">
+                <p v-if="img.prompt" class="text-xs text-white/90 line-clamp-2 leading-relaxed">{{ img.prompt }}</p>
+                <p v-else class="text-xs text-white/60">{{ img.originalFileName }}</p>
+                <div class="flex gap-2">
+                  <button @click="downloadImage(img)" class="flex-1 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xs font-medium rounded-lg transition-colors">다운로드</button>
+                  <button @click="deleteImage(img.id)" class="flex-1 py-1.5 bg-red-500/70 hover:bg-red-600/80 text-white text-xs font-medium rounded-lg transition-colors">삭제</button>
+                </div>
               </div>
             </div>
+            <!-- Badge -->
             <div class="absolute top-2 left-2">
-              <UBadge size="xs" :color="img.type === 'generated' ? 'purple' : 'neutral'" variant="soft">
-                {{ img.type === 'generated' ? 'AI' : 'UP' }}
-              </UBadge>
+              <span
+                class="text-xs font-bold px-2 py-0.5 rounded-full"
+                :class="img.type === 'generated' ? 'bg-purple-600 text-white' : 'bg-gray-800/70 text-white'"
+              >{{ img.type === 'generated' ? 'AI' : 'UP' }}</span>
             </div>
           </div>
         </div>
@@ -74,30 +116,30 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'auth' })
 
+const toast = useToast()
 const prompt = ref('')
 const size = ref('1024x1024')
 const sizes = [
-  { label: '1024 x 1024 (정사각형)', value: '1024x1024' },
-  { label: '1792 x 1024 (가로)', value: '1792x1024' },
-  { label: '1024 x 1792 (세로)', value: '1024x1792' },
+  { label: '1:1', value: '1024x1024' },
+  { label: '16:9', value: '1792x1024' },
+  { label: '9:16', value: '1024x1792' },
 ]
 const generating = ref(false)
 const uploading = ref(false)
 const loading = ref(true)
-
 const selectedFile = ref<File | null>(null)
+const images = ref<any[]>([])
+
 function onFileChange(e: Event) {
   const input = e.target as HTMLInputElement
   selectedFile.value = input.files?.[0] || null
 }
 
-const images = ref<any[]>([])
-
 async function loadImages() {
   try {
     const res = await $fetch('/api/studio/images')
     images.value = (res as any).images || []
-  } catch {} finally {
+  } catch { /* no-op */ } finally {
     loading.value = false
   }
 }
@@ -106,15 +148,12 @@ async function generateImage() {
   if (!prompt.value) return
   generating.value = true
   try {
-    const res: any = await $fetch('/api/studio/generate', {
-      method: 'POST',
-      body: { prompt: prompt.value, size: size.value },
-    })
+    const res: any = await $fetch('/api/studio/generate', { method: 'POST', body: { prompt: prompt.value, size: size.value } })
     images.value.unshift(res.image)
     prompt.value = ''
-    useToast().add({ title: '이미지가 생성되었습니다.', icon: 'i-lucide-check' })
+    toast.add({ title: '이미지가 생성되었습니다.', color: 'green' })
   } catch (err: any) {
-    useToast().add({ title: '생성 실패', description: err.data?.statusMessage || err.message, color: 'red' })
+    toast.add({ title: '생성 실패', description: err.data?.statusMessage || err.message, color: 'red' })
   } finally {
     generating.value = false
   }
@@ -129,9 +168,9 @@ async function uploadImage() {
     const res: any = await $fetch('/api/studio/upload', { method: 'POST', body: form })
     images.value.unshift(res.image)
     selectedFile.value = null
-    useToast().add({ title: '이미지가 업로드되었습니다.', icon: 'i-lucide-check' })
+    toast.add({ title: '이미지가 업로드되었습니다.', color: 'green' })
   } catch (err: any) {
-    useToast().add({ title: '업로드 실패', description: err.data?.statusMessage || err.message, color: 'red' })
+    toast.add({ title: '업로드 실패', description: err.data?.statusMessage || err.message, color: 'red' })
   } finally {
     uploading.value = false
   }
@@ -141,9 +180,9 @@ async function deleteImage(id: string) {
   try {
     await $fetch(`/api/studio/images/${id}`, { method: 'DELETE' })
     images.value = images.value.filter(i => i.id !== id)
-    useToast().add({ title: '삭제되었습니다.', icon: 'i-lucide-check' })
+    toast.add({ title: '삭제되었습니다.', color: 'green' })
   } catch {
-    useToast().add({ title: '삭제 실패', color: 'red' })
+    toast.add({ title: '삭제 실패', color: 'red' })
   }
 }
 
