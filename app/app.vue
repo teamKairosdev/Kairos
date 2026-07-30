@@ -3,7 +3,7 @@
     <div class="min-h-screen bg-bg-neutral-default text-fg-neutral flex flex-col">
       <Navbar />
       <div class="flex-1 flex w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 gap-8" style="max-width: 1280px;">
-        <Sidebar class="hidden md:block w-56 shrink-0" />
+        <Sidebar v-if="showSidebar" class="hidden md:block w-56 shrink-0" />
         <main class="flex-1 min-w-0">
           <NuxtPage />
         </main>
@@ -11,10 +11,20 @@
       <footer class="border-t border-stroke-neutral-muted py-6 text-center text-xs text-fg-neutral-muted mt-auto">
         <p>&copy; 2026 Kairos</p>
       </footer>
-      <CareerAssistantPanel />
+      <CareerAssistantPanel v-if="showSidebar" />
     </div>
   </UApp>
 </template>
+
+<script setup lang="ts">
+const { state, fetchUser } = useAuth()
+const route = useRoute()
+const showSidebar = computed(() => state.authenticated && route.path !== '/auth/login' && route.path !== '/auth/register')
+
+onMounted(() => {
+  fetchUser()
+})
+</script>
 
 <script setup lang="ts">
 import Navbar from '~/components/Navbar.vue'

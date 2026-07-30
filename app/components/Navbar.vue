@@ -8,31 +8,57 @@
         <span class="font-semibold text-base text-fg-neutral">Kairos</span>
       </NuxtLink>
 
-      <div class="flex items-center gap-x4">
-        <NuxtLink
-          to="/interview"
-          class="hidden sm:flex items-center gap-x1 px-x3 py-x1 rounded-r1 bg-neutral-muted hover:bg-neutral-muted text-fg-neutral-muted text-sm transition-all"
-        >
+      <nav v-if="!state.authenticated" class="hidden md:flex items-center gap-x6 text-sm text-fg-neutral-muted">
+        <a href="#features" class="hover:text-fg-neutral transition-colors">기능</a>
+        <NuxtLink to="/auth/login" class="hover:text-fg-neutral transition-colors">로그인</NuxtLink>
+        <NuxtLink to="/auth/register" class="px-x3 py-x1 rounded-r1 bg-fg-neutral-default text-bg-neutral-default text-sm font-medium hover:opacity-90 transition-opacity">
+          시작하기
+        </NuxtLink>
+      </nav>
+
+      <nav v-else class="hidden md:flex items-center gap-x6 text-sm text-fg-neutral-muted">
+        <NuxtLink to="/interview" class="flex items-center gap-x1 px-x3 py-x1 rounded-r1 bg-neutral-muted hover:bg-neutral-muted transition-all">
           AI 모의 면접
         </NuxtLink>
+      </nav>
 
-        <div v-if="user" class="flex items-center gap-x3 border-l border-stroke-neutral-muted pl-x3">
-          <img :src="user.avatarUrl" :alt="user.name" class="w-7 h-7 rounded-full" />
-          <span class="hidden md:inline text-sm text-fg-neutral-muted">{{ user.name }}</span>
+      <div v-if="state.authenticated && state.user" class="flex items-center gap-x3 border-l border-stroke-neutral-muted pl-x3 relative">
+        <button class="flex items-center gap-x2 cursor-pointer hover:opacity-80 transition-opacity" @click="menuOpen = !menuOpen">
+          <img :src="state.user.avatarUrl || '/default-avatar.png'" :alt="state.user.name" class="w-7 h-7 rounded-full" />
+          <span class="hidden md:inline text-sm text-fg-neutral-muted">{{ state.user.name }}</span>
+          <UIcon name="i-lucide-chevron-down" class="w-4 h-4 text-fg-neutral-muted" />
+        </button>
+        <div v-if="menuOpen" class="absolute top-full right-0 mt-x1 w-48 rounded-lg border border-stroke-neutral-muted bg-bg-neutral-default shadow-lg py-x1 z-50">
+          <NuxtLink to="/settings" class="block px-x3 py-x2 text-sm text-fg-neutral-muted hover:bg-neutral-muted hover:text-fg-neutral transition-colors" @click="menuOpen = false">
+            설정
+          </NuxtLink>
+          <NuxtLink to="/premium" class="block px-x3 py-x2 text-sm text-fg-neutral-muted hover:bg-neutral-muted hover:text-fg-neutral transition-colors" @click="menuOpen = false">
+            프리미엄
+          </NuxtLink>
+          <hr class="my-x1 border-stroke-neutral-muted" />
+          <button class="block w-full text-left px-x3 py-x2 text-sm text-fg-danger hover:bg-neutral-muted transition-colors" @click="handleLogout">
+            로그아웃
+          </button>
         </div>
-        <NuxtLink
-          v-else
-          to="/auth/login"
-          class="text-sm text-fg-neutral-muted hover:text-fg-neutral transition-colors"
-        >
-          로그인
-        </NuxtLink>
       </div>
+
+      <NuxtLink v-else-if="!state.authenticated && !state.loading" to="/auth/login" class="md:hidden text-sm text-fg-neutral-muted hover:text-fg-neutral transition-colors">
+        로그인
+      </NuxtLink>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-const { data } = await useFetch<{ authenticated: boolean; user?: { id: string; email: string; name: string; avatarUrl: string } }>('/api/auth/me')
-const user = computed(() => data.value?.user)
+const { state, fetchUser, logout } = useAuth()
+const menuOpen = ref(false)
+
+onMounted(() => {
+  fetchUser()
+})
+
+function handleLogout() {
+  menuOpen.value = false
+  logout()
+}
 </script>
