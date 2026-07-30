@@ -15,6 +15,7 @@ vi.mock('@upstash/redis', () => ({
 let getCachedResponse: any
 let setCachedResponse: any
 let invalidateCache: any
+let resetRedis: any
 
 beforeEach(async () => {
   vi.clearAllMocks()
@@ -25,6 +26,8 @@ beforeEach(async () => {
   getCachedResponse = mod.getCachedResponse
   setCachedResponse = mod.setCachedResponse
   invalidateCache = mod.invalidateCache
+  resetRedis = mod.resetRedis
+  resetRedis()
 })
 
 describe('getCachedResponse', () => {

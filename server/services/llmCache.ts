@@ -2,6 +2,10 @@ import { Redis } from '@upstash/redis';
 
 let redis: Redis | null = null;
 
+export function resetRedis(): void {
+  redis = null;
+}
+
 function getRedis(): Redis | null {
   if (redis) return redis;
   const url = process.env.UPSTASH_REDIS_REST_URL;

@@ -24,7 +24,7 @@ export function getVapidConfig() {
 export function ensureVapidConfigured() {
   const config = getVapidConfig()
   if (!config) {
-    throw createError({ statusCode: 500, statusMessage: 'VAPID keys not configured' })
+    throw new Error('VAPID keys not configured')
   }
   webPush.setVapidDetails(config.subject, config.publicKey, config.privateKey)
 }
@@ -74,8 +74,9 @@ export async function sendPushToUser(userId: string, payload: PushPayload) {
         JSON.stringify(payload),
       )
       results.push({ success: true, endpoint: sub.endpoint })
-    } catch (err: any) {
-      if (err.statusCode === 410 || err.statusCode === 404) {
+    } catch (err: unknown) {
+      const statusCode = err && typeof err === 'object' && 'statusCode' in err ? (err as { statusCode: number }).statusCode : undefined;
+      if (statusCode === 410 || statusCode === 404) {
         const db = getDb()
         if (db) {
           await db.delete(pushSubscriptions).where(eq(pushSubscriptions.id, sub.id))
@@ -102,8 +103,9 @@ export async function broadcastPush(payload: PushPayload) {
         JSON.stringify(payload),
       )
       results.push({ success: true, endpoint: sub.endpoint })
-    } catch (err: any) {
-      if (err.statusCode === 410 || err.statusCode === 404) {
+    } catch (err: unknown) {
+      const statusCode = err && typeof err === 'object' && 'statusCode' in err ? (err as { statusCode: number }).statusCode : undefined;
+      if (statusCode === 410 || statusCode === 404) {
         await db.delete(pushSubscriptions).where(eq(pushSubscriptions.id, sub.id))
       }
       results.push({ success: false, endpoint: sub.endpoint })

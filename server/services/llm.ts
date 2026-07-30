@@ -47,6 +47,10 @@ function pickProvider(): { provider: 'anthropic' | 'openai' | 'google'; key: str
 /* ── AI SDK path ── */
 
 export function getPreferredLanguageModel(): LanguageModel {
+  if (isDemoMode()) {
+    throw new Error('Demo mode: no valid API key configured');
+  }
+
   const config = useRuntimeConfig();
 
   const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
@@ -67,8 +71,7 @@ export function getPreferredLanguageModel(): LanguageModel {
     return google('gemini-3.5-flash');
   }
 
-  if (!openaiKey) return createOpenAI({ apiKey: 'sk-demo-missing-key' })('gpt-4.1-mini');
-  return openai('gpt-4.1-mini');
+  throw new Error('No valid API key configured for any provider');
 }
 
 export function getModelForComplexity(complexity: 'low' | 'medium' | 'high'): LanguageModel {
