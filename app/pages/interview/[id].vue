@@ -1,8 +1,29 @@
 <template>
-  <div class="flex h-[calc(100vh-64px)] gap-0 overflow-hidden rounded-2xl border border-gray-100 shadow-sm bg-white">
+  <!-- Mobile tab switcher -->
+  <div class="lg:hidden flex border-b border-gray-100 bg-white mb-0">
+    <button
+      @click="mobileTab = 'chat'"
+      class="flex-1 py-3 text-sm font-semibold transition-colors"
+      :class="mobileTab === 'chat' ? 'text-indigo-600 border-b-2 border-indigo-500' : 'text-gray-400'"
+    >💬 면접 진행</button>
+    <button
+      @click="mobileTab = 'info'"
+      class="flex-1 py-3 text-sm font-semibold transition-colors"
+      :class="mobileTab === 'info' ? 'text-indigo-600 border-b-2 border-indigo-500' : 'text-gray-400'"
+    >📋 세션 정보</button>
+  </div>
+
+  <div class="flex flex-col lg:flex-row lg:h-[calc(100vh-80px)] gap-0 overflow-hidden rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-sm bg-white">
 
     <!-- Left Panel: Interview Info & Guide -->
-    <div class="w-72 xl:w-80 shrink-0 border-r border-gray-100 bg-gray-50/60 flex flex-col">
+    <div
+      class="shrink-0 border-r border-gray-100 bg-gray-50/60 flex flex-col"
+      :class="[
+        'lg:w-72 xl:w-80',
+        mobileTab === 'info' ? 'flex' : 'hidden lg:flex',
+        'w-full lg:w-72'
+      ]"
+    >
       <!-- Session Header -->
       <div class="p-5 border-b border-gray-100">
         <NuxtLink to="/interview" class="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors mb-3">
@@ -63,7 +84,7 @@
     </div>
 
     <!-- Right Panel: Chat -->
-    <div class="flex-1 flex flex-col min-w-0 bg-white">
+    <div class="flex-1 flex flex-col min-w-0 bg-white" :class="mobileTab === 'info' ? 'hidden lg:flex' : 'flex'">
       <!-- Chat Header -->
       <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">AI</div>
@@ -145,6 +166,7 @@ const interviewId = route.params.id as string
 
 const chatContainer = ref<HTMLDivElement | null>(null)
 const inputRef = ref<HTMLTextAreaElement | null>(null)
+const mobileTab = ref<'chat' | 'info'>('chat')
 
 // Fetch session info
 const { data: sessionInfo } = await useFetch<any>(`/api/interviews/${interviewId}`)

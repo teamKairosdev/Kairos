@@ -1,20 +1,30 @@
 <template>
-  <aside class="space-y-x1">
-    <div class="px-x3 py-x2 text-xs font-medium text-fg-neutral-muted tracking-wide">
-      Menu
+  <!-- Desktop sidebar -->
+  <aside class="hidden lg:flex flex-col h-full">
+    <div class="px-3 pt-2 pb-1">
+      <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3">메뉴</p>
     </div>
-    <nav class="space-y-x0">
+    <nav class="flex-1 space-y-0.5 px-2">
       <NuxtLink
         v-for="item in navItems"
         :key="item.path"
         :to="item.path"
-        class="flex items-center gap-x3 px-x3 py-x2 rounded-r1 text-sm transition-all"
-        :class="route.path === item.path ? 'bg-neutral-muted text-fg-neutral font-medium' : 'text-fg-neutral-muted hover:text-fg-neutral hover:bg-neutral-muted'"
+        class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all group"
+        :class="isActive(item.path)
+          ? 'bg-indigo-50 text-indigo-700 font-semibold'
+          : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
       >
-        <UIcon :name="item.icon" class="w-5 h-5 text-fg-neutral-muted" />
+        <span class="text-base leading-none">{{ item.emoji }}</span>
         <span>{{ item.label }}</span>
+        <span v-if="isActive(item.path)" class="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
       </NuxtLink>
     </nav>
+    <div class="p-3 border-t border-gray-100 mt-2">
+      <NuxtLink to="/settings" class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-all">
+        <span class="text-base">⚙️</span>
+        <span>설정</span>
+      </NuxtLink>
+    </div>
   </aside>
 </template>
 
@@ -22,15 +32,19 @@
 const route = useRoute()
 
 const navItems = [
-  { label: '대시보드', path: '/', icon: 'i-lucide-layout-dashboard' },
-  { label: '이력서', path: '/resume', icon: 'i-lucide-file-text' },
-  { label: '모의 면접', path: '/interview', icon: 'i-lucide-mic' },
-  { label: 'ATS 분석', path: '/ats', icon: 'i-lucide-crosshair' },
-  { label: '휴머나이저', path: '/humanizer', icon: 'i-lucide-sparkles' },
-  { label: 'Q&A 생성', path: '/qa', icon: 'i-lucide-lightbulb' },
-  { label: '문서', path: '/docs', icon: 'i-lucide-file' },
-  { label: '포토스튜디오', path: '/studio', icon: 'i-lucide-palette' },
-  { label: '경력 검색', path: '/career', icon: 'i-lucide-search' },
-  { label: '설정', path: '/settings', icon: 'i-lucide-settings' },
+  { label: '대시보드', path: '/', emoji: '🏠' },
+  { label: '이력서', path: '/resume', emoji: '📄' },
+  { label: '모의 면접', path: '/interview', emoji: '🎤' },
+  { label: 'ATS 분석', path: '/ats', emoji: '🎯' },
+  { label: '휴머나이저', path: '/humanizer', emoji: '✨' },
+  { label: 'Q&A 생성', path: '/qa', emoji: '💡' },
+  { label: '경력 관리', path: '/career', emoji: '🗂️' },
+  { label: '포토스튜디오', path: '/studio', emoji: '🎨' },
+  { label: '문서', path: '/docs', emoji: '📋' },
 ]
+
+function isActive(path: string) {
+  if (path === '/') return route.path === '/'
+  return route.path.startsWith(path)
+}
 </script>

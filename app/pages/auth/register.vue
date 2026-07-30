@@ -1,32 +1,46 @@
 <template>
-  <div class="max-w-sm mx-auto py-16">
-    <div class="border border-stroke-neutral-muted rounded-xl p-8 bg-neutral-muted space-y-x4">
-      <div class="text-center space-y-1.5">
-        <h1 class="text-xl font-semibold text-fg-neutral">회원가입</h1>
-        <p class="text-xs text-fg-neutral-muted">AI 기반 커리어 플랫폼에 가입하세요</p>
-      </div>
+  <div class="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-sm">
+      <!-- Card -->
+      <div class="bg-white border border-gray-100 rounded-3xl p-8 shadow-xl shadow-gray-100/60 space-y-6 relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-32 h-32 bg-indigo-100/20 blur-[30px] rounded-full pointer-events-none"></div>
 
-      <form @submit.prevent="handleRegister" class="space-y-4">
-        <UFormGroup label="성함">
-          <UInput v-model="name" type="text" required placeholder="홍길동" />
-        </UFormGroup>
+        <div class="text-center space-y-1.5 relative">
+          <div class="w-10 h-10 bg-gray-900 rounded-2xl flex items-center justify-center font-black text-white text-lg mx-auto mb-3">K</div>
+          <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight">회원가입</h1>
+          <p class="text-xs text-gray-400 font-medium">AI 커리어 플랫폼, 무료로 시작하세요</p>
+        </div>
 
-        <UFormGroup label="이메일">
-          <UInput v-model="email" type="email" required placeholder="user@example.com" />
-        </UFormGroup>
+        <form @submit.prevent="handleRegister" class="space-y-4 relative">
+          <div>
+            <label class="block text-xs font-bold text-gray-500 mb-1.5">성함</label>
+            <input v-model="name" type="text" required placeholder="홍길동" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-500 mb-1.5">이메일</label>
+            <input v-model="email" type="email" required placeholder="user@example.com" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-500 mb-1.5">비밀번호</label>
+            <input v-model="password" type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+          </div>
 
-        <UFormGroup label="비밀번호">
-          <UInput v-model="password" type="password" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
-        </UFormGroup>
+          <div v-if="errorMsg" class="px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium">{{ errorMsg }}</div>
 
-        <UAlert v-if="errorMsg" color="red" variant="soft" :description="errorMsg" />
+          <button
+            type="submit"
+            :disabled="loading"
+            class="w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+          >
+            <svg v-if="loading" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+            {{ loading ? '가입 중...' : '무료 회원가입' }}
+          </button>
+        </form>
 
-        <UButton type="submit" :loading="loading" color="black" variant="solid" size="lg" block label="가입하기" />
-      </form>
-
-      <div class="text-center text-xs text-fg-neutral-muted pt-1">
-        이미 계정이 있으신가요?
-        <NuxtLink to="/auth/login" class="text-fg-neutral hover:underline">로그인</NuxtLink>
+        <p class="text-center text-xs text-gray-400 relative">
+          이미 계정이 있으신가요?
+          <NuxtLink to="/auth/login" class="text-indigo-600 font-semibold hover:underline ml-1">로그인</NuxtLink>
+        </p>
       </div>
     </div>
   </div>
