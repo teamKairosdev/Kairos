@@ -69,12 +69,14 @@
     "viem": "^2.55.10",
     "vue": "^3.5.13",
     "vue-router": "^5.0.0",
-    "zod": "^3.25.0"
+    "zod": "^3.25.0",
+    "diff": "^5.2.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.10.2",
     "@types/qrcode": "^1.5.5",
+    "@types/diff": "^5.0.8",
 
     "@vue/test-utils": "^2.4.11",
     "concurrently": "^10.0.4",
