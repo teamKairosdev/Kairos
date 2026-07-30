@@ -33,12 +33,12 @@
 
         <form @submit.prevent="handleLogin" class="relative space-y-4">
           <div>
-            <label class="block text-xs font-bold text-gray-500 mb-1.5">{{ $t('auth.emailLabel') }}</label>
+            <label class="block text-xs font-bold text-gray-500 mb-1.5">아이디 (또는 이메일)</label>
             <input
               v-model="email"
-              type="email"
+              type="text"
               required
-              :placeholder="$t('auth.emailPlaceholder')"
+              placeholder="아이디 또는 이메일을 입력하세요"
               class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
             />
           </div>
