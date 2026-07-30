@@ -18,8 +18,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio",
-    "payload": "payload"
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.0",
@@ -53,9 +52,6 @@
     "mammoth": "^1.12.0",
     "nuxt": "^4.5.1",
     "otplib": "^12.0.1",
-    "payload": "^3.43.0",
-    "@payloadcms/db-postgres": "^3.43.0",
-    "@payloadcms/richtext-lexical": "^3.43.0",
     "pdfjs-dist": "^6.1.200",
     "qrcode": "^1.5.4",
     "react": "^19.2.8",
