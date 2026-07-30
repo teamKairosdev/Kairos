@@ -6,42 +6,45 @@
     class="min-h-screen relative overflow-hidden bg-slate-50 text-slate-900 pb-32"
     @mousemove="handleMouseMove"
   >
-    <!-- Interactive Background Gradient Grid -->
+    <!-- Background grid decoration with brand sky backdrop -->
     <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
-    <!-- Silicon Valley Interactive Orbs -->
+    <!-- Sky Blue Hero Decorative Background Image -->
+    <div class="absolute top-0 left-0 right-0 h-[650px] opacity-[0.06] bg-cover bg-center pointer-events-none" style="background-image: url('/bg_sky.svg');"></div>
+
+    <!-- Silicon Valley Interactive Orbs (Blue Theme) -->
     <div
       class="absolute inset-0 pointer-events-none transition-transform duration-500 ease-out"
       :style="{ transform: `translate(${mouseX * 20}px, ${mouseY * 20}px)` }"
     >
-      <div class="absolute top-[-10%] left-[15%] w-[600px] h-[600px] bg-gradient-to-tr from-indigo-300/30 via-sky-300/20 to-purple-200/30 rounded-full blur-[130px] animate-pulse" style="animation-duration: 9s;"></div>
-      <div class="absolute top-[40%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-pink-200/20 via-amber-200/20 to-rose-200/10 rounded-full blur-[140px] animate-pulse" style="animation-duration: 14s;"></div>
+      <div class="absolute top-[-10%] left-[15%] w-[600px] h-[600px] bg-gradient-to-tr from-blue-400/30 via-sky-300/20 to-indigo-200/30 rounded-full blur-[130px] animate-pulse" style="animation-duration: 9s;"></div>
+      <div class="absolute top-[30%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-sky-200/20 via-blue-200/20 to-indigo-100/10 rounded-full blur-[140px] animate-pulse" style="animation-duration: 14s;"></div>
     </div>
 
     <!-- Glassmorphic Header Navbar inside landing (Floating) -->
     <div class="max-w-6xl mx-auto pt-6 px-6 relative z-20">
       <div class="flex items-center justify-between px-6 py-3 rounded-full border border-slate-200/50 bg-white/70 backdrop-blur-md shadow-xs">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-sm">K</div>
-          <span class="font-bold text-slate-900 tracking-tight">Kairos AI</span>
+        <div class="flex items-center gap-3">
+          <img src="/logo.svg" alt="Kairos Logo" class="h-5 w-auto object-contain" />
+          <span class="font-bold text-slate-900 tracking-tight text-sm">Kairos</span>
         </div>
         <div class="flex items-center gap-4">
           <NuxtLink to="/auth/login" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">로그인</NuxtLink>
-          <NuxtLink to="/auth/register" class="px-4 py-2 rounded-full bg-slate-900 hover:bg-indigo-600 text-white text-xs font-bold transition-all">시작하기</NuxtLink>
+          <NuxtLink to="/auth/register" class="px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm">시작하기</NuxtLink>
         </div>
       </div>
     </div>
 
     <!-- Hero Content -->
     <section class="relative pt-20 pb-16 px-6 max-w-5xl mx-auto text-center space-y-8 z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-indigo-100 bg-indigo-50/50 text-[11px] font-bold text-indigo-600 shadow-xs">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-blue-100 bg-blue-50/50 text-[11px] font-bold text-blue-600 shadow-xs">
         ⚡ pgvector 기반 의미 분석 실시간 매칭 엔진 탑재
       </div>
 
       <div class="space-y-6">
         <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9] text-slate-900">
           커리어 성장의 전 과정을<br />
-          <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent">AI 에이전트로 지배하라</span>
+          <span class="bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 bg-clip-text text-transparent">AI 에이전트로 지배하라</span>
         </h1>
         <p class="text-base sm:text-xl text-slate-500 max-w-3xl mx-auto font-medium leading-relaxed">
           이력서 문맥 평가부터 실시간 입체 모의 면접, 채용 공고(JD) 매칭까지.<br class="hidden sm:block" />
@@ -50,7 +53,7 @@
       </div>
 
       <div class="flex flex-wrap gap-4 justify-center pt-2">
-        <NuxtLink to="/auth/register" class="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-indigo-600 text-sm font-bold transition-all shadow-md hover:shadow-indigo-100 hover:-translate-y-0.5">
+        <NuxtLink to="/auth/register" class="px-8 py-3.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 text-sm font-bold transition-all shadow-md hover:shadow-blue-100 hover:-translate-y-0.5">
           실시간 무료 진단 받기
         </NuxtLink>
         <button @click="fillMockCredentials" class="px-8 py-3.5 rounded-full border border-slate-200 bg-white/80 hover:bg-slate-50 text-slate-600 text-sm font-bold transition-all hover:-translate-y-0.5">
@@ -104,9 +107,9 @@
         </div>
 
         <!-- Bento 2: Interactive ATS Match Matcher (col-span-5) -->
-        <div class="lg:col-span-5 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-pink-200 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
+        <div class="lg:col-span-5 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-sky-200 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
           <div class="space-y-2">
-            <span class="text-[10px] font-bold text-pink-500 uppercase tracking-widest">Job Fit Matcher</span>
+            <span class="text-[10px] font-bold text-sky-600 uppercase tracking-widest">Job Fit Matcher</span>
             <h3 class="text-2xl font-bold text-slate-800">채용 요구 조건(JD) 즉시 비교</h3>
             <p class="text-xs text-slate-400 font-medium">원하는 타겟 포지션의 우대 사항과 내 스택을 매칭해 빈틈을 바로 메꿔줍니다.</p>
           </div>
@@ -125,7 +128,7 @@
                   class="text-xs px-2.5 py-1 rounded-lg border transition-all cursor-pointer font-semibold"
                   :class="[
                     chip.matched ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-600 border-red-100',
-                    activeJd === chip.name ? 'scale-105 shadow-xs ring-2 ring-indigo-400' : ''
+                    activeJd === chip.name ? 'scale-105 shadow-xs ring-2 ring-blue-400' : ''
                   ]"
                 >
                   {{ chip.name }} {{ chip.matched ? '✓' : '✕' }}
@@ -138,9 +141,9 @@
         </div>
 
         <!-- Bento 3: Interactive Interview Chat Simulator (col-span-6) -->
-        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-purple-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
+        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
           <div class="space-y-2">
-            <span class="text-[10px] font-bold text-purple-500 uppercase tracking-widest">Interview Simulator</span>
+            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Interview Simulator</span>
             <h3 class="text-2xl font-bold text-slate-800">실시간 스트리밍 대화형 면접관</h3>
             <p class="text-xs text-slate-400 font-medium">선택하는 답변 방향에 맞춰 AI가 논리적 꼬리 질문을 동적으로 던집니다.</p>
           </div>
@@ -148,14 +151,14 @@
           <!-- Interview Chat Box -->
           <div class="mt-6 rounded-2xl border border-slate-100 p-4 bg-slate-950 text-slate-350 space-y-4">
             <div class="flex items-center gap-2 pb-2 border-b border-white/5">
-              <span class="w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-ping"></span>
               <span class="text-[10px] font-mono text-gray-400">Interview Session ID: MOCK-09</span>
             </div>
 
             <!-- Chat message -->
             <div class="space-y-3">
               <div class="bg-white/5 border border-white/10 rounded-xl p-3 text-xs leading-relaxed text-gray-200">
-                <span class="text-purple-400 font-bold">AI 면접관:</span> {{ activeInterviewQuestion }}
+                <span class="text-blue-400 font-bold">AI 면접관:</span> {{ activeInterviewQuestion }}
               </div>
             </div>
 
@@ -165,7 +168,7 @@
                 v-for="(ans, idx) in interviewAnswers"
                 :key="idx"
                 @click="selectInterviewAnswer(ans)"
-                class="py-2 px-3 text-[10px] sm:text-xs text-left bg-white/10 border border-white/15 rounded-lg text-white hover:bg-purple-600 hover:border-transparent transition-all font-semibold"
+                class="py-2 px-3 text-[10px] sm:text-xs text-left bg-white/10 border border-white/15 rounded-lg text-white hover:bg-blue-600 hover:border-transparent transition-all font-semibold"
               >
                 {{ ans.label }}
               </button>
@@ -174,9 +177,9 @@
         </div>
 
         <!-- Bento 4: Interactive Semantic Search (col-span-6) -->
-        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-amber-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
+        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
           <div class="space-y-2">
-            <span class="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Semantic Vector Search</span>
+            <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Semantic Vector Search</span>
             <h3 class="text-2xl font-bold text-slate-800">pgvector 기반 이력 매칭 검색</h3>
             <p class="text-xs text-slate-400 font-medium">단순 텍스트 매칭을 넘어 작성하신 경력의 유사도를 벡터 매핑하여 최적의 부합점을 검색합니다.</p>
           </div>
@@ -188,9 +191,9 @@
                 v-model="vectorSearchQuery"
                 type="text"
                 placeholder="예: 프론트엔드 성능 최적화 경험"
-                class="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-400"
+                class="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400"
               />
-              <button @click="triggerVectorSearch" class="px-4 py-2 bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white rounded-xl text-xs font-bold transition-all">검색</button>
+              <button @click="triggerVectorSearch" class="px-4 py-2 bg-slate-900 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-all">검색</button>
             </div>
 
             <!-- Results -->
@@ -200,7 +203,7 @@
                   <p class="text-xs font-bold text-slate-800">{{ res.company }}</p>
                   <p class="text-[10px] text-slate-400">{{ res.role }}</p>
                 </div>
-                <span class="text-xs font-bold font-mono text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">{{ res.similarity }}% 유사도</span>
+                <span class="text-xs font-bold font-mono text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">{{ res.similarity }}% 유사도</span>
               </div>
             </div>
           </div>

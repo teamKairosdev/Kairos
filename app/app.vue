@@ -175,6 +175,12 @@ useHead({
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* Custom selection color (Blue) */
+::selection {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
 </style>
 
 <style scoped>
