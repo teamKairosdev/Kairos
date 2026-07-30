@@ -4,6 +4,7 @@ const redisMock = vi.hoisted(() => ({
   get: vi.fn(),
   set: vi.fn(),
   keys: vi.fn(),
+  scan: vi.fn(),
   del: vi.fn(),
 }))
 
@@ -65,16 +66,16 @@ describe('setCachedResponse', () => {
 describe('invalidateCache', () => {
   it('safely does nothing when Redis not configured', async () => {
     await invalidateCache('test')
-    expect(redisMock.keys).not.toHaveBeenCalled()
+    expect(redisMock.scan).not.toHaveBeenCalled()
   })
 
   it('scans and deletes matching keys', async () => {
     process.env.UPSTASH_REDIS_REST_URL = 'http://localhost'
     process.env.UPSTASH_REDIS_REST_TOKEN = 'token'
-    redisMock.keys.mockResolvedValue(['llm:cache:abc', 'llm:cache:def'])
+    redisMock.scan.mockResolvedValue(['0', ['llm:cache:abc', 'llm:cache:def']])
 
     await invalidateCache('test')
-    expect(redisMock.keys).toHaveBeenCalledWith('llm:cache:*test*')
+    expect(redisMock.scan).toHaveBeenCalledWith('0', { match: 'llm:cache:*test*', count: 100 })
     expect(redisMock.del).toHaveBeenCalledWith('llm:cache:abc', 'llm:cache:def')
   })
 })

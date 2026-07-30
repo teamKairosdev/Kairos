@@ -67,7 +67,7 @@ export function getPreferredLanguageModel(): LanguageModel {
     return google('gemini-3.5-flash');
   }
 
-  const openai = createOpenAI({ apiKey: openaiKey || 'fallback-key' });
+  if (!openaiKey) return createOpenAI({ apiKey: 'sk-demo-missing-key' })('gpt-4.1-mini');
   return openai('gpt-4.1-mini');
 }
 
@@ -97,6 +97,15 @@ export function getModelForComplexity(complexity: 'low' | 'medium' | 'high'): La
 
 /* ── Raw API path (fallback when AI SDK fails) ── */
 
+function getApiUrls() {
+  const config = useRuntimeConfig();
+  return {
+    anthropic: (config as Record<string, string>).anthropicApiUrl || 'https://api.anthropic.com/v1',
+    openai: (config as Record<string, string>).openaiApiUrl || 'https://api.openai.com/v1',
+    google: (config as Record<string, string>).googleApiUrl || 'https://generativelanguage.googleapis.com/v1beta',
+  };
+}
+
 async function callLLMTextRaw(options: LLMOptions): Promise<string> {
   const picked = pickProvider();
   if (!picked) throw new Error('No valid API key configured');
@@ -106,12 +115,14 @@ async function callLLMTextRaw(options: LLMOptions): Promise<string> {
     max_tokens: 4096,
   };
 
+  const apiUrls = getApiUrls();
+
   if (picked.provider === 'anthropic') {
     const messages: { role: string; content: string }[] = [];
     if (options.instructions) messages.push({ role: 'user', content: options.instructions });
     messages.push({ role: 'user', content: options.prompt });
 
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch(`${apiUrls.anthropic}/messages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -130,7 +141,7 @@ async function callLLMTextRaw(options: LLMOptions): Promise<string> {
     if (options.instructions) messages.push({ role: 'system', content: options.instructions });
     messages.push({ role: 'user', content: options.prompt });
 
-    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+    const resp = await fetch(`${apiUrls.openai}/chat/completions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${picked.key}` },
       body: JSON.stringify({ ...body, model: 'gpt-4.1-mini', messages }),
@@ -145,7 +156,7 @@ async function callLLMTextRaw(options: LLMOptions): Promise<string> {
     if (options.instructions) contents.push({ role: 'user', parts: [{ text: options.instructions }] });
     contents.push({ role: 'user', parts: [{ text: options.prompt }] });
 
-    const resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent', {
+    const resp = await fetch(`${apiUrls.google}/models/gemini-3.5-flash:generateContent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': picked.key },
       body: JSON.stringify({ contents }),

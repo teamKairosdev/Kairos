@@ -152,3 +152,22 @@ export interface ChatMessage {
   content: string;
   timestamp: number;
 }
+
+export interface CommunityPost {
+  id: string;
+  userId: string;
+  title: string;
+  content: string;
+  category: 'interview_pass' | 'career_tip' | 'qna';
+  likesCount: number;
+  createdAt: string;
+  user?: { name: string; avatarUrl?: string | null };
+}
+
+export interface PushSubscriptionData {
+  endpoint: string;
+  keys: {
+    p256dh: string;
+    auth: string;
+  };
+}

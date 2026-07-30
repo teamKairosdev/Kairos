@@ -31,7 +31,8 @@ export default defineEventHandler(async (event) => {
     return { status: 'demo', message: 'Demo mode — subscription activated', plan: plan || 'pro' }
   }
 
-  const response = await fetch(`https://api.tosspayments.com/v1/payments/confirm`, {
+  const tossApiUrl = (useRuntimeConfig() as Record<string, string>).tossApiUrl || 'https://api.tosspayments.com/v1'
+  const response = await fetch(`${tossApiUrl}/payments/confirm`, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${Buffer.from(secretKey + ':').toString('base64')}`,

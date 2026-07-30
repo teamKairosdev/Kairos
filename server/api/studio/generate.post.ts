@@ -2,7 +2,6 @@ import { resolve, join } from 'path'
 import { getDb } from 'db'
 import { studioImages } from 'db/schema'
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 const STUDIO_DIR = resolve('uploads/studio')
 
 async function ensureStudioDir() {
@@ -20,7 +19,11 @@ async function downloadImage(url: string, filename: string): Promise<string> {
 }
 
 export default defineEventHandler(async (event) => {
-  if (!OPENAI_API_KEY) {
+  const config = useRuntimeConfig()
+  const openaiApiKey = config.openaiApiKey || process.env.OPENAI_API_KEY
+  const openaiApiUrl = (config as Record<string, string>).openaiApiUrl || 'https://api.openai.com/v1'
+
+  if (!openaiApiKey) {
     throw createError({ statusCode: 503, statusMessage: 'OPENAI_API_KEY가 설정되지 않았습니다.' })
   }
 
@@ -36,11 +39,11 @@ export default defineEventHandler(async (event) => {
   await ensureStudioDir()
 
   // Call DALL-E 3 API
-  const resp = await fetch('https://api.openai.com/v1/images/generations', {
+  const resp = await fetch(`${openaiApiUrl}/images/generations`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      'Authorization': `Bearer ${openaiApiKey}`,
     },
     body: JSON.stringify({
       model: 'dall-e-3',

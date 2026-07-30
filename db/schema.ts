@@ -208,7 +208,17 @@ export const communityPostsRelations = relations(communityPosts, ({ one }) => ({
   user: one(users, { fields: [communityPosts.userId], references: [users.id] }),
 }));
 
-// 12. Chat Sessions (Persistent Shareable URLs)
+// 12. Push Notification Subscriptions
+export const pushSubscriptions = pgTable('push_subscriptions', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  endpoint: text('endpoint').notNull(),
+  p256dh: text('p256dh').notNull(),
+  auth: text('auth').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// 13. Chat Sessions (Persistent Shareable URLs)
 export const chatSessions = pgTable('chat_sessions', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
@@ -224,7 +234,11 @@ export const chatSessionsRelations = relations(chatSessions, ({ one }) => ({
   user: one(users, { fields: [chatSessions.userId], references: [users.id] }),
 }));
 
-// 13. Studio Images (AI Photo Studio)
+export const pushSubscriptionsRelations = relations(pushSubscriptions, ({ one }) => ({
+  user: one(users, { fields: [pushSubscriptions.userId], references: [users.id] }),
+}));
+
+// 14. Studio Images (AI Photo Studio)
 export const studioImages = pgTable('studio_images', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
@@ -241,7 +255,7 @@ export const studioImagesRelations = relations(studioImages, ({ one }) => ({
   user: one(users, { fields: [studioImages.userId], references: [users.id] }),
 }));
 
-// 14. Subscriptions (Auto Margin Billing)
+// 15. Subscriptions (Auto Margin Billing)
 export const subscriptions = pgTable('subscriptions', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull().unique(),
@@ -255,7 +269,7 @@ export const subscriptions = pgTable('subscriptions', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-// 15. Usage Records
+// 16. Usage Records
 export const usageRecords = pgTable('usage_records', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
@@ -265,7 +279,7 @@ export const usageRecords = pgTable('usage_records', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
-// 16. Billing Invoices
+// 17. Billing Invoices
 export const billingInvoices = pgTable('billing_invoices', {
   id: uuid('id').defaultRandom().primaryKey(),
   userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),

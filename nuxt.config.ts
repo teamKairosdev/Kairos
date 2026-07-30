@@ -90,11 +90,23 @@ export default defineNuxtConfig({
     upstashRedisUrl: process.env.UPSTASH_REDIS_REST_URL,
     upstashRedisToken: process.env.UPSTASH_REDIS_REST_TOKEN,
     tossSecretKey: process.env.TOSS_SECRET_KEY || '',
+    vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '',
+    vapidPrivateKey: process.env.VAPID_PRIVATE_KEY || '',
+    vapidSubject: process.env.VAPID_SUBJECT || 'mailto:admin@kairos.app',
+    googleClientId: process.env.GOOGLE_CLIENT_ID || '',
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    kakaoClientId: process.env.KAKAO_CLIENT_ID || '',
+    kakaoClientSecret: process.env.KAKAO_CLIENT_SECRET || '',
+    openaiApiUrl: 'https://api.openai.com/v1',
+    anthropicApiUrl: 'https://api.anthropic.com/v1',
+    googleApiUrl: 'https://generativelanguage.googleapis.com/v1beta',
+    tossApiUrl: 'https://api.tosspayments.com/v1',
 
     public: {
       appName: 'Kairos',
       appSubtitle: 'AI Job-Application Prep Platform',
       tossClientKey: process.env.TOSS_CLIENT_KEY || '',
+      vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '',
     }
   },
 
@@ -117,6 +129,7 @@ export default defineNuxtConfig({
       'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
       'server/services/hwpParser': resolve(rootDir, 'server/services/hwpParser'),
       'server/services/billing': resolve(rootDir, 'server/services/billing'),
+      'server/services/push': resolve(rootDir, 'server/services/push'),
     },
     publicAssets: [
       {
@@ -125,6 +138,9 @@ export default defineNuxtConfig({
         maxAge: 60 * 60 * 24, // 1 day
       },
     ],
+    plugins: [
+      resolve(rootDir, 'server/plugins/errorHandler.ts'),
+    ],
     experimental: {
       asyncContext: true,
     },
@@ -132,6 +148,9 @@ export default defineNuxtConfig({
 
   pwa: {
     registerType: 'autoUpdate',
+    strategies: 'injectManifest',
+    srcDir: resolve(rootDir, 'public'),
+    filename: 'sw.ts',
     manifest: {
       name: 'Kairos - AI Job Prep',
       short_name: 'Kairos',
@@ -145,28 +164,8 @@ export default defineNuxtConfig({
         { src: '/pwa-icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
       ],
     },
-    workbox: {
-      navigateFallback: '/',
-      globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-      runtimeCaching: [
-        {
-          urlPattern: ({ request }) => request.destination === 'image',
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'images',
-            expiration: { maxEntries: 200, maxAgeSeconds: 86400 * 30 },
-          },
-        },
-        {
-          urlPattern: /^https:\/\/api\./,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api',
-            networkTimeoutSeconds: 5,
-            expiration: { maxEntries: 50, maxAgeSeconds: 3600 },
-          },
-        },
-      ],
+    injectManifest: {
+      rollupFormat: 'iife',
     },
     client: {
       installPrompt: true,

@@ -26,6 +26,20 @@
       </div>
 
       <div class="space-y-2">
+        <UButton color="red" variant="outline" size="lg" block @click="signInGoogle" :loading="socialLoading">
+          Google로 계속하기
+        </UButton>
+        <UButton color="yellow" variant="outline" size="lg" block @click="signInKakao" :loading="socialLoading">
+          카카오로 계속하기
+        </UButton>
+      </div>
+
+      <div class="relative my-4">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-stroke-neutral-muted" /></div>
+        <div class="relative flex justify-center text-xs text-fg-neutral-muted"><span class="bg-neutral-muted px-2">{{ $t('common.or') }}</span></div>
+      </div>
+
+      <div class="space-y-2">
         <UButton color="purple" variant="outline" size="lg" block @click="connectKaikas" :loading="walletLoading">
           {{ $t('auth.wallet.kaikas') }}
         </UButton>
@@ -47,6 +61,7 @@ const email = ref('')
 const password = ref('')
 const loading = ref(false)
 const walletLoading = ref(false)
+const socialLoading = ref(false)
 const errorMsg = ref('')
 const router = useRouter()
 
@@ -59,11 +74,21 @@ async function handleLogin() {
       body: { email: email.value, password: password.value },
     })
     router.push('/')
-  } catch (err: any) {
-    errorMsg.value = err.data?.statusMessage || $t('auth.loginError')
+  } catch (err) {
+    errorMsg.value = (err as { data?: { statusMessage?: string } })?.data?.statusMessage || $t('auth.loginError')
   } finally {
     loading.value = false
   }
+}
+
+function signInGoogle() {
+  socialLoading.value = true
+  window.location.href = '/api/auth/sign-in/social?provider=google&callbackURL=/'
+}
+
+function signInKakao() {
+  socialLoading.value = true
+  window.location.href = '/api/auth/sign-in/social?provider=kakao&callbackURL=/'
 }
 
 async function connectWallet(getProvider: () => any, networkName: string) {
@@ -89,8 +114,9 @@ async function connectWallet(getProvider: () => any, networkName: string) {
     })
 
     router.push('/')
-  } catch (err: any) {
-    errorMsg.value = err.data?.statusMessage || err.message || $t('auth.wallet.error')
+  } catch (err) {
+    const e = err as { data?: { statusMessage?: string }; message?: string }
+    errorMsg.value = e.data?.statusMessage || e.message || $t('auth.wallet.error')
   } finally {
     walletLoading.value = false
   }
