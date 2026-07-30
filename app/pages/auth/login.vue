@@ -10,6 +10,25 @@
           <div class="w-10 h-10 bg-gray-900 rounded-2xl flex items-center justify-center font-black text-white text-lg mx-auto mb-3">K</div>
           <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight">{{ $t('auth.loginTitle') }}</h1>
           <p class="text-xs text-gray-400 font-medium">{{ $t('auth.loginSubtitle') }}</p>
+
+          <!-- Mock Mode Quick Access -->
+          <div class="mt-4 p-3 bg-amber-50 rounded-2xl border border-amber-100/50 text-left space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-800">
+              <span>💡</span>
+              <span>테스트 모드 (Mock 체험)</span>
+            </div>
+            <p class="text-[10px] text-amber-600 font-medium leading-relaxed">
+              아이디: <code class="bg-white/80 px-1 py-0.5 rounded font-mono">testmockup</code> / 비번: <code class="bg-white/80 px-1 py-0.5 rounded font-mono">12345</code><br/>
+              50개 직무 데이터셋 중 하나를 임의로 지정해 오프라인 테스트를 진행합니다.
+            </p>
+            <button
+              type="button"
+              @click="fillMockCredentials"
+              class="w-full py-1.5 text-center bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs"
+            >
+              간편 로그인으로 바로 시작하기
+            </button>
+          </div>
         </div>
 
         <form @submit.prevent="handleLogin" class="relative space-y-4">
@@ -98,19 +117,30 @@ const loading = ref(false)
 const walletLoading = ref(false)
 const socialLoading = ref(false)
 const errorMsg = ref('')
+const { login } = useAuth()
 const router = useRouter()
 
 async function handleLogin() {
   loading.value = true
   errorMsg.value = ''
   try {
-    await $fetch('/api/auth/login', { method: 'POST', body: { email: email.value, password: password.value } })
-    router.push('/')
+    const success = await login(email.value, password.value)
+    if (success) {
+      router.push('/')
+    } else {
+      errorMsg.value = '로그인 정보가 올바르지 않습니다.'
+    }
   } catch (err) {
-    errorMsg.value = (err as { data?: { statusMessage?: string } })?.data?.statusMessage || $t('auth.loginError')
+    errorMsg.value = '오류가 발생했습니다.'
   } finally {
     loading.value = false
   }
+}
+
+async function fillMockCredentials() {
+  email.value = 'testmockup'
+  password.value = '12345'
+  await handleLogin()
 }
 
 function signInGoogle() {
