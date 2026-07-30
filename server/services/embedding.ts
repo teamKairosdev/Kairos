@@ -1,17 +1,17 @@
-import { createOpenAI } from '@ai-sdk/openai';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { embed } from 'ai';
 
 export async function generateEmbedding(text: string): Promise<number[]> {
   const config = useRuntimeConfig();
-  const openaiKey = process.env.OPENAI_API_KEY || config.openaiApiKey;
+  const googleKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || config.googleApiKey;
 
-  if (!openaiKey || openaiKey.trim() === '' || openaiKey.includes('your-openai')) {
-    throw new Error('OPENAI_API_KEY is required for embedding generation');
+  if (!googleKey || googleKey.trim() === '' || googleKey.includes('AIzaSy-your')) {
+    throw new Error('GOOGLE_GENERATIVE_AI_API_KEY is required for embedding generation');
   }
 
-  const openai = createOpenAI({ apiKey: openaiKey });
+  const google = createGoogleGenerativeAI({ apiKey: googleKey });
   const { embedding } = await embed({
-    model: openai.embedding('text-embedding-3-small'),
+    model: google.embedding('text-embedding-004'),
     value: text,
   });
   return embedding;

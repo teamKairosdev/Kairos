@@ -5,12 +5,6 @@ const mockModel = { modelId: 'gemini-mock' }
 vi.mock('@ai-sdk/google', () => ({
   createGoogleGenerativeAI: vi.fn(() => vi.fn(() => mockModel)),
 }))
-vi.mock('@ai-sdk/anthropic', () => ({
-  createAnthropic: vi.fn(() => vi.fn(() => mockModel)),
-}))
-vi.mock('@ai-sdk/openai', () => ({
-  createOpenAI: vi.fn(() => vi.fn(() => mockModel)),
-}))
 vi.mock('ai', () => ({
   generateText: vi.fn(),
   streamText: vi.fn(),
@@ -24,26 +18,26 @@ beforeEach(() => {
 
 describe('getPreferredLanguageModel', () => {
   it('returns Google model when Google API key is set', async () => {
-    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', anthropicApiKey: '', openaiApiKey: '', vercelAiGatewayUrl: '' }))
+    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', vercelAiGatewayUrl: '' }))
     const { getPreferredLanguageModel } = await import('../../server/services/llm')
     const model = getPreferredLanguageModel()
     expect(model).toEqual(mockModel)
   })
 
   it('throws when no API key is configured', async () => {
-    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: '', anthropicApiKey: '', openaiApiKey: '', vercelAiGatewayUrl: '' }))
+    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: '', vercelAiGatewayUrl: '' }))
     const { getPreferredLanguageModel } = await import('../../server/services/llm')
     expect(() => getPreferredLanguageModel()).toThrow('No valid API key configured')
   })
 
   it('rejects placeholder keys', async () => {
-    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-your-google-key', anthropicApiKey: '', openaiApiKey: '', vercelAiGatewayUrl: '' }))
+    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-your-google-key', vercelAiGatewayUrl: '' }))
     const { getPreferredLanguageModel } = await import('../../server/services/llm')
     expect(() => getPreferredLanguageModel()).toThrow('No valid API key configured')
   })
 
   it('passes gateway baseURL when VERCEL_AI_GATEWAY_URL is set', async () => {
-    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', anthropicApiKey: '', openaiApiKey: '', vercelAiGatewayUrl: 'https://gateway.example.com' }))
+    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', vercelAiGatewayUrl: 'https://gateway.example.com' }))
     const googleModule = await import('@ai-sdk/google')
     const { getPreferredLanguageModel } = await import('../../server/services/llm')
     getPreferredLanguageModel()
@@ -56,7 +50,7 @@ describe('getPreferredLanguageModel', () => {
 
 describe('callLLMText', () => {
   it('calls generateText with instructions and prompt', async () => {
-    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', anthropicApiKey: '', openaiApiKey: '', vercelAiGatewayUrl: '' }))
+    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', vercelAiGatewayUrl: '' }))
     const ai = await import('ai')
     vi.mocked(ai.generateText).mockResolvedValue({ text: 'response text' } as never)
     const { callLLMText } = await import('../../server/services/llm')
@@ -67,7 +61,7 @@ describe('callLLMText', () => {
 
 describe('callLLMStructured', () => {
   it('calls generateText with Output.object schema', async () => {
-    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', anthropicApiKey: '', openaiApiKey: '', vercelAiGatewayUrl: '' }))
+    vi.stubGlobal('useRuntimeConfig', () => ({ googleApiKey: 'AIzaSy-real-key', vercelAiGatewayUrl: '' }))
     const ai = await import('ai')
     vi.mocked(ai.Output.object).mockReturnValue('schema-config' as never)
     vi.mocked(ai.generateText).mockResolvedValue({ output: { score: 85 } } as never)

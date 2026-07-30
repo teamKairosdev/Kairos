@@ -1,7 +1,6 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { google } from 'better-auth/social-providers';
-import { kakao } from 'better-auth/social-providers';
 import { getDb } from '../db';
 
 export function createAuth() {
@@ -19,10 +18,6 @@ export function createAuth() {
       google: google({
         clientId: process.env.GOOGLE_CLIENT_ID || '',
         clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      }),
-      kakao: kakao({
-        clientId: process.env.KAKAO_CLIENT_ID || '',
-        clientSecret: process.env.KAKAO_CLIENT_SECRET || '',
       }),
     },
     session: {

@@ -35,9 +35,6 @@
           <NuxtLink to="/settings" class="block px-x3 py-x2 text-sm text-fg-neutral-muted hover:bg-neutral-muted hover:text-fg-neutral transition-colors" @click="menuOpen = false">
             설정
           </NuxtLink>
-          <NuxtLink to="/premium" class="block px-x3 py-x2 text-sm text-fg-neutral-muted hover:bg-neutral-muted hover:text-fg-neutral transition-colors" @click="menuOpen = false">
-            프리미엄
-          </NuxtLink>
           <hr class="my-x1 border-stroke-neutral-muted" />
           <button class="block w-full text-left px-x3 py-x2 text-sm text-fg-danger hover:bg-neutral-muted transition-colors" @click="handleLogout">
             로그아웃

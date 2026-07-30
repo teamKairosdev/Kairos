@@ -26,29 +26,3 @@ registerRoute(
   })
 )
 
-self.addEventListener('push', (event) => {
-  const data = event.data?.json() ?? {}
-  const title = data.title || 'Kairos'
-  const options: NotificationOptions = {
-    body: data.body || '',
-    icon: '/pwa-icon-192.png',
-    badge: '/pwa-icon-192.png',
-    data: data.data || {},
-  }
-  event.waitUntil(self.registration.showNotification(title, options))
-})
-
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close()
-  const targetUrl = event.notification.data?.url || '/'
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
-      for (const client of windowClients) {
-        if (client.url === targetUrl && 'focus' in client) {
-          return client.focus()
-        }
-      }
-      return clients.openWindow(targetUrl)
-    })
-  )
-})

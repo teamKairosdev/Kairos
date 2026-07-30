@@ -255,54 +255,5 @@ export const studioImagesRelations = relations(studioImages, ({ one }) => ({
   user: one(users, { fields: [studioImages.userId], references: [users.id] }),
 }));
 
-// 15. Subscriptions (Auto Margin Billing)
-export const subscriptions = pgTable('subscriptions', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull().unique(),
-  plan: varchar('plan', { length: 20 }).notNull().default('free'), // 'free' | 'pro' | 'enterprise'
-  status: varchar('status', { length: 20 }).notNull().default('active'), // 'active' | 'canceled' | 'past_due'
-  tossPaymentKey: varchar('toss_payment_key', { length: 255 }),
-  tossOrderId: varchar('toss_order_id', { length: 255 }),
-  periodStart: timestamp('period_start').defaultNow().notNull(),
-  periodEnd: timestamp('period_end'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
-
-// 16. Usage Records
-export const usageRecords = pgTable('usage_records', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
-  feature: varchar('feature', { length: 50 }).notNull(), // 'chat' | 'ats' | 'studio' | 'hwp'
-  count: integer('count').notNull().default(1),
-  period: varchar('period', { length: 7 }).notNull(), // 'YYYY-MM'
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-});
-
-// 17. Billing Invoices
-export const billingInvoices = pgTable('billing_invoices', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
-  amount: integer('amount').notNull(), // in KRW
-  status: varchar('status', { length: 20 }).notNull().default('pending'), // 'pending' | 'paid' | 'failed' | 'refunded'
-  tossPaymentKey: varchar('toss_payment_key', { length: 255 }),
-  tossOrderId: varchar('toss_order_id', { length: 255 }),
-  description: text('description'),
-  period: varchar('period', { length: 7 }).notNull(),
-  paidAt: timestamp('paid_at'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-});
-
-export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
-  user: one(users, { fields: [subscriptions.userId], references: [users.id] }),
-}));
-
-export const usageRecordsRelations = relations(usageRecords, ({ one }) => ({
-  user: one(users, { fields: [usageRecords.userId], references: [users.id] }),
-}));
-
-export const billingInvoicesRelations = relations(billingInvoices, ({ one }) => ({
-  user: one(users, { fields: [billingInvoices.userId], references: [users.id] }),
-}));
 
 

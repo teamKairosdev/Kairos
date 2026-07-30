@@ -31,7 +31,6 @@ const navItems = [
   { label: '문서', path: '/docs', icon: 'i-lucide-file' },
   { label: '포토스튜디오', path: '/studio', icon: 'i-lucide-palette' },
   { label: '경력 검색', path: '/career', icon: 'i-lucide-search' },
-  { label: '프리미엄', path: '/premium', icon: 'i-lucide-crown' },
   { label: '설정', path: '/settings', icon: 'i-lucide-settings' },
 ]
 </script>

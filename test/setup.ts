@@ -8,9 +8,8 @@ vi.mock('mammoth', () => ({
 }))
 
 vi.stubGlobal('useRuntimeConfig', () => ({
-  openaiApiKey: '',
-  anthropicApiKey: '',
+  databaseUrl: '',
   googleApiKey: '',
-  upstashRedisRestUrl: '',
-  upstashRedisRestToken: '',
+  googleClientId: '',
+  googleClientSecret: '',
 }))

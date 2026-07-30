@@ -87,29 +87,13 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     databaseUrl: process.env.DATABASE_URL,
-    openaiApiKey: process.env.OPENAI_API_KEY,
-    anthropicApiKey: process.env.ANTHROPIC_API_KEY,
     googleApiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY,
-    upstashRedisUrl: process.env.UPSTASH_REDIS_REST_URL,
-    upstashRedisToken: process.env.UPSTASH_REDIS_REST_TOKEN,
-    tossSecretKey: process.env.TOSS_SECRET_KEY || '',
-    vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '',
-    vapidPrivateKey: process.env.VAPID_PRIVATE_KEY || '',
-    vapidSubject: process.env.VAPID_SUBJECT || 'mailto:admin@kairos.app',
     googleClientId: process.env.GOOGLE_CLIENT_ID || '',
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    kakaoClientId: process.env.KAKAO_CLIENT_ID || '',
-    kakaoClientSecret: process.env.KAKAO_CLIENT_SECRET || '',
-    openaiApiUrl: process.env.OPENAI_API_URL || 'https://api.openai.com/v1',
-    anthropicApiUrl: process.env.ANTHROPIC_API_URL || 'https://api.anthropic.com/v1',
-    googleApiUrl: process.env.GOOGLE_API_URL || 'https://generativelanguage.googleapis.com/v1beta',
-    tossApiUrl: process.env.TOSS_API_URL || 'https://api.tosspayments.com/v1',
 
     public: {
       appName: 'Kairos',
       appSubtitle: 'AI Job-Application Prep Platform',
-      tossClientKey: process.env.TOSS_CLIENT_KEY || '',
-      vapidPublicKey: process.env.VAPID_PUBLIC_KEY || '',
     }
   },
 
@@ -131,8 +115,6 @@ export default defineNuxtConfig({
       'server/services/embedding': resolve(rootDir, 'server/services/embedding'),
       'server/services/llmCache': resolve(rootDir, 'server/services/llmCache'),
       'server/services/hwpParser': resolve(rootDir, 'server/services/hwpParser'),
-      'server/services/billing': resolve(rootDir, 'server/services/billing'),
-      'server/services/push': resolve(rootDir, 'server/services/push'),
     },
     publicAssets: [
       {

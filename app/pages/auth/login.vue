@@ -29,9 +29,7 @@
         <UButton color="red" variant="outline" size="lg" block @click="signInGoogle" :loading="socialLoading">
           Google로 계속하기
         </UButton>
-        <UButton color="yellow" variant="outline" size="lg" block @click="signInKakao" :loading="socialLoading">
-          카카오로 계속하기
-        </UButton>
+
       </div>
 
       <div class="relative my-4">
@@ -84,11 +82,6 @@ async function handleLogin() {
 function signInGoogle() {
   socialLoading.value = true
   window.location.href = '/api/auth/sign-in/social?provider=google&callbackURL=/'
-}
-
-function signInKakao() {
-  socialLoading.value = true
-  window.location.href = '/api/auth/sign-in/social?provider=kakao&callbackURL=/'
 }
 
 async function connectWallet(getProvider: () => any, networkName: string) {

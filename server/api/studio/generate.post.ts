@@ -1,6 +1,8 @@
 import { resolve, join } from 'path'
 import { getDb } from 'db'
 import { studioImages } from 'db/schema'
+import { generateImage } from 'ai'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
 
 const STUDIO_DIR = resolve('uploads/studio')
 
@@ -9,22 +11,12 @@ async function ensureStudioDir() {
   await mkdir(STUDIO_DIR, { recursive: true })
 }
 
-async function downloadImage(url: string, filename: string): Promise<string> {
-  const { writeFile } = await import('node:fs/promises')
-  const resp = await fetch(url)
-  const buffer = Buffer.from(await resp.arrayBuffer())
-  const path = join(STUDIO_DIR, filename)
-  await writeFile(path, buffer)
-  return `/uploads/studio/${filename}`
-}
-
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
-  const openaiApiKey = config.openaiApiKey || process.env.OPENAI_API_KEY
-  const openaiApiUrl = (config as Record<string, string>).openaiApiUrl
+  const googleApiKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY
 
-  if (!openaiApiKey) {
-    throw createError({ statusCode: 503, statusMessage: 'OPENAI_API_KEY가 설정되지 않았습니다.' })
+  if (!googleApiKey) {
+    throw createError({ statusCode: 503, statusMessage: 'GOOGLE_GENERATIVE_AI_API_KEY가 설정되지 않았습니다.' })
   }
 
   const userId = event.context.user?.userId
@@ -38,34 +30,27 @@ export default defineEventHandler(async (event) => {
 
   await ensureStudioDir()
 
-  // Call DALL-E 3 API
-  const resp = await fetch(`${openaiApiUrl}/images/generations`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${openaiApiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'dall-e-3',
-      prompt,
-      n: Math.min(n, 1), // DALL-E 3 only supports n=1
-      size,
-      response_format: 'url',
-    }),
+  const google = createGoogleGenerativeAI({ apiKey: googleApiKey })
+  const { images } = await generateImage({
+    model: google.image('imagen-3.0-generate-001'),
+    prompt,
+    n: Math.min(n, 1),
+    size,
   })
 
-  if (!resp.ok) {
-    const err = await resp.text()
-    throw createError({ statusCode: 502, statusMessage: `이미지 생성 실패: ${err}` })
+  const imageData = images[0]
+  const revisedPrompt = imageData.revisedPrompt || prompt
+  const base64Data = imageData.base64
+
+  if (!base64Data) {
+    throw createError({ statusCode: 502, statusMessage: '이미지 생성 실패: base64 데이터가 없습니다.' })
   }
 
-  const data = await resp.json()
-  const imageUrl = data.data[0].url
-  const revisedPrompt = data.data[0].revised_prompt
-
-  // Download and store locally
   const filename = `gen-${Date.now()}-${crypto.randomUUID().slice(0, 8)}.png`
-  const localUrl = await downloadImage(imageUrl, filename)
+  const { writeFile } = await import('node:fs/promises')
+  const filePath = join(STUDIO_DIR, filename)
+  await writeFile(filePath, Buffer.from(base64Data, 'base64'))
+  const localUrl = `/uploads/studio/${filename}`
 
   const db = getDb()
   if (!db) throw createError({ statusCode: 503, statusMessage: 'Database unavailable' })
@@ -73,7 +58,7 @@ export default defineEventHandler(async (event) => {
   const [record] = await db.insert(studioImages).values({
     userId,
     type: 'generated',
-    prompt: revisedPrompt || prompt,
+    prompt: revisedPrompt,
     imageUrl: localUrl,
     width: parseInt(size.split('x')[0]),
     height: parseInt(size.split('x')[1]),

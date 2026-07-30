@@ -1,35 +1,24 @@
-import { Redis } from '@upstash/redis';
-
-let redis: Redis | null = null;
-
-export function resetRedis(): void {
-  redis = null;
+interface CacheEntry {
+  data: string;
+  expires: number;
 }
 
-function getRedis(): Redis | null {
-  if (redis) return redis;
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  redis = new Redis({ url, token });
-  return redis;
-}
+const cache = new Map<string, CacheEntry>();
 
-async function sha256(message: string): Promise<string> {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
+function cacheKey(prompt: string, model: string): string {
+  return `llm:cache:${model}:${prompt}`;
 }
 
 export async function getCachedResponse(prompt: string, model: string): Promise<string | null> {
-  const r = getRedis();
-  if (!r) return null;
-
   try {
-    const hash = await sha256(prompt + model);
-    return await r.get(`llm:cache:${hash}`);
+    const key = cacheKey(prompt, model);
+    const entry = cache.get(key);
+    if (!entry) return null;
+    if (Date.now() > entry.expires) {
+      cache.delete(key);
+      return null;
+    }
+    return entry.data;
   } catch {
     return null;
   }
@@ -41,34 +30,24 @@ export async function setCachedResponse(
   response: string,
   ttl: number = 3600
 ): Promise<void> {
-  const r = getRedis();
-  if (!r) return;
-
   try {
-    const hash = await sha256(prompt + model);
-    await r.set(`llm:cache:${hash}`, response, { ex: ttl });
+    const key = cacheKey(prompt, model);
+    cache.set(key, { data: response, expires: Date.now() + ttl * 1000 });
   } catch {
     // Cache write failure is non-critical
   }
 }
 
 export async function invalidateCache(pattern: string): Promise<void> {
-  const r = getRedis();
-  if (!r) return;
-
   try {
-    const scanPattern = pattern ? `llm:cache:*${pattern}*` : `llm:cache:*`;
-    const keys: string[] = [];
-    let cursor = '0';
-    do {
-      const result = await r.scan(cursor, { match: scanPattern, count: 100 });
-      cursor = result[0];
-      keys.push(...result[1]);
-    } while (cursor !== '0');
-    if (keys.length > 0) {
-      await r.del(...keys);
+    for (const key of cache.keys()) {
+      if (key.includes(pattern)) cache.delete(key);
     }
   } catch {
     // Non-critical
   }
+}
+
+export function resetRedis(): void {
+  cache.clear();
 }

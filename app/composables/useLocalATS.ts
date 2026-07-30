@@ -9,7 +9,7 @@ export function useLocalATS() {
       /\b(REST|GraphQL|gRPC|WebSocket|HTTP\/2)\b/gi,
       /\b(Tailwind CSS|CSS3|HTML5|Webpack|Vite|ESBuild)\b/gi,
       /\b(Git|Linux|CI\/CD|Agile|Scrum|Jira)\b/gi,
-      /\b(OpenAI|Anthropic|LangChain|TensorFlow|PyTorch|Hugging Face)\b/gi,
+      /\b(LangChain|TensorFlow|PyTorch|Hugging Face)\b/gi,
     ];
 
     const keywords = new Set<string>();

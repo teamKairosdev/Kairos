@@ -219,7 +219,6 @@ const quickLinks = [
   { label: 'ATS 진단', icon: 'i-lucide-crosshair', to: '/ats' },
   { label: '문서 보관함', icon: 'i-lucide-folder', to: '/docs' },
   { label: '포토스튜디오', icon: 'i-lucide-palette', to: '/studio' },
-  { label: '프리미엄', icon: 'i-lucide-crown', to: '/premium' },
   { label: '설정', icon: 'i-lucide-settings', to: '/settings' },
 ]
 </script>

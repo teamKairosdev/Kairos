@@ -5,7 +5,7 @@ export interface ContextMessage {
 
 const DEFAULT_WINDOW = 20;
 
-function estimateTokens(text: string): number {
+export function estimateTokens(text: string): number {
   return Math.ceil(text.length / 4);
 }
 
