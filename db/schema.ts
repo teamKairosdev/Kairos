@@ -25,9 +25,10 @@ export const pgVector = customType<{ data: number[]; driverData: string }>({
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
   email: varchar('email', { length: 255 }).notNull().unique(),
-  passwordHash: varchar('password_hash', { length: 255 }).notNull(),
+  passwordHash: varchar('password_hash', { length: 255 }),
   name: varchar('name', { length: 255 }).notNull(),
   avatarUrl: text('avatar_url'),
+  googleId: varchar('google_id', { length: 255 }),
   walletAddress: varchar('wallet_address', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
