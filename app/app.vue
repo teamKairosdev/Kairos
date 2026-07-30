@@ -67,7 +67,7 @@
 
         <!-- Page content -->
         <main class="flex-1 min-w-0 px-4 sm:px-6 lg:px-0 pt-4 lg:pt-0">
-          <NuxtPage />
+          <NuxtPage :transition="{ name: 'page', mode: 'out-in' }" />
         </main>
       </div>
 
