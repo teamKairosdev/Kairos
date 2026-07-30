@@ -86,10 +86,15 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // 서버 전용 (클라이언트에 절대 노출 안 됨)
     databaseUrl: process.env.DATABASE_URL,
-    googleApiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY,
-    googleClientId: process.env.GOOGLE_CLIENT_ID || '',
-    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    googleApiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    jwtSecret: process.env.JWT_SECRET,
+    vercelAiGatewayUrl: process.env.VERCEL_AI_GATEWAY_URL,
+    vercelAiGatewayKey: process.env.VERCEL_AI_GATEWAY_KEY,
+    blobReadWriteToken: process.env.BLOB_READ_WRITE_TOKEN,
 
     public: {
       appName: 'Kairos',
