@@ -11,10 +11,22 @@
         <p class="text-fg-neutral-muted text-sm">
           {{ error.statusCode === 404 ? '요청하신 페이지가 존재하지 않거나 이동되었습니다.' : '잠시 후 다시 시도해 주세요.' }}
         </p>
-        <div class="pt-x4">
-          <NuxtLink to="/" class="px-x4 py-x2 rounded-r1 bg-fg-neutral text-bg-neutral-default text-sm font-medium hover:bg-neutral-strong transition-colors">
+        <div v-if="error.statusMessage && error.statusCode && error.statusCode !== 404" class="text-fg-danger-muted text-xs">
+          {{ error.statusMessage }}
+        </div>
+        <div class="flex gap-x3 pt-x4 justify-center">
+          <button
+            class="px-x4 py-x2 rounded-r1 bg-fg-neutral text-bg-neutral-default text-sm font-medium hover:bg-neutral-strong transition-colors"
+            @click="handleGoHome"
+          >
             홈으로 돌아가기
-          </NuxtLink>
+          </button>
+          <button
+            class="px-x4 py-x2 rounded-r1 border border-border-neutral-default text-fg-neutral text-sm font-medium hover:bg-bg-neutral-elevated transition-colors"
+            @click="handleRetry"
+          >
+            다시 시도
+          </button>
         </div>
       </div>
     </div>
@@ -23,7 +35,7 @@
 
 <script setup lang="ts">
 interface Props {
-  error: { statusCode?: number; statusMessage?: string; message?: string }
+  error: { statusCode?: number; statusMessage?: string; message?: string; url?: string }
 }
 const props = defineProps<Props>()
 
@@ -34,4 +46,14 @@ useHead({
   },
   title: `Error ${props.error.statusCode || 500} — Kairos`,
 })
+
+console.error(`[${props.error.statusCode || 500}] ${props.error.url || 'unknown'} — ${props.error.statusMessage || props.error.message || 'Unknown error'}`)
+
+function handleGoHome() {
+  clearError({ redirect: '/' })
+}
+
+function handleRetry() {
+  clearError({ redirect: props.error.url || '/' })
+}
 </script>
