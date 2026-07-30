@@ -416,19 +416,19 @@ const dashboardStats = [
 ]
 
 const activities = [
-  { label: '?대젰?쒕? ?묒꽦?대낫?몄슂', time: '異붿쿇', desc: 'AI媛 珥덉븞遺???됯?, ?ъ옉?깃퉴吏 ?꾩?以띾땲??, to: '/resume', dotClass: 'bg-fg-brand' },
-  { label: 'AI 硫댁젒???곗뒿?대낫?몄슂', time: '異붿쿇', desc: '吏곷Т蹂?留욎땄 吏덈Ц怨??ㅼ떆媛??쇰뱶諛?, to: '/interview', dotClass: 'bg-fg-brand' },
-  { label: 'ATS 留ㅼ묶 ?먯닔瑜??뺤씤?섏꽭??, time: '異붿쿇', desc: 'JD 湲곕컲 ?ㅼ썙??遺꾩꽍?쇰줈 遺議깊븳 ??웾 吏꾨떒', to: '/ats', dotClass: 'bg-fg-brand' },
-  { label: '臾몄꽌瑜??낅줈?쒗븯怨?愿由ы븯?몄슂', time: '異붿쿇', desc: 'HWP, PDF, DOCX ?뚯씪 以묒븰 愿由?, to: '/docs', dotClass: 'bg-fg-brand' },
+  { label: '이력서를 작성해보세요', time: '추천', desc: 'AI가 초안부터 평가, 첨삭까지 도와줍니다.', to: '/resume', dotClass: 'bg-blue-600' },
+  { label: 'AI 면접을 연습해보세요', time: '추천', desc: '직무별 맞춤 질문과 실시간 피드백', to: '/interview', dotClass: 'bg-blue-600' },
+  { label: 'ATS 매칭 점수를 확인하세요', time: '추천', desc: 'JD 기반 키워드 분석으로 부족한 역량 진단', to: '/ats', dotClass: 'bg-blue-600' },
+  { label: '문서를 업로드하고 관리하세요', time: '추천', desc: 'HWP, PDF, DOCX 파일 중앙 관리', to: '/docs', dotClass: 'bg-blue-600' },
 ]
 
 const quickLinks = [
-  { label: '?대젰??愿由?, icon: 'i-lucide-file-text', to: '/resume' },
-  { label: '硫댁젒 ?곗뒿', icon: 'i-lucide-mic', to: '/interview' },
-  { label: 'ATS 吏꾨떒', icon: 'i-lucide-crosshair', to: '/ats' },
-  { label: '臾몄꽌 蹂닿???, icon: 'i-lucide-folder', to: '/docs' },
-  { label: '?ы넗?ㅽ뒠?붿삤', icon: 'i-lucide-palette', to: '/studio' },
-  { label: '?ㅼ젙', icon: 'i-lucide-settings', to: '/settings' },
+  { label: '이력서 관리', icon: 'i-lucide-file-text', to: '/resume' },
+  { label: '면접 연습', icon: 'i-lucide-mic', to: '/interview' },
+  { label: 'ATS 진단', icon: 'i-lucide-crosshair', to: '/ats' },
+  { label: '문서 보관함', icon: 'i-lucide-folder', to: '/docs' },
+  { label: '포토스튜디오', icon: 'i-lucide-palette', to: '/studio' },
+  { label: '설정', icon: 'i-lucide-settings', to: '/settings' },
 ]
 </script>
 
