@@ -60,8 +60,9 @@ export async function trackUsage(userId: string, feature: string, count = 1) {
   const usage = await getUsage(userId, period)
   const currentTotal = (usage[feature] || 0) + count
 
-  if (currentTotal > (limits as any)[feature]) {
-    return { limited: true, limit: (limits as any)[feature], usage: usage[feature] || 0 }
+  const featureLimit = (limits as Record<string, number | string>)[feature]
+  if (typeof featureLimit === 'number' && currentTotal > featureLimit) {
+    return { limited: true, limit: featureLimit, usage: usage[feature] || 0 }
   }
 
   await db.insert(usageRecords).values({ userId, feature, count, period })

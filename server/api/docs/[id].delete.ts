@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   if (!id) throw createError({ statusCode: 400, statusMessage: 'Document ID required' })
 
   const meta = existsSync(META_FILE) ? JSON.parse(readFileSync(META_FILE, 'utf-8')) : []
-  const idx = meta.findIndex((m: any) => m.id === id)
+  const idx = meta.findIndex((m: { id: string }) => m.id === id)
   if (idx === -1) throw createError({ statusCode: 404, statusMessage: 'Document not found' })
 
   const entry = meta[idx]

@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   if (!auth) return;
 
   try {
-    const session = await auth.api.getSession({ headers: getRequestHeaders(event) as any });
+    const session = await auth.api.getSession({ headers: getRequestHeaders(event) as Record<string, string> });
     if (session) {
       const { getDb } = await import('db')
       const { users: usersTable } = await import('db/schema')

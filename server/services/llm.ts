@@ -101,13 +101,13 @@ async function callLLMTextRaw(options: LLMOptions): Promise<string> {
   const picked = pickProvider();
   if (!picked) throw new Error('No valid API key configured');
 
-  const body: Record<string, any> = {
+  const body: Record<string, unknown> = {
     temperature: options.temperature ?? 0.7,
     max_tokens: 4096,
   };
 
   if (picked.provider === 'anthropic') {
-    const messages: any[] = [];
+    const messages: { role: string; content: string }[] = [];
     if (options.instructions) messages.push({ role: 'user', content: options.instructions });
     messages.push({ role: 'user', content: options.prompt });
 
@@ -126,7 +126,7 @@ async function callLLMTextRaw(options: LLMOptions): Promise<string> {
   }
 
   if (picked.provider === 'openai') {
-    const messages: any[] = [];
+    const messages: { role: string; content: string }[] = [];
     if (options.instructions) messages.push({ role: 'system', content: options.instructions });
     messages.push({ role: 'user', content: options.prompt });
 
@@ -141,13 +141,13 @@ async function callLLMTextRaw(options: LLMOptions): Promise<string> {
   }
 
   if (picked.provider === 'google') {
-    const contents: any[] = [];
+    const contents: { role: string; parts: { text: string }[] }[] = [];
     if (options.instructions) contents.push({ role: 'user', parts: [{ text: options.instructions }] });
     contents.push({ role: 'user', parts: [{ text: options.prompt }] });
 
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${picked.key}`, {
+    const resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': picked.key },
       body: JSON.stringify({ contents }),
     });
     if (!resp.ok) throw new Error(`Google raw API error: ${resp.status}`);
@@ -177,7 +177,7 @@ export async function callLLMText(options: LLMOptions): Promise<string> {
   }
 }
 
-export async function callLLMStructured<T>(options: LLMOptions & { schema: any }): Promise<T> {
+export async function callLLMStructured<T>(options: LLMOptions & { schema: Record<string, unknown> }): Promise<T> {
   try {
     const model = getPreferredLanguageModel();
     const result = await generateText({

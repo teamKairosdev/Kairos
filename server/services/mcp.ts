@@ -5,7 +5,7 @@
 export interface MCPToolDefinition {
   name: string;
   description: string;
-  inputSchema: Record<string, any>;
+  inputSchema: Record<string, unknown>;
 }
 
 export interface MCPPublicPosting {

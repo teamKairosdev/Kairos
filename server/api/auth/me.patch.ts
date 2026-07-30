@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   const db = getDb();
   if (!db) throw createError({ statusCode: 503, statusMessage: 'Database unavailable' });
 
-  const updates: Record<string, any> = { updatedAt: new Date() }
+  const updates: Record<string, unknown> = { updatedAt: new Date() }
 
   if (body.name && typeof body.name === 'string') {
     updates.name = body.name

@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
       success: true,
       analysis,
     };
-  } catch (err: any) {
-    throw createError({ statusCode: 500, statusMessage: err.message || 'Company analysis failed' });
+  } catch (err) {
+    throw createError({ statusCode: 500, statusMessage: err instanceof Error ? err.message : 'Company analysis failed' });
   }
 });

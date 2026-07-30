@@ -14,7 +14,7 @@ export async function parseHwp(buffer: Uint8Array): Promise<HwpParseResult> {
   try {
     const file = HWPReader.fromBytes(buffer)
     const section = file.getBodyText().getSectionList()[0]
-    const paragraphs = section.getParagraphs().map((p: any) => p.getNormalString?.() ?? '')
+    const paragraphs = section.getParagraphs().map((p: { getNormalString?: () => string }) => p.getNormalString?.() ?? '')
     const text = paragraphs.join('\n')
 
     return {

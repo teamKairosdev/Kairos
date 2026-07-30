@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   if (!id) throw createError({ statusCode: 400, statusMessage: 'Document ID required' })
 
   const meta = existsSync(META_FILE) ? JSON.parse(readFileSync(META_FILE, 'utf-8')) : []
-  const entry = meta.find((m: any) => m.id === id)
+  const entry = meta.find((m: { id: string }) => m.id === id)
   if (!entry) throw createError({ statusCode: 404, statusMessage: 'Document not found' })
 
   const filePath = join(UPLOAD_DIR, `${id}.${entry.ext}`)
