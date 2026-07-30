@@ -27,11 +27,29 @@ const showSidebar = computed(() => state.authenticated && route.path !== '/auth/
 
 onMounted(() => {
   fetchUser()
+
+  // 다크모드 강제 척결
+  const html = document.documentElement
+  html.classList.remove('dark')
+  html.classList.add('light')
+  html.setAttribute('data-seed-color-mode', 'light-only')
+  html.setAttribute('data-seed-user-color-scheme', 'light')
+  localStorage.setItem('nuxt-color-mode', 'light')
+
+  // MutationObserver를 사용하여 다크모드 클래스가 브라우저/모듈에 의해 강제 추가되는 것 감시 및 제거
+  const observer = new MutationObserver(() => {
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark')
+      html.classList.add('light')
+    }
+  })
+  observer.observe(html, { attributes: true, attributeFilter: ['class'] })
 })
 
 useHead({
   htmlAttrs: {
-    'data-seed-color-mode': 'light',
+    'data-seed-color-mode': 'light-only',
+    'data-seed-user-color-scheme': 'light',
   },
 })
 </script>

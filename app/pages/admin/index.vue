@@ -1,56 +1,56 @@
 <template>
-  <div class="max-w-6xl mx-auto py-8 space-y-8 px-4">
+  <div class="max-w-6xl mx-auto py-10 space-y-10 px-4 pb-20">
     <!-- Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-100">
       <div>
-        <h1 class="text-2xl font-bold text-fg-neutral">Kairos 백엔드 관리자 대시보드</h1>
-        <p class="text-sm text-fg-neutral-muted">환경변수 매칭, 시스템 설정, LLM 게이트웨이, MFA 2단계 인증 통합 관리 콘솔</p>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">백엔드 관리 콘솔</h1>
+        <p class="text-sm font-medium text-slate-400 mt-2">재배포 없는 환경변수 매칭, 시스템 설정 조율, MFA OTP 보안 및 서버 작업 감사 로그 콘솔</p>
       </div>
-      <div class="flex items-center space-x-3">
-        <a href="/admin" target="_blank" class="px-4 py-2 bg-neutral-default hover:bg-neutral-muted text-fg-neutral text-sm rounded-lg border border-stroke-neutral-muted transition flex items-center gap-2">
+      <div class="shrink-0">
+        <a href="/admin" target="_blank" class="inline-flex items-center gap-2 px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all duration-200">
           <span>Payload CMS 관리자 열기</span>
-          <span class="text-xs">↗</span>
+          <UIcon name="i-lucide-external-link" class="w-4 h-4" />
         </a>
       </div>
     </div>
 
     <!-- System Overview Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="p-5 border border-stroke-neutral-muted rounded-xl bg-neutral-muted space-y-1">
-        <div class="text-xs text-fg-neutral-muted">총 유저 수</div>
-        <div class="text-2xl font-bold text-fg-neutral">{{ stats.usersCount }}</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm space-y-2">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">총 회원수</div>
+        <div class="text-3xl font-extrabold text-slate-800">{{ stats.usersCount }}</div>
       </div>
-      <div class="p-5 border border-stroke-neutral-muted rounded-xl bg-neutral-muted space-y-1">
-        <div class="text-xs text-fg-neutral-muted">등록된 이력서</div>
-        <div class="text-2xl font-bold text-fg-neutral">{{ stats.resumesCount }}</div>
+      <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm space-y-2">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">등록된 이력서</div>
+        <div class="text-3xl font-extrabold text-slate-800">{{ stats.resumesCount }}</div>
       </div>
-      <div class="p-5 border border-stroke-neutral-muted rounded-xl bg-neutral-muted space-y-1">
-        <div class="text-xs text-fg-neutral-muted">진행된 모의 면접</div>
-        <div class="text-2xl font-bold text-fg-neutral">{{ stats.interviewsCount }}</div>
+      <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm space-y-2">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">진행된 모의 면접</div>
+        <div class="text-3xl font-extrabold text-slate-800">{{ stats.interviewsCount }}</div>
       </div>
-      <div class="p-5 border border-stroke-neutral-muted rounded-xl bg-neutral-muted space-y-1">
-        <div class="text-xs text-fg-neutral-muted">ATS 분석 실행 수</div>
-        <div class="text-2xl font-bold text-fg-neutral">{{ stats.atsCount }}</div>
+      <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm space-y-2">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">ATS 분석 실행 수</div>
+        <div class="text-3xl font-extrabold text-slate-800">{{ stats.atsCount }}</div>
       </div>
     </div>
 
     <!-- Section Tabs -->
-    <div class="border-b border-stroke-neutral-muted flex space-x-6 text-sm">
+    <div class="border-b border-slate-200 flex space-x-8 text-sm">
       <button
         @click="activeTab = 'env'"
-        :class="activeTab === 'env' ? 'border-b-2 border-fg-neutral font-semibold text-fg-neutral pb-3' : 'text-fg-neutral-muted hover:text-fg-neutral pb-3'"
+        :class="activeTab === 'env' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-4' : 'text-slate-400 font-semibold hover:text-slate-600 pb-4 transition-colors'"
       >
         🔑 환경변수 & 백엔드 제어
       </button>
       <button
         @click="activeTab = 'mfa'"
-        :class="activeTab === 'mfa' ? 'border-b-2 border-fg-neutral font-semibold text-fg-neutral pb-3' : 'text-fg-neutral-muted hover:text-fg-neutral pb-3'"
+        :class="activeTab === 'mfa' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-4' : 'text-slate-400 font-semibold hover:text-slate-600 pb-4 transition-colors'"
       >
         🛡️ MFA 2단계 OTP 인증
       </button>
       <button
         @click="activeTab = 'audit'"
-        :class="activeTab === 'audit' ? 'border-b-2 border-fg-neutral font-semibold text-fg-neutral pb-3' : 'text-fg-neutral-muted hover:text-fg-neutral pb-3'"
+        :class="activeTab === 'audit' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-4' : 'text-slate-400 font-semibold hover:text-slate-600 pb-4 transition-colors'"
       >
         📋 감사 로그 (Audit Logs)
       </button>
@@ -58,29 +58,31 @@
 
     <!-- Tab 1: Environment Variables & Backend Controls -->
     <div v-if="activeTab === 'env'" class="space-y-6">
-      <div class="border border-stroke-neutral-muted rounded-xl p-6 bg-neutral-muted space-y-4">
-        <h2 class="text-lg font-semibold text-fg-neutral">환경변수 & 백엔드 동적 매칭</h2>
-        <p class="text-xs text-fg-neutral-muted">DB에 저장된 환경변수가 `process.env`보다 우선 적용되어 재배포 없이 실시간으로 제어됩니다.</p>
+      <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">동적 환경변수 매칭 관리</h2>
+          <p class="text-xs font-medium text-slate-400 mt-1">DB 설정 테이블에 저장된 환경변수 매칭 값이 우선 적용되므로 실시간으로 API 키 교체 등이 가능합니다.</p>
+        </div>
 
         <div class="space-y-4 pt-2">
-          <div v-for="env in settings.envMappings" :key="env.key" class="p-4 border border-stroke-neutral-muted rounded-lg bg-neutral-default space-y-2">
-            <div class="flex items-center justify-between">
-              <div>
-                <span class="font-mono text-sm font-bold text-fg-neutral">{{ env.key }}</span>
-                <span class="ml-2 text-xs text-fg-neutral-muted">({{ env.label }})</span>
+          <div v-for="env in settings.envMappings" :key="env.key" class="p-5 border border-slate-100 rounded-2xl bg-slate-50/50 hover:border-slate-200 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-sm font-bold text-slate-800">{{ env.key }}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-blue-50 text-blue-600">Active Map</span>
               </div>
-              <span class="text-xs px-2 py-0.5 rounded bg-neutral-muted text-fg-neutral-muted">ENV MAPPING</span>
+              <p class="text-xs font-semibold text-slate-400">{{ env.label }}</p>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 w-full md:w-auto md:min-w-[400px]">
               <input
                 v-model="configForm[env.key]"
                 type="text"
-                class="flex-1 px-3 py-1.5 text-sm font-mono border border-stroke-neutral-muted rounded-lg bg-neutral-muted text-fg-neutral focus:outline-none focus:border-fg-neutral"
-                :placeholder="env.key"
+                class="flex-1 px-4 py-2.5 text-sm font-mono border border-slate-200 rounded-xl bg-white text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20"
+                :placeholder="env.key + ' 값을 입력하세요'"
               />
               <button
                 @click="saveConfig(env.key, configForm[env.key], 'env', env.label)"
-                class="px-4 py-1.5 bg-fg-neutral text-bg-neutral text-xs font-semibold rounded-lg hover:opacity-90 transition"
+                class="px-5 py-2.5 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 hover:shadow-md transition-all duration-200 shrink-0"
               >
                 저장
               </button>
@@ -92,46 +94,48 @@
 
     <!-- Tab 2: MFA OTP Security -->
     <div v-if="activeTab === 'mfa'" class="space-y-6">
-      <div class="border border-stroke-neutral-muted rounded-xl p-6 bg-neutral-muted space-y-4 max-w-xl">
-        <h2 class="text-lg font-semibold text-fg-neutral">MFA 2단계 OTP 인증 설정</h2>
-        <p class="text-xs text-fg-neutral-muted">Google Authenticator, Authy 앱으로 QR 코드를 스캔하여 6자리 OTP 인증을 설정합니다.</p>
+      <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 max-w-xl">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">MFA OTP 2단계 설정</h2>
+          <p class="text-xs font-medium text-slate-400 mt-1">Google Authenticator 등 OTP 호환 앱을 통해 계정 보안 수준을 격상합니다.</p>
+        </div>
 
         <div v-if="!mfaData.qrCodeUrl" class="pt-2">
           <button
             @click="setupMfa"
-            class="px-4 py-2 bg-fg-neutral text-bg-neutral text-sm font-medium rounded-lg hover:opacity-90 transition"
+            class="px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-700 hover:shadow-lg transition-all duration-200"
           >
-            MFA OTP 설정 시작하기
+            OTP 2차 인증 활성화 시작
           </button>
         </div>
 
-        <div v-else class="space-y-4 pt-2">
-          <div class="flex flex-col items-center p-4 bg-neutral-default rounded-xl border border-stroke-neutral-muted space-y-3">
-            <img :src="mfaData.qrCodeUrl" alt="MFA QR Code" class="w-48 h-48 rounded" />
-            <div class="text-xs font-mono text-fg-neutral-muted select-all">Secret: {{ mfaData.secret }}</div>
+        <div v-else class="space-y-6 pt-2">
+          <div class="flex flex-col items-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-4">
+            <img :src="mfaData.qrCodeUrl" alt="MFA QR Code" class="w-48 h-48 rounded-xl border border-slate-200 p-2 bg-white" />
+            <div class="text-[10px] font-mono font-bold text-slate-400 bg-slate-100/50 px-3 py-1.5 rounded-lg select-all">Secret: {{ mfaData.secret }}</div>
           </div>
 
-          <div class="space-y-2">
-            <label class="text-xs font-medium text-fg-neutral">인증 앱의 6자리 OTP 번호 입력</label>
+          <div class="space-y-2.5">
+            <label class="text-xs font-bold text-slate-500">6자리 OTP 코드 검증</label>
             <div class="flex gap-2">
               <input
                 v-model="otpToken"
                 type="text"
                 maxlength="6"
                 placeholder="123456"
-                class="flex-1 px-3 py-2 text-center text-lg font-mono border border-stroke-neutral-muted rounded-lg bg-neutral-default text-fg-neutral"
+                class="flex-1 px-4 py-2.5 text-center text-lg font-mono font-bold border border-slate-200 rounded-xl bg-white text-slate-700 focus:outline-none focus:border-blue-500"
               />
               <button
                 @click="enableMfa"
-                class="px-4 py-2 bg-fg-neutral text-bg-neutral text-sm font-semibold rounded-lg hover:opacity-90"
+                class="px-6 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 hover:shadow-md transition-all duration-200"
               >
-                OTP 활성화 검증
+                검증 및 연동
               </button>
             </div>
           </div>
         </div>
 
-        <div v-if="mfaMessage" class="p-3 bg-neutral-default rounded-lg border border-stroke-neutral-muted text-xs text-fg-neutral">
+        <div v-if="mfaMessage" class="p-4 bg-blue-50/50 rounded-2xl border border-blue-100/50 text-xs font-semibold text-blue-600">
           {{ mfaMessage }}
         </div>
       </div>
@@ -139,24 +143,27 @@
 
     <!-- Tab 3: Audit Logs -->
     <div v-if="activeTab === 'audit'" class="space-y-4">
-      <div class="border border-stroke-neutral-muted rounded-xl p-6 bg-neutral-muted space-y-4">
-        <h2 class="text-lg font-semibold text-fg-neutral">백엔드 작업 감사 로그</h2>
-        <div class="overflow-x-auto">
+      <div class="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">보안 감사 작업 로그</h2>
+          <p class="text-xs font-medium text-slate-400 mt-1">시스템 주요 상태 변화 및 관리자 작업 이력이 기록되는 실시간 리포트입니다.</p>
+        </div>
+        <div class="overflow-x-auto pt-2">
           <table class="w-full text-left text-xs">
-            <thead class="border-b border-stroke-neutral-muted text-fg-neutral-muted">
-              <tr>
-                <th class="py-2">작업</th>
-                <th class="py-2">카테고리</th>
-                <th class="py-2">IP 주소</th>
-                <th class="py-2">시각</th>
+            <thead>
+              <tr class="border-b border-slate-100 text-slate-400 font-bold uppercase tracking-wider">
+                <th class="py-3 px-2">작업 코드</th>
+                <th class="py-3 px-2">카테고리</th>
+                <th class="py-3 px-2">IP 주소</th>
+                <th class="py-3 px-2">기록 일시</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-stroke-neutral-muted">
-              <tr v-for="log in stats.recentLogs" :key="log.id">
-                <td class="py-2.5 font-mono text-fg-neutral">{{ log.action }}</td>
-                <td class="py-2.5 text-fg-neutral-muted">{{ log.category }}</td>
-                <td class="py-2.5 font-mono text-fg-neutral-muted">{{ log.ipAddress }}</td>
-                <td class="py-2.5 text-fg-neutral-muted">{{ new Date(log.createdAt).toLocaleString() }}</td>
+            <tbody class="divide-y divide-slate-100 font-medium">
+              <tr v-for="log in stats.recentLogs" :key="log.id" class="text-slate-600 hover:bg-slate-50/50 transition-colors">
+                <td class="py-3.5 px-2 font-mono text-slate-800">{{ log.action }}</td>
+                <td class="py-3.5 px-2 text-slate-500">{{ log.category }}</td>
+                <td class="py-3.5 px-2 font-mono text-slate-400">{{ log.ipAddress }}</td>
+                <td class="py-3.5 px-2 text-slate-400">{{ new Date(log.createdAt).toLocaleString() }}</td>
               </tr>
             </tbody>
           </table>

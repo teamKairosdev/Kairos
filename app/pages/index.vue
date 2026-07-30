@@ -1,176 +1,183 @@
 <template>
   <!-- ── Landing (비인증) ── -->
-  <div v-if="!state.authenticated && !state.loading" class="space-y-24 pb-24">
-    <!-- Hero -->
-    <section class="relative pt-12 sm:pt-20 pb-8 text-center overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-fg-brand/5 to-transparent pointer-events-none" />
+  <div v-if="!state.authenticated && !state.loading" class="space-y-20 pb-24">
+    <!-- Hero Section -->
+    <section class="relative pt-16 sm:pt-24 pb-12 text-center overflow-hidden">
+      <!-- Premium Multi-colored Background Gradients -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/80 via-indigo-50/40 to-transparent pointer-events-none" />
+      <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-r from-blue-200/20 to-indigo-200/20 blur-[120px] rounded-full pointer-events-none" />
+      
       <div class="relative max-w-4xl mx-auto space-y-8 px-4">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-stroke-neutral-muted text-xs text-fg-neutral-muted bg-neutral-muted/50">
-          AI 기반 커리어 플랫폼
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-100 text-xs font-semibold text-blue-600 bg-blue-50/50 backdrop-blur-md">
+          ✨ AI 기반 차세대 커리어 steward
         </div>
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-fg-neutral leading-[1.1]">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
           당신의 커리어를<br />
-          <span class="text-fg-brand">완성하는 AI</span>
+          <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">완벽하게 완성하는 AI</span>
         </h1>
-        <p class="text-base sm:text-lg text-fg-neutral-muted leading-relaxed max-w-2xl mx-auto">
-          이력서 고도화부터 AI 모의 면접, ATS 분석까지.<br class="hidden sm:block" />
-          하나의 플랫폼에서 커리어 전 과정을 관리하세요.
+        <p class="text-base sm:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto font-medium">
+          이력서 고도화부터 AI 모의 면접, ATS 매칭률 분석까지.<br class="hidden sm:block" />
+          하나의 프리미엄 플랫폼에서 커리어 성장 주기를 통합 관리하세요.
         </p>
-        <div class="flex flex-wrap gap-3 justify-center pt-2">
-          <NuxtLink to="/auth/register" class="px-6 py-2.5 rounded-lg bg-fg-neutral-default text-bg-neutral-default text-sm font-medium hover:opacity-90 transition-all shadow-sm">
+        <div class="flex flex-wrap gap-4 justify-center pt-4">
+          <NuxtLink to="/auth/register" class="px-7 py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 transition-all duration-200">
             무료로 시작하기
           </NuxtLink>
-          <NuxtLink to="/auth/login" class="px-6 py-2.5 rounded-lg border border-stroke-neutral-muted text-fg-neutral-muted text-sm font-medium hover:bg-neutral-muted transition-colors">
+          <NuxtLink to="/auth/login" class="px-7 py-3 rounded-xl border border-slate-200 bg-white/80 text-slate-600 text-sm font-semibold hover:bg-slate-50 hover:text-slate-900 transition-all duration-200">
             로그인
           </NuxtLink>
         </div>
       </div>
     </section>
 
-    <!-- Stats banner -->
+    <!-- Stats Banner -->
     <section class="max-w-4xl mx-auto px-4">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-px rounded-2xl overflow-hidden border border-stroke-neutral-muted bg-stroke-neutral-muted">
-        <div v-for="stat in stats" :key="stat.label" class="bg-bg-neutral-default p-6 text-center">
-          <p class="text-2xl sm:text-3xl font-bold text-fg-neutral">{{ stat.value }}</p>
-          <p class="text-xs text-fg-neutral-muted mt-1">{{ stat.label }}</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div v-for="stat in stats" :key="stat.label" class="bg-white/60 backdrop-blur-md border border-slate-100 rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-shadow duration-300">
+          <p class="text-3xl font-extrabold text-blue-600">{{ stat.value }}</p>
+          <p class="text-xs font-semibold text-slate-400 mt-2">{{ stat.label }}</p>
         </div>
       </div>
     </section>
 
-    <!-- Features grid -->
-    <section id="features" class="max-w-6xl mx-auto px-4 space-y-8">
-      <div class="text-center max-w-xl mx-auto">
-        <h2 class="text-2xl sm:text-3xl font-semibold text-fg-neutral">필요한 모든 도구</h2>
-        <p class="text-sm text-fg-neutral-muted mt-3 leading-relaxed">
-          AI가 이력서, 면접, 자소서, 경력 관리를 하나로 연결합니다
+    <!-- Features Grid -->
+    <section id="features" class="max-w-6xl mx-auto px-4 space-y-12">
+      <div class="text-center max-w-xl mx-auto space-y-3">
+        <h2 class="text-3xl font-bold text-slate-900">핵심 기능 가이드</h2>
+        <p class="text-sm font-medium text-slate-400 leading-relaxed">
+          지능형 에이전트가 이력서, 자소서, 면접, 커리어 로드맵을 지능적으로 빌드합니다.
         </p>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <NuxtLink v-for="feature in landingFeatures" :key="feature.title"
           to="/auth/register"
-          class="group rounded-xl border border-stroke-neutral-muted p-6 bg-neutral-muted hover:border-fg-brand/30 hover:shadow-sm transition-all"
+          class="group rounded-2xl border border-slate-100 p-8 bg-white hover:border-blue-100 hover:shadow-xl hover:shadow-slate-100 hover:-translate-y-1 transition-all duration-300 shadow-sm"
         >
-          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" :class="feature.bgClass">
-            <UIcon :name="feature.icon" class="w-5 h-5" :class="feature.iconClass" />
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300" :class="feature.bgClass">
+            <UIcon :name="feature.icon" class="w-6 h-6" :class="feature.iconClass" />
           </div>
-          <h3 class="text-base font-medium text-fg-neutral mb-2 group-hover:text-fg-brand transition-colors">{{ feature.title }}</h3>
-          <p class="text-xs text-fg-neutral-muted leading-relaxed">{{ feature.desc }}</p>
+          <h3 class="text-lg font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors">{{ feature.title }}</h3>
+          <p class="text-xs text-slate-400 leading-relaxed font-medium">{{ feature.desc }}</p>
         </NuxtLink>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="max-w-2xl mx-auto px-4">
-      <div class="rounded-2xl border border-stroke-neutral-muted p-10 sm:p-12 text-center bg-gradient-to-b from-neutral-muted to-bg-neutral-default">
-        <h2 class="text-2xl sm:text-3xl font-semibold text-fg-neutral">지금 시작하세요</h2>
-        <p class="text-sm text-fg-neutral-muted mt-3">3초 만에 가입하고 AI 커리어 어시스턴트를 경험해보세요</p>
-        <div class="flex flex-wrap gap-3 justify-center mt-6">
-          <NuxtLink to="/auth/register" class="px-6 py-2.5 rounded-lg bg-fg-neutral-default text-bg-neutral-default text-sm font-medium hover:opacity-90 transition-opacity shadow-sm">
-            무료 회원가입
-          </NuxtLink>
-          <NuxtLink to="/auth/login" class="px-6 py-2.5 rounded-lg border border-stroke-neutral-muted text-fg-neutral-muted text-sm font-medium hover:bg-neutral-muted transition-colors">
-            로그인
-          </NuxtLink>
+    <!-- CTA Section -->
+    <section class="max-w-4xl mx-auto px-4">
+      <div class="rounded-3xl border border-blue-50 p-10 sm:p-14 text-center bg-gradient-to-b from-blue-50/50 to-white shadow-sm relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-100/30 blur-[40px] rounded-full" />
+        <div class="relative space-y-6">
+          <h2 class="text-3xl font-bold text-slate-900">당신의 성장을 도울 파트너</h2>
+          <p class="text-sm font-medium text-slate-400 max-w-md mx-auto leading-relaxed">3초 간편 회원가입으로 나만을 위한 AI 커리어 전문가를 맞이하세요.</p>
+          <div class="flex flex-wrap gap-3 justify-center pt-2">
+            <NuxtLink to="/auth/register" class="px-7 py-3 rounded-xl bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 hover:shadow-lg transition-all duration-200">
+              지금 시작하기
+            </NuxtLink>
+            <NuxtLink to="/auth/login" class="px-7 py-3 rounded-xl border border-slate-200 bg-white text-slate-600 text-sm font-semibold hover:bg-slate-50 transition-all duration-200">
+              간편 로그인
+            </NuxtLink>
+          </div>
         </div>
       </div>
     </section>
   </div>
 
   <!-- ── Dashboard (인증됨) ── -->
-  <div v-else-if="state.authenticated" class="space-y-8">
-    <!-- Welcome banner -->
-    <div class="rounded-xl border border-stroke-neutral-muted p-6 bg-gradient-to-r from-neutral-muted to-bg-neutral-default">
-      <div class="flex items-start justify-between gap-4">
-        <div class="space-y-1">
-          <h1 class="text-xl font-semibold text-fg-neutral">
-            {{ state.user?.name }}님, 반갑습니다
+  <div v-else-if="state.authenticated" class="space-y-8 pb-16">
+    <!-- Welcome Banner -->
+    <div class="rounded-2xl border border-blue-100/50 p-8 bg-gradient-to-r from-blue-50/40 via-indigo-50/20 to-white shadow-sm">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div class="space-y-2">
+          <h1 class="text-2xl font-bold text-slate-900">
+            {{ state.user?.name }}님, 반갑습니다 👋
           </h1>
-          <p class="text-sm text-fg-neutral-muted">{{ greetingMessage }}</p>
+          <p class="text-sm font-medium text-slate-400 leading-relaxed">{{ greetingMessage }}</p>
         </div>
-        <NuxtLink to="/interview" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-fg-neutral-default text-bg-neutral-default text-sm font-medium hover:opacity-90 transition-all shrink-0">
+        <NuxtLink to="/interview" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 hover:shadow-md transition-all duration-200">
           <UIcon name="i-lucide-mic" class="w-4 h-4" />
-          면접 시작
+          모의 면접 바로가기
         </NuxtLink>
       </div>
     </div>
 
-    <!-- Stats row (portal-style) -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <!-- Stats Grid (dashboard-style) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <NuxtLink v-for="stat in dashboardStats" :key="stat.label" :to="stat.to"
-        class="rounded-xl border border-stroke-neutral-muted p-4 bg-neutral-muted hover:border-stroke-neutral-strong transition-colors"
+        class="rounded-2xl border border-slate-100 p-5 bg-white shadow-sm hover:border-blue-200 hover:shadow-md transition-all duration-200 group"
       >
-        <p class="text-xs text-fg-neutral-muted">{{ stat.label }}</p>
-        <p class="text-xl font-semibold text-fg-neutral mt-1">{{ stat.value }}</p>
-        <p v-if="stat.trend" class="text-xs mt-1" :class="stat.trendPositive ? 'text-fg-brand' : 'text-fg-neutral-muted'">
-          {{ stat.trendPositive ? '↑' : '·' }} {{ stat.trend }}
+        <p class="text-xs font-semibold text-slate-400">{{ stat.label }}</p>
+        <p class="text-2xl font-extrabold text-slate-800 mt-2">{{ stat.value }}</p>
+        <p v-if="stat.trend" class="text-xs mt-3 font-semibold flex items-center gap-1" :class="stat.trendPositive ? 'text-blue-600' : 'text-slate-400'">
+          <span v-if="stat.trendPositive">✨</span>
+          <span>{{ stat.trend }}</span>
         </p>
       </NuxtLink>
     </div>
 
-    <!-- Main content: Feed + Sidebar (portal+SNS hybrid) -->
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
-      <!-- Left: Activity feed (Threads-style timeline) -->
-      <div class="space-y-4">
+    <!-- Main Content: Feed + Sidebar -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
+      <!-- Left: Activity feed (Modern timeline) -->
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-6">
         <div class="flex items-center justify-between">
-          <h2 class="text-base font-semibold text-fg-neutral">최근 활동</h2>
-          <NuxtLink to="/settings" class="text-xs text-fg-neutral-muted hover:text-fg-neutral transition-colors">전체보기</NuxtLink>
+          <h2 class="text-lg font-bold text-slate-800">추천 커리어 과제</h2>
+          <NuxtLink to="/settings" class="text-xs font-semibold text-slate-400 hover:text-blue-600 transition-colors">자세히보기</NuxtLink>
         </div>
-        <div class="space-y-3">
+        <div class="space-y-6">
           <div v-for="(activity, i) in activities" :key="i"
-            class="relative flex gap-4 pb-3"
-            :class="i < activities.length - 1 ? 'border-l-2 border-stroke-neutral-muted ml-3.5' : ''"
+            class="relative flex gap-5"
           >
-            <div class="absolute -left-[11px] w-5 h-5 rounded-full border-2 border-stroke-neutral-muted bg-bg-neutral-default flex items-center justify-center">
-              <div class="w-2 h-2 rounded-full" :class="activity.dotClass" />
+            <!-- Timeline node line -->
+            <div v-if="i < activities.length - 1" class="absolute left-4 top-8 bottom-[-24px] w-0.5 bg-slate-100" />
+            
+            <div class="w-8 h-8 rounded-full border border-blue-100 bg-blue-50 flex items-center justify-center shrink-0 z-10">
+              <div class="w-2.5 h-2.5 rounded-full" :class="activity.dotClass" />
             </div>
-            <div class="flex-1 pl-6">
-              <div class="flex items-center gap-2">
-                <span class="text-sm font-medium text-fg-neutral">{{ activity.label }}</span>
-                <span class="text-xs text-fg-neutral-muted">{{ activity.time }}</span>
+            <div class="space-y-1.5 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-sm font-bold text-slate-700">{{ activity.label }}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-blue-50 text-blue-600">{{ activity.time }}</span>
               </div>
-              <p class="text-xs text-fg-neutral-muted mt-0.5">{{ activity.desc }}</p>
-              <NuxtLink :to="activity.to" class="text-xs text-fg-brand hover:underline mt-1 inline-block">확인하기 →</NuxtLink>
+              <p class="text-xs font-medium text-slate-400 leading-relaxed">{{ activity.desc }}</p>
+              <NuxtLink :to="activity.to" class="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline inline-block">진행하기 &rarr;</NuxtLink>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Right sidebar (portal-style quick links) -->
-      <div class="space-y-4">
+      <!-- Right: Quick menu & Tips -->
+      <div class="space-y-6">
         <!-- Quick links -->
-        <div class="rounded-xl border border-stroke-neutral-muted p-4 bg-neutral-muted">
-          <h3 class="text-xs font-semibold text-fg-neutral-muted tracking-wide mb-3">빠른 메뉴</h3>
+        <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xs font-bold text-slate-400 tracking-wider mb-4 uppercase">바로가기 메뉴</h3>
           <nav class="space-y-1">
             <NuxtLink v-for="item in quickLinks" :key="item.label" :to="item.to"
-              class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-fg-neutral-muted hover:text-fg-neutral hover:bg-bg-neutral-default transition-colors"
+              class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200"
             >
-              <UIcon :name="item.icon" class="w-4 h-4 shrink-0" />
+              <UIcon :name="item.icon" class="w-4.5 h-4.5 text-slate-400 group-hover:text-blue-600" />
               <span>{{ item.label }}</span>
             </NuxtLink>
           </nav>
         </div>
 
         <!-- Tip card -->
-        <div class="rounded-xl border border-stroke-neutral-muted p-4 bg-gradient-to-br from-fg-brand/5 to-transparent">
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg bg-fg-brand/10 flex items-center justify-center shrink-0">
-              <UIcon name="i-lucide-lightbulb" class="w-4 h-4 text-fg-brand" />
+        <div class="rounded-2xl border border-blue-50 p-6 bg-gradient-to-br from-blue-50/20 via-indigo-50/10 to-white shadow-sm space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 shadow-sm">
+              <UIcon name="i-lucide-lightbulb" class="w-5 h-5 text-blue-600" />
             </div>
-            <div>
-              <h3 class="text-sm font-medium text-fg-neutral">AI 팁</h3>
-              <p class="text-xs text-fg-neutral-muted mt-1 leading-relaxed">이력서에 지원 회사의 핵심 키워드를 포함하면 ATS 점수가 평균 23% 상승합니다.</p>
-            </div>
+            <h3 class="text-sm font-bold text-slate-800">커리어 가이드 팁</h3>
           </div>
+          <p class="text-xs font-medium text-slate-400 leading-relaxed">이력서에 지원하려는 구체적 포지션의 핵심 키워드를 최적화해 포함시키면 AI 필터링 서류 평가 점수가 평균 23% 상승합니다.</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ── Loading ── -->
-  <div v-else class="flex items-center justify-center py-32">
+  <div v-else class="flex items-center justify-center py-40">
     <div class="flex flex-col items-center gap-3">
-      <UIcon name="i-lucide-loader" class="w-6 h-6 text-fg-neutral-muted animate-spin" />
-      <p class="text-sm text-fg-neutral-muted">로딩 중...</p>
+      <UIcon name="i-lucide-loader" class="w-7 h-7 text-blue-500 animate-spin" />
+      <p class="text-sm font-semibold text-slate-400">시스템 로딩 중...</p>
     </div>
   </div>
 </template>

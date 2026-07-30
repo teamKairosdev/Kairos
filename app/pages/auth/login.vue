@@ -1,54 +1,75 @@
 <template>
-  <div class="max-w-sm mx-auto py-16">
-    <div class="border border-stroke-neutral-muted rounded-xl p-8 bg-neutral-muted space-y-x4">
-      <div class="text-center space-y-1.5">
-        <h1 class="text-xl font-semibold text-fg-neutral">{{ $t('auth.loginTitle') }}</h1>
-        <p class="text-xs text-fg-neutral-muted">{{ $t('auth.loginSubtitle') }}</p>
+  <div class="max-w-md mx-auto py-20 px-4">
+    <!-- Premium Card Container -->
+    <div class="bg-white/80 backdrop-blur-xl border border-slate-100 rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-100/50 space-y-6 relative overflow-hidden">
+      <!-- Decorative Gradient background elements -->
+      <div class="absolute -right-16 -top-16 w-32 h-32 bg-blue-100/30 blur-[30px] rounded-full pointer-events-none" />
+      <div class="absolute -left-16 -bottom-16 w-32 h-32 bg-indigo-100/30 blur-[30px] rounded-full pointer-events-none" />
+
+      <div class="relative text-center space-y-2">
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">{{ $t('auth.loginTitle') }}</h1>
+        <p class="text-xs font-semibold text-slate-400">{{ $t('auth.loginSubtitle') }}</p>
       </div>
 
-      <form @submit.prevent="handleLogin" class="space-y-4">
-        <UFormGroup :label="$t('auth.emailLabel')">
-          <UInput v-model="email" type="email" required :placeholder="$t('auth.emailPlaceholder')" />
-        </UFormGroup>
+      <form @submit.prevent="handleLogin" class="relative space-y-4 pt-2">
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-500">{{ $t('auth.emailLabel') }}</label>
+          <UInput v-model="email" type="email" required :placeholder="$t('auth.emailPlaceholder')" 
+            class="w-full" size="md" />
+        </div>
 
-        <UFormGroup :label="$t('auth.passwordLabel')">
-          <UInput v-model="password" type="password" required placeholder="......" />
-        </UFormGroup>
+        <div class="space-y-1.5">
+          <label class="text-xs font-bold text-slate-500">{{ $t('auth.passwordLabel') }}</label>
+          <UInput v-model="password" type="password" required placeholder="••••••••" 
+            class="w-full" size="md" />
+        </div>
 
-        <UAlert v-if="errorMsg" color="red" variant="soft" :description="errorMsg" />
+        <UAlert v-if="errorMsg" color="red" variant="soft" :description="errorMsg" class="rounded-xl" />
 
-        <UButton type="submit" :loading="loading" color="black" variant="solid" size="lg" block>{{ $t('auth.loginBtn') }}</UButton>
+        <UButton type="submit" :loading="loading" color="blue" variant="solid" size="lg" block 
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl hover:shadow-md hover:shadow-blue-100 transition-all duration-200 mt-2">
+          {{ $t('auth.loginBtn') }}
+        </UButton>
       </form>
 
-      <div class="relative my-4">
-        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-stroke-neutral-muted" /></div>
-        <div class="relative flex justify-center text-xs text-fg-neutral-muted"><span class="bg-neutral-muted px-2">{{ $t('common.or') }}</span></div>
+      <!-- Divider -->
+      <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100" /></div>
+        <div class="relative flex justify-center text-[10px] uppercase font-bold tracking-wider text-slate-400"><span class="bg-white px-3">{{ $t('common.or') }}</span></div>
       </div>
 
-      <div class="space-y-2">
-        <UButton color="red" variant="outline" size="lg" block @click="signInGoogle" :loading="socialLoading">
-          Google로 계속하기
+      <!-- Social Account Logins -->
+      <div class="space-y-3">
+        <UButton color="neutral" variant="outline" size="lg" block @click="signInGoogle" :loading="socialLoading"
+          class="border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 hover:text-slate-800 transition-all duration-200">
+          <template #leading>
+            <UIcon name="i-lucide-chrome" class="w-4 h-4 text-blue-500" />
+          </template>
+          Google로 로그인
         </UButton>
-
       </div>
 
-      <div class="relative my-4">
-        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-stroke-neutral-muted" /></div>
-        <div class="relative flex justify-center text-xs text-fg-neutral-muted"><span class="bg-neutral-muted px-2">{{ $t('common.or') }}</span></div>
+      <!-- Divider -->
+      <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100" /></div>
+        <div class="relative flex justify-center text-[10px] uppercase font-bold tracking-wider text-slate-400"><span class="bg-white px-3">또는 지갑 로그인</span></div>
       </div>
 
-      <div class="space-y-2">
-        <UButton color="purple" variant="outline" size="lg" block @click="connectKaikas" :loading="walletLoading">
+      <!-- Wallet Logins -->
+      <div class="grid grid-cols-2 gap-3">
+        <UButton color="neutral" variant="outline" size="md" block @click="connectKaikas" :loading="walletLoading"
+          class="border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-all duration-200">
           {{ $t('auth.wallet.kaikas') }}
         </UButton>
-        <UButton color="neutral" variant="outline" size="lg" block @click="connectMetaMask" :loading="walletLoading">
+        <UButton color="neutral" variant="outline" size="md" block @click="connectMetaMask" :loading="walletLoading"
+          class="border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition-all duration-200">
           {{ $t('auth.wallet.metamask') }}
         </UButton>
       </div>
 
-      <div class="text-center text-xs text-fg-neutral-muted pt-1">
+      <div class="text-center text-xs font-semibold text-slate-400 pt-2">
         {{ $t('auth.noAccount') }}
-        <NuxtLink to="/auth/register" class="text-fg-neutral hover:underline">{{ $t('auth.registerLink') }}</NuxtLink>
+        <NuxtLink to="/auth/register" class="text-blue-600 hover:text-blue-700 hover:underline ml-1">{{ $t('auth.registerLink') }}</NuxtLink>
       </div>
     </div>
   </div>
