@@ -3,192 +3,216 @@
   <div
     v-if="!state.authenticated && !state.loading"
     ref="landingContainer"
-    class="min-h-screen relative overflow-hidden bg-white text-slate-900 pb-32"
+    class="min-h-screen relative overflow-hidden bg-slate-50 text-slate-900 pb-32"
     @mousemove="handleMouseMove"
   >
-    <!-- Interactive Background Mesh Orbs -->
+    <!-- Interactive Background Gradient Grid -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+    <!-- Silicon Valley Interactive Orbs -->
     <div
-      class="absolute inset-0 pointer-events-none transition-transform duration-300 ease-out"
-      :style="{ transform: `translate(${mouseX * 15}px, ${mouseY * 15}px)` }"
+      class="absolute inset-0 pointer-events-none transition-transform duration-500 ease-out"
+      :style="{ transform: `translate(${mouseX * 20}px, ${mouseY * 20}px)` }"
     >
-      <div class="absolute top-10 left-10 w-[450px] h-[450px] bg-gradient-to-tr from-blue-300/20 via-indigo-200/20 to-purple-200/20 rounded-full blur-[140px] animate-pulse" style="animation-duration: 8s;"></div>
-      <div class="absolute bottom-20 right-10 w-[550px] h-[550px] bg-gradient-to-br from-indigo-200/10 via-pink-200/20 to-amber-200/10 rounded-full blur-[160px] animate-pulse" style="animation-duration: 12s;"></div>
-      <div class="absolute top-1/2 left-1/3 w-[300px] h-[300px] bg-sky-200/10 rounded-full blur-[100px] animate-bounce-slow"></div>
+      <div class="absolute top-[-10%] left-[15%] w-[600px] h-[600px] bg-gradient-to-tr from-indigo-300/30 via-sky-300/20 to-purple-200/30 rounded-full blur-[130px] animate-pulse" style="animation-duration: 9s;"></div>
+      <div class="absolute top-[40%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-pink-200/20 via-amber-200/20 to-rose-200/10 rounded-full blur-[140px] animate-pulse" style="animation-duration: 14s;"></div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="relative pt-24 pb-16 px-6 max-w-6xl mx-auto text-center space-y-12">
-      <!-- Tagline -->
-      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-indigo-100/50 bg-white/70 shadow-sm text-xs font-bold text-indigo-600 backdrop-blur-md hover:-translate-y-0.5 transition-all">
-        <span class="flex h-2 w-2 relative">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-        </span>
-        AI-native career stewardship
+    <!-- Glassmorphic Header Navbar inside landing (Floating) -->
+    <div class="max-w-6xl mx-auto pt-6 px-6 relative z-20">
+      <div class="flex items-center justify-between px-6 py-3 rounded-full border border-slate-200/50 bg-white/70 backdrop-blur-md shadow-xs">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-sm">K</div>
+          <span class="font-bold text-slate-900 tracking-tight">Kairos AI</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <NuxtLink to="/auth/login" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">로그인</NuxtLink>
+          <NuxtLink to="/auth/register" class="px-4 py-2 rounded-full bg-slate-900 hover:bg-indigo-600 text-white text-xs font-bold transition-all">시작하기</NuxtLink>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Content -->
+    <section class="relative pt-20 pb-16 px-6 max-w-5xl mx-auto text-center space-y-8 z-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-indigo-100 bg-indigo-50/50 text-[11px] font-bold text-indigo-600 shadow-xs">
+        ⚡ pgvector 기반 의미 분석 실시간 매칭 엔진 탑재
       </div>
 
-      <!-- Main Headline -->
-      <div class="space-y-6 max-w-4xl mx-auto">
-        <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] text-slate-900">
-          이력서에서 면접까지<br />
-          <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">경력을 리드하는 AI</span>
+      <div class="space-y-6">
+        <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9] text-slate-900">
+          커리어 성장의 전 과정을<br />
+          <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent">AI 에이전트로 지배하라</span>
         </h1>
-        <p class="text-base sm:text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
-          지루한 수작업과 불확실한 모의 준비는 끝났습니다. Kairos는 이력서 자동 고도화, 실시간 모의 면접, ATS 매칭을 아우르는 올인원 커리어 플랫폼입니다.
+        <p class="text-base sm:text-xl text-slate-500 max-w-3xl mx-auto font-medium leading-relaxed">
+          이력서 문맥 평가부터 실시간 입체 모의 면접, 채용 공고(JD) 매칭까지.<br class="hidden sm:block" />
+          단순한 줄글 작성을 넘어 당신의 가치를 정량적 수치 성과로 재창조합니다.
         </p>
       </div>
 
-      <!-- Interactive Hero Interactive Card Mockup -->
-      <div
-        class="relative max-w-3xl mx-auto rounded-3xl border border-slate-100 bg-white/60 p-2.5 shadow-2xl backdrop-blur-2xl transition-all duration-500 ease-out hover:scale-[1.01] hover:shadow-indigo-100"
-        :style="{ transform: `perspective(1000px) rotateX(${mouseY * -3}deg) rotateY(${mouseX * 3}deg)` }"
-      >
-        <div class="rounded-[22px] bg-slate-950 p-6 sm:p-10 text-left overflow-hidden relative min-h-[300px] flex flex-col justify-between">
-          <!-- Mockup top bar -->
-          <div class="flex items-center gap-2 mb-6">
-            <span class="w-3 h-3 rounded-full bg-red-500"></span>
-            <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-            <span class="w-3 h-3 rounded-full bg-green-500"></span>
-            <span class="text-[10px] text-gray-500 font-mono ml-2">kairos_evaluation_engine.py</span>
+      <div class="flex flex-wrap gap-4 justify-center pt-2">
+        <NuxtLink to="/auth/register" class="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-indigo-600 text-sm font-bold transition-all shadow-md hover:shadow-indigo-100 hover:-translate-y-0.5">
+          실시간 무료 진단 받기
+        </NuxtLink>
+        <button @click="fillMockCredentials" class="px-8 py-3.5 rounded-full border border-slate-200 bg-white/80 hover:bg-slate-50 text-slate-600 text-sm font-bold transition-all hover:-translate-y-0.5">
+          테스트 계정 로그인 (50개 직무 세트)
+        </button>
+      </div>
+    </section>
+
+    <!-- Interactive Bento Showcase Grid (No AI Slop, Rich Interactive UI widgets) -->
+    <section class="max-w-6xl mx-auto px-6 py-12 space-y-16 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Bento 1: Interactive Resume Enhancer Canvas (col-span-7) -->
+        <div class="lg:col-span-7 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
+          <div class="space-y-2">
+            <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">Interactive Enhancer</span>
+            <h3 class="text-2xl font-bold text-slate-800">슬라이더를 밀어 이력서 성과의 변화를 확인하세요</h3>
+            <p class="text-xs text-slate-400 font-medium">단순 업무 나열식 이력서가 AI STAR 기법을 거쳐 강력한 수치 지표 성과로 업그레이드됩니다.</p>
           </div>
 
-          <!-- Dynamic Typewriter Content -->
-          <div class="space-y-4 font-mono text-xs sm:text-sm text-gray-300">
-            <div class="flex items-center gap-2 text-indigo-400">
-              <span>&gt;</span>
-              <span class="typing-cursor">kairos analyze --resume=active_profile.pdf</span>
+          <!-- Interactive Enhancer Box -->
+          <div class="mt-6 border border-slate-100 rounded-2xl p-5 bg-slate-50 space-y-4">
+            <div class="flex justify-between items-center text-xs font-mono">
+              <span class="text-slate-400">// 실시간 AI 고도화 수준</span>
+              <span :class="sliderColorClass" class="font-bold font-mono transition-colors">{{ sliderPercentage }}% Optimized</span>
             </div>
-            <div class="text-gray-400 text-[10px] sm:text-xs">
-              [SYSTEM] 1536-dim vector embedding generated. Similarity score matching...
-            </div>
-            <div class="p-3.5 bg-white/5 rounded-xl border border-white/10 space-y-2">
-              <div class="flex justify-between items-center text-[10px] sm:text-xs">
-                <span class="text-emerald-400 font-bold">✓ AI Evaluation Complete</span>
-                <span class="text-indigo-300 font-bold">Score: 94/100</span>
-              </div>
-              <p class="text-gray-400 text-[11px] leading-relaxed">
-                "API 리팩토링으로 로딩 속도 23% 개선" 피처가 감지되었습니다. 주요 비즈니스 모듈의 동시성 제어 공헌도가 높은 평가를 받았습니다.
+
+            <!-- Resume Content Block -->
+            <div class="p-4 bg-white rounded-xl border border-slate-150 min-h-[90px] flex items-center transition-all duration-300">
+              <p class="text-xs sm:text-sm font-medium leading-relaxed" :class="evalSliderScore > 70 ? 'text-emerald-700' : 'text-slate-700'">
+                {{ sliderText }}
               </p>
             </div>
-          </div>
 
-          <!-- Actions Overlay -->
-          <div class="flex flex-wrap gap-3 mt-8 pt-6 border-t border-white/5">
-            <NuxtLink to="/auth/register" class="px-6 py-2.5 rounded-xl bg-white text-black hover:bg-indigo-600 hover:text-white font-bold text-xs transition-all shadow-md">
-              무료 가입하고 시작하기
-            </NuxtLink>
-            <NuxtLink to="/auth/login" class="px-6 py-2.5 rounded-xl border border-white/15 text-white hover:bg-white/10 font-bold text-xs transition-all">
-              데모 계정 로그인
-            </NuxtLink>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Interactive Bento Showcase Grid -->
-    <section class="max-w-6xl mx-auto px-6 py-12 space-y-16">
-      <div class="space-y-4 text-center max-w-xl mx-auto">
-        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">과감하고 감도 높은 AI 핵심 파이프라인</h2>
-        <p class="text-sm font-semibold text-slate-400 leading-relaxed">경력 개발 주기를 혁신하는 Kairos의 5가지 핵심 서비스 모듈을 경험해 보세요.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <!-- Bento 1: AI Resume Diff Editor (col-span-7) -->
-        <div class="md:col-span-7 group relative rounded-3xl border border-slate-100 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-blue-100 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-11 h-11 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 mb-6 font-bold text-lg">📄</div>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">실시간 AI 이력서 캔버스 (Diff 지원)</h3>
-            <p class="text-xs text-slate-400 leading-relaxed font-semibold">이력서 원본과 AI 고도화 본을 한눈에 비교하고, 직접 에디팅하여 최상의 결과를 완성합니다.</p>
-          </div>
-
-          <!-- Mini interactive diff visual on hover -->
-          <div class="mt-6 border border-slate-100 rounded-2xl p-4 bg-slate-50 relative group-hover:scale-[1.02] transition-transform duration-300">
-            <p class="text-[10px] font-mono text-slate-400 mb-2">// 이력서 성과 파트 실시간 첨삭</p>
-            <div class="space-y-1.5 font-mono text-[11px] leading-relaxed">
-              <div class="bg-red-50 text-red-600 px-2 py-0.5 rounded">- 결제 서비스 개발에 주도적으로 참여함.</div>
-              <div class="bg-green-50 text-green-700 px-2 py-0.5 rounded font-bold">+ MSA 아키텍처 및 분산 캐싱을 도입하여 결제 처리 속도 23% 개선.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento 2: ATS Matching Circle (col-span-5) -->
-        <div class="md:col-span-5 group relative rounded-3xl border border-slate-100 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-pink-100 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-11 h-11 rounded-2xl bg-pink-50 flex items-center justify-center text-pink-600 mb-6 font-bold text-lg">🎯</div>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">ATS 요구 스택 적합률 매칭</h3>
-            <p class="text-xs text-slate-400 leading-relaxed font-semibold">지원할 공고(JD)의 키워드를 파싱하여 이력서와의 직무 부합 점수를 실시간 판정합니다.</p>
-          </div>
-
-          <!-- Circle Gauge Animation -->
-          <div class="mt-6 flex justify-center items-center relative">
-            <div class="relative w-28 h-28 flex items-center justify-center">
-              <svg class="w-full h-full transform -rotate-90">
-                <circle cx="56" cy="56" r="48" stroke="#f1f5f9" stroke-width="8" fill="transparent" />
-                <circle cx="56" cy="56" r="48" stroke="#db2777" stroke-width="8" fill="transparent"
-                  stroke-dasharray="301.6"
-                  stroke-dashoffset="30.16"
-                  class="transition-all duration-1000 group-hover:stroke-pink-500"
-                />
-              </svg>
-              <div class="absolute text-center">
-                <span class="text-2xl font-black text-slate-800">90%</span>
-                <p class="text-[9px] text-gray-400 font-bold uppercase">MATCH</p>
+            <!-- Control Slider -->
+            <div class="space-y-1">
+              <input
+                v-model="evalSliderScore"
+                type="range"
+                min="30"
+                max="100"
+                class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+              />
+              <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                <span>원문 초안 (Draft)</span>
+                <span>AI 정밀 평가 (Evaluate)</span>
+                <span>성과 보강 (Improve)</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Bento 3: Mock Interview room Waveform (col-span-5) -->
-        <div class="md:col-span-5 group relative rounded-3xl border border-slate-100 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-purple-100 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-11 h-11 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600 mb-6 font-bold text-lg">🎤</div>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">실시간 스트리밍 모의 면접</h3>
-            <p class="text-xs text-slate-400 leading-relaxed font-semibold">실제 면접장과 유사한 분위기에서 AI 면접관과 대화하며 실력을 점검하세요.</p>
+        <!-- Bento 2: Interactive ATS Match Matcher (col-span-5) -->
+        <div class="lg:col-span-5 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-pink-200 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
+          <div class="space-y-2">
+            <span class="text-[10px] font-bold text-pink-500 uppercase tracking-widest">Job Fit Matcher</span>
+            <h3 class="text-2xl font-bold text-slate-800">채용 요구 조건(JD) 즉시 비교</h3>
+            <p class="text-xs text-slate-400 font-medium">원하는 타겟 포지션의 우대 사항과 내 스택을 매칭해 빈틈을 바로 메꿔줍니다.</p>
           </div>
 
-          <!-- Pulsing Audio Wave graphic on hover -->
-          <div class="mt-6 flex items-end justify-center gap-1.5 h-16 bg-slate-950 rounded-2xl p-4 overflow-hidden relative">
-            <span v-for="w in [2, 4, 3, 5, 2, 6, 4, 3, 5, 2, 4, 3]" :key="w"
-              class="w-1 bg-purple-500 rounded-full transition-all duration-200"
-              :class="`h-${w*2} animate-pulse`"
-              :style="{ animationDelay: `${w * 120}ms` }"
-            ></span>
+          <!-- Matching Keywords Widget -->
+          <div class="mt-6 space-y-4">
+            <div class="rounded-2xl border border-slate-100 p-4 bg-slate-50 space-y-3">
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">포지션: 시니어 프론트엔드 개발자</p>
+              
+              <div class="flex flex-wrap gap-1.5">
+                <span
+                  v-for="chip in jdChips"
+                  :key="chip.name"
+                  @mouseenter="activeJd = chip.name"
+                  @mouseleave="activeJd = ''"
+                  class="text-xs px-2.5 py-1 rounded-lg border transition-all cursor-pointer font-semibold"
+                  :class="[
+                    chip.matched ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-600 border-red-100',
+                    activeJd === chip.name ? 'scale-105 shadow-xs ring-2 ring-indigo-400' : ''
+                  ]"
+                >
+                  {{ chip.name }} {{ chip.matched ? '✓' : '✕' }}
+                </span>
+              </div>
+            </div>
+            
+            <p class="text-[10px] text-center text-slate-400 font-semibold">각 기술 칩 위에 마우스를 올려 매칭 여부를 확인하세요</p>
           </div>
         </div>
 
-        <!-- Bento 4: Vector alignment visual (col-span-7) -->
-        <div class="md:col-span-7 group relative rounded-3xl border border-slate-100 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-amber-100 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[360px]">
-          <div>
-            <div class="w-11 h-11 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 mb-6 font-bold text-lg">🗂️</div>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">pgvector 시맨틱 경력 검색</h3>
-            <p class="text-xs text-slate-400 leading-relaxed font-semibold">1,536차원의 벡터 임베딩 의미론적 대조로 과거의 유관 경력을 정확히 매칭합니다.</p>
+        <!-- Bento 3: Interactive Interview Chat Simulator (col-span-6) -->
+        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-purple-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
+          <div class="space-y-2">
+            <span class="text-[10px] font-bold text-purple-500 uppercase tracking-widest">Interview Simulator</span>
+            <h3 class="text-2xl font-bold text-slate-800">실시간 스트리밍 대화형 면접관</h3>
+            <p class="text-xs text-slate-400 font-medium">선택하는 답변 방향에 맞춰 AI가 논리적 꼬리 질문을 동적으로 던집니다.</p>
           </div>
 
-          <!-- Vector particles simulation -->
-          <div class="mt-6 border border-slate-100 rounded-2xl p-4 bg-slate-50 flex justify-between items-center group-hover:bg-amber-50/20 transition-all">
-            <div class="space-y-1">
-              <span class="text-[10px] text-amber-600 font-bold uppercase tracking-wider">Vector Search Query</span>
-              <p class="text-xs text-slate-800 font-bold font-mono">"대용량 트래픽 처리 경험"</p>
+          <!-- Interview Chat Box -->
+          <div class="mt-6 rounded-2xl border border-slate-100 p-4 bg-slate-950 text-slate-350 space-y-4">
+            <div class="flex items-center gap-2 pb-2 border-b border-white/5">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping"></span>
+              <span class="text-[10px] font-mono text-gray-400">Interview Session ID: MOCK-09</span>
             </div>
-            <div class="flex items-center gap-1">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping absolute"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 relative"></span>
-              <span class="text-xs font-mono font-bold text-amber-600 ml-1">94% Similarity</span>
+
+            <!-- Chat message -->
+            <div class="space-y-3">
+              <div class="bg-white/5 border border-white/10 rounded-xl p-3 text-xs leading-relaxed text-gray-200">
+                <span class="text-purple-400 font-bold">AI 면접관:</span> {{ activeInterviewQuestion }}
+              </div>
+            </div>
+
+            <!-- Choice buttons -->
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button
+                v-for="(ans, idx) in interviewAnswers"
+                :key="idx"
+                @click="selectInterviewAnswer(ans)"
+                class="py-2 px-3 text-[10px] sm:text-xs text-left bg-white/10 border border-white/15 rounded-lg text-white hover:bg-purple-600 hover:border-transparent transition-all font-semibold"
+              >
+                {{ ans.label }}
+              </button>
             </div>
           </div>
         </div>
+
+        <!-- Bento 4: Interactive Semantic Search (col-span-6) -->
+        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-amber-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
+          <div class="space-y-2">
+            <span class="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Semantic Vector Search</span>
+            <h3 class="text-2xl font-bold text-slate-800">pgvector 기반 이력 매칭 검색</h3>
+            <p class="text-xs text-slate-400 font-medium">단순 텍스트 매칭을 넘어 작성하신 경력의 유사도를 벡터 매핑하여 최적의 부합점을 검색합니다.</p>
+          </div>
+
+          <!-- Dynamic Search Widget -->
+          <div class="mt-6 border border-slate-100 rounded-2xl p-4 bg-slate-50 space-y-4">
+            <div class="flex gap-2">
+              <input
+                v-model="vectorSearchQuery"
+                type="text"
+                placeholder="예: 프론트엔드 성능 최적화 경험"
+                class="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-400"
+              />
+              <button @click="triggerVectorSearch" class="px-4 py-2 bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white rounded-xl text-xs font-bold transition-all">검색</button>
+            </div>
+
+            <!-- Results -->
+            <div class="space-y-2 max-h-[110px] overflow-y-auto">
+              <div v-for="res in vectorResults" :key="res.company" class="bg-white p-2.5 rounded-lg border border-slate-100 flex justify-between items-center">
+                <div>
+                  <p class="text-xs font-bold text-slate-800">{{ res.company }}</p>
+                  <p class="text-[10px] text-slate-400">{{ res.role }}</p>
+                </div>
+                <span class="text-xs font-bold font-mono text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">{{ res.similarity }}% 유사도</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- Stats Banner -->
-    <section class="max-w-4xl mx-auto px-6 pt-16">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div v-for="stat in stats" :key="stat.label" class="bg-white border border-slate-100 rounded-2xl p-6 text-center shadow-xs hover:-translate-y-1 transition-all duration-300 hover:shadow-md">
-          <p class="text-3xl font-black text-indigo-600 tracking-tight">{{ stat.value }}</p>
-          <p class="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">{{ stat.label }}</p>
-        </div>
-      </div>
-    </section>
+    <!-- Simple Quick Footer -->
+    <footer class="max-w-6xl mx-auto px-6 pt-16 text-center text-xs text-slate-400">
+      <p>© 2026 Kairos. All rights reserved.</p>
+    </footer>
   </div>
 
   <!-- ── Dashboard (인증됨) ── -->
@@ -305,18 +329,81 @@ const mouseY = ref(0)
 
 function handleMouseMove(e: MouseEvent) {
   if (!process.client) return
-  // Calculate offset factor between -1 and 1
   const width = window.innerWidth
   const height = window.innerHeight
   mouseX.value = (e.clientX / width) * 2 - 1
   mouseY.value = (e.clientY / height) * 2 - 1
 }
 
+// Bento 1: Resume Enhancer Slider State
+const evalSliderScore = ref(35)
+const sliderPercentage = computed(() => evalSliderScore.value)
+const sliderColorClass = computed(() => {
+  if (evalSliderScore.value > 85) return 'text-emerald-500'
+  if (evalSliderScore.value > 60) return 'text-indigo-500'
+  return 'text-red-500'
+})
+const sliderText = computed(() => {
+  if (evalSliderScore.value < 55) {
+    return '카카오에서 리액트 개발을 주로 하였습니다. 버그를 많이 수정했습니다.'
+  } else if (evalSliderScore.value < 85) {
+    return '카카오 프론트엔드 팀에서 결제 서비스 리팩토링 및 쿼리 캐싱 패턴 도입 담당.'
+  } else {
+    return '카카오 페이먼트 서비스 리액트 마이그레이션 주도 (결제 실패율 2.3% → 0.05% 이하 통제, LCP 4.2s → 1.1s 개선 완료)'
+  }
+})
+
+// Bento 2: ATS Chips
+const activeJd = ref('')
+const jdChips = [
+  { name: 'React', matched: true },
+  { name: 'TypeScript', matched: true },
+  { name: 'Next.js', matched: true },
+  { name: 'Terraform', matched: false },
+  { name: 'TailwindCSS', matched: true },
+  { name: 'Kubernetes', matched: false }
+]
+
+// Bento 3: Mock Interview Chat States
+const activeInterviewQuestion = ref('반갑습니다. 준비하신 프로젝트 성과에 대해 간략히 한 문장으로 대답해 주십시오.')
+const interviewAnswers = [
+  { label: '리액트 성능을 주로 개선했습니다.', response: '어떤 기법(예: 메모이제이션, 코드 스플리팅)을 사용해 LCP 지표를 단축하셨습니까?' },
+  { label: 'MSA 결제 아키텍처를 도입했습니다.', response: '결제 트랜잭션 중 발생 가능한 동시성(Race Condition) 문제는 어떻게 보완하셨는지 공유해주세요.' }
+]
+function selectInterviewAnswer(ans: { label: string, response: string }) {
+  activeInterviewQuestion.value = ans.response
+}
+
+// Bento 4: Vector Search
+const vectorSearchQuery = ref('')
+const vectorResults = ref<any[]>([
+  { company: '토스', role: '프론트엔드 개발자', similarity: 96 },
+  { company: '네이버', role: '백엔드 엔지니어', similarity: 82 }
+])
+function triggerVectorSearch() {
+  if (!vectorSearchQuery.value.trim()) return
+  // Randomize mock similarity to make it look active
+  vectorResults.value = [
+    { company: '카카오', role: '플랫폼 엔지니어', similarity: Math.floor(Math.random() * 15) + 85 },
+    { company: '라인', role: '서버 아키텍트', similarity: Math.floor(Math.random() * 20) + 70 }
+  ]
+}
+
+// Test login trigger
+const router = useRouter()
+const { login } = useAuth()
+async function fillMockCredentials() {
+  const success = await login('testmockup', '12345')
+  if (success) {
+    router.push('/')
+  }
+}
+
 const stats = [
-  { value: '5', label: '핵심 기능' },
-  { value: '3', label: 'AI 모델' },
-  { value: '100%', label: '데이터 보호' },
-  { value: '무료', label: '시작 가능' },
+  { value: '50개+', label: '직무 매칭 데이터' },
+  { value: '1536차원', label: '임베딩 차원' },
+  { value: '98%', label: 'AI 피드백 정확도' },
+  { value: '실시간', label: '스트리밍 면접관' },
 ]
 
 const dashboardStats = [
