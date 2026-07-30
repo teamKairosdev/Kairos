@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, integer, jsonb, timestamp, customType } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, integer, jsonb, timestamp, customType, boolean } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 // Custom pgvector Drizzle type definition for 1536-dim embeddings
@@ -27,11 +27,37 @@ export const users = pgTable('users', {
   email: varchar('email', { length: 255 }).notNull().unique(),
   passwordHash: varchar('password_hash', { length: 255 }),
   name: varchar('name', { length: 255 }).notNull(),
+  role: varchar('role', { length: 50 }).default('user').notNull(), // 'user' | 'admin' | 'manager'
   avatarUrl: text('avatar_url'),
   googleId: varchar('google_id', { length: 255 }),
   walletAddress: varchar('wallet_address', { length: 255 }),
+  mfaSecret: text('mfa_secret'),
+  mfaEnabled: boolean('mfa_enabled').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// 15. System Settings & Backend Environment Configuration Table
+export const systemSettings = pgTable('system_settings', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  key: varchar('key', { length: 255 }).notNull().unique(),
+  value: text('value').notNull(),
+  category: varchar('category', { length: 50 }).default('env').notNull(), // 'env' | 'feature_flag' | 'llm' | 'storage'
+  description: text('description'),
+  isEncrypted: boolean('is_encrypted').default(false).notNull(),
+  updatedBy: uuid('updated_by').references(() => users.id, { onDelete: 'set null' }),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+// 16. Audit Logs Table (Admin Action Tracker)
+export const auditLogs = pgTable('audit_logs', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+  action: varchar('action', { length: 255 }).notNull(),
+  category: varchar('category', { length: 50 }).notNull(),
+  details: jsonb('details'),
+  ipAddress: varchar('ip_address', { length: 100 }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 // 2. Resumes Table
