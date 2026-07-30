@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const model = getModelForComplexity('medium');
+  const model = await getModelForComplexity('medium');
 
   const result = streamText({
     model,

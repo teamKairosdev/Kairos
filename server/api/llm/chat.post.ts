@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     }) })
   }
 
-  const model = getModelForComplexity(complexity);
+  const model = await getModelForComplexity(complexity);
 
   const instructions = `You are Kairos AI, a world-class career advisor and resume specialist.
 Help the user with their career preparation including resume refinement, interview coaching, and job search strategy.

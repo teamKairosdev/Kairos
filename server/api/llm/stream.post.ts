@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Messages are required' });
   }
 
-  const model = getModelForComplexity(complexity);
+  const model = await getModelForComplexity(complexity);
 
   const result = streamText({
     model,

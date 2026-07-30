@@ -36,7 +36,7 @@ const SKILL_TAXONOMY: Record<string, { category: string; aliases: string[] }> = 
   'java': { category: 'backend', aliases: ['spring', 'spring boot', 'jvm', 'kotlin'] },
   'go': { category: 'backend', aliases: ['golang'] },
   'rust': { category: 'backend', aliases: ['cargo'] },
-  'graphql': { category: 'backend', aliases: ['graphql api', 'gql'] },
+  'graphql-api': { category: 'backend', aliases: ['graphql api', 'gql'] },
   'rest': { category: 'backend', aliases: ['rest api', 'restful', 'restapi'] },
   'grpc': { category: 'backend', aliases: ['protobuf', 'protocol buffers'] },
   'microservices': { category: 'backend', aliases: ['micro service', 'msa', 'service mesh'] },

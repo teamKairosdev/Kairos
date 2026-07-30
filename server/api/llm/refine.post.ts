@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     return JSON.parse(cached);
   }
 
-  const model = getModelForComplexity('high');
+  const model = await getModelForComplexity('high');
 
   const instructions = `You are Kairos AI, an elite career steward and resume rewriting specialist.
 Rewrite the candidate's resume applying the STAR method (Situation, Task, Action, Result),

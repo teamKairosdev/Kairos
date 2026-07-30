@@ -100,3 +100,15 @@ export async function streamLLMText(options: LLMOptions) {
     temperature: options.temperature ?? 0.7,
   });
 }
+
+/**
+ * 복잡도 수준('low' | 'medium' | 'high')에 따라 기본 모델을 비동기로 매핑하여 반환합니다.
+ */
+export async function getModelForComplexity(complexity: 'low' | 'medium' | 'high' = 'medium'): Promise<LanguageModel> {
+  const modelName = complexity === 'low' 
+    ? 'gemini-2.0-flash-001' 
+    : complexity === 'high' 
+      ? 'gemini-2.0-flash-001' 
+      : 'gemini-2.0-flash-001';
+  return getPreferredLanguageModel(modelName);
+}

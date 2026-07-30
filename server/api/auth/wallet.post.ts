@@ -1,10 +1,10 @@
 import { getDb } from 'db'
 import { users } from 'db/schema'
 import { eq } from 'drizzle-orm'
-import { hashPassword } from '@better-auth/utils/password'
+import bcrypt from 'bcryptjs'
 import { recoverMessageAddress } from 'viem'
 import { consumeNonce } from './nonce.get'
-import { getAuth } from '../../auth'
+import { signSession } from '../../auth'
 
 const WALLET_PASSWORD_PREFIX = 'wallet-'
 
@@ -40,43 +40,60 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: '데이터베이스에 연결할 수 없습니다.' })
   }
 
-  const auth = getAuth()
-  if (!auth) {
-    throw createError({ statusCode: 500, statusMessage: 'Auth가 설정되지 않았습니다.' })
-  }
-
   const addr = address.toLowerCase()
   const password = makeWalletPassword(addr)
 
   // Check if wallet is already linked
   const [existing] = await db.select().from(users).where(eq(users.walletAddress, addr))
 
+  let user = existing
+  let action = 'login'
+
   if (existing) {
-    // Update password hash to wallet password (so signInEmail works)
-    const hash = await hashPassword(password)
+    // Update password hash to wallet password
+    const hash = await bcrypt.hash(password, 10)
     await db.update(users).set({ passwordHash: hash, updatedAt: new Date() }).where(eq(users.id, existing.id))
-    const result = await auth.api.signInEmail({
-      body: { email: existing.email, password },
-    })
-    return { ...result, action: 'login' }
+  } else {
+    // New user — register with wallet-generated email + password
+    const email = `wallet-${addr.slice(2, 10)}@kairos.wallet`
+    const displayName = name || `Wallet ${addr.slice(0, 6)}...${addr.slice(-4)}`
+    const hash = await bcrypt.hash(password, 10)
+    action = 'register'
+
+    const [created] = await db.insert(users).values({
+      email,
+      passwordHash: hash,
+      name: displayName,
+      walletAddress: addr,
+      avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${addr}`,
+    }).returning()
+    user = created
   }
 
-  // New user — register with wallet-generated email + password
-  const email = `wallet-${addr.slice(2, 10)}@kairos.wallet`
-  const displayName = name || `Wallet ${addr.slice(0, 6)}...${addr.slice(-4)}`
-  const hash = await hashPassword(password)
-
-  const [created] = await db.insert(users).values({
-    email,
-    passwordHash: hash,
-    name: displayName,
-    walletAddress: addr,
-    avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${addr}`,
-  }).returning()
-
-  const result = await auth.api.signInEmail({
-    body: { email: created.email, password },
+  const token = await signSession({
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    avatarUrl: user.avatarUrl,
+    walletAddress: user.walletAddress,
   })
 
-  return { ...result, action: 'register' }
+  setCookie(event, 'kairos_session', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 7,
+    path: '/',
+  })
+
+  return {
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatarUrl: user.avatarUrl,
+    },
+    token,
+    action,
+  }
 })
