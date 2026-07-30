@@ -12,24 +12,7 @@ export default defineEventHandler(async (event) => {
   if (!userId) throw createError({ statusCode: 401, statusMessage: '로그인이 필요합니다.' })
 
   const secretKey = useRuntimeConfig().tossSecretKey
-  if (!secretKey) {
-    // Demo mode: fake verify
-    const db = getDb()
-    if (db) {
-      await db.insert(subscriptions).values({
-        userId,
-        plan: plan || 'pro',
-        status: 'active',
-        tossPaymentKey: paymentKey,
-        tossOrderId: orderId,
-        periodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      }).onConflictDoUpdate({
-        target: subscriptions.userId,
-        set: { plan: plan || 'pro', status: 'active', tossPaymentKey: paymentKey, tossOrderId: orderId, updatedAt: new Date() },
-      })
-    }
-    return { status: 'demo', message: 'Demo mode — subscription activated', plan: plan || 'pro' }
-  }
+  if (!secretKey) throw createError({ statusCode: 500, statusMessage: 'Toss payments not configured' })
 
   const tossApiUrl = (useRuntimeConfig() as Record<string, string>).tossApiUrl
   const response = await fetch(`${tossApiUrl}/payments/confirm`, {

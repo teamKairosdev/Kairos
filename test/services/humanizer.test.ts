@@ -1,41 +1,31 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 vi.mock('../../server/services/llm', () => ({
-  isDemoMode: vi.fn(() => true),
+  isDemoMode: vi.fn(() => false),
   callLLMStructured: vi.fn(),
 }))
 
 import { processAIHumanizer } from '../../server/services/humanizer'
-import { isDemoMode } from '../../server/services/llm'
 
 beforeEach(() => {
   vi.clearAllMocks()
 })
 
 describe('processAIHumanizer', () => {
-  it('returns demo result in demo mode', async () => {
+  it('calls callLLMStructured and returns humanized result', async () => {
+    const { callLLMStructured } = await import('../../server/services/llm')
+    vi.mocked(callLLMStructured).mockResolvedValueOnce({
+      humanizedText: 'natural text',
+      styleScore: 90,
+      changesSummary: 'removed passive voice',
+      removedClichés: ['in terms of'],
+    })
+
     const result = await processAIHumanizer('some text')
+    expect(callLLMStructured).toHaveBeenCalledOnce()
     expect(result).toHaveProperty('humanizedText')
     expect(result).toHaveProperty('styleScore')
     expect(result).toHaveProperty('changesSummary')
     expect(result).toHaveProperty('removedClichés')
-    expect(isDemoMode).toHaveBeenCalledOnce()
-  })
-
-  it('styleScore is between 0 and 100', async () => {
-    const result = await processAIHumanizer('text')
-    expect(result.styleScore).toBeGreaterThanOrEqual(0)
-    expect(result.styleScore).toBeLessThanOrEqual(100)
-  })
-
-  it('removedClichés is an array', async () => {
-    const result = await processAIHumanizer('text')
-    expect(Array.isArray(result.removedClichés)).toBe(true)
-  })
-
-  it('humanizedText is a non-empty string', async () => {
-    const result = await processAIHumanizer('text')
-    expect(result.humanizedText).toBeTruthy()
-    expect(typeof result.humanizedText).toBe('string')
   })
 })

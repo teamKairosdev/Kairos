@@ -200,17 +200,17 @@ const landingFeatures = [
 ]
 
 const dashboardStats = [
-  { label: '등록된 이력서', value: '3', to: '/resume', trend: '최근 평가 94점', trendPositive: true },
-  { label: '완료된 면접', value: '8', to: '/interview', trend: '답변 완성도 +15%', trendPositive: true },
-  { label: 'ATS 매칭', value: '92%', to: '/ats', trend: '목표 직무 최적화', trendPositive: true },
-  { label: '벡터 경력', value: '12', to: '/career', trend: 'pgvector 검색', trendPositive: false },
+  { label: '이력서', value: '-', to: '/resume', trend: 'AI 고도화 시작하기', trendPositive: true },
+  { label: '모의 면접', value: '-', to: '/interview', trend: '첫 면접 시작하기', trendPositive: true },
+  { label: 'ATS 분석', value: '-', to: '/ats', trend: 'JD 매칭 분석', trendPositive: true },
+  { label: '경력 검색', value: '-', to: '/career', trend: '벡터 검색', trendPositive: false },
 ]
 
 const activities = [
-  { label: '이력서 고도화 완료', time: '30분 전', desc: '3단계 AI 파이프라인으로 이력서 초안 → 평가 → 재작성 완료', to: '/resume', dotClass: 'bg-fg-brand' },
-  { label: 'AI 모의 면접 종료', time: '2시간 전', desc: '프론트엔드 직군 기준 8문항 답변 완료. 종합 점수 87점', to: '/interview', dotClass: 'bg-fg-brand' },
-  { label: 'ATS 분석 리포트', time: '어제', desc: '지원 예정 회사 JD 기반 키워드 매칭 분석 완료', to: '/ats', dotClass: 'bg-fg-brand' },
-  { label: '휴머나이저 변환 완료', time: '어제', desc: '자기소개서 3개 문장을 자연스러운 어조로 변환', to: '/humanizer', dotClass: 'bg-fg-brand' },
+  { label: '이력서를 작성해보세요', time: '추천', desc: 'AI가 초안부터 평가, 재작성까지 도와줍니다', to: '/resume', dotClass: 'bg-fg-brand' },
+  { label: 'AI 면접을 연습해보세요', time: '추천', desc: '직무별 맞춤 질문과 실시간 피드백', to: '/interview', dotClass: 'bg-fg-brand' },
+  { label: 'ATS 매칭 점수를 확인하세요', time: '추천', desc: 'JD 기반 키워드 분석으로 부족한 역량 진단', to: '/ats', dotClass: 'bg-fg-brand' },
+  { label: '문서를 업로드하고 관리하세요', time: '추천', desc: 'HWP, PDF, DOCX 파일 중앙 관리', to: '/docs', dotClass: 'bg-fg-brand' },
 ]
 
 const quickLinks = [
