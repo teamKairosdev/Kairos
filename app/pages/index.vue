@@ -3,49 +3,49 @@
   <div
     v-if="!state.authenticated && !state.loading"
     ref="landingContainer"
-    class="min-h-screen relative overflow-hidden bg-slate-50 text-slate-900 pb-32"
+    class="min-h-screen relative overflow-hidden bg-white text-slate-900 pb-32"
     @mousemove="handleMouseMove"
   >
-    <!-- Background grid decoration with brand sky backdrop -->
-    <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+    <!-- Background grid decoration -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none no-select-drag" style="user-select: none; -webkit-user-drag: none;"></div>
 
-    <!-- Sky Blue Hero Decorative Background Image -->
-    <div class="absolute top-0 left-0 right-0 h-[650px] opacity-[0.06] bg-cover bg-center pointer-events-none" style="background-image: url('/bg_sky.svg');"></div>
-
-    <!-- Silicon Valley Interactive Orbs (Blue Theme) -->
+    <!-- Sky Blue Hero Decorative Background Image (Non-selectable, Non-draggable) -->
     <div
-      class="absolute inset-0 pointer-events-none transition-transform duration-500 ease-out"
-      :style="{ transform: `translate(${mouseX * 20}px, ${mouseY * 20}px)` }"
-    >
-      <div class="absolute top-[-10%] left-[15%] w-[600px] h-[600px] bg-gradient-to-tr from-blue-400/30 via-sky-300/20 to-indigo-200/30 rounded-full blur-[130px] animate-pulse" style="animation-duration: 9s;"></div>
-      <div class="absolute top-[30%] right-[5%] w-[500px] h-[500px] bg-gradient-to-br from-sky-200/20 via-blue-200/20 to-indigo-100/10 rounded-full blur-[140px] animate-pulse" style="animation-duration: 14s;"></div>
-    </div>
+      class="absolute top-0 left-0 right-0 h-[650px] opacity-[0.05] bg-cover bg-center pointer-events-none no-select-drag"
+      style="background-image: url('/bg_sky.svg'); user-select: none; -webkit-user-drag: none; pointer-events: none;"
+    ></div>
 
     <!-- Glassmorphic Header Navbar inside landing (Floating) -->
     <div class="max-w-6xl mx-auto pt-6 px-6 relative z-20">
       <div class="flex items-center justify-between px-6 py-3 rounded-full border border-slate-200/50 bg-white/70 backdrop-blur-md shadow-xs">
         <div class="flex items-center gap-3">
-          <img src="/logo.svg" alt="Kairos Logo" class="h-5 w-auto object-contain" />
+          <img src="/logo.svg" alt="Kairos Logo" class="h-5 w-auto object-contain no-select-drag" style="user-select: none; -webkit-user-drag: none; filter: brightness(0);" draggable="false" />
           <span class="font-bold text-slate-900 tracking-tight text-sm">Kairos</span>
         </div>
         <div class="flex items-center gap-4">
           <NuxtLink to="/auth/login" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">로그인</NuxtLink>
-          <NuxtLink to="/auth/register" class="px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm">시작하기</NuxtLink>
+          <NuxtLink to="/auth/register" class="px-5 py-2 rounded-full bg-slate-900 hover:bg-indigo-600 text-white text-xs font-bold transition-all shadow-sm">시작하기</NuxtLink>
         </div>
       </div>
     </div>
 
     <!-- Hero Content -->
     <section class="relative pt-20 pb-16 px-6 max-w-5xl mx-auto text-center space-y-8 z-10">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-blue-100 bg-blue-50/50 text-[11px] font-bold text-blue-600 shadow-xs">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-600 shadow-xs select-none">
         ⚡ pgvector 기반 의미 분석 실시간 매칭 엔진 탑재
       </div>
 
       <div class="space-y-6">
-        <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9] text-slate-900">
-          커리어 성장의 전 과정을<br />
-          <span class="bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 bg-clip-text text-transparent">AI 에이전트로 지배하라</span>
-        </h1>
+        <!-- Hero text replaced by Brandcopy SVG (Right click enabled, drag/select disabled, brightness filter applied to make it black) -->
+        <div class="max-w-3xl mx-auto select-none no-select-drag" style="user-select: none; -webkit-user-drag: none;" draggable="false">
+          <img
+            src="/brandcopy.svg"
+            alt="Kairos Brand Copy"
+            class="w-full max-h-[140px] object-contain mx-auto no-select-drag"
+            style="user-select: none; -webkit-user-drag: none; filter: brightness(0);"
+            draggable="false"
+          />
+        </div>
         <p class="text-base sm:text-xl text-slate-500 max-w-3xl mx-auto font-medium leading-relaxed">
           이력서 문맥 평가부터 실시간 입체 모의 면접, 채용 공고(JD) 매칭까지.<br class="hidden sm:block" />
           단순한 줄글 작성을 넘어 당신의 가치를 정량적 수치 성과로 재창조합니다.
@@ -53,7 +53,7 @@
       </div>
 
       <div class="flex flex-wrap gap-4 justify-center pt-2">
-        <NuxtLink to="/auth/register" class="px-8 py-3.5 rounded-full bg-blue-600 text-white hover:bg-blue-700 text-sm font-bold transition-all shadow-md hover:shadow-blue-100 hover:-translate-y-0.5">
+        <NuxtLink to="/auth/register" class="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-indigo-600 text-sm font-bold transition-all shadow-md hover:shadow-indigo-100 hover:-translate-y-0.5">
           실시간 무료 진단 받기
         </NuxtLink>
         <button @click="fillMockCredentials" class="px-8 py-3.5 rounded-full border border-slate-200 bg-white/80 hover:bg-slate-50 text-slate-600 text-sm font-bold transition-all hover:-translate-y-0.5">
