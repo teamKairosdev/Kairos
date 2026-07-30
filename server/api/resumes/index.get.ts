@@ -2,39 +2,36 @@ import { getDb } from 'db';
 import { resumes } from 'db/schema';
 import { eq, desc } from 'drizzle-orm';
 
-const MOCK_RESUMES = [
-  {
-    id: 'demo-resume-1',
-    title: '시니어 풀스택 개발자 이력서 초안',
-    originalContent: 'Nuxt.js 및 Node.js 기반 웹 서비스 구축 경력 4년...',
-    status: 'improved',
-    currentScore: 92,
-    createdAt: new Date(),
-  }
-];
-
 export default defineEventHandler(async (event) => {
   const userId = event.context.user?.userId;
   
   if (!userId) {
-    // Return sample demo data if not logged in
-    return MOCK_RESUMES;
+    throw createError({
+      statusCode: 401,
+      statusMessage: '로그인이 필요한 서비스입니다.',
+    });
+  }
+
+  const db = getDb();
+  if (!db) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: '데이터베이스 연결이 불가능합니다.',
+    });
   }
 
   try {
-    const db = getDb();
-    if (db) {
-      const list = await db
-        .select()
-        .from(resumes)
-        .where(eq(resumes.userId, userId))
-        .orderBy(desc(resumes.createdAt));
-      return list;
-    }
-  } catch {
-    console.warn('[Kairos] resumes/index.get.ts DB fetch failed (demo mode)');
+    const list = await db
+      .select()
+      .from(resumes)
+      .where(eq(resumes.userId, userId))
+      .orderBy(desc(resumes.createdAt));
+    return list;
+  } catch (err: any) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: err.message || '이력서 목록을 조회하는 동안 오류가 발생했습니다.',
+    });
   }
-
-  return MOCK_RESUMES;
 });
 

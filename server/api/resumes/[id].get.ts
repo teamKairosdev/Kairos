@@ -6,44 +6,44 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
   if (!id) throw createError({ statusCode: 400, statusMessage: '이력서 ID가 필요합니다.' });
 
+  const db = getDb();
+  if (!db) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: '데이터베이스 연결이 불가능합니다.',
+    });
+  }
+
   let resume = null;
   let refinements: Array<{ id: string; resumeId: string; step: string; draftContent: string; evaluationFeedback: unknown; score: number; improvedContent: string | null; createdAt: Date }> = [];
 
   try {
-    const db = getDb();
-    if (db) {
-      const [res] = await db.select().from(resumes).where(eq(resumes.id, id));
-      resume = res;
+    const [res] = await db.select().from(resumes).where(eq(resumes.id, id));
+    resume = res;
 
-      if (resume) {
-        refinements = await db
-          .select()
-          .from(resumeRefinements)
-          .where(eq(resumeRefinements.resumeId, id));
-      }
+    if (resume) {
+      refinements = await db
+        .select()
+        .from(resumeRefinements)
+        .where(eq(resumeRefinements.resumeId, id));
     }
-  } catch {
-    console.warn('[Kairos] resume.get.ts DB fetch skipped (demo mode)');
+  } catch (err: any) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: err.message || '데이터베이스에서 정보를 조회하는 동안 에러가 발생했습니다.',
+    });
   }
 
   if (!resume) {
-    // Fallback demo object if not found in db
-    return {
-      resume: {
-        id,
-        title: '시니어 풀스택 개발자 이력서',
-        originalContent: 'Nuxt.js 및 TypeScript 기반 웹 서비스 경험 보유...',
-        status: 'improved',
-        currentScore: 94,
-        createdAt: new Date(),
-      },
-      refinementHistory: [],
-    };
+    throw createError({
+      statusCode: 404,
+      statusMessage: '존재하지 않거나 삭제된 이력서입니다.',
+    });
   }
 
   return {
     resume,
-    refinements,
+    refinementHistory: refinements,
   };
 });
 

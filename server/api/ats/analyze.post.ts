@@ -13,38 +13,49 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const userId = event.context.user?.userId || '00000000-0000-0000-0000-000000000000';
+  const userId = event.context.user?.userId;
+  if (!userId) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: '로그인이 필요한 서비스입니다.',
+    });
+  }
+
+  const db = getDb();
+  if (!db) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: '데이터베이스 연결이 불가능합니다.',
+    });
+  }
 
   // Real LLM ATS Analysis call
   const analysis = await analyzeATSCompatibility(resumeText, jobDescription);
 
-  // Save analysis record (graceful - skip if DB unavailable in demo mode)
-  let savedId: string | undefined;
   try {
-    const db = getDb();
-    if (db) {
-      const [saved] = await db
-        .insert(atsAnalyses)
-        .values({
-          userId,
-          jobTitle,
-          jobDescription,
-          resumeId: resumeId || null,
-          matchScore: analysis.matchScore,
-          missingKeywords: analysis.missingKeywords,
-          foundKeywords: analysis.foundKeywords,
-          recommendations: analysis.recommendations,
-          detailedBreakdown: analysis.detailedBreakdown,
-        })
-        .returning();
-      savedId = saved!.id;
-    }
-  } catch {
-    console.warn('[Kairos] ATS save skipped (demo mode - no DB)');
-  }
+    const [saved] = await db
+      .insert(atsAnalyses)
+      .values({
+        userId,
+        jobTitle,
+        jobDescription,
+        resumeId: resumeId || null,
+        matchScore: analysis.matchScore,
+        missingKeywords: analysis.missingKeywords,
+        foundKeywords: analysis.foundKeywords,
+        recommendations: analysis.recommendations,
+        detailedBreakdown: analysis.detailedBreakdown,
+      })
+      .returning();
 
-  return {
-    id: savedId || 'demo-ats-' + Date.now(),
-    analysis,
-  };
+    return {
+      id: saved.id,
+      analysis,
+    };
+  } catch (err: any) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: err.message || 'ATS 분석 결과를 저장하는 동안 오류가 발생했습니다.',
+    });
+  }
 });
