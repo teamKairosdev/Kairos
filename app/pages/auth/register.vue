@@ -14,15 +14,15 @@
         <form @submit.prevent="handleRegister" class="space-y-4 relative">
           <div>
             <label class="block text-xs font-bold text-gray-500 mb-1.5">성함</label>
-            <input v-model="name" type="text" required placeholder="홍길동" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+            <input v-model="name" type="text" required placeholder="홍길동" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-500 mb-1.5">이메일</label>
-            <input v-model="email" type="email" required placeholder="user@example.com" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+            <input v-model="email" type="email" required placeholder="user@example.com" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-500 mb-1.5">비밀번호</label>
-            <input v-model="password" type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+            <input v-model="password" type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
           </div>
 
           <div v-if="errorMsg" class="px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium">{{ errorMsg }}</div>
@@ -30,7 +30,7 @@
           <button
             type="submit"
             :disabled="loading"
-            class="w-full py-3 rounded-xl bg-gray-900 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+            class="w-full py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
           >
             <svg v-if="loading" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
             {{ loading ? '가입 중...' : '무료 회원가입' }}
@@ -39,7 +39,7 @@
 
         <p class="text-center text-xs text-gray-400 relative">
           이미 계정이 있으신가요?
-          <NuxtLink to="/auth/login" class="text-indigo-600 font-semibold hover:underline ml-1">로그인</NuxtLink>
+          <NuxtLink to="/auth/login" class="text-blue-600 font-semibold hover:underline ml-1">로그인</NuxtLink>
         </p>
       </div>
     </div>

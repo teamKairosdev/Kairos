@@ -79,7 +79,7 @@
             :key="tab.path"
             :to="tab.path"
             class="flex-1 flex flex-col items-center justify-center gap-0.5 text-center transition-colors min-w-0 px-1"
-            :class="isActive(tab.path) ? 'text-indigo-600' : 'text-gray-400 hover:text-gray-600'"
+            :class="isActive(tab.path) ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'"
           >
             <span class="text-xl leading-none">{{ tab.emoji }}</span>
             <span class="text-[10px] font-medium leading-tight truncate w-full text-center">{{ tab.label }}</span>

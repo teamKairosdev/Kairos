@@ -1,15 +1,15 @@
-<template>
+﻿<template>
   <!-- Mobile tab switcher -->
   <div class="lg:hidden flex border-b border-gray-100 bg-white mb-0">
     <button
       @click="mobileTab = 'chat'"
       class="flex-1 py-3 text-sm font-semibold transition-colors"
-      :class="mobileTab === 'chat' ? 'text-indigo-600 border-b-2 border-indigo-500' : 'text-gray-400'"
+      :class="mobileTab === 'chat' ? 'text-blue-600 border-b-2 border-blue-500' : 'text-gray-400'"
     >💬 면접 진행</button>
     <button
       @click="mobileTab = 'info'"
       class="flex-1 py-3 text-sm font-semibold transition-colors"
-      :class="mobileTab === 'info' ? 'text-indigo-600 border-b-2 border-indigo-500' : 'text-gray-400'"
+      :class="mobileTab === 'info' ? 'text-blue-600 border-b-2 border-blue-500' : 'text-gray-400'"
     >📋 세션 정보</button>
   </div>
 
@@ -120,9 +120,9 @@
           <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-xs font-bold shadow-sm">AI</div>
           <div class="px-4 py-3 rounded-2xl bg-white border border-gray-100 shadow-sm rounded-tl-sm">
             <div class="flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 0ms"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 150ms"></span>
-              <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-bounce" style="animation-delay: 300ms"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 0ms"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 150ms"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 300ms"></span>
             </div>
           </div>
         </div>
@@ -130,7 +130,7 @@
 
       <!-- Input Area -->
       <div class="px-6 py-4 border-t border-gray-100 bg-white">
-        <div class="flex items-end gap-3 bg-gray-50 rounded-2xl border border-gray-200 px-4 py-3 focus-within:border-indigo-300 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
+        <div class="flex items-end gap-3 bg-gray-50 rounded-2xl border border-gray-200 px-4 py-3 focus-within:border-blue-300 focus-within:ring-2 focus-within:ring-blue-100 transition-all">
           <textarea
             ref="inputRef"
             v-model="inputText"
@@ -143,7 +143,7 @@
           <button
             @click="submitAnswer"
             :disabled="isStreaming || !inputText.trim()"
-            class="shrink-0 w-9 h-9 bg-gray-900 text-white rounded-xl flex items-center justify-center hover:bg-indigo-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            class="shrink-0 w-9 h-9 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
           </button>
@@ -256,7 +256,7 @@ function difficultyLabel(d?: string) {
 function difficultyBadge(d?: string) {
   return {
     junior: 'bg-green-50 text-green-700',
-    medium: 'bg-amber-50 text-amber-700',
+    medium: 'bg-blue-50 text-blue-700',
     senior: 'bg-red-50 text-red-700',
   }[d || ''] || 'bg-gray-100 text-gray-600'
 }

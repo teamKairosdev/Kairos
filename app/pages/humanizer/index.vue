@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <!-- Header -->
     <div>
-      <p class="text-xs font-semibold tracking-widest text-violet-500 uppercase mb-1">Text Humanizer</p>
+      <p class="text-xs font-semibold tracking-widest text-blue-500 uppercase mb-1">Text Humanizer</p>
       <h1 class="text-2xl font-bold text-gray-900 tracking-tight">휴머나이저</h1>
       <p class="text-sm text-gray-500 mt-1">AI 특유의 딱딱한 문체를 자연스럽고 생동감 있는 어조로 변환합니다.</p>
     </div>
@@ -13,7 +13,7 @@
       <div class="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden flex flex-col">
         <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <div class="w-2 h-2 rounded-full bg-violet-400"></div>
+            <div class="w-2 h-2 rounded-full bg-blue-400"></div>
             <span class="text-sm font-semibold text-gray-700">원본 문장</span>
           </div>
           <span class="text-xs text-gray-400">{{ originalText.length }}자</span>
@@ -30,7 +30,7 @@
           <button
             @click="processHumanize"
             :disabled="!originalText.trim() || loading"
-            class="w-full py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-violet-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            class="w-full py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             <svg v-if="loading" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
             <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -48,7 +48,7 @@
           </div>
           <div v-if="result" class="flex items-center gap-2">
             <span class="text-xs text-gray-400">자연스러움</span>
-            <span class="text-xs font-bold text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full">{{ result.styleScore }}</span>
+            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">{{ result.styleScore }}</span>
           </div>
         </div>
 
@@ -80,8 +80,8 @@
 
           <!-- Empty state -->
           <div v-else class="h-full min-h-[200px] flex flex-col items-center justify-center text-center gap-3 text-gray-400">
-            <div class="w-12 h-12 bg-violet-50 rounded-2xl flex items-center justify-center">
-              <svg class="w-6 h-6 text-violet-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             </div>
             <p class="text-sm">왼쪽에 문장을 입력하고<br/><strong class="text-gray-600">인간화 변환</strong>을 눌러보세요</p>
           </div>
@@ -122,3 +122,4 @@ async function copyResult() {
   }
 }
 </script>
+

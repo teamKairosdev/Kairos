@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <div class="fixed bottom-6 right-6 z-50">
     <!-- Floating Trigger Button -->
     <UButton
       v-if="!isOpen"
-      color="purple"
+      color="primary"
       variant="solid"
       size="xl"
       class="rounded-full shadow-2xl border border-stroke-brand-muted hover:scale-105 transition-transform"
@@ -76,7 +76,7 @@
           />
           <UButton
             type="submit"
-            color="purple"
+            color="primary"
             variant="solid"
             icon="i-lucide-send"
             :loading="isThinking"
@@ -202,3 +202,4 @@ async function sendMessage() {
   }
 }
 </script>
+

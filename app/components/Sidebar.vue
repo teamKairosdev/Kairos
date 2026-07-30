@@ -11,12 +11,12 @@
         :to="item.path"
         class="flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all group"
         :class="isActive(item.path)
-          ? 'bg-indigo-50 text-indigo-700 font-semibold'
+          ? 'bg-blue-50 text-blue-700 font-semibold'
           : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'"
       >
         <span class="text-base leading-none">{{ item.emoji }}</span>
         <span>{{ item.label }}</span>
-        <span v-if="isActive(item.path)" class="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+        <span v-if="isActive(item.path)" class="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500"></span>
       </NuxtLink>
     </nav>
     <div class="p-3 border-t border-gray-100 mt-2">

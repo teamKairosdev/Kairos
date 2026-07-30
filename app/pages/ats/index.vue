@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="max-w-6xl mx-auto py-10 space-y-10 px-4 pb-20">
     <!-- Header -->
     <div class="pb-6 border-b border-slate-100">
@@ -212,3 +212,4 @@ async function runATSAnalysis() {
   }
 }
 </script>
+

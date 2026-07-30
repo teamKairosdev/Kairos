@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -45,7 +45,7 @@
                 class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mb-2 uppercase tracking-wide"
                 :class="{
                   'bg-emerald-50 text-emerald-600': r.status === 'improved',
-                  'bg-amber-50 text-amber-600': r.status === 'evaluating',
+                  'bg-blue-50 text-blue-600': r.status === 'evaluating',
                   'bg-gray-100 text-gray-500': !['improved','evaluating'].includes(r.status),
                 }"
               >{{ r.status }}</span>
@@ -200,3 +200,4 @@ async function triggerRefine(id: string) {
   }
 }
 </script>
+

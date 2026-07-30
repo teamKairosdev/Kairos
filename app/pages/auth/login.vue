@@ -12,19 +12,19 @@
           <p class="text-xs text-gray-400 font-medium">{{ $t('auth.loginSubtitle') }}</p>
 
           <!-- Mock Mode Quick Access -->
-          <div class="mt-4 p-3 bg-amber-50 rounded-2xl border border-amber-100/50 text-left space-y-2">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-800">
+          <div class="mt-4 p-3 bg-blue-50 rounded-2xl border border-blue-100/50 text-left space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-blue-700">
               <span>💡</span>
               <span>테스트 모드 (Mock 체험)</span>
             </div>
-            <p class="text-[10px] text-amber-600 font-medium leading-relaxed">
+            <p class="text-[10px] text-blue-600 font-medium leading-relaxed">
               아이디: <code class="bg-white/80 px-1 py-0.5 rounded font-mono">testmockup</code> / 비번: <code class="bg-white/80 px-1 py-0.5 rounded font-mono">12345</code><br/>
               50개 직무 데이터셋 중 하나를 임의로 지정해 오프라인 테스트를 진행합니다.
             </p>
             <button
               type="button"
               @click="fillMockCredentials"
-              class="w-full py-1.5 text-center bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs"
+              class="w-full py-1.5 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs"
             >
               간편 로그인으로 바로 시작하기
             </button>

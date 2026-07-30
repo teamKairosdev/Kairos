@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="chat-view">
     <div class="chat-header">
       <h1>{{ session?.title || 'AI 채팅' }}</h1>

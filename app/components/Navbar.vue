@@ -22,19 +22,19 @@
 
       <!-- Desktop nav (unauthenticated) -->
       <nav v-if="!state.authenticated" class="hidden md:flex items-center gap-6 text-sm text-gray-500">
-        <a href="#features" class="hover:text-gray-900 transition-colors">기능</a>
-        <NuxtLink to="/auth/login" class="hover:text-gray-900 transition-colors">로그인</NuxtLink>
-        <NuxtLink to="/auth/register" class="px-4 py-1.5 rounded-xl bg-gray-900 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors">
+        <a href="#features" class="hover:text-blue-600 transition-colors">기능</a>
+        <NuxtLink to="/auth/login" class="hover:text-blue-600 transition-colors">로그인</NuxtLink>
+        <NuxtLink to="/auth/register" class="px-4 py-1.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
           시작하기
         </NuxtLink>
       </nav>
 
       <!-- Desktop nav (authenticated) -->
       <nav v-else-if="state.authenticated" class="hidden lg:flex items-center gap-5 text-sm text-gray-500">
-        <NuxtLink to="/resume" class="hover:text-gray-900 transition-colors" :class="route.path.startsWith('/resume') ? 'text-indigo-600 font-semibold' : ''">이력서</NuxtLink>
-        <NuxtLink to="/interview" class="hover:text-gray-900 transition-colors" :class="route.path.startsWith('/interview') ? 'text-indigo-600 font-semibold' : ''">면접</NuxtLink>
-        <NuxtLink to="/ats" class="hover:text-gray-900 transition-colors" :class="route.path.startsWith('/ats') ? 'text-indigo-600 font-semibold' : ''">ATS</NuxtLink>
-        <NuxtLink to="/career" class="hover:text-gray-900 transition-colors" :class="route.path.startsWith('/career') ? 'text-indigo-600 font-semibold' : ''">경력</NuxtLink>
+        <NuxtLink to="/resume" class="hover:text-blue-600 transition-colors" :class="route.path.startsWith('/resume') ? 'text-blue-600 font-semibold' : ''">이력서</NuxtLink>
+        <NuxtLink to="/interview" class="hover:text-blue-600 transition-colors" :class="route.path.startsWith('/interview') ? 'text-blue-600 font-semibold' : ''">면접</NuxtLink>
+        <NuxtLink to="/ats" class="hover:text-blue-600 transition-colors" :class="route.path.startsWith('/ats') ? 'text-blue-600 font-semibold' : ''">ATS</NuxtLink>
+        <NuxtLink to="/career" class="hover:text-blue-600 transition-colors" :class="route.path.startsWith('/career') ? 'text-blue-600 font-semibold' : ''">경력</NuxtLink>
       </nav>
 
       <!-- Right actions -->

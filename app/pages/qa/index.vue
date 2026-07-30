@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <!-- Header -->
     <div>
@@ -74,7 +74,7 @@
                   class="text-xs font-medium px-2 py-0.5 rounded-full"
                   :class="{
                     'bg-green-50 text-green-700': qa.difficulty === 'easy' || qa.difficulty === '기초',
-                    'bg-amber-50 text-amber-700': qa.difficulty === 'medium' || qa.difficulty === '중급',
+                    'bg-sky-50 text-sky-700': qa.difficulty === 'medium' || qa.difficulty === '중급',
                     'bg-red-50 text-red-700': qa.difficulty === 'hard' || qa.difficulty === '심화',
                   }"
                 >{{ qa.difficulty }}</span>
@@ -128,3 +128,4 @@ async function generateQA() {
   }
 }
 </script>
+

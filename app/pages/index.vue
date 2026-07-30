@@ -1,5 +1,5 @@
-<template>
-  <!-- ── Landing (비인증) ── -->
+﻿<template>
+  <!-- ?? Landing (鍮꾩씤利? ?? -->
   <div
     v-if="!state.authenticated && !state.loading"
     ref="landingContainer"
@@ -22,8 +22,8 @@
           <LogoImage img-class="h-5 w-auto object-contain" style="filter: brightness(0);" />
         </div>
         <div class="flex items-center gap-4">
-          <NuxtLink to="/auth/login" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">로그인</NuxtLink>
-          <NuxtLink to="/auth/register" class="px-5 py-2 rounded-full bg-slate-900 hover:bg-indigo-600 text-white text-xs font-bold transition-all shadow-sm">시작하기</NuxtLink>
+          <NuxtLink to="/auth/login" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">濡쒓렇??/NuxtLink>
+          <NuxtLink to="/auth/register" class="px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm">?쒖옉?섍린</NuxtLink>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
     <!-- Hero Content -->
     <section class="relative pt-20 pb-16 px-6 max-w-5xl mx-auto text-center space-y-8 z-10">
       <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-slate-200 bg-slate-50 text-[11px] font-bold text-slate-600 shadow-xs select-none">
-        ⚡ pgvector 기반 의미 분석 실시간 매칭 엔진 탑재
+        ??pgvector 湲곕컲 ?섎? 遺꾩꽍 ?ㅼ떆媛?留ㅼ묶 ?붿쭊 ?묒옱
       </div>
 
       <div class="space-y-6">
@@ -46,17 +46,17 @@
           />
         </div>
         <p class="text-base sm:text-xl text-slate-500 max-w-3xl mx-auto font-medium leading-relaxed">
-          이력서 문맥 평가부터 실시간 입체 모의 면접, 채용 공고(JD) 매칭까지.<br class="hidden sm:block" />
-          단순한 줄글 작성을 넘어 당신의 가치를 정량적 수치 성과로 재창조합니다.
+          ?대젰??臾몃㎘ ?됯?遺???ㅼ떆媛??낆껜 紐⑥쓽 硫댁젒, 梨꾩슜 怨듦퀬(JD) 留ㅼ묶源뚯?.<br class="hidden sm:block" />
+          ?⑥닚??以꾧? ?묒꽦???섏뼱 ?뱀떊??媛移섎? ?뺣웾???섏튂 ?깃낵濡??ъ갹議고빀?덈떎.
         </p>
       </div>
 
       <div class="flex flex-wrap gap-4 justify-center pt-2">
-        <NuxtLink to="/auth/register" class="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-indigo-600 text-sm font-bold transition-all shadow-md hover:shadow-indigo-100 hover:-translate-y-0.5">
-          실시간 무료 진단 받기
+        <NuxtLink to="/auth/register" class="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-blue-700 text-sm font-bold transition-all shadow-md hover:shadow-blue-100 hover:-translate-y-0.5">
+          ?ㅼ떆媛?臾대즺 吏꾨떒 諛쏄린
         </NuxtLink>
         <button @click="fillMockCredentials" class="px-8 py-3.5 rounded-full border border-slate-200 bg-white/80 hover:bg-slate-50 text-slate-600 text-sm font-bold transition-all hover:-translate-y-0.5">
-          테스트 계정 로그인 (50개 직무 세트)
+          ?뚯뒪??怨꾩젙 濡쒓렇??(50媛?吏곷Т ?명듃)
         </button>
       </div>
     </section>
@@ -69,14 +69,14 @@
         <div class="lg:col-span-7 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
           <div class="space-y-2">
             <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">Interactive Enhancer</span>
-            <h3 class="text-2xl font-bold text-slate-800">슬라이더를 밀어 이력서 성과의 변화를 확인하세요</h3>
-            <p class="text-xs text-slate-400 font-medium">단순 업무 나열식 이력서가 AI STAR 기법을 거쳐 강력한 수치 지표 성과로 업그레이드됩니다.</p>
+            <h3 class="text-2xl font-bold text-slate-800">?щ씪?대뜑瑜?諛???대젰???깃낵??蹂?붾? ?뺤씤?섏꽭??/h3>
+            <p class="text-xs text-slate-400 font-medium">?⑥닚 ?낅Т ?섏뿴???대젰?쒓? AI STAR 湲곕쾿??嫄곗퀜 媛뺣젰???섏튂 吏???깃낵濡??낃렇?덉씠?쒕맗?덈떎.</p>
           </div>
 
           <!-- Interactive Enhancer Box -->
           <div class="mt-6 border border-slate-100 rounded-2xl p-5 bg-slate-50 space-y-4">
             <div class="flex justify-between items-center text-xs font-mono">
-              <span class="text-slate-400">// 실시간 AI 고도화 수준</span>
+              <span class="text-slate-400">// ?ㅼ떆媛?AI 怨좊룄???섏?</span>
               <span :class="sliderColorClass" class="font-bold font-mono transition-colors">{{ sliderPercentage }}% Optimized</span>
             </div>
 
@@ -94,12 +94,12 @@
                 type="range"
                 min="30"
                 max="100"
-                class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
               />
               <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-                <span>원문 초안 (Draft)</span>
-                <span>AI 정밀 평가 (Evaluate)</span>
-                <span>성과 보강 (Improve)</span>
+                <span>?먮Ц 珥덉븞 (Draft)</span>
+                <span>AI ?뺣? ?됯? (Evaluate)</span>
+                <span>?깃낵 蹂닿컯 (Improve)</span>
               </div>
             </div>
           </div>
@@ -109,14 +109,14 @@
         <div class="lg:col-span-5 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-sky-200 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
           <div class="space-y-2">
             <span class="text-[10px] font-bold text-sky-600 uppercase tracking-widest">Job Fit Matcher</span>
-            <h3 class="text-2xl font-bold text-slate-800">채용 요구 조건(JD) 즉시 비교</h3>
-            <p class="text-xs text-slate-400 font-medium">원하는 타겟 포지션의 우대 사항과 내 스택을 매칭해 빈틈을 바로 메꿔줍니다.</p>
+            <h3 class="text-2xl font-bold text-slate-800">梨꾩슜 ?붽뎄 議곌굔(JD) 利됱떆 鍮꾧탳</h3>
+            <p class="text-xs text-slate-400 font-medium">?먰븯???寃??ъ??섏쓽 ?곕? ?ы빆怨????ㅽ깮??留ㅼ묶??鍮덊땲??諛붾줈 硫붽퓭以띾땲??</p>
           </div>
 
           <!-- Matching Keywords Widget -->
           <div class="mt-6 space-y-4">
             <div class="rounded-2xl border border-slate-100 p-4 bg-slate-50 space-y-3">
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">포지션: 시니어 프론트엔드 개발자</p>
+              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">?ъ??? ?쒕땲???꾨줎?몄뿏??媛쒕컻??/p>
               
               <div class="flex flex-wrap gap-1.5">
                 <span
@@ -130,12 +130,12 @@
                     activeJd === chip.name ? 'scale-105 shadow-xs ring-2 ring-blue-400' : ''
                   ]"
                 >
-                  {{ chip.name }} {{ chip.matched ? '✓' : '✕' }}
+                  {{ chip.name }} {{ chip.matched ? '?? : '?? }}
                 </span>
               </div>
             </div>
             
-            <p class="text-[10px] text-center text-slate-400 font-semibold">각 기술 칩 위에 마우스를 올려 매칭 여부를 확인하세요</p>
+            <p class="text-[10px] text-center text-slate-400 font-semibold">媛?湲곗닠 移??꾩뿉 留덉슦?ㅻ? ?щ젮 留ㅼ묶 ?щ?瑜??뺤씤?섏꽭??/p>
           </div>
         </div>
 
@@ -143,8 +143,8 @@
         <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
           <div class="space-y-2">
             <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Interview Simulator</span>
-            <h3 class="text-2xl font-bold text-slate-800">실시간 스트리밍 대화형 면접관</h3>
-            <p class="text-xs text-slate-400 font-medium">선택하는 답변 방향에 맞춰 AI가 논리적 꼬리 질문을 동적으로 던집니다.</p>
+            <h3 class="text-2xl font-bold text-slate-800">?ㅼ떆媛??ㅽ듃由щ컢 ??뷀삎 硫댁젒愿</h3>
+            <p class="text-xs text-slate-400 font-medium">?좏깮?섎뒗 ?듬? 諛⑺뼢??留욎떠 AI媛 ?쇰━??瑗щ━ 吏덈Ц???숈쟻?쇰줈 ?섏쭛?덈떎.</p>
           </div>
 
           <!-- Interview Chat Box -->
@@ -157,7 +157,7 @@
             <!-- Chat message -->
             <div class="space-y-3">
               <div class="bg-white/5 border border-white/10 rounded-xl p-3 text-xs leading-relaxed text-gray-200">
-                <span class="text-blue-400 font-bold">AI 면접관:</span> {{ activeInterviewQuestion }}
+                <span class="text-blue-400 font-bold">AI 硫댁젒愿:</span> {{ activeInterviewQuestion }}
               </div>
             </div>
 
@@ -176,11 +176,11 @@
         </div>
 
         <!-- Bento 4: Interactive Semantic Search (col-span-6) -->
-        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
+        <div class="lg:col-span-6 group rounded-3xl border border-slate-200/60 bg-white p-8 shadow-xs hover:shadow-2xl hover:border-blue-200 transition-all duration-300 flex flex-col justify-between min-h-[400px]">
           <div class="space-y-2">
-            <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Semantic Vector Search</span>
-            <h3 class="text-2xl font-bold text-slate-800">pgvector 기반 이력 매칭 검색</h3>
-            <p class="text-xs text-slate-400 font-medium">단순 텍스트 매칭을 넘어 작성하신 경력의 유사도를 벡터 매핑하여 최적의 부합점을 검색합니다.</p>
+            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Semantic Vector Search</span>
+            <h3 class="text-2xl font-bold text-slate-800">pgvector 湲곕컲 ?대젰 留ㅼ묶 寃??/h3>
+            <p class="text-xs text-slate-400 font-medium">?⑥닚 ?띿뒪??留ㅼ묶???섏뼱 ?묒꽦?섏떊 寃쎈젰???좎궗?꾨? 踰≫꽣 留ㅽ븨?섏뿬 理쒖쟻??遺?⑹젏??寃?됲빀?덈떎.</p>
           </div>
 
           <!-- Dynamic Search Widget -->
@@ -189,10 +189,10 @@
               <input
                 v-model="vectorSearchQuery"
                 type="text"
-                placeholder="예: 프론트엔드 성능 최적화 경험"
-                class="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                placeholder="?? ?꾨줎?몄뿏???깅뒫 理쒖쟻??寃쏀뿕"
+                class="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
-              <button @click="triggerVectorSearch" class="px-4 py-2 bg-slate-900 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-all">검색</button>
+              <button @click="triggerVectorSearch" class="px-4 py-2 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all">寃??/button>
             </div>
 
             <!-- Results -->
@@ -202,7 +202,7 @@
                   <p class="text-xs font-bold text-slate-800">{{ res.company }}</p>
                   <p class="text-[10px] text-slate-400">{{ res.role }}</p>
                 </div>
-                <span class="text-xs font-bold font-mono text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">{{ res.similarity }}% 유사도</span>
+                <span class="text-xs font-bold font-mono text-indigo-600 bg-blue-50 px-2 py-0.5 rounded-md">{{ res.similarity }}% ?좎궗??/span>
               </div>
             </div>
           </div>
@@ -213,25 +213,24 @@
 
     <!-- Simple Quick Footer -->
     <footer class="max-w-6xl mx-auto px-6 pt-16 text-center text-xs text-slate-400">
-      <p>© 2026 Kairos. All rights reserved.</p>
+      <p>짤 2026 Kairos. All rights reserved.</p>
     </footer>
   </div>
 
-  <!-- ── Dashboard (인증됨) ── -->
+  <!-- ?? Dashboard (?몄쬆?? ?? -->
   <div v-else-if="state.authenticated" class="space-y-8 pb-16">
     <!-- Welcome Banner -->
     <div class="rounded-2xl border border-blue-100/50 p-8 bg-gradient-to-r from-blue-50/40 via-indigo-50/20 to-white shadow-sm">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div class="space-y-2">
           <h1 class="text-2xl font-bold text-slate-900">
-            {{ state.user?.name }}님, 반갑습니다 👋
+            {{ state.user?.name }}?? 諛섍컩?듬땲???몝
           </h1>
           <p class="text-sm font-medium text-slate-400 leading-relaxed">{{ greetingMessage }}</p>
         </div>
         <NuxtLink to="/interview" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 hover:shadow-md transition-all duration-200">
           <UIcon name="i-lucide-mic" class="w-4 h-4" />
-          모의 면접 바로가기
-        </NuxtLink>
+          紐⑥쓽 硫댁젒 諛붾줈媛湲?        </NuxtLink>
       </div>
     </div>
 
@@ -243,7 +242,7 @@
         <p class="text-xs font-semibold text-slate-400">{{ stat.label }}</p>
         <p class="text-2xl font-extrabold text-slate-800 mt-2">{{ stat.value }}</p>
         <p v-if="stat.trend" class="text-xs mt-3 font-semibold flex items-center gap-1" :class="stat.trendPositive ? 'text-blue-600' : 'text-slate-400'">
-          <span v-if="stat.trendPositive">✨</span>
+          <span v-if="stat.trendPositive">??/span>
           <span>{{ stat.trend }}</span>
         </p>
       </NuxtLink>
@@ -254,8 +253,8 @@
       <!-- Left: Activity feed (Modern timeline) -->
       <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-6">
         <div class="flex items-center justify-between">
-          <h2 class="text-lg font-bold text-slate-800">추천 커리어 과제</h2>
-          <NuxtLink to="/settings" class="text-xs font-semibold text-slate-400 hover:text-blue-600 transition-colors">자세히보기</NuxtLink>
+          <h2 class="text-lg font-bold text-slate-800">異붿쿇 而ㅻ━??怨쇱젣</h2>
+          <NuxtLink to="/settings" class="text-xs font-semibold text-slate-400 hover:text-blue-600 transition-colors">?먯꽭?덈낫湲?/NuxtLink>
         </div>
         <div class="space-y-6">
           <div v-for="(activity, i) in activities" :key="i"
@@ -273,7 +272,7 @@
                 <span class="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-blue-50 text-blue-600">{{ activity.time }}</span>
               </div>
               <p class="text-xs font-medium text-slate-400 leading-relaxed">{{ activity.desc }}</p>
-              <NuxtLink :to="activity.to" class="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline inline-block">진행하기 &rarr;</NuxtLink>
+              <NuxtLink :to="activity.to" class="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline inline-block">吏꾪뻾?섍린 &rarr;</NuxtLink>
             </div>
           </div>
         </div>
@@ -283,7 +282,7 @@
       <div class="space-y-6">
         <!-- Quick links -->
         <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
-          <h3 class="text-xs font-bold text-slate-400 tracking-wider mb-4 uppercase">바로가기 메뉴</h3>
+          <h3 class="text-xs font-bold text-slate-400 tracking-wider mb-4 uppercase">諛붾줈媛湲?硫붾돱</h3>
           <nav class="space-y-1">
             <NuxtLink v-for="item in quickLinks" :key="item.label" :to="item.to"
               class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200"
@@ -300,19 +299,19 @@
             <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 shadow-sm">
               <UIcon name="i-lucide-lightbulb" class="w-5 h-5 text-blue-600" />
             </div>
-            <h3 class="text-sm font-bold text-slate-800">커리어 가이드 팁</h3>
+            <h3 class="text-sm font-bold text-slate-800">而ㅻ━??媛?대뱶 ??/h3>
           </div>
-          <p class="text-xs font-medium text-slate-400 leading-relaxed">이력서에 지원하려는 구체적 포지션의 핵심 키워드를 최적화해 포함시키면 AI 필터링 서류 평가 점수가 평균 23% 상승합니다.</p>
+          <p class="text-xs font-medium text-slate-400 leading-relaxed">?대젰?쒖뿉 吏?먰븯?ㅻ뒗 援ъ껜???ъ??섏쓽 ?듭떖 ?ㅼ썙?쒕? 理쒖쟻?뷀빐 ?ы븿?쒗궎硫?AI ?꾪꽣留??쒕쪟 ?됯? ?먯닔媛 ?됯퇏 23% ?곸듅?⑸땲??</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ── Loading ── -->
+  <!-- ?? Loading ?? -->
   <div v-else class="flex items-center justify-center py-40">
     <div class="flex flex-col items-center gap-3">
       <UIcon name="i-lucide-loader" class="w-7 h-7 text-blue-500 animate-spin" />
-      <p class="text-sm font-semibold text-slate-400">시스템 로딩 중...</p>
+      <p class="text-sm font-semibold text-slate-400">?쒖뒪??濡쒕뵫 以?..</p>
     </div>
   </div>
 </template>
@@ -321,9 +320,9 @@
 const { state } = useAuth()
 
 const hours = new Date().getHours()
-const greetingMessage = hours < 12 ? '좋은 아침입니다. 오늘의 목표를 설정해보세요.'
-  : hours < 18 ? '좋은 오후입니다. 커리어를 한 단계 발전시킬 시간입니다.'
-  : '좋은 저녁입니다. 내일을 위한 준비를 해보세요.'
+const greetingMessage = hours < 12 ? '醫뗭? ?꾩묠?낅땲?? ?ㅻ뒛??紐⑺몴瑜??ㅼ젙?대낫?몄슂.'
+  : hours < 18 ? '醫뗭? ?ㅽ썑?낅땲?? 而ㅻ━?대? ???④퀎 諛쒖쟾?쒗궗 ?쒓컙?낅땲??'
+  : '醫뗭? ??곸엯?덈떎. ?댁씪???꾪븳 以鍮꾨? ?대낫?몄슂.'
 
 // Interactive mouse effect states
 const mouseX = ref(0)
@@ -342,16 +341,16 @@ const evalSliderScore = ref(35)
 const sliderPercentage = computed(() => evalSliderScore.value)
 const sliderColorClass = computed(() => {
   if (evalSliderScore.value > 85) return 'text-emerald-500'
-  if (evalSliderScore.value > 60) return 'text-indigo-500'
+  if (evalSliderScore.value > 60) return 'text-blue-500'
   return 'text-red-500'
 })
 const sliderText = computed(() => {
   if (evalSliderScore.value < 55) {
-    return '카카오에서 리액트 개발을 주로 하였습니다. 버그를 많이 수정했습니다.'
+    return '移댁뭅?ㅼ뿉??由ъ븸??媛쒕컻??二쇰줈 ?섏??듬땲?? 踰꾧렇瑜?留롮씠 ?섏젙?덉뒿?덈떎.'
   } else if (evalSliderScore.value < 85) {
-    return '카카오 프론트엔드 팀에서 결제 서비스 리팩토링 및 쿼리 캐싱 패턴 도입 담당.'
+    return '移댁뭅???꾨줎?몄뿏????먯꽌 寃곗젣 ?쒕퉬??由ы뙥?좊쭅 諛?荑쇰━ 罹먯떛 ?⑦꽩 ?꾩엯 ?대떦.'
   } else {
-    return '카카오 페이먼트 서비스 리액트 마이그레이션 주도 (결제 실패율 2.3% → 0.05% 이하 통제, LCP 4.2s → 1.1s 개선 완료)'
+    return '移댁뭅???섏씠癒쇳듃 ?쒕퉬??由ъ븸??留덉씠洹몃젅?댁뀡 二쇰룄 (寃곗젣 ?ㅽ뙣??2.3% ??0.05% ?댄븯 ?듭젣, LCP 4.2s ??1.1s 媛쒖꽑 ?꾨즺)'
   }
 })
 
@@ -367,10 +366,10 @@ const jdChips = [
 ]
 
 // Bento 3: Mock Interview Chat States
-const activeInterviewQuestion = ref('반갑습니다. 준비하신 프로젝트 성과에 대해 간략히 한 문장으로 대답해 주십시오.')
+const activeInterviewQuestion = ref('諛섍컩?듬땲?? 以鍮꾪븯???꾨줈?앺듃 ?깃낵?????媛꾨왂????臾몄옣?쇰줈 ??듯빐 二쇱떗?쒖삤.')
 const interviewAnswers = [
-  { label: '리액트 성능을 주로 개선했습니다.', response: '어떤 기법(예: 메모이제이션, 코드 스플리팅)을 사용해 LCP 지표를 단축하셨습니까?' },
-  { label: 'MSA 결제 아키텍처를 도입했습니다.', response: '결제 트랜잭션 중 발생 가능한 동시성(Race Condition) 문제는 어떻게 보완하셨는지 공유해주세요.' }
+  { label: '由ъ븸???깅뒫??二쇰줈 媛쒖꽑?덉뒿?덈떎.', response: '?대뼡 湲곕쾿(?? 硫붾え?댁젣?댁뀡, 肄붾뱶 ?ㅽ뵆由ы똿)???ъ슜??LCP 吏?쒕? ?⑥텞?섏뀲?듬땲源?' },
+  { label: 'MSA 寃곗젣 ?꾪궎?띿쿂瑜??꾩엯?덉뒿?덈떎.', response: '寃곗젣 ?몃옖??뀡 以?諛쒖깮 媛?ν븳 ?숈떆??Race Condition) 臾몄젣???대뼸寃?蹂댁셿?섏뀲?붿? 怨듭쑀?댁＜?몄슂.' }
 ]
 function selectInterviewAnswer(ans: { label: string, response: string }) {
   activeInterviewQuestion.value = ans.response
@@ -379,15 +378,15 @@ function selectInterviewAnswer(ans: { label: string, response: string }) {
 // Bento 4: Vector Search
 const vectorSearchQuery = ref('')
 const vectorResults = ref<any[]>([
-  { company: '토스', role: '프론트엔드 개발자', similarity: 96 },
-  { company: '네이버', role: '백엔드 엔지니어', similarity: 82 }
+  { company: '?좎뒪', role: '?꾨줎?몄뿏??媛쒕컻??, similarity: 96 },
+  { company: '?ㅼ씠踰?, role: '諛깆뿏???붿??덉뼱', similarity: 82 }
 ])
 function triggerVectorSearch() {
   if (!vectorSearchQuery.value.trim()) return
   // Randomize mock similarity to make it look active
   vectorResults.value = [
-    { company: '카카오', role: '플랫폼 엔지니어', similarity: Math.floor(Math.random() * 15) + 85 },
-    { company: '라인', role: '서버 아키텍트', similarity: Math.floor(Math.random() * 20) + 70 }
+    { company: '移댁뭅??, role: '?뚮옯???붿??덉뼱', similarity: Math.floor(Math.random() * 15) + 85 },
+    { company: '?쇱씤', role: '?쒕쾭 ?꾪궎?랁듃', similarity: Math.floor(Math.random() * 20) + 70 }
   ]
 }
 
@@ -402,33 +401,33 @@ async function fillMockCredentials() {
 }
 
 const stats = [
-  { value: '50개+', label: '직무 매칭 데이터' },
-  { value: '1536차원', label: '임베딩 차원' },
-  { value: '98%', label: 'AI 피드백 정확도' },
-  { value: '실시간', label: '스트리밍 면접관' },
+  { value: '50媛?', label: '吏곷Т 留ㅼ묶 ?곗씠?? },
+  { value: '1536李⑥썝', label: '?꾨쿋??李⑥썝' },
+  { value: '98%', label: 'AI ?쇰뱶諛??뺥솗?? },
+  { value: '?ㅼ떆媛?, label: '?ㅽ듃由щ컢 硫댁젒愿' },
 ]
 
 const dashboardStats = [
-  { label: '이력서', value: '-', to: '/resume', trend: 'AI 고도화 시작하기', trendPositive: true },
-  { label: '모의 면접', value: '-', to: '/interview', trend: '첫 면접 시작하기', trendPositive: true },
-  { label: 'ATS 분석', value: '-', to: '/ats', trend: 'JD 매칭 분석', trendPositive: true },
-  { label: '경력 검색', value: '-', to: '/career', trend: '벡터 검색', trendPositive: false },
+  { label: '?대젰??, value: '-', to: '/resume', trend: 'AI 怨좊룄???쒖옉?섍린', trendPositive: true },
+  { label: '紐⑥쓽 硫댁젒', value: '-', to: '/interview', trend: '泥?硫댁젒 ?쒖옉?섍린', trendPositive: true },
+  { label: 'ATS 遺꾩꽍', value: '-', to: '/ats', trend: 'JD 留ㅼ묶 遺꾩꽍', trendPositive: true },
+  { label: '寃쎈젰 寃??, value: '-', to: '/career', trend: '踰≫꽣 寃??, trendPositive: false },
 ]
 
 const activities = [
-  { label: '이력서를 작성해보세요', time: '추천', desc: 'AI가 초안부터 평가, 재작성까지 도와줍니다', to: '/resume', dotClass: 'bg-fg-brand' },
-  { label: 'AI 면접을 연습해보세요', time: '추천', desc: '직무별 맞춤 질문과 실시간 피드백', to: '/interview', dotClass: 'bg-fg-brand' },
-  { label: 'ATS 매칭 점수를 확인하세요', time: '추천', desc: 'JD 기반 키워드 분석으로 부족한 역량 진단', to: '/ats', dotClass: 'bg-fg-brand' },
-  { label: '문서를 업로드하고 관리하세요', time: '추천', desc: 'HWP, PDF, DOCX 파일 중앙 관리', to: '/docs', dotClass: 'bg-fg-brand' },
+  { label: '?대젰?쒕? ?묒꽦?대낫?몄슂', time: '異붿쿇', desc: 'AI媛 珥덉븞遺???됯?, ?ъ옉?깃퉴吏 ?꾩?以띾땲??, to: '/resume', dotClass: 'bg-fg-brand' },
+  { label: 'AI 硫댁젒???곗뒿?대낫?몄슂', time: '異붿쿇', desc: '吏곷Т蹂?留욎땄 吏덈Ц怨??ㅼ떆媛??쇰뱶諛?, to: '/interview', dotClass: 'bg-fg-brand' },
+  { label: 'ATS 留ㅼ묶 ?먯닔瑜??뺤씤?섏꽭??, time: '異붿쿇', desc: 'JD 湲곕컲 ?ㅼ썙??遺꾩꽍?쇰줈 遺議깊븳 ??웾 吏꾨떒', to: '/ats', dotClass: 'bg-fg-brand' },
+  { label: '臾몄꽌瑜??낅줈?쒗븯怨?愿由ы븯?몄슂', time: '異붿쿇', desc: 'HWP, PDF, DOCX ?뚯씪 以묒븰 愿由?, to: '/docs', dotClass: 'bg-fg-brand' },
 ]
 
 const quickLinks = [
-  { label: '이력서 관리', icon: 'i-lucide-file-text', to: '/resume' },
-  { label: '면접 연습', icon: 'i-lucide-mic', to: '/interview' },
-  { label: 'ATS 진단', icon: 'i-lucide-crosshair', to: '/ats' },
-  { label: '문서 보관함', icon: 'i-lucide-folder', to: '/docs' },
-  { label: '포토스튜디오', icon: 'i-lucide-palette', to: '/studio' },
-  { label: '설정', icon: 'i-lucide-settings', to: '/settings' },
+  { label: '?대젰??愿由?, icon: 'i-lucide-file-text', to: '/resume' },
+  { label: '硫댁젒 ?곗뒿', icon: 'i-lucide-mic', to: '/interview' },
+  { label: 'ATS 吏꾨떒', icon: 'i-lucide-crosshair', to: '/ats' },
+  { label: '臾몄꽌 蹂닿???, icon: 'i-lucide-folder', to: '/docs' },
+  { label: '?ы넗?ㅽ뒠?붿삤', icon: 'i-lucide-palette', to: '/studio' },
+  { label: '?ㅼ젙', icon: 'i-lucide-settings', to: '/settings' },
 ]
 </script>
 
@@ -448,3 +447,5 @@ const quickLinks = [
   50% { opacity: 0; }
 }
 </style>
+
+

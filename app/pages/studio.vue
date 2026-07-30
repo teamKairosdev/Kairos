@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <!-- Header -->
     <div>
-      <p class="text-xs font-semibold tracking-widest text-purple-500 uppercase mb-1">AI Photo Studio</p>
+      <p class="text-xs font-semibold tracking-widest text-blue-500 uppercase mb-1">AI Photo Studio</p>
       <h1 class="text-2xl font-bold text-gray-900 tracking-tight">AI 포토스튜디오</h1>
       <p class="text-sm text-gray-500 mt-1">DALL·E 3로 커리어 프로필 이미지와 포트폴리오 비주얼을 생성하세요.</p>
     </div>
@@ -30,14 +30,14 @@
                 :key="s.value"
                 @click="size = s.value"
                 class="py-2 rounded-xl text-xs font-medium border transition-all"
-                :class="size === s.value ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300'"
+                :class="size === s.value ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300'"
               >{{ s.label }}</button>
             </div>
           </div>
           <button
             @click="generateImage"
             :disabled="!prompt.trim() || generating"
-            class="w-full py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            class="w-full py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             <svg v-if="generating" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
             <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -49,8 +49,8 @@
         <div class="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 space-y-4">
           <h2 class="text-sm font-semibold text-gray-700">이미지 업로드</h2>
           <label
-            class="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 cursor-pointer hover:border-purple-300 hover:bg-purple-50/30 transition-all"
-            :class="selectedFile ? 'border-purple-400 bg-purple-50/50' : ''"
+            class="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 cursor-pointer hover:border-blue-300 hover:bg-blue-50/30 transition-all"
+            :class="selectedFile ? 'border-blue-400 bg-blue-50/50' : ''"
           >
             <input type="file" accept="image/*" @change="onFileChange" class="hidden" />
             <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
@@ -69,13 +69,13 @@
       <!-- Right: Gallery -->
       <div class="lg:col-span-2">
         <div v-if="loading" class="bg-white rounded-2xl border border-gray-100 shadow-xs p-16 flex flex-col items-center justify-center gap-3">
-          <svg class="w-8 h-8 text-purple-300 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+          <svg class="w-8 h-8 text-blue-300 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
           <p class="text-sm text-gray-400">이미지를 불러오는 중...</p>
         </div>
 
         <div v-else-if="images.length === 0" class="bg-white rounded-2xl border border-dashed border-gray-200 p-16 flex flex-col items-center justify-center gap-3 text-center">
-          <div class="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center">
-            <svg class="w-8 h-8 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center">
+            <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           </div>
           <h3 class="text-sm font-semibold text-gray-600">갤러리가 비어 있습니다</h3>
           <p class="text-xs text-gray-400">왼쪽 패널에서 이미지를 생성하거나 업로드하세요</p>
@@ -103,7 +103,7 @@
             <div class="absolute top-2 left-2">
               <span
                 class="text-xs font-bold px-2 py-0.5 rounded-full"
-                :class="img.type === 'generated' ? 'bg-purple-600 text-white' : 'bg-gray-800/70 text-white'"
+                :class="img.type === 'generated' ? 'bg-blue-600 text-white' : 'bg-gray-800/70 text-white'"
               >{{ img.type === 'generated' ? 'AI' : 'UP' }}</span>
             </div>
           </div>
@@ -195,3 +195,4 @@ function downloadImage(img: any) {
 
 onMounted(loadImages)
 </script>
+

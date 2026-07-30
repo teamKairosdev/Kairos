@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -165,7 +165,7 @@ function fileEmoji(ext: string) {
   return { hwp: '📝', hwpx: '📝', docx: '📄', doc: '📄', pdf: '📕' }[ext] || '📄'
 }
 function fileIconBg(ext: string) {
-  return { hwp: 'bg-blue-50', hwpx: 'bg-blue-50', docx: 'bg-indigo-50', doc: 'bg-indigo-50', pdf: 'bg-red-50' }[ext] || 'bg-gray-50'
+  return { hwp: 'bg-blue-50', hwpx: 'bg-blue-50', docx: 'bg-blue-50', doc: 'bg-blue-50', pdf: 'bg-red-50' }[ext] || 'bg-gray-50'
 }
 function formatSize(bytes: number): string {
   if (bytes < 1024) return `${bytes}B`
@@ -173,3 +173,4 @@ function formatSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)}MB`
 }
 </script>
+

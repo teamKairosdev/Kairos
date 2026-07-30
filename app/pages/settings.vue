@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="max-w-2xl mx-auto space-y-6">
     <!-- Header -->
     <div>
@@ -14,7 +14,7 @@
       <div class="p-6 space-y-4">
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1.5">성함</label>
-          <input v-model="form.name" type="text" placeholder="홍길동" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+          <input v-model="form.name" type="text" placeholder="홍길동" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
         </div>
         <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1.5">이메일</label>
@@ -23,7 +23,7 @@
         <button
           @click="saveProfile"
           :disabled="saving"
-          class="px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-50"
+          class="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50"
         >
           {{ saving ? '저장 중...' : '저장' }}
         </button>
@@ -38,8 +38,8 @@
       <div class="p-6">
         <div v-if="walletAddress" class="flex items-center justify-between gap-4">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
-              <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
             </div>
             <div>
               <p class="text-sm font-mono text-gray-900">{{ walletAddress.slice(0, 8) }}...{{ walletAddress.slice(-6) }}</p>
@@ -51,7 +51,7 @@
         <div v-else class="space-y-3">
           <p class="text-sm text-gray-500">연결된 지갑이 없습니다. 지갑을 연결하면 지갑으로 로그인할 수 있습니다.</p>
           <div class="flex gap-2">
-            <button @click="connectWallet('kaikas')" class="px-4 py-2 text-xs font-semibold text-indigo-600 border border-indigo-200 rounded-xl hover:bg-indigo-50 transition-colors">Kaikas 연결</button>
+            <button @click="connectWallet('kaikas')" class="px-4 py-2 text-xs font-semibold text-blue-600 border border-blue-200 rounded-xl hover:bg-blue-50 transition-colors">Kaikas 연결</button>
             <button @click="connectWallet('metamask')" class="px-4 py-2 text-xs font-semibold text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">MetaMask 연결</button>
           </div>
         </div>
@@ -72,7 +72,7 @@
           <div
             @click="notif.value = !notif.value"
             class="relative w-10 h-5 rounded-full transition-colors cursor-pointer"
-            :class="notif.value ? 'bg-indigo-500' : 'bg-gray-200'"
+            :class="notif.value ? 'bg-blue-500' : 'bg-gray-200'"
           >
             <div class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform" :class="notif.value ? 'translate-x-5' : 'translate-x-0'"></div>
           </div>
@@ -176,3 +176,4 @@ function confirmDelete() {
   toast.add({ title: '계정 삭제 기능은 준비 중입니다.', color: 'yellow' })
 }
 </script>
+

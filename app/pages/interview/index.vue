@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
       <div>
-        <p class="text-xs font-semibold tracking-widest text-indigo-500 uppercase mb-1">AI Mock Interview</p>
+        <p class="text-xs font-semibold tracking-widest text-blue-500 uppercase mb-1">AI Mock Interview</p>
         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">모의 면접</h1>
         <p class="text-sm text-gray-500 mt-1">AI 면접관과 실전처럼 연습하고, 즉각적인 피드백을 받으세요.</p>
       </div>
@@ -32,7 +32,7 @@
           v-for="item in interviews"
           :key="item.id"
           :to="`/interview/${item.id}`"
-          class="group bg-white rounded-2xl border border-gray-100 shadow-xs p-6 hover:shadow-md hover:border-indigo-200 transition-all space-y-4 block"
+          class="group bg-white rounded-2xl border border-gray-100 shadow-xs p-6 hover:shadow-md hover:border-blue-200 transition-all space-y-4 block"
         >
           <!-- Top row -->
           <div class="flex items-start justify-between">
@@ -61,21 +61,21 @@
           <!-- Bottom -->
           <div class="flex items-center justify-between pt-3 border-t border-gray-50">
             <span class="text-xs text-gray-400">{{ formatDate(item.createdAt) }}</span>
-            <span class="text-xs font-semibold text-indigo-600 group-hover:translate-x-0.5 transition-transform">입장 →</span>
+            <span class="text-xs font-semibold text-blue-600 group-hover:translate-x-0.5 transition-transform">입장 →</span>
           </div>
         </NuxtLink>
       </div>
 
       <!-- Empty state -->
       <div v-else class="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
-        <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
         </div>
         <h3 class="text-base font-semibold text-gray-700 mb-1">면접 세션이 없습니다</h3>
         <p class="text-sm text-gray-400 mb-6">AI와 실전 면접 연습을 시작해보세요</p>
         <button
           @click="showCreateModal = true"
-          class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-all"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all"
         >
           첫 면접 시작하기
         </button>
@@ -94,11 +94,11 @@
           <div class="space-y-4">
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1.5">지원 직무 <span class="text-red-400">*</span></label>
-              <input v-model="jobTitle" type="text" placeholder="예: 시니어 풀스택 엔지니어" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+              <input v-model="jobTitle" type="text" placeholder="예: 시니어 풀스택 엔지니어" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1.5">목표 기업 <span class="text-gray-400">(선택)</span></label>
-              <input v-model="companyName" type="text" placeholder="예: 카카오, 네이버, 토스" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+              <input v-model="companyName" type="text" placeholder="예: 카카오, 네이버, 토스" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1.5">난이도</label>
@@ -108,7 +108,7 @@
                   :key="d.value"
                   @click="difficulty = d.value"
                   class="py-2 rounded-xl text-xs font-semibold border transition-all"
-                  :class="difficulty === d.value ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-300'"
+                  :class="difficulty === d.value ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300'"
                 >
                   {{ d.label }}
                 </button>
@@ -181,7 +181,7 @@ function difficultyBg(d: string) {
 function difficultyBadge(d: string) {
   return {
     junior: 'bg-green-50 text-green-700',
-    medium: 'bg-amber-50 text-amber-700',
+    medium: 'bg-sky-50 text-sky-700',
     senior: 'bg-red-50 text-red-700',
   }[d] || 'bg-gray-100 text-gray-600'
 }
@@ -190,9 +190,9 @@ function statusLabel(s: string) {
 }
 function statusBadge(s: string) {
   return {
-    in_progress: 'bg-indigo-50 text-indigo-600',
+    in_progress: 'bg-blue-50 text-blue-600',
     completed: 'bg-gray-100 text-gray-500',
-    paused: 'bg-amber-50 text-amber-600',
+    paused: 'bg-slate-50 text-slate-500',
   }[s] || 'bg-gray-100 text-gray-500'
 }
 function formatDate(d: string | Date) {
@@ -215,3 +215,4 @@ async function startSession() {
   }
 }
 </script>
+

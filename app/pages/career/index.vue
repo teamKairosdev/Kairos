@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <div class="space-y-8">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
       <div>
-        <p class="text-xs font-semibold tracking-widest text-indigo-500 uppercase mb-1">Career History</p>
+        <p class="text-xs font-semibold tracking-widest text-blue-500 uppercase mb-1">Career History</p>
         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">경력 관리</h1>
         <p class="text-sm text-gray-500 mt-1">커리어 이력을 체계적으로 기록하고 AI 시맨틱 검색으로 찾아보세요.</p>
       </div>
@@ -17,11 +17,11 @@
     </div>
 
     <!-- Semantic Search -->
-    <div class="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl p-6 border border-indigo-100">
+    <div class="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl p-6 border border-blue-100">
       <div class="flex items-center gap-2 mb-3">
-        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <span class="text-sm font-semibold text-indigo-800">AI 시맨틱 검색</span>
-        <span class="text-xs text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded-full">pgvector 1536차원</span>
+        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <span class="text-sm font-semibold text-blue-800">AI 시맨틱 검색</span>
+        <span class="text-xs text-blue-500 bg-blue-100 px-2 py-0.5 rounded-full">pgvector 1536차원</span>
       </div>
       <div class="flex gap-3">
         <input
@@ -29,12 +29,12 @@
           type="text"
           placeholder="예: React로 대용량 트래픽 처리한 경험"
           @keyup.enter="performSearch"
-          class="flex-1 px-4 py-2.5 rounded-xl bg-white border border-indigo-100 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all shadow-xs"
+          class="flex-1 px-4 py-2.5 rounded-xl bg-white border border-blue-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all shadow-xs"
         />
         <button
           @click="performSearch"
           :disabled="!searchQuery.trim() || searching"
-          class="px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          class="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           <svg v-if="searching" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
           <span>{{ searching ? '검색 중...' : '검색' }}</span>
@@ -43,15 +43,15 @@
 
       <!-- Search Results -->
       <div v-if="searchResults" class="mt-4 space-y-2">
-        <div class="flex items-center justify-between text-xs text-indigo-600 font-medium mb-3">
+        <div class="flex items-center justify-between text-xs text-blue-600 font-medium mb-3">
           <span>"{{ searchResults.query }}" 검색 결과</span>
-          <button @click="searchResults = null; searchQuery = ''" class="text-indigo-400 hover:text-indigo-600">✕ 초기화</button>
+          <button @click="searchResults = null; searchQuery = ''" class="text-blue-400 hover:text-blue-600">✕ 초기화</button>
         </div>
         <div v-if="searchResults.results.length === 0" class="text-center py-4 text-sm text-gray-500">관련 경력을 찾지 못했습니다.</div>
         <div
           v-for="res in searchResults.results"
           :key="res.id"
-          class="bg-white rounded-xl p-4 border border-indigo-100 flex items-start justify-between gap-3"
+          class="bg-white rounded-xl p-4 border border-blue-100 flex items-start justify-between gap-3"
         >
           <div class="space-y-1 min-w-0">
             <div class="flex items-center gap-2">
@@ -83,16 +83,16 @@
           <div v-for="(c, idx) in careersList" :key="c.id" class="relative flex gap-5">
             <!-- Timeline dot -->
             <div class="shrink-0 w-11 flex justify-center pt-0.5">
-              <div class="w-5 h-5 rounded-full border-2 border-indigo-400 bg-white ring-4 ring-indigo-50 z-10 relative flex items-center justify-center">
-                <div class="w-2 h-2 rounded-full bg-indigo-400"></div>
+              <div class="w-5 h-5 rounded-full border-2 border-blue-400 bg-white ring-4 ring-blue-50 z-10 relative flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-blue-400"></div>
               </div>
             </div>
 
             <!-- Content card -->
-            <div class="flex-1 bg-white rounded-2xl border border-gray-100 shadow-xs p-5 hover:shadow-sm hover:border-indigo-100 transition-all group">
+            <div class="flex-1 bg-white rounded-2xl border border-gray-100 shadow-xs p-5 hover:shadow-sm hover:border-blue-100 transition-all group">
               <div class="flex items-start justify-between gap-3 mb-3">
                 <div>
-                  <div class="inline-block text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full mb-2">{{ c.period }}</div>
+                  <div class="inline-block text-xs font-medium text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full mb-2">{{ c.period }}</div>
                   <h3 class="text-base font-bold text-gray-900">{{ c.company }}</h3>
                   <p class="text-sm text-gray-500 font-medium">{{ c.role }}</p>
                 </div>
@@ -109,7 +109,7 @@
                 <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide">주요 성과</p>
                 <ul class="space-y-1">
                   <li v-for="(a, aIdx) in c.achievements" :key="aIdx" class="flex items-start gap-2 text-xs text-gray-600">
-                    <span class="mt-1 shrink-0 w-1 h-1 rounded-full bg-indigo-400"></span>
+                    <span class="mt-1 shrink-0 w-1 h-1 rounded-full bg-blue-400"></span>
                     {{ a }}
                   </li>
                 </ul>
@@ -121,14 +121,14 @@
 
       <!-- Empty state -->
       <div v-else class="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
-        <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         </div>
         <h3 class="text-base font-semibold text-gray-700 mb-1">등록된 경력이 없습니다</h3>
         <p class="text-sm text-gray-400 mb-6">첫 경력을 추가하고 커리어를 체계적으로 관리하세요</p>
         <button
           @click="showCreateModal = true"
-          class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-all"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all"
         >
           경력 추가하기
         </button>
@@ -148,16 +148,16 @@
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1.5">회사 <span class="text-red-400">*</span></label>
-                <input v-model="form.company" type="text" placeholder="카카오" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+                <input v-model="form.company" type="text" placeholder="카카오" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
               </div>
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1.5">직무 <span class="text-red-400">*</span></label>
-                <input v-model="form.role" type="text" placeholder="프론트엔드 엔지니어" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+                <input v-model="form.role" type="text" placeholder="프론트엔드 엔지니어" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
               </div>
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1.5">기간</label>
-              <input v-model="form.period" type="text" placeholder="2023.01 - 2026.07 (재직 중)" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all" />
+              <input v-model="form.period" type="text" placeholder="2023.01 - 2026.07 (재직 중)" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all" />
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1.5">업무 내용 & 기술 스택 <span class="text-red-400">*</span></label>
@@ -165,7 +165,7 @@
                 v-model="form.description"
                 rows="4"
                 placeholder="담당한 업무, 사용한 기술 스택, 주요 프로젝트를 기술해주세요. AI가 이 내용을 학습하여 시맨틱 검색에 활용합니다."
-                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition-all resize-none"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all resize-none"
               ></textarea>
             </div>
           </div>
@@ -208,7 +208,7 @@ const form = ref({
 
 function similarityColor(sim: number) {
   if (sim >= 0.8) return 'text-emerald-600'
-  if (sim >= 0.6) return 'text-indigo-600'
+  if (sim >= 0.6) return 'text-blue-600'
   if (sim >= 0.4) return 'text-amber-600'
   return 'text-gray-500'
 }
@@ -260,3 +260,4 @@ async function performSearch() {
   }
 }
 </script>
+
