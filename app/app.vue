@@ -17,6 +17,10 @@
 </template>
 
 <script setup lang="ts">
+import Navbar from '~/components/Navbar.vue'
+import Sidebar from '~/components/Sidebar.vue'
+import CareerAssistantPanel from '~/components/CareerAssistantPanel.vue'
+
 const { state, fetchUser } = useAuth()
 const route = useRoute()
 const showSidebar = computed(() => state.authenticated && route.path !== '/auth/login' && route.path !== '/auth/register')
@@ -24,17 +28,10 @@ const showSidebar = computed(() => state.authenticated && route.path !== '/auth/
 onMounted(() => {
   fetchUser()
 })
-</script>
-
-<script setup lang="ts">
-import Navbar from '~/components/Navbar.vue'
-import Sidebar from '~/components/Sidebar.vue'
-import CareerAssistantPanel from '~/components/CareerAssistantPanel.vue'
 
 useHead({
   htmlAttrs: {
-    'data-seed-color-mode': 'system',
-    'data-seed-user-color-scheme': 'dark',
+    'data-seed-color-mode': 'light',
   },
 })
 </script>
