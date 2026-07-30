@@ -1,7 +1,7 @@
 import { createOpenAI } from '@ai-sdk/openai';
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { generateText, streamText, type LanguageModel } from 'ai';
+import { generateText, streamText, Output, type LanguageModel } from 'ai';
 
 export interface LLMOptions {
   instructions?: string;
@@ -13,11 +13,11 @@ export function isDemoMode(): boolean {
   const config = useRuntimeConfig();
   const openaiKey = config.openaiApiKey || process.env.OPENAI_API_KEY || '';
   const anthropicKey = config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '';
-  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || '';
+  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '';
 
   const hasOpenAI = openaiKey.trim() !== '' && !openaiKey.includes('your-openai') && !openaiKey.includes('sk-proj-your');
   const hasAnthropic = anthropicKey.trim() !== '' && !anthropicKey.includes('your-anthropic') && !anthropicKey.includes('sk-ant-your');
-  const hasGoogle = googleKey.trim() !== '' && !googleKey.includes('your-google') && !googleKey.includes('AIzaSy-your');
+  const hasGoogle = googleKey.trim() !== '' && !googleKey.includes('your-google') && !googleKey.includes('AIzaSy-your') && !googleKey.includes('AIzaSy-your-google');
 
   return !hasOpenAI && !hasAnthropic && !hasGoogle;
 }
@@ -27,7 +27,7 @@ function getKeys() {
   return {
     anthropic: config.anthropicApiKey || process.env.ANTHROPIC_API_KEY || '',
     openai: config.openaiApiKey || process.env.OPENAI_API_KEY || '',
-    google: config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || '',
+    google: config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '',
   };
 }
 
@@ -65,7 +65,7 @@ export function getPreferredLanguageModel(): LanguageModel {
     return openai('gpt-4.1-mini');
   }
 
-  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || '';
+  const googleKey = config.googleApiKey || process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GOOGLE_API_KEY || '';
   if (isValidKey(googleKey)) {
     const google = createGoogleGenerativeAI({ apiKey: googleKey });
     return google('gemini-3.5-flash');
@@ -103,9 +103,9 @@ export function getModelForComplexity(complexity: 'low' | 'medium' | 'high'): La
 function getApiUrls() {
   const config = useRuntimeConfig();
   return {
-    anthropic: (config as Record<string, string>).anthropicApiUrl || 'https://api.anthropic.com/v1',
-    openai: (config as Record<string, string>).openaiApiUrl || 'https://api.openai.com/v1',
-    google: (config as Record<string, string>).googleApiUrl || 'https://generativelanguage.googleapis.com/v1beta',
+    anthropic: (config as Record<string, string>).anthropicApiUrl,
+    openai: (config as Record<string, string>).openaiApiUrl,
+    google: (config as Record<string, string>).googleApiUrl,
   };
 }
 
@@ -199,7 +199,7 @@ export async function callLLMStructured<T>(options: LLMOptions & { schema: Recor
       instructions: options.instructions,
       prompt: options.prompt,
       temperature: options.temperature ?? 0.3,
-      output: options.schema,
+      output: Output.object({ schema: options.schema as Parameters<typeof Output.object>[0]['schema'] }),
       ...(hasAnthropicKey() && { providerOptions: { anthropic: { cacheControl: { type: 'ephemeral' } } } }),
     });
     return result.output as T;

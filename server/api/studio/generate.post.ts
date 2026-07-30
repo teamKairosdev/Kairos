@@ -21,7 +21,7 @@ async function downloadImage(url: string, filename: string): Promise<string> {
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const openaiApiKey = config.openaiApiKey || process.env.OPENAI_API_KEY
-  const openaiApiUrl = (config as Record<string, string>).openaiApiUrl || 'https://api.openai.com/v1'
+  const openaiApiUrl = (config as Record<string, string>).openaiApiUrl
 
   if (!openaiApiKey) {
     throw createError({ statusCode: 503, statusMessage: 'OPENAI_API_KEY가 설정되지 않았습니다.' })

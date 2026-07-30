@@ -97,10 +97,10 @@ export default defineNuxtConfig({
     googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     kakaoClientId: process.env.KAKAO_CLIENT_ID || '',
     kakaoClientSecret: process.env.KAKAO_CLIENT_SECRET || '',
-    openaiApiUrl: 'https://api.openai.com/v1',
-    anthropicApiUrl: 'https://api.anthropic.com/v1',
-    googleApiUrl: 'https://generativelanguage.googleapis.com/v1beta',
-    tossApiUrl: 'https://api.tosspayments.com/v1',
+    openaiApiUrl: process.env.OPENAI_API_URL || 'https://api.openai.com/v1',
+    anthropicApiUrl: process.env.ANTHROPIC_API_URL || 'https://api.anthropic.com/v1',
+    googleApiUrl: process.env.GOOGLE_API_URL || 'https://generativelanguage.googleapis.com/v1beta',
+    tossApiUrl: process.env.TOSS_API_URL || 'https://api.tosspayments.com/v1',
 
     public: {
       appName: 'Kairos',
