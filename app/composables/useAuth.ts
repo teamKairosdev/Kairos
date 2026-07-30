@@ -19,8 +19,8 @@ export function useAuth() {
     authState.loading = true;
     authState.error = null;
     try {
-      const data = await $fetch<{ authenticated: boolean; user: User }>('/api/auth/me');
-      authState.authenticated = data.authenticated;
+      const data = await $fetch<{ user: User | null }>('/api/auth/me');
+      authState.authenticated = !!data.user;
       authState.user = data.user;
     } catch {
       authState.authenticated = false;
@@ -68,7 +68,14 @@ export function useAuth() {
     }
   }
 
-  function logout() {
+  function loginWithGoogle() {
+    window.location.href = '/api/auth/google';
+  }
+
+  async function logout() {
+    try {
+      await $fetch('/api/auth/logout', { method: 'POST' });
+    } catch {}
     authState.user = null;
     authState.authenticated = false;
     navigateTo('/auth/login');
@@ -79,6 +86,7 @@ export function useAuth() {
     fetchUser,
     login,
     register,
+    loginWithGoogle,
     logout,
   };
 }

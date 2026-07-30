@@ -1,4 +1,8 @@
-import { getAuth } from '../auth';
+import { parseCookies } from 'h3';
+import { verifySession } from '../auth';
+import { getDb } from '../../db';
+import { users as usersTable } from '../../db/schema';
+import { eq } from 'drizzle-orm';
 
 export default defineEventHandler(async (event) => {
   const path = getRequestURL(event).pathname;
@@ -6,27 +10,32 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
-  const auth = getAuth();
-  if (!auth) return;
+  const cookies = parseCookies(event);
+  const token = cookies.kairos_session || getRequestHeader(event, 'authorization')?.replace('Bearer ', '');
 
-  try {
-    const session = await auth.api.getSession({ headers: getRequestHeaders(event) as Record<string, string> });
-    if (session) {
-      const { getDb } = await import('db')
-      const { users: usersTable } = await import('db/schema')
-      const { eq } = await import('drizzle-orm')
-      let walletAddress: string | null = null
-      try {
-        const db = getDb()
-        if (db) {
-          const [user] = await db.select({ walletAddress: usersTable.walletAddress }).from(usersTable).where(eq(usersTable.id, session.user.id))
-          walletAddress = user?.walletAddress || null
-        }
-      } catch {}
-      event.context.user = { userId: session.user.id, email: session.user.email, name: session.user.name, walletAddress };
-      event.context.session = session;
-    }
-  } catch {
-    // Session invalid
+  if (!token) return;
+
+  const session = await verifySession(token);
+  if (session) {
+    let walletAddress: string | null = null;
+    try {
+      const db = getDb();
+      if (db) {
+        const [user] = await db
+          .select({ walletAddress: usersTable.walletAddress })
+          .from(usersTable)
+          .where(eq(usersTable.id, session.userId));
+        walletAddress = user?.walletAddress || null;
+      }
+    } catch {}
+
+    event.context.user = {
+      userId: session.userId,
+      email: session.email,
+      name: session.name,
+      avatarUrl: session.avatarUrl,
+      walletAddress,
+    };
+    event.context.session = session;
   }
 });

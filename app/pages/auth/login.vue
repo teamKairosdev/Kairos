@@ -81,7 +81,7 @@ async function handleLogin() {
 
 function signInGoogle() {
   socialLoading.value = true
-  window.location.href = '/api/auth/sign-in/social?provider=google&callbackURL=/'
+  window.location.href = '/api/auth/google'
 }
 
 async function connectWallet(getProvider: () => any, networkName: string) {
