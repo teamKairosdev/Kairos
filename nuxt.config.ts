@@ -157,6 +157,12 @@ export default defineNuxtConfig({
     experimental: {
       asyncContext: true,
     },
+    devProxy: {
+      '/presentation': {
+        target: 'http://localhost:4321',
+        changeOrigin: true,
+      },
+    },
   },
 
   pwa: {
