@@ -15,17 +15,18 @@
       style="background-image: url('/bg_sky.svg'); user-select: none; -webkit-user-drag: none; pointer-events: none;"
     ></div>
 
-    <!-- Glassmorphic Header Navbar inside landing (Floating) -->
+    <!-- Floating platform statement inside landing -->
     <div class="max-w-6xl mx-auto pt-6 px-6 relative z-20">
-      <div class="flex items-center justify-between px-6 py-3 rounded-full border border-slate-200/50 bg-white/70 backdrop-blur-md shadow-xs">
-        <div class="flex items-center gap-3">
-          <LogoImage img-class="h-5 w-auto object-contain" style="filter: brightness(0);" />
-        </div>
-        <div class="flex items-center gap-4">
-          <NuxtLink to="/auth/login" class="text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">로그인</NuxtLink>
-          <NuxtLink to="/auth/register" class="px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm">시작하기</NuxtLink>
-        </div>
-      </div>
+      <NuxtLink
+        to="/auth/register"
+        class="group flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-4 text-center text-sm font-extrabold text-slate-950 shadow-xs transition-colors duration-300 hover:border-blue-600 hover:bg-blue-600 hover:text-white"
+      >
+        <span>
+          초개인화
+          <span class="text-blue-600 transition-colors duration-300 group-hover:text-white">AI 커리어 에이전트</span>
+          플랫폼
+        </span>
+      </NuxtLink>
     </div>
 
     <!-- Hero Content -->
