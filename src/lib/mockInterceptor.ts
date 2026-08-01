@@ -7,6 +7,54 @@ import { getSimulatedLLMResponse } from '../data/mock/mockup';
 
 const randomScore = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
+const DB_NAME = 'kairos-mock';
+const STORE = 'files';
+
+function openDb(): Promise<IDBDatabase | null> {
+  if (typeof indexedDB === 'undefined') return Promise.resolve(null);
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => {
+      if (!req.result.objectStoreNames.contains(STORE)) req.result.createObjectStore(STORE);
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function idbPut(store: string, key: string, value: unknown): Promise<void> {
+  const db = await openDb();
+  if (!db) return;
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(store, 'readwrite');
+    tx.objectStore(store).put(value, key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function idbGet(store: string, key: string): Promise<unknown> {
+  const db = await openDb();
+  if (!db) return null;
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).get(key);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function idbDel(store: string, key: string): Promise<void> {
+  const db = await openDb();
+  if (!db) return;
+  await new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(store, 'readwrite');
+    tx.objectStore(store).delete(key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
 export function initMockInterceptor() {
   if (typeof window === 'undefined') return;
 
@@ -253,15 +301,21 @@ export function initMockInterceptor() {
       const { name, ext } = getFormFile(init);
       const fileName = name || '신규_문서.pdf';
       const fileExt = ext || 'pdf';
-      const newDoc = {
-        id: `mock-doc-${Date.now()}`,
-        name: fileName,
-        title: fileName,
-        ext: fileExt,
-        size: 102400,
-        createdAt: new Date().toISOString(),
-        textContent: '',
-      };
+      const id = `mock-doc-${Date.now()}`;
+      const raw = init?.body instanceof FormData ? init.body.get('file') : null;
+      let textContent = '';
+      let size = 102400;
+      if (raw instanceof File) {
+        size = raw.size;
+        if (fileExt === 'hwp' || fileExt === 'hwpx') {
+          try {
+            const { extractHwpText } = await import('@/lib/hwpTextExtract');
+            textContent = await extractHwpText(new Uint8Array(await raw.arrayBuffer()));
+          } catch {}
+        }
+        await idbPut('kairos-mock-doc-bytes', id, await raw.arrayBuffer());
+      }
+      const newDoc = { id, name: fileName, title: fileName, ext: fileExt, size, createdAt: new Date().toISOString(), textContent };
       docs.unshift(newDoc);
       localStorage.setItem('mock_docs', JSON.stringify(docs));
       return json(newDoc);
@@ -275,7 +329,20 @@ export function initMockInterceptor() {
       return json({ id: entry.id, title: entry.name, ext: entry.ext, size: entry.size, createdAt: entry.createdAt, textContent: entry.textContent || '' });
     }
 
+    if (url.match(/\/api\/docs\/[^/]+/) && method === 'GET') {
+      const id = url.split('/').pop();
+      if (!id) return originalFetch(input, init);
+      const bytes = await idbGet('kairos-mock-doc-bytes', id);
+      if (!(bytes instanceof ArrayBuffer)) return originalFetch(input, init);
+      return new Response(bytes, {
+        status: 200,
+        headers: { 'Content-Type': 'application/octet-stream' },
+      });
+    }
+
     if (url.match(/\/api\/docs\/[^/]+/) && method === 'DELETE') {
+      const id = url.split('/').pop();
+      if (id) await idbDel('kairos-mock-doc-bytes', id);
       deleteById('mock_docs');
       return json({ success: true });
     }

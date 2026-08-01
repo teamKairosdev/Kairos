@@ -132,4 +132,7 @@
 ### 3. 검증/한계
 - [x] `npx tsc --noEmit` 0 / `npm test` 61/61 / `npm run build` 성공 (useSearchParams Suspense 수정 포함)
 - [x] 커밋 완료 (push 안 함)
-- [ ] 알려진 한계: hwpx 서버 텍스트 추출은 hwplib-js 미지원(빈 텍스트, 뷰어 렌더링은 정상), 에디터 기본 studioUrl은 외부 origin(기밀 문서 시 셀프호스팅 필요), mock 모드에서 HWP 뷰어 바이너리 로드 불가
+- [ ] ~~알려진 한계~~ → **전부 해소**:
+  - [x] **hwpx 텍스트 추출** — `src/lib/hwpTextExtract.ts` 신규 (@rhwp/core 전 섹션/문단 텍스트 추출), docs 업로드·이력서 플로우에서 클라이언트 추출 → 서버 `textContent` 필드로 영속화 (서버 추출 실패 폴백 유지)
+  - [x] **에디터 외부 origin** — `NEXT_PUBLIC_RHWP_STUDIO_URL` env로 셀프호스팅 스튜디오 지정 가능 (.env.example에 문서화). 기본값은 공개 데모라 기밀 문서는 배포 시 env 설정 필요
+  - [x] **mock 모드 뷰어** — mockInterceptor에 IndexedDB 파일 바이트 저장/조회/삭제 구현 → mock에서도 HWP 뷰어·텍스트 추출·바이너리 GET 동작

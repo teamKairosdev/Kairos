@@ -59,6 +59,14 @@ export default function DocsPage() {
       const form = new FormData();
       form.append('file', selectedFile);
       if (docTitle) form.append('title', docTitle);
+
+      const ext = selectedFile.name.split('.').pop()?.toLowerCase() || '';
+      if (ext === 'hwp' || ext === 'hwpx') {
+        const { extractHwpText } = await import('@/lib/hwpTextExtract');
+        const bytes = new Uint8Array(await selectedFile.arrayBuffer());
+        form.append('textContent', await extractHwpText(bytes));
+      }
+
       const res = await fetch('/api/docs/upload', { method: 'POST', body: form });
       if (res.ok) {
         setShowUpload(false);

@@ -52,7 +52,10 @@ export async function POST(req: NextRequest) {
 
     let textContent = '';
     try {
-      if (ext === 'hwp' || ext === 'hwpx') {
+      const clientText = formData.get('textContent') as string | null;
+      if (clientText) {
+        textContent = clientText;
+      } else if (ext === 'hwp' || ext === 'hwpx') {
         const { parseHwp } = await import('@/server/hwpParser');
         const result = await parseHwp(new Uint8Array(arrayBuffer));
         textContent = result.text;

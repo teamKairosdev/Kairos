@@ -49,7 +49,10 @@ export default function ResumeListPage() {
     try {
       const ext = file.name.split('.').pop()?.toLowerCase() || '';
       let text: string;
-      if (ext === 'hwp' || ext === 'hwpx') {
+      if (ext === 'hwpx') {
+        const { extractHwpText } = await import('@/lib/hwpTextExtract');
+        text = await extractHwpText(new Uint8Array(await file.arrayBuffer()));
+      } else if (ext === 'hwp') {
         const form = new FormData();
         form.append('file', file);
         const res = await fetch('/api/docs/parse', { method: 'POST', body: form });
