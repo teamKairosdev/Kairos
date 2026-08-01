@@ -8,7 +8,7 @@ vi.mock('mammoth', () => ({
   default: mammothMock,
 }))
 
-import { parseDocumentText } from '../../server/services/parser'
+import { parseDocumentText } from '../../src/server/parser'
 
 beforeEach(() => {
   vi.clearAllMocks()

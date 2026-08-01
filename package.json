@@ -7,21 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@ai-sdk/google": "^4.0.31",
-    "@ai-sdk/react": "^1.2.12",
     "@huggingface/transformers": "^4.2.0",
     "@mlc-ai/web-llm": "^0.2.84",
     "@neondatabase/serverless": "^1.1.0",
     "@rhwp/core": "^0.8.2",
     "@rhwp/editor": "^0.8.2",
     "@vercel/blob": "^0.27.0",
-    "ai": "^7.0.47",
     "bcryptjs": "^2.4.3",
     "diff": "^5.2.0",
     "drizzle-orm": "^0.45.2",
@@ -42,6 +41,7 @@
     "zod": "^3.25.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/diff": "^5.0.8",
     "@types/node": "^22.10.2",
@@ -49,6 +49,8 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "drizzle-kit": "^0.31.10",
-    "typescript": "^5.7.2"
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.10"
   }
 }

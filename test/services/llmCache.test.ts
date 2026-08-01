@@ -3,17 +3,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 let getCachedResponse: any
 let setCachedResponse: any
 let invalidateCache: any
-let resetRedis: any
+let resetCache: any
 
 beforeEach(async () => {
   vi.clearAllMocks()
   vi.resetModules()
-  const mod = await import('../../server/services/llmCache')
+  const mod = await import('../../src/server/llmCache')
   getCachedResponse = mod.getCachedResponse
   setCachedResponse = mod.setCachedResponse
   invalidateCache = mod.invalidateCache
-  resetRedis = mod.resetRedis
-  resetRedis()
+  resetCache = mod.resetCache
+  resetCache()
 })
 
 describe('getCachedResponse', () => {

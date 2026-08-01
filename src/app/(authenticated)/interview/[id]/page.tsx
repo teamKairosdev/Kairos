@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, use } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useChat } from '@ai-sdk/react';
+import { useChat } from '@/hooks/useChat';
 import { useToast } from '@/lib/toast';
 
 export default function InterviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -19,7 +19,6 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // AI SDK useChat
   const { messages, input, handleInputChange, handleSubmit, isLoading: isStreaming } = useChat({
     api: `/api/interviews/${interviewId}/chat`,
     onError: (err) => {

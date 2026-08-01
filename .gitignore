@@ -33,6 +33,13 @@ yarn-error.log*
 .cache/
 .eslintcache
 
+# Local uploads (studio images, docs)
+uploads/
+
 # Temp
 *.tmp
 *.temp
+
+# Next.js build output
+.next/
+

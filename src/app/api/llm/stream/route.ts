@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { streamText, convertToModelMessages, type UIMessage } from 'ai';
-import { getModelForComplexity } from '@/server/llm';
+import { streamLLMText, toGeminiMessages } from '@/server/llm';
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,29 +7,23 @@ export async function POST(req: NextRequest) {
     const {
       messages,
       systemPrompt,
-      complexity = 'medium',
-    }: {
-      messages: UIMessage[];
-      systemPrompt?: string;
-      complexity?: 'low' | 'medium' | 'high';
-    } = body || {};
+    }: { messages: any[]; systemPrompt?: string } = body || {};
 
     if (!messages || messages.length === 0) {
       return NextResponse.json({ error: 'Messages are required' }, { status: 400 });
     }
 
-    const model = await getModelForComplexity(complexity);
-
-    const result = streamText({
-      model,
-      system:
+    const stream = await streamLLMText({
+      instructions:
         systemPrompt ||
         'You are Kairos AI assistant. Help the user professionally. Respond in Korean when the user writes in Korean.',
-      messages: await convertToModelMessages(messages),
+      messages: toGeminiMessages(messages),
       temperature: 0.7,
     });
 
-    return result.toTextStreamResponse();
+    return new Response(stream, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
   } catch (err: any) {
     console.error('[/api/llm/stream]', err);
     return NextResponse.json({ error: err.message || 'LLM stream error' }, { status: 500 });

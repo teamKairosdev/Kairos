@@ -5,9 +5,9 @@ import { eq } from 'drizzle-orm';
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params;
   if (!id) return NextResponse.json({ error: 'Chat ID missing' }, { status: 400 });
 
   const db = getDb();

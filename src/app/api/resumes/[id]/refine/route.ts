@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { callLLMStructured } from '@/server/llm';
-import { getDb } from '@/../db';
-import { resumes, resumeRefinements } from '@/../db/schema';
+import { getDb } from '@/db';
+import { resumes, resumeRefinements } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 

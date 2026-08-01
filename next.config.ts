@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
+import path from 'path';
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: path.join(__dirname),
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'ui-avatars.com' },
@@ -9,22 +11,13 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**.vercel-storage.com' },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['drizzle-orm', '@neondatabase/serverless', 'bcryptjs', 'jose'],
-  },
+  serverExternalPackages: ['drizzle-orm', '@neondatabase/serverless', 'bcryptjs', 'jose'],
   // Allow building even with TS errors in edge cases during migration
   typescript: {
     ignoreBuildErrors: false,
   },
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  // Rewrites for presentation static site (if applicable)
-  async rewrites() {
-    return [
-      { source: '/presentation', destination: '/presentation/index.html' },
-      { source: '/presentation/:path*', destination: '/presentation/:path*' },
-    ];
   },
   async headers() {
     return [

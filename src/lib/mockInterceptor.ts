@@ -186,7 +186,7 @@ export function initMockInterceptor() {
           let index = 0;
           const interval = setInterval(() => {
             if (index < randomAnswer.length) {
-              controller.enqueue(encoder.encode(`0:"${randomAnswer.slice(index, index + 3)}"\n`));
+              controller.enqueue(encoder.encode(randomAnswer.slice(index, index + 3)));
               index += 3;
             } else {
               clearInterval(interval);
@@ -202,7 +202,7 @@ export function initMockInterceptor() {
       chats[id].push({ role: 'assistant', content: randomAnswer });
       localStorage.setItem('mock_chats', JSON.stringify(chats));
 
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'x-vercel-ai-data-stream': 'v1' } });
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
     }
 
     // 4. Careers Endpoints

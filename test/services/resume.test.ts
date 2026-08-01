@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-vi.mock('../../server/services/llm', () => ({
-  isDemoMode: vi.fn(() => false),
+vi.mock('../../src/server/llm', () => ({
   callLLMStructured: vi.fn(),
 }))
 
-vi.mock('../../server/services/guardrail', () => ({
+vi.mock('../../src/server/guardrail', () => ({
   checkInputGuardrail: vi.fn(() => ({ passed: true, reason: '', layer: 1 })),
   checkOutputAsyncGuardrail: vi.fn(() => ({ passed: true, layer: 2 })),
 }))
@@ -17,7 +16,7 @@ vi.mock('drizzle-orm', async (importOriginal) => {
 
 vi.mock('../../db/index', () => ({ getDb: vi.fn(() => null) }))
 
-import { evaluateResumeDraft, generateImprovedResume } from '../../server/services/resume'
+import { evaluateResumeDraft, generateImprovedResume } from '../../src/server/resume'
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -26,7 +25,7 @@ beforeEach(() => {
 describe('evaluateResumeDraft', () => {
   it('calls callLLMStructured with correct schema', async () => {
     const mockResult = { score: 85, clarityScore: 80, impactScore: 78, strengths: [], weaknesses: [], suggestions: [] }
-    const { callLLMStructured } = await import('../../server/services/llm')
+    const { callLLMStructured } = await import('../../src/server/llm')
     vi.mocked(callLLMStructured).mockResolvedValueOnce(mockResult)
 
     const result = await evaluateResumeDraft('any resume content')
@@ -35,7 +34,7 @@ describe('evaluateResumeDraft', () => {
   })
 
   it('throws on guardrail violation', async () => {
-    const { checkInputGuardrail } = await import('../../server/services/guardrail')
+    const { checkInputGuardrail } = await import('../../src/server/guardrail')
     vi.mocked(checkInputGuardrail).mockReturnValueOnce({ passed: false, reason: 'blocked content', layer: 1 })
     await expect(evaluateResumeDraft('bad content')).rejects.toThrow('Guardrail Violation')
   })
@@ -44,7 +43,7 @@ describe('evaluateResumeDraft', () => {
 describe('generateImprovedResume', () => {
   it('calls callLLMStructured with evaluation context', async () => {
     const mockResult = { improvedContent: 'improved', keyChanges: ['change1'], estimatedNewScore: 90 }
-    const { callLLMStructured } = await import('../../server/services/llm')
+    const { callLLMStructured } = await import('../../src/server/llm')
     vi.mocked(callLLMStructured).mockResolvedValueOnce(mockResult)
 
     const evalInput = { score: 68, clarityScore: 72, impactScore: 61, strengths: [], weaknesses: [], suggestions: [] }

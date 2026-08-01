@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
 import { exchangeGoogleCode, fetchGoogleUserInfo, signSession } from '@/server/auth';
-import { getDb } from '@/../db';
-import { users } from '@/../db/schema';
+import { getDb } from '@/db';
+import { users } from '@/db/schema';
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get('code');

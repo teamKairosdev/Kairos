@@ -15,10 +15,10 @@ const MIME_MAP: Record<string, string> = {
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!id) return NextResponse.json({ error: 'Document ID required' }, { status: 400 });
 
     const meta = existsSync(META_FILE)
@@ -46,10 +46,10 @@ export async function GET(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!id) return NextResponse.json({ error: 'Document ID required' }, { status: 400 });
 
     const meta = existsSync(META_FILE)

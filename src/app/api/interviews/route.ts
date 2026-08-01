@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/server/getSession';
-import { getDb } from '@/../db';
-import { mockInterviews } from '@/../db/schema';
+import { getDb } from '@/db';
+import { mockInterviews } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 
 export async function GET(req: NextRequest) {

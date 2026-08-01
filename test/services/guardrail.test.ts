@@ -4,7 +4,7 @@ import {
   checkContextGuardrail,
   checkOutputAsyncGuardrail,
   checkLoopGuardrail,
-} from '../../server/services/guardrail'
+} from '../../src/server/guardrail'
 
 describe('checkInputGuardrail (Layer 1)', () => {
   it('rejects empty input', () => {

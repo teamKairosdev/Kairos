@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
-import { getDb } from '@/../db';
-import { users } from '@/../db/schema';
+import { getDb } from '@/db';
+import { users } from '@/db/schema';
 import { signSession } from '@/server/auth';
 
 export async function POST(req: NextRequest) {

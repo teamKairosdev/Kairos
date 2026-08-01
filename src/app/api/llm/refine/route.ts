@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { streamText } from 'ai';
-import { getModelForComplexity } from '@/server/llm';
+import { streamLLMText, collectStreamText } from '@/server/llm';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
 
 export async function POST(req: NextRequest) {
@@ -17,8 +16,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(JSON.parse(cached));
     }
 
-    const model = await getModelForComplexity('high');
-
     const instructions = `You are Kairos AI, an elite career steward and resume rewriting specialist.
 Rewrite the candidate's resume applying the STAR method (Situation, Task, Action, Result),
 dynamic action verbs, quantified achievements, and professional Korean tone.
@@ -28,19 +25,22 @@ Focus on maximizing professional impact and ATS compatibility.`;
       ? `Target Job Description:\n${jobDescription}\n\nCandidate Resume:\n${resumeText}`
       : `Candidate Resume:\n${resumeText}`;
 
-    const result = streamText({
-      model,
-      system: instructions,
+    const stream = await streamLLMText({
+      instructions,
       prompt,
       temperature: 0.4,
-      onFinish: async (event) => {
-        if (event.text) {
-          await setCachedResponse(cacheKey, 'refine', JSON.stringify({ text: event.text }), 3600);
-        }
-      },
     });
 
-    return result.toTextStreamResponse();
+    const [clientStream, cacheStream] = stream.tee();
+    void collectStreamText(cacheStream).then((text) => {
+      if (text) {
+        void setCachedResponse(cacheKey, 'refine', JSON.stringify({ text }), 3600);
+      }
+    });
+
+    return new Response(clientStream, {
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
   } catch (err: any) {
     console.error('[/api/llm/refine]', err);
     return NextResponse.json({ error: err.message || 'Refine error' }, { status: 500 });

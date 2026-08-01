@@ -1,12 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-vi.mock('../../server/services/llm', () => ({
-  isDemoMode: vi.fn(() => false),
+vi.mock('../../src/server/llm', () => ({
   callLLMStructured: vi.fn(),
   streamLLMText: vi.fn(),
 }))
 
-import { createInitialInterviewQuestion, evaluateCandidateAnswer, streamInterviewerResponse } from '../../server/services/interview'
+import { createInitialInterviewQuestion, evaluateCandidateAnswer, streamInterviewerResponse } from '../../src/server/interview'
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -14,7 +13,7 @@ beforeEach(() => {
 
 describe('createInitialInterviewQuestion', () => {
   it('calls callLLMStructured with job title context', async () => {
-    const { callLLMStructured } = await import('../../server/services/llm')
+    const { callLLMStructured } = await import('../../src/server/llm')
     vi.mocked(callLLMStructured).mockResolvedValueOnce({
       question: 'Tell me about yourself',
       questionType: 'introductory',
@@ -29,7 +28,7 @@ describe('createInitialInterviewQuestion', () => {
 
 describe('evaluateCandidateAnswer', () => {
   it('calls callLLMStructured with conversation history', async () => {
-    const { callLLMStructured } = await import('../../server/services/llm')
+    const { callLLMStructured } = await import('../../src/server/llm')
     vi.mocked(callLLMStructured).mockResolvedValueOnce({
       score: 85, summary: 'good', tip: 'add numbers', nextQuestion: 'next?', nextQuestionType: 'followup',
     })
@@ -43,7 +42,7 @@ describe('evaluateCandidateAnswer', () => {
 
 describe('streamInterviewerResponse', () => {
   it('calls streamLLMText with formatted history', async () => {
-    const { streamLLMText } = await import('../../server/services/llm')
+    const { streamLLMText } = await import('../../src/server/llm')
     const history = [{ sender: 'interviewer', message: 'Welcome' }, { sender: 'candidate', message: 'Thank you' }]
     await streamInterviewerResponse('Engineer', history)
     expect(streamLLMText).toHaveBeenCalledOnce()

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildContextWindow } from '../../server/services/context'
+import { buildContextWindow } from '../../src/server/context'
 
 describe('buildContextWindow', () => {
   it('returns empty string for empty messages', () => {

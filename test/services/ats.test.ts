@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { analyzeATSCompatibility } from '../../server/services/ats'
+import { analyzeATSCompatibility } from '../../src/server/ats'
 
 describe('analyzeATSCompatibility', () => {
   it('returns complete analysis structure', () => {

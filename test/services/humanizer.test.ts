@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-vi.mock('../../server/services/llm', () => ({
-  isDemoMode: vi.fn(() => false),
+vi.mock('../../src/server/llm', () => ({
   callLLMStructured: vi.fn(),
 }))
 
-import { processAIHumanizer } from '../../server/services/humanizer'
+import { processAIHumanizer } from '../../src/server/humanizer'
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -13,7 +12,7 @@ beforeEach(() => {
 
 describe('processAIHumanizer', () => {
   it('calls callLLMStructured and returns humanized result', async () => {
-    const { callLLMStructured } = await import('../../server/services/llm')
+    const { callLLMStructured } = await import('../../src/server/llm')
     vi.mocked(callLLMStructured).mockResolvedValueOnce({
       humanizedText: 'natural text',
       styleScore: 90,

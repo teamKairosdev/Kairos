@@ -6,7 +6,7 @@ import { getSession } from '@/server/getSession';
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession(req);
@@ -14,7 +14,7 @@ export async function DELETE(
       return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     if (!id) return NextResponse.json({ error: 'Career ID missing' }, { status: 400 });
 
     const db = getDb();

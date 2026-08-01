@@ -1,13 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npx nuxt build && node scripts/copy-astro.mjs",
-  "outputDirectory": ".output",
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
   "installCommand": "npm install --legacy-peer-deps",
   "regions": ["icn1"],
-  "rewrites": [
-    { "source": "/presentation", "destination": "/presentation/index.html" },
-    { "source": "/presentation/:path*", "destination": "/presentation/:path*" }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",

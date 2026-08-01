@@ -2,7 +2,7 @@
 
 > **"당신의 커리어 전 생애를 기억하고, 분석하고, 대신 행동하는 AI"**
 
-Kairos는 **Nuxt 4 (SPA)** + **Astro 7 (Islands)** 듀얼 프레임워크 아키텍처로 구축된 AI 기반 커리어 관리 플랫폼입니다. **Google Gemini AI**, **NeonDB (pgvector)**, **Vercel AI Gateway**를 활용하여 이력서 분석/개선, AI 모의면접, ATS 호환성 검사, 문장 휴머나이저, 커리어 시맨틱 검색 등을 제공합니다.
+Kairos는 **Next.js 15 (App Router)** 단일 프레임워크 아키텍처로 구축된 AI 기반 커리어 관리 플랫폼입니다. **Google Gemini API**(직접 REST 구현, AI SDK 미사용), **NeonDB (pgvector)**, **Vercel AI Gateway**를 활용하여 이력서 분석/개선, AI 모의면접, ATS 호환성 검사, 문장 휴머나이저, 커리어 시맨틱 검색 등을 제공합니다.
 
 ---
 
@@ -13,22 +13,20 @@ Kairos는 **Nuxt 4 (SPA)** + **Astro 7 (Islands)** 듀얼 프레임워크 아키
 flowchart TB
     subgraph Client["<b>Client Layer</b>"]
         direction TB
-        NUXT["<b>Nuxt 4 SPA</b><br/>Vue 3 · Dashboard · Resume Studio<br/>Interview Chamber · ATS · Career"]
-        ASTRO["<b>Astro 7 Islands</b><br/>Landing · SEO · Public SNS<br/>Vue + React Islands"]
-        PWA["<b>PWA</b><br/>Workbox SW · IndexedDB<br/>Offline Queue · Local AI"]
+        NEXT["<b>Next.js 15 App</b><br/>React 19 · RSC + Client Components<br/>Resume · Interview · ATS · Career"]
+        PWA["<b>PWA</b><br/>Service Worker · IndexedDB<br/>Offline Queue · Local Vector Search"]
     end
 
     subgraph Edge["<b>Edge / API Layer</b>"]
         direction TB
-        NITRO["<b>Nitro Server</b><br/>~80 API Routes · Auth · RateLimit<br/>File-based Routing"]
+        API["<b>Next.js Route Handlers</b><br/>~45 API Routes · JWT Auth · RateLimit"]
         PAYLOAD["<b>Payload CMS</b><br/>Next.js 15 · Admin UI<br/>Users · Settings · Audit"]
     end
 
     subgraph AI["<b>AI / LLM Layer</b>"]
         direction TB
         GEMINI["<b>Google Gemini</b><br/>2.0 Flash · Embedding 004<br/>Imagen 3.0"]
-        GATEWAY["<b>Vercel AI Gateway</b><br/>Caching · Observability<br/>Fallback Routing"]
-        LOCALAI["<b>Client-side AI</b><br/>WebLLM Qwen 1.7B<br/>HF Transformers"]
+        GATEWAY["<b>Vercel AI Gateway</b><br/>Caching · Observability<br/>(optional)"]
     end
 
     subgraph Storage["<b>Storage Layer</b>"]
@@ -37,26 +35,23 @@ flowchart TB
         LOCAL[("<b>Local FS</b><br/>uploads/")]
     end
 
-    NUXT <--> NITRO
-    ASTRO -.->|"static"| NITRO
-    NITRO -->|"JWT · Cookie"| PAYLOAD
-    NITRO --> GEMINI
-    NITRO --> GATEWAY
+    NEXT <--> API
+    API -->|"JWT · Cookie"| PAYLOAD
+    API --> GEMINI
+    API --> GATEWAY
     GATEWAY --> GEMINI
-    NITRO --> NEON
-    NITRO --> BLOB
-    NITRO --> LOCAL
-    NUXT --> LOCALAI
-    NUXT -->|"SSE Stream"| NITRO
-    PWA -->|"Offline"| LOCALAI
+    API --> NEON
+    API --> BLOB
+    API --> LOCAL
+    NEXT -->|"text/plain stream"| API
 
     classDef primary fill:#2563eb,color:#fff,stroke:#1d4ed8
     classDef secondary fill:#f0f9ff,stroke:#93c5fd,color:#1e40af
     classDef accent fill:#fef3c7,stroke:#f59e0b,color:#92400e
     classDef storage fill:#f0fdf4,stroke:#86efac,color:#166534
-    class NUXT,ASTRO,PWA primary
-    class NITRO,PAYLOAD secondary
-    class GEMINI,GATEWAY,LOCALAI accent
+    class NEXT,PWA primary
+    class API,PAYLOAD secondary
+    class GEMINI,GATEWAY accent
     class NEON,BLOB,LOCAL storage
 ```
 
@@ -66,19 +61,18 @@ flowchart TB
 
 | Category | Technology |
 |---|---|
-| **Framework** | Nuxt 4 (Vue 3 SPA) · Astro 7 (Islands) · Nitro Engine |
-| **Language** | TypeScript (strict, ESM) · React (Seed Design islands) |
-| **AI / LLM** | Google Gemini 2.0 Flash · Vercel AI SDK v7 · AI Gateway |
+| **Framework** | Next.js 15 (App Router) · React 19 |
+| **Language** | TypeScript (strict) |
+| **AI / LLM** | Google Gemini 2.0 Flash · **직접 REST 구현** (`src/server/llm.ts`) |
 | **Database** | NeonDB (PostgreSQL) · Drizzle ORM · pgvector (1536d) |
-| **Auth** | JWT (jose) · Google OAuth2 · Web3 Wallet (viem) · TOTP MFA |
+| **Auth** | JWT (jose) · Google OAuth2 · Web3 Wallet (viem) · TOTP MFA (otplib) |
 | **Storage** | Vercel Blob · Local filesystem (HWP/DOCX/PDF) |
 | **CMS** | Payload CMS + Next.js 15 + Lexical Editor |
-| **Styling** | Seed Design · Tailwind CSS v4 · Freesentation Font |
-| **PWA** | Workbox · IndexedDB (idb) · `@vite-pwa/nuxt` |
-| **Client AI** | WebLLM (Qwen 1.7B) · HuggingFace Transformers · vectra |
-| **i18n** | Korean (default) · English · `@nuxtjs/i18n` |
-| **Testing** | Vitest · happy-dom · Vue Test Utils |
-| **Deploy** | Vercel (Seoul region) · Docker |
+| **Styling** | Seed Design · Tailwind CSS v4 |
+| **PWA** | Service Worker · IndexedDB (idb) |
+| **Client AI** | vectra (IndexedDB 로컬 벡터 검색) |
+| **Testing** | Vitest |
+| **Deploy** | Vercel (Seoul region) |
 | **Multi-platform** | Tauri v2 (Desktop) · React Native Expo (Mobile) · Chrome/VSCode Extensions |
 
 ---
@@ -300,12 +294,84 @@ erDiagram
 
 ---
 
+## LLM Architecture (직접 REST 구현)
+
+AI SDK(`ai`, `@ai-sdk/*`)를 사용하지 않고, **Google Gemini REST API를 직접 호출**하는 공용 모듈이 모든 LLM 기능의 유일한 진입점입니다.
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor': '#059669', 'primaryBorderColor': '#047857', 'lineColor': '#94a3b8', 'secondaryColor': '#f0fdf4', 'tertiaryColor': '#dbeafe', 'clusterBkg': '#f8fafc', 'clusterBorder': '#e2e8f0'}}}%%
+flowchart LR
+    subgraph API["<b>Route Handlers (src/app/api)</b>"]
+        LLM_CHAT["llm/chat"]
+        LLM_STREAM["llm/stream"]
+        LLM_REFINE["llm/refine"]
+        INT_CHAT["interviews/[id]/chat"]
+        RES_REFINE["resumes/[id]/refine"]
+        RES_CHAT["resumes/[id]/chat"]
+        QA["qa/generate"]
+        HUMAN["humanizer/process"]
+        STUDIO["studio/generate"]
+        CAREER["careers/search"]
+        COMPANY["company/meta"]
+        SKILLGAP["public/skill-gap"]
+    end
+
+    subgraph Services["<b>Service Modules (src/server)</b>"]
+        LLM_SVC["llm.ts<br/>callLLMText · callLLMStructured · streamLLMText"]
+        EMB["embedding.ts<br/>generateEmbedding"]
+        IMG["imageGen.ts<br/>generateStudioImage"]
+        QA_SVC["qa.ts"]
+        HUMAN_SVC["humanizer.ts"]
+        RESUME_SVC["resume.ts · guardrail.ts"]
+        INTERVIEW_SVC["interview.ts · context.ts"]
+        CAREER_SVC["career.ts"]
+        COMPANY_SVC["companyMeta.ts"]
+        SKILLGAP_SVC["publicSkillGap.ts"]
+    end
+
+    subgraph Gemini["<b>Google Gemini REST</b>"]
+        G1["generateContent"]
+        G2["streamGenerateContent (SSE)"]
+        G3["embedContent"]
+        G4["imagen predict"]
+    end
+
+    LLM_CHAT --> LLM_SVC
+    LLM_STREAM --> LLM_SVC
+    LLM_REFINE --> LLM_SVC
+    INT_CHAT --> INTERVIEW_SVC --> LLM_SVC
+    RES_REFINE --> RESUME_SVC --> LLM_SVC
+    RES_CHAT --> RESUME_SVC --> LLM_SVC
+    QA --> QA_SVC --> LLM_SVC
+    HUMAN --> HUMAN_SVC --> LLM_SVC
+    STUDIO --> IMG
+    CAREER --> CAREER_SVC --> EMB
+    COMPANY --> COMPANY_SVC --> LLM_SVC
+    SKILLGAP --> SKILLGAP_SVC --> LLM_SVC
+
+    LLM_SVC --> G1
+    LLM_SVC --> G2
+    EMB --> G3
+    IMG --> G4
+
+    classDef api fill:#3b82f6,color:#fff,stroke:#2563eb
+    classDef svc fill:#059669,color:#fff,stroke:#047857
+    classDef gem fill:#7c3aed,color:#fff,stroke:#6d28d9
+    class LLM_CHAT,LLM_STREAM,LLM_REFINE,INT_CHAT,RES_REFINE,RES_CHAT,QA,HUMAN,STUDIO,CAREER,COMPANY,SKILLGAP api
+    class LLM_SVC,EMB,IMG,QA_SVC,HUMAN_SVC,RESUME_SVC,INTERVIEW_SVC,CAREER_SVC,COMPANY_SVC,SKILLGAP_SVC svc
+    class G1,G2,G3,G4 gem
+```
+
+핵심: `src/server/llm.ts`가 내보내는 `callLLMText` / `callLLMStructured`(zod → OpenAPI 스키마 → JSON 모드) / `streamLLMText`(SSE 파싱 → `ReadableStream`) 만을 모든 서비스와 라우트가 임포트합니다.
+
+---
+
 ## Service Layer Architecture
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'primaryColor': '#059669', 'primaryBorderColor': '#047857', 'lineColor': '#94a3b8', 'secondaryColor': '#f0fdf4', 'tertiaryColor': '#dbeafe', 'clusterBkg': '#f8fafc', 'clusterBorder': '#e2e8f0'}}}%%
 flowchart LR
-    subgraph API["<b>API Routes (~80 handlers)</b>"]
+    subgraph API["<b>API Routes (src/app/api ~45 handlers)</b>"]
         AUTH["auth/*"]
         RESUME["resumes/*"]
         INTERVIEW["interviews/*"]
@@ -323,11 +389,11 @@ flowchart LR
         MCP["mcp/*"]
     end
 
-    subgraph Services["<b>Service Modules (20)</b>"]
+    subgraph Services["<b>Service Modules (src/server 20+)</b>"]
         LLM_SVC["llm.ts · llmCache.ts"]
         GUARD["guardrail.ts 4-layer"]
         RESUME_SVC["resume.ts"]
-        INTERVIEW_SVC["interview.ts"]
+        INTERVIEW_SVC["interview.ts · context.ts"]
         ATS_SVC["ats.ts skill taxonomy"]
         QA_SVC["qa.ts"]
         HUMAN_SVC["humanizer.ts"]
@@ -339,26 +405,26 @@ flowchart LR
         BLOB_SVC["blob.ts"]
         SYS_CFG["systemConfig.ts"]
         MCP_SVC["mcp.ts"]
-        CTX["context.ts"]
+        IMG_SVC["imageGen.ts"]
     end
 
     subgraph Middleware["<b>Middleware</b>"]
-        AUTH_MW["auth.ts JWT Session"]
-        RATE["rateLimit.ts IP-based"]
+        AUTH_MW["middleware.ts JWT Session"]
+        RATE["lib/rateLimit.ts IP-based"]
     end
 
     API --> AUTH_MW
     AUTH_MW --> RATE
     RATE --> Services
     Services --> DB[("NeonDB + pgvector")]
-    Services --> AI[("Gemini AI")]
+    Services --> AI[("Gemini API (직접 REST)")]
 
     classDef api fill:#3b82f6,color:#fff,stroke:#2563eb
     classDef svc fill:#059669,color:#fff,stroke:#047857
     classDef mw fill:#d97706,color:#fff,stroke:#b45309
     classDef store fill:#7c3aed,color:#fff,stroke:#6d28d9
     class AUTH,RESUME,INTERVIEW,ATS,LLM,QA,HUMAN,CAREER,STUDIO,COMMUNITY,CHAT,DOCS,COMPANY,ADMIN,MCP api
-    class LLM_SVC,GUARD,RESUME_SVC,INTERVIEW_SVC,ATS_SVC,QA_SVC,HUMAN_SVC,CAREER_SVC,COMPANY_SVC,SKILLGAP,PARSER,AUTH_SVC,BLOB_SVC,SYS_CFG,MCP_SVC,CTX svc
+    class LLM_SVC,GUARD,RESUME_SVC,INTERVIEW_SVC,ATS_SVC,QA_SVC,HUMAN_SVC,CAREER_SVC,COMPANY_SVC,SKILLGAP,PARSER,AUTH_SVC,BLOB_SVC,SYS_CFG,MCP_SVC,IMG_SVC svc
     class AUTH_MW,RATE mw
     class DB,AI store
 ```
@@ -369,12 +435,12 @@ flowchart LR
 
 | Shell | Technology | Features |
 |---|---|---|
-| **Web** | Nuxt 4 SPA + Astro 7 | PWA · Offline IndexedDB · SSE Streaming |
+| **Web** | Next.js 15 App Router | PWA · Offline IndexedDB · Text Stream |
 | **Mobile** | React Native (Expo) | STT/TTS Voice Interview · Secure Store |
 | **Desktop** | Tauri v2 (Rust + Webview) | <10MB binary · Native HWP editing |
 | **Extension** | Chrome MV3 + VS Code | DOM Parser · Git commit summary |
 
-Core business logic lives in `packages/` and is shared across all shells via platform-specific bridges (`tauri-bridge`, `mobile-bridge`, `agent-cli`).
+플랫폼별 브리지는 `packages/` (`tauri-bridge`, `mobile-bridge`, `agent-cli`)에 정의되어 있습니다.
 
 ---
 
@@ -383,17 +449,17 @@ Core business logic lives in `packages/` and is shared across all shells via pla
 | Feature | Description | Key Technology |
 |---|---|---|
 | **Resume Studio** | 3-stage pipeline: Draft → LLM Evaluate → STAR Improve | `resume.ts` · Gemini 2.0 Flash |
-| **AI Mock Interview** | Real-time SSE streaming with live feedback | `@ai-sdk/vue` · `interview.ts` |
+| **AI Mock Interview** | Real-time text streaming with context window + live feedback | `hooks/useChat.ts` · `interview.ts` |
 | **ATS Analyzer** | Keyword matching (80+ skills, 7 categories) | `ats.ts` · Pure algorithm |
-| **Text Humanizer** | AI→Human tone conversion with style scoring | `humanizer.ts` · LLM |
+| **Text Humanizer** | AI→Human tone conversion with style scoring | `humanizer.ts` · LLM Structured |
 | **Q&A Generator** | Role-specific interview Q&A generation | `qa.ts` · LLM Structured |
 | **Semantic Career Search** | pgvector 1536-dim cosine similarity | `embedding.ts` · `career.ts` |
 | **Company Intelligence** | WLB/Culture/Salary analysis per company | `companyMeta.ts` · LLM |
-| **AI Photo Studio** | Google Imagen 3.0 image generation | `studio/*` · `@ai-sdk/google` |
+| **AI Photo Studio** | Google Imagen 3.0 image generation | `imageGen.ts` · `studio/*` |
 | **Community SNS** | Interview pass / Career tips / Q&A | `community/*` · Public posts |
-| **Client-side AI** | WebGPU-accelerated local LLM + embeddings | WebLLM · HuggingFace · vectra |
+| **Local Vector Search** | IndexedDB-기반 로컬 임베딩 검색 | vectra · Transformers |
 | **MCP Hub** | Model Context Protocol tools for AI agents | `mcp.ts` · JSON Schema tools |
-| **Shareable Chats** | Persistent chat sessions via `/r/:id` | `chat/*` · ISR 60s |
+| **Shareable Chats** | Persistent chat sessions via `/r/:id` | `chat/*` |
 
 ---
 
@@ -407,21 +473,17 @@ npm install
 cp .env.example .env
 # Fill in: DATABASE_URL, GOOGLE_GENERATIVE_AI_API_KEY, JWT_SECRET, etc.
 
-# Run both Nuxt + Astro dev servers
-npm run dev
+# Development server
+npm run dev            # http://localhost:3000
 
-# Or run individually
-npm run dev:nuxt   # http://localhost:3000
-npm run dev:astro  # http://localhost:4321
+# Production build & start
+npm run build
+npm run start
 
 # Database commands
 npm run db:generate  # Generate Drizzle migrations
 npm run db:migrate   # Apply migrations to NeonDB
 npm run db:studio    # Launch Drizzle Studio GUI
-
-# Run tests
-npm test
-npm run test:coverage  # With coverage report
 ```
 
 ---
@@ -430,42 +492,35 @@ npm run test:coverage  # With coverage report
 
 ```
 kairos/
-├── app/                    # Nuxt 4 SPA (Vue 3)
-│   ├── pages/              # 18 pages (resume, interview, ats, ...)
-│   ├── components/         # Navbar, Sidebar, CareerAssistantPanel, ...
-│   ├── composables/        # useAuth, useClientAI, useLocalLLM, ...
-│   ├── middleware/          # Auth guard
-│   ├── plugins/            # Mock interceptor (client-only)
-│   ├── utils/              # diff.ts (HTML diff rendering)
-│   ├── data/mock/          # 50 mock profiles for demo mode
-│   └── assets/css/         # Tailwind CSS v4 + Seed Design
-├── server/                 # Nitro API Server
-│   ├── api/                # ~80 route handlers (20 groups)
-│   ├── services/           # 20 service modules
-│   ├── middleware/          # auth.ts, rateLimit.ts
-│   └── plugins/            # errorHandler.ts
-├── db/                     # Drizzle ORM
-│   ├── schema.ts           # 16 table definitions + relations
-│   └── index.ts            # NeonDB client singleton
-├── packages/               # Shared platform bridges
-│   ├── tauri-bridge/       # Desktop Tauri v2 bridge
-│   ├── mobile-bridge/      # React Native Expo bridge
-│   └── agent-cli/          # Terminal CLI agent
-├── apps/astro/             # Astro 7 marketing microsite
-│   └── src/                # Vue + React islands
-├── seed-design/            # Generated Seed Design React components
-├── i18n/                   # ko.json, en.json (253 keys each)
-├── public/                 # PWA icons, SVGs, brand assets
-├── test/                   # Vitest (9 test files, 561 lines)
-├── drizzle/                # SQL migrations
-├── docs/                   # Korean documentation (competition, plans)
-├── nuxt.config.ts           # Nuxt 4 configuration
-├── payload.config.ts        # Payload CMS configuration
-├── drizzle.config.ts        # Drizzle ORM configuration
-├── vercel.json              # Vercel deployment (Seoul region)
-├── vitest.config.ts         # Test configuration
-├── tsconfig.json            # TypeScript strict mode
-└── .env.example             # 11 required environment variables
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── page.tsx            # 랜딩 / 대시보드
+│   │   ├── presentation/       # AI 서비스톤 발표자료 (10슬라이드)
+│   │   ├── (authenticated)/    # resume, interview, ats, humanizer, qa, career, studio, docs, settings, admin
+│   │   ├── auth/               # login, register
+│   │   ├── r/[id]/             # 공유 AI 채팅
+│   │   └── api/                # ~45 Route Handlers
+│   ├── components/             # Navbar, Sidebar, RootLayoutClient, ...
+│   ├── context/                # AuthContext (JWT + mock 모드)
+│   ├── hooks/                  # useAuth, useChat, useDocumentParser, useOfflineQueue, ...
+│   ├── lib/                    # toast, rateLimit, mockInterceptor
+│   ├── server/                 # Service modules (llm, embedding, imageGen, resume, interview, ...)
+│   └── data/mock/              # 데모 모드용 mock DB
+├── db/                         # Drizzle ORM (schema.ts 16개 테이블, index.ts)
+├── shared/                     # 공용 타입
+├── seed-design/                # Seed Design React 컴포넌트
+├── public/                     # PWA 아이콘, SVG, 브랜드 에셋
+├── test/                       # Vitest (src/server 대상)
+├── drizzle/                    # SQL 마이그레이션
+├── docs/                       # 한국어 문서 (대회 기획, 심사기준)
+├── contracts/                  # Solidity 스마트 컨트랙트
+├── payload.config.ts           # Payload CMS 설정
+├── drizzle.config.ts           # Drizzle ORM 설정
+├── next.config.ts              # Next.js 설정
+├── vercel.json                 # Vercel 배포 (Seoul region, next build)
+├── vitest.config.ts            # 테스트 설정
+├── tsconfig.json               # TypeScript strict mode
+└── .env.example                # 환경변수 템플릿
 ```
 
 ---
@@ -481,4 +536,4 @@ kairos/
 
 ---
 
-*최종 수정: 2026-07-31 | 프로젝트 메인 README.md*
+*최종 수정: 2026-08-01 | Next.js 15 단일 프레임워크 기준 (Nuxt 4 / Nitro / Astro 제거 완료)*
