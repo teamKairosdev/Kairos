@@ -48,7 +48,8 @@
 - [x] 라우트 `params: Promise` 타입 수정 (`careers/[id]`, `chat/[id]`, `docs/[id]`, `community/[id]`)
 - [x] `vitest` devDependency + `test`/`test:coverage` 스크립트 등록
 - [x] 최종 검증: `npm run build` 성공 / `npx tsc --noEmit` 에러 0 / `npm test` 61/61 통과
-- [x] 커밋 완료 (push 안 함)
+- [x] `.next/` 빌드 산출물이 커밋에 포함된 것 발견 → `.gitignore`에 `.next/` 추가, 추적에서 제거 후 amend 정리
+- [x] 커밋 완료 (`5045b7d`, push 안 함)
 
 ---
 
