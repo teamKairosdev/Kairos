@@ -6,8 +6,8 @@ vi.mock('../../server/services/llm', () => ({
 }))
 
 vi.mock('../../server/services/guardrail', () => ({
-  checkInputGuardrail: vi.fn(() => ({ passed: true, reason: '' })),
-  checkOutputAsyncGuardrail: vi.fn(() => ({ passed: true })),
+  checkInputGuardrail: vi.fn(() => ({ passed: true, reason: '', layer: 1 })),
+  checkOutputAsyncGuardrail: vi.fn(() => ({ passed: true, layer: 2 })),
 }))
 
 vi.mock('drizzle-orm', async (importOriginal) => {
@@ -36,7 +36,7 @@ describe('evaluateResumeDraft', () => {
 
   it('throws on guardrail violation', async () => {
     const { checkInputGuardrail } = await import('../../server/services/guardrail')
-    vi.mocked(checkInputGuardrail).mockReturnValueOnce({ passed: false, reason: 'blocked content' })
+    vi.mocked(checkInputGuardrail).mockReturnValueOnce({ passed: false, reason: 'blocked content', layer: 1 })
     await expect(evaluateResumeDraft('bad content')).rejects.toThrow('Guardrail Violation')
   })
 })

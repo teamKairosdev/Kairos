@@ -1,0 +1,62 @@
+import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
+import { eq } from 'drizzle-orm';
+import { getDb } from '@/../db';
+import { users } from '@/../db/schema';
+import { signSession } from '@/server/auth';
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { email, password } = body || {};
+
+    if (!email || !password) {
+      return NextResponse.json({ error: '이메일과 비밀번호를 입력해주세요.' }, { status: 400 });
+    }
+
+    const db = getDb();
+    if (!db) {
+      return NextResponse.json({ error: '데이터베이스에 연결할 수 없습니다.' }, { status: 500 });
+    }
+
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    if (!user || !user.passwordHash) {
+      return NextResponse.json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' }, { status: 401 });
+    }
+
+    const isValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isValid) {
+      return NextResponse.json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' }, { status: 401 });
+    }
+
+    const token = await signSession({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatarUrl: user.avatarUrl,
+      walletAddress: user.walletAddress,
+    });
+
+    const res = NextResponse.json({
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        avatarUrl: user.avatarUrl,
+      },
+      token,
+    });
+
+    res.cookies.set('kairos_session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7,
+      path: '/',
+    });
+
+    return res;
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || '서버 오류' }, { status: 500 });
+  }
+}

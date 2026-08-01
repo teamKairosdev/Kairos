@@ -1,0 +1,31 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(req: NextRequest) {
+  try {
+    const formData = await req.formData();
+    const file = formData.get('file') as File | null;
+
+    if (!file) {
+      return NextResponse.json({ error: 'File is required' }, { status: 400 });
+    }
+
+    const ext = file.name.split('.').pop()?.toLowerCase() || '';
+    const arrayBuffer = await file.arrayBuffer();
+
+    try {
+      if (ext === 'hwp' || ext === 'hwpx') {
+        const { parseHwp } = await import('@/server/hwpParser');
+        const result = await parseHwp(new Uint8Array(arrayBuffer));
+        return NextResponse.json({ text: result.text });
+      }
+      return NextResponse.json({ error: 'Unsupported format' }, { status: 422 });
+    } catch (err) {
+      return NextResponse.json(
+        { error: `HWP 파싱 실패: ${(err as Error).message}` },
+        { status: 422 }
+      );
+    }
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+  }
+}
