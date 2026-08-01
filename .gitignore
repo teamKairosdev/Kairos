@@ -39,6 +39,9 @@ yarn-error.log*
 # Local uploads (studio images, docs)
 uploads/
 
+# rhwp WASM (copied by postinstall)
+public/rhwp_bg.wasm
+
 # Temp
 *.tmp
 *.temp

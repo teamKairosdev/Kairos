@@ -12,7 +12,7 @@ export default function DocsPage() {
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [docTitle, setDocTitle] = useState('');
-  const [files, setFiles] = useState<Array<{ id: string; name: string; ext: string; size: number }>>([]);
+  const [files, setFiles] = useState<Array<{ id: string; title?: string; name?: string; ext: string; size: number }>>([]);
   const [loading, setLoading] = useState(true);
 
   async function loadFiles() {
@@ -97,15 +97,26 @@ export default function DocsPage() {
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Documents</h1>
           <p className="text-sm text-gray-500 mt-1">Upload HWP, PDF, DOCX files and analyze with AI</p>
         </div>
-        <button
-          onClick={() => setShowUpload(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-sm"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-          Upload File
-        </button>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/docs/edit"
+            className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:border-orange-300 hover:text-orange-600 transition-all"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            새 HWP 문서
+          </Link>
+          <button
+            onClick={() => setShowUpload(true)}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            Upload File
+          </button>
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
@@ -136,7 +147,7 @@ export default function DocsPage() {
                     href={`/docs/${f.id}`}
                     className="text-sm font-semibold text-gray-800 hover:text-orange-600 transition-colors truncate block"
                   >
-                    {f.name}
+                    {f.title || f.name}
                   </Link>
                   <p className="text-xs text-gray-400 mt-0.5">{f.ext?.toUpperCase()} · {formatSize(f.size)}</p>
                 </div>

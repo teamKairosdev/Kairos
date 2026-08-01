@@ -12,6 +12,7 @@ interface DocMeta {
   ext: string;
   size: number;
   createdAt: string;
+  textContent: string;
 }
 
 function readMeta(): DocMeta[] {
@@ -49,10 +50,6 @@ export async function POST(req: NextRequest) {
     const destPath = join(UPLOAD_DIR, `${id}.${ext}`);
     writeFileSync(destPath, buffer);
 
-    const meta = readMeta();
-    meta.push({ id, title, ext, size: buffer.byteLength, createdAt: new Date().toISOString() });
-    writeMeta(meta);
-
     let textContent = '';
     try {
       if (ext === 'hwp' || ext === 'hwpx') {
@@ -67,6 +64,10 @@ export async function POST(req: NextRequest) {
     } catch (e) {
       console.warn('[Docs] Text extraction failed:', (e as Error).message);
     }
+
+    const meta = readMeta();
+    meta.push({ id, title, ext, size: buffer.byteLength, createdAt: new Date().toISOString(), textContent });
+    writeMeta(meta);
 
     return NextResponse.json({ id, title, ext, size: buffer.byteLength, textContent });
   } catch (err: any) {

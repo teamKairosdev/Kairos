@@ -31,6 +31,14 @@ export function initMockInterceptor() {
       const raw = init?.body;
       return typeof raw === 'string' ? JSON.parse(raw) : {};
     };
+    const getFormFile = (init?: RequestInit): { name?: string; ext: string } => {
+      const raw = init?.body;
+      if (!(raw instanceof FormData)) return { ext: '' };
+      const file = raw.get('file');
+      const name = file instanceof File ? file.name : String(raw.get('title') || '');
+      const ext = name.includes('.') ? name.split('.').pop()!.toLowerCase() : '';
+      return { name, ext };
+    };
     const deleteById = (key: string) => {
       const id = url.split('/').pop();
       const list = readArray(key);
@@ -242,10 +250,29 @@ export function initMockInterceptor() {
 
     if (url.includes('/api/docs/upload') && method === 'POST') {
       const docs = readArray('mock_docs');
-      const newDoc = { id: `mock-doc-${Date.now()}`, name: '신규_문서.pdf', ext: 'pdf', size: 102400, createdAt: new Date().toISOString() };
+      const { name, ext } = getFormFile(init);
+      const fileName = name || '신규_문서.pdf';
+      const fileExt = ext || 'pdf';
+      const newDoc = {
+        id: `mock-doc-${Date.now()}`,
+        name: fileName,
+        title: fileName,
+        ext: fileExt,
+        size: 102400,
+        createdAt: new Date().toISOString(),
+        textContent: '',
+      };
       docs.unshift(newDoc);
       localStorage.setItem('mock_docs', JSON.stringify(docs));
       return json(newDoc);
+    }
+
+    if (url.match(/\/api\/docs\/[^/]+/) && method === 'GET' && url.includes('text=1')) {
+      const docs = readArray('mock_docs');
+      const id = url.split('/').pop()?.split('?')[0];
+      const entry = docs.find((d: any) => d.id === id);
+      if (!entry) return json({ error: 'Document not found' }, 404);
+      return json({ id: entry.id, title: entry.name, ext: entry.ext, size: entry.size, createdAt: entry.createdAt, textContent: entry.textContent || '' });
     }
 
     if (url.match(/\/api\/docs\/[^/]+/) && method === 'DELETE') {

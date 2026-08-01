@@ -3,21 +3,30 @@
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import Spinner from '@/components/Spinner';
+import HwpViewer from '@/components/HwpViewer';
+
+interface DocInfo {
+  id: string;
+  title: string;
+  ext: string;
+  size: number;
+  createdAt: string;
+  textContent: string;
+}
 
 export default function DocDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
 
-  const [doc, setDoc] = useState<any>(null);
+  const [doc, setDoc] = useState<DocInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchDoc() {
       try {
-        const res = await fetch(`/api/docs/${id}`);
+        const res = await fetch(`/api/docs/${id}?text=1`);
         if (res.ok) {
-          const data = await res.json();
-          setDoc(data);
+          setDoc(await res.json());
         }
       } catch {} finally {
         setLoading(false);
@@ -42,6 +51,8 @@ export default function DocDetailPage({ params }: { params: Promise<{ id: string
     );
   }
 
+  const isHwp = doc.ext === 'hwp' || doc.ext === 'hwpx';
+
   return (
     <div className="max-w-4xl mx-auto py-8 space-y-6">
       <Link href="/docs" className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors">
@@ -49,22 +60,50 @@ export default function DocDetailPage({ params }: { params: Promise<{ id: string
       </Link>
 
       <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-xs space-y-6">
-        <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+        <div className="flex items-center justify-between border-b border-gray-100 pb-4 gap-4 flex-wrap">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{doc.name || doc.title}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{doc.title}</h1>
             <p className="text-xs text-gray-400 mt-1">
-              업로드 시각: {new Date(doc.createdAt).toLocaleString()}
+              업로드 시각: {new Date(doc.createdAt).toLocaleString()} · {doc.ext?.toUpperCase()} ·{' '}
+              {(doc.size / 1024).toFixed(1)} KB
             </p>
           </div>
-          <span className="text-xs font-bold uppercase px-3 py-1 bg-orange-50 text-orange-600 rounded-lg">
-            {doc.ext || 'FILE'}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold uppercase px-3 py-1 bg-orange-50 text-orange-600 rounded-lg">
+              {doc.ext || 'FILE'}
+            </span>
+            <a
+              href={`/api/docs/${doc.id}`}
+              download
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-gray-200 text-gray-600 text-xs font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
+              </svg>
+              다운로드
+            </a>
+            {isHwp && (
+              <Link
+                href={`/docs/edit?doc=${doc.id}`}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gray-900 text-white text-xs font-semibold rounded-xl hover:bg-orange-600 transition-colors"
+              >
+                편집
+              </Link>
+            )}
+          </div>
         </div>
+
+        {isHwp && (
+          <div className="space-y-3">
+            <h2 className="text-sm font-semibold text-gray-700">문서 미리보기</h2>
+            <HwpViewer docId={doc.id} />
+          </div>
+        )}
 
         <div className="space-y-4">
           <h2 className="text-sm font-semibold text-gray-700">문서 추출 텍스트</h2>
           <div className="p-6 rounded-xl bg-gray-50 border border-gray-100 text-sm font-mono leading-relaxed whitespace-pre-wrap text-gray-800">
-            {doc.content || doc.text || '추출된 텍스트가 없습니다.'}
+            {doc.textContent || '추출된 텍스트가 없습니다.'}
           </div>
         </div>
       </div>

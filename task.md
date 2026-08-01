@@ -109,3 +109,27 @@
 
 ## 이후 작업 예정 (미완)
 - [ ] `docs/` 마스터 플랜 문서 최신화 (선택)
+
+---
+
+## 세션 4: HWP/HWPX 기능 @rhwp 기반 재구현 (진행 중)
+
+### 1. 조사 (병렬 서브에이전트)
+- [x] 현재 hwp/hwpx 처리 구현 분석 — hwplib-js 텍스트 추출만 가능(HWPX 미지원, 표/이미지 유실), 추출 텍스트 미저장, docs 상세 페이지 바이너리↔JSON 불일치로 **broken**, 뷰어/에디터/다운로드 전무
+- [x] @rhwp/core·@rhwp/editor 패키지 API·Next.js 통합 방법 조사 — core(HWP+HWPX+HML, WASM 7.2MB, 브라우저 전용, `init({module_or_path})` + measureTextWidth 선등록), editor(iframe 임베드, loadFile/exportHwp·Hwpx/notifySaved). Next.js는 wasm을 public/ 복사만으로 동작, config 변경 불필요
+
+### 2. 구현
+- [x] `@rhwp/core@0.8.2`, `@rhwp/editor@0.8.2` 설치 + `scripts/copy-rhwp.mjs`(postinstall)로 wasm → `public/rhwp_bg.wasm` (gitignore)
+- [x] `src/components/HwpViewer.tsx` — @rhwp/core SVG 페이지 뷰어 (동적 import, 페이지 네비게이션)
+- [x] `src/components/HwpEditor.tsx` — @rhwp/editor iframe 에디터 (기존 문서 로드, HWP/HWPX 저장 → upload API → notifySaved, studioUrl은 `NEXT_PUBLIC_RHWP_STUDIO_URL`로 오버라이드 가능)
+- [x] `/docs/edit` 페이지 신규 — 새 HWP 문서 작성/기존 문서 편집 (`?doc=`)
+- [x] 업로드 라우트 — 추출 textContent를 메타데이터에 **영속화** (추출→저장 순서 조정)
+- [x] `docs/[id]` 라우트 — `?text=1` JSON 엔드포인트 추가 (바이너리 GET은 유지)
+- [x] `docs/[id]` 페이지 — 깨진 fetch(`res.json()`→바이너리) 수정, hwp/hwpx면 HwpViewer + 다운로드 + 편집 버튼
+- [x] `docs` 목록 페이지 — `f.name`→`f.title` 선존 버그 수정(빈 파일명), "새 HWP 문서" 버튼 추가
+- [x] mockInterceptor — 업로드 mock이 실제 파일명/ext 반영, `?text=1` mock 추가
+
+### 3. 검증/한계
+- [x] `npx tsc --noEmit` 0 / `npm test` 61/61 / `npm run build` 성공 (useSearchParams Suspense 수정 포함)
+- [x] 커밋 완료 (push 안 함)
+- [ ] 알려진 한계: hwpx 서버 텍스트 추출은 hwplib-js 미지원(빈 텍스트, 뷰어 렌더링은 정상), 에디터 기본 studioUrl은 외부 origin(기밀 문서 시 셀프호스팅 필요), mock 모드에서 HWP 뷰어 바이너리 로드 불가

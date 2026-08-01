@@ -12,10 +12,13 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "postinstall": "node scripts/copy-rhwp.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
+    "@rhwp/core": "^0.8.2",
+    "@rhwp/editor": "^0.8.2",
     "@vercel/blob": "^0.27.0",
     "bcryptjs": "^2.4.3",
     "diff": "^5.2.0",

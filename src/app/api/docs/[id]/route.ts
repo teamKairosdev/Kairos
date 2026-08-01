@@ -15,7 +15,7 @@ const MIME_MAP: Record<string, string> = {
 };
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -27,6 +27,12 @@ export async function GET(
       : [];
     const entry = meta.find((m: { id: string }) => m.id === id);
     if (!entry) return notFound('Document not found');
+
+    const wantsText = req.nextUrl.searchParams.get('text') === '1';
+    if (wantsText) {
+      const { title, ext, size, createdAt, textContent } = entry;
+      return NextResponse.json({ id, title, ext, size, createdAt, textContent: textContent || '' });
+    }
 
     const filePath = join(UPLOAD_DIR, `${id}.${entry.ext}`);
     if (!existsSync(filePath)) return notFound('File not found');
