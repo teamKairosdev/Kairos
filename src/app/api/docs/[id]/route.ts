@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { badRequest, notFound, internalError } from '@/server/http';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 const META_FILE = join(UPLOAD_DIR, '.metadata.json');
@@ -19,16 +20,16 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    if (!id) return NextResponse.json({ error: 'Document ID required' }, { status: 400 });
+    if (!id) return badRequest('Document ID required');
 
     const meta = existsSync(META_FILE)
       ? JSON.parse(readFileSync(META_FILE, 'utf-8'))
       : [];
     const entry = meta.find((m: { id: string }) => m.id === id);
-    if (!entry) return NextResponse.json({ error: 'Document not found' }, { status: 404 });
+    if (!entry) return notFound('Document not found');
 
     const filePath = join(UPLOAD_DIR, `${id}.${entry.ext}`);
-    if (!existsSync(filePath)) return NextResponse.json({ error: 'File not found' }, { status: 404 });
+    if (!existsSync(filePath)) return notFound('File not found');
 
     const file = readFileSync(filePath);
     const contentType = MIME_MAP[entry.ext] || 'application/octet-stream';
@@ -40,7 +41,7 @@ export async function GET(
       },
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }
 
@@ -50,13 +51,13 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    if (!id) return NextResponse.json({ error: 'Document ID required' }, { status: 400 });
+    if (!id) return badRequest('Document ID required');
 
     const meta = existsSync(META_FILE)
       ? JSON.parse(readFileSync(META_FILE, 'utf-8'))
       : [];
     const idx = meta.findIndex((m: { id: string }) => m.id === id);
-    if (idx === -1) return NextResponse.json({ error: 'Document not found' }, { status: 404 });
+    if (idx === -1) return notFound('Document not found');
 
     const entry = meta[idx];
     const filePath = join(UPLOAD_DIR, `${id}.${entry.ext}`);
@@ -71,6 +72,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

@@ -4,6 +4,7 @@ import { getDb } from '@/db';
 import { studioImages } from '@/db/schema';
 import { generateStudioImage } from '@/server/imageGen';
 import { getSession } from '@/server/getSession';
+import { unauthorized, badRequest, internalError } from '@/server/http';
 
 const STUDIO_DIR = resolve('uploads/studio');
 
@@ -16,12 +17,12 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+      return unauthorized();
     }
 
     const { prompt } = await req.json();
     if (!prompt) {
-      return NextResponse.json({ error: '프롬프트를 입력해주세요.' }, { status: 400 });
+      return badRequest('프롬프트를 입력해주세요.');
     }
 
     await ensureStudioDir();
@@ -54,6 +55,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ image: record });
   } catch (err: any) {
     console.error('[/api/studio/generate]', err);
-    return NextResponse.json({ error: err.message || 'Studio error' }, { status: 500 });
+    return internalError(err, 'Studio error');
   }
 }

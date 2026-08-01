@@ -2,13 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/lib/toast';
 import { useDocumentParser } from '@/hooks/useDocumentParser';
+import Spinner from '@/components/Spinner';
+import EmptyState from '@/components/EmptyState';
+
+const workflowSteps = [
+  { num: '01', title: 'Draft Generation', desc: '초안 작성 또는 PDF/DOCX 파싱' },
+  { num: '02', title: 'LLM Evaluation', desc: '점수, 강약점, STAR 프레임워크 분석' },
+  { num: '03', title: 'Intelligent Rewrite', desc: '성과 중심 고도화 재작성' },
+];
 
 export default function ResumeListPage() {
   const toast = useToast();
-  const router = useRouter();
   const [resumes, setResumes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -17,12 +23,6 @@ export default function ResumeListPage() {
   const [refiningId, setRefiningId] = useState<string | null>(null);
 
   const { parseResumeFile } = useDocumentParser();
-
-  const workflowSteps = [
-    { num: '01', title: 'Draft Generation', desc: '초안 작성 또는 PDF/DOCX 파싱' },
-    { num: '02', title: 'LLM Evaluation', desc: '점수, 강약점, STAR 프레임워크 분석' },
-    { num: '03', title: 'Intelligent Rewrite', desc: '성과 중심 고도화 재작성' },
-  ];
 
   async function fetchResumes() {
     try {
@@ -145,7 +145,7 @@ export default function ResumeListPage() {
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <Spinner />
           </div>
         ) : resumes && resumes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -188,7 +188,7 @@ export default function ResumeListPage() {
                       className="px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors disabled:opacity-50 flex items-center gap-1"
                     >
                       {refiningId === r.id && (
-                        <div className="w-3 h-3 border border-blue-600 border-t-transparent rounded-full animate-spin" />
+                        <Spinner className="w-3 h-3 border border-blue-600 border-t-transparent rounded-full animate-spin" />
                       )}
                       AI 고도화
                     </button>
@@ -204,19 +204,14 @@ export default function ResumeListPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
-            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400">
-              📄
-            </div>
-            <h3 className="text-base font-semibold text-gray-700 mb-1">등록된 이력서가 없습니다</h3>
-            <p className="text-sm text-gray-400 mb-6">첫 이력서를 등록하고 AI로 고도화하세요</p>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all"
-            >
-              이력서 등록하기
-            </button>
-          </div>
+          <EmptyState
+            icon="📄"
+            iconWrapperClass="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400"
+            title="등록된 이력서가 없습니다"
+            description="첫 이력서를 등록하고 AI로 고도화하세요"
+            actionLabel="이력서 등록하기"
+            onAction={() => setShowCreateModal(true)}
+          />
         )}
       </div>
 

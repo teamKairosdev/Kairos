@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { streamLLMText, toGeminiMessages } from '@/server/llm';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
     }: { messages: any[]; systemPrompt?: string } = body || {};
 
     if (!messages || messages.length === 0) {
-      return NextResponse.json({ error: 'Messages are required' }, { status: 400 });
+      return badRequest('Messages are required');
     }
 
     const stream = await streamLLMText({
@@ -26,6 +27,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (err: any) {
     console.error('[/api/llm/stream]', err);
-    return NextResponse.json({ error: err.message || 'LLM stream error' }, { status: 500 });
+    return internalError(err, 'LLM stream error');
   }
 }

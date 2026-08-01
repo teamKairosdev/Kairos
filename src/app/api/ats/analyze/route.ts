@@ -3,6 +3,7 @@ import { analyzeATSCompatibility } from '@/server/ats';
 import { getDb } from '@/db';
 import { atsAnalyses } from '@/db/schema';
 import { getSession } from '@/server/getSession';
+import { unauthorized, badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,15 +11,12 @@ export async function POST(req: NextRequest) {
     const { jobTitle, jobDescription, resumeText, resumeId } = body || {};
 
     if (!jobTitle || !jobDescription || !resumeText) {
-      return NextResponse.json(
-        { error: '직무명, 채용공고 본문, 이력서 텍스트가 모두 필요합니다.' },
-        { status: 400 }
-      );
+      return badRequest('직무명, 채용공고 본문, 이력서 텍스트가 모두 필요합니다.');
     }
 
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요한 서비스입니다.' }, { status: 401 });
+      return unauthorized('로그인이 필요한 서비스입니다.');
     }
 
     const analysis = analyzeATSCompatibility(resumeText, jobDescription);
@@ -46,9 +44,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id: saved.id, analysis });
   } catch (err: any) {
     console.error('[/api/ats/analyze]', err);
-    return NextResponse.json(
-      { error: err.message || 'ATS 분석 결과를 저장하는 동안 오류가 발생했습니다.' },
-      { status: 500 }
-    );
+    return internalError(err, 'ATS 분석 결과를 저장하는 동안 오류가 발생했습니다.');
   }
 }

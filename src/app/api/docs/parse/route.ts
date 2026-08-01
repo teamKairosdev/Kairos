@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -6,7 +7,7 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file') as File | null;
 
     if (!file) {
-      return NextResponse.json({ error: 'File is required' }, { status: 400 });
+      return badRequest('File is required');
     }
 
     const ext = file.name.split('.').pop()?.toLowerCase() || '';
@@ -26,6 +27,6 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

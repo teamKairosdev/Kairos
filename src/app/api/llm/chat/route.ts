@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { streamLLMText, toGeminiMessages, collectStreamText } from '@/server/llm';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,7 +9,7 @@ export async function POST(req: NextRequest) {
     const { messages, context }: { messages: any[]; context?: string } = body || {};
 
     if (!messages || messages.length === 0) {
-      return NextResponse.json({ error: 'Messages are required' }, { status: 400 });
+      return badRequest('Messages are required');
     }
 
     const lastUserMsg = [...messages].reverse().find((m: any) => m?.role === 'user');
@@ -43,6 +44,6 @@ Be concise, actionable, and supportive. Respond in Korean when the user writes i
     });
   } catch (err: any) {
     console.error('[/api/llm/chat]', err);
-    return NextResponse.json({ error: err.message || 'LLM error' }, { status: 500 });
+    return internalError(err, 'LLM error');
   }
 }

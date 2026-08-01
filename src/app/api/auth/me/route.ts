@@ -3,6 +3,7 @@ import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { unauthorized } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   const session = await getSession(req);
@@ -39,7 +40,7 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const session = await getSession(req);
   if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return unauthorized('Unauthorized');
   }
 
   try {

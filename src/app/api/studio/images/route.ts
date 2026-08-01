@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
 import { getSession } from '@/server/getSession';
+import { unauthorized, internalError } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+      return unauthorized();
     }
 
     const db = getDb();
@@ -23,6 +24,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ images });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

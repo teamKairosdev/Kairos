@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
 import { chatSessions } from '@/db/schema';
 import { getSession } from '@/server/getSession';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
     const { title, messages, context } = await req.json();
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return NextResponse.json({ error: 'Messages are required' }, { status: 400 });
+      return badRequest('Messages are required');
     }
 
     const session = await getSession(req);
@@ -32,6 +33,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ id: chatSession.id, url: `/r/${chatSession.id}` });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Save error' }, { status: 500 });
+    return internalError(err, 'Save error');
   }
 }

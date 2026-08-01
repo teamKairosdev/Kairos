@@ -1,8 +1,5 @@
 import { z } from 'zod';
 import { callLLMStructured } from './llm';
-import { getDb } from '@/db';
-import { resumes, resumeRefinements } from '@/db/schema';
-import { eq } from 'drizzle-orm';
 import { checkInputGuardrail, checkOutputAsyncGuardrail } from './guardrail';
 
 const evaluationSchema = z.object({
@@ -62,48 +59,4 @@ Rewrite the candidate's resume applying the STAR method (Situation, Task, Action
   }
 
   return res;
-}
-
-// Async Refinement Pipeline Chain (Draft -> Evaluate -> Improve)
-export async function executeResumeRefinementChain(resumeId: string) {
-  const db = getDb();
-  if (!db) throw new Error('Database not available');
-
-  const [existing] = await db.select().from(resumes).where(eq(resumes.id, resumeId));
-  if (!existing) throw new Error('Resume not found');
-
-  // Step 1: Mark as evaluating
-  await db.update(resumes).set({ status: 'evaluating' }).where(eq(resumes.id, resumeId));
-
-  // Step 2: Evaluate LLM call
-  const evaluation = await evaluateResumeDraft(existing.originalContent);
-
-  await db.insert(resumeRefinements).values({
-    resumeId,
-    step: 'evaluate',
-    draftContent: existing.originalContent,
-    evaluationFeedback: evaluation,
-    score: evaluation.score,
-  });
-
-  // Step 3: Improve LLM call
-  const improvedResult = await generateImprovedResume(existing.originalContent, evaluation);
-
-  await db.insert(resumeRefinements).values({
-    resumeId,
-    step: 'improve',
-    draftContent: existing.originalContent,
-    evaluationFeedback: evaluation,
-    score: improvedResult.estimatedNewScore,
-    improvedContent: improvedResult.improvedContent,
-  });
-
-  // Step 4: Update final resume state
-  await db.update(resumes).set({
-    status: 'improved',
-    currentScore: improvedResult.estimatedNewScore,
-    updatedAt: new Date(),
-  }).where(eq(resumes.id, resumeId));
-
-  return { evaluation, improvedResult };
 }

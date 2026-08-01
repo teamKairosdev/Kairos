@@ -3,6 +3,7 @@ import { getDb } from '@/db';
 import { communityPosts, users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
+import { unauthorized, badRequest, notFound, internalError } from '@/server/http';
 
 export async function GET(
   _req: NextRequest,
@@ -10,7 +11,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    if (!id) return NextResponse.json({ error: '게시글 ID가 필요합니다.' }, { status: 400 });
+    if (!id) return badRequest('게시글 ID가 필요합니다.');
 
     const db = getDb();
     if (db) {
@@ -35,9 +36,9 @@ export async function GET(
       if (post) return NextResponse.json(post);
     }
 
-    return NextResponse.json({ error: '게시글을 찾을 수 없습니다.' }, { status: 404 });
+    return notFound('게시글을 찾을 수 없습니다.');
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }
 
@@ -48,11 +49,11 @@ export async function DELETE(
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+      return unauthorized();
     }
 
     const { id } = await params;
-    if (!id) return NextResponse.json({ error: '게시글 ID가 필요합니다.' }, { status: 400 });
+    if (!id) return badRequest('게시글 ID가 필요합니다.');
 
     const db = getDb();
     if (db) {
@@ -61,7 +62,7 @@ export async function DELETE(
         .from(communityPosts)
         .where(eq(communityPosts.id, id));
 
-      if (!post) return NextResponse.json({ error: '게시글을 찾을 수 없습니다.' }, { status: 404 });
+      if (!post) return notFound('게시글을 찾을 수 없습니다.');
       if (post.userId !== session.userId) {
         return NextResponse.json({ error: '삭제 권한이 없습니다.' }, { status: 403 });
       }
@@ -72,6 +73,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true, message: '게시글이 삭제되었습니다.' });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

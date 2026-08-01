@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { signSession } from '@/server/auth';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,7 +12,7 @@ export async function POST(req: NextRequest) {
     const { email, password } = body || {};
 
     if (!email || !password) {
-      return NextResponse.json({ error: '이메일과 비밀번호를 입력해주세요.' }, { status: 400 });
+      return badRequest('이메일과 비밀번호를 입력해주세요.');
     }
 
     const db = getDb();
@@ -57,6 +58,6 @@ export async function POST(req: NextRequest) {
 
     return res;
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || '서버 오류' }, { status: 500 });
+    return internalError(err, '서버 오류');
   }
 }

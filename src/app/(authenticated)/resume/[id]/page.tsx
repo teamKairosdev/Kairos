@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo, use } from 'react';
 import Link from 'next/link';
 import { useToast } from '@/lib/toast';
 import { renderDiffHtml } from '@/utils/diff';
+import Spinner from '@/components/Spinner';
 
 export default function ResumeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -157,7 +158,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <div className="w-7 h-7 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <Spinner className="w-7 h-7 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -251,7 +252,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     disabled={saving}
                     className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
                   >
-                    {saving && <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />}
+                    {saving && <Spinner className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />}
                     <span>💾 변경사항 저장</span>
                   </button>
                   <button
@@ -259,7 +260,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     disabled={refining}
                     className="border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
                   >
-                    {refining && <div className="w-3 h-3 border border-slate-600 border-t-transparent rounded-full animate-spin" />}
+                    {refining && <Spinner className="w-3 h-3 border border-slate-600 border-t-transparent rounded-full animate-spin" />}
                     <span>✨ AI 정밀 평가 실행</span>
                   </button>
                 </div>

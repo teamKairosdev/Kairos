@@ -4,6 +4,7 @@ import { verifyMessage } from 'viem';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { signSession } from '@/server/auth';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,7 +12,7 @@ export async function POST(req: NextRequest) {
     const { address, message, signature } = body || {};
 
     if (!address || !message || !signature) {
-      return NextResponse.json({ error: '지갑 주소, 메시지, 서명이 필요합니다.' }, { status: 400 });
+      return badRequest('지갑 주소, 메시지, 서명이 필요합니다.');
     }
 
     const isValid = await verifyMessage({
@@ -73,6 +74,6 @@ export async function POST(req: NextRequest) {
 
     return res;
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || '서버 오류' }, { status: 500 });
+    return internalError(err, '서버 오류');
   }
 }

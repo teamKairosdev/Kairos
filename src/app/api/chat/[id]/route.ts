@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
 import { chatSessions } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { badRequest, notFound } from '@/server/http';
 
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  if (!id) return NextResponse.json({ error: 'Chat ID missing' }, { status: 400 });
+  if (!id) return badRequest('Chat ID missing');
 
   const db = getDb();
   if (db) {
@@ -20,5 +21,5 @@ export async function GET(
     }
   }
 
-  return NextResponse.json({ error: 'Chat session not found' }, { status: 404 });
+  return notFound('Chat session not found');
 }

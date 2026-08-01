@@ -25,29 +25,35 @@ export function initMockInterceptor() {
         headers: { 'Content-Type': 'application/json' },
       });
 
-    // 1. Auth check
-    if (url.endsWith('/api/auth/me') || url.includes('/api/auth/me')) {
-      const storedUser = localStorage.getItem('mock_user');
-      return json({ user: storedUser ? JSON.parse(storedUser) : null });
-    }
+    const readArray = (key: string): any[] => JSON.parse(localStorage.getItem(key) || '[]');
+    const readObject = (key: string): Record<string, any> => JSON.parse(localStorage.getItem(key) || '{}');
+    const getBody = (init?: RequestInit): Record<string, any> => {
+      const raw = init?.body;
+      return typeof raw === 'string' ? JSON.parse(raw) : {};
+    };
+    const deleteById = (key: string) => {
+      const id = url.split('/').pop();
+      const list = readArray(key);
+      localStorage.setItem(key, JSON.stringify(list.filter((item: any) => item.id !== id)));
+    };
 
-    if (url.includes('/api/auth/login')) {
+    // 1. Auth check
+    if (url.includes('/api/auth/me') || url.includes('/api/auth/login')) {
       const storedUser = localStorage.getItem('mock_user');
       return json({ user: storedUser ? JSON.parse(storedUser) : null });
     }
 
     // 2. Resumes Endpoints
     if (url.includes('/api/resumes') && !url.match(/\/api\/resumes\/[^/]+/) && method === 'GET') {
-      const resumes = JSON.parse(localStorage.getItem('mock_resumes') || '[]');
-      return json(resumes);
+      return json(readArray('mock_resumes'));
     }
 
     if (url.includes('/api/resumes') && !url.match(/\/api\/resumes\/[^/]+/) && method === 'POST') {
-      const resumes = JSON.parse(localStorage.getItem('mock_resumes') || '[]');
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const resumes = readArray('mock_resumes');
+      const body = getBody(init);
       const newResume = {
         id: `mock-res-${Date.now()}`,
-        userId: JSON.parse(localStorage.getItem('mock_user') || '{}').id || 'mock-user',
+        userId: readObject('mock_user').id || 'mock-user',
         title: body.title || '새 이력서',
         originalContent: body.originalContent || '',
         improvedContent: '',
@@ -62,7 +68,7 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/resumes\/[^/]+\/refine/) && method === 'POST') {
-      const resumes = JSON.parse(localStorage.getItem('mock_resumes') || '[]');
+      const resumes = readArray('mock_resumes');
       const id = url.split('/')[4];
       const idx = resumes.findIndex((r: any) => r.id === id);
       if (idx !== -1) {
@@ -76,7 +82,7 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/resumes\/[^/]+\/chat/) && method === 'POST') {
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const body = getBody(init);
       const msg = body.message || '';
       const currentContent = body.currentContent || '';
       const { responseText, suggestedContent } = getSimulatedLLMResponse(msg, currentContent);
@@ -84,9 +90,9 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/resumes\/[^/]+/) && method === 'PUT') {
-      const resumes = JSON.parse(localStorage.getItem('mock_resumes') || '[]');
+      const resumes = readArray('mock_resumes');
       const id = url.split('/').pop();
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const body = getBody(init);
       const idx = resumes.findIndex((r: any) => r.id === id);
       if (idx !== -1) {
         resumes[idx] = { ...resumes[idx], ...body, updatedAt: new Date().toISOString() };
@@ -97,7 +103,7 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/resumes\/[^/]+$/) && method === 'GET') {
-      const resumes = JSON.parse(localStorage.getItem('mock_resumes') || '[]');
+      const resumes = readArray('mock_resumes');
       const id = url.split('/').pop();
       const resume = resumes.find((r: any) => r.id === id);
       if (resume) {
@@ -134,15 +140,15 @@ export function initMockInterceptor() {
 
     // 3. Interviews Endpoints
     if (url.includes('/api/interviews') && !url.match(/\/api\/interviews\/[^/]+/) && method === 'GET') {
-      return json(JSON.parse(localStorage.getItem('mock_interviews') || '[]'));
+      return json(readArray('mock_interviews'));
     }
 
     if (url.includes('/api/interviews') && !url.match(/\/api\/interviews\/[^/]+/) && method === 'POST') {
-      const interviews = JSON.parse(localStorage.getItem('mock_interviews') || '[]');
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const interviews = readArray('mock_interviews');
+      const body = getBody(init);
       const newInt = {
         id: `mock-int-${Date.now()}`,
-        userId: JSON.parse(localStorage.getItem('mock_user') || '{}').id || 'mock-user',
+        userId: readObject('mock_user').id || 'mock-user',
         jobTitle: body.jobTitle || '기술 면접',
         companyName: body.companyName || 'Kairos',
         difficulty: body.difficulty || 'medium',
@@ -154,14 +160,14 @@ export function initMockInterceptor() {
       };
       interviews.unshift(newInt);
       localStorage.setItem('mock_interviews', JSON.stringify(interviews));
-      const chats = JSON.parse(localStorage.getItem('mock_chats') || '{}');
+      const chats = readObject('mock_chats');
       chats[newInt.id] = [{ role: 'assistant', content: `안녕하세요. ${newInt.companyName}의 ${newInt.jobTitle} 직무 면접에 지원해주셔서 감사드립니다. 먼저 준비하신 자기소개 부탁드립니다.` }];
       localStorage.setItem('mock_chats', JSON.stringify(chats));
       return json({ session: newInt });
     }
 
     if (url.match(/\/api\/interviews\/[^/]+$/) && method === 'GET') {
-      const interviews = JSON.parse(localStorage.getItem('mock_interviews') || '[]');
+      const interviews = readArray('mock_interviews');
       const id = url.split('/').pop();
       const interview = interviews.find((i: any) => i.id === id);
       return interview ? json(interview) : json({ error: 'Not found' }, 404);
@@ -169,7 +175,7 @@ export function initMockInterceptor() {
 
     if (url.match(/\/api\/interviews\/[^/]+\/chat/) && method === 'POST') {
       const id = url.split('/')[4];
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const body = getBody(init);
       const userMessage = body.messages?.[body.messages.length - 1]?.content || '';
 
       const answers = [
@@ -196,7 +202,7 @@ export function initMockInterceptor() {
         },
       });
 
-      const chats = JSON.parse(localStorage.getItem('mock_chats') || '{}');
+      const chats = readObject('mock_chats');
       if (!chats[id]) chats[id] = [];
       chats[id].push({ role: 'user', content: userMessage });
       chats[id].push({ role: 'assistant', content: randomAnswer });
@@ -207,17 +213,17 @@ export function initMockInterceptor() {
 
     // 4. Careers Endpoints
     if (url.includes('/api/careers/search')) {
-      const careers = JSON.parse(localStorage.getItem('mock_careers') || '[]');
+      const careers = readArray('mock_careers');
       return json({ query: 'search', results: careers.map((c: any) => ({ ...c, similarity: randomScore(75, 96) / 100 })) });
     }
 
     if (url.includes('/api/careers') && !url.match(/\/api\/careers\/[^/]+/) && method === 'GET') {
-      return json(JSON.parse(localStorage.getItem('mock_careers') || '[]'));
+      return json(readArray('mock_careers'));
     }
 
     if (url.includes('/api/careers') && !url.match(/\/api\/careers\/[^/]+/) && method === 'POST') {
-      const careers = JSON.parse(localStorage.getItem('mock_careers') || '[]');
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const careers = readArray('mock_careers');
+      const body = getBody(init);
       const newCareer = { id: `mock-car-${Date.now()}`, userId: 'mock-user', ...body, createdAt: new Date().toISOString() };
       careers.unshift(newCareer);
       localStorage.setItem('mock_careers', JSON.stringify(careers));
@@ -225,19 +231,17 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/careers\/[^/]+/) && method === 'DELETE') {
-      const careers = JSON.parse(localStorage.getItem('mock_careers') || '[]');
-      const id = url.split('/').pop();
-      localStorage.setItem('mock_careers', JSON.stringify(careers.filter((c: any) => c.id !== id)));
+      deleteById('mock_careers');
       return json({ success: true });
     }
 
     // 5. Docs Endpoints
     if (url.includes('/api/docs') && !url.match(/\/api\/docs\/[^/]+/) && method === 'GET') {
-      return json(JSON.parse(localStorage.getItem('mock_docs') || '[]'));
+      return json(readArray('mock_docs'));
     }
 
     if (url.includes('/api/docs/upload') && method === 'POST') {
-      const docs = JSON.parse(localStorage.getItem('mock_docs') || '[]');
+      const docs = readArray('mock_docs');
       const newDoc = { id: `mock-doc-${Date.now()}`, name: '신규_문서.pdf', ext: 'pdf', size: 102400, createdAt: new Date().toISOString() };
       docs.unshift(newDoc);
       localStorage.setItem('mock_docs', JSON.stringify(docs));
@@ -245,15 +249,13 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/docs\/[^/]+/) && method === 'DELETE') {
-      const docs = JSON.parse(localStorage.getItem('mock_docs') || '[]');
-      const id = url.split('/').pop();
-      localStorage.setItem('mock_docs', JSON.stringify(docs.filter((d: any) => d.id !== id)));
+      deleteById('mock_docs');
       return json({ success: true });
     }
 
     // 6. Q&A Generation
     if (url.includes('/api/qa/generate') && method === 'POST') {
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const body = getBody(init);
       const role = body.targetRole || '개발자';
       return json({
         qaSet: {
@@ -283,12 +285,12 @@ export function initMockInterceptor() {
 
     // 8. Photo Studio & Gallery
     if (url.includes('/api/studio/images') && method === 'GET') {
-      return json({ images: JSON.parse(localStorage.getItem('mock_studio_images') || '[]') });
+      return json({ images: readArray('mock_studio_images') });
     }
 
     if (url.includes('/api/studio/generate') && method === 'POST') {
-      const images = JSON.parse(localStorage.getItem('mock_studio_images') || '[]');
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const images = readArray('mock_studio_images');
+      const body = getBody(init);
       const newImg = { id: `mock-img-${Date.now()}`, imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60', width: 1024, height: 1024, type: 'generated', prompt: body.prompt || 'Professional profile photo', createdAt: new Date().toISOString() };
       images.unshift(newImg);
       localStorage.setItem('mock_studio_images', JSON.stringify(images));
@@ -296,7 +298,7 @@ export function initMockInterceptor() {
     }
 
     if (url.includes('/api/studio/upload') && method === 'POST') {
-      const images = JSON.parse(localStorage.getItem('mock_studio_images') || '[]');
+      const images = readArray('mock_studio_images');
       const newImg = { id: `mock-img-${Date.now()}`, imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60', width: 1024, height: 1024, type: 'uploaded', originalFileName: 'profile.jpg', createdAt: new Date().toISOString() };
       images.unshift(newImg);
       localStorage.setItem('mock_studio_images', JSON.stringify(images));
@@ -304,9 +306,7 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/studio\/images\/[^/]+/) && method === 'DELETE') {
-      const images = JSON.parse(localStorage.getItem('mock_studio_images') || '[]');
-      const id = url.split('/').pop();
-      localStorage.setItem('mock_studio_images', JSON.stringify(images.filter((img: any) => img.id !== id)));
+      deleteById('mock_studio_images');
       return json({ success: true });
     }
 
@@ -317,7 +317,7 @@ export function initMockInterceptor() {
 
     // 10. Humanizer
     if (url.includes('/api/humanizer/process') && method === 'POST') {
-      const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {};
+      const body = getBody(init);
       const text = body.text || '';
       return json({ humanizedText: text.replace(/AI/g, '').replace(/자동화/g, '체계화') + '\n\n(휴머나이저 처리 완료)' });
     }
@@ -330,9 +330,4 @@ export function initMockInterceptor() {
 
     return originalFetch(input, init);
   };
-
-  // Auto-process offline queue when back online
-  window.addEventListener('online', () => {
-    // handled by useOfflineQueue hook
-  });
 }

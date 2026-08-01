@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { internalError } from '@/server/http';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 const META_FILE = join(UPLOAD_DIR, '.metadata.json');
@@ -26,6 +27,6 @@ export async function GET(_req: NextRequest) {
       meta.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     );
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

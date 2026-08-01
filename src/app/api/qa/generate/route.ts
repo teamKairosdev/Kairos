@@ -3,6 +3,7 @@ import { generateQASet } from '@/server/qa';
 import { getDb } from '@/db';
 import { qaSets } from '@/db/schema';
 import { getSession } from '@/server/getSession';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,10 +11,7 @@ export async function POST(req: NextRequest) {
     const { targetRole, careerSummary, count = 5 } = body || {};
 
     if (!targetRole || !careerSummary) {
-      return NextResponse.json(
-        { error: '목표 직무와 경력 요약 텍스트를 입력해주세요.' },
-        { status: 400 }
-      );
+      return badRequest('목표 직무와 경력 요약 텍스트를 입력해주세요.');
     }
 
     const session = await getSession(req);
@@ -46,6 +44,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (err: any) {
     console.error('[/api/qa/generate]', err);
-    return NextResponse.json({ error: err.message || 'QA generation error' }, { status: 500 });
+    return internalError(err, 'QA generation error');
   }
 }

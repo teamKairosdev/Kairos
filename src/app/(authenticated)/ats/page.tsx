@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
+import Spinner from '@/components/Spinner';
 
 export default function ATSPage() {
   const toast = useToast();
@@ -78,7 +79,7 @@ export default function ATSPage() {
               className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" />
             <button onClick={analyze} disabled={loading || !jobDescription || !resumeText}
               className="w-full py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-40 flex items-center justify-center gap-2">
-              {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+              {loading && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
               {loading ? 'Analyzing...' : 'Start ATS Analysis'}
             </button>
           </div>

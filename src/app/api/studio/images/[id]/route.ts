@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { resolve, join } from 'path';
 import { getDb } from '@/db';
 import { getSession } from '@/server/getSession';
+import { unauthorized, notFound, internalError } from '@/server/http';
 
 const STUDIO_DIR = resolve('uploads/studio');
 
@@ -12,7 +13,7 @@ export async function DELETE(
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+      return unauthorized();
     }
 
     const { id } = await params;
@@ -26,7 +27,7 @@ export async function DELETE(
 
     const [existing] = await db.select().from(si).where(eq(si.id, id)).limit(1);
     if (!existing || existing.userId !== session.userId) {
-      return NextResponse.json({ error: '이미지를 찾을 수 없습니다.' }, { status: 404 });
+      return notFound('이미지를 찾을 수 없습니다.');
     }
 
     await db.delete(si).where(eq(si.id, id));
@@ -41,6 +42,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

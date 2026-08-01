@@ -3,6 +3,7 @@ import { verifyMfaToken } from '@/server/mfa';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { eq, SQL } from 'drizzle-orm';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
     const { userId, email, token } = body || {};
 
     if (!token || (!userId && !email)) {
-      return NextResponse.json({ error: '사용자 정보와 OTP 번호를 입력해주세요.' }, { status: 400 });
+      return badRequest('사용자 정보와 OTP 번호를 입력해주세요.');
     }
 
     const db = getDb();
@@ -35,6 +36,6 @@ export async function POST(req: NextRequest) {
       mfaRequired: true,
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'MFA 검증 실패' }, { status: 500 });
+    return internalError(err, 'MFA 검증 실패');
   }
 }

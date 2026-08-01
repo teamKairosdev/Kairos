@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllSystemConfigs } from '@/server/systemConfig';
+import { internalError } from '@/server/http';
 
 export async function GET(_req: NextRequest) {
   try {
@@ -18,6 +19,6 @@ export async function GET(_req: NextRequest) {
       ],
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

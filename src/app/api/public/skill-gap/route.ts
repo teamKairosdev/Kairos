@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPublicSkillGapReport } from '@/server/publicSkillGap';
+import { internalError } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   try {
@@ -11,6 +12,6 @@ export async function GET(req: NextRequest) {
     res.headers.set('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
     return res;
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Skill gap analysis failed' }, { status: 500 });
+    return internalError(err, 'Skill gap analysis failed');
   }
 }

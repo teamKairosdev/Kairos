@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { searchCareersSemantic } from '@/server/career';
 import { getSession } from '@/server/getSession';
+import { badRequest, internalError } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   try {
     const q = req.nextUrl.searchParams.get('q') || '';
 
     if (!q.trim()) {
-      return NextResponse.json({ error: '검색어를 입력해 주세요.' }, { status: 400 });
+      return badRequest('검색어를 입력해 주세요.');
     }
 
     const session = await getSession(req);
@@ -33,6 +34,6 @@ export async function GET(req: NextRequest) {
       });
     }
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
+import Spinner from '@/components/Spinner';
+import EmptyState from '@/components/EmptyState';
 
 export default function CareerPage() {
   const toast = useToast();
@@ -140,7 +142,7 @@ export default function CareerPage() {
             disabled={!searchQuery.trim() || searching}
             className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
-            {searching && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+            {searching && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
             <span>{searching ? '검색중..' : '검색'}</span>
           </button>
         </div>
@@ -197,7 +199,7 @@ export default function CareerPage() {
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <Spinner />
           </div>
         ) : careersList && careersList.length > 0 ? (
           <div className="relative">
@@ -250,19 +252,13 @@ export default function CareerPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
-            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl">
-              💼
-            </div>
-            <h3 className="text-base font-semibold text-gray-700 mb-1">등록된 경력이 없습니다</h3>
-            <p className="text-sm text-gray-400 mb-6">첫 경력을 추가하고 커리어를 체계적으로 관리하세요</p>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all"
-            >
-              경력 추가하기
-            </button>
-          </div>
+          <EmptyState
+            icon="💼"
+            title="등록된 경력이 없습니다"
+            description="첫 경력을 추가하고 커리어를 체계적으로 관리하세요"
+            actionLabel="경력 추가하기"
+            onAction={() => setShowCreateModal(true)}
+          />
         )}
       </div>
 

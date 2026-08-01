@@ -36,11 +36,3 @@ export async function parseHwp(buffer: Uint8Array): Promise<HwpParseResult> {
     throw new Error(`HWP 파싱 실패: ${err instanceof Error ? err.message : 'unknown error'}`);
   }
 }
-
-export function isHwpFile(filename: string): boolean {
-  return /\.hwp$/i.test(filename);
-}
-
-export function isHwpxFile(filename: string): boolean {
-  return /\.hwpx$/i.test(filename);
-}

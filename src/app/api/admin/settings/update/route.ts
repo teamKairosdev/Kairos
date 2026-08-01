@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { setSystemConfig } from '@/server/systemConfig';
 import { getSession } from '@/server/getSession';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { key, value, category, description } = body || {};
 
     if (!key || value === undefined) {
-      return NextResponse.json({ error: '설정 키와 값을 모두 입력해주세요.' }, { status: 400 });
+      return badRequest('설정 키와 값을 모두 입력해주세요.');
     }
 
     const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
@@ -21,6 +22,6 @@ export async function POST(req: NextRequest) {
       message: `시스템 설정 [${key}] 항목이 성공적으로 업데이트되었습니다.`,
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
+import Spinner from '@/components/Spinner';
 
 export default function HumanizerPage() {
   const toast = useToast();
@@ -70,7 +71,7 @@ export default function HumanizerPage() {
             disabled={loading || !inputText.trim()}
             className="w-full py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
           >
-            {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+            {loading && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
             {loading ? 'Processing...' : 'Humanize Text'}
           </button>
         </div>

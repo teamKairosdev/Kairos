@@ -3,6 +3,7 @@ import { resolve, extname, join } from 'path';
 import { getDb } from '@/db';
 import { studioImages } from '@/db/schema';
 import { getSession } from '@/server/getSession';
+import { unauthorized, badRequest, internalError } from '@/server/http';
 
 const STUDIO_DIR = resolve('uploads/studio');
 
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+      return unauthorized();
     }
 
     const { mkdir, writeFile } = await import('node:fs/promises');
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file') as File | null;
 
     if (!file) {
-      return NextResponse.json({ error: '파일이 없습니다.' }, { status: 400 });
+      return badRequest('파일이 없습니다.');
     }
 
     const ext = extname(file.name) || '.png';
@@ -43,6 +44,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ image: record });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Upload error' }, { status: 500 });
+    return internalError(err, 'Upload error');
   }
 }

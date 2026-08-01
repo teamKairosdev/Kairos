@@ -3,6 +3,7 @@ import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { resumes } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
+import { unauthorized, badRequest } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   const session = await getSession(req);
@@ -22,13 +23,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const session = await getSession(req);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!session) return unauthorized('Unauthorized');
 
   const body = await req.json();
   const { title, originalContent } = body || {};
 
   if (!title || !originalContent) {
-    return NextResponse.json({ error: '제목과 본문을 입력해주세요.' }, { status: 400 });
+    return badRequest('제목과 본문을 입력해주세요.');
   }
 
   const db = getDb();

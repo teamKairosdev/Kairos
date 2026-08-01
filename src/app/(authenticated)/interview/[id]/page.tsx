@@ -1,10 +1,18 @@
 ﻿'use client';
 
-import React, { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, useRef, use } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useChat } from '@/hooks/useChat';
 import { useToast } from '@/lib/toast';
+import DifficultyBadge from '@/components/DifficultyBadge';
+
+const interviewTips = [
+  { icon: '🎯', title: 'STAR 기법 활용', desc: '상황(S), 과제(T), 행동(A), 결과(R) 순서로 답변하세요.' },
+  { icon: '⏱️', title: '답변 시간 조절', desc: '질문당 1~3분 이내로 간결하고 핵심적으로 답변하세요.' },
+  { icon: '📊', title: '수치로 증명', desc: '경험과 성과를 구체적인 수치와 데이터로 뒷받침하세요.' },
+  { icon: '🔍', title: '역질문 준비', desc: '면접 말미에는 회사나 팀에 대한 관심 있는 질문을 해보세요.' },
+];
 
 export default function InterviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -76,27 +84,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
     return '';
   }
 
-  function difficultyLabel(d?: string) {
-    return { junior: '🌱 주니어', medium: '⚡ 미들', senior: '🔥 시니어' }[d || ''] || d || '-';
-  }
-  function difficultyBadge(d?: string) {
-    return (
-      {
-        junior: 'bg-green-50 text-green-700',
-        medium: 'bg-blue-50 text-blue-700',
-        senior: 'bg-red-50 text-red-700',
-      }[d || ''] || 'bg-gray-100 text-gray-600'
-    );
-  }
-
   const questionCount = messages.filter(m => m.role === 'assistant').length;
-
-  const interviewTips = [
-    { icon: '🎯', title: 'STAR 기법 활용', desc: '상황(S), 과제(T), 행동(A), 결과(R) 순서로 답변하세요.' },
-    { icon: '⏱️', title: '답변 시간 조절', desc: '질문당 1~3분 이내로 간결하고 핵심적으로 답변하세요.' },
-    { icon: '📊', title: '수치로 증명', desc: '경험과 성과를 구체적인 수치와 데이터로 뒷받침하세요.' },
-    { icon: '🔍', title: '역질문 준비', desc: '면접 말미에는 회사나 팀에 대한 관심 있는 질문을 해보세요.' },
-  ];
 
   return (
     <div className="flex flex-col lg:flex-row lg:h-[calc(100vh-80px)] gap-0 overflow-hidden rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-sm bg-white">
@@ -143,9 +131,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
         <div className="p-5 border-b border-gray-100 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs text-gray-500">난이도</span>
-            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${difficultyBadge(sessionInfo?.difficulty)}`}>
-              {difficultyLabel(sessionInfo?.difficulty)}
-            </span>
+            <DifficultyBadge difficulty={sessionInfo?.difficulty} />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-gray-500">질문 수</span>

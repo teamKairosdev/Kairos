@@ -35,18 +35,17 @@ interface EndpointConfig {
 }
 
 async function getConfig(): Promise<EndpointConfig> {
-  const googleKey =
-    (await getSystemConfig('GOOGLE_GENERATIVE_AI_API_KEY')) ||
-    process.env.GOOGLE_GENERATIVE_AI_API_KEY ||
-    '';
-  const gatewayUrl =
-    (await getSystemConfig('VERCEL_AI_GATEWAY_URL')) ||
-    process.env.VERCEL_AI_GATEWAY_URL ||
-    '';
-  const gatewayKey =
-    (await getSystemConfig('VERCEL_AI_GATEWAY_KEY')) ||
-    process.env.VERCEL_AI_GATEWAY_KEY ||
-    '';
+  const [googleKey, gatewayUrl, gatewayKey] = await Promise.all([
+    getSystemConfig('GOOGLE_GENERATIVE_AI_API_KEY').then(
+      (v) => v || process.env.GOOGLE_GENERATIVE_AI_API_KEY || ''
+    ),
+    getSystemConfig('VERCEL_AI_GATEWAY_URL').then(
+      (v) => v || process.env.VERCEL_AI_GATEWAY_URL || ''
+    ),
+    getSystemConfig('VERCEL_AI_GATEWAY_KEY').then(
+      (v) => v || process.env.VERCEL_AI_GATEWAY_KEY || ''
+    ),
+  ]);
 
   if (!googleKey || googleKey.trim() === '' || googleKey.includes('your')) {
     throw new Error('GOOGLE_GENERATIVE_AI_API_KEY가 설정되지 않았습니다.');
@@ -69,12 +68,12 @@ async function getConfig(): Promise<EndpointConfig> {
   };
 }
 
-export async function getGeminiModel(modelName = DEFAULT_MODEL): Promise<string> {
+async function getGeminiModel(modelName = DEFAULT_MODEL): Promise<string> {
   await getConfig();
   return modelName;
 }
 
-export async function getGatewayModel(
+async function getGatewayModel(
   modelIdentifier = 'google/gemini-2.0-flash-001'
 ): Promise<string> {
   const { gatewayUrl } = await getConfig();
@@ -88,12 +87,6 @@ export async function getPreferredLanguageModel(requestedModel?: string): Promis
     return getGatewayModel(requestedModel || 'google/gemini-2.0-flash-001');
   }
   return getGeminiModel(requestedModel || DEFAULT_MODEL);
-}
-
-export async function getModelForComplexity(
-  _complexity: 'low' | 'medium' | 'high' | string = 'medium'
-): Promise<string> {
-  return getPreferredLanguageModel(DEFAULT_MODEL);
 }
 
 /**
@@ -123,7 +116,7 @@ export function toGeminiMessages(messages: unknown[] | undefined): LLMMessage[] 
 /**
  * zod 스키마 → Gemini responseSchema(OpenAPI 3.0 subset) 변환.
  */
-export function zodToOpenApiSchema(schema: z.ZodTypeAny): Record<string, unknown> {
+function zodToOpenApiSchema(schema: z.ZodTypeAny): Record<string, unknown> {
   if (schema instanceof z.ZodObject) {
     const properties: Record<string, unknown> = {};
     const required: string[] = [];
@@ -212,26 +205,41 @@ function extractText(payload: any): string {
     .join('');
 }
 
-async function postGenerateContent(
+async function requestGemini(
   cfg: EndpointConfig,
   model: string,
+  action: 'generateContent' | 'streamGenerateContent',
   body: Record<string, unknown>
-): Promise<any> {
-  const res = await fetch(buildEndpointUrl(cfg, model, 'generateContent'), {
+): Promise<Response> {
+  const res = await fetch(buildEndpointUrl(cfg, model, action), {
     method: 'POST',
     headers: cfg.headers,
     body: JSON.stringify(body),
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
-    throw new Error(`Gemini API error ${res.status}: ${detail.slice(0, 500)}`);
+    const kind = action === 'streamGenerateContent' ? 'Gemini stream error' : 'Gemini API error';
+    throw new Error(`${kind} ${res.status}: ${detail.slice(0, 500)}`);
   }
-  return res.json();
+  return res;
+}
+
+async function postGenerateContent(
+  cfg: EndpointConfig,
+  model: string,
+  body: Record<string, unknown>
+): Promise<any> {
+  return (await requestGemini(cfg, model, 'generateContent', body)).json();
+}
+
+async function resolveModelAndConfig(options: LLMOptions): Promise<{ cfg: EndpointConfig; model: string }> {
+  const cfg = await getConfig();
+  const model = options.model || (await getPreferredLanguageModel(options.model));
+  return { cfg, model };
 }
 
 export async function callLLMText(options: LLMOptions): Promise<string> {
-  const cfg = await getConfig();
-  const model = options.model || (await getPreferredLanguageModel(options.model));
+  const { cfg, model } = await resolveModelAndConfig(options);
   const json = await postGenerateContent(cfg, model, buildRequestBody(options));
   const text = extractText(json);
   if (!text) {
@@ -245,8 +253,7 @@ export async function callLLMText(options: LLMOptions): Promise<string> {
 export async function callLLMStructured<T>(
   options: LLMOptions & { schema: z.ZodType<T> }
 ): Promise<T> {
-  const cfg = await getConfig();
-  const model = options.model || (await getPreferredLanguageModel(options.model));
+  const { cfg, model } = await resolveModelAndConfig(options);
   const body = buildRequestBody(
     { ...options, temperature: options.temperature ?? 0.3 },
     { responseSchema: zodToOpenApiSchema(options.schema) }
@@ -265,18 +272,12 @@ export async function callLLMStructured<T>(
 }
 
 export async function streamLLMText(options: LLMOptions): Promise<ReadableStream<Uint8Array>> {
-  const cfg = await getConfig();
-  const model = options.model || (await getPreferredLanguageModel(options.model));
+  const { cfg, model } = await resolveModelAndConfig(options);
 
-  const res = await fetch(buildEndpointUrl(cfg, model, 'streamGenerateContent'), {
-    method: 'POST',
-    headers: cfg.headers,
-    body: JSON.stringify(buildRequestBody(options)),
-  });
+  const res = await requestGemini(cfg, model, 'streamGenerateContent', buildRequestBody(options));
 
-  if (!res.ok || !res.body) {
-    const detail = await res.text().catch(() => '');
-    throw new Error(`Gemini stream error ${res.status}: ${detail.slice(0, 500)}`);
+  if (!res.body) {
+    throw new Error(`Gemini stream error ${res.status}: `);
   }
 
   const reader = res.body.getReader();

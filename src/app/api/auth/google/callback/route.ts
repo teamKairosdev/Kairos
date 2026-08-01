@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import { exchangeGoogleCode, fetchGoogleUserInfo, signSession } from '@/server/auth';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
+import { badRequest } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get('code');
@@ -10,7 +11,7 @@ export async function GET(req: NextRequest) {
   const cookieState = req.cookies.get('oauth_state')?.value;
 
   if (!code || !state || state !== cookieState) {
-    return NextResponse.json({ error: 'Google 인증 요청이 유효하지 않습니다.' }, { status: 400 });
+    return badRequest('Google 인증 요청이 유효하지 않습니다.');
   }
 
   try {

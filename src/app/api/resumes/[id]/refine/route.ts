@@ -4,6 +4,7 @@ import { getDb } from '@/db';
 import { resumes, resumeRefinements } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
+import { notFound } from '@/server/http';
 
 export async function POST(
   req: NextRequest,
@@ -23,7 +24,7 @@ export async function POST(
   }
 
   if (!originalContent) {
-    return NextResponse.json({ error: 'Resume text not found' }, { status: 404 });
+    return notFound('Resume text not found');
   }
 
   const prompt = `이력서를 3단계로 정밀 고도화해주세요.

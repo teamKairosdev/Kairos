@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
-import React, { useState, useEffect, use } from 'react';
+import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
+import Spinner from '@/components/Spinner';
 
 export default function DocDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -28,7 +29,7 @@ export default function DocDetailPage({ params }: { params: Promise<{ id: string
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <div className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+        <Spinner className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import Spinner from '@/components/Spinner';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -92,7 +93,7 @@ export default function RegisterPage() {
               className="w-full py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 hover:shadow-md hover:shadow-blue-100 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : null}
               {loading ? '가입 중...' : '회원가입 완료'}
             </button>

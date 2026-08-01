@@ -2,48 +2,6 @@
  * MCP service ported from server/services/mcp.ts (pure functions, no Nuxt APIs)
  */
 
-export interface MCPPublicPosting {
-  id: string;
-  source: 'worknet' | 'goyong24' | 'hrdkorea';
-  title: string;
-  company: string;
-  location: string;
-  salaryInfo: string;
-  closeDate: string;
-  detailUrl: string;
-}
-
-const DEMO_PUBLIC_POSTINGS: MCPPublicPosting[] = [
-  {
-    id: 'wn-2026-001',
-    source: 'worknet',
-    title: '[고용노동부 우수] 클라우드 인프라 파이프라인 개발자 채용',
-    company: '(주)한국클라우드시스템',
-    location: '경기도 성남시 분당구',
-    salaryInfo: '연봉 5,000만원 ~ 6,500만원',
-    closeDate: '2026-08-31',
-    detailUrl: 'https://www.work.go.kr',
-  },
-  {
-    id: 'gy-2026-042',
-    source: 'goyong24',
-    title: '청년 일자리 도약 사업 - AI 서비스 프론트엔드 엔지니어',
-    company: '(주)카이로스랩스',
-    location: '서울특별시 강남구',
-    salaryInfo: '연봉 4,800만원 ~ 6,000만원',
-    closeDate: '2026-08-15',
-    detailUrl: 'https://www.goyong24.go.kr',
-  },
-];
-
-export async function searchPublicJobPostings(query: string): Promise<MCPPublicPosting[]> {
-  if (!query) return DEMO_PUBLIC_POSTINGS;
-  const q = query.toLowerCase();
-  return DEMO_PUBLIC_POSTINGS.filter(
-    (item) => item.title.toLowerCase().includes(q) || item.company.toLowerCase().includes(q)
-  );
-}
-
 export function getKairosMCPManifest() {
   return {
     name: 'kairos-mcp-hub',

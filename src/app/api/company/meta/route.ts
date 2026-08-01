@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { analyzeCompanyMetaInfo } from '@/server/companyMeta';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,7 +9,7 @@ export async function POST(req: NextRequest) {
     const { companyName, rawReviews } = body || {};
 
     if (!companyName) {
-      return NextResponse.json({ error: 'Company name is required' }, { status: 400 });
+      return badRequest('Company name is required');
     }
 
     const cacheKey = `company:meta:${companyName}`;
@@ -32,6 +33,6 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Company analysis failed' }, { status: 500 });
+    return internalError(err, 'Company analysis failed');
   }
 }

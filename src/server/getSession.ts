@@ -10,11 +10,3 @@ export async function getSession(req: NextRequest): Promise<KairosSession | null
   if (!token) return null;
   return verifySession(token);
 }
-
-export async function requireSession(req: NextRequest): Promise<KairosSession> {
-  const session = await getSession(req);
-  if (!session) {
-    throw new Error('Unauthorized');
-  }
-  return session;
-}

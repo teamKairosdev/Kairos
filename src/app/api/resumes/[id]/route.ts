@@ -3,6 +3,7 @@ import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { resumes, resumeRefinements } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
+import { unauthorized, notFound } from '@/server/http';
 
 export async function GET(
   req: NextRequest,
@@ -10,13 +11,13 @@ export async function GET(
 ) {
   const { id } = await params;
   const session = await getSession(req);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!session) return unauthorized('Unauthorized');
 
   const db = getDb();
   if (!db) return NextResponse.json({ error: 'DB 연결 실패' }, { status: 500 });
 
   const [resume] = await db.select().from(resumes).where(eq(resumes.id, id));
-  if (!resume) return NextResponse.json({ error: 'Resume not found' }, { status: 404 });
+  if (!resume) return notFound('Resume not found');
 
   const history = await db
     .select()
@@ -33,7 +34,7 @@ export async function PUT(
 ) {
   const { id } = await params;
   const session = await getSession(req);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!session) return unauthorized('Unauthorized');
 
   const body = await req.json();
   const db = getDb();

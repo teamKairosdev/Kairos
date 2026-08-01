@@ -4,6 +4,57 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import Spinner from '@/components/Spinner';
+
+const jdChips = [
+  { name: 'React', matched: true },
+  { name: 'TypeScript', matched: true },
+  { name: 'Next.js', matched: true },
+  { name: 'Terraform', matched: false },
+  { name: 'TailwindCSS', matched: true },
+  { name: 'Kubernetes', matched: false },
+];
+
+const interviewAnswers = [
+  {
+    label: '리액트 성능을 주로 개선했습니다.',
+    response: '어떤 기법(예: 메모이제이션, 코드 스플리팅)을 사용해 LCP 지연을 단축하셨습니까?',
+  },
+  {
+    label: 'MSA 결제 아키텍처를 도입했습니다.',
+    response: '결제 트랜잭션 중 발생 가능한 동시성(Race Condition) 문제를 어떻게 보완하셨는지 공유해주세요.',
+  },
+];
+
+const stats = [
+  { value: '50개', label: '직무 매칭 데이터' },
+  { value: '1536차원', label: '임베딩 차원' },
+  { value: '98%', label: 'AI 피드백 정확도' },
+  { value: '실시간', label: '스트리밍 면접관' },
+];
+
+const dashboardStats = [
+  { label: '이력서', value: '-', to: '/resume', trend: 'AI 고도화 시작하기', trendPositive: true },
+  { label: '모의 면접', value: '-', to: '/interview', trend: '첫 면접 시작하기', trendPositive: true },
+  { label: 'ATS 분석', value: '-', to: '/ats', trend: 'JD 매칭 분석', trendPositive: true },
+  { label: '경력 관리', value: '-', to: '/career', trend: '벡터 검색', trendPositive: false },
+];
+
+const activities = [
+  { label: '이력서를 작성해보세요', time: '추천', desc: 'AI가 초안부터 평가, 첨삭까지 도와줍니다.', to: '/resume', dotClass: 'bg-blue-600' },
+  { label: 'AI 면접을 연습해보세요', time: '추천', desc: '직무별 맞춤 질문과 실시간 피드백', to: '/interview', dotClass: 'bg-blue-600' },
+  { label: 'ATS 매칭 점수를 확인하세요', time: '추천', desc: 'JD 기반 키워드 분석으로 부족한 역량 진단', to: '/ats', dotClass: 'bg-blue-600' },
+  { label: '문서를 업로드하고 관리하세요', time: '추천', desc: 'HWP, PDF, DOCX 파일 중앙 관리', to: '/docs', dotClass: 'bg-blue-600' },
+];
+
+const quickLinks = [
+  { label: '이력서 관리', icon: '📄', to: '/resume' },
+  { label: '면접 연습', icon: '🎤', to: '/interview' },
+  { label: 'ATS 진단', icon: '🎯', to: '/ats' },
+  { label: '문서 보관함', icon: '📁', to: '/docs' },
+  { label: '포토스튜디오', icon: '🎨', to: '/studio' },
+  { label: '설정', icon: '⚙️', to: '/settings' },
+];
 
 export default function HomePage() {
   const { state, login } = useAuth();
@@ -32,7 +83,6 @@ export default function HomePage() {
 
   // Bento 1: Resume Enhancer Slider State
   const [evalSliderScore, setEvalSliderScore] = useState(35);
-  const sliderPercentage = evalSliderScore;
 
   const sliderColorClass = useMemo(() => {
     if (evalSliderScore > 85) return 'text-emerald-500';
@@ -50,31 +100,10 @@ export default function HomePage() {
     }
   }, [evalSliderScore]);
 
-  // Bento 2: ATS Chips
-  const jdChips = [
-    { name: 'React', matched: true },
-    { name: 'TypeScript', matched: true },
-    { name: 'Next.js', matched: true },
-    { name: 'Terraform', matched: false },
-    { name: 'TailwindCSS', matched: true },
-    { name: 'Kubernetes', matched: false },
-  ];
-
   // Bento 3: Mock Interview Chat States
   const [activeInterviewQuestion, setActiveInterviewQuestion] = useState(
     '반갑습니다. 준비하신 프로젝트 성과에 대해 간략히 두 문장으로 대답해 주십시오.'
   );
-
-  const interviewAnswers = [
-    {
-      label: '리액트 성능을 주로 개선했습니다.',
-      response: '어떤 기법(예: 메모이제이션, 코드 스플리팅)을 사용해 LCP 지연을 단축하셨습니까?',
-    },
-    {
-      label: 'MSA 결제 아키텍처를 도입했습니다.',
-      response: '결제 트랜잭션 중 발생 가능한 동시성(Race Condition) 문제를 어떻게 보완하셨는지 공유해주세요.',
-    },
-  ];
 
   // Bento 4: Vector Search
   const [vectorSearchQuery, setVectorSearchQuery] = useState('');
@@ -98,41 +127,11 @@ export default function HomePage() {
     }
   }
 
-  const stats = [
-    { value: '50개', label: '직무 매칭 데이터' },
-    { value: '1536차원', label: '임베딩 차원' },
-    { value: '98%', label: 'AI 피드백 정확도' },
-    { value: '실시간', label: '스트리밍 면접관' },
-  ];
-
-  const dashboardStats = [
-    { label: '이력서', value: '-', to: '/resume', trend: 'AI 고도화 시작하기', trendPositive: true },
-    { label: '모의 면접', value: '-', to: '/interview', trend: '첫 면접 시작하기', trendPositive: true },
-    { label: 'ATS 분석', value: '-', to: '/ats', trend: 'JD 매칭 분석', trendPositive: true },
-    { label: '경력 관리', value: '-', to: '/career', trend: '벡터 검색', trendPositive: false },
-  ];
-
-  const activities = [
-    { label: '이력서를 작성해보세요', time: '추천', desc: 'AI가 초안부터 평가, 첨삭까지 도와줍니다.', to: '/resume', dotClass: 'bg-blue-600' },
-    { label: 'AI 면접을 연습해보세요', time: '추천', desc: '직무별 맞춤 질문과 실시간 피드백', to: '/interview', dotClass: 'bg-blue-600' },
-    { label: 'ATS 매칭 점수를 확인하세요', time: '추천', desc: 'JD 기반 키워드 분석으로 부족한 역량 진단', to: '/ats', dotClass: 'bg-blue-600' },
-    { label: '문서를 업로드하고 관리하세요', time: '추천', desc: 'HWP, PDF, DOCX 파일 중앙 관리', to: '/docs', dotClass: 'bg-blue-600' },
-  ];
-
-  const quickLinks = [
-    { label: '이력서 관리', icon: '📄', to: '/resume' },
-    { label: '면접 연습', icon: '🎤', to: '/interview' },
-    { label: 'ATS 진단', icon: '🎯', to: '/ats' },
-    { label: '문서 보관함', icon: '📁', to: '/docs' },
-    { label: '포토스튜디오', icon: '🎨', to: '/studio' },
-    { label: '설정', icon: '⚙️', to: '/settings' },
-  ];
-
   if (state.loading) {
     return (
       <div className="flex items-center justify-center py-40">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-7 h-7 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <Spinner className="w-7 h-7 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
           <p className="text-sm font-semibold text-slate-400">시스템 로딩 중...</p>
         </div>
       </div>
@@ -335,7 +334,7 @@ export default function HomePage() {
             <div className="bg-white p-5 rounded-2xl border border-slate-100 space-y-4">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-slate-700">AI 평가 점수 시뮬레이터</span>
-                <span className={`font-black font-mono ${sliderColorClass}`}>{sliderPercentage}점</span>
+                <span className={`font-black font-mono ${sliderColorClass}`}>{evalSliderScore}점</span>
               </div>
               <input
                 type="range"

@@ -3,6 +3,7 @@ import { processAIHumanizer } from '@/server/humanizer';
 import { getDb } from '@/db';
 import { humanizedTexts } from '@/db/schema';
 import { getSession } from '@/server/getSession';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
     const { originalText } = body || {};
 
     if (!originalText || !originalText.trim()) {
-      return NextResponse.json({ error: '변환할 문장을 입력해 주세요.' }, { status: 400 });
+      return badRequest('변환할 문장을 입력해 주세요.');
     }
 
     const session = await getSession(req);
@@ -36,6 +37,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(result);
   } catch (err: any) {
     console.error('[/api/humanizer/process]', err);
-    return NextResponse.json({ error: err.message || 'Humanizer error' }, { status: 500 });
+    return internalError(err, 'Humanizer error');
   }
 }

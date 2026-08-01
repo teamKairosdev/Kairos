@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { badRequest, internalError } from '@/server/http';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 const META_FILE = join(UPLOAD_DIR, '.metadata.json');
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
     const titleVal = formData.get('title') as string | null;
 
     if (!file) {
-      return NextResponse.json({ error: 'File is required' }, { status: 400 });
+      return badRequest('File is required');
     }
 
     const ext = file.name.split('.').pop()?.toLowerCase() || 'hwp';
@@ -70,6 +71,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ id, title, ext, size: buffer.byteLength, textContent });
   } catch (err: any) {
     console.error('[/api/docs/upload]', err);
-    return NextResponse.json({ error: err.message || 'Upload error' }, { status: 500 });
+    return internalError(err, 'Upload error');
   }
 }

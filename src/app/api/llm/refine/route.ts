@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { streamLLMText, collectStreamText } from '@/server/llm';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
     const { resumeText, jobDescription } = await req.json();
 
     if (!resumeText) {
-      return NextResponse.json({ error: 'Resume text is required' }, { status: 400 });
+      return badRequest('Resume text is required');
     }
 
     const cacheKey = `refine:${resumeText.slice(0, 200)}:${jobDescription?.slice(0, 200) || ''}`;
@@ -43,6 +44,6 @@ Focus on maximizing professional impact and ATS compatibility.`;
     });
   } catch (err: any) {
     console.error('[/api/llm/refine]', err);
-    return NextResponse.json({ error: err.message || 'Refine error' }, { status: 500 });
+    return internalError(err, 'Refine error');
   }
 }

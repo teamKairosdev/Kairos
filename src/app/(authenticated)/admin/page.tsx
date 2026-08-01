@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
+import Spinner from '@/components/Spinner';
 
 export default function AdminPage() {
   const toast = useToast();
@@ -70,7 +71,7 @@ export default function AdminPage() {
         <div className="space-y-6">
           {loadingStats ? (
             <div className="flex justify-center py-12">
-              <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <Spinner />
             </div>
           ) : (
             <>
@@ -121,7 +122,7 @@ export default function AdminPage() {
         <div className="space-y-4">
           {loadingSettings ? (
             <div className="flex justify-center py-12">
-              <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <Spinner />
             </div>
           ) : settings.length === 0 ? (
             <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">

@@ -4,12 +4,13 @@ import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
+import { unauthorized, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '인증이 필요한 요청입니다.' }, { status: 401 });
+      return unauthorized('인증이 필요한 요청입니다.');
     }
 
     const db = getDb();
@@ -35,6 +36,6 @@ export async function POST(req: NextRequest) {
       mfaEnabled: existingUser?.mfaEnabled || false,
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'MFA 설정 실패' }, { status: 500 });
+    return internalError(err, 'MFA 설정 실패');
   }
 }

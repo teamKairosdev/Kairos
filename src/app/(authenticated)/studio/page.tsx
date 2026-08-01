@@ -2,16 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
+import Spinner from '@/components/Spinner';
+
+const sizes = [
+  { label: '1:1', value: '1024x1024' },
+  { label: '16:9', value: '1792x1024' },
+  { label: '9:16', value: '1024x1792' },
+];
 
 export default function PhotoStudioPage() {
   const toast = useToast();
   const [prompt, setPrompt] = useState('');
   const [size, setSize] = useState('1024x1024');
-  const sizes = [
-    { label: '1:1', value: '1024x1024' },
-    { label: '16:9', value: '1792x1024' },
-    { label: '9:16', value: '1024x1792' },
-  ];
   const [generating, setGenerating] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -152,7 +154,7 @@ export default function PhotoStudioPage() {
                 disabled={!prompt.trim() || generating}
                 className="w-full py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
               >
-                {generating && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+                {generating && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                 <span>{generating ? '생성 중...' : '이미지 생성'}</span>
               </button>
             </div>
@@ -175,7 +177,7 @@ export default function PhotoStudioPage() {
               disabled={!selectedFile || uploading}
               className="w-full py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-40 flex items-center justify-center gap-2"
             >
-              {uploading && <div className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin" />}
+              {uploading && <Spinner className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin" />}
               <span>{uploading ? '업로드 중...' : '업로드'}</span>
             </button>
           </div>
@@ -185,7 +187,7 @@ export default function PhotoStudioPage() {
         <div className="lg:col-span-2">
           {loading ? (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-16 flex flex-col items-center justify-center gap-3">
-              <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <Spinner className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
               <p className="text-sm text-gray-400">이미지 불러오는 중...</p>
             </div>
           ) : images.length === 0 ? (

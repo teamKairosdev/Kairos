@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadToBlob } from '@/server/blob';
+import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -7,7 +8,7 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file') as File | null;
 
     if (!file) {
-      return NextResponse.json({ error: '업로드할 파일이 없습니다.' }, { status: 400 });
+      return badRequest('업로드할 파일이 없습니다.');
     }
 
     const arrayBuffer = await file.arrayBuffer();
@@ -24,6 +25,6 @@ export async function POST(req: NextRequest) {
       contentType: blob.contentType,
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Upload error' }, { status: 500 });
+    return internalError(err, 'Upload error');
   }
 }

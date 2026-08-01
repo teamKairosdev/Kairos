@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useToast } from '@/lib/toast';
+import Spinner from '@/components/Spinner';
+import EmptyState from '@/components/EmptyState';
 
 export default function DocsPage() {
   const toast = useToast();
@@ -109,22 +111,19 @@ export default function DocsPage() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
         {loading ? (
           <div className="p-12 flex justify-center">
-            <div className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+            <Spinner className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : files.length === 0 ? (
-          <div className="p-16 text-center">
-            <div className="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-orange-400 text-2xl">
-              📂
-            </div>
-            <h3 className="text-base font-semibold text-gray-700 mb-1">No documents yet</h3>
-            <p className="text-sm text-gray-400 mb-6">Upload your first document to get started</p>
-            <button
-              onClick={() => setShowUpload(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-all"
-            >
-              Upload Document
-            </button>
-          </div>
+          <EmptyState
+            className="p-16 text-center"
+            icon="📂"
+            iconWrapperClass="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-orange-400 text-2xl"
+            title="No documents yet"
+            description="Upload your first document to get started"
+            actionLabel="Upload Document"
+            onAction={() => setShowUpload(true)}
+            actionClass="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-all"
+          />
         ) : (
           <div className="divide-y divide-gray-50">
             {files.map(f => (
@@ -186,7 +185,7 @@ export default function DocsPage() {
                 disabled={!selectedFile || uploading}
                 className="flex-1 py-2.5 rounded-xl bg-orange-500 text-white text-sm font-semibold hover:bg-orange-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {uploading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+                {uploading && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                 {uploading ? 'Uploading...' : 'Upload'}
               </button>
             </div>

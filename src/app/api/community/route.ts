@@ -3,6 +3,7 @@ import { getDb } from '@/db';
 import { communityPosts, users } from '@/db/schema';
 import { desc, eq, and, sql } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
+import { unauthorized, badRequest, internalError } from '@/server/http';
 
 const VALID_CATEGORIES = ['interview_pass', 'career_tip', 'qna'] as const;
 
@@ -60,19 +61,19 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+      return unauthorized();
     }
 
     const body = await req.json();
     const { title, content, category } = body || {};
 
     if (!title || !content) {
-      return NextResponse.json({ error: '제목과 내용을 입력해주세요.' }, { status: 400 });
+      return badRequest('제목과 내용을 입력해주세요.');
     }
 
     const finalCategory = category || 'career_tip';
     if (!VALID_CATEGORIES.includes(finalCategory)) {
-      return NextResponse.json({ error: '올바른 카테고리를 선택해주세요.' }, { status: 400 });
+      return badRequest('올바른 카테고리를 선택해주세요.');
     }
 
     const db = getDb();
@@ -94,6 +95,6 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

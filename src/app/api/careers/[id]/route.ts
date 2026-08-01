@@ -3,6 +3,7 @@ import { getDb } from '@/db';
 import { careers } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
+import { unauthorized, badRequest, notFound, serviceUnavailable, internalError } from '@/server/http';
 
 export async function DELETE(
   req: NextRequest,
@@ -11,15 +12,15 @@ export async function DELETE(
   try {
     const session = await getSession(req);
     if (!session?.userId) {
-      return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+      return unauthorized();
     }
 
     const { id } = await params;
-    if (!id) return NextResponse.json({ error: 'Career ID missing' }, { status: 400 });
+    if (!id) return badRequest('Career ID missing');
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ error: '데이터베이스에 연결할 수 없습니다.' }, { status: 503 });
+      return serviceUnavailable('데이터베이스에 연결할 수 없습니다.');
     }
 
     const deleted = await db
@@ -28,14 +29,11 @@ export async function DELETE(
       .returning();
 
     if (!deleted.length) {
-      return NextResponse.json(
-        { error: '경력 항목을 찾을 수 없거나 권한이 없습니다.' },
-        { status: 404 }
-      );
+      return notFound('경력 항목을 찾을 수 없거나 권한이 없습니다.');
     }
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Error' }, { status: 500 });
+    return internalError(err, 'Error');
   }
 }

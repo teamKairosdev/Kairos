@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/lib/toast';
+import Spinner from '@/components/Spinner';
+import { DIFFICULTY_OPTIONS, difficultyLabel } from '@/components/DifficultyBadge';
 
 export default function InterviewListPage() {
   const toast = useToast();
@@ -16,12 +18,6 @@ export default function InterviewListPage() {
   const [companyName, setCompanyName] = useState('');
   const [difficulty, setDifficulty] = useState('medium');
   const [loading, setLoading] = useState(false);
-
-  const difficulties = [
-    { label: '주니어', value: 'junior' },
-    { label: '미들', value: 'medium' },
-    { label: '시니어', value: 'senior' },
-  ];
 
   async function fetchInterviews() {
     try {
@@ -66,14 +62,11 @@ export default function InterviewListPage() {
     }
   }
 
-  const difficultyLabel = (d: string) => {
-    const map: Record<string, string> = { junior: '주니어', medium: '미들', senior: '시니어' };
-    return map[d] || d;
-  };
-
   const statusLabel = (s: string) => {
     return s === 'completed' ? '완료' : '진행중';
   };
+
+  const scoredInterviews = interviews.filter(i => i.overallScore);
 
   return (
     <div className="space-y-8">
@@ -97,7 +90,7 @@ export default function InterviewListPage() {
         {[
           { label: '전체 면접', value: interviews.length },
           { label: '완료', value: interviews.filter(i => i.status === 'completed').length },
-          { label: '평균 점수', value: interviews.filter(i => i.overallScore).length > 0 ? Math.round(interviews.filter(i => i.overallScore).reduce((acc, i) => acc + i.overallScore, 0) / interviews.filter(i => i.overallScore).length) + '점' : '-' },
+          { label: '평균 점수', value: scoredInterviews.length > 0 ? Math.round(scoredInterviews.reduce((acc, i) => acc + i.overallScore, 0) / scoredInterviews.length) + '점' : '-' },
         ].map(stat => (
           <div key={stat.label} className="bg-white rounded-2xl border border-gray-100 shadow-xs p-4 text-center">
             <div className="text-2xl font-extrabold text-gray-900">{stat.value}</div>
@@ -115,7 +108,7 @@ export default function InterviewListPage() {
 
         {loadingList ? (
           <div className="flex justify-center py-16">
-            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <Spinner />
           </div>
         ) : interviews.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
@@ -198,7 +191,7 @@ export default function InterviewListPage() {
               <div>
                 <label className="block text-xs font-bold text-gray-500 mb-1.5">난이도</label>
                 <div className="grid grid-cols-3 gap-2">
-                  {difficulties.map(d => (
+                  {DIFFICULTY_OPTIONS.map(d => (
                     <button
                       key={d.value}
                       onClick={() => setDifficulty(d.value)}
@@ -227,7 +220,7 @@ export default function InterviewListPage() {
                 disabled={loading || !jobTitle.trim()}
                 className="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+                {loading && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                 {loading ? '생성중...' : '시작하기'}
               </button>
             </div>
