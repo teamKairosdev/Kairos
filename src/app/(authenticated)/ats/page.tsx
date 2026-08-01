@@ -6,259 +6,138 @@ import { useToast } from '@/lib/toast';
 export default function ATSPage() {
   const toast = useToast();
 
-  const [jobTitle, setJobTitle] = useState('?úÎãà???ÑÎ°†?∏Ïóî??Í∞úÎ∞ú??);
-  const [jobDescription, setJobDescription] = useState(
-    '- Nuxt.js, Vue 3, TypeScript ?§Î¨¥ Í≤ΩÌóò 3???¥ÏÉÅ\n- SSR / SSG Î∞??±Îä• ÏµúÏ†Å??Í≤ΩÌóò\n- CI/CD ?åÏù¥?ÑÎùº??Î∞?Docker Í≤ΩÌóò ?∞Î?'
-  );
+  const [jobTitle, setJobTitle] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
   const [resumeText, setResumeText] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
-
   const [resumes, setResumes] = useState<any[]>([]);
   const [selectedResumeId, setSelectedResumeId] = useState('');
 
   useEffect(() => {
-    async function fetchResumes() {
-      try {
-        const res = await fetch('/api/resumes');
-        if (res.ok) {
-          const data = await res.json();
-          setResumes(data || []);
-        }
-      } catch {}
-    }
-    fetchResumes();
+    fetch('/api/resumes').then(r => r.ok ? r.json() : []).then(d => setResumes(d || [])).catch(() => {});
   }, []);
 
-  function handleSelectResume(e: React.ChangeEvent<HTMLSelectElement>) {
-    const id = e.target.value;
+  function onResumeSelect(id: string) {
     setSelectedResumeId(id);
-    const target = resumes.find(r => r.id === id);
-    if (target) {
-      setResumeText(target.originalContent || '');
-    }
+    const found = resumes.find(r => r.id === id);
+    if (found) setResumeText(found.originalContent || '');
   }
 
-  async function runATSAnalysis() {
+  async function analyze() {
     setLoading(true);
     setResult(null);
     try {
       const res = await fetch('/api/ats/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          jobTitle,
-          jobDescription,
-          resumeText,
-          resumeId: selectedResumeId || null,
-        }),
+        body: JSON.stringify({ jobTitle, jobDescription, resumeText, resumeId: selectedResumeId || undefined }),
       });
-      if (res.ok) {
-        const data = await res.json();
-        setResult(data.analysis);
-        toast.add({ title: 'ATS Îß§Ïπ≠ Î∂ÑÏÑù ?ÑÎ£å', description: '?îÍµ¨ ?§ÌÉù Î∂ÑÏÑù ?àÌè¨?∏Í? ?òÎã®???ëÏÑ±?òÏóà?µÎãà??', color: 'green' });
-      } else {
-        toast.add({ title: 'ATS Î∂ÑÏÑù ?§Ìå®', color: 'red' });
-      }
+      if (res.ok) setResult(await res.json());
     } catch (err: any) {
-      toast.add({ title: 'ATS Î∂ÑÏÑù ?§Ìå®', description: err.message, color: 'red' });
+      toast.add({ title: 'Error', description: err.message, color: 'red' });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-10 space-y-10 px-4 pb-20">
-      {/* Header */}
-      <div className="pb-6 border-b border-slate-100">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">AI ATS ?ÅÌï©??Îß§Ïπ≠</h1>
-        <p className="text-sm font-medium text-slate-400 mt-2">
-          Ï±ÑÏö© Í≥µÍ≥†(JD)???îÍµ¨ ?§ÌÉù Î∞??∞Î??¨Ìï≠??AI Í∏∞Î∞ò?ºÎ°ú ?åÏã±?òÏó¨ ?¥Î†•?úÏ???ÏßÅÎ¨¥ ?ÅÌï©Î•†ÏùÑ Î∂ÑÏÑù?©Îãà??
-        </p>
+    <div className="space-y-8">
+      <div>
+        <p className="text-xs font-semibold tracking-widest text-blue-500 uppercase mb-1">ATS Match</p>
+        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">ATS Matching Analysis</h1>
+        <p className="text-sm text-gray-500 mt-1">AI analyzes keyword matching between JD and resume</p>
       </div>
 
-      {/* Inputs Group */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* JD Input Card */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-50">
-            <span className="text-blue-600">?íº</span>
-            <h3 className="text-base font-bold text-slate-800">Ï±ÑÏö© ?ïÎ≥¥ (Job Description)</h3>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-500 mb-1.5">ÏßÅÎ¨¥Î™?/label>
-            <input
-              type="text"
-              value={jobTitle}
-              onChange={e => setJobTitle(e.target.value)}
-              placeholder="?? ?úÎãà???ÑÎ°†?∏Ïóî??Í∞úÎ∞ú??
-              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-500 mb-1.5">?êÍ≤©?îÍ±¥ Î∞??îÍµ¨ ?§ÌÉù</label>
-            <textarea
-              rows={10}
-              value={jobDescription}
-              onChange={e => setJobDescription(e.target.value)}
-              placeholder="Ï±ÑÏö©Í≥µÍ≥†???êÍ≤©?îÍ±¥, ?∞Î??¨Ìï≠ ??Î≥∏Î¨∏???¨Í∏∞??Î∂ôÏó¨?£Ïúº?∏Ïöî..."
-              className="w-full font-mono text-sm leading-relaxed p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-        </div>
-
-        {/* Resume Selection & Input Card */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5 flex flex-col justify-between">
-          <div className="space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-50">
-              <div className="flex items-center gap-2">
-                <span className="text-blue-600">?ìÑ</span>
-                <h3 className="text-base font-bold text-slate-800">?Ä???¥Î†•???†ÌÉù</h3>
-              </div>
-              <span className="text-[10px] text-blue-600 font-bold uppercase">Database Sync</span>
-            </div>
-
+        <div className="space-y-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 space-y-4">
+            <h2 className="text-sm font-semibold text-gray-700">Job Description</h2>
             <div>
-              <label className="block text-xs font-bold text-slate-500 mb-1.5">?ëÏÑ±???¥Î†•??Î∂àÎü¨?§Í∏∞</label>
-              <select
-                value={selectedResumeId}
-                onChange={handleSelectResume}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
-              >
-                <option value="">Î∂ÑÏÑù???¥Î†•?úÎ? ?†ÌÉù??Ï£ºÏÑ∏??/option>
-                {resumes.map(r => (
-                  <option key={r.id} value={r.id}>
-                    {r.title}
-                  </option>
-                ))}
+              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Job Title</label>
+              <input type="text" value={jobTitle} onChange={e => setJobTitle(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Requirements</label>
+              <textarea rows={6} value={jobDescription} onChange={e => setJobDescription(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" />
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 space-y-4">
+            <h2 className="text-sm font-semibold text-gray-700">Resume</h2>
+            {resumes.length > 0 && (
+              <select value={selectedResumeId} onChange={e => onResumeSelect(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <option value="">Manual input</option>
+                {resumes.map(r => <option key={r.id} value={r.id}>{r.title}</option>)}
               </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-500 mb-1.5">?¥Î†•???çÏä§??ÏßÅÏ†ë ?ÖÎ†•/?òÏ†ï</label>
-              <textarea
-                rows={8}
-                value={resumeText}
-                onChange={e => setResumeText(e.target.value)}
-                placeholder="?¥Î†•??Î™©Î°ù?êÏÑú ?†ÌÉù?òÍ±∞?? ?¨Í∏∞???¥Î†•???çÏä§?∏Î? ÏßÅÏ†ë ?ÖÎ†•?òÏÑ∏??.."
-                className="w-full font-mono text-sm leading-relaxed p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-          </div>
-
-          <div className="pt-4">
-            <button
-              onClick={runATSAnalysis}
-              disabled={loading || !jobTitle || !jobDescription || !resumeText}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-2xl hover:shadow-lg hover:shadow-blue-100 transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2"
-            >
+            )}
+            <textarea rows={8} value={resumeText} onChange={e => setResumeText(e.target.value)}
+              placeholder="Paste resume text here..."
+              className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" />
+            <button onClick={analyze} disabled={loading || !jobDescription || !resumeText}
+              className="w-full py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-40 flex items-center justify-center gap-2">
               {loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
-              <span>{loading ? 'Î∂ÑÏÑù Ï§?..' : 'ATS ?ÅÌï©???âÍ? ?§Ìñâ'}</span>
+              {loading ? 'Analyzing...' : 'Start ATS Analysis'}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Analysis Results Card */}
-      {result && (
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-10 shadow-md shadow-slate-100/50 space-y-8 relative overflow-hidden">
-          <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-blue-500 to-indigo-600" />
-
-          {/* Overall score indicator */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-slate-100">
-            <div className="space-y-1 text-center md:text-left">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg">
-                Î∂ÑÏÑù ?àÌè¨??              </span>
-              <h2 className="text-2xl font-extrabold text-slate-800 mt-2">{jobTitle} ?ÅÌï©??Í≤∞Í≥º</h2>
+        <div>
+          {!result ? (
+            <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-16 flex flex-col items-center justify-center gap-3 text-center h-full">
+              <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">üìä</div>
+              <p className="text-sm font-medium text-gray-600">Results will appear here</p>
             </div>
-            <div className="flex items-center gap-4 bg-slate-50/60 border border-slate-100 rounded-2xl px-6 py-4">
-              <div className="text-center md:text-right">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">ÏµúÏ¢Ö Îß§Ïπ≠Î•?/div>
-                <div className="text-4xl font-black text-blue-600 mt-1">
-                  {result.matchScore}<span className="text-lg font-medium text-slate-400 ml-0.5">%</span>
+          ) : (
+            <div className="space-y-5">
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-6 text-center">
+                <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-400 to-indigo-400 p-1 mx-auto">
+                  <div className="w-full h-full rounded-full bg-white flex flex-col items-center justify-center">
+                    <div className="text-3xl font-black text-blue-600">{result.matchScore}</div>
+                    <div className="text-xs text-gray-400 font-medium">/ 100</div>
+                  </div>
                 </div>
+                <p className="text-sm font-semibold text-gray-700 mt-3">ATS Match Score</p>
               </div>
-            </div>
-          </div>
-
-          {/* Grid Breakdown Scores */}
-          {result.detailedBreakdown && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100/50 text-center space-y-1">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Í∏∞Ïà† ?§ÌÉù Îß§Ïπ≠</div>
-                <div className="text-2xl font-extrabold text-slate-800">{result.detailedBreakdown.skillsScore}%</div>
-              </div>
-              <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100/50 text-center space-y-1">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">?îÍµ¨ Í≤ΩÎ†• Ï∂©Ï°±</div>
-                <div className="text-2xl font-extrabold text-slate-800">{result.detailedBreakdown.experienceScore}%</div>
-              </div>
-              <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100/50 text-center space-y-1">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">?ôÎ†• ?¨Ìï≠ Î∂Ä??/div>
-                <div className="text-2xl font-extrabold text-slate-800">{result.detailedBreakdown.educationScore}%</div>
-              </div>
-              <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100/50 text-center space-y-1">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">?§Ïõå??Î∞Ä??ÏßÄ??/div>
-                <div className="text-2xl font-extrabold text-slate-800">{result.detailedBreakdown.keywordDensityScore}%</div>
-              </div>
+              {result.missingKeywords?.length > 0 && (
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
+                  <h3 className="text-xs font-bold text-red-500 uppercase tracking-wide mb-3">Missing Keywords</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {result.missingKeywords.map((kw: string) => (
+                      <span key={kw} className="px-2.5 py-1 bg-red-50 text-red-600 text-xs font-semibold rounded-full border border-red-100">{kw}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {result.foundKeywords?.length > 0 && (
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
+                  <h3 className="text-xs font-bold text-emerald-600 uppercase tracking-wide mb-3">Matched Keywords</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {result.foundKeywords.map((kw: string) => (
+                      <span key={kw} className="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-xs font-semibold rounded-full border border-emerald-100">{kw}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {result.recommendations?.length > 0 && (
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5">
+                  <h3 className="text-xs font-bold text-blue-600 uppercase tracking-wide mb-3">Recommendations</h3>
+                  <ul className="space-y-2">
+                    {result.recommendations.map((rec: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-gray-600">
+                        <span className="mt-1 shrink-0 w-4 h-4 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center font-bold text-[10px]">{i + 1}</span>
+                        {rec}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
-
-          {/* Keyword Analysis */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-green-50/20 border border-green-100/50 space-y-4">
-              <div className="text-xs font-bold text-green-700 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 bg-green-600 rounded-full" />
-                ?¥Î†•????Í∞êÏ???Îß§Ïπ≠ ?§Ïõå??(Found)
-              </div>
-              {result.foundKeywords && result.foundKeywords.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {result.foundKeywords.map((k: string, idx: number) => (
-                    <span key={idx} className="px-2.5 py-1 text-xs font-semibold bg-green-50 text-green-700 border border-green-100/80 rounded-xl">
-                      {k}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-xs text-slate-400">Îß§Ïπ≠???§Ïõå?úÍ? Ï°¥Ïû¨?òÏ? ?äÏäµ?àÎã§.</p>
-              )}
-            </div>
-
-            <div className="p-6 rounded-2xl bg-red-50/20 border border-red-100/50 space-y-4">
-              <div className="text-xs font-bold text-red-700 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 bg-red-600 rounded-full" />
-                ?∞Î? ?îÍµ¨?¨Ìï≠ ???ÑÎùΩ???§Ïõå??(Missing)
-              </div>
-              {result.missingKeywords && result.missingKeywords.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {result.missingKeywords.map((k: string, idx: number) => (
-                    <span key={idx} className="px-2.5 py-1 text-xs font-semibold bg-red-50 text-red-700 border border-red-100/80 rounded-xl">
-                      {k}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-xs text-slate-400">?ÑÎùΩ???ÑÏàò ?§Ïõå?úÍ? ?ÜÏäµ?àÎã§.</p>
-              )}
-            </div>
-          </div>
-
-          {/* Actionable recommendations */}
-          <div className="p-6 rounded-2xl bg-slate-50/50 border border-slate-100 space-y-4">
-            <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              ?í° ATS Îß§Ïπ≠Î•??•ÏÉÅ???ÑÌïú Í∏∞Ïû¨ Í∞úÏÑ† ?úÏñ∏
-            </div>
-            <ul className="text-xs text-slate-650 space-y-2 list-disc list-inside">
-              {result.recommendations?.map((rec: string, idx: number) => (
-                <li key={idx} className="leading-relaxed">
-                  {rec}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

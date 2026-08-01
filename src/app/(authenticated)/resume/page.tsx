@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -19,9 +19,9 @@ export default function ResumeListPage() {
   const { parseResumeFile } = useDocumentParser();
 
   const workflowSteps = [
-    { num: '01', title: 'Draft Generation', desc: '초안 ?�성 ?�는 PDF/DOCX ?�싱' },
-    { num: '02', title: 'LLM Evaluation', desc: '?�수, 강약?? STAR ?�레?�워??분석' },
-    { num: '03', title: 'Intelligent Rewrite', desc: '?�과 중심 고도???�작?? },
+    { num: '01', title: 'Draft Generation', desc: '초안 작성 또는 PDF/DOCX 파싱' },
+    { num: '02', title: 'LLM Evaluation', desc: '점수, 강약점, STAR 프레임워크 분석' },
+    { num: '03', title: 'Intelligent Rewrite', desc: '성과 중심 고도화 재작성' },
   ];
 
   async function fetchResumes() {
@@ -60,9 +60,9 @@ export default function ResumeListPage() {
       }
       setNewTitle(file.name.replace(/\.[^/.]+$/, ''));
       setNewContent(text);
-      toast.add({ title: '?�일???�공?�으�?로드?�었?�니??', color: 'green' });
+      toast.add({ title: '파일이 성공적으로 로드되었습니다.', color: 'green' });
     } catch (err: any) {
-      toast.add({ title: '?�일 ?�싱 ?�류', description: err.message || '?�일 ?�기 ?�류', color: 'red' });
+      toast.add({ title: '파일 파싱 오류', description: err.message || '파일 읽기 오류', color: 'red' });
     }
   }
 
@@ -79,10 +79,10 @@ export default function ResumeListPage() {
         setNewTitle('');
         setNewContent('');
         fetchResumes();
-        toast.add({ title: '?�력?��? ?�록?�었?�니??', color: 'green' });
+        toast.add({ title: '이력서가 등록되었습니다.', color: 'green' });
       }
     } catch (err: any) {
-      toast.add({ title: '?�력???�록 ?�패', description: err.message, color: 'red' });
+      toast.add({ title: '이력서 등록 실패', description: err.message, color: 'red' });
     }
   }
 
@@ -92,10 +92,10 @@ export default function ResumeListPage() {
       const res = await fetch(`/api/resumes/${id}/refine`, { method: 'POST' });
       if (res.ok) {
         await fetchResumes();
-        toast.add({ title: 'AI 고도???�료', color: 'green' });
+        toast.add({ title: 'AI 고도화 완료', color: 'green' });
       }
     } catch (err: any) {
-      toast.add({ title: 'AI 고도???�류', description: err.message, color: 'red' });
+      toast.add({ title: 'AI 고도화 오류', description: err.message, color: 'red' });
     } finally {
       setRefiningId(null);
     }
@@ -107,8 +107,8 @@ export default function ResumeListPage() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold tracking-widest text-blue-500 uppercase mb-1">Resume Builder</p>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">?�력??관�?/h1>
-          <p className="text-sm text-gray-500 mt-1">Draft ??Evaluate ??Improve 3?�계 AI 체인?�로 ?�력?��? 고도?�합?�다.</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">이력서 관리</h1>
+          <p className="text-sm text-gray-500 mt-1">Draft → Evaluate → Improve 3단계 AI 체인으로 이력서를 고도화합니다.</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -117,7 +117,7 @@ export default function ResumeListPage() {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          ?�규 ?�력???�록
+          신규 이력서 등록
         </button>
       </div>
 
@@ -141,7 +141,7 @@ export default function ResumeListPage() {
 
       {/* Resume grid */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4">???�력??/h2>
+        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4">내 이력서</h2>
 
         {loading ? (
           <div className="flex justify-center py-12">
@@ -171,7 +171,7 @@ export default function ResumeListPage() {
                   </div>
                   <div className="shrink-0 text-right">
                     <div className="text-2xl font-black text-blue-600">{r.currentScore || 0}</div>
-                    <div className="text-[10px] text-gray-400 font-medium">??/div>
+                    <div className="text-[10px] text-gray-400 font-medium">점</div>
                   </div>
                 </div>
 
@@ -190,12 +190,13 @@ export default function ResumeListPage() {
                       {refiningId === r.id && (
                         <div className="w-3 h-3 border border-blue-600 border-t-transparent rounded-full animate-spin" />
                       )}
-                      AI 고도??                    </button>
+                      AI 고도화
+                    </button>
                     <Link
                       href={`/resume/${r.id}`}
                       className="px-3 py-1.5 text-xs font-semibold bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors"
                     >
-                      Canvas ?�기
+                      Canvas 열기
                     </Link>
                   </div>
                 </div>
@@ -205,15 +206,15 @@ export default function ResumeListPage() {
         ) : (
           <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
             <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400">
-              ?��
+              📄
             </div>
-            <h3 className="text-base font-semibold text-gray-700 mb-1">?�록???�력?��? ?�습?�다</h3>
-            <p className="text-sm text-gray-400 mb-6">�??�력?��? ?�록?�고 AI�?고도?�하?�요</p>
+            <h3 className="text-base font-semibold text-gray-700 mb-1">등록된 이력서가 없습니다</h3>
+            <p className="text-sm text-gray-400 mb-6">첫 이력서를 등록하고 AI로 고도화하세요</p>
             <button
               onClick={() => setShowCreateModal(true)}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all"
             >
-              ?�력???�록?�기
+              이력서 등록하기
             </button>
           </div>
         )}
@@ -227,12 +228,13 @@ export default function ResumeListPage() {
         >
           <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-2xl w-full sm:max-w-lg p-6 space-y-5 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-900">?�규 ?�력???�록</h2>
+              <h2 className="text-lg font-bold text-gray-900">신규 이력서 등록</h2>
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400"
               >
-                ??              </button>
+                ✕
+              </button>
             </div>
 
             <label
@@ -246,21 +248,21 @@ export default function ResumeListPage() {
                 accept=".pdf,.docx,.doc,.txt,.hwp,.hwpx"
                 className="hidden"
               />
-              <span className="text-2xl mb-1">?��</span>
-              <p className="text-xs text-gray-500">PDF / DOCX / HWP ?�로??/p>
-              <p className="text-xs text-gray-400 mt-0.5">?�는 ?�래??직접 ?�력</p>
+              <span className="text-2xl mb-1">📎</span>
+              <p className="text-xs text-gray-500">PDF / DOCX / HWP 드로하기</p>
+              <p className="text-xs text-gray-400 mt-0.5">또는 아래에 직접 입력</p>
             </label>
 
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-gray-500 mb-1.5">
-                  ?�목 <span className="text-red-400">*</span>
+                  제목 <span className="text-red-400">*</span>
                 </label>
                 <input
                   type="text"
                   value={newTitle}
                   onChange={e => setNewTitle(e.target.value)}
-                  placeholder="?�력???�목"
+                  placeholder="이력서 제목"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
                 />
               </div>
@@ -272,7 +274,7 @@ export default function ResumeListPage() {
                   rows={6}
                   value={newContent}
                   onChange={e => setNewContent(e.target.value)}
-                  placeholder="경력, ?�로?�트, 기술 ?�택???�력?�세??.."
+                  placeholder="경력, 프로젝트, 기술 스택을 입력하세요.."
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all resize-none leading-relaxed"
                 />
               </div>
@@ -290,7 +292,7 @@ export default function ResumeListPage() {
                 disabled={!newTitle || !newContent}
                 className="flex-1 py-2.5 rounded-xl bg-gray-900 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
-                ?�록
+                등록
               </button>
             </div>
           </div>

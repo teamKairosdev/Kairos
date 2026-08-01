@@ -32,18 +32,18 @@ async function getConfig() {
 
 export async function getGeminiModel(
   modelName = 'gemini-2.0-flash-001'
-): Promise<LanguageModel> {
+): Promise<any> {
   const { googleKey } = await getConfig();
   if (!googleKey || googleKey.includes('your')) {
     throw new Error('GOOGLE_GENERATIVE_AI_API_KEY가 설정되지 않았습니다.');
   }
   const google = createGoogleGenerativeAI({ apiKey: googleKey });
-  return google(modelName);
+  return google(modelName) as any;
 }
 
 export async function getGatewayModel(
   modelIdentifier = 'google/gemini-2.0-flash-001'
-): Promise<LanguageModel> {
+): Promise<any> {
   const { gatewayUrl, gatewayKey } = await getConfig();
 
   if (!gatewayUrl) return getGeminiModel();
@@ -59,12 +59,12 @@ export async function getGatewayModel(
     headers,
   });
 
-  return google(modelIdentifier);
+  return google(modelIdentifier) as any;
 }
 
 export async function getPreferredLanguageModel(
   requestedModel?: string
-): Promise<LanguageModel> {
+): Promise<any> {
   const { gatewayUrl } = await getConfig();
   if (gatewayUrl) {
     return getGatewayModel(requestedModel || 'google/gemini-2.0-flash-001');
@@ -86,15 +86,16 @@ export async function callLLMText(options: LLMOptions): Promise<string> {
 export async function callLLMStructured<T>(
   options: LLMOptions & { schema: any }
 ): Promise<T> {
+  const { generateObject } = await import('ai');
   const model = await getPreferredLanguageModel(options.model);
-  const result = await generateText({
+  const result = await generateObject({
     model,
     system: options.instructions,
     prompt: options.prompt,
     temperature: options.temperature ?? 0.3,
-    output: Output.object({ schema: options.schema }),
+    schema: options.schema,
   });
-  return result.output as T;
+  return result.object as T;
 }
 
 export async function streamLLMText(options: LLMOptions) {
@@ -109,7 +110,7 @@ export async function streamLLMText(options: LLMOptions) {
 
 export async function getModelForComplexity(
   complexity: 'low' | 'medium' | 'high' | string = 'medium'
-): Promise<LanguageModel> {
+): Promise<any> {
   const modelName = 'gemini-2.0-flash-001';
   return getPreferredLanguageModel(modelName);
 }

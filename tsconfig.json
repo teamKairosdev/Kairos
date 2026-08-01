@@ -36,6 +36,14 @@
     ".nuxt",
     ".output",
     "app",
-    "apps"
+    "apps",
+    "server",
+    "packages",
+    "public/sw.ts",
+    "nuxt.config.ts",
+    "test",
+    "payload.config.ts",
+    "seed-design",
+    "vitest.config.ts"
   ]
 }

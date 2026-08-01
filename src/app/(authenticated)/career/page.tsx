@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
@@ -54,7 +54,7 @@ export default function CareerPage() {
         body: JSON.stringify({
           company: form.company,
           role: form.role,
-          period: form.period || '?�직 �?,
+          period: form.period || '재직 중',
           description: form.description,
         }),
       });
@@ -62,10 +62,10 @@ export default function CareerPage() {
         setShowCreateModal(false);
         setForm({ company: '', role: '', period: '', description: '' });
         await fetchCareers();
-        toast.add({ title: '경력??추�??�었?�니??', color: 'green' });
+        toast.add({ title: '경력이 추가되었습니다.', color: 'green' });
       }
     } catch (err: any) {
-      toast.add({ title: '경력 ?�록 ?�패', description: err.message, color: 'red' });
+      toast.add({ title: '경력 등록 실패', description: err.message, color: 'red' });
     } finally {
       setCreating(false);
     }
@@ -76,10 +76,10 @@ export default function CareerPage() {
       const res = await fetch(`/api/careers/${id}`, { method: 'DELETE' });
       if (res.ok) {
         await fetchCareers();
-        toast.add({ title: '경력????��?�었?�니??', color: 'green' });
+        toast.add({ title: '경력이 삭제되었습니다.', color: 'green' });
       }
     } catch (err: any) {
-      toast.add({ title: '??�� ?�패', description: err.message, color: 'red' });
+      toast.add({ title: '삭제 실패', description: err.message, color: 'red' });
     }
   }
 
@@ -93,7 +93,7 @@ export default function CareerPage() {
         setSearchResults(data);
       }
     } catch (err: any) {
-      toast.add({ title: '검???�패', description: err.message, color: 'red' });
+      toast.add({ title: '검색 실패', description: err.message, color: 'red' });
     } finally {
       setSearching(false);
     }
@@ -105,8 +105,8 @@ export default function CareerPage() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold tracking-widest text-blue-500 uppercase mb-1">Career History</p>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">경력 관�?/h1>
-          <p className="text-sm text-gray-500 mt-1">커리???�력??체계?�으�?기록?�고 AI ?�맨??검?�으�?찾아보세??</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">경력 관리</h1>
+          <p className="text-sm text-gray-500 mt-1">커리어 이력을 체계적으로 기록하고 AI 시맨틱 검색으로 찾아보세요</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -115,15 +115,15 @@ export default function CareerPage() {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          경력 추�?
+          경력 추가
         </button>
       </div>
 
       {/* Semantic Search */}
       <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl p-6 border border-blue-100">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-blue-600">?��</span>
-          <span className="text-sm font-semibold text-blue-800">AI ?�맨??검??/span>
+          <span className="text-blue-600">🔍</span>
+          <span className="text-sm font-semibold text-blue-800">AI 시맨틱 검색</span>
           <span className="text-xs text-blue-500 bg-blue-100 px-2 py-0.5 rounded-full">pgvector 1536차원</span>
         </div>
         <div className="flex gap-3">
@@ -132,7 +132,7 @@ export default function CareerPage() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && performSearch()}
-            placeholder="?? React�??�?�량 ?�래??처리??경험"
+            placeholder="예: React로 대용량 데이터 처리 경험"
             className="flex-1 px-4 py-2.5 rounded-xl bg-white border border-blue-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all shadow-xs"
           />
           <button
@@ -141,7 +141,7 @@ export default function CareerPage() {
             className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {searching && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
-            <span>{searching ? '검??�?..' : '검??}</span>
+            <span>{searching ? '검색중..' : '검색'}</span>
           </button>
         </div>
 
@@ -149,7 +149,7 @@ export default function CareerPage() {
         {searchResults && (
           <div className="mt-4 space-y-2">
             <div className="flex items-center justify-between text-xs text-blue-600 font-medium mb-3">
-              <span>"{searchResults.query}" 검??결과</span>
+              <span>&ldquo;{searchResults.query}&rdquo; 검색 결과</span>
               <button
                 onClick={() => {
                   setSearchResults(null);
@@ -157,10 +157,11 @@ export default function CareerPage() {
                 }}
                 className="text-blue-400 hover:text-blue-600"
               >
-                ??초기??              </button>
+                ✕ 초기화
+              </button>
             </div>
             {searchResults.results.length === 0 ? (
-              <div className="text-center py-4 text-sm text-gray-500">관??경력??찾�? 못했?�니??</div>
+              <div className="text-center py-4 text-sm text-gray-500">관련 경력을 찾지 못했습니다.</div>
             ) : (
               searchResults.results.map((res: any) => (
                 <div
@@ -192,7 +193,7 @@ export default function CareerPage() {
 
       {/* Career Timeline */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-6">경력 ?�?�라??/h2>
+        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-6">경력 타임라인</h2>
 
         {loading ? (
           <div className="flex justify-center py-12">
@@ -224,14 +225,15 @@ export default function CareerPage() {
                         onClick={() => deleteCareer(c.id)}
                         className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-red-50 text-gray-300 hover:text-red-400 transition-colors text-xs opacity-0 group-hover:opacity-100"
                       >
-                        ?���?                      </button>
+                        🗑
+                      </button>
                     </div>
 
                     <p className="text-sm text-gray-600 leading-relaxed">{c.description}</p>
 
                     {c.achievements && c.achievements.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-gray-50 space-y-1.5">
-                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">주요 ?�과</p>
+                        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">주요 성과</p>
                         <ul className="space-y-1">
                           {c.achievements.map((a: string, aIdx: number) => (
                             <li key={aIdx} className="flex items-start gap-2 text-xs text-gray-600">
@@ -250,14 +252,15 @@ export default function CareerPage() {
         ) : (
           <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
             <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl">
-              ?���?            </div>
-            <h3 className="text-base font-semibold text-gray-700 mb-1">?�록??경력???�습?�다</h3>
-            <p className="text-sm text-gray-400 mb-6">�?경력??추�??�고 커리?��? 체계?�으�?관리하?�요</p>
+              💼
+            </div>
+            <h3 className="text-base font-semibold text-gray-700 mb-1">등록된 경력이 없습니다</h3>
+            <p className="text-sm text-gray-400 mb-6">첫 경력을 추가하고 커리어를 체계적으로 관리하세요</p>
             <button
               onClick={() => setShowCreateModal(true)}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all"
             >
-              경력 추�??�기
+              경력 추가하기
             </button>
           </div>
         )}
@@ -271,25 +274,26 @@ export default function CareerPage() {
         >
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-5">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-gray-900">경력 추�?</h2>
+              <h2 className="text-lg font-bold text-gray-900">경력 추가</h2>
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400"
               >
-                ??              </button>
+                ✕
+              </button>
             </div>
 
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1.5">
-                    ?�사 <span className="text-red-400">*</span>
+                    회사 <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
                     value={form.company}
                     onChange={e => setForm({ ...form, company: e.target.value })}
-                    placeholder="카카??
+                    placeholder="카카오"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
@@ -301,7 +305,7 @@ export default function CareerPage() {
                     type="text"
                     value={form.role}
                     onChange={e => setForm({ ...form, role: e.target.value })}
-                    placeholder="?�론?�엔???��??�어"
+                    placeholder="프론트엔드 엔지니어"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
@@ -312,19 +316,19 @@ export default function CareerPage() {
                   type="text"
                   value={form.period}
                   onChange={e => setForm({ ...form, period: e.target.value })}
-                  placeholder="2023.01 - 2026.07 (?�직 �?"
+                  placeholder="2023.01 - 2026.07 (재직 중)"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1.5">
-                  ?�무 ?�용 &amp; 기술 ?�택 <span className="text-red-400">*</span>
+                  업무 내용 &amp; 기술 스택 <span className="text-red-400">*</span>
                 </label>
                 <textarea
                   rows={4}
                   value={form.description}
                   onChange={e => setForm({ ...form, description: e.target.value })}
-                  placeholder="?�당???�무, ?�용??기술 ?�택, 주요 ?�로?�트�?기술?�주?�요."
+                  placeholder="담당했던 업무, 사용한 기술 스택, 주요 프로젝트를 기술해주세요."
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
                 />
               </div>
@@ -342,7 +346,7 @@ export default function CareerPage() {
                 disabled={!form.company || !form.role || !form.description || creating}
                 className="flex-1 py-2.5 rounded-xl bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 transition-colors disabled:opacity-50"
               >
-                {creating ? '?�??�?..' : '?�??}
+                {creating ? '추가중..' : '추가'}
               </button>
             </div>
           </div>
