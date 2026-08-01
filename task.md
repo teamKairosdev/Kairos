@@ -54,5 +54,27 @@
 ---
 
 ## 이후 작업 예정 (미완)
-- [ ] `project_status_report.md` 등 낡은 문서 정리 (선택)
 - [ ] `docs/` 마스터 플랜 문서 최신화 (선택)
+
+---
+
+## 세션 1: 레거시 잔재 대청소 (2026-08-01)
+
+### 1. 파일/디렉토리 삭제
+- [x] 세션 아카이브 `_AGENTS_BRAIN_/sessions/` (s1~s11) 전체 삭제
+- [x] 과거 문서 `docs/` (archive/기획서/마스터플랜/디자인시스템 가이드) 전체 삭제
+- [x] 낡은 루트 문서 삭제: `project_status_report.md`, `payload.config.ts` (미사용 CMS 설정)
+- [x] 타 프로젝트 잔재 `ChaekList-develop/` 삭제
+- [x] 미사용 `contracts/KairosSubscription.sol`, `seed-design/ui/` (미사용 컴포넌트 4개) 삭제
+- [x] 빈 디렉토리 `apps/`, `shared/` 정리 (단, `shared/types.ts`는 실제 사용 코드라 복원)
+- [x] 유지: `ASSETS/` (브랜드 원본), `AI서비스측_심사기준표_PPT목차.md` 등 AI 심사 문서
+
+### 2. 코드 잔재 정리
+- [x] `tsconfig.json` exclude에서 `.nuxt`, `.output` 제거
+- [x] `AuthContext.tsx`에서 `nuxt-color-mode` localStorage 설정 제거
+- [x] `tsconfig.tsbuildinfo` 추적 제거 + `.gitignore`에 추가
+- [x] `.gitignore` 헤더 "Nuxt & Vite" → "Build artifacts"로 갱신
+
+### 3. 검증
+- [x] `npx tsc --noEmit` 에러 0 / `npm test` 61/61 통과 / `npm run build` 성공
+- [x] 커밋 완료 (push 안 함)

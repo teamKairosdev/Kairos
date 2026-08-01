@@ -33,8 +33,6 @@
   ],
   "exclude": [
     "node_modules",
-    ".nuxt",
-    ".output",
     "packages",
     "public/sw.ts",
     "test",

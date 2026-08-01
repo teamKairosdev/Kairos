@@ -1,10 +1,13 @@
-# Nuxt & Vite build artifacts
+# Build artifacts
 .nuxt/
 .output/
 dist/
 
 # Node.js
 node_modules/
+
+# TypeScript build info
+tsconfig.tsbuildinfo
 
 # Environment secrets
 .env

@@ -155,7 +155,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const html = document.documentElement;
       html.classList.remove('dark');
       html.classList.add('light');
-      localStorage.setItem('nuxt-color-mode', 'light');
     }
   }, [fetchUser]);
 
