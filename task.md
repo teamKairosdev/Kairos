@@ -156,3 +156,33 @@
 - [x] 검증: `npx tsc --noEmit` 0 / `npm test` 61/61 / `npm run build` 성공
 - [x] 69개 파일 변경 (+693/-339)
 - [x] 커밋 완료 (push 안 함)
+
+---
+
+## 세션 6: README 전면 개편 (2026-08-02)
+
+### 1. 병렬 서브에이전트 4개로 코드베이스 재조사 (문서 읽기 금지, 코드만)
+- [x] A: App Router 구조 — 19페이지 + error.tsx, API 라우트 45개 전수, 라우트 그룹/레이아웃, `/presentation` + `src/data/presentationSlides.tsx` (10슬라이드)
+- [x] B: 서비스 레이어 — `src/server/` 23개 모듈 전수, `llm.ts` (328행, Gemini REST, zod→OpenAPI, SSE), `embedding.ts`/`imageGen.ts` (env 직독, gateway 미지원), `llmCache.ts` 3개 라우트 적용
+- [x] C: UI/DB — 컴포넌트 11개 전부 클라이언트 컴포넌트, **seed-design/ 디렉토리 미생성**(설정만 존재), Drizzle 16테이블 관계 전수, mock 50프로필, Tailwind v4 CSS-first
+- [x] D: 설정/인프라 — rewrites 없음, `serverExternalPackages`, vercel icn1(서울), middleware 10경로 보호, packages/ 3개 목 스텁, 레거시 잔재 참조 7건 발견 (NUXT_* env fallback, PAYLOAD env, .gitignore .nuxt 등 — 파일은 전부 삭제 완료 상태)
+
+### 2. README.md 전면 재작성
+- [x] 오류 정정: Payload CMS / PWA / vectra·Transformers·idb / rateLimit / seed-design UI / contracts·docs 디렉토리 — **전부 실제로는 제거됨 → 삭제 반영**
+- [x] Mermaid 다이어그램 5종 재작성: System Architecture (HWP Runtime/Demo Mode/미들웨어 추가), LLM Architecture (실제 라우트·모델·캐시·게이트웨이 옵션 정확화), Service Layer (23 서비스·45 핸들러·http.ts·getSession), ERD (16테이블, cascade/set null 명시)
+- [x] 신규 섹션: HWP/HWPX 지원 (@rhwp), Auth & Sessions, Demo Mode, Deployment, Multi-Platform Bridges (목 스텁 명시), Env Variables 표
+- [x] Tech Stack / Core Features 테이블 실제 의존성 기준으로 갱신 (hwplib-js, mammoth, pdfjs-dist, sonner, diff 등)
+
+### 3. 발견 이슈 (후속 작업 후보, 이번 세션에서 수정 안 함)
+- [ ] `/qa` → `GET /api/qa/list` 라우트 없음 (404) / `/humanizer` → `GET /api/humanizer/history` 없음 (404) / `/settings` 계정 삭제 `DELETE /api/auth/me` 없음 (405)
+- [ ] `/qa` 페이지 `{targetRole, context}` vs 라우트 `{targetRole, careerSummary, count}` 불일치, `/humanizer` 페이지 `{text}` vs 라우트 `{originalText}` 불일치 (실제 모드 400)
+- [ ] admin 페이지 stats 필드명 불일치 (전부 "-"), 설정 저장 PUT 405 — 실제 라우트 `POST /api/admin/settings/update` 미연동
+- [ ] `resumes/[id]/refine` 세션 검증 없음, docs API 4개 인증 없음
+- [ ] `initMockInterceptor` 데드 코드 (호출처 0건), `resume.ts`·`interview.ts` 앱 코드 미사용(테스트 전용)
+- [ ] 스튜디오 이미지 `uploads/studio/` 정적 서빙 rewrite 없음 → URL 404 가능
+- [ ] 사이드바 "커뮤니티" 링크 → `/community` 페이지 없음 (404)
+- [ ] 레거시 env 참조 5곳 (`NUXT_JWT_SECRET` 등), `.env.example` PAYLOAD 키, tsconfig exclude `payload.config.ts`/`seed-design`, `.gitignore` `.nuxt/`·`.output/` 잔재
+- [ ] MFA 라우트 3개 존재하나 UI 없음 (향후 확장용)
+
+### 4. 검증/커밋
+- [x] 커밋 완료 (push 안 함)
