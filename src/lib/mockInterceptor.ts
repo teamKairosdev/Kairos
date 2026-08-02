@@ -131,8 +131,11 @@ async function idbDel(store: string, key: string): Promise<void> {
   });
 }
 
+let installed = false;
+
 export function initMockInterceptor() {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || installed) return;
+  installed = true;
 
   const originalFetch = window.fetch.bind(window);
 

@@ -19,22 +19,30 @@ export async function POST(req: NextRequest) {
 
     const result = await processAIHumanizer(originalText);
 
+    let saved: typeof humanizedTexts.$inferSelect | undefined;
     try {
       const db = getDb();
       if (db) {
-        await db.insert(humanizedTexts).values({
-          userId,
-          originalText,
-          humanizedText: result.humanizedText,
-          styleScore: result.styleScore,
-          changesSummary: result.changesSummary,
-        });
+        [saved] = await db
+          .insert(humanizedTexts)
+          .values({
+            userId,
+            originalText,
+            humanizedText: result.humanizedText,
+            styleScore: result.styleScore,
+            changesSummary: result.changesSummary,
+          })
+          .returning();
       }
     } catch {
       console.warn('[Kairos] Humanizer save skipped (demo mode - no DB)');
     }
 
-    return NextResponse.json(result);
+    return NextResponse.json({
+      ...result,
+      id: saved?.id || 'demo-hum-' + Date.now(),
+      createdAt: (saved?.createdAt || new Date()).toISOString(),
+    });
   } catch (err: unknown) {
     console.error('[/api/humanizer/process]', err);
     return internalError(err, 'Humanizer error');

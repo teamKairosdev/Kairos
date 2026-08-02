@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { count } from 'drizzle-orm';
+import { count, desc } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { users, resumes, mockInterviews, atsAnalyses, careers, auditLogs } from '@/db/schema';
 
@@ -12,6 +12,7 @@ export async function GET(_req: NextRequest) {
       interviewsCount: 0,
       atsCount: 0,
       careersCount: 0,
+      recentUsers: [],
       recentLogs: [],
     });
   }
@@ -22,6 +23,7 @@ export async function GET(_req: NextRequest) {
     const [interviewRes] = await db.select({ count: count() }).from(mockInterviews);
     const [atsRes] = await db.select({ count: count() }).from(atsAnalyses);
     const [careerRes] = await db.select({ count: count() }).from(careers);
+    const recentUsers = await db.select({ id: users.id, name: users.name, email: users.email, role: users.role, createdAt: users.createdAt }).from(users).orderBy(desc(users.createdAt)).limit(10);
     const recentLogs = await db.select().from(auditLogs).limit(10);
 
     return NextResponse.json({
@@ -30,6 +32,7 @@ export async function GET(_req: NextRequest) {
       interviewsCount: interviewRes?.count || 0,
       atsCount: atsRes?.count || 0,
       careersCount: careerRes?.count || 0,
+      recentUsers,
       recentLogs,
     });
   } catch {
@@ -39,6 +42,7 @@ export async function GET(_req: NextRequest) {
       interviewsCount: 0,
       atsCount: 0,
       careersCount: 0,
+      recentUsers: [],
       recentLogs: [],
     });
   }

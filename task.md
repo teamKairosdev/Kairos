@@ -186,3 +186,25 @@
 
 ### 4. 검증/커밋
 - [x] 커밋 완료 (push 안 함)
+
+---
+
+## 세션 7: 발견 이슈 전수 해결 (2026-08-02)
+
+### 병렬 서브에이전트 6개로 세션 6에서 발견한 이슈 해결
+- [x] A1: QA/Humanizer/Settings 계약 수정
+  - `GET /api/qa/list`, `GET /api/humanizer/history` 라우트 신규 (세션 기반 50/20건 조회)
+  - 페이로드 불일치 수정: qa 페이지 `{targetRole, careerSummary, count}`, humanizer 페이지 `{originalText}`
+  - generate/process 응답을 DB 레코드 형태(`{id, targetRole, qaPairs, createdAt}`)로 통일 + demo id
+  - `DELETE /api/auth/me` 신규 (계정 삭제 + 세션 쿠키 무효화)
+- [x] A2: Admin 불일치 수정 — stats 라우트에 `recentUsers` 추가, 페이지 필드명/설정 GET 형태(`d.configs`)/저장 엔드포인트(`POST /api/admin/settings/update`) 정합
+- [x] A3: docs API 4개 전부 인증 추가 (getSession → unauthorized) — 목록/업로드/파싱/다운로드/삭제
+- [x] A4: 커뮤니티 페이지 신규 `(authenticated)/community` (카테고리 필터, 글 작성, 확장 뷰, 본인 글 삭제, 더 보기) + middleware `/community` 보호 추가
+- [x] A5: 데드 코드 정리 — `initMockInterceptor`를 AuthContext에 연결(멱등 가드 추가, mock 로그인/마운트 시 동적 import), `src/server/resume.ts`·`interview.ts` + 전용 테스트 2개 **삭제** (라우트와 시그니처 불일치로 교체 불가 판정), 대신 refine 라우트에 **세션·소유권 검증 + guardrail L1/L3 적용**
+- [x] A6: 스튜디오 이미지 404 해결 — `src/app/api/files/[...path]` 라우트 신규 (path traversal 가드, MIME 매핑) + next.config rewrite `/uploads/* → /api/files/*`, 레거시 잔재 제거 (auth.ts NUXT fallback 6곳, middleware NUXT_JWT_SECRET, .env.example PAYLOAD 키 제거 + NEXT_PUBLIC_APP_URL 추가, tsconfig exclude 정리, .gitignore .nuxt/.output 제거)
+
+### 결과
+- [x] 검증: `npx tsc --noEmit` 0 / `npm test` **55/55** (데드 서비스 테스트 2개 삭제로 61→55) / `npm run build` 성공 (57 라우트, `/community` 포함)
+- [x] README 갱신: 테스트 7파일·55개, 라우트 48개, 서비스 21개, 페이지 20개, community/files 라우트 반영
+- [x] 잔여 (의도적 유지): MFA 라우트 3개 UI는 향후 확장용으로 미구현
+- [x] 커밋 완료 (push 안 함)

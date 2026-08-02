@@ -10,12 +10,13 @@ const PROTECTED_PATHS = [
   '/career',
   '/studio',
   '/docs',
+  '/community',
   '/settings',
   '/admin',
 ];
 
 function getJwtSecret(): Uint8Array {
-  const secret = process.env.JWT_SECRET || process.env.NUXT_JWT_SECRET || '';
+  const secret = process.env.JWT_SECRET || '';
   if (!secret) return new Uint8Array(0);
   return new TextEncoder().encode(secret);
 }
@@ -58,6 +59,7 @@ export const config = {
     '/career/:path*',
     '/studio/:path*',
     '/docs/:path*',
+    '/community/:path*',
     '/settings/:path*',
     '/admin/:path*',
   ],

@@ -14,10 +14,11 @@ interface AdminRecentUser {
 }
 
 interface AdminStats {
-  totalUsers?: number;
-  totalResumes?: number;
-  totalInterviews?: number;
-  totalAts?: number;
+  usersCount?: number;
+  resumesCount?: number;
+  interviewsCount?: number;
+  atsCount?: number;
+  careersCount?: number;
   recentUsers?: AdminRecentUser[];
 }
 
@@ -32,14 +33,14 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetch('/api/admin/stats').then(r => r.ok ? r.json() : null).then(d => { setStats(d); setLoadingStats(false); }).catch(() => setLoadingStats(false));
-    fetch('/api/admin/settings').then(r => r.ok ? r.json() : []).then(d => { setSettings(d || []); setLoadingSettings(false); }).catch(() => setLoadingSettings(false));
+    fetch('/api/admin/settings').then(r => r.ok ? r.json() : null).then(d => { setSettings(d?.configs || []); setLoadingSettings(false); }).catch(() => setLoadingSettings(false));
   }, []);
 
   async function saveSetting(key: string, value: string) {
     setSaving(true);
     try {
-      const res = await fetch('/api/admin/settings', {
-        method: 'PUT',
+      const res = await fetch('/api/admin/settings/update', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ key, value }),
       });
@@ -55,10 +56,10 @@ export default function AdminPage() {
   }
 
   const statCards = stats ? [
-    { label: 'Total Users', value: stats.totalUsers ?? '-', icon: 'U', color: 'bg-blue-50 text-blue-600' },
-    { label: 'Resumes', value: stats.totalResumes ?? '-', icon: 'R', color: 'bg-emerald-50 text-emerald-600' },
-    { label: 'Interviews', value: stats.totalInterviews ?? '-', icon: 'I', color: 'bg-violet-50 text-violet-600' },
-    { label: 'ATS Analyses', value: stats.totalAts ?? '-', icon: 'A', color: 'bg-amber-50 text-amber-600' },
+    { label: 'Total Users', value: stats.usersCount ?? '-', icon: 'U', color: 'bg-blue-50 text-blue-600' },
+    { label: 'Total Resumes', value: stats.resumesCount ?? '-', icon: 'R', color: 'bg-emerald-50 text-emerald-600' },
+    { label: 'Total Interviews', value: stats.interviewsCount ?? '-', icon: 'I', color: 'bg-violet-50 text-violet-600' },
+    { label: 'ATS Analyses', value: stats.atsCount ?? '-', icon: 'A', color: 'bg-amber-50 text-amber-600' },
   ] : [];
 
   return (

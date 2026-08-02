@@ -22,7 +22,7 @@ export interface KairosSession extends JWTPayload {
 }
 
 function getJwtSecret(): Uint8Array {
-  const secret = process.env.JWT_SECRET || process.env.NUXT_JWT_SECRET || '';
+  const secret = process.env.JWT_SECRET || '';
   if (!secret || secret.length < 32) {
     throw new Error('JWT_SECRET가 설정되지 않았거나 32자 미만입니다.');
   }
@@ -57,10 +57,10 @@ export async function verifySession(token: string): Promise<KairosSession | null
 
 /** Google OAuth2 Authorization URL 생성 */
 export function buildGoogleAuthUrl(state: string): string {
-  const clientId = process.env.GOOGLE_CLIENT_ID || process.env.NUXT_GOOGLE_CLIENT_ID || '';
+  const clientId = process.env.GOOGLE_CLIENT_ID || '';
   if (!clientId) throw new Error('GOOGLE_CLIENT_ID가 설정되지 않았습니다.');
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NUXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const redirectUri = `${baseUrl}/api/auth/google/callback`;
 
   const params = new URLSearchParams({
@@ -81,14 +81,14 @@ export async function exchangeGoogleCode(code: string): Promise<{
   accessToken: string;
   idToken: string;
 }> {
-  const clientId = process.env.GOOGLE_CLIENT_ID || process.env.NUXT_GOOGLE_CLIENT_ID || '';
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET || process.env.NUXT_GOOGLE_CLIENT_SECRET || '';
+  const clientId = process.env.GOOGLE_CLIENT_ID || '';
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
 
   if (!clientId || !clientSecret) {
     throw new Error('GOOGLE_CLIENT_ID 또는 GOOGLE_CLIENT_SECRET이 설정되지 않았습니다.');
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NUXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const redirectUri = `${baseUrl}/api/auth/google/callback`;
 
   const res = await fetch('https://oauth2.googleapis.com/token', {

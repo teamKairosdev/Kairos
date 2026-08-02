@@ -68,3 +68,26 @@ export async function PATCH(req: NextRequest) {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  const session = await getSession(req);
+  if (!session) {
+    return unauthorized('Unauthorized');
+  }
+
+  try {
+    const db = getDb();
+    if (db) {
+      await db.delete(users).where(eq(users.id, session.userId));
+    }
+
+    const res = NextResponse.json({ success: true });
+    res.cookies.delete('kairos_session');
+    return res;
+  } catch (err: unknown) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : '계정 삭제 중 오류가 발생했습니다.' },
+      { status: 500 }
+    );
+  }
+}

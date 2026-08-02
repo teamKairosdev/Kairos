@@ -1,6 +1,4 @@
 # Build artifacts
-.nuxt/
-.output/
 dist/
 
 # Node.js

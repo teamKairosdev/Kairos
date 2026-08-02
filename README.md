@@ -18,7 +18,7 @@ Kairos는 **Next.js 15 (App Router)** 단일 프레임워크로 구축된 AI 기
 flowchart TB
     subgraph Client["<b>Client Layer</b>"]
         direction TB
-        NEXT["<b>Next.js 15 App</b><br/>React 19 · 19 Pages<br/>Resume · Interview · ATS · Docs · Studio"]
+        NEXT["<b>Next.js 15 App</b><br/>React 19 · 20 Pages<br/>Resume · Interview · ATS · Docs · Community · Studio"]
         HWP["<b>HWP Runtime</b><br/>@rhwp/core WASM (rhwp_bg.wasm)<br/>@rhwp/editor iframe Studio"]
         DEMO["<b>Demo Mode</b><br/>localStorage mock 데이터<br/>(testmockup 계정 · DB 미설정 폴백)"]
     end
@@ -26,7 +26,7 @@ flowchart TB
     subgraph Edge["<b>Edge / API Layer</b>"]
         direction TB
         MW["<b>middleware.ts</b><br/>JWT Session Guard<br/>10 Protected Paths"]
-        API["<b>Route Handlers</b><br/>45 Routes · getSession 검증<br/>http.ts 공통 에러 응답"]
+        API["<b>Route Handlers</b><br/>48 Routes · getSession 검증<br/>http.ts 공통 에러 응답"]
     end
 
     subgraph Services["<b>Service Layer (src/server)</b>"]
@@ -87,7 +87,7 @@ flowchart TB
 | **Styling** | Tailwind CSS v4 (CSS-first, @theme) · Freesentation 폰트 |
 | **Validation** | zod (LLM 구조화 응답 스키마) |
 | **UI 유틸** | sonner (토스트) · diff (단어 diff 렌더) |
-| **Testing** | Vitest (9개 테스트 파일 · 61 tests) |
+| **Testing** | Vitest (7개 테스트 파일 · 55 tests) |
 | **Deploy** | Vercel (icn1 서울 리전) · `.npmrc` legacy-peer-deps |
 
 ---
@@ -138,8 +138,8 @@ flowchart LR
         IMG["imageGen.ts<br/>generateStudioImage"]
         QA_SVC["qa.ts"]
         HUMAN_SVC["humanizer.ts"]
-        RESUME_SVC["resume.ts"]
-        INTERVIEW_SVC["interview.ts · context.ts"]
+        RESUME_SVC["resumes/* (라우트 직접 + guardrail)"]
+        INTERVIEW_SVC["context.ts"]
         CAREER_SVC["career.ts"]
         COMPANY_SVC["companyMeta.ts"]
         SKILLGAP_SVC["publicSkillGap.ts"]
@@ -187,29 +187,30 @@ flowchart LR
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'primaryColor': '#059669', 'primaryBorderColor': '#047857', 'lineColor': '#94a3b8', 'secondaryColor': '#f0fdf4', 'tertiaryColor': '#dbeafe', 'clusterBkg': '#f8fafc', 'clusterBorder': '#e2e8f0'}}}%%
 flowchart LR
-    subgraph API["<b>API Routes (src/app/api · 45 handlers)</b>"]
+    subgraph API["<b>API Routes (src/app/api · 48 handlers)</b>"]
         AUTH["auth/* 14"]
         RESUME["resumes/* 4"]
         INTERVIEW["interviews/* 3"]
         ATS["ats/analyze"]
         LLM["llm/* 3"]
-        QA["qa/generate"]
-        HUMAN["humanizer/process"]
+        QA["qa/* 2"]
+        HUMAN["humanizer/* 2"]
         CAREER["careers/* 3"]
         STUDIO["studio/* 4"]
         COMMUNITY["community/* 2"]
         CHAT["chat/* 2"]
         DOCS["docs/* 4"]
+        FILES["files/* (uploads 서빙)"]
         COMPANY["company/meta"]
         ADMIN["admin/* 3"]
         MCP["mcp/manifest"]
     end
 
-    subgraph Services["<b>Service Modules (src/server · 23)</b>"]
+    subgraph Services["<b>Service Modules (src/server · 21)</b>"]
         LLM_SVC["llm.ts · llmCache.ts"]
         GUARD["guardrail.ts 4-Layer"]
-        RESUME_SVC["resume.ts"]
-        INTERVIEW_SVC["interview.ts · context.ts"]
+        RESUME_SVC["resumes/* (라우트 직접)"]
+        INTERVIEW_SVC["context.ts"]
         ATS_SVC["ats.ts skill taxonomy"]
         QA_SVC["qa.ts"]
         HUMAN_SVC["humanizer.ts"]
@@ -238,7 +239,7 @@ flowchart LR
     classDef svc fill:#059669,color:#fff,stroke:#047857
     classDef mw fill:#d97706,color:#fff,stroke:#b45309
     classDef store fill:#7c3aed,color:#fff,stroke:#6d28d9
-    class AUTH,RESUME,INTERVIEW,ATS,LLM,QA,HUMAN,CAREER,STUDIO,COMMUNITY,CHAT,DOCS,COMPANY,ADMIN,MCP api
+    class AUTH,RESUME,INTERVIEW,ATS,LLM,QA,HUMAN,CAREER,STUDIO,COMMUNITY,CHAT,DOCS,FILES,COMPANY,ADMIN,MCP api
     class LLM_SVC,GUARD,RESUME_SVC,INTERVIEW_SVC,ATS_SVC,QA_SVC,HUMAN_SVC,CAREER_SVC,COMPANY_SVC,SKILLGAP,PARSER,AUTH_SVC,BLOB_SVC,SYS_CFG,MCP_SVC,IMG_SVC,HTTP svc
     class AUTH_MW mw
     class DB,AI store
@@ -538,7 +539,7 @@ npm run db:migrate   # Apply migrations to NeonDB
 npm run db:studio    # Launch Drizzle Studio GUI
 
 # Tests
-npm test             # Vitest · 61 tests (src/server 대상)
+npm test             # Vitest · 55 tests (src/server 대상)
 ```
 
 ### Environment Variables (`.env.example`)
@@ -563,7 +564,7 @@ kairos/
 │   ├── app/                    # Next.js App Router
 │   │   ├── layout.tsx          # 루트 레이아웃 (AuthProvider → RootLayoutClient)
 │   │   ├── page.tsx            # 랜딩 / 대시보드 (인증 분기)
-│   │   ├── (authenticated)/    # resume, interview, ats, humanizer, qa, career, studio, docs, settings, admin
+│   │   ├── (authenticated)/    # resume, interview, ats, humanizer, qa, career, studio, docs, community, settings, admin
 │   │   ├── auth/               # login, register
 │   │   ├── r/[id]/             # 공유 AI 채팅 뷰어
 │   │   ├── presentation/       # 경진대회 발표자료 (10슬라이드)
@@ -573,7 +574,7 @@ kairos/
 │   ├── context/                # AuthContext (JWT + 데모 모드)
 │   ├── hooks/                  # useChat, useDocumentParser
 │   ├── lib/                    # toast, mockInterceptor, hwpTextExtract
-│   ├── server/                 # 서비스 모듈 23개 (llm, embedding, imageGen, resume, interview, ...)
+│   ├── server/                 # 서비스 모듈 21개 (llm, embedding, imageGen, ats, qa, humanizer, ...)
 │   ├── data/                   # presentationSlides.tsx · mock/ (데모 프로필)
 │   ├── utils/                  # diff.ts (단어 단위 diff HTML)
 │   └── middleware.ts           # JWT 세션 가드

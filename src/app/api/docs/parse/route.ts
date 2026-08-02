@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { badRequest, internalError } from '@/server/http';
+import { getSession } from '@/server/getSession';
+import { badRequest, internalError, unauthorized } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getSession(req);
+    if (!session) return unauthorized();
+
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
 

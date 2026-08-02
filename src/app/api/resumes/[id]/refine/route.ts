@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { callLLMStructured } from '@/server/llm';
+import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { resumes, resumeRefinements } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { notFound } from '@/server/http';
+import { unauthorized, notFound } from '@/server/http';
+import { checkInputGuardrail, checkOutputAsyncGuardrail } from '@/server/guardrail';
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const session = await getSession(req);
+  if (!session) return unauthorized();
+
   const db = getDb();
 
   let originalContent = '';
@@ -18,6 +23,7 @@ export async function POST(
   if (db) {
     const [target] = await db.select().from(resumes).where(eq(resumes.id, id));
     if (target) {
+      if (target.userId !== session.userId) return notFound('Resume not found');
       originalContent = target.originalContent;
       title = target.title;
     }
@@ -25,6 +31,14 @@ export async function POST(
 
   if (!originalContent) {
     return notFound('Resume text not found');
+  }
+
+  const inputGuard = checkInputGuardrail(originalContent);
+  if (!inputGuard.passed) {
+    return NextResponse.json(
+      { error: `Guardrail Violation: ${inputGuard.reason}` },
+      { status: 400 }
+    );
   }
 
   const prompt = `이력서를 3단계로 정밀 고도화해주세요.
@@ -58,6 +72,11 @@ ${originalContent}
       prompt,
       schema: evalSchema,
     });
+
+    const outputGuard = checkOutputAsyncGuardrail(result.improvedContent);
+    if (!outputGuard.passed && outputGuard.sanitizedContent) {
+      result.improvedContent = outputGuard.sanitizedContent;
+    }
 
     if (db) {
       await db

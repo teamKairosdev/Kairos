@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { badRequest, notFound, internalError } from '@/server/http';
+import { getSession } from '@/server/getSession';
+import { badRequest, notFound, internalError, unauthorized } from '@/server/http';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 const META_FILE = join(UPLOAD_DIR, '.metadata.json');
@@ -19,6 +20,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await getSession(req);
+    if (!session) return unauthorized();
+
     const { id } = await params;
     if (!id) return badRequest('Document ID required');
 
@@ -52,10 +56,13 @@ export async function GET(
 }
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await getSession(req);
+    if (!session) return unauthorized();
+
     const { id } = await params;
     if (!id) return badRequest('Document ID required');
 

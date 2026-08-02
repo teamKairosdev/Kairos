@@ -42,7 +42,7 @@ export default function QAPage() {
       const res = await fetch('/api/qa/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetRole, context }),
+        body: JSON.stringify({ targetRole, careerSummary: context, count: 5 }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -81,12 +81,12 @@ export default function QAPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Context (optional)</label>
+              <label className="block text-xs font-semibold text-gray-500 mb-1.5">Career Summary (optional)</label>
               <textarea
                 rows={4}
                 value={context}
                 onChange={e => setContext(e.target.value)}
-                placeholder="Key skills, company info, resume snippets..."
+                placeholder="Your skills, experience, company info..."
                 className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
               />
             </div>

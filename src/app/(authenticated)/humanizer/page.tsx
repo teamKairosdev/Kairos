@@ -33,7 +33,7 @@ export default function HumanizerPage() {
       const res = await fetch('/api/humanizer/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: inputText }),
+        body: JSON.stringify({ originalText: inputText }),
       });
       if (res.ok) {
         const data = await res.json();

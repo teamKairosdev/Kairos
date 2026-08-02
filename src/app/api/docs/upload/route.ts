@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { badRequest, internalError } from '@/server/http';
+import { getSession } from '@/server/getSession';
+import { badRequest, internalError, unauthorized } from '@/server/http';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 const META_FILE = join(UPLOAD_DIR, '.metadata.json');
@@ -27,6 +28,9 @@ function writeMeta(meta: DocMeta[]) {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getSession(req);
+    if (!session) return unauthorized();
+
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
     const titleVal = formData.get('title') as string | null;

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { internalError } from '@/server/http';
+import { getSession } from '@/server/getSession';
+import { internalError, unauthorized } from '@/server/http';
 
 const UPLOAD_DIR = join(process.cwd(), 'uploads');
 const META_FILE = join(UPLOAD_DIR, '.metadata.json');
@@ -19,8 +20,11 @@ function readMeta(): DocMeta[] {
   return JSON.parse(readFileSync(META_FILE, 'utf-8'));
 }
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
+    const session = await getSession(req);
+    if (!session) return unauthorized();
+
     if (!existsSync(UPLOAD_DIR)) return NextResponse.json([]);
     const meta = readMeta();
     return NextResponse.json(

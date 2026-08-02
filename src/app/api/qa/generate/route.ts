@@ -19,11 +19,11 @@ export async function POST(req: NextRequest) {
 
     const qaResult = await generateQASet(targetRole, careerSummary, count);
 
-    let savedId: string | undefined;
+    let saved: typeof qaSets.$inferSelect | undefined;
     try {
       const db = getDb();
       if (db) {
-        const [saved] = await db
+        [saved] = await db
           .insert(qaSets)
           .values({
             userId,
@@ -32,15 +32,17 @@ export async function POST(req: NextRequest) {
             qaPairs: qaResult.qaPairs,
           })
           .returning();
-        savedId = saved!.id;
       }
     } catch {
       console.warn('[Kairos] QA save skipped (demo mode - no DB)');
     }
 
     return NextResponse.json({
-      id: savedId || 'demo-qa-' + Date.now(),
-      qaSet: qaResult,
+      id: saved?.id || 'demo-qa-' + Date.now(),
+      title: qaResult.title,
+      targetRole,
+      qaPairs: qaResult.qaPairs,
+      createdAt: (saved?.createdAt || new Date()).toISOString(),
     });
   } catch (err: unknown) {
     console.error('[/api/qa/generate]', err);

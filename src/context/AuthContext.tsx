@@ -33,6 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     if (typeof window !== 'undefined' && localStorage.getItem('is_mock_mode') === 'true') {
+      const { initMockInterceptor } = await import('../lib/mockInterceptor');
+      initMockInterceptor();
       try {
         const storedUser = localStorage.getItem('mock_user');
         if (storedUser) {
@@ -80,6 +82,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('mock_chats', JSON.stringify(activeProfile.interviewChats));
         localStorage.setItem('mock_docs', JSON.stringify(activeProfile.docs));
         localStorage.setItem('mock_qa', JSON.stringify(activeProfile.qaSets));
+
+        const { initMockInterceptor } = await import('../lib/mockInterceptor');
+        initMockInterceptor();
 
         setState({ user: mockUser, authenticated: true, loading: false, error: null });
         return true;
