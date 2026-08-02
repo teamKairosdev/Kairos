@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     writeMeta(meta);
 
     return NextResponse.json({ id, title, ext, size: buffer.byteLength, textContent });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[/api/docs/upload]', err);
     return internalError(err, 'Upload error');
   }

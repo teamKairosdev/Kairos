@@ -3,6 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
 import Spinner from '@/components/Spinner';
+import type { ATSAnalysisResult } from '@/server/ats';
+
+interface ResumeSummary {
+  id: string;
+  title: string;
+  originalContent: string;
+}
 
 export default function ATSPage() {
   const toast = useToast();
@@ -11,8 +18,8 @@ export default function ATSPage() {
   const [jobDescription, setJobDescription] = useState('');
   const [resumeText, setResumeText] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
-  const [resumes, setResumes] = useState<any[]>([]);
+  const [result, setResult] = useState<ATSAnalysisResult | null>(null);
+  const [resumes, setResumes] = useState<ResumeSummary[]>([]);
   const [selectedResumeId, setSelectedResumeId] = useState('');
 
   useEffect(() => {
@@ -35,8 +42,8 @@ export default function ATSPage() {
         body: JSON.stringify({ jobTitle, jobDescription, resumeText, resumeId: selectedResumeId || undefined }),
       });
       if (res.ok) setResult(await res.json());
-    } catch (err: any) {
-      toast.add({ title: 'Error', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: 'Error', description: err instanceof Error ? err.message : undefined, color: 'red' });
     } finally {
       setLoading(false);
     }

@@ -26,11 +26,11 @@ ${message}
       suggestedContent?: string;
     }>({
       prompt,
-      schema: chatSchema as any,
+      schema: chatSchema,
     });
 
     return NextResponse.json(result);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json({
       responseText: '죄송합니다. 요청을 처리하는 중 오류가 발생했습니다.',
     });

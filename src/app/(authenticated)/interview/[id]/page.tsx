@@ -14,6 +14,25 @@ const interviewTips = [
   { icon: '🔍', title: '역질문 준비', desc: '면접 말미에는 회사나 팀에 대한 관심 있는 질문을 해보세요.' },
 ];
 
+interface InterviewSession {
+  id: string;
+  userId?: string;
+  jobTitle: string;
+  companyName?: string | null;
+  difficulty?: string;
+  status?: string;
+  overallScore?: number | null;
+  overallFeedback?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ChatDisplayMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  parts?: Array<{ type: string; text?: string }>;
+}
+
 export default function InterviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const interviewId = resolvedParams.id;
@@ -21,7 +40,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
   const toast = useToast();
 
   const [mobileTab, setMobileTab] = useState<'chat' | 'info'>('chat');
-  const [sessionInfo, setSessionInfo] = useState<any>(null);
+  const [sessionInfo, setSessionInfo] = useState<InterviewSession | null>(null);
   const [elapsedTime, setElapsedTime] = useState('00:00');
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -73,12 +92,12 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
     scrollToBottom();
   }, [messages]);
 
-  function getMessageText(msg: any): string {
+  function getMessageText(msg: ChatDisplayMessage): string {
     if (typeof msg.content === 'string') return msg.content;
     if (Array.isArray(msg.parts)) {
       return msg.parts
-        .filter((p: any) => p.type === 'text')
-        .map((p: any) => p.text || '')
+        .filter((p) => p.type === 'text')
+        .map((p) => p.text || '')
         .join('');
     }
     return '';
@@ -161,7 +180,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
         <div className="p-5 border-t border-gray-100">
           <button
             onClick={() => router.push('/interview')}
-            className="w-full py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all"
+            className="w-full py-3 min-h-[44px] rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all"
           >
             면접 종료
           </button>
@@ -181,7 +200,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
         </div>
 
         {/* Messages */}
-        <div ref={chatContainerRef} className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+        <div ref={chatContainerRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 space-y-5">
           {messages.map((msg, idx) => (
             <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               <div className="shrink-0">
@@ -195,9 +214,9 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
                   </div>
                 )}
               </div>
-              <div className="max-w-[75%] space-y-1">
+              <div className="max-w-[75%] min-w-0 space-y-1">
                 <div
-                  className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                  className={`px-4 py-3 rounded-2xl text-sm leading-relaxed break-words ${
                     msg.role === 'user'
                       ? 'bg-gray-900 text-white rounded-tr-sm'
                       : 'bg-white border border-gray-100 text-gray-800 rounded-tl-sm shadow-sm'
@@ -226,7 +245,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
         </div>
 
         {/* Input Area */}
-        <div className="px-6 py-4 border-t border-gray-100 bg-white">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-100 bg-white">
           <form onSubmit={handleSubmit} className="flex items-end gap-3 bg-gray-50 rounded-2xl border border-gray-200 px-4 py-3 focus-within:border-blue-300 focus-within:ring-2 focus-within:ring-blue-100 transition-all">
             <textarea
               ref={inputRef}
@@ -240,12 +259,12 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
                   handleSubmit(e);
                 }
               }}
-              className="flex-1 bg-transparent text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none max-h-32 leading-relaxed"
+              className="flex-1 min-w-0 bg-transparent text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none max-h-32 leading-relaxed"
             />
             <button
               type="submit"
               disabled={isStreaming || !input.trim()}
-              className="shrink-0 w-9 h-9 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-40"
+              className="shrink-0 w-11 h-11 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-40"
             >
               ➔
             </button>

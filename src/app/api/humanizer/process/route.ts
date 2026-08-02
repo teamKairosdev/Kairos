@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(result);
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[/api/humanizer/process]', err);
     return internalError(err, 'Humanizer error');
   }

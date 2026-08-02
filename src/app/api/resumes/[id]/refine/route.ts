@@ -56,7 +56,7 @@ ${originalContent}
       improvedContent: string;
     }>({
       prompt,
-      schema: evalSchema as any,
+      schema: evalSchema,
     });
 
     if (db) {
@@ -84,7 +84,10 @@ ${originalContent}
     }
 
     return NextResponse.json({ success: true, result });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : '이력서 고도화 중 오류가 발생했습니다.' },
+      { status: 500 }
+    );
   }
 }

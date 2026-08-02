@@ -37,7 +37,7 @@ export async function GET(
     }
 
     return notFound('게시글을 찾을 수 없습니다.');
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }
@@ -72,7 +72,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true, message: '게시글이 삭제되었습니다.' });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

@@ -25,19 +25,21 @@ function DocsEditContent() {
         </div>
         <Link
           href="/docs"
-          className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-600 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] border border-gray-200 text-gray-600 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors"
         >
           ← 문서 목록
         </Link>
       </div>
 
-      <HwpEditor
-        initialDocId={initialDocId}
-        onSaved={(doc) => {
-          toast.add({ title: '문서가 저장되었습니다', color: 'green' });
-          router.push(`/docs/${doc.id}`);
-        }}
-      />
+      <div className="w-full min-w-0 max-w-full">
+        <HwpEditor
+          initialDocId={initialDocId}
+          onSaved={(doc) => {
+            toast.add({ title: '문서가 저장되었습니다', color: 'green' });
+            router.push(`/docs/${doc.id}`);
+          }}
+        />
+      </div>
     </div>
   );
 }

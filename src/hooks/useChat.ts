@@ -90,10 +90,11 @@ export function useChat(options: UseChatOptions = {}) {
         const finalMsg: ChatMessage = { role: 'assistant', content: assistantText };
         setMessages([...messagesToSend, finalMsg]);
         onFinish?.(finalMsg);
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (abort.signal.aborted) return;
-        setError(err);
-        onError?.(err);
+        const error = err instanceof Error ? err : new Error('알 수 없는 오류가 발생했습니다.');
+        setError(error);
+        onError?.(error);
       } finally {
         setIsLoading(false);
         abortRef.current = null;

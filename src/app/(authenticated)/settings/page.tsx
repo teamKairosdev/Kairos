@@ -4,6 +4,15 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/lib/toast';
 
+interface WalletProvider {
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+}
+
+interface WindowWithWalletProviders {
+  klaytn?: WalletProvider;
+  ethereum?: WalletProvider & { isMetaMask?: boolean };
+}
+
 export default function SettingsPage() {
   const { state, fetchUser } = useAuth();
   const toast = useToast();
@@ -50,23 +59,23 @@ export default function SettingsPage() {
   async function connectWallet(type: 'kaikas' | 'metamask') {
     setConnecting(true);
     try {
-      let provider: any;
+      let provider: WalletProvider | null = null;
       if (type === 'kaikas') {
-        provider = (window as any).klaytn;
+        provider = (window as unknown as WindowWithWalletProviders).klaytn ?? null;
       } else {
-        const eth = (window as any).ethereum;
+        const eth = (window as unknown as WindowWithWalletProviders).ethereum;
         provider = eth?.isMetaMask ? eth : null;
       }
       if (!provider) {
         toast.add({ title: '지갑 확장 프로그램을 찾을 수 없습니다.', color: 'yellow' });
         return;
       }
-      const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' });
+      const accounts = (await provider.request({ method: 'eth_requestAccounts' })) as string[];
       const address = accounts[0].toLowerCase();
       const nonceRes = await fetch('/api/auth/nonce');
       const { nonce, id } = await nonceRes.json();
       const message = `Kairos Sign-In\n${nonce}\n${address}`;
-      const signature: `0x${string}` = await provider.request({ method: 'personal_sign', params: [message, address] });
+      const signature = (await provider.request({ method: 'personal_sign', params: [message, address] })) as `0x${string}`;
       const res = await fetch('/api/auth/wallet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -76,8 +85,8 @@ export default function SettingsPage() {
         await fetchUser();
         toast.add({ title: '지갑이 연결되었습니다.', color: 'green' });
       }
-    } catch (err: any) {
-      toast.add({ title: '지갑 연결에 실패했습니다.', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '지갑 연결에 실패했습니다.', description: err instanceof Error ? err.message : undefined, color: 'red' });
     } finally {
       setConnecting(false);
     }
@@ -176,7 +185,7 @@ export default function SettingsPage() {
               </div>
               <button
                 onClick={disconnectWallet}
-                className="px-3.5 py-1.5 text-xs font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
+                className="px-3.5 py-2 text-xs font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
               >
                 연결 해제
               </button>
@@ -188,14 +197,14 @@ export default function SettingsPage() {
                 <button
                   onClick={() => connectWallet('kaikas')}
                   disabled={connecting}
-                  className="px-4 py-2 text-xs font-semibold text-blue-600 border border-blue-200 rounded-xl hover:bg-blue-50 transition-colors"
+                  className="px-4 py-2.5 text-xs font-semibold text-blue-600 border border-blue-200 rounded-xl hover:bg-blue-50 transition-colors"
                 >
                   Kaikas 연결
                 </button>
                 <button
                   onClick={() => connectWallet('metamask')}
                   disabled={connecting}
-                  className="px-4 py-2 text-xs font-semibold text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2.5 text-xs font-semibold text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
                 >
                   MetaMask 연결
                 </button>
@@ -246,7 +255,7 @@ export default function SettingsPage() {
           </div>
           <button
             onClick={deleteAccount}
-            className="shrink-0 px-4 py-2 text-xs font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
+            className="shrink-0 px-4 py-2.5 text-xs font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 transition-colors"
           >
             계정 삭제
           </button>

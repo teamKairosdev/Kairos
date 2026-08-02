@@ -3,11 +3,28 @@
 import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
 import Spinner from '@/components/Spinner';
+import type { SystemConfigItem } from '@/server/systemConfig';
+
+interface AdminRecentUser {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  role?: string;
+  createdAt: string;
+}
+
+interface AdminStats {
+  totalUsers?: number;
+  totalResumes?: number;
+  totalInterviews?: number;
+  totalAts?: number;
+  recentUsers?: AdminRecentUser[];
+}
 
 export default function AdminPage() {
   const toast = useToast();
-  const [stats, setStats] = useState<any>(null);
-  const [settings, setSettings] = useState<any[]>([]);
+  const [stats, setStats] = useState<AdminStats | null>(null);
+  const [settings, setSettings] = useState<SystemConfigItem[]>([]);
   const [loadingStats, setLoadingStats] = useState(true);
   const [loadingSettings, setLoadingSettings] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -30,8 +47,8 @@ export default function AdminPage() {
         toast.add({ title: 'Setting saved', color: 'green' });
         setSettings(prev => prev.map(s => s.key === key ? { ...s, value } : s));
       }
-    } catch (err: any) {
-      toast.add({ title: 'Error', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: 'Error', description: err instanceof Error ? err.message : undefined, color: 'red' });
     } finally {
       setSaving(false);
     }
@@ -93,7 +110,7 @@ export default function AdminPage() {
                     <h2 className="text-sm font-semibold text-gray-700">Recent Users</h2>
                   </div>
                   <div className="divide-y divide-gray-50">
-                    {stats.recentUsers.map((u: any) => (
+                    {stats.recentUsers.map(u => (
                       <div key={u.id} className="flex items-center gap-4 px-6 py-3">
                         <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-xs font-bold">
                           {u.name?.[0] || 'U'}
@@ -134,7 +151,7 @@ export default function AdminPage() {
                 <h2 className="text-sm font-semibold text-gray-700">System Settings</h2>
               </div>
               <div className="divide-y divide-gray-50">
-                {settings.map((s: any) => (
+                {settings.map(s => (
                   <SettingRow key={s.key} setting={s} onSave={saveSetting} saving={saving} />
                 ))}
               </div>
@@ -146,7 +163,7 @@ export default function AdminPage() {
   );
 }
 
-function SettingRow({ setting, onSave, saving }: { setting: any; onSave: (key: string, val: string) => void; saving: boolean }) {
+function SettingRow({ setting, onSave, saving }: { setting: SystemConfigItem; onSave: (key: string, val: string) => void; saving: boolean }) {
   const [val, setVal] = useState(setting.value || '');
   return (
     <div className="px-6 py-4 flex items-start gap-4">

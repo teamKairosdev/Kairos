@@ -33,7 +33,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

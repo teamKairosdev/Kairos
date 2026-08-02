@@ -61,7 +61,7 @@ export default function SharedChatPage({ params }: { params: Promise<{ id: strin
         <p className="text-slate-400 text-sm mb-4">만료되었거나 유효하지 않은 공유 링크입니다.</p>
         <Link
           href="/"
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-semibold transition-colors"
+          className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-semibold transition-colors"
         >
           메인으로 이동
         </Link>
@@ -72,14 +72,14 @@ export default function SharedChatPage({ params }: { params: Promise<{ id: strin
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-          <div>
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div className="min-w-0">
             <span className="text-xs text-indigo-400 font-mono">Shared Chat Session</span>
-            <h1 className="text-xl font-bold text-white">{chatData.title}</h1>
+            <h1 className="text-xl font-bold text-white break-words">{chatData.title}</h1>
           </div>
           <Link
             href="/"
-            className="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors border border-slate-700"
+            className="px-3 py-2.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors border border-slate-700"
           >
             Kairos 시작하기
           </Link>

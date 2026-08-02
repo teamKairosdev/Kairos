@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       .returning();
 
     return NextResponse.json({ id: chatSession.id, url: `/r/${chatSession.id}` });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Save error');
   }
 }

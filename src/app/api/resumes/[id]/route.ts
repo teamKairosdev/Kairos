@@ -40,7 +40,7 @@ export async function PUT(
   const db = getDb();
   if (!db) return NextResponse.json({ error: 'DB 연결 실패' }, { status: 500 });
 
-  const updateData: Record<string, any> = { updatedAt: new Date() };
+  const updateData: Partial<typeof resumes.$inferInsert> = { updatedAt: new Date() };
   if (body.title !== undefined) updateData.title = body.title;
   if (body.originalContent !== undefined) updateData.originalContent = body.originalContent;
   if (body.status !== undefined) updateData.status = body.status;

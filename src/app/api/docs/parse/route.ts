@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         { status: 422 }
       );
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

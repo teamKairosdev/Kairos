@@ -18,7 +18,7 @@ export async function GET(_req: NextRequest) {
         { key: 'JWT_SECRET', label: 'JWT Session Secret', envVar: 'JWT_SECRET' },
       ],
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

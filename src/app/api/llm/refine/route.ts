@@ -42,7 +42,7 @@ Focus on maximizing professional impact and ATS compatibility.`;
     return new Response(clientStream, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[/api/llm/refine]', err);
     return internalError(err, 'Refine error');
   }

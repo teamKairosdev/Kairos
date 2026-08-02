@@ -6,6 +6,13 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Spinner from '@/components/Spinner';
 
+interface EthereumProvider {
+  isMetaMask?: boolean;
+  request: <T = unknown>(args: { method: string; params?: unknown[] }) => Promise<T>;
+}
+
+type WalletProvider = EthereumProvider | null | undefined;
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,7 +64,7 @@ export default function LoginPage() {
     loginWithGoogle();
   }
 
-  async function connectWallet(getProvider: () => any, networkName: string) {
+  async function connectWallet(getProvider: () => WalletProvider, networkName: string) {
     setWalletLoading(true);
     setErrorMsg('');
     try {
@@ -85,28 +92,32 @@ export default function LoginPage() {
       } else {
         setErrorMsg('지갑 로그인 인증에 실패했습니다.');
       }
-    } catch (err: any) {
-      setErrorMsg(err?.message || '지갑 연동 오류가 발생했습니다.');
+    } catch (err: unknown) {
+      const msg =
+        typeof err === 'object' && err !== null && 'message' in err
+          ? (err as { message: unknown }).message
+          : undefined;
+      setErrorMsg(typeof msg === 'string' && msg ? msg : '지갑 연동 오류가 발생했습니다.');
     } finally {
       setWalletLoading(false);
     }
   }
 
   function connectKaikas() {
-    connectWallet(() => (window as any).klaytn, 'Kaikas');
+    connectWallet(() => (window as unknown as { klaytn?: EthereumProvider }).klaytn, 'Kaikas');
   }
 
   function connectMetaMask() {
     connectWallet(() => {
-      const eth = (window as any).ethereum;
+      const eth = (window as unknown as { ethereum?: EthereumProvider }).ethereum;
       return eth?.isMetaMask ? eth : null;
     }, 'MetaMask');
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-8 sm:py-12">
       <div className="w-full max-w-sm">
-        <div className="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-3xl p-8 shadow-xl shadow-gray-100/60 space-y-6 relative overflow-hidden">
+        <div className="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-xl shadow-gray-100/60 space-y-6 relative overflow-hidden">
           <div className="absolute -right-16 -top-16 w-32 h-32 bg-blue-100/20 blur-[30px] rounded-full pointer-events-none" />
           <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-indigo-100/20 blur-[30px] rounded-full pointer-events-none" />
 
@@ -130,7 +141,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={fillMockCredentials}
-                className="w-full py-1.5 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs"
+                className="w-full py-2.5 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs"
               >
                 간편 로그인으로 바로 시작하기
               </button>
@@ -146,7 +157,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="아이디 또는 이메일을 입력하세요"
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
               />
             </div>
             <div>
@@ -157,7 +168,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
               />
             </div>
 
@@ -188,7 +199,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleLogin}
             disabled={socialLoading}
-            className="w-full py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-50 hover:text-gray-900 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50"
+            className="w-full py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-50 hover:text-gray-900 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -208,14 +219,14 @@ export default function LoginPage() {
             <button
               onClick={connectKaikas}
               disabled={walletLoading}
-              className="py-2.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
+              className="py-3.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
             >
               Kaikas
             </button>
             <button
               onClick={connectMetaMask}
               disabled={walletLoading}
-              className="py-2.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
+              className="py-3.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
             >
               MetaMask
             </button>

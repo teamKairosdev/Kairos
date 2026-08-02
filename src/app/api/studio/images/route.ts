@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
       .limit(50);
 
     return NextResponse.json({ images });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

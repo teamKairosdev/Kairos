@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { analyzeCompanyMetaInfo } from '@/server/companyMeta';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
-import { badRequest, internalError } from '@/server/http';
+import { badRequest, internalError, errorMessage } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,13 +26,13 @@ export async function POST(req: NextRequest) {
         success: true,
         analysis,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       return NextResponse.json(
-        { error: err instanceof Error ? err.message : 'Company analysis failed' },
+        { error: errorMessage(err, 'Company analysis failed') },
         { status: 500 }
       );
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Company analysis failed');
   }
 }

@@ -26,7 +26,7 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json(
       meta.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     );
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

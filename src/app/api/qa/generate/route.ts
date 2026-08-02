@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       id: savedId || 'demo-qa-' + Date.now(),
       qaSet: qaResult,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[/api/qa/generate]', err);
     return internalError(err, 'QA generation error');
   }

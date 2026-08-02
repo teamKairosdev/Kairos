@@ -77,8 +77,8 @@ export default function DocsPage() {
       } else {
         toast.add({ title: 'Upload failed', color: 'red' });
       }
-    } catch (err: any) {
-      toast.add({ title: 'Error', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: 'Error', description: (err as Error).message, color: 'red' });
     } finally {
       setUploading(false);
     }
@@ -105,21 +105,21 @@ export default function DocsPage() {
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Documents</h1>
           <p className="text-sm text-gray-500 mt-1">Upload HWP, PDF, DOCX files and analyze with AI</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/docs/edit"
-            className="inline-flex items-center gap-2 px-4 py-2.5 border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:border-orange-300 hover:text-orange-600 transition-all"
+            className="inline-flex items-center justify-center gap-2 px-4 py-3 border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:border-orange-300 hover:text-orange-600 transition-all"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
             새 HWP 문서
           </Link>
           <button
             onClick={() => setShowUpload(true)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-sm"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-sm"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
             Upload File
@@ -161,7 +161,7 @@ export default function DocsPage() {
                 </div>
                 <button
                   onClick={() => deleteFile(f.id)}
-                  className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100"
+                  className="shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-colors opacity-0 group-hover:opacity-100"
                 >
                   ✕
                 </button>
@@ -176,15 +176,15 @@ export default function DocsPage() {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm"
           onClick={e => e.target === e.currentTarget && setShowUpload(false)}
         >
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-5">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-[calc(100vw-2rem)] md:max-w-md p-6 space-y-5">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold text-gray-900">Upload Document</h2>
-              <button onClick={() => setShowUpload(false)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400">✕</button>
+              <button onClick={() => setShowUpload(false)} className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400">✕</button>
             </div>
-            <label className={`flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-8 cursor-pointer hover:border-orange-300 hover:bg-orange-50/30 transition-all ${selectedFile ? 'border-orange-400 bg-orange-50/50' : ''}`}>
+            <label className={`flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-6 md:p-8 cursor-pointer hover:border-orange-300 hover:bg-orange-50/30 transition-all ${selectedFile ? 'border-orange-400 bg-orange-50/50' : ''}`}>
               <input type="file" accept=".pdf,.docx,.doc,.hwp,.hwpx,.txt" onChange={e => setSelectedFile(e.target.files?.[0] || null)} className="hidden" />
               <span className="text-3xl mb-2">📎</span>
-              <p className="text-sm font-medium text-gray-600">{selectedFile ? selectedFile.name : 'Click to select file'}</p>
+              <p className="text-sm font-medium text-gray-600 break-words text-center">{selectedFile ? selectedFile.name : 'Click to select file'}</p>
               <p className="text-xs text-gray-400 mt-1">PDF, DOCX, HWP, TXT</p>
             </label>
             <div>

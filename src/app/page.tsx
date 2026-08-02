@@ -143,7 +143,7 @@ export default function HomePage() {
     return (
       <div className="space-y-8 pb-16">
         {/* Welcome Banner */}
-        <div className="rounded-2xl border border-blue-100/50 p-8 bg-gradient-to-r from-blue-50/40 via-blue-50/20 to-white shadow-sm">
+        <div className="rounded-2xl border border-blue-100/50 p-6 sm:p-8 bg-gradient-to-r from-blue-50/40 via-blue-50/20 to-white shadow-sm">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="space-y-2">
               <h1 className="text-2xl font-bold text-slate-900">
@@ -229,7 +229,7 @@ export default function HomePage() {
                   <Link
                     key={item.label}
                     href={item.to}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200"
+                    className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200"
                   >
                     <span>{item.icon}</span>
                     <span>{item.label}</span>
@@ -269,7 +269,7 @@ export default function HomePage() {
       />
 
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-6 pt-20 pb-16 relative z-10 text-center space-y-8">
+      <section className="max-w-6xl mx-auto px-6 pt-16 sm:pt-20 pb-14 sm:pb-16 relative z-10 text-center space-y-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold shadow-xs">
           <span>✨</span>
           <span>Next-Gen AI Career Orchestrator</span>
@@ -322,7 +322,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Bento 1: Resume Enhancer */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">📄</div>
               <h3 className="text-xl font-bold text-slate-900">이력서 3단계 AI 고도화</h3>
@@ -351,7 +351,7 @@ export default function HomePage() {
           </div>
 
           {/* Bento 2: ATS Matching */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🎯</div>
               <h3 className="text-xl font-bold text-slate-900">AI ATS 적합성 진단</h3>
@@ -380,7 +380,7 @@ export default function HomePage() {
           </div>
 
           {/* Bento 3: Mock Interview */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🎤</div>
               <h3 className="text-xl font-bold text-slate-900">실시간 AI 스트리밍 면접</h3>
@@ -398,7 +398,7 @@ export default function HomePage() {
                   <button
                     key={idx}
                     onClick={() => setActiveInterviewQuestion(ans.response)}
-                    className="w-full text-left p-2.5 rounded-xl border border-slate-100 text-xs text-slate-600 hover:border-blue-300 hover:bg-blue-50/30 transition-all font-medium"
+                    className="w-full text-left p-3 rounded-xl border border-slate-100 text-xs text-slate-600 hover:border-blue-300 hover:bg-blue-50/30 transition-all font-medium"
                   >
                     👉 {ans.label}
                   </button>
@@ -408,7 +408,7 @@ export default function HomePage() {
           </div>
 
           {/* Bento 4: Semantic Search */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🗂️</div>
               <h3 className="text-xl font-bold text-slate-900">AI 시맨틱 경력 검색</h3>
@@ -425,7 +425,7 @@ export default function HomePage() {
                   onChange={e => setVectorSearchQuery(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && triggerVectorSearch()}
                   placeholder="예: 대용량 트래픽 처리 경험"
-                  className="flex-1 px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-blue-400"
+                  className="flex-1 min-w-0 px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-blue-400"
                 />
                 <button
                   onClick={triggerVectorSearch}

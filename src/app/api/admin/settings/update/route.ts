@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       success: true,
       message: `시스템 설정 [${key}] 항목이 성공적으로 업데이트되었습니다.`,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

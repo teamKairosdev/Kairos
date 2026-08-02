@@ -23,7 +23,7 @@ export async function getAllSystemConfigs(): Promise<SystemConfigItem[]> {
     if (!db) return getDefaultConfigs();
 
     const dbSettings = await db.select().from(systemSettings);
-    const result: SystemConfigItem[] = dbSettings.map((s: any) => ({
+    const result: SystemConfigItem[] = dbSettings.map((s) => ({
       key: s.key,
       value: s.isEncrypted ? '••••••••' : s.value,
       category: s.category as SystemConfigItem['category'],

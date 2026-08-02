@@ -16,6 +16,16 @@ export interface LLMMessage {
   content: string;
 }
 
+/**
+ * 클라이언트에서 전달되는 메시지 형태 (UIMessage: {role, content|parts}).
+ * toGeminiMessages의 입력으로 사용된다.
+ */
+export interface GeminiInputMessage {
+  role?: string;
+  content?: string;
+  parts?: { type?: string; text?: string }[];
+}
+
 export interface LLMOptions {
   instructions?: string;
   prompt?: string;
@@ -95,14 +105,14 @@ export async function getPreferredLanguageModel(requestedModel?: string): Promis
 export function toGeminiMessages(messages: unknown[] | undefined): LLMMessage[] {
   const result: LLMMessage[] = [];
   for (const raw of messages ?? []) {
-    const msg = raw as any;
+    const msg = raw as GeminiInputMessage;
     if (!msg) continue;
     const role = msg.role === 'user' ? 'user' : 'model';
     let content = '';
     if (typeof msg.content === 'string') {
       content = msg.content;
     } else if (Array.isArray(msg.parts)) {
-      content = (msg.parts as any[])
+      content = msg.parts
         .filter((p) => p?.type === 'text' || typeof p?.text === 'string')
         .map((p) => p.text ?? '')
         .join('');
@@ -197,12 +207,30 @@ function buildRequestBody(
   return body;
 }
 
-function extractText(payload: any): string {
+/**
+ * Gemini REST API 응답 최소 형태 (사용 필드만 정의).
+ */
+interface GeminiResponsePart {
+  text?: string;
+}
+
+interface GeminiResponseContent {
+  parts?: GeminiResponsePart[];
+}
+
+interface GeminiResponseCandidate {
+  content?: GeminiResponseContent;
+  finishReason?: string;
+}
+
+interface GeminiGenerateResponse {
+  candidates?: GeminiResponseCandidate[];
+}
+
+function extractText(payload: GeminiGenerateResponse): string {
   const parts = payload?.candidates?.[0]?.content?.parts;
   if (!Array.isArray(parts)) return '';
-  return parts
-    .map((p: any) => (typeof p?.text === 'string' ? p.text : ''))
-    .join('');
+  return parts.map((p) => (typeof p?.text === 'string' ? p.text : '')).join('');
 }
 
 async function requestGemini(
@@ -228,7 +256,7 @@ async function postGenerateContent(
   cfg: EndpointConfig,
   model: string,
   body: Record<string, unknown>
-): Promise<any> {
+): Promise<GeminiGenerateResponse> {
   return (await requestGemini(cfg, model, 'generateContent', body)).json();
 }
 

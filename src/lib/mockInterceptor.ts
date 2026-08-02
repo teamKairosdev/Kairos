@@ -7,6 +7,82 @@ import { getSimulatedLLMResponse } from '../data/mock/mockup';
 
 const randomScore = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
+interface MockResume {
+  id: string;
+  userId: string;
+  title: string;
+  originalContent: string;
+  improvedContent?: string;
+  status: string;
+  currentScore: number;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+interface MockInterview {
+  id: string;
+  userId: string;
+  jobTitle: string;
+  companyName: string;
+  difficulty: string;
+  status: string;
+  overallScore: number | null;
+  overallFeedback: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface MockCareer {
+  id: string;
+  userId: string;
+  createdAt: string;
+  company?: string;
+  role?: string;
+  period?: string;
+  description?: string;
+  achievements?: string[];
+}
+
+interface MockDoc {
+  id: string;
+  name: string;
+  title: string;
+  ext: string;
+  size: number;
+  createdAt: string;
+  textContent?: string;
+}
+
+interface MockStudioImage {
+  id: string;
+  imageUrl: string;
+  width: number;
+  height: number;
+  type: string;
+  prompt?: string;
+  originalFileName?: string;
+  createdAt: string;
+}
+
+interface MockChatMessage {
+  role: string;
+  content: string;
+}
+
+interface MockRequestBody {
+  title?: string;
+  originalContent?: string;
+  message?: string;
+  currentContent?: string;
+  messages?: MockChatMessage[];
+  targetRole?: string;
+  prompt?: string;
+  text?: string;
+  jobTitle?: string;
+  difficulty?: string;
+  companyName?: string;
+}
+
 const DB_NAME = 'kairos-mock';
 const STORE = 'files';
 
@@ -73,11 +149,11 @@ export function initMockInterceptor() {
         headers: { 'Content-Type': 'application/json' },
       });
 
-    const readArray = (key: string): any[] => JSON.parse(localStorage.getItem(key) || '[]');
-    const readObject = (key: string): Record<string, any> => JSON.parse(localStorage.getItem(key) || '{}');
-    const getBody = (init?: RequestInit): Record<string, any> => {
+    const readArray = <T>(key: string): T[] => JSON.parse(localStorage.getItem(key) || '[]') as T[];
+    const readObject = <T>(key: string): T => JSON.parse(localStorage.getItem(key) || '{}') as T;
+    const getBody = (init?: RequestInit): MockRequestBody => {
       const raw = init?.body;
-      return typeof raw === 'string' ? JSON.parse(raw) : {};
+      return (typeof raw === 'string' ? JSON.parse(raw) : {}) as MockRequestBody;
     };
     const getFormFile = (init?: RequestInit): { name?: string; ext: string } => {
       const raw = init?.body;
@@ -87,10 +163,10 @@ export function initMockInterceptor() {
       const ext = name.includes('.') ? name.split('.').pop()!.toLowerCase() : '';
       return { name, ext };
     };
-    const deleteById = (key: string) => {
+    const deleteById = <T extends { id?: string }>(key: string) => {
       const id = url.split('/').pop();
-      const list = readArray(key);
-      localStorage.setItem(key, JSON.stringify(list.filter((item: any) => item.id !== id)));
+      const list = readArray<T>(key);
+      localStorage.setItem(key, JSON.stringify(list.filter((item) => item.id !== id)));
     };
 
     // 1. Auth check
@@ -105,11 +181,11 @@ export function initMockInterceptor() {
     }
 
     if (url.includes('/api/resumes') && !url.match(/\/api\/resumes\/[^/]+/) && method === 'POST') {
-      const resumes = readArray('mock_resumes');
+      const resumes = readArray<MockResume>('mock_resumes');
       const body = getBody(init);
-      const newResume = {
+      const newResume: MockResume = {
         id: `mock-res-${Date.now()}`,
-        userId: readObject('mock_user').id || 'mock-user',
+        userId: readObject<{ id?: string }>('mock_user').id || 'mock-user',
         title: body.title || '새 이력서',
         originalContent: body.originalContent || '',
         improvedContent: '',
@@ -124,9 +200,9 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/resumes\/[^/]+\/refine/) && method === 'POST') {
-      const resumes = readArray('mock_resumes');
+      const resumes = readArray<MockResume>('mock_resumes');
       const id = url.split('/')[4];
-      const idx = resumes.findIndex((r: any) => r.id === id);
+      const idx = resumes.findIndex((r) => r.id === id);
       if (idx !== -1) {
         resumes[idx].status = 'improved';
         resumes[idx].currentScore = randomScore(85, 98);
@@ -146,10 +222,10 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/resumes\/[^/]+/) && method === 'PUT') {
-      const resumes = readArray('mock_resumes');
+      const resumes = readArray<MockResume>('mock_resumes');
       const id = url.split('/').pop();
       const body = getBody(init);
-      const idx = resumes.findIndex((r: any) => r.id === id);
+      const idx = resumes.findIndex((r) => r.id === id);
       if (idx !== -1) {
         resumes[idx] = { ...resumes[idx], ...body, updatedAt: new Date().toISOString() };
         localStorage.setItem('mock_resumes', JSON.stringify(resumes));
@@ -159,9 +235,9 @@ export function initMockInterceptor() {
     }
 
     if (url.match(/\/api\/resumes\/[^/]+$/) && method === 'GET') {
-      const resumes = readArray('mock_resumes');
+      const resumes = readArray<MockResume>('mock_resumes');
       const id = url.split('/').pop();
-      const resume = resumes.find((r: any) => r.id === id);
+      const resume = resumes.find((r) => r.id === id);
       if (resume) {
         const refinementHistory = [
           {
@@ -200,11 +276,11 @@ export function initMockInterceptor() {
     }
 
     if (url.includes('/api/interviews') && !url.match(/\/api\/interviews\/[^/]+/) && method === 'POST') {
-      const interviews = readArray('mock_interviews');
+      const interviews = readArray<MockInterview>('mock_interviews');
       const body = getBody(init);
-      const newInt = {
+      const newInt: MockInterview = {
         id: `mock-int-${Date.now()}`,
-        userId: readObject('mock_user').id || 'mock-user',
+        userId: readObject<{ id?: string }>('mock_user').id || 'mock-user',
         jobTitle: body.jobTitle || '기술 면접',
         companyName: body.companyName || 'Kairos',
         difficulty: body.difficulty || 'medium',
@@ -216,16 +292,16 @@ export function initMockInterceptor() {
       };
       interviews.unshift(newInt);
       localStorage.setItem('mock_interviews', JSON.stringify(interviews));
-      const chats = readObject('mock_chats');
+      const chats = readObject<Record<string, MockChatMessage[]>>('mock_chats');
       chats[newInt.id] = [{ role: 'assistant', content: `안녕하세요. ${newInt.companyName}의 ${newInt.jobTitle} 직무 면접에 지원해주셔서 감사드립니다. 먼저 준비하신 자기소개 부탁드립니다.` }];
       localStorage.setItem('mock_chats', JSON.stringify(chats));
       return json({ session: newInt });
     }
 
     if (url.match(/\/api\/interviews\/[^/]+$/) && method === 'GET') {
-      const interviews = readArray('mock_interviews');
+      const interviews = readArray<MockInterview>('mock_interviews');
       const id = url.split('/').pop();
-      const interview = interviews.find((i: any) => i.id === id);
+      const interview = interviews.find((i) => i.id === id);
       return interview ? json(interview) : json({ error: 'Not found' }, 404);
     }
 
@@ -258,7 +334,7 @@ export function initMockInterceptor() {
         },
       });
 
-      const chats = readObject('mock_chats');
+      const chats = readObject<Record<string, MockChatMessage[]>>('mock_chats');
       if (!chats[id]) chats[id] = [];
       chats[id].push({ role: 'user', content: userMessage });
       chats[id].push({ role: 'assistant', content: randomAnswer });
@@ -269,35 +345,35 @@ export function initMockInterceptor() {
 
     // 4. Careers Endpoints
     if (url.includes('/api/careers/search')) {
-      const careers = readArray('mock_careers');
-      return json({ query: 'search', results: careers.map((c: any) => ({ ...c, similarity: randomScore(75, 96) / 100 })) });
+      const careers = readArray<MockCareer>('mock_careers');
+      return json({ query: 'search', results: careers.map((c) => ({ ...c, similarity: randomScore(75, 96) / 100 })) });
     }
 
     if (url.includes('/api/careers') && !url.match(/\/api\/careers\/[^/]+/) && method === 'GET') {
-      return json(readArray('mock_careers'));
+      return json(readArray<MockCareer>('mock_careers'));
     }
 
     if (url.includes('/api/careers') && !url.match(/\/api\/careers\/[^/]+/) && method === 'POST') {
-      const careers = readArray('mock_careers');
+      const careers = readArray<MockCareer>('mock_careers');
       const body = getBody(init);
-      const newCareer = { id: `mock-car-${Date.now()}`, userId: 'mock-user', ...body, createdAt: new Date().toISOString() };
+      const newCareer: MockCareer = { id: `mock-car-${Date.now()}`, userId: 'mock-user', ...body, createdAt: new Date().toISOString() };
       careers.unshift(newCareer);
       localStorage.setItem('mock_careers', JSON.stringify(careers));
       return json(newCareer);
     }
 
     if (url.match(/\/api\/careers\/[^/]+/) && method === 'DELETE') {
-      deleteById('mock_careers');
+      deleteById<MockCareer>('mock_careers');
       return json({ success: true });
     }
 
     // 5. Docs Endpoints
     if (url.includes('/api/docs') && !url.match(/\/api\/docs\/[^/]+/) && method === 'GET') {
-      return json(readArray('mock_docs'));
+      return json(readArray<MockDoc>('mock_docs'));
     }
 
     if (url.includes('/api/docs/upload') && method === 'POST') {
-      const docs = readArray('mock_docs');
+      const docs = readArray<MockDoc>('mock_docs');
       const { name, ext } = getFormFile(init);
       const fileName = name || '신규_문서.pdf';
       const fileExt = ext || 'pdf';
@@ -315,16 +391,16 @@ export function initMockInterceptor() {
         }
         await idbPut('kairos-mock-doc-bytes', id, await raw.arrayBuffer());
       }
-      const newDoc = { id, name: fileName, title: fileName, ext: fileExt, size, createdAt: new Date().toISOString(), textContent };
+      const newDoc: MockDoc = { id, name: fileName, title: fileName, ext: fileExt, size, createdAt: new Date().toISOString(), textContent };
       docs.unshift(newDoc);
       localStorage.setItem('mock_docs', JSON.stringify(docs));
       return json(newDoc);
     }
 
     if (url.match(/\/api\/docs\/[^/]+/) && method === 'GET' && url.includes('text=1')) {
-      const docs = readArray('mock_docs');
+      const docs = readArray<MockDoc>('mock_docs');
       const id = url.split('/').pop()?.split('?')[0];
-      const entry = docs.find((d: any) => d.id === id);
+      const entry = docs.find((d) => d.id === id);
       if (!entry) return json({ error: 'Document not found' }, 404);
       return json({ id: entry.id, title: entry.name, ext: entry.ext, size: entry.size, createdAt: entry.createdAt, textContent: entry.textContent || '' });
     }
@@ -343,7 +419,7 @@ export function initMockInterceptor() {
     if (url.match(/\/api\/docs\/[^/]+/) && method === 'DELETE') {
       const id = url.split('/').pop();
       if (id) await idbDel('kairos-mock-doc-bytes', id);
-      deleteById('mock_docs');
+      deleteById<MockDoc>('mock_docs');
       return json({ success: true });
     }
 
@@ -379,28 +455,28 @@ export function initMockInterceptor() {
 
     // 8. Photo Studio & Gallery
     if (url.includes('/api/studio/images') && method === 'GET') {
-      return json({ images: readArray('mock_studio_images') });
+      return json({ images: readArray<MockStudioImage>('mock_studio_images') });
     }
 
     if (url.includes('/api/studio/generate') && method === 'POST') {
-      const images = readArray('mock_studio_images');
+      const images = readArray<MockStudioImage>('mock_studio_images');
       const body = getBody(init);
-      const newImg = { id: `mock-img-${Date.now()}`, imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60', width: 1024, height: 1024, type: 'generated', prompt: body.prompt || 'Professional profile photo', createdAt: new Date().toISOString() };
+      const newImg: MockStudioImage = { id: `mock-img-${Date.now()}`, imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60', width: 1024, height: 1024, type: 'generated', prompt: body.prompt || 'Professional profile photo', createdAt: new Date().toISOString() };
       images.unshift(newImg);
       localStorage.setItem('mock_studio_images', JSON.stringify(images));
       return json({ image: newImg });
     }
 
     if (url.includes('/api/studio/upload') && method === 'POST') {
-      const images = readArray('mock_studio_images');
-      const newImg = { id: `mock-img-${Date.now()}`, imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60', width: 1024, height: 1024, type: 'uploaded', originalFileName: 'profile.jpg', createdAt: new Date().toISOString() };
+      const images = readArray<MockStudioImage>('mock_studio_images');
+      const newImg: MockStudioImage = { id: `mock-img-${Date.now()}`, imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60', width: 1024, height: 1024, type: 'uploaded', originalFileName: 'profile.jpg', createdAt: new Date().toISOString() };
       images.unshift(newImg);
       localStorage.setItem('mock_studio_images', JSON.stringify(images));
       return json({ image: newImg });
     }
 
     if (url.match(/\/api\/studio\/images\/[^/]+/) && method === 'DELETE') {
-      deleteById('mock_studio_images');
+      deleteById<MockStudioImage>('mock_studio_images');
       return json({ success: true });
     }
 

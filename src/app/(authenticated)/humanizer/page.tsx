@@ -4,12 +4,20 @@ import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
 import Spinner from '@/components/Spinner';
 
+interface HumanizerEntry {
+  id?: string;
+  originalText?: string;
+  humanizedText?: string;
+  styleScore?: number | null;
+  createdAt?: string;
+}
+
 export default function HumanizerPage() {
   const toast = useToast();
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [loading, setLoading] = useState(false);
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<HumanizerEntry[]>([]);
   const [styleScore, setStyleScore] = useState<number | null>(null);
 
   useEffect(() => {
@@ -33,8 +41,8 @@ export default function HumanizerPage() {
         setStyleScore(data.styleScore || null);
         if (data.id) setHistory(prev => [data, ...prev]);
       }
-    } catch (err: any) {
-      toast.add({ title: 'Error', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: 'Error', description: (err as Error).message, color: 'red' });
     } finally {
       setLoading(false);
     }
@@ -96,7 +104,7 @@ export default function HumanizerPage() {
             {outputText && (
               <button
                 onClick={copyToClipboard}
-                className="absolute top-3 right-3 px-3 py-1.5 text-xs font-semibold bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 transition-colors shadow-xs"
+                className="absolute top-3 right-3 px-3.5 py-2.5 text-xs font-semibold bg-white border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 transition-colors shadow-xs"
               >
                 Copy
               </button>
@@ -111,8 +119,8 @@ export default function HumanizerPage() {
             <h2 className="text-sm font-semibold text-gray-700">History</h2>
           </div>
           <div className="divide-y divide-gray-50">
-            {history.slice(0, 5).map((h: any) => (
-              <div key={h.id} className="px-6 py-4 flex items-start gap-4 hover:bg-gray-50/50 transition-colors">
+            {history.slice(0, 5).map((h) => (
+              <div key={h.id} className="px-4 sm:px-6 py-4 flex items-start gap-4 hover:bg-gray-50/50 transition-colors">
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-gray-500 truncate">{h.originalText}</p>
                   <p className="text-xs font-medium text-gray-800 truncate mt-1">{h.humanizedText}</p>

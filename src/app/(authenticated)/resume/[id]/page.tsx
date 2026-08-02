@@ -6,13 +6,46 @@ import { useToast } from '@/lib/toast';
 import { renderDiffHtml } from '@/utils/diff';
 import Spinner from '@/components/Spinner';
 
+interface EvaluationFeedback {
+  strengths: string[];
+  weaknesses: string[];
+  suggestions: string[];
+}
+
+interface RefinementHistoryEntry {
+  id: string;
+  resumeId: string;
+  step: string;
+  draftContent: string;
+  score: number;
+  improvedContent?: string | null;
+  createdAt: string;
+  evaluationFeedback?: EvaluationFeedback | null;
+}
+
+interface ResumeDetailResponse {
+  resume: {
+    id: string;
+    title: string;
+    status: string;
+    currentScore: number | null;
+    originalContent: string;
+  };
+  refinementHistory: RefinementHistoryEntry[];
+}
+
+interface ChatApiResponse {
+  responseText: string;
+  suggestedContent?: string;
+}
+
 export default function ResumeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
   const toast = useToast();
 
   const [activeTab, setActiveTab] = useState<'editor' | 'diff' | 'feedback'>('editor');
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ResumeDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   // Live Form States
@@ -33,7 +66,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
     try {
       const res = await fetch(`/api/resumes/${id}`);
       if (res.ok) {
-        const result = await res.json();
+        const result = (await res.json()) as ResumeDetailResponse;
         setData(result);
         if (result?.resume) {
           setEditingTitle(result.resume.title || '');
@@ -79,8 +112,8 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         toast.add({ title: '이력서 저장 성공', description: '변경 사항이 안전하게 반영되었습니다.', color: 'green' });
         await fetchResume();
       }
-    } catch (err: any) {
-      toast.add({ title: '저장 실패', description: err.message || '오류가 발생했습니다.', color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '저장 실패', description: (err instanceof Error ? err.message : undefined) || '오류가 발생했습니다.', color: 'red' });
     } finally {
       setSaving(false);
     }
@@ -95,8 +128,8 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         setActiveTab('feedback');
         toast.add({ title: 'AI 정밀 평가 완료', description: '최신 평가서 탭을 확인하세요.', color: 'green' });
       }
-    } catch (err: any) {
-      toast.add({ title: '평가 중 오류', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '평가 중 오류', description: err instanceof Error ? err.message : undefined, color: 'red' });
     } finally {
       setRefining(false);
     }
@@ -122,7 +155,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
           currentContent: editingContent,
         }),
       });
-      const result = await res.json();
+      const result = (await res.json()) as ChatApiResponse;
       setChatHistory(prev => [
         ...prev,
         {
@@ -202,22 +235,22 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         <div className="lg:col-span-7 space-y-6">
           <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
             {/* Tabs */}
-            <div className="flex border-b border-slate-100 space-x-6 text-sm">
+            <div className="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-1.5 border-b border-slate-100 text-sm">
               <button
                 onClick={() => setActiveTab('editor')}
-                className={activeTab === 'editor' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}
+                className={`whitespace-nowrap ${activeTab === 'editor' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}`}
               >
                 📝 실시간 편집기
               </button>
               <button
                 onClick={() => setActiveTab('diff')}
-                className={activeTab === 'diff' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}
+                className={`whitespace-nowrap ${activeTab === 'diff' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}`}
               >
                 🔍 AI 수정 비교 (Diff)
               </button>
               <button
                 onClick={() => setActiveTab('feedback')}
-                className={activeTab === 'feedback' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}
+                className={`whitespace-nowrap ${activeTab === 'feedback' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}`}
               >
                 📊 AI 종합 평가서
               </button>
@@ -246,11 +279,11 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     className="w-full font-mono text-sm leading-relaxed p-3.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
-                <div className="flex justify-between items-center pt-2">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 pt-2">
                   <button
                     onClick={saveResume}
                     disabled={saving}
-                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
+                    className="w-full sm:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
                   >
                     {saving && <Spinner className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />}
                     <span>💾 변경사항 저장</span>
@@ -258,7 +291,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                   <button
                     onClick={triggerRefine}
                     disabled={refining}
-                    className="border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
+                    className="w-full sm:w-auto justify-center border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
                   >
                     {refining && <Spinner className="w-3 h-3 border border-slate-600 border-t-transparent rounded-full animate-spin" />}
                     <span>✨ AI 정밀 평가 실행</span>
@@ -270,7 +303,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
             {/* Tab 2: Compare/Diff View */}
             {activeTab === 'diff' && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div>
                     <h3 className="text-sm font-bold text-slate-800">이력서 변경 사항 분석</h3>
                     <p className="text-xs text-slate-400 mt-0.5">이전 저장 버전 대비 단어 수준의 세부 수정 사항을 시각적으로 확인합니다.</p>
@@ -278,7 +311,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                   {suggestedContent && (
                     <button
                       onClick={confirmApply}
-                      className="px-3 py-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-lg hover:bg-emerald-100 transition-colors"
+                      className="w-full sm:w-auto px-3 py-2 sm:py-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-lg hover:bg-emerald-100 transition-colors"
                     >
                       ✓ AI 제안 확정하여 편집기에 적용
                     </button>
@@ -385,7 +418,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
 
         {/* Right Panel: Conversational AI Canvas Agent */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col h-[750px]">
+          <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm flex flex-col h-[60vh] sm:h-[750px]">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />

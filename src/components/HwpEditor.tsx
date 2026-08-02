@@ -47,8 +47,8 @@ export default function HwpEditor({ initialDocId, onSaved }: HwpEditorProps) {
           if (!res.ok) throw new Error('문서를 불러오지 못했습니다.');
           await editorRef.current.loadFile(await res.arrayBuffer(), undefined, { suppressDialogs: true });
         }
-      } catch (err: any) {
-        if (!disposed) setLoadError(err?.message || '에디터를 초기화하지 못했습니다.');
+      } catch (err: unknown) {
+        if (!disposed) setLoadError(err instanceof Error ? err.message || '에디터를 초기화하지 못했습니다.' : '에디터를 초기화하지 못했습니다.');
       }
     })();
     return () => {
@@ -74,8 +74,8 @@ export default function HwpEditor({ initialDocId, onSaved }: HwpEditorProps) {
       await editor.notifySaved(doc.title || `document.${format}`);
       setSavedMsg('저장되었습니다.');
       onSaved?.(doc);
-    } catch (err: any) {
-      setSavedMsg(`저장 실패: ${err?.message || '오류'}`);
+    } catch (err: unknown) {
+      setSavedMsg(`저장 실패: ${err instanceof Error ? err.message || '오류' : '오류'}`);
     } finally {
       setSaving(false);
     }

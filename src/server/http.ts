@@ -16,6 +16,12 @@ export function serviceUnavailable(message: string): NextResponse {
   return NextResponse.json({ error: message }, { status: 503 });
 }
 
-export function internalError(err: { message?: string }, fallback: string): NextResponse {
-  return NextResponse.json({ error: err.message || fallback }, { status: 500 });
+export function errorMessage(err: unknown, fallback: string): string {
+  return typeof err === 'object' && err !== null && 'message' in err
+    ? String((err as { message: unknown }).message) || fallback
+    : fallback;
+}
+
+export function internalError(err: unknown, fallback: string): NextResponse {
+  return NextResponse.json({ error: errorMessage(err, fallback) }, { status: 500 });
 }

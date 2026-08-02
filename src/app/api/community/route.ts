@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
       likesCount: 0,
       createdAt: new Date().toISOString(),
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

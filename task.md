@@ -140,3 +140,19 @@
 ### 4. 세션 종료
 - [x] **mock 모드는 유지하기로 결정** (제거하지 않음 — 데모/시연용 기능으로 계속 사용)
 - [x] 작업 종료, task.md 최종 갱신 후 커밋
+
+---
+
+## 세션 5: 전 페이지 모바일 최적화 + any 타입 척결 (완료)
+
+### 병렬 서브에이전트
+- [x] A: auth/login·register, 홈, error, r/[id], presentation — 터치 타겟 44px 확대, 카드/인풋 반응형 패딩, flex-wrap/min-w-0 오버플로 방지, presentation ≤480px 모바일 스타일, any 4건 정리
+- [x] B: docs(3)·career·interview(2)·qa·humanizer — 모달 `max-w-[calc(100vw-2rem)]`, 채팅 버블 min-w-0/break-words, 탭/헤더 flex-wrap, HWP 뷰어 래퍼 overflow 정리, any 0건 (인터페이스 8종 정의)
+- [x] C: resume(2)·ats·studio·settings·admin — 탭 flex-wrap, 모바일 버튼 전체폭 스택, 채팅 패널 h-[60vh], 지갑/계정 any 제거, any 0건 (인터페이스 7종 정의)
+- [x] D: server·api·lib·hooks·utils·data·components 전역 — **any 77건 → 0건** (zod infer/최소 인터페이스/Gemini 응답 타입/제네릭 readArray, catch(err: unknown) 전환, `internalError`가 err: unknown 수용)
+
+### 결과
+- [x] 보너스: 에이전트 영역에서 누락된 `AuthContext.tsx` any 4건 직접 정리 → **src 전체 any 0건**
+- [x] 검증: `npx tsc --noEmit` 0 / `npm test` 61/61 / `npm run build` 성공
+- [x] 69개 파일 변경 (+693/-339)
+- [x] 커밋 완료 (push 안 함)

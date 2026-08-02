@@ -7,11 +7,24 @@ import { useToast } from '@/lib/toast';
 import Spinner from '@/components/Spinner';
 import { DIFFICULTY_OPTIONS, difficultyLabel } from '@/components/DifficultyBadge';
 
+interface Interview {
+  id: string;
+  userId?: string;
+  jobTitle: string;
+  companyName?: string | null;
+  difficulty?: string;
+  status?: 'in_progress' | 'completed' | string;
+  overallScore?: number | null;
+  overallFeedback?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export default function InterviewListPage() {
   const toast = useToast();
   const router = useRouter();
 
-  const [interviews, setInterviews] = useState<any[]>([]);
+  const [interviews, setInterviews] = useState<Interview[]>([]);
   const [loadingList, setLoadingList] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [jobTitle, setJobTitle] = useState('');
@@ -50,13 +63,13 @@ export default function InterviewListPage() {
         body: JSON.stringify({ jobTitle, companyName, difficulty }),
       });
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { id?: string };
         router.push(`/interview/${data.id}`);
       } else {
         toast.add({ title: '면접 생성 실패', color: 'red' });
       }
-    } catch (err: any) {
-      toast.add({ title: '오류 발생', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '오류 발생', description: (err as Error).message, color: 'red' });
     } finally {
       setLoading(false);
     }
@@ -79,7 +92,7 @@ export default function InterviewListPage() {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-sm shadow-blue-100"
+          className="px-5 py-3 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-sm shadow-blue-100"
         >
           + 새 면접 시작
         </button>
@@ -90,7 +103,7 @@ export default function InterviewListPage() {
         {[
           { label: '전체 면접', value: interviews.length },
           { label: '완료', value: interviews.filter(i => i.status === 'completed').length },
-          { label: '평균 점수', value: scoredInterviews.length > 0 ? Math.round(scoredInterviews.reduce((acc, i) => acc + i.overallScore, 0) / scoredInterviews.length) + '점' : '-' },
+          { label: '평균 점수', value: scoredInterviews.length > 0 ? Math.round(scoredInterviews.reduce((acc, i) => acc + (i.overallScore ?? 0), 0) / scoredInterviews.length) + '점' : '-' },
         ].map(stat => (
           <div key={stat.label} className="bg-white rounded-2xl border border-gray-100 shadow-xs p-4 text-center">
             <div className="text-2xl font-extrabold text-gray-900">{stat.value}</div>
@@ -124,21 +137,21 @@ export default function InterviewListPage() {
                 href={`/interview/${interview.id}`}
                 className="flex items-center justify-between px-6 py-4 hover:bg-gray-50/50 transition-colors group"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 min-w-0 flex-1">
                   <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 font-bold text-sm flex-shrink-0">
                     {interview.jobTitle?.[0] || '?'}
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
                       {interview.jobTitle}
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5">
+                    <p className="text-xs text-gray-400 mt-0.5 truncate">
                       {interview.companyName && `${interview.companyName} · `}
-                      {difficultyLabel(interview.difficulty)} · {new Date(interview.createdAt).toLocaleDateString('ko-KR')}
+                      {difficultyLabel(interview.difficulty || '')} · {new Date(interview.createdAt || '').toLocaleDateString('ko-KR')}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 shrink-0">
                   {interview.overallScore && (
                     <span className="text-sm font-bold text-blue-600">{interview.overallScore}점</span>
                   )}
@@ -147,7 +160,7 @@ export default function InterviewListPage() {
                       ? 'bg-green-50 text-green-600'
                       : 'bg-amber-50 text-amber-600'
                   }`}>
-                    {statusLabel(interview.status)}
+                    {statusLabel(interview.status || '')}
                   </span>
                 </div>
               </Link>
@@ -159,10 +172,10 @@ export default function InterviewListPage() {
       {/* Create Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl shadow-2xl shadow-gray-200/80 w-full max-w-md p-6 space-y-5">
+          <div className="bg-white rounded-3xl shadow-2xl shadow-gray-200/80 w-full max-w-[calc(100vw-2rem)] md:max-w-md p-6 space-y-5">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold text-gray-900">새 면접 시작</h2>
-              <button onClick={() => setShowCreateModal(false)} className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
+              <button onClick={() => setShowCreateModal(false)} className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors">
                 ✕
               </button>
             </div>

@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
       .orderBy(desc(careers.createdAt));
 
     return NextResponse.json(result);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(newEntry);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

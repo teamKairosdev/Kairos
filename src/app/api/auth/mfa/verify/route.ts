@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       verified: true,
       mfaRequired: true,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'MFA 검증 실패');
   }
 }

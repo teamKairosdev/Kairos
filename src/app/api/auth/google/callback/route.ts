@@ -66,7 +66,7 @@ export async function GET(req: NextRequest) {
     });
 
     return res;
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Google OAuth callback error:', err);
     return NextResponse.json({ error: 'Google 로그인 처리 중 오류가 발생했습니다.' }, { status: 500 });
   }

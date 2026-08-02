@@ -46,7 +46,7 @@ export async function GET(
         'Content-Disposition': `inline; filename="${entry.title}.${entry.ext}"`,
       },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }
@@ -77,7 +77,7 @@ export async function DELETE(
     writeFileSync(META_FILE, JSON.stringify(meta, null, 2));
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

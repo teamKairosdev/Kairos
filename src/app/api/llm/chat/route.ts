@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { streamLLMText, toGeminiMessages, collectStreamText } from '@/server/llm';
+import { streamLLMText, toGeminiMessages, collectStreamText, type GeminiInputMessage } from '@/server/llm';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
 import { badRequest, internalError } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { messages, context }: { messages: any[]; context?: string } = body || {};
+    const { messages, context }: { messages: GeminiInputMessage[]; context?: string } = body || {};
 
     if (!messages || messages.length === 0) {
       return badRequest('Messages are required');
     }
 
-    const lastUserMsg = [...messages].reverse().find((m: any) => m?.role === 'user');
+    const lastUserMsg = [...messages].reverse().find((m) => m?.role === 'user');
     const msgContent = toGeminiMessages([lastUserMsg])[0]?.content || '';
     const complexity = msgContent.length > 500 ? 'high' : msgContent.length > 100 ? 'medium' : 'low';
     const cacheKey = `chat:${msgContent.slice(0, 200)}`;
@@ -42,7 +42,7 @@ Be concise, actionable, and supportive. Respond in Korean when the user writes i
     return new Response(clientStream, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[/api/llm/chat]', err);
     return internalError(err, 'LLM error');
   }

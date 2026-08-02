@@ -94,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => ({})) as any;
+        const err = await res.json().catch(() => ({})) as { error?: string; statusMessage?: string };
         const message = err?.error || err?.statusMessage || '로그인에 실패했습니다.';
         setState(prev => ({ ...prev, loading: false, error: message }));
         return false;
@@ -103,8 +103,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await res.json() as AuthResponse;
       setState({ user: data.user, authenticated: true, loading: false, error: null });
       return true;
-    } catch (err: any) {
-      setState(prev => ({ ...prev, loading: false, error: err?.message || '로그인 오류' }));
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '로그인 오류';
+      setState(prev => ({ ...prev, loading: false, error: message }));
       return false;
     }
   }, []);
@@ -118,15 +119,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, password, name }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({})) as any;
+        const err = await res.json().catch(() => ({})) as { error?: string };
         setState(prev => ({ ...prev, loading: false, error: err?.error || '회원가입 실패' }));
         return false;
       }
       const data = await res.json() as AuthResponse;
       setState({ user: data.user, authenticated: true, loading: false, error: null });
       return true;
-    } catch (err: any) {
-      setState(prev => ({ ...prev, loading: false, error: err?.message || '회원가입 오류' }));
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '회원가입 오류';
+      setState(prev => ({ ...prev, loading: false, error: message }));
       return false;
     }
   }, []);

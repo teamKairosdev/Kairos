@@ -107,6 +107,12 @@ export default function PresentationPage() {
         rel="stylesheet"
       />
       <style>{SLIDE_CSS}</style>
+      <style>{`@media (max-width: 480px) {
+  .ks-keyboard-hint { display: none; }
+  .ks-nav-dots { gap: 0.7rem; }
+  .ks-nav-dot { width: 14px; height: 14px; }
+  .ks-brand-badge { display: none; }
+}`}</style>
 
       <div className="ks-root">
         {/* Branding — 기존 페이지와 조화 */}
@@ -117,7 +123,7 @@ export default function PresentationPage() {
           <span className="ks-brand-badge">발표자료</span>
         </div>
         <Link href="/" className="ks-dashboard-link">
-          <span className="px-4 py-2 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 rounded-lg transition-colors">
+          <span className="px-4 py-2.5 sm:py-2 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 rounded-lg transition-colors">
             대시보드 가기
           </span>
         </Link>

@@ -17,8 +17,11 @@ export function getDb() {
     const sql = neon(connectionString);
     dbInstance = drizzle(sql, { schema });
     return dbInstance;
-  } catch (err: any) {
-    console.warn('[Kairos] DB initialization failed - running in demo mode:', err.message);
+  } catch (err: unknown) {
+    console.warn(
+      '[Kairos] DB initialization failed - running in demo mode:',
+      err instanceof Error ? err.message : err
+    );
     return null;
   }
 }

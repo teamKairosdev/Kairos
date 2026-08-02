@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       pathname: blob.pathname,
       contentType: blob.contentType,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Upload error');
   }
 }

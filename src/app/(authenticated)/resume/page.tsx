@@ -13,9 +13,18 @@ const workflowSteps = [
   { num: '03', title: 'Intelligent Rewrite', desc: '성과 중심 고도화 재작성' },
 ];
 
+interface ResumeItem {
+  id: string;
+  title: string;
+  status: string;
+  originalContent: string;
+  currentScore?: number | null;
+  createdAt: string;
+}
+
 export default function ResumeListPage() {
   const toast = useToast();
-  const [resumes, setResumes] = useState<any[]>([]);
+  const [resumes, setResumes] = useState<ResumeItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newTitle, setNewTitle] = useState('');
@@ -28,7 +37,7 @@ export default function ResumeListPage() {
     try {
       const res = await fetch('/api/resumes');
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as ResumeItem[];
         setResumes(data || []);
       }
     } catch {
@@ -64,8 +73,8 @@ export default function ResumeListPage() {
       setNewTitle(file.name.replace(/\.[^/.]+$/, ''));
       setNewContent(text);
       toast.add({ title: '파일이 성공적으로 로드되었습니다.', color: 'green' });
-    } catch (err: any) {
-      toast.add({ title: '파일 파싱 오류', description: err.message || '파일 읽기 오류', color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '파일 파싱 오류', description: (err instanceof Error ? err.message : undefined) || '파일 읽기 오류', color: 'red' });
     }
   }
 
@@ -84,8 +93,8 @@ export default function ResumeListPage() {
         fetchResumes();
         toast.add({ title: '이력서가 등록되었습니다.', color: 'green' });
       }
-    } catch (err: any) {
-      toast.add({ title: '이력서 등록 실패', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '이력서 등록 실패', description: err instanceof Error ? err.message : undefined, color: 'red' });
     }
   }
 
@@ -97,8 +106,8 @@ export default function ResumeListPage() {
         await fetchResumes();
         toast.add({ title: 'AI 고도화 완료', color: 'green' });
       }
-    } catch (err: any) {
-      toast.add({ title: 'AI 고도화 오류', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: 'AI 고도화 오류', description: err instanceof Error ? err.message : undefined, color: 'red' });
     } finally {
       setRefiningId(null);
     }
@@ -180,15 +189,15 @@ export default function ResumeListPage() {
 
                 <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">{r.originalContent}</p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-gray-50">
+                <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-3 border-t border-gray-50">
                   <span className="text-xs text-gray-400">
                     {new Date(r.createdAt).toLocaleDateString('ko-KR')}
                   </span>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <button
                       onClick={() => triggerRefine(r.id)}
                       disabled={refiningId === r.id}
-                      className="px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors disabled:opacity-50 flex items-center gap-1"
+                      className="px-3.5 py-2 text-xs font-semibold bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors disabled:opacity-50 flex items-center gap-1"
                     >
                       {refiningId === r.id && (
                         <Spinner className="w-3 h-3 border border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -197,7 +206,7 @@ export default function ResumeListPage() {
                     </button>
                     <Link
                       href={`/resume/${r.id}`}
-                      className="px-3 py-1.5 text-xs font-semibold bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                      className="px-3.5 py-2 text-xs font-semibold bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors"
                     >
                       Canvas 열기
                     </Link>

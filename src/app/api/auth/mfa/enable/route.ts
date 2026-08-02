@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       success: true,
       message: '2단계 OTP 인증(MFA)이 성공적으로 활성화되었습니다.',
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'MFA 활성화 실패');
   }
 }

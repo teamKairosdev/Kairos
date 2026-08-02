@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }).returning();
 
     return NextResponse.json({ image: record });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Upload error');
   }
 }

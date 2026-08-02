@@ -1,10 +1,16 @@
 import { NextRequest } from 'next/server';
-import { streamLLMText } from '@/server/llm';
+import { streamLLMText, type GeminiInputMessage } from '@/server/llm';
 import { buildContextWindow, type ContextMessage } from '@/server/context';
 import { getDb } from '@/db';
 import { mockInterviews, interviewMessages } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
+import { errorMessage } from '@/server/http';
+
+interface HistoryEntry {
+  sender: string;
+  message: string;
+}
 
 export async function POST(
   req: NextRequest,
@@ -46,20 +52,20 @@ export async function POST(
       companyName = interview.companyName || '';
     }
 
-    const history: { sender: string; message: string }[] = (messages as any[])
-      .map((m: any): { sender: string; message: string } | null => {
+    const history: HistoryEntry[] = (messages as GeminiInputMessage[])
+      .map((m): HistoryEntry | null => {
         let content = '';
         if (typeof m?.content === 'string') content = m.content;
         else if (Array.isArray(m?.parts)) {
-          content = (m.parts as any[])
-            .filter((p: any) => p?.type === 'text' || typeof p?.text === 'string')
-            .map((p: any) => p.text ?? '')
+          content = m.parts
+            .filter((p) => p?.type === 'text' || typeof p?.text === 'string')
+            .map((p) => p.text ?? '')
             .join('');
         }
         if (!content.trim()) return null;
         return { sender: m.role === 'user' ? 'user' : 'interviewer', message: content };
       })
-      .filter((m): m is { sender: string; message: string } => m !== null);
+      .filter((m): m is HistoryEntry => m !== null);
 
     if (db) {
       const lastUserMsg = [...history].reverse().find((h) => h.sender === 'user');
@@ -94,8 +100,8 @@ export async function POST(
     return new Response(stream, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
-  } catch (err: any) {
-    return new Response(JSON.stringify({ error: err.message }), {
+  } catch (err: unknown) {
+    return new Response(JSON.stringify({ error: errorMessage(err, 'unknown error') }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

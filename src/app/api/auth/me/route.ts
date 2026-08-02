@@ -50,7 +50,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: '데이터베이스에 연결할 수 없습니다.' }, { status: 500 });
     }
 
-    const updateData: Record<string, any> = { updatedAt: new Date() };
+    const updateData: Partial<typeof users.$inferInsert> = { updatedAt: new Date() };
     if (body.name !== undefined) updateData.name = body.name;
     if (body.walletAddress !== undefined) updateData.walletAddress = body.walletAddress;
 
@@ -61,7 +61,10 @@ export async function PATCH(req: NextRequest) {
       .returning();
 
     return NextResponse.json({ user: updated });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : '프로필 업데이트 중 오류가 발생했습니다.' },
+      { status: 500 }
+    );
   }
 }

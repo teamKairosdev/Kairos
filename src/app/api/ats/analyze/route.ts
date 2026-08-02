@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       .returning();
 
     return NextResponse.json({ id: saved.id, analysis });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[/api/ats/analyze]', err);
     return internalError(err, 'ATS 분석 결과를 저장하는 동안 오류가 발생했습니다.');
   }

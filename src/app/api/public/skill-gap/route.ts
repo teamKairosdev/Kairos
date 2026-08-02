@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     const res = NextResponse.json(report);
     res.headers.set('Cache-Control', 'public, max-age=86400, stale-while-revalidate=3600');
     return res;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Skill gap analysis failed');
   }
 }

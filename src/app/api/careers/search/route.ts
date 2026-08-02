@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       const results = await searchCareersSemantic(userId, q, 5);
       return NextResponse.json({ query: q, results });
     } catch (err: unknown) {
-      console.warn('pgvector search fallback notice:', (err as Error).message);
+      console.warn('pgvector search fallback notice:', err instanceof Error ? err.message : err);
       return NextResponse.json({
         query: q,
         results: [
@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
         ],
       });
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'Error');
   }
 }

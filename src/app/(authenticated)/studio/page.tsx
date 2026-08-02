@@ -10,6 +10,15 @@ const sizes = [
   { label: '9:16', value: '1024x1792' },
 ];
 
+interface StudioImage {
+  id: string;
+  imageUrl: string;
+  type: string;
+  prompt?: string | null;
+  originalFileName?: string | null;
+  createdAt: string;
+}
+
 export default function PhotoStudioPage() {
   const toast = useToast();
   const [prompt, setPrompt] = useState('');
@@ -18,7 +27,7 @@ export default function PhotoStudioPage() {
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [images, setImages] = useState<any[]>([]);
+  const [images, setImages] = useState<StudioImage[]>([]);
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSelectedFile(e.target.files?.[0] || null);
@@ -28,7 +37,7 @@ export default function PhotoStudioPage() {
     try {
       const res = await fetch('/api/studio/images');
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { images: StudioImage[] };
         setImages(data.images || []);
       }
     } catch {} finally {
@@ -50,15 +59,15 @@ export default function PhotoStudioPage() {
         body: JSON.stringify({ prompt, size }),
       });
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { image: StudioImage };
         setImages(prev => [data.image, ...prev]);
         setPrompt('');
         toast.add({ title: '이미지가 생성되었습니다.', color: 'green' });
       } else {
         toast.add({ title: '생성 실패', color: 'red' });
       }
-    } catch (err: any) {
-      toast.add({ title: '오류 발생', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '오류 발생', description: err instanceof Error ? err.message : undefined, color: 'red' });
     } finally {
       setGenerating(false);
     }
@@ -72,15 +81,15 @@ export default function PhotoStudioPage() {
       form.append('file', selectedFile);
       const res = await fetch('/api/studio/upload', { method: 'POST', body: form });
       if (res.ok) {
-        const data = await res.json();
+        const data = (await res.json()) as { image: StudioImage };
         setImages(prev => [data.image, ...prev]);
         setSelectedFile(null);
         toast.add({ title: '이미지가 업로드되었습니다.', color: 'green' });
       } else {
         toast.add({ title: '업로드 실패', color: 'red' });
       }
-    } catch (err: any) {
-      toast.add({ title: '오류 발생', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '오류 발생', description: err instanceof Error ? err.message : undefined, color: 'red' });
     } finally {
       setUploading(false);
     }
@@ -98,7 +107,7 @@ export default function PhotoStudioPage() {
     }
   }
 
-  function downloadImage(img: any) {
+  function downloadImage(img: StudioImage) {
     const a = document.createElement('a');
     a.href = img.imageUrl;
     a.download = img.prompt ? `${img.prompt.slice(0, 30)}.png` : img.originalFileName || 'image.png';
@@ -138,7 +147,7 @@ export default function PhotoStudioPage() {
                     <button
                       key={s.value}
                       onClick={() => setSize(s.value)}
-                      className={`py-2 rounded-xl text-xs font-semibold border transition-all ${
+                      className={`py-2.5 rounded-xl text-xs font-semibold border transition-all ${
                         size === s.value
                           ? 'bg-blue-600 text-white border-blue-600'
                           : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300'
@@ -205,7 +214,7 @@ export default function PhotoStudioPage() {
                   key={img.id}
                   className="group relative rounded-2xl overflow-hidden border border-gray-100 bg-gray-50 aspect-square"
                 >
-                  <img src={img.imageUrl} alt={img.prompt || img.originalFileName} className="w-full h-full object-cover" />
+                  <img src={img.imageUrl} alt={img.prompt || img.originalFileName || undefined} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all">
                     <div className="absolute bottom-0 left-0 right-0 p-3 space-y-2">
                       <p className="text-xs text-white/90 line-clamp-2 leading-relaxed font-medium">

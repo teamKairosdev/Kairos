@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       otpauthUrl,
       mfaEnabled: existingUser?.mfaEnabled || false,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, 'MFA 설정 실패');
   }
 }

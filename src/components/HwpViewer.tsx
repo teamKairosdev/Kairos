@@ -40,8 +40,8 @@ export default function HwpViewer({ docId }: { docId: string }) {
       setPageCount(count);
       containerRef.current.innerHTML = count > 0 ? doc.renderPageSvg(Math.min(page, count - 1)) : '';
       setStatus('ready');
-    } catch (err: any) {
-      setError(err?.message || 'HWP 문서를 열 수 없습니다.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message || 'HWP 문서를 열 수 없습니다.' : 'HWP 문서를 열 수 없습니다.');
       setStatus('error');
     }
   }, [docId, page]);

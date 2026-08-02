@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     });
 
     return res;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return internalError(err, '서버 오류');
   }
 }

@@ -59,25 +59,25 @@ export default function DocDetailPage({ params }: { params: Promise<{ id: string
         ← 목록으로 돌아가기
       </Link>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-xs space-y-6">
+      <div className="bg-white rounded-2xl border border-gray-100 p-5 md:p-8 shadow-xs space-y-6">
         <div className="flex items-center justify-between border-b border-gray-100 pb-4 gap-4 flex-wrap">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{doc.title}</h1>
+          <div className="min-w-0">
+            <h1 className="text-xl md:text-2xl font-bold text-gray-900 break-words">{doc.title}</h1>
             <p className="text-xs text-gray-400 mt-1">
               업로드 시각: {new Date(doc.createdAt).toLocaleString()} · {doc.ext?.toUpperCase()} ·{' '}
               {(doc.size / 1024).toFixed(1)} KB
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-bold uppercase px-3 py-1 bg-orange-50 text-orange-600 rounded-lg">
               {doc.ext || 'FILE'}
             </span>
             <a
               href={`/api/docs/${doc.id}`}
               download
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-gray-200 text-gray-600 text-xs font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[44px] border border-gray-200 text-gray-600 text-xs font-semibold rounded-xl hover:bg-gray-50 transition-colors"
             >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
               </svg>
               다운로드
@@ -85,7 +85,7 @@ export default function DocDetailPage({ params }: { params: Promise<{ id: string
             {isHwp && (
               <Link
                 href={`/docs/edit?doc=${doc.id}`}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-gray-900 text-white text-xs font-semibold rounded-xl hover:bg-orange-600 transition-colors"
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[44px] bg-gray-900 text-white text-xs font-semibold rounded-xl hover:bg-orange-600 transition-colors"
               >
                 편집
               </Link>
@@ -94,15 +94,17 @@ export default function DocDetailPage({ params }: { params: Promise<{ id: string
         </div>
 
         {isHwp && (
-          <div className="space-y-3">
+          <div className="space-y-3 w-full min-w-0 max-w-full">
             <h2 className="text-sm font-semibold text-gray-700">문서 미리보기</h2>
-            <HwpViewer docId={doc.id} />
+            <div className="w-full min-w-0 max-w-full overflow-hidden">
+              <HwpViewer docId={doc.id} />
+            </div>
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="space-y-4 min-w-0">
           <h2 className="text-sm font-semibold text-gray-700">문서 추출 텍스트</h2>
-          <div className="p-6 rounded-xl bg-gray-50 border border-gray-100 text-sm font-mono leading-relaxed whitespace-pre-wrap text-gray-800">
+          <div className="p-4 md:p-6 rounded-xl bg-gray-50 border border-gray-100 text-sm font-mono leading-relaxed whitespace-pre-wrap break-words text-gray-800">
             {doc.textContent || '추출된 텍스트가 없습니다.'}
           </div>
         </div>

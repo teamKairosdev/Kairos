@@ -5,16 +5,37 @@ import { useToast } from '@/lib/toast';
 import Spinner from '@/components/Spinner';
 import EmptyState from '@/components/EmptyState';
 
+interface Career {
+  id: string;
+  userId?: string;
+  company: string;
+  role: string;
+  period: string;
+  description: string;
+  achievements?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface CareerSearchResult extends Career {
+  similarity: number;
+}
+
+interface CareerSearchResponse {
+  query: string;
+  results: CareerSearchResult[];
+}
+
 export default function CareerPage() {
   const toast = useToast();
 
-  const [careersList, setCareersList] = useState<any[]>([]);
+  const [careersList, setCareersList] = useState<Career[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [creating, setCreating] = useState(false);
   const [searching, setSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<any>(null);
+  const [searchResults, setSearchResults] = useState<CareerSearchResponse | null>(null);
 
   const [form, setForm] = useState({
     company: '',
@@ -66,8 +87,8 @@ export default function CareerPage() {
         await fetchCareers();
         toast.add({ title: '경력이 추가되었습니다.', color: 'green' });
       }
-    } catch (err: any) {
-      toast.add({ title: '경력 등록 실패', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '경력 등록 실패', description: (err as Error).message, color: 'red' });
     } finally {
       setCreating(false);
     }
@@ -80,8 +101,8 @@ export default function CareerPage() {
         await fetchCareers();
         toast.add({ title: '경력이 삭제되었습니다.', color: 'green' });
       }
-    } catch (err: any) {
-      toast.add({ title: '삭제 실패', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '삭제 실패', description: (err as Error).message, color: 'red' });
     }
   }
 
@@ -94,8 +115,8 @@ export default function CareerPage() {
         const data = await res.json();
         setSearchResults(data);
       }
-    } catch (err: any) {
-      toast.add({ title: '검색 실패', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: '검색 실패', description: (err as Error).message, color: 'red' });
     } finally {
       setSearching(false);
     }
@@ -112,7 +133,7 @@ export default function CareerPage() {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-700 transition-all shadow-sm"
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-700 transition-all shadow-sm"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -135,12 +156,12 @@ export default function CareerPage() {
             onChange={e => setSearchQuery(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && performSearch()}
             placeholder="예: React로 대용량 데이터 처리 경험"
-            className="flex-1 px-4 py-2.5 rounded-xl bg-white border border-blue-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all shadow-xs"
+            className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-white border border-blue-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all shadow-xs"
           />
           <button
             onClick={performSearch}
             disabled={!searchQuery.trim() || searching}
-            className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="shrink-0 px-5 py-2.5 min-h-[44px] bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {searching && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
             <span>{searching ? '검색중..' : '검색'}</span>
@@ -150,8 +171,8 @@ export default function CareerPage() {
         {/* Search Results */}
         {searchResults && (
           <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between text-xs text-blue-600 font-medium mb-3">
-              <span>&ldquo;{searchResults.query}&rdquo; 검색 결과</span>
+            <div className="flex items-center justify-between gap-2 flex-wrap text-xs text-blue-600 font-medium mb-3">
+              <span className="min-w-0 truncate">&ldquo;{searchResults.query}&rdquo; 검색 결과</span>
               <button
                 onClick={() => {
                   setSearchResults(null);
@@ -165,18 +186,18 @@ export default function CareerPage() {
             {searchResults.results.length === 0 ? (
               <div className="text-center py-4 text-sm text-gray-500">관련 경력을 찾지 못했습니다.</div>
             ) : (
-              searchResults.results.map((res: any) => (
+              searchResults.results.map((res) => (
                 <div
                   key={res.id}
                   className="bg-white rounded-xl p-4 border border-blue-100 flex items-start justify-between gap-3"
                 >
                   <div className="space-y-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
                       <span className="text-sm font-bold text-gray-900 truncate">{res.company}</span>
-                      <span className="text-xs text-gray-400">·</span>
-                      <span className="text-xs text-gray-600">{res.role}</span>
+                      <span className="text-xs text-gray-400 shrink-0">·</span>
+                      <span className="text-xs text-gray-600 truncate">{res.role}</span>
                     </div>
-                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{res.description}</p>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 break-words">{res.description}</p>
                   </div>
                   {res.similarity && (
                     <div className="shrink-0 text-center">
@@ -214,24 +235,24 @@ export default function CareerPage() {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white rounded-2xl border border-gray-100 shadow-xs p-5 hover:shadow-sm hover:border-blue-100 transition-all group">
+                  <div className="flex-1 min-w-0 bg-white rounded-2xl border border-gray-100 shadow-xs p-4 md:p-5 hover:shadow-sm hover:border-blue-100 transition-all group">
                     <div className="flex items-start justify-between gap-3 mb-3">
-                      <div>
+                      <div className="min-w-0">
                         <div className="inline-block text-xs font-medium text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full mb-2">
                           {c.period}
                         </div>
-                        <h3 className="text-base font-bold text-gray-900">{c.company}</h3>
-                        <p className="text-sm text-gray-500 font-medium">{c.role}</p>
+                        <h3 className="text-base font-bold text-gray-900 break-words">{c.company}</h3>
+                        <p className="text-sm text-gray-500 font-medium break-words">{c.role}</p>
                       </div>
                       <button
                         onClick={() => deleteCareer(c.id)}
-                        className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-red-50 text-gray-300 hover:text-red-400 transition-colors text-xs opacity-0 group-hover:opacity-100"
+                        className="shrink-0 w-10 h-10 rounded-lg flex items-center justify-center hover:bg-red-50 text-gray-300 hover:text-red-400 transition-colors text-xs opacity-0 group-hover:opacity-100"
                       >
                         🗑
                       </button>
                     </div>
 
-                    <p className="text-sm text-gray-600 leading-relaxed">{c.description}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed break-words">{c.description}</p>
 
                     {c.achievements && c.achievements.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-gray-50 space-y-1.5">
@@ -268,19 +289,19 @@ export default function CareerPage() {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm"
           onClick={e => e.target === e.currentTarget && setShowCreateModal(false)}
         >
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-5">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-[calc(100vw-2rem)] md:max-w-md p-6 space-y-5">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold text-gray-900">경력 추가</h2>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400"
+                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400"
               >
                 ✕
               </button>
             </div>
 
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1.5">
                     회사 <span className="text-red-400">*</span>

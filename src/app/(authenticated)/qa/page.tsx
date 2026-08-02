@@ -4,13 +4,28 @@ import { useState, useEffect } from 'react';
 import { useToast } from '@/lib/toast';
 import Spinner from '@/components/Spinner';
 
+interface QAPair {
+  question: string;
+  sampleAnswer: string;
+  keyPoints?: string[];
+}
+
+interface QASet {
+  id: string;
+  title?: string;
+  targetRole?: string;
+  qaPairs?: QAPair[];
+  qaSet?: QASet;
+  createdAt?: string;
+}
+
 export default function QAPage() {
   const toast = useToast();
   const [targetRole, setTargetRole] = useState('');
   const [context, setContext] = useState('');
   const [generating, setGenerating] = useState(false);
-  const [qaSets, setQaSets] = useState<any[]>([]);
-  const [selectedSet, setSelectedSet] = useState<any>(null);
+  const [qaSets, setQaSets] = useState<QASet[]>([]);
+  const [selectedSet, setSelectedSet] = useState<QASet | null>(null);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
 
   useEffect(() => {
@@ -36,8 +51,8 @@ export default function QAPage() {
         setExpandedIdx(0);
         toast.add({ title: 'Q&A generated!', color: 'green' });
       }
-    } catch (err: any) {
-      toast.add({ title: 'Error', description: err.message, color: 'red' });
+    } catch (err: unknown) {
+      toast.add({ title: 'Error', description: (err as Error).message, color: 'red' });
     } finally {
       setGenerating(false);
     }
@@ -118,32 +133,32 @@ export default function QAPage() {
                 <h2 className="text-sm font-bold text-gray-800">{selectedSet.targetRole}</h2>
                 <span className="text-xs text-gray-400">{selectedSet.qaPairs?.length || 0} questions</span>
               </div>
-              {(selectedSet.qaPairs || []).map((qa: any, i: number) => (
+              {(selectedSet.qaPairs || []).map((qa, i) => (
                 <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-xs overflow-hidden">
                   <button
                     onClick={() => setExpandedIdx(expandedIdx === i ? null : i)}
                     className="w-full px-5 py-4 text-left flex items-start justify-between gap-3 hover:bg-gray-50/50 transition-colors"
                   >
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 min-w-0">
                       <span className="shrink-0 w-6 h-6 rounded-full bg-blue-50 text-blue-600 text-xs font-black flex items-center justify-center mt-0.5">
                         {i + 1}
                       </span>
-                      <p className="text-sm font-semibold text-gray-800 text-left">{qa.question}</p>
+                      <p className="text-sm font-semibold text-gray-800 text-left break-words">{qa.question}</p>
                     </div>
-                    <span className={`text-gray-400 text-xs transition-transform ${expandedIdx === i ? 'rotate-180' : ''}`}>▼</span>
+                    <span className={`text-gray-400 text-xs transition-transform shrink-0 ${expandedIdx === i ? 'rotate-180' : ''}`}>▼</span>
                   </button>
                   {expandedIdx === i && (
                     <div className="px-5 pb-5 border-t border-gray-50">
                       <div className="pt-4 space-y-3">
-                        <p className="text-sm text-gray-700 leading-relaxed">{qa.sampleAnswer}</p>
-                        {qa.keyPoints?.length > 0 && (
+                        <p className="text-sm text-gray-700 leading-relaxed break-words">{qa.sampleAnswer}</p>
+                        {qa.keyPoints && qa.keyPoints.length > 0 && (
                           <div className="space-y-1.5">
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Key Points</p>
                             <ul className="space-y-1">
-                              {qa.keyPoints.map((kp: string, ki: number) => (
+                              {qa.keyPoints.map((kp, ki) => (
                                 <li key={ki} className="flex items-start gap-2 text-xs text-gray-600">
                                   <span className="mt-1 shrink-0 w-1.5 h-1.5 rounded-full bg-blue-400" />
-                                  {kp}
+                                  <span className="break-words">{kp}</span>
                                 </li>
                               ))}
                             </ul>

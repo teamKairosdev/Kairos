@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       .returning();
 
     return NextResponse.json({ image: record });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('[/api/studio/generate]', err);
     return internalError(err, 'Studio error');
   }
