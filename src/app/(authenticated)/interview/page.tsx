@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/lib/toast';
 import Spinner from '@/components/Spinner';
+import EmptyState from '@/components/EmptyState';
 import { DIFFICULTY_OPTIONS, difficultyLabel } from '@/components/DifficultyBadge';
 
 interface Interview {
@@ -124,35 +125,41 @@ export default function InterviewListPage() {
             <Spinner />
           </div>
         ) : interviews.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-3 text-center">
-            <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">🎤</div>
-            <p className="text-sm font-medium text-gray-600">아직 면접 이력이 없습니다</p>
-            <p className="text-xs text-gray-400">상단의 버튼을 눌러 첫 번째 모의 면접을 시작해보세요</p>
-          </div>
+          <EmptyState
+            icon="🎤"
+            iconWrapperClass="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl"
+            title="아직 면접 이력이 없습니다"
+            description="AI 면접관과 첫 모의 면접을 시작해보세요"
+            actionLabel="면접 시작"
+            onAction={() => setShowCreateModal(true)}
+          />
         ) : (
           <div className="divide-y divide-gray-50">
             {interviews.map(interview => (
               <Link
                 key={interview.id}
                 href={`/interview/${interview.id}`}
-                className="flex items-center justify-between px-6 py-4 hover:bg-gray-50/50 transition-colors group"
+                className="flex items-center justify-between px-6 py-4 hover:bg-blue-50/40 transition-colors duration-200 group active:scale-[0.99]"
               >
                 <div className="flex items-center gap-4 min-w-0 flex-1">
-                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 font-bold text-sm flex-shrink-0">
+                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 font-bold text-sm flex-shrink-0 group-hover:bg-blue-100 transition-colors duration-200">
                     {interview.jobTitle?.[0] || '?'}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+                    <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 truncate">
                       {interview.jobTitle}
                     </p>
                     <p className="text-xs text-gray-400 mt-0.5 truncate">
                       {interview.companyName && `${interview.companyName} · `}
-                      {difficultyLabel(interview.difficulty || '')} · {new Date(interview.createdAt || '').toLocaleDateString('ko-KR')}
+                      {difficultyLabel(interview.difficulty || '')} ·{' '}
+                      {interview.createdAt
+                        ? new Date(interview.createdAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+                        : ''}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
-                  {interview.overallScore && (
+                  {interview.overallScore != null && (
                     <span className="text-sm font-bold text-blue-600">{interview.overallScore}점</span>
                   )}
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${

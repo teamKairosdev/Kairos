@@ -85,6 +85,25 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
     fetchResume();
   }, [id]);
 
+  useEffect(() => {
+    if (!data?.resume || editingTitle === data.resume.title) return;
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/resumes/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title: editingTitle }),
+        });
+        if (res.ok) {
+          toast.add({ title: '제목이 자동 저장되었습니다.', color: 'green' });
+        }
+      } catch {
+        // noop
+      }
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [editingTitle, data, id, toast]);
+
   const latestRefinement = useMemo(() => {
     if (!data || !data.refinementHistory) return null;
     return data.refinementHistory[0] || null;
@@ -169,6 +188,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         ...prev,
         { role: 'assistant', content: '대화 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.' },
       ]);
+      toast.add({ title: '요청 실패', description: 'AI 응답을 받지 못했습니다. 다시 시도해 주세요.', color: 'red' });
     } finally {
       setChatLoading(false);
     }
@@ -190,8 +210,28 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
 
   if (loading) {
     return (
-      <div className="flex justify-center py-20">
-        <Spinner className="w-7 h-7 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      <div className="max-w-[1500px] mx-auto py-8 px-4 space-y-6">
+        <div className="space-y-3">
+          <div className="skeleton animate-pulse w-24 h-4 rounded" />
+          <div className="skeleton animate-pulse w-64 h-8 rounded-lg" />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7 space-y-4">
+            <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4">
+              <div className="skeleton animate-pulse w-full h-10 rounded-xl" />
+              <div className="skeleton animate-pulse w-full h-72 rounded-xl" />
+              <div className="skeleton animate-pulse w-44 h-10 rounded-xl" />
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-4 h-[60vh] sm:h-[750px]">
+              <div className="skeleton animate-pulse w-52 h-5 rounded" />
+              <div className="skeleton animate-pulse w-full h-44 rounded-2xl" />
+              <div className="skeleton animate-pulse w-full h-44 rounded-2xl" />
+              <div className="skeleton animate-pulse w-full h-12 rounded-2xl" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -222,9 +262,13 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         <div className="flex items-center gap-6 bg-white border border-slate-100 shadow-sm px-6 py-3 rounded-2xl">
           <div className="text-right">
             <div className="text-sm font-bold text-slate-400 uppercase tracking-wider">AI 평가 점수</div>
-            <div className="text-3xl font-black text-blue-600 mt-0.5">
-              {data.resume.currentScore || 0}<span className="text-xs font-medium text-slate-400 ml-0.5">점</span>
-            </div>
+            {data.resume.currentScore == null ? (
+              <div className="text-xl font-bold text-slate-400 mt-0.5">미평가</div>
+            ) : (
+              <div className="text-3xl font-black text-blue-600 mt-0.5">
+                {data.resume.currentScore}<span className="text-xs font-medium text-slate-400 ml-0.5">점</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -235,22 +279,28 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         <div className="lg:col-span-7 space-y-6">
           <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm space-y-6">
             {/* Tabs */}
-            <div className="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-1.5 border-b border-slate-100 text-sm">
+            <div role="tablist" aria-label="이력서 작업 탭" className="flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-1.5 border-b border-slate-100 text-sm">
               <button
+                role="tab"
+                aria-selected={activeTab === 'editor'}
                 onClick={() => setActiveTab('editor')}
-                className={`whitespace-nowrap ${activeTab === 'editor' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}`}
+                className={`whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-t-lg active:scale-[0.98] ${activeTab === 'editor' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3 -mb-px' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3'}`}
               >
                 📝 실시간 편집기
               </button>
               <button
+                role="tab"
+                aria-selected={activeTab === 'diff'}
                 onClick={() => setActiveTab('diff')}
-                className={`whitespace-nowrap ${activeTab === 'diff' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}`}
+                className={`whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-t-lg active:scale-[0.98] ${activeTab === 'diff' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3 -mb-px' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3'}`}
               >
                 🔍 AI 수정 비교 (Diff)
               </button>
               <button
+                role="tab"
+                aria-selected={activeTab === 'feedback'}
                 onClick={() => setActiveTab('feedback')}
-                className={`whitespace-nowrap ${activeTab === 'feedback' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3 transition-colors'}`}
+                className={`whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-t-lg active:scale-[0.98] ${activeTab === 'feedback' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3 -mb-px' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3'}`}
               >
                 📊 AI 종합 평가서
               </button>
@@ -434,7 +484,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
               </div>
 
               {chatHistory.map((msg, index) => (
-                <div key={index} className="flex flex-col space-y-1.5">
+                <div key={index} className={`flex flex-col space-y-1.5 ${msg.role === 'assistant' ? 'animate-fade-in-up' : ''}`}>
                   <div
                     className={
                       msg.role === 'user'
@@ -462,10 +512,11 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
               ))}
 
               {chatLoading && (
-                <div className="flex items-center space-x-1.5 self-start bg-slate-50 border border-slate-100/50 text-slate-700 rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%]">
+                <div className="flex items-center gap-2 self-start bg-slate-50 border border-slate-100/50 text-slate-700 rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%]">
                   <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
                   <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
                   <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <span className="text-[10px] text-slate-400 font-semibold ml-1">AI가 답변을 작성 중입니다...</span>
                 </div>
               )}
             </div>
@@ -475,16 +526,16 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                 type="text"
                 value={chatMessage}
                 onChange={e => setChatMessage(e.target.value)}
-                placeholder="AI 에디터에게 피드백 요청하기..."
+                placeholder={chatLoading ? 'AI가 답변을 작성 중입니다...' : 'AI 에디터에게 피드백 요청하기...'}
                 disabled={chatLoading}
-                className="flex-1 px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all duration-200"
+                className="flex-1 px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all duration-200 disabled:cursor-not-allowed"
               />
               <button
                 type="submit"
                 disabled={chatLoading || !chatMessage.trim()}
-                className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-xs transition-colors shadow-md hover:shadow-blue-100 flex items-center gap-1.5 disabled:opacity-50"
+                className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-xs transition-all duration-200 shadow-md hover:shadow-blue-100 flex items-center gap-1.5 disabled:opacity-50 active:scale-[0.98]"
               >
-                <span>전송</span>
+                <span>{chatLoading ? '요청 중…' : '전송'}</span>
               </button>
             </form>
           </div>

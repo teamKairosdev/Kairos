@@ -2,9 +2,9 @@
 
 > **"당신의 커리어 전 생애를 기억하고, 분석하고, 대신 행동하는 AI"**
 
-Kairos는 **Next.js 15 (App Router)** 단일 프레임워크로 구축된 AI 기반 커리어 관리 플랫폼입니다. **Google Gemini REST API를 직접 호출**(AI SDK 미사용)하며, **NeonDB (PostgreSQL + pgvector)**, **Vercel Blob**을 활용해 이력서 분석/개선, AI 모의면접, ATS 호환성 검사, 문장 휴머나이저, 경력 시맨틱 검색, HWP/HWPX 문서 편집 등을 제공합니다.
+Kairos는 **Next.js 16 (App Router)** 단일 프레임워크로 구축된 AI 기반 커리어 관리 플랫폼입니다. **Google Gemini REST API를 직접 호출**(AI SDK 미사용)하며, **NeonDB (PostgreSQL + pgvector)**, **Vercel Blob**을 활용해 이력서 분석/개선, AI 모의면접, ATS 호환성 검사, 문장 휴머나이저, 경력 시맨틱 검색, HWP/HWPX 문서 편집 등을 제공합니다.
 
-- **프레임워크**: Next.js 15 (App Router) · React 19 · TypeScript (strict)
+- **프레임워크**: Next.js 16 (App Router) · React 19 · TypeScript (strict)
 - **AI**: Google Gemini 2.0 Flash · text-embedding-004 · Imagen 3.0 (직접 REST 구현)
 - **DB**: NeonDB (PostgreSQL + pgvector 1536d) · Drizzle ORM
 - **문서**: HWP/HWPX 뷰어·에디터 (@rhwp core/editor, WASM)
@@ -18,14 +18,14 @@ Kairos는 **Next.js 15 (App Router)** 단일 프레임워크로 구축된 AI 기
 flowchart TB
     subgraph Client["<b>Client Layer</b>"]
         direction TB
-        NEXT["<b>Next.js 15 App</b><br/>React 19 · 20 Pages<br/>Resume · Interview · ATS · Docs · Community · Studio"]
+        NEXT["<b>Next.js 16 App</b><br/>React 19 · 20 Pages<br/>Resume · Interview · ATS · Docs · Community · Studio"]
         HWP["<b>HWP Runtime</b><br/>@rhwp/core WASM (rhwp_bg.wasm)<br/>@rhwp/editor iframe Studio"]
         DEMO["<b>Demo Mode</b><br/>localStorage mock 데이터<br/>(testmockup 계정 · DB 미설정 폴백)"]
     end
 
     subgraph Edge["<b>Edge / API Layer</b>"]
         direction TB
-        MW["<b>middleware.ts</b><br/>JWT Session Guard<br/>10 Protected Paths"]
+        MW["<b>proxy.ts</b><br/>JWT Session Guard<br/>11 Protected Paths"]
         API["<b>Route Handlers</b><br/>48 Routes · getSession 검증<br/>http.ts 공통 에러 응답"]
     end
 
@@ -75,7 +75,7 @@ flowchart TB
 
 | Category | Technology |
 |---|---|
-| **Framework** | Next.js 15 (App Router) · React 19 · TypeScript (strict) |
+| **Framework** | Next.js 16 (App Router) · React 19 · TypeScript (strict) |
 | **AI / LLM** | Google Gemini 2.0 Flash · **직접 REST 구현** (`src/server/llm.ts`, AI SDK 미사용) |
 | **Embedding** | Google text-embedding-004 (1536d, `embedding.ts`) |
 | **Image** | Google Imagen 3.0 (`imageGen.ts`, `studio/*`) |
@@ -226,8 +226,8 @@ flowchart LR
         HTTP["http.ts (공통 에러 헬퍼)"]
     end
 
-    subgraph Middleware["<b>Middleware</b>"]
-        AUTH_MW["middleware.ts<br/>JWT Session (kairos_session)"]
+    subgraph Middleware["<b>Proxy</b>"]
+        AUTH_MW["proxy.ts<br/>JWT Session (kairos_session)"]
     end
 
     API --> AUTH_MW
@@ -245,7 +245,7 @@ flowchart LR
     class DB,AI store
 ```
 
-- **페이지 인증**: `middleware.ts`가 10개 경로(`/resume`, `/interview`, `/ats`, `/humanizer`, `/qa`, `/career`, `/studio`, `/docs`, `/settings`, `/admin`)를 보호합니다.
+- **페이지 인증**: `proxy.ts`가 11개 경로(`/resume`, `/interview`, `/ats`, `/humanizer`, `/qa`, `/career`, `/studio`, `/docs`, `/community`, `/settings`, `/admin`)를 보호합니다.
 - **API 인증**: 각 라우트가 `getSession(req)`으로 JWT를 개별 검증합니다.
 - **공통 응답**: `http.ts`의 `unauthorized` / `badRequest` / `notFound` / `serviceUnavailable` / `internalError` 헬퍼로 통일합니다.
 
@@ -502,7 +502,7 @@ erDiagram
 | **Google OAuth2** | `/api/auth/google` → 콜백에서 코드 교환 + 사용자 upsert |
 | **Web3 Wallet** | `/api/auth/nonce` 논스 발급 → viem 서명 검증 (`/api/auth/wallet`) |
 | **TOTP MFA** | otplib + QR 코드 (`/api/auth/mfa/*`, UI는 향후 확장용) |
-| **미들웨어** | `kairos_session` 검증, 10개 보호 경로, `JWT_SECRET` 미설정 시 개발 모드 통과 |
+| **미들웨어** | `proxy.ts`가 `kairos_session` 검증, 11개 보호 경로 (`middleware.ts` → `proxy.ts` 마이그레이션, Next 16), `JWT_SECRET` 미설정 시 개발 모드 통과 |
 
 ---
 
@@ -568,16 +568,17 @@ kairos/
 │   │   ├── auth/               # login, register
 │   │   ├── r/[id]/             # 공유 AI 채팅 뷰어
 │   │   ├── presentation/       # 경진대회 발표자료 (10슬라이드)
-│   │   ├── error.tsx           # 전역 에러 바운더리
+│   │   ├── error.tsx           # 전역 에러 바운더리 (재시도 + digest)
+│   │   ├── loading.tsx         # 전역 로딩 스켈레톤
 │   │   └── api/                # 45 Route Handlers
-│   ├── components/             # 11개 클라이언트 컴포넌트 (Navbar, Sidebar, HwpViewer, HwpEditor, ...)
+│   ├── components/             # 12개 클라이언트 컴포넌트 (Navbar, Sidebar, Skeleton, HwpViewer, HwpEditor, ...)
 │   ├── context/                # AuthContext (JWT + 데모 모드)
 │   ├── hooks/                  # useChat, useDocumentParser
-│   ├── lib/                    # toast, mockInterceptor, hwpTextExtract
+│   ├── lib/                    # toast, mockInterceptor, hwpTextExtract, nav (내비게이션 단일 소스)
 │   ├── server/                 # 서비스 모듈 21개 (llm, embedding, imageGen, ats, qa, humanizer, ...)
 │   ├── data/                   # presentationSlides.tsx · mock/ (데모 프로필)
 │   ├── utils/                  # diff.ts (단어 단위 diff HTML)
-│   └── middleware.ts           # JWT 세션 가드
+│   └── proxy.ts                # JWT 세션 가드 (Next 16 proxy, middleware.ts 대체)
 ├── db/                         # Drizzle ORM (schema.ts 16테이블, index.ts)
 ├── shared/                     # 공용 타입 (User, AuthResponse)
 ├── packages/                   # 플랫폼 브리지 목 스텁 (tauri-bridge, mobile-bridge, agent-cli)
@@ -613,4 +614,4 @@ kairos/
 
 ---
 
-*최종 수정: 2026-08-02 | Next.js 15 단일 프레임워크 기준 (Nuxt 4 / Nitro / Astro / Payload / PWA 제거 완료)*
+*최종 수정: 2026-08-02 | Next.js 16 단일 프레임워크 기준 (Nuxt 4 / Nitro / Astro / Payload / PWA 제거 완료, middleware → proxy.ts 전환)*

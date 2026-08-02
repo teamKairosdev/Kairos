@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import Spinner from '@/components/Spinner';
 
 const jdChips = [
   { name: 'React', matched: true },
@@ -68,19 +67,6 @@ export default function HomePage() {
       ? '좋은 오후입니다. 커리어를 한 단계 발전시킬 시간입니다.'
       : '좋은 저녁입니다. 내일을 위한 준비를 해보세요.';
 
-  // Interactive mouse effect states
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  function handleMouseMove(e: React.MouseEvent) {
-    if (typeof window === 'undefined') return;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    setMousePos({
-      x: (e.clientX / width) * 2 - 1,
-      y: (e.clientY / height) * 2 - 1,
-    });
-  }
-
   // Bento 1: Resume Enhancer Slider State
   const [evalSliderScore, setEvalSliderScore] = useState(35);
 
@@ -129,10 +115,32 @@ export default function HomePage() {
 
   if (state.loading) {
     return (
-      <div className="flex items-center justify-center py-40">
-        <div className="flex flex-col items-center gap-3">
-          <Spinner className="w-7 h-7 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm font-semibold text-slate-400">시스템 로딩 중...</p>
+      <div className="space-y-6 animate-pulse" aria-busy="true" aria-label="로딩 중">
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+          <div className="skeleton h-7 w-52 mb-3" />
+          <div className="skeleton h-4 w-80 max-w-full" />
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[0, 1, 2, 3].map(i => (
+            <div key={i} className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
+              <div className="skeleton h-3 w-16 mb-3" />
+              <div className="skeleton h-7 w-12" />
+            </div>
+          ))}
+        </div>
+        <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+          <div className="skeleton h-5 w-40 mb-6" />
+          <div className="space-y-5">
+            {[0, 1, 2, 3].map(i => (
+              <div key={i} className="flex gap-4">
+                <div className="skeleton h-8 w-8 rounded-full shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="skeleton h-4 w-44" />
+                  <div className="skeleton h-3 w-full" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -257,10 +265,7 @@ export default function HomePage() {
 
   // Landing Page (Unauthenticated)
   return (
-    <div
-      className="min-h-screen relative overflow-hidden bg-white text-slate-900 pb-32"
-      onMouseMove={handleMouseMove}
-    >
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-white via-white to-slate-50 text-slate-900 pb-12">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none no-select-drag" />
 
       <div
@@ -270,42 +275,54 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="max-w-6xl mx-auto px-6 pt-16 sm:pt-20 pb-14 sm:pb-16 relative z-10 text-center space-y-8">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold shadow-xs">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold shadow-xs animate-fade-in-up motion-reduce:animate-none">
           <span>✨</span>
           <span>Next-Gen AI Career Orchestrator</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto">
+        <h1
+          className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto animate-fade-in-up motion-reduce:animate-none"
+          style={{ animationDelay: '0.06s' }}
+        >
           AI 에이전트와 함께 구축하는<br />
           <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
             개인 맞춤형 커리어 오케스트레이션
           </span>
         </h1>
 
-        <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto font-normal leading-relaxed">
+        <p
+          className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto font-normal leading-relaxed animate-fade-in-up motion-reduce:animate-none"
+          style={{ animationDelay: '0.12s' }}
+        >
           이력서 고도화, 실시간 모의 면접, ATS 매칭률 분석, AI 포토 스튜디오까지.<br />
           당신의 전 커리어 여정을 지능적으로 관리합니다.
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+        <div
+          className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4 animate-fade-in-up motion-reduce:animate-none"
+          style={{ animationDelay: '0.18s' }}
+        >
           <button
             onClick={fillMockCredentials}
-            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-blue-600 text-white font-bold text-sm hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 transition-all duration-200 shadow-md"
+            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-blue-600 text-white font-bold text-sm hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 active:scale-[0.98] transition-all duration-200 shadow-md focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
           >
             🚀 테스트 모드로 즉시 시작하기 (Mock 체험)
           </button>
           <Link
             href="/auth/register"
-            className="w-full sm:w-auto px-8 py-4 rounded-2xl border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 transition-all duration-200"
+            className="w-full sm:w-auto px-8 py-4 rounded-2xl border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
           >
             회원가입
           </Link>
         </div>
 
         {/* Stats bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-12">
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-12 animate-fade-in-up motion-reduce:animate-none"
+          style={{ animationDelay: '0.24s' }}
+        >
           {stats.map((s, idx) => (
-            <div key={idx} className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-100 shadow-xs">
+            <div key={idx} className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-100 shadow-xs hover:shadow-card hover:-translate-y-0.5 transition-all duration-200">
               <p className="text-2xl font-extrabold text-slate-900">{s.value}</p>
               <p className="text-xs text-slate-400 font-medium mt-1">{s.label}</p>
             </div>
@@ -322,7 +339,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Bento 1: Resume Enhancer */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none">
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">📄</div>
               <h3 className="text-xl font-bold text-slate-900">이력서 3단계 AI 고도화</h3>
@@ -351,7 +368,7 @@ export default function HomePage() {
           </div>
 
           {/* Bento 2: ATS Matching */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none" style={{ animationDelay: '0.05s' }}>
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🎯</div>
               <h3 className="text-xl font-bold text-slate-900">AI ATS 적합성 진단</h3>
@@ -380,7 +397,7 @@ export default function HomePage() {
           </div>
 
           {/* Bento 3: Mock Interview */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none" style={{ animationDelay: '0.1s' }}>
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🎤</div>
               <h3 className="text-xl font-bold text-slate-900">실시간 AI 스트리밍 면접</h3>
@@ -408,7 +425,7 @@ export default function HomePage() {
           </div>
 
           {/* Bento 4: Semantic Search */}
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-6 flex flex-col justify-between">
+          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none" style={{ animationDelay: '0.15s' }}>
             <div className="space-y-3">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🗂️</div>
               <h3 className="text-xl font-bold text-slate-900">AI 시맨틱 경력 검색</h3>
@@ -451,11 +468,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="max-w-6xl mx-auto px-6 pt-16 text-center text-xs text-slate-400">
-        <p>© 2026 Kairos. All rights reserved.</p>
-      </footer>
     </div>
   );
 }

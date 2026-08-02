@@ -39,14 +39,19 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
   const router = useRouter();
   const toast = useToast();
 
+  const STORAGE_KEY = `interview:${interviewId}`;
+
   const [mobileTab, setMobileTab] = useState<'chat' | 'info'>('chat');
   const [sessionInfo, setSessionInfo] = useState<InterviewSession | null>(null);
   const [elapsedTime, setElapsedTime] = useState('00:00');
+  const [showEndModal, setShowEndModal] = useState(false);
+  const [endPhase, setEndPhase] = useState<'confirm' | 'summary'>('confirm');
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const msgKeyRef = useRef(new Map<number, string>());
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading: isStreaming } = useChat({
+  const { messages, setMessages, input, handleInputChange, handleSubmit, stop, streamStarted, isLoading: isStreaming } = useChat({
     api: `/api/interviews/${interviewId}/chat`,
     onError: (err) => {
       toast.add({ title: '오류 발생', description: err.message, color: 'red' });
@@ -55,6 +60,96 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
       scrollToBottom();
     },
   });
+
+  const messagesRef = useRef(messages);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw);
+      if (Array.isArray(saved)) {
+        const valid = saved.filter(
+          (m: ChatDisplayMessage) =>
+            m &&
+            (m.role === 'user' || m.role === 'assistant') &&
+            typeof m.content === 'string' &&
+            m.content.trim()
+        );
+        if (valid.length > 0) {
+          setMessages(valid);
+          setTimeout(() => {
+            if (chatContainerRef.current) {
+              chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            }
+          }, 50);
+        }
+      }
+    } catch {
+      // noop
+    }
+  }, [interviewId, setMessages]);
+
+  useEffect(() => {
+    function backup() {
+      try {
+        const persisted = messagesRef.current.filter(
+          (m) => m.role !== 'system' && m.content.trim()
+        );
+        if (persisted.length > 0) {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted));
+        } else {
+          window.localStorage.removeItem(STORAGE_KEY);
+        }
+      } catch {
+        // noop
+      }
+    }
+    window.addEventListener('beforeunload', backup);
+    return () => {
+      backup();
+      window.removeEventListener('beforeunload', backup);
+    };
+  }, [STORAGE_KEY]);
+
+  function messageKey(idx: number) {
+    let key = msgKeyRef.current.get(idx);
+    if (!key) {
+      key =
+        typeof crypto !== 'undefined' && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `${idx}-${Date.now()}-${Math.random()}`;
+      msgKeyRef.current.set(idx, key);
+    }
+    return key;
+  }
+
+  function openEndModal() {
+    setEndPhase('confirm');
+    setShowEndModal(true);
+  }
+
+  function confirmEndInterview() {
+    stop();
+    setEndPhase('summary');
+    fetch(`/api/interviews/${interviewId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'completed' }),
+    }).catch(() => {});
+    setTimeout(() => {
+      setShowEndModal(false);
+      router.push('/interview');
+    }, 2500);
+  }
+
+  function closeEndModal() {
+    setShowEndModal(false);
+  }
 
   useEffect(() => {
     async function fetchSession() {
@@ -149,12 +244,28 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
 
         <div className="p-5 border-b border-gray-100 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-500">난이도</span>
+            <span className="text-xs text-gray-500">면접 유형</span>
             <DifficultyBadge difficulty={sessionInfo?.difficulty} />
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-500">질문 수</span>
-            <span className="text-xs font-bold text-gray-900">{questionCount}번째</span>
+            <span className="text-xs text-gray-500">진행 단계</span>
+            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+              sessionInfo?.status === 'completed'
+                ? 'bg-green-50 text-green-600'
+                : 'bg-blue-50 text-blue-600'
+            }`}>
+              {sessionInfo?.status === 'completed' ? '완료' : '진행중'}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">질문 진행</span>
+            <span className="text-xs font-bold text-gray-900">
+              {questionCount > 0 ? `${questionCount}번째 질문` : '아직 시작 전'}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">주고받은 메시지</span>
+            <span className="text-xs font-bold text-gray-900">{messages.length}개</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-gray-500">경과 시간</span>
@@ -179,8 +290,8 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
 
         <div className="p-5 border-t border-gray-100">
           <button
-            onClick={() => router.push('/interview')}
-            className="w-full py-3 min-h-[44px] rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all"
+            onClick={openEndModal}
+            className="w-full py-3 min-h-[44px] rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all active:scale-[0.98]"
           >
             면접 종료
           </button>
@@ -197,12 +308,18 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
             <p className="text-sm font-bold text-gray-900">Kairos AI 면접관</p>
             <p className="text-xs text-emerald-500 font-medium">온라인 · 실시간 평가 중</p>
           </div>
+          <button
+            onClick={openEndModal}
+            className="ml-auto shrink-0 px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all duration-200 active:scale-[0.98]"
+          >
+            면접 종료
+          </button>
         </div>
 
         {/* Messages */}
         <div ref={chatContainerRef} className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 space-y-5">
           {messages.map((msg, idx) => (
-            <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+            <div key={messageKey(idx)} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
               <div className="shrink-0">
                 {msg.role === 'assistant' ? (
                   <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-xs font-bold shadow-sm">
@@ -228,7 +345,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
             </div>
           ))}
 
-          {isStreaming && (
+          {isStreaming && !streamStarted && (
             <div className="flex gap-3">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-xs font-bold shadow-sm">
                 AI
@@ -246,21 +363,31 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
 
         {/* Input Area */}
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-100 bg-white">
-          <form onSubmit={handleSubmit} className="flex items-end gap-3 bg-gray-50 rounded-2xl border border-gray-200 px-4 py-3 focus-within:border-blue-300 focus-within:ring-2 focus-within:ring-blue-100 transition-all">
+          <form onSubmit={handleSubmit} className="flex items-end gap-2 sm:gap-3 bg-gray-50 rounded-2xl border border-gray-200 px-4 py-3 focus-within:border-blue-300 focus-within:ring-2 focus-within:ring-blue-100 transition-all">
             <textarea
               ref={inputRef}
               value={input}
               onChange={handleInputChange}
-              placeholder="답변을 입력하세요... (Shift+Enter로 줄바꿈)"
+              placeholder={isStreaming ? 'AI 면접관이 답변을 작성 중입니다...' : '답변을 입력하세요... (Shift+Enter로 줄바꿈)'}
               rows={1}
+              disabled={isStreaming}
               onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSubmit(e);
                 }
               }}
-              className="flex-1 min-w-0 bg-transparent text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none max-h-32 leading-relaxed"
+              className="flex-1 min-w-0 bg-transparent text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none max-h-32 leading-relaxed disabled:cursor-not-allowed"
             />
+            {isStreaming && (
+              <button
+                type="button"
+                onClick={stop}
+                className="shrink-0 h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 active:scale-[0.98]"
+              >
+                ⏹ 생성 중지
+              </button>
+            )}
             <button
               type="submit"
               disabled={isStreaming || !input.trim()}
@@ -272,6 +399,70 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
           <p className="text-xs text-gray-400 mt-2 text-center">Enter로 전송 · Shift+Enter로 줄바꿈</p>
         </div>
       </div>
+
+      {/* End Interview Modal */}
+      {showEndModal && (
+        <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl shadow-lift w-full max-w-md p-6 space-y-5 animate-fade-in-up">
+            {endPhase === 'confirm' ? (
+              <>
+                <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center text-xl mx-auto">⏹</div>
+                <div className="text-center space-y-1.5">
+                  <h3 className="text-lg font-bold text-gray-900">정말 종료할까요?</h3>
+                  <p className="text-sm text-gray-500">
+                    {questionCount > 0
+                      ? `현재 ${questionCount}번째 질문 · 지금까지 ${messages.length}개의 메시지를 주고받았습니다.`
+                      : '아직 질문이 시작되지 않았습니다.'}
+                  </p>
+                  <p className="text-xs text-gray-400">종료하면 대화 내용이 저장되고 면접 목록으로 이동합니다.</p>
+                </div>
+                <div className="flex gap-2 pt-1">
+                  <button
+                    onClick={closeEndModal}
+                    className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors active:scale-[0.98]"
+                  >
+                    계속하기
+                  </button>
+                  <button
+                    onClick={confirmEndInterview}
+                    className="flex-1 py-2.5 rounded-xl bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition-colors active:scale-[0.98]"
+                  >
+                    면접 종료
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mx-auto">✅</div>
+                <div className="text-center">
+                  <h3 className="text-lg font-bold text-gray-900">면접이 종료되었습니다</h3>
+                  <p className="text-sm text-gray-500 mt-1">지금까지의 면접 요약입니다.</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-gray-50 rounded-2xl p-4 text-center">
+                    <div className="text-2xl font-extrabold text-gray-900">{messages.length}</div>
+                    <div className="text-xs text-gray-400 mt-0.5 font-medium">주고받은 메시지</div>
+                  </div>
+                  <div className="bg-gray-50 rounded-2xl p-4 text-center">
+                    <div className="text-2xl font-extrabold text-gray-900">{questionCount}</div>
+                    <div className="text-xs text-gray-400 mt-0.5 font-medium">진행된 질문</div>
+                  </div>
+                </div>
+                <p className="text-center text-xs text-gray-400">잠시 후 면접 목록으로 이동합니다...</p>
+                <button
+                  onClick={() => {
+                    setShowEndModal(false);
+                    router.push('/interview');
+                  }}
+                  className="w-full py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors active:scale-[0.98]"
+                >
+                  면접 목록으로 이동
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

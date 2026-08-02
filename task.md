@@ -208,3 +208,30 @@
 - [x] README 갱신: 테스트 7파일·55개, 라우트 48개, 서비스 21개, 페이지 20개, community/files 라우트 반영
 - [x] 잔여 (의도적 유지): MFA 라우트 3개 UI는 향후 확장용으로 미구현
 - [x] 커밋 완료 (push 안 함)
+
+---
+
+## 세션 8: 경쟁 UX 리서치 + 프론트 전체 UI/UX 대대적 개편 (2026-08-02)
+
+### 1. 조사 (병렬 8개)
+- [x] R1: proxy.ts 검증 — Next 15.5는 `middleware.ts`만 인식, **Next 16에서 `proxy.ts` 공식 지원** (Node 런타임 기본). 마이그레이션 절차: `next@latest` 설치 → `npx @next/codemod@canary middleware-to-proxy .`
+- [x] R2: 해외 UX 리서치 — Vercel(Geist, 모노크롬+그라디언트), Linear(optimistic UI, 4px 그리드), Stripe(블루 틴트 섀도), OpenAI(오로라/shimmer), Perplexity(스테이지 상태), Raycast(ease-out-expo), Framer(fade-up 0.4-0.6s), Apple(Liquid Glass) — 스켈레톤/선로딩/버퍼드 스트리밍 등 15-20개 패턴 수집
+- [x] R3: 국내 커리어 UX — 원티드(단일 블루 #0066FF, 12px radius), 점핏(0px radius), 잡플래닛(플랫 카드+헤어라인), 커리어리(질문/답변), 랠릿(대시보드) — 단일 액션 컬러, 플랫 카드 패턴
+- [x] R4: 디자인 토큰 — Tailwind v4 `@theme` 스니펫, Pretendard/Geist/Suit 폰트 조합, soft shadows, aurora, CSS 변수 다크모드
+- [x] C1~C4: 코드 분석 4건 — 글로벌 셸 23건 (토큰 부재/loading.tsx 0개/next/image 0건/다크 모드 라이트 강제/랜딩 흰 배경 충돌/nav 3중 중복/드로어 무애니메이션), 인증·홈·공유 18건 (fetchUser 타임아웃 없음/Mock 체험 프로덕션 노출/에러 화면 데드 코드/ThinkingBubble/CareerAssistantPanel `animate-in` 무효), 핵심기능 1·2 (interview 새로고침 히스토리 소실·종료 UX 없음·stop() 미사용, resume AI 비스트리밍, career 수정 없음·pgvector 실패 가짜 결과, docs WASM 로딩 UX 부족, admin 에러 무시 등)
+
+### 2. 구현 (병렬 8개)
+- [x] P0: **Next 16.2.12 업그레이드** (next ^15.1.0→^16.2.12, React 19.2.8 유지) + `middleware-to-proxy` 코어모드로 `src/middleware.ts` → `src/proxy.ts` 전환 (보안 로직 11경로·jose 그대로, Node 런타임) + `next.config.ts` eslint 옵션 제거 + `lint` 스크립트 `next lint`→`tsc --noEmit` (Next 16에서 `next lint` 제거됨)
+- [x] P1: globals.css `@theme` 토큰 확장 — `shadow-soft/card/lift`, `animate-fade-in-up`, `animate-shimmer`, `.skeleton` 유틸(shimmer sweep, reduced-motion 대응), `::selection` 병합 / `src/lib/nav.ts` 단일 소스 + Navbar/Sidebar/RootLayoutClient 통합 / 모바일 드로어 (300ms 슬라이드+백드롭+스크롤락+라우트 자동 닫기) / 페이지 전환 `key={pathname}`+fade / `loading.tsx` 스켈레톤 / `error.tsx` 신규 / `Skeleton.tsx` 공통 컴포넌트 / LogoImage sonner toast 전환
+- [x] P2: AuthContext fetchUser 10초 타임아웃 + `state.error` 소비 / login·register 개편 (Mock 체험 블록 dev 전용 게이팅, 에러 매핑, 제출 중 disabled, 비밀번호 강도 힌트, shadow-card+그라디언트 배경) / r/[id] 데모 폴백→진짜 에러 화면+미리보기 배지+스켈레톤 / ThinkingBubble indeterminate 진행바+aria / CareerAssistantPanel 무효 `animate-in`→CSS transition+모바일 바텀시트+데모 배지 / 랜딩 데드 코드 제거·배경 그라디언트 정합·푸터 2중 제거·fade-in-up
+- [x] P3: useChat `streamStarted`+`status`+`stop()` 실동작 / interview 새로고침 히스토리 복원(localStorage 백업) + 종료 확인 모달+PATCH `completed`+요약 표시 + 생성 중지 버튼 + dots 단일화 / resume 캔버스 스켈레톤·미평가 배지·탭 접근성·제목 디바운스 자동저장 / resume·interview 목록 스켈레톤·빈 상태·카드 hover / **`PATCH /api/interviews/[id]` 신규** (면접 완료 상태 반영)
+- [x] P4: ats·qa·humanizer 전면 재작성 — 단계 인디케이터(파싱→분석→산출, 700ms 상태머신)+구조 스켈레톤+ScoreRing SVG 애니메이션+fade-in-up+히스토리(스켈레톤/빈 상태/다시보기/삭제)+인라인 에러+재시도+드래그&드롭+복사 폴백+`role=status`
+- [x] P5: **`PUT /api/careers/[id]` 신규** (POST 동일 검증+소유권+임베딩 재생성) / career 목록 가짜 결과 제거(demo- 감지→에러 박스)+검색 3단계 인디케이터+수정 모달+삭제 확인 / **career/[id] 상세 페이지 신규** (유사 경력 추천+similarity%) / studio next/image 전환+드래그&드롭+업로드 오버레이+그리드 개편
+- [x] P6: HwpViewer 로딩 영원히 걸리던 버그 수정+문서별 파싱 캐시+단계 시각화+확대/축소 / docs/[id] 미리보기/전체 토글+복사+txt 다운로드 / HwpEditor 로딩 오버레이+10MB 경고 / community 칩 필터+아바타+상대시간+커스텀 삭제 모달+글자수 카운터 / docs 아이콘·토스트 한국어 통일
+- [x] P7: settings 알림 토글 localStorage 영속화+role=switch+계정 삭제 "삭제" 텍스트 입력 확인 / admin 에러 토스트+인라인 에러+재시도+careersCount 카드 5종+테이블 개편+새로고침+fade-in-up
+
+### 3. 검증/정리
+- [x] `npx tsc --noEmit` 0 / `npm test` **55/55** / `npm run build` 성공 (**Proxy (Middleware) 인식**, 56 정적 페이지)
+- [x] AuthContext 다크모드 강제 잔재(`html.classList`) 제거 — CSS에 `.light/.dark` 의존 0건 확인 후
+- [x] 잔여 (의도적 유지): QA/Humanizer 삭제 API, 커뮤니티 좋아요 API, admin 사용자 관리 API, avatar 업로드 API는 백엔드 엔드포인트 부재로 미구현 — 향후 확장용
+- [x] README 갱신 + 커밋 완료 (push 안 함)

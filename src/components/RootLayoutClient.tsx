@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import CareerAssistantPanel from '@/components/CareerAssistantPanel';
+import { NAV_ITEMS, NAV_SECTIONS, isNavItemActive } from '@/lib/nav';
 
 export default function RootLayoutClient({
   children,
@@ -16,24 +17,30 @@ export default function RootLayoutClient({
   const isAuthPage = pathname.startsWith('/auth');
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [assistantPanelOpen, setAssistantPanelOpen] = useState(false);
+
+  const closeMobileMenu = useCallback(() => setMobileMenuOpen(false), []);
 
   useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
+    closeMobileMenu();
+  }, [pathname, closeMobileMenu]);
 
-  const navLinks = [
-    { name: '홈', path: '/' },
-    { name: 'AI 이력서', path: '/resume' },
-    { name: '모의면접', path: '/interview' },
-    { name: 'ATS 분석', path: '/ats' },
-    { name: 'Humanizer', path: '/humanizer' },
-    { name: 'Q&A', path: '/qa' },
-    { name: '경력', path: '/career' },
-    { name: '스튜디오', path: '/studio' },
-    { name: '문서', path: '/docs' },
-    { name: '소개', path: '/presentation' },
-  ];
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') closeMobileMenu();
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen, closeMobileMenu]);
 
   if (isAuthPage) {
     return (
@@ -44,73 +51,85 @@ export default function RootLayoutClient({
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-      <Navbar />
+    <div className="min-h-screen bg-gray-50 text-slate-900 flex flex-col">
+      <Navbar onMenuToggle={() => setMobileMenuOpen((open) => !open)} menuOpen={mobileMenuOpen} />
 
       <div className="flex flex-1 overflow-hidden relative">
         <div className="hidden md:block">
           <Sidebar />
         </div>
 
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-50 md:hidden flex">
-            <div
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            <div className="relative w-64 max-w-[80vw] bg-slate-900 h-full p-4 z-10 flex flex-col shadow-2xl">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-                <span className="font-bold text-white text-lg">Kairos Menu</span>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-400 hover:text-white text-xl"
-                >
-                  ✕
-                </button>
-              </div>
-              <nav className="mt-4 flex-1 space-y-2 overflow-y-auto">
-                {navLinks.map((item) => (
-                  <Link
-                    key={item.path}
-                    href={item.path}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`block px-3 py-2 rounded-lg text-sm font-medium ${
-                      pathname === item.path
-                        ? 'bg-indigo-600/30 text-indigo-300'
-                        : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </nav>
-              <div className="pt-4 border-t border-slate-800">
-                <Link
-                  href="/settings"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 text-sm text-slate-400 hover:text-white"
-                >
-                  <span>⚙️</span>
-                  <span>설정</span>
-                </Link>
-              </div>
+        <div
+          className={`fixed inset-0 z-50 md:hidden ${mobileMenuOpen ? '' : 'pointer-events-none'}`}
+          aria-hidden={!mobileMenuOpen}
+        >
+          <div
+            className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+              mobileMenuOpen ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={closeMobileMenu}
+          />
+          <aside
+            className={`absolute inset-y-0 left-0 w-72 max-w-[85vw] bg-slate-900 border-r border-slate-800 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
+              mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+            }`}
+          >
+            <div className="flex items-center justify-between p-4 border-b border-slate-800">
+              <span className="font-bold text-white text-lg tracking-wide">Kairos Career OS</span>
+              <button
+                onClick={closeMobileMenu}
+                aria-label="메뉴 닫기"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
-          </div>
-        )}
+            <nav className="flex-1 p-4 space-y-1 overflow-y-auto" aria-label="모바일 메뉴">
+              {NAV_SECTIONS.map((section) => {
+                const items = NAV_ITEMS.filter((item) => item.section === section.key);
+                if (items.length === 0) return null;
+                return (
+                  <div key={section.key} className="mb-3">
+                    <p className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                      {section.label}
+                    </p>
+                    <div className="space-y-0.5">
+                      {items.map((item) => {
+                        const isActive = isNavItemActive(item, pathname);
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={closeMobileMenu}
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                              isActive
+                                ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30'
+                                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                            }`}
+                          >
+                            <span className="text-base">{item.icon}</span>
+                            <span>{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </nav>
+            <div className="p-4 border-t border-slate-800 text-xs text-slate-500">
+              © 2026 Kairos
+            </div>
+          </aside>
+        </div>
 
-        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-          <div className="md:hidden flex items-center justify-between p-3 bg-slate-900 border-b border-slate-800">
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white"
-            >
-              ☰ 메뉴
-            </button>
-            <span className="font-semibold text-sm text-slate-200">Kairos Career OS</span>
-            <div className="w-16" />
-          </div>
-
-          <main className="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
+        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto bg-gray-50">
+          <main
+            key={pathname}
+            className="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto animate-fade-in-up motion-reduce:animate-none"
+          >
             {children}
           </main>
         </div>
@@ -118,13 +137,13 @@ export default function RootLayoutClient({
         <CareerAssistantPanel />
       </div>
 
-      <footer className="border-t border-slate-800/80 bg-slate-900/50 py-6 text-center text-xs text-slate-500">
+      <footer className="border-t border-slate-200 bg-white/70 py-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>© 2026 Kairos Personal AI Career Steward. All rights reserved.</div>
-          <nav className="flex items-center gap-4">
-            {navLinks.slice(0, 5).map((item) => (
-              <Link key={item.path} href={item.path} className="hover:text-slate-400">
-                {item.name}
+          <nav className="flex flex-wrap items-center justify-center gap-4" aria-label="푸터 메뉴">
+            {NAV_ITEMS.filter((item) => item.section !== 'account').map((item) => (
+              <Link key={item.href} href={item.href} className="hover:text-blue-600 transition-colors">
+                {item.label}
               </Link>
             ))}
           </nav>

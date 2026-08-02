@@ -1,7 +1,20 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { toast } from 'sonner';
 import type { User, AuthResponse } from '../../shared/types';
+
+const FETCH_TIMEOUT_MS = 10_000;
+
+function networkErrorMessage(err: unknown): string {
+  if (err instanceof DOMException && err.name === 'AbortError') {
+    return '서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.';
+  }
+  if (err instanceof TypeError) {
+    return '서버에 연결할 수 없습니다. 네트워크 상태를 확인해주세요.';
+  }
+  return '일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+}
 
 interface AuthState {
   user: User | null;
@@ -29,6 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     error: null,
   });
 
+  const clearAuthState = useCallback(() => {
+    setState({ user: null, authenticated: false, loading: false, error: null });
+  }, []);
+
   const fetchUser = useCallback(async () => {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
@@ -45,13 +62,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch {}
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
-      const res = await fetch('/api/auth/me');
-      if (!res.ok) throw new Error('Not authenticated');
+      const res = await fetch('/api/auth/me', { signal: controller.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json() as { user: User | null };
       setState({ user: data.user, authenticated: !!data.user, loading: false, error: null });
-    } catch {
-      setState({ user: null, authenticated: false, loading: false, error: null });
+    } catch (err: unknown) {
+      const message = networkErrorMessage(err);
+      setState({ user: null, authenticated: false, loading: false, error: message });
+      toast.error(`사용자 정보를 불러오지 못했습니다: ${message}`);
+    } finally {
+      clearTimeout(timeoutId);
     }
   }, []);
 
@@ -109,7 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setState({ user: data.user, authenticated: true, loading: false, error: null });
       return true;
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '로그인 오류';
+      const message = err instanceof Error && err.message !== 'Failed to fetch' ? err.message : networkErrorMessage(err);
       setState(prev => ({ ...prev, loading: false, error: message }));
       return false;
     }
@@ -132,7 +155,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setState({ user: data.user, authenticated: true, loading: false, error: null });
       return true;
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : '회원가입 오류';
+      const message = err instanceof Error && err.message !== 'Failed to fetch' ? err.message : networkErrorMessage(err);
       setState(prev => ({ ...prev, loading: false, error: message }));
       return false;
     }
@@ -146,23 +169,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (typeof window !== 'undefined' && localStorage.getItem('is_mock_mode') === 'true') {
       ['is_mock_mode', 'mock_profile_idx', 'mock_user', 'mock_resumes', 'mock_careers',
        'mock_interviews', 'mock_chats', 'mock_docs', 'mock_qa'].forEach(k => localStorage.removeItem(k));
-      setState({ user: null, authenticated: false, loading: false, error: null });
+      clearAuthState();
       window.location.href = '/auth/login';
       return;
     }
-    try { await fetch('/api/auth/logout', { method: 'POST' }); } catch {}
-    setState({ user: null, authenticated: false, loading: false, error: null });
+    try {
+      const res = await fetch('/api/auth/logout', { method: 'POST' });
+      if (res.ok) {
+        clearAuthState();
+      } else {
+        clearAuthState();
+        toast.warning('로그아웃 중 오류가 발생했습니다: 세션이 만료되었습니다. 다시 로그인해주세요.');
+      }
+    } catch {
+      clearAuthState();
+      toast.warning('서버에 연결할 수 없습니다: 로컬 로그인 상태는 해제되었습니다.');
+    }
     window.location.href = '/auth/login';
-  }, []);
+  }, [clearAuthState]);
 
   useEffect(() => {
     fetchUser();
-    // Force light mode
-    if (typeof document !== 'undefined') {
-      const html = document.documentElement;
-      html.classList.remove('dark');
-      html.classList.add('light');
-    }
   }, [fetchUser]);
 
   return (

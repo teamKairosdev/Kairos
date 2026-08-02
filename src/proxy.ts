@@ -21,7 +21,7 @@ function getJwtSecret(): Uint8Array {
   return new TextEncoder().encode(secret);
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const isProtected = PROTECTED_PATHS.some(p =>

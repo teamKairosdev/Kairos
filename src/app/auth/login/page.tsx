@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Spinner from '@/components/Spinner';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 interface EthereumProvider {
   isMetaMask?: boolean;
   request: <T = unknown>(args: { method: string; params?: unknown[] }) => Promise<T>;
@@ -13,47 +15,53 @@ interface EthereumProvider {
 
 type WalletProvider = EthereumProvider | null | undefined;
 
+const inputClass =
+  'w-full px-4 py-3 rounded-xl border border-gray-200 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none disabled:bg-gray-50 disabled:text-gray-400';
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [walletLoading, setWalletLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [localError, setLocalError] = useState('');
 
-  const { login, loginWithGoogle } = useAuth();
+  const { state, login, loginWithGoogle } = useAuth();
   const router = useRouter();
+
+  const displayError = localError || state.error || '';
+  const formDisabled = loading || walletLoading || socialLoading;
 
   async function handleLogin(e?: React.FormEvent) {
     if (e) e.preventDefault();
+    if (loading) return;
     setLoading(true);
-    setErrorMsg('');
+    setLocalError('');
     try {
       const success = await login(email, password);
       if (success) {
         router.push('/');
-      } else {
-        setErrorMsg('로그인 정보가 올바르지 않습니다.');
       }
     } catch {
-      setErrorMsg('오류가 발생했습니다.');
+      setLocalError('오류가 발생했습니다.');
     } finally {
       setLoading(false);
     }
   }
 
   async function fillMockCredentials() {
+    if (loading) return;
     setEmail('testmockup');
     setPassword('12345');
     setLoading(true);
-    setErrorMsg('');
+    setLocalError('');
     try {
       const success = await login('testmockup', '12345');
       if (success) {
         router.push('/');
       }
     } catch {
-      setErrorMsg('오류가 발생했습니다.');
+      setLocalError('오류가 발생했습니다.');
     } finally {
       setLoading(false);
     }
@@ -66,11 +74,11 @@ export default function LoginPage() {
 
   async function connectWallet(getProvider: () => WalletProvider, networkName: string) {
     setWalletLoading(true);
-    setErrorMsg('');
+    setLocalError('');
     try {
       const provider = getProvider();
       if (!provider) {
-        setErrorMsg(`${networkName} 지갑을 찾을 수 없습니다.`);
+        setLocalError(`${networkName} 지갑을 찾을 수 없습니다.`);
         return;
       }
       const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' });
@@ -90,14 +98,14 @@ export default function LoginPage() {
       if (walletRes.ok) {
         router.push('/');
       } else {
-        setErrorMsg('지갑 로그인 인증에 실패했습니다.');
+        setLocalError('지갑 로그인 인증에 실패했습니다.');
       }
     } catch (err: unknown) {
       const msg =
         typeof err === 'object' && err !== null && 'message' in err
           ? (err as { message: unknown }).message
           : undefined;
-      setErrorMsg(typeof msg === 'string' && msg ? msg : '지갑 연동 오류가 발생했습니다.');
+      setLocalError(typeof msg === 'string' && msg ? msg : '지갑 연동 오류가 발생했습니다.');
     } finally {
       setWalletLoading(false);
     }
@@ -115,73 +123,92 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-8 sm:py-12">
-      <div className="w-full max-w-sm">
-        <div className="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-xl shadow-gray-100/60 space-y-6 relative overflow-hidden">
-          <div className="absolute -right-16 -top-16 w-32 h-32 bg-blue-100/20 blur-[30px] rounded-full pointer-events-none" />
-          <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-indigo-100/20 blur-[30px] rounded-full pointer-events-none" />
+    <div className="min-h-[calc(100vh-64px)] w-full flex items-center justify-center px-4 py-8 sm:py-12 bg-gradient-to-br from-slate-950 via-indigo-950/80 to-slate-900">
+      <div className="w-full max-w-sm animate-fade-in-up motion-reduce:animate-none">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-card space-y-6 relative overflow-hidden border border-gray-100">
+          <div className="absolute -right-16 -top-16 w-32 h-32 bg-blue-100/30 blur-[30px] rounded-full pointer-events-none" />
+          <div className="absolute -left-16 -bottom-16 w-32 h-32 bg-indigo-100/30 blur-[30px] rounded-full pointer-events-none" />
 
           <div className="relative text-center space-y-2">
-            <div className="w-10 h-10 bg-gray-900 rounded-2xl flex items-center justify-center font-black text-white text-lg mx-auto mb-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center font-black text-white text-xl mx-auto mb-3 shadow-lg shadow-blue-600/30">
               K
             </div>
             <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">Kairos 로그인</h1>
             <p className="text-xs text-gray-400 font-medium">개인 맞춤형 AI 커리어 어시스턴트</p>
+          </div>
 
-            {/* Mock Mode Quick Access */}
-            <div className="mt-4 p-3 bg-blue-50 rounded-2xl border border-blue-100/50 text-left space-y-2">
+          {isDev && (
+            <div className="relative p-3 bg-blue-50 rounded-2xl border border-blue-100/50 text-left space-y-2">
               <div className="flex items-center gap-1.5 text-xs font-bold text-blue-700">
                 <span>💡</span>
                 <span>테스트 모드 (Mock 체험)</span>
               </div>
               <p className="text-[10px] text-blue-600 font-medium leading-relaxed">
-                아이디: <code className="bg-white/80 px-1 py-0.5 rounded font-mono">testmockup</code> / 비번: <code className="bg-white/80 px-1 py-0.5 rounded font-mono">12345</code><br />
-                50개 직무 데이터셋 중 하나를 임의로 지정해 오프라인 테스트를 진행합니다.
+                아이디: <code className="bg-white/80 px-1 py-0.5 rounded font-mono">testmockup</code> / 비번: <code className="bg-white/80 px-1 py-0.5 rounded font-mono">12345</code>
               </p>
               <button
                 type="button"
                 onClick={fillMockCredentials}
-                className="w-full py-2.5 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs"
+                disabled={formDisabled}
+                className="w-full py-2.5 text-center bg-blue-600 hover:bg-blue-700 active:scale-[0.98] disabled:opacity-50 text-white font-bold text-xs rounded-xl transition-all duration-200 shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
               >
                 간편 로그인으로 바로 시작하기
               </button>
             </div>
-          </div>
+          )}
 
           <form onSubmit={handleLogin} className="relative space-y-4">
             <div>
-              <label className="block text-xs font-bold text-gray-500 mb-1.5">아이디 (또는 이메일)</label>
+              <label htmlFor="login-email" className="block text-xs font-bold text-gray-500 mb-1.5">
+                아이디 (또는 이메일)
+              </label>
               <input
+                id="login-email"
                 type="text"
                 required
+                autoComplete="username"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
+                disabled={formDisabled}
                 placeholder="아이디 또는 이메일을 입력하세요"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                aria-invalid={!!displayError}
+                aria-describedby={displayError ? 'login-error' : undefined}
+                className={inputClass}
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-500 mb-1.5">비밀번호</label>
+              <label htmlFor="login-password" className="block text-xs font-bold text-gray-500 mb-1.5">
+                비밀번호
+              </label>
               <input
+                id="login-password"
                 type="password"
                 required
+                autoComplete="current-password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
+                disabled={formDisabled}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
+                aria-invalid={!!displayError}
+                aria-describedby={displayError ? 'login-error' : undefined}
+                className={inputClass}
               />
             </div>
 
-            {errorMsg && (
-              <div className="px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium">
-                {errorMsg}
+            {displayError && (
+              <div
+                id="login-error"
+                role="alert"
+                className="px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium"
+              >
+                {displayError}
               </div>
             )}
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 hover:shadow-md hover:shadow-blue-100 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+              disabled={formDisabled}
+              className="w-full py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 active:scale-[0.98] transition-all duration-200 shadow-md shadow-blue-600/20 disabled:opacity-50 disabled:active:scale-100 flex items-center justify-center gap-2 mt-2 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
             >
               {loading ? (
                 <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -195,11 +222,10 @@ export default function LoginPage() {
             <div className="relative flex justify-center"><span className="bg-white px-3 text-[10px] uppercase font-bold tracking-wider text-gray-400">또는</span></div>
           </div>
 
-          {/* Google login */}
           <button
             onClick={handleGoogleLogin}
-            disabled={socialLoading}
-            className="w-full py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-50 hover:text-gray-900 transition-all flex items-center justify-center gap-2.5 disabled:opacity-50"
+            disabled={formDisabled}
+            className="w-full py-3 rounded-xl border border-gray-200 bg-white text-gray-700 text-sm font-semibold hover:bg-gray-50 hover:text-gray-900 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -207,7 +233,7 @@ export default function LoginPage() {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
             </svg>
-            Google로 로그인
+            {socialLoading ? 'Google 로그인 중...' : 'Google로 로그인'}
           </button>
 
           <div className="relative">
@@ -218,15 +244,15 @@ export default function LoginPage() {
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={connectKaikas}
-              disabled={walletLoading}
-              className="py-3.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
+              disabled={formDisabled}
+              className="py-3.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
             >
-              Kaikas
+              {walletLoading ? '연결 중...' : 'Kaikas'}
             </button>
             <button
               onClick={connectMetaMask}
-              disabled={walletLoading}
-              className="py-3.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-all disabled:opacity-50"
+              disabled={formDisabled}
+              className="py-3.5 rounded-xl border border-gray-200 bg-white text-gray-600 text-xs font-semibold hover:bg-gray-50 active:scale-[0.98] transition-all duration-200 disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
             >
               MetaMask
             </button>
@@ -234,7 +260,10 @@ export default function LoginPage() {
 
           <p className="text-center text-xs text-gray-400">
             계정이 없으신가요?
-            <Link href="/auth/register" className="text-blue-600 font-semibold hover:underline ml-1">
+            <Link
+              href="/auth/register"
+              className="text-blue-600 font-semibold hover:underline ml-1 transition-colors"
+            >
               회원가입
             </Link>
           </p>

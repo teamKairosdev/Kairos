@@ -26,6 +26,7 @@ export default function ResumeListPage() {
   const toast = useToast();
   const [resumes, setResumes] = useState<ResumeItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
@@ -34,14 +35,19 @@ export default function ResumeListPage() {
   const { parseResumeFile } = useDocumentParser();
 
   async function fetchResumes() {
+    setLoading(true);
+    setFetchError(false);
     try {
       const res = await fetch('/api/resumes');
       if (res.ok) {
         const data = (await res.json()) as ResumeItem[];
         setResumes(data || []);
+      } else {
+        throw new Error(`요청 실패 (${res.status})`);
       }
-    } catch {
-      // fallback
+    } catch (err: unknown) {
+      setFetchError(true);
+      toast.add({ title: '목록을 불러오지 못했습니다.', description: err instanceof Error ? err.message : '잠시 후 다시 시도해 주세요.', color: 'red' });
     } finally {
       setLoading(false);
     }
@@ -156,15 +162,45 @@ export default function ResumeListPage() {
         <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4">내 이력서</h2>
 
         {loading ? (
-          <div className="flex justify-center py-12">
-            <Spinner />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[0, 1, 2].map(i => (
+              <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 space-y-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="space-y-2 flex-1">
+                    <div className="skeleton animate-pulse w-20 h-4 rounded-full" />
+                    <div className="skeleton animate-pulse w-36 h-4 rounded" />
+                  </div>
+                  <div className="skeleton animate-pulse w-14 h-9 rounded-lg" />
+                </div>
+                <div className="skeleton animate-pulse w-full h-10 rounded-lg" />
+                <div className="flex items-center justify-between pt-1">
+                  <div className="skeleton animate-pulse w-24 h-3 rounded" />
+                  <div className="flex gap-2">
+                    <div className="skeleton animate-pulse w-20 h-8 rounded-lg" />
+                    <div className="skeleton animate-pulse w-20 h-8 rounded-lg" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : fetchError ? (
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-12 text-center space-y-3 animate-fade-in-up">
+            <div className="text-2xl">⚠️</div>
+            <p className="text-sm font-medium text-gray-600">이력서 목록을 불러오지 못했습니다.</p>
+            <p className="text-xs text-gray-400">네트워크 상태를 확인한 후 다시 시도해 주세요.</p>
+            <button
+              onClick={fetchResumes}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-all duration-200 active:scale-[0.98]"
+            >
+              다시 시도
+            </button>
           </div>
         ) : resumes && resumes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {resumes.map(r => (
               <div
                 key={r.id}
-                className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 hover:shadow-md hover:border-blue-100 transition-all group space-y-4"
+                className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 hover:shadow-card hover:-translate-y-0.5 hover:border-blue-200 transition-all duration-200 group space-y-4"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
@@ -182,8 +218,14 @@ export default function ResumeListPage() {
                     <h3 className="text-sm font-bold text-gray-900 truncate">{r.title}</h3>
                   </div>
                   <div className="shrink-0 text-right">
-                    <div className="text-2xl font-black text-blue-600">{r.currentScore || 0}</div>
-                    <div className="text-[10px] text-gray-400 font-medium">점</div>
+                    {r.currentScore == null ? (
+                      <div className="text-xs font-bold text-gray-400 bg-gray-50 border border-gray-100 rounded-lg px-2 py-1.5">미평가</div>
+                    ) : (
+                      <>
+                        <div className="text-2xl font-black text-blue-600">{r.currentScore}</div>
+                        <div className="text-[10px] text-gray-400 font-medium">점</div>
+                      </>
+                    )}
                   </div>
                 </div>
 

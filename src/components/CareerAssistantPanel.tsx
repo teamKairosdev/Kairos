@@ -1,19 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import ThinkingBubble from './ThinkingBubble';
+
+interface PanelMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  diffSuggested?: string;
+  isDemo?: boolean;
+}
 
 export default function CareerAssistantPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputQuery, setInputQuery] = useState('');
-  const [messages, setMessages] = useState<
-    Array<{ role: 'user' | 'assistant'; content: string; diffSuggested?: string }>
-  >([
+  const [messages, setMessages] = useState<PanelMessage[]>([
     {
       role: 'assistant',
       content:
         '안녕하세요! Kairos AI 커리어 비서입니다. 이력서 튜닝, 면접 질문 준비, JD 성과 도출 등 무엇이든 질문해주세요.',
+      isDemo: true,
     },
   ]);
 
@@ -33,12 +39,21 @@ export default function CareerAssistantPanel() {
   const [savedChatUrl, setSavedChatUrl] = useState<string | null>(null);
   const [savingChat, setSavingChat] = useState(false);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el && isOpen) {
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    }
+  }, [messages, thinkingState.active, isOpen]);
+
   async function handleSend(e?: React.FormEvent) {
     if (e) e.preventDefault();
     const query = inputQuery.trim();
-    if (!query) return;
+    if (!query || thinkingState.active) return;
 
-    const userMsg = { role: 'user' as const, content: query };
+    const userMsg: PanelMessage = { role: 'user', content: query };
     setMessages((prev) => [...prev, userMsg]);
     setInputQuery('');
 
@@ -87,7 +102,7 @@ export default function CareerAssistantPanel() {
 
     setMessages((prev) => [
       ...prev,
-      { role: 'assistant', content: responseText, diffSuggested },
+      { role: 'assistant', content: responseText, diffSuggested, isDemo: true },
     ]);
   }
 
@@ -115,20 +130,30 @@ export default function CareerAssistantPanel() {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg shadow-indigo-500/30 hover:scale-105 transition-all font-medium text-sm border border-indigo-400/30"
+        aria-label="AI 커리어 패널 열기"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg shadow-indigo-500/30 hover:scale-105 active:scale-[0.98] transition-all duration-200 font-medium text-sm border border-indigo-400/30 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
       >
-        <span className="text-base">🤖</span>
+        <span aria-hidden className="text-base">🤖</span>
         <span>AI 커리어 패널</span>
       </button>
     );
   }
 
   return (
-    <aside className="fixed bottom-6 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] h-[520px] bg-slate-900/95 backdrop-blur-md border border-slate-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-200 animate-in fade-in slide-in-from-bottom-4 duration-300">
+    <aside
+      role="dialog"
+      aria-modal="true"
+      aria-label="Kairos AI 커리어 어시스턴트"
+      className={`fixed z-50 flex flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/95 backdrop-blur-md text-slate-200 shadow-lift transition-all duration-300 ease-out will-change-transform ${
+        isOpen
+          ? 'translate-y-0 opacity-100 scale-100'
+          : 'translate-y-6 opacity-0 scale-95 pointer-events-none'
+      } left-4 right-4 bottom-4 h-[70dvh] max-h-[600px] sm:left-auto sm:right-6 sm:bottom-6 sm:h-[520px] sm:w-96`}
+    >
       {/* Header */}
       <div className="p-3.5 bg-slate-800/80 border-b border-slate-700/60 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-lg">🤖</span>
+          <span aria-hidden className="text-lg">🤖</span>
           <div>
             <h3 className="text-sm font-semibold text-white leading-none">Kairos AI 어시스턴트</h3>
             <p className="text-[10px] text-indigo-400 font-mono mt-0.5">Career Guidance Engine</p>
@@ -136,14 +161,15 @@ export default function CareerAssistantPanel() {
         </div>
         <button
           onClick={() => setIsOpen(false)}
-          className="text-slate-400 hover:text-white text-lg p-1 rounded-lg hover:bg-slate-700/50"
+          aria-label="AI 커리어 패널 닫기"
+          className="text-slate-400 hover:text-white text-lg p-1 rounded-lg hover:bg-slate-700/50 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
         >
           ✕
         </button>
       </div>
 
       {/* Messages Scroll Area */}
-      <div className="flex-1 p-4 space-y-3 overflow-y-auto text-xs">
+      <div ref={scrollRef} className="flex-1 p-4 space-y-3 overflow-y-auto text-xs">
         {messages.map((m, idx) => (
           <div
             key={idx}
@@ -163,6 +189,11 @@ export default function CareerAssistantPanel() {
                 </div>
               )}
             </div>
+            {m.isDemo && m.role === 'assistant' && (
+              <span className="mt-1 text-[9px] font-bold text-amber-400/90 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded-md">
+                미리보기 응답
+              </span>
+            )}
           </div>
         ))}
 
@@ -184,12 +215,13 @@ export default function CareerAssistantPanel() {
             onChange={(e) => setInputQuery(e.target.value)}
             placeholder="질문을 입력하세요..."
             disabled={thinkingState.active}
-            className="flex-1 px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+            aria-label="커리어 질문 입력"
+            className="flex-1 px-3 py-2 text-xs bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={thinkingState.active}
-            className="px-3 py-2 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded-lg transition-colors"
+            className="px-3 py-2 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 active:scale-[0.98] text-white rounded-lg transition-all duration-200 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
           >
             전송
           </button>
@@ -199,7 +231,7 @@ export default function CareerAssistantPanel() {
           <button
             onClick={handleSaveChat}
             disabled={savingChat || messages.length <= 1}
-            className="text-indigo-400 hover:text-indigo-300 disabled:opacity-40"
+            className="text-indigo-400 hover:text-indigo-300 disabled:opacity-40 transition-colors"
           >
             {savingChat ? '저장 중...' : '🔗 공유 가능 링크 생성'}
           </button>

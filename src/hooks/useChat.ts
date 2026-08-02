@@ -14,6 +14,8 @@ export interface ChatMessage {
   content: string;
 }
 
+export type ChatStatus = 'idle' | 'loading' | 'streaming' | 'stop';
+
 export interface UseChatOptions {
   api?: string;
   body?: Record<string, unknown>;
@@ -26,6 +28,8 @@ export function useChat(options: UseChatOptions = {}) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [streamStarted, setStreamStarted] = useState(false);
+  const [status, setStatus] = useState<ChatStatus>('idle');
   const [error, setError] = useState<Error | undefined>(undefined);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -37,7 +41,10 @@ export function useChat(options: UseChatOptions = {}) {
   const setMessageInput = useCallback((value: string) => setInput(value), []);
 
   const stop = useCallback(() => {
-    abortRef.current?.abort();
+    if (!abortRef.current) return;
+    abortRef.current.abort();
+    setStreamStarted(false);
+    setStatus('stop');
   }, []);
 
   const handleSubmit = useCallback(
@@ -51,6 +58,8 @@ export function useChat(options: UseChatOptions = {}) {
       setMessages(messagesToSend);
       setInput('');
       setIsLoading(true);
+      setStreamStarted(false);
+      setStatus('loading');
       setError(undefined);
 
       const abort = new AbortController();
@@ -81,6 +90,8 @@ export function useChat(options: UseChatOptions = {}) {
           const { done, value } = await reader.read();
           if (done) break;
           assistantText += decoder.decode(value, { stream: true });
+          setStreamStarted(true);
+          setStatus('streaming');
           setMessages([
             ...messagesToSend,
             { role: 'assistant', content: assistantText },
@@ -89,11 +100,15 @@ export function useChat(options: UseChatOptions = {}) {
 
         const finalMsg: ChatMessage = { role: 'assistant', content: assistantText };
         setMessages([...messagesToSend, finalMsg]);
+        setStreamStarted(false);
+        setStatus('idle');
         onFinish?.(finalMsg);
       } catch (err: unknown) {
         if (abort.signal.aborted) return;
         const error = err instanceof Error ? err : new Error('알 수 없는 오류가 발생했습니다.');
         setError(error);
+        setStreamStarted(false);
+        setStatus('idle');
         onError?.(error);
       } finally {
         setIsLoading(false);
@@ -111,6 +126,8 @@ export function useChat(options: UseChatOptions = {}) {
     stop,
     error,
     isLoading,
+    streamStarted,
+    status,
     setMessages,
     setInput: setMessageInput,
   };
