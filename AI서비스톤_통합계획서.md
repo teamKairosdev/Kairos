@@ -681,11 +681,14 @@
 - [x] 실제 구현 완료: QA 생성과 Humanizer는 `src/server/qa.ts`, `src/server/humanizer.ts`, 각 `generate`·`process` 라우트의 구조화 응답 스키마와 `test/services/humanizer.test.ts`로 확인된다
 - [x] 실제 구현 완료: Career CRUD·검색은 `src/app/api/careers/route.ts`, `src/app/api/careers/[id]/route.ts`, `src/app/api/careers/search/route.ts`, `src/server/career.ts`의 목록·생성·수정·삭제·시맨틱 검색 경로로 확인되며 검색 실패 시 demo 결과는 실제 검색 결과로 말하지 않는다
 - [x] 실제 구현 완료: HWP/HWPX 별도 문서 뷰어·에디터는 `src/components/HwpViewer.tsx`, `src/components/HwpEditor.tsx`, `src/app/(authenticated)/docs/[id]/page.tsx`, `src/app/(authenticated)/docs/edit/page.tsx`, docs API의 업로드·바이너리·텍스트 경로로 확인된다
-- [x] 실제 구현 완료: 기본 커뮤니티 CRUD 범위는 `src/app/api/community/route.ts`, `src/app/api/community/[id]/route.ts`, `src/app/(authenticated)/community/page.tsx`의 목록·상세 조회·작성·본인 글 삭제이며, 수정·좋아요·자동매칭은 포함하지 않는다
+- [x] 실제 구현 완료: 기본 커뮤니티 CRUD 범위는 `src/app/api/community/route.ts`, `src/app/api/community/[id]/route.ts`, `src/app/(authenticated)/community/page.tsx`의 목록·상세 조회·작성·본인 글 삭제이며, 익명글·활동점수·체크인 미션·결정론적 커리어 유사도 매칭은 별도 API로 제공한다
 - [ ] 프로토타입·데모 준비: `src/app/(authenticated)/ats/page.tsx`, `src/app/(authenticated)/resume/[id]/page.tsx`, `src/app/(authenticated)/interview/[id]/page.tsx`의 코드 흐름을 README Demo Mode의 `testmockup / 12345` 계정·샘플 데이터·성공 화면 캡처·1분 리허설로 묶어 준비한다
 - [ ] 프로토타입·데모 준비: `src/server/http.ts`, 각 실제 API 라우트의 오류 응답, 화면의 재시도 코드를 기준으로 정상 입력·빈 입력·LLM 오류·미인증·타인 자원 접근을 재현하고 정적 화면 대체경로를 확인한다
-- [x] 범위 제외: Deep Agent Canvas의 VM 할당·샌드박스 실행과 sLLM은 이번 구현·대회 범위에 포함하지 않으며 로드맵에도 남기지 않는다
-- [ ] 설계·로드맵: Deep Agent Canvas의 캔버스 UI·툴 호출·장시간 영속성·버전·`tool_low_edit` 편집, 외부 provider connector, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 구현 API·서비스 경로가 없어 향후 범위로 관리한다
+- [x] 실제 구현·제어면: SLM은 Ollama·llama.cpp·OpenAI-compatible adapter와 deterministic fallback 계약을 제공하고, VM은 disabled·remote-firecracker·windows-sandbox control-plane과 승인·timeout·네트워크 정책을 제공한다
+- [ ] 실행 조건: 실제 SLM 모델은 Ollama/llama.cpp endpoint와 모델이 필요하고, 실제 Firecracker는 Linux 원격 endpoint·인증·운영 격리가 필요하므로 설정 전에는 disabled 상태로 표시한다
+- [x] 실제 구현 완료: 외부 provider connector는 `src/server/providers`의 Gemini·OpenRouter·Ollama/llama.cpp·generic model adapter와 Hermes·OpenClaw·OpenCode external-agent adapter로 구분한다
+- [x] 실제 구현 완료: 서브에이전팅·자동매칭은 `agentRouter`·orchestration API·community matches API의 결정론적 병렬·유사도 경로로 제공하며, 독립 모델과 AI 행동평가를 완료했다고 과장하지 않는다
+- [ ] 설계·로드맵: Deep Agent의 외부 쉘·웹페치·PPTX/HWPX 자동 편집, 화상면접 분석, 3개월 상위 5% 성장판정은 현재 데이터·실행 경로가 없어 추가 검증 대상으로 관리한다
 - [x] 기술구현 40점 대응의 단일 기준: 기능 수가 아니라 실제 데모 3종의 입력→분석 또는 생성→사용자 확인 또는 승인→결과 저장·재조회까지 엔드투엔드로 평가한다
 - [x] 테스트 대응 근거: ATS 결정론적 로직, Gemini 텍스트·구조화 응답과 upstream SSE 청크 파싱, 가드레일 4계층, Humanizer에 대한 Vitest 테스트를 실행 근거로 제시하고 테스트 수와 실행일을 함께 기록한다
 - [x] 오류 대체경로 대응 근거: `http.ts`의 오류 응답, LLM 빈 응답·비정상 응답 처리, ATS·QA·Humanizer·Career 화면의 재시도, HWP 뷰어·에디터의 로딩·실패 재시도를 엔드투엔드 화면에 포함한다
@@ -693,7 +696,8 @@
 - [x] mock 구현 범위: 개발용 `testmockup / 12345` 로그인은 `is_mock_mode`·localStorage fixture·`initMockInterceptor`를 사용하고, 면접 plain-text mock 스트림과 HWP/HWPX 바이트 IndexedDB 저장·조회도 제공하지만 mock 응답은 실제 Gemini가 아니며 운영 DB 영속성의 증거가 아니다
 - [x] 실제 환경변수 의존성: 실제 Gemini 텍스트·구조화·면접 스트리밍·QA/Humanizer·이력서 개선에는 `GOOGLE_GENERATIVE_AI_API_KEY`가 필요하고, DB 기반 Career CRUD·시맨틱 검색과 영속 저장에는 `DATABASE_URL`·pgvector가 필요하며, `VERCEL_AI_GATEWAY_URL`·`VERCEL_AI_GATEWAY_KEY`는 선택 경로이고 HWP 에디터는 기본 공개 데모 origin 대신 기밀 문서 배포 시 `NEXT_PUBLIC_RHWP_STUDIO_URL` 셀프호스팅 설정이 필요하다
 - [x] 보안·소유권 제한: ATS는 세션 검증 후 DB 연결 시 연결된 `resumeId` 소유권을 확인하고, resume·interview·Career·docs·community 작성·삭제는 세션 또는 본인 조건을 사용하지만, community 조회는 공개이고 QA/Humanizer 생성·처리와 Career 검색의 비로그인·demo fallback은 완전한 운영 소유권 격리로 표현하지 않는다
-- [ ] 보안·소유권 보완: `resumes/[id]` PUT의 소유권 조건, 파일 메타데이터의 사용자 귀속, QA·Humanizer 비로그인 fallback, Career 검색 demo fallback을 점검한 뒤 발표에서 보안 완결로 과장하지 않는다
+- [x] 보안·소유권 보완 완료: resume·docs·interview·media·career·community·admin·provider·sandbox API의 세션·소유권·승인·입력 제한을 코드와 보안 테스트에서 확인한다
+- [ ] 보안 운영 과제: 로컬 파일시스템을 다중 인스턴스 object storage로 이전하고 provider별 보존·삭제·동의 정책을 운영 환경에서 검증한다
 - [ ] 기술구현 40점 체크: 데모 3종마다 정상 경로, 실패 경로, 테스트 근거, 소유권 경계, 발표용 대체경로를 한 장의 점검 카드로 만든다
 # 《9. UI/UX 계획 (원문 구상 + 리서치)》
 ## 《9-1. Deep Agent Canvas UX (Gemini Canvas 버전 이력, Claude Artifacts 버전 셀렉터·포크, AG-UI 이벤트 표시)》
@@ -789,8 +793,8 @@
 - [x] 실제 구현 완료: 공식 발표에는 ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접 스트림, QA·Humanizer, Career, HWP/HWPX, 기본 커뮤니티 CRUD 중 실제 코드 경로가 있는 내용만 구현 범위로 제시한다
 - [x] 발표자료의 실제 시연 범위: `src/data/presentationSlides.tsx`는 5분 발표에서 ATS 휴리스틱, 이력서 AI 개선·Diff 승인, 텍스트 기반 면접 3개만 직접 시연 대상으로 두며, QA/Humanizer·Career·HWP/HWPX·기본 커뮤니티 CRUD는 구현 완료 범위이지만 핵심 데모 3개와 혼동하지 않는다
 - [ ] 프로토타입·데모 준비: `src/app/(authenticated)/ats/page.tsx`, `src/app/(authenticated)/resume/[id]/page.tsx`, `src/app/(authenticated)/interview/[id]/page.tsx`의 실제 구현 흐름을 공식 10슬라이드 7에 성공 화면·오류 대체경로 캡처 또는 녹화로 배치한다
-- [x] 범위 제외: Deep Agent Canvas의 VM·샌드박스 실행과 sLLM은 이번 구현·대회 범위에 포함하지 않으며 공식 발표 로드맵에도 남기지 않는다
-- [ ] 설계·로드맵: Deep Agent Canvas의 캔버스 UI·툴 호출·영속성·버전·diff 편집, 외부 provider connector, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 API·서비스 경로가 없고 `packages/agent-cli`, `packages/tauri-bridge`, `packages/mobile-bridge`가 README에서 Mock 스텁으로 명시되므로 공식 10슬라이드 8에서 보완·확장 계획으로 관리한다
+- [x] 공식 발표 범위: SLM adapter·sandbox control-plane·Hermes/OpenClaw/OpenCode adapter는 실제 계약과 disabled 상태를 설명하고, remote runtime이 연결된 것처럼 말하지 않는다
+- [ ] 공식 발표 확장계획: 외부 쉘·웹페치·PPTX/HWPX 자동 편집, 화상면접 분석, 3개월 상위 5% 성장판정은 현재 분석·운영 검증 전이므로 구현 완료로 표시하지 않는다
 - [x] 원문 8슬라이드 구성은 1 타이틀, 2 서비스 개요 및 핵심 가치, 3 문제 배경 및 타깃 사용자, 4 서비스 주요 기능, 5 사용자 이용 흐름, 6 AI·SW 활용 기술 및 서비스 구조, 7 프로토타입 시연, 8 구현 범위 및 보완 계획으로 그대로 보존한다
 - [x] 공식 10슬라이드의 1~7은 원문 8슬라이드의 1~7과 대응한다
 - [x] 공식 10슬라이드 8은 기대효과 및 확장계획으로 사용하고, 원문 8의 구현 범위·미구현 기능·오류 제약은 공식 7의 시연 유의사항과 공식 8의 확장계획에 함께 배치한다
@@ -829,7 +833,8 @@
 - [x] 실제 데모 2 기능 범위: `/resume/[id]`에서 AI 개선 요청→개선 초안→`src/utils/diff.ts` Diff 확인→사용자 확정 적용→이력서 저장 흐름을 보여준다
 - [x] 실제 데모 3 기능 범위: `/interview/[id]`에서 텍스트 답변 입력→`/api/interviews/[id]/chat`의 클라이언트 plain-text 스트림→실시간 답변 표시→면접 종료·완료 상태 저장 흐름을 보여주며, upstream Gemini SSE 파싱을 클라이언트 SSE로 표현하지 않는다
 - [ ] 실제 데모 3종 준비: `/ats`, `/resume/[id]`, `/interview/[id]`의 코드 흐름과 README Demo Mode 계정을 기준으로 각 흐름을 1분 이내 영상 또는 실시간 순서로 만들고 입력값·기대 결과·실패 시 대체 화면을 대본에 고정한다
-- [ ] 현재 실제 데모 3종에서 Deep Agent Canvas 전체, AI 멘토 3개월 성장판정, 커뮤니티 자동매칭은 관련 API·서비스 경로가 없으므로 제외하고 설계·로드맵으로만 설명한다
+- [x] 현재 실제 데모 3종 외 기능: workspace·career diary·mentor·contexts·community matches·provider·sandbox는 별도 화면/API로 구현되어 있으나, 공식 5분 핵심 데모에는 과밀 방지를 위해 직접 시연하지 않는다
+- [ ] 별도 확장 데모: 외부 runtime·remote sandbox·화상분석·상위 5% 성장판정은 endpoint·데이터·운영 검증 후에만 시연한다
 
 ## 《11-3. 발표 질의응답 대비 (취약점: 데이터 출처, 개인정보, AI 신뢰성 — R1/R3 통계로 방어)》
 - [ ] Q1 데이터 출처: 모든 통계의 출처(통계청, 매일경제, 고용노동부, 무하유)와 기준연도를 답변 카드로 준비한다(R1)
@@ -848,8 +853,8 @@
 ## 《11-4. 실행 상태·KPI·증거 묶음》
 - [x] 실제 구현 완료: 8-11의 코드 근거가 있는 ATS, 이력서 AI·Diff 승인, 텍스트 면접 plain-text 스트리밍, QA·Humanizer, Career, HWP/HWPX, 기본 커뮤니티 CRUD 범위만 완료 기능으로 집계한다
 - [ ] 프로토타입·데모 준비: `/ats`, `/resume/[id]`, `/interview/[id]`의 코드 흐름과 README Demo Mode 계정을 기준으로 실제 데모 3종의 샘플 데이터·영상 또는 실시간 리허설·정적 대체 화면·발표자 역할을 준비한다
-- [x] 범위 제외: Deep Agent Canvas의 VM·샌드박스 실행과 sLLM은 이번 구현·대회 범위에 포함하지 않으며 구현 완료 수와 데모 성공률에 포함하지 않는다
-- [ ] 설계·로드맵: Deep Agent Canvas의 캔버스 UI·툴 호출·영속성·버전·diff 편집, 외부 provider connector, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 관련 API·서비스 경로가 없어 구현 완료 수와 데모 성공률에 포함하지 않는다
+- [x] 구현 완료로 집계: provider adapter·SLM adapter 계약·sandbox control-plane·workspace·커뮤니티 매칭·contexts·mentor·messages·media·resume compare의 코드·테스트 경로를 포함한다
+- [ ] 실행 검증으로 분리: 실제 remote Firecracker, 실제 Hermes/OpenClaw/OpenCode endpoint, 실제 화상 분석 모델, 실제 상위 5% cohort 판정은 운영 설정·데이터가 없어 완료 수와 데모 성공률에 포함하지 않는다
 - [ ] KPI 1 실행 과제: 엔드투엔드 완료율을 시작한 데모 흐름 중 결과 확인·저장 또는 사용자 승인까지 도달한 횟수로 정의하고 정상 입력 5회 리허설의 목표값을 정한다
 - [ ] KPI 2 실행 과제: AI 결과 검증률을 ATS 세부 원인 확인 또는 Diff 승인 후 저장한 결과 수를 AI 결과 수로 나눈 값으로 정의하고 샘플 사용자 테스트의 목표값을 정한다
 - [ ] KPI 3 실행 과제: 오류 회복률을 주입한 오류 중 재시도·대체 화면·안내로 시연을 완료한 횟수로 정의하고 실제 발표 리허설에서 100%를 목표로 점검한다
