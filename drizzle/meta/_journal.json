@@ -43,6 +43,13 @@
       "when": 1785775061270,
       "tag": "0005_interview_media",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1785783504366,
+      "tag": "0006_clumsy_lake",
+      "breakpoints": true
     }
   ]
 }

@@ -24,7 +24,9 @@ export async function POST(req: NextRequest) {
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ id: 'demo-ats', analysis, demo: true });
+      const response = NextResponse.json({ id: 'demo-ats', analysis, demo: true, persisted: false });
+      response.headers.set('X-Kairos-Demo', '1');
+      return response;
     }
 
     if (resumeId) {

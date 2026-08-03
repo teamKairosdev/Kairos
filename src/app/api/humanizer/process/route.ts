@@ -71,11 +71,15 @@ export async function POST(req: NextRequest) {
       console.warn('[Kairos] Humanizer save skipped (demo mode - no DB)');
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       ...result,
       id: saved?.id || 'demo-hum-' + Date.now(),
       createdAt: (saved?.createdAt || new Date()).toISOString(),
+      persisted: Boolean(saved),
+      demo: !saved,
     });
+    if (!saved) response.headers.set('X-Kairos-Demo', '1');
+    return response;
   } catch (err: unknown) {
     console.error('[/api/humanizer/process]', err);
     return internalError(err, 'Humanizer error');

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { resolve, join } from 'path';
+import { basename, resolve, join } from 'path';
 import { getDb } from '@/db';
 import { getSession } from '@/server/getSession';
-import { unauthorized, notFound, internalError } from '@/server/http';
+import { unauthorized, notFound, internalError, serviceUnavailable } from '@/server/http';
 
 const STUDIO_DIR = resolve('uploads/studio');
 
@@ -18,9 +18,7 @@ export async function DELETE(
 
     const { id } = await params;
     const db = getDb();
-    if (!db) {
-      return NextResponse.json({ success: true });
-    }
+    if (!db) return serviceUnavailable('데이터베이스에 연결할 수 없습니다.');
 
     const { studioImages: si } = await import('@/db/schema');
     const { eq } = await import('drizzle-orm');
@@ -34,7 +32,7 @@ export async function DELETE(
 
     if (existing.imageUrl?.startsWith('/uploads/studio/')) {
       const { unlink } = await import('node:fs/promises');
-      const filename = existing.imageUrl.split('/').pop();
+      const filename = basename(existing.imageUrl);
       if (filename) {
         await unlink(join(STUDIO_DIR, filename)).catch(() => {});
       }

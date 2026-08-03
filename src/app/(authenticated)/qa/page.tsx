@@ -163,7 +163,11 @@ export default function QAPage() {
       setSelectedSet(next);
       setQaSets(prev => [next, ...prev.filter(s => s.id !== next.id)]);
       setExpandedIdx(0);
-      toast.add({ title: 'Q&A가 생성되었습니다.', color: 'green' });
+      toast.add({
+        title: data.persisted === false ? 'Q&A 미리보기가 생성되었습니다.' : 'Q&A가 생성되었습니다.',
+        description: data.persisted === false ? '데이터베이스에 저장되지 않았습니다.' : undefined,
+        color: data.persisted === false ? 'yellow' : 'green',
+      });
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '네트워크 오류가 발생했습니다.';
       setError(msg);

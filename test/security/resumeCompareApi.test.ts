@@ -18,13 +18,14 @@ function request(path: string, init?: ConstructorParameters<typeof NextRequest>[
 }
 
 function databaseFor(resume: unknown, cohort: unknown[] = []) {
-  const where = vi.fn()
-    .mockResolvedValueOnce(resume ? [resume] : [])
-    .mockResolvedValueOnce(cohort);
-  const from = vi.fn(() => ({ where }));
+  const resumeWhere = vi.fn().mockResolvedValue(resume ? [resume] : []);
+  const cohortWhere = vi.fn(() => ({ limit: vi.fn().mockResolvedValue(cohort) }));
+  const from = vi.fn()
+    .mockReturnValueOnce({ where: resumeWhere })
+    .mockReturnValueOnce({ where: cohortWhere });
   const select = vi.fn(() => ({ from }));
   mocks.getDb.mockReturnValue({ select });
-  return { select, from, where };
+  return { select, from, where: resumeWhere };
 }
 
 describe('resume comparison API privacy boundaries', () => {

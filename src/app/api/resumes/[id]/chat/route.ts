@@ -5,7 +5,7 @@ import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { resumes } from '@/db/schema';
 import { and, eq } from 'drizzle-orm';
-import { notFound, unauthorized } from '@/server/http';
+import { badRequest, notFound, serviceUnavailable, unauthorized } from '@/server/http';
 
 export async function POST(
   req: NextRequest,
@@ -17,16 +17,18 @@ export async function POST(
 
     const { id } = await params;
     const db = getDb();
-    if (db) {
-      const [resume] = await db
-        .select({ id: resumes.id })
-        .from(resumes)
-        .where(and(eq(resumes.id, id), eq(resumes.userId, session.userId)));
-      if (!resume) return notFound('Resume not found');
-    }
+    if (!db) return serviceUnavailable('이력서 저장소를 사용할 수 없습니다.');
+    const [resume] = await db
+      .select({ id: resumes.id })
+      .from(resumes)
+      .where(and(eq(resumes.id, id), eq(resumes.userId, session.userId)));
+    if (!resume) return notFound('Resume not found');
 
     const body = await req.json();
-    const { message, currentContent } = body || {};
+    const message = typeof body?.message === 'string' ? body.message.trim() : '';
+    const currentContent = typeof body?.currentContent === 'string' ? body.currentContent : '';
+    if (!message) return badRequest('메시지를 입력해주세요.');
+    if (message.length > 10_000 || currentContent.length > 100_000) return badRequest('입력 길이가 제한을 초과했습니다.');
 
     const prompt = `사용자가 이력서 수정을 요청했습니다.
 현재 이력서 본문:

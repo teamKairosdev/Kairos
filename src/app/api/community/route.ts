@@ -3,18 +3,23 @@ import { getDb } from '@/db';
 import { communityPosts, users } from '@/db/schema';
 import { desc, eq, and, sql } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
-import { unauthorized, badRequest, internalError } from '@/server/http';
+import { unauthorized, badRequest, internalError, serviceUnavailable } from '@/server/http';
 import { toPublicCommunityPost } from './response';
 
 const VALID_CATEGORIES = ['interview_pass', 'career_tip', 'qna'] as const;
 
 export async function GET(req: NextRequest) {
-  const page = Math.max(1, parseInt(req.nextUrl.searchParams.get('page') || '1'));
-  const limit = Math.min(50, Math.max(1, parseInt(req.nextUrl.searchParams.get('limit') || '20')));
+  const rawPage = Number.parseInt(req.nextUrl.searchParams.get('page') || '1', 10);
+  const rawLimit = Number.parseInt(req.nextUrl.searchParams.get('limit') || '20', 10);
+  const page = Number.isSafeInteger(rawPage) && rawPage >= 1 ? rawPage : 1;
+  const limit = Number.isSafeInteger(rawLimit) ? Math.min(50, Math.max(1, rawLimit)) : 20;
 
   try {
     const session = await getSession(req);
     const category = req.nextUrl.searchParams.get('category') || undefined;
+    if (category && !VALID_CATEGORIES.includes(category as (typeof VALID_CATEGORIES)[number])) {
+      return badRequest('올바른 카테고리를 선택해주세요.');
+    }
     const offset = (page - 1) * limit;
 
     const db = getDb();
@@ -55,11 +60,11 @@ export async function GET(req: NextRequest) {
         pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
       });
     }
-  } catch {
-    console.warn('[Kairos] community GET DB fetch failed (demo mode)');
+  } catch (error: unknown) {
+    return internalError(error, '커뮤니티 게시글을 불러오지 못했습니다.');
   }
 
-  return NextResponse.json({ posts: [], pagination: { page, limit, total: 0, totalPages: 0 } });
+  return serviceUnavailable('커뮤니티 저장소를 사용할 수 없습니다.');
 }
 
 export async function POST(req: NextRequest) {
@@ -72,8 +77,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { title, content, category, isAnonymous } = body || {};
 
-    if (!title || !content) {
+    if (typeof title !== 'string' || typeof content !== 'string' || !title.trim() || !content.trim()) {
       return badRequest('제목과 내용을 입력해주세요.');
+    }
+    if (title.trim().length > 255 || content.trim().length > 20_000) {
+      return badRequest('제목 또는 내용이 허용된 길이를 초과했습니다.');
     }
     if (isAnonymous !== undefined && typeof isAnonymous !== 'boolean') {
       return badRequest('익명 표시 설정이 올바르지 않습니다.');
@@ -90,8 +98,8 @@ export async function POST(req: NextRequest) {
         .insert(communityPosts)
         .values({
           userId: session.userId,
-          title,
-          content,
+          title: title.trim(),
+          content: content.trim(),
           category: finalCategory,
           isAnonymous: isAnonymous === true,
         })
@@ -99,17 +107,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(toPublicCommunityPost({ ...post, user: null }, session.userId));
     }
 
-    return NextResponse.json({
-      id: 'demo-post-' + Date.now(),
-      title,
-      content,
-      category: finalCategory,
-      isAnonymous: isAnonymous === true,
-      likesCount: 0,
-      createdAt: new Date().toISOString(),
-      user: null,
-      isOwner: true,
-    });
+    return serviceUnavailable('커뮤니티 저장소를 사용할 수 없습니다.');
   } catch (err: unknown) {
     return internalError(err, 'Error');
   }

@@ -77,6 +77,9 @@ export async function POST(req: NextRequest) {
   const riskLevel = classifyToolRisk(toolName);
   const expiry = parseExpiry(body.expiresAt);
   if (expiry === 'invalid') return badRequest('expiresAt 형식이 올바르지 않습니다.');
+  if (expiry instanceof Date && expiry.getTime() <= Date.now()) {
+    return badRequest('expiresAt은 현재 시각 이후여야 합니다.');
+  }
 
   const runId = typeof body.runId === 'string' && body.runId.trim() ? body.runId.trim() : null;
   const argumentsHash =

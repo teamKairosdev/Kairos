@@ -3,7 +3,7 @@ import { getDb } from '@/db';
 import { communityPosts, users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
-import { unauthorized, badRequest, notFound, internalError } from '@/server/http';
+import { unauthorized, badRequest, notFound, internalError, serviceUnavailable } from '@/server/http';
 import { toPublicCommunityPost } from '../response';
 
 export async function GET(
@@ -74,7 +74,7 @@ export async function DELETE(
       return NextResponse.json({ success: true, message: '게시글이 삭제되었습니다.' });
     }
 
-    return NextResponse.json({ success: true, message: '게시글이 삭제되었습니다.' });
+    return serviceUnavailable('커뮤니티 저장소를 사용할 수 없습니다.');
   } catch (err: unknown) {
     return internalError(err, 'Error');
   }

@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, basename } from 'node:path';
 
@@ -505,4 +505,11 @@ export function readMemoryExport(outputRef: string): string | null {
   const filePath = join(EXPORT_DIR, safeRef);
   if (!existsSync(filePath)) return null;
   return readFileSync(filePath, 'utf8');
+}
+
+export function deleteMemoryExport(outputRef: string): void {
+  const safeRef = safeOutputRef(outputRef);
+  if (!safeRef) return;
+  const filePath = join(EXPORT_DIR, safeRef);
+  if (existsSync(filePath)) unlinkSync(filePath);
 }

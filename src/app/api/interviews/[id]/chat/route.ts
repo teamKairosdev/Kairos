@@ -5,7 +5,7 @@ import { getDb } from '@/db';
 import { mockInterviews, interviewMessages } from '@/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
-import { errorMessage, notFound, unauthorized } from '@/server/http';
+import { notFound, serviceUnavailable, unauthorized } from '@/server/http';
 
 interface HistoryEntry {
   sender: string;
@@ -27,7 +27,7 @@ export async function POST(
     const body = await req.json();
     const { messages } = body || {};
 
-    if (!Array.isArray(messages) || messages.length === 0) {
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 50 || JSON.stringify(messages).length > 128 * 1024) {
       return new Response(JSON.stringify({ error: 'Messages are required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -38,21 +38,20 @@ export async function POST(
     let companyName = '';
 
     const db = getDb();
-    if (db) {
-      const [interview] = await db
-        .select()
-        .from(mockInterviews)
-        .where(and(eq(mockInterviews.id, id), eq(mockInterviews.userId, session.userId)));
-      if (!interview) {
-        return notFound('면접 세션을 찾을 수 없습니다.');
-      }
-      if (interview.status !== 'in_progress') {
-        return conflict('면접이 이미 종료되었습니다.');
-      }
-
-      jobTitle = interview.jobTitle;
-      companyName = interview.companyName || '';
+    if (!db) return serviceUnavailable('면접 저장소를 사용할 수 없습니다.');
+    const [interview] = await db
+      .select()
+      .from(mockInterviews)
+      .where(and(eq(mockInterviews.id, id), eq(mockInterviews.userId, session.userId)));
+    if (!interview) {
+      return notFound('면접 세션을 찾을 수 없습니다.');
     }
+    if (interview.status !== 'in_progress') {
+      return conflict('면접이 이미 종료되었습니다.');
+    }
+
+    jobTitle = interview.jobTitle;
+    companyName = interview.companyName || '';
 
     const history: HistoryEntry[] = (messages as GeminiInputMessage[])
       .map((m): HistoryEntry | null => {
@@ -69,14 +68,11 @@ export async function POST(
       })
       .filter((m): m is HistoryEntry => m !== null);
 
-    if (db) {
-      const lastUserMsg = [...history].reverse().find((h) => h.sender === 'user');
-      if (lastUserMsg) {
-        await db
-          .insert(interviewMessages)
-          .values({ interviewId: id, sender: 'candidate', message: lastUserMsg.message })
-          .catch(() => {});
-      }
+    const lastUserMsg = [...history].reverse().find((h) => h.sender === 'user');
+    if (lastUserMsg) {
+      await db
+        .insert(interviewMessages)
+        .values({ interviewId: id, sender: 'candidate', message: lastUserMsg.message });
     }
 
     const systemPrompt = `당신은 Kairos의 AI 면접관입니다. "${companyName ? companyName + '의 ' : ''}${jobTitle}" 직무 모의 면접을 진행합니다.
@@ -108,12 +104,12 @@ export async function POST(
           const { done, value } = await reader.read();
           if (done) {
             assistantMessage += decoder.decode();
-            if (db && assistantMessage.trim()) {
+            if (assistantMessage.trim()) {
               await db.insert(interviewMessages).values({
                 interviewId: id,
                 sender: 'interviewer',
                 message: assistantMessage,
-              }).catch(() => {});
+              });
             }
             controller.close();
             return;
@@ -134,7 +130,7 @@ export async function POST(
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   } catch (err: unknown) {
-    return new Response(JSON.stringify({ error: errorMessage(err, 'unknown error') }), {
+    return new Response(JSON.stringify({ error: '면접 대화를 처리하지 못했습니다.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

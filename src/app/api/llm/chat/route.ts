@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { NextRequest } from 'next/server';
 import { streamLLMText, toGeminiMessages, collectStreamText, type GeminiInputMessage } from '@/server/llm';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
@@ -12,14 +13,23 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { messages, context }: { messages: GeminiInputMessage[]; context?: string } = body || {};
 
-    if (!messages || messages.length === 0) {
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 50) {
       return badRequest('Messages are required');
+    }
+    if (context !== undefined && (typeof context !== 'string' || context.length > 20_000)) {
+      return badRequest('Context 길이가 제한을 초과했습니다.');
+    }
+    if (JSON.stringify(messages).length > 64 * 1024) {
+      return badRequest('메시지 크기가 제한을 초과했습니다.');
     }
 
     const lastUserMsg = [...messages].reverse().find((m) => m?.role === 'user');
     const msgContent = toGeminiMessages([lastUserMsg])[0]?.content || '';
     const complexity = msgContent.length > 500 ? 'high' : msgContent.length > 100 ? 'medium' : 'low';
-    const cacheKey = `chat:${msgContent.slice(0, 200)}`;
+    // Chat output depends on the complete conversation, context, and owner.
+    // A last-message-only key could return one user's private answer to another.
+    const cacheInput = JSON.stringify({ userId: session.userId, messages, context: context || '' });
+    const cacheKey = `chat:${createHash('sha256').update(cacheInput).digest('hex')}`;
 
     const cached = await getCachedResponse(cacheKey, complexity);
     if (cached) {

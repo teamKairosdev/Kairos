@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
 import { interviewMessages, mockInterviews } from '@/db/schema';
 import { and, asc, eq } from 'drizzle-orm';
-import { badRequest, notFound, unauthorized } from '@/server/http';
+import { badRequest, notFound, serviceUnavailable, unauthorized } from '@/server/http';
 import { getSession } from '@/server/getSession';
 
 function conflict(message: string): NextResponse {
@@ -18,7 +18,7 @@ export async function GET(
   if (!session?.userId) return unauthorized('Unauthorized');
 
   const db = getDb();
-  if (!db) return NextResponse.json({ error: 'DB 연결 실패' }, { status: 500 });
+  if (!db) return serviceUnavailable('면접 저장소를 사용할 수 없습니다.');
 
   const [item] = await db
     .select()
@@ -50,7 +50,7 @@ export async function PATCH(
   if (!session?.userId) return unauthorized('Unauthorized');
 
   const db = getDb();
-  if (!db) return NextResponse.json({ error: 'DB 연결 실패' }, { status: 500 });
+  if (!db) return serviceUnavailable('면접 저장소를 사용할 수 없습니다.');
 
   const body = await req.json();
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
@@ -70,6 +70,14 @@ export async function PATCH(
     if (item.status !== 'in_progress') {
       return conflict('면접이 이미 종료되었습니다.');
     }
+  }
+  if (body.overallScore !== undefined && body.overallScore !== null &&
+      (typeof body.overallScore !== 'number' || !Number.isInteger(body.overallScore) || body.overallScore < 0 || body.overallScore > 100)) {
+    return badRequest('면접 점수가 올바르지 않습니다.');
+  }
+  if (body.overallFeedback !== undefined && body.overallFeedback !== null &&
+      (typeof body.overallFeedback !== 'string' || body.overallFeedback.length > 20_000)) {
+    return badRequest('면접 피드백이 올바르지 않습니다.');
   }
 
   const updateData: {

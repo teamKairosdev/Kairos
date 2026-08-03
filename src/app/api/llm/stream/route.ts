@@ -14,8 +14,14 @@ export async function POST(req: NextRequest) {
       systemPrompt,
     }: { messages: GeminiInputMessage[]; systemPrompt?: string } = body || {};
 
-    if (!messages || messages.length === 0) {
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 50) {
       return badRequest('Messages are required');
+    }
+    if (typeof systemPrompt !== 'undefined' && (typeof systemPrompt !== 'string' || systemPrompt.length > 20_000)) {
+      return badRequest('system prompt 길이가 제한을 초과했습니다.');
+    }
+    if (JSON.stringify(messages).length > 64 * 1024) {
+      return badRequest('메시지 크기가 제한을 초과했습니다.');
     }
 
     const stream = await streamLLMText({

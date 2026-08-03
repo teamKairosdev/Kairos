@@ -41,9 +41,17 @@ export async function POST(req: NextRequest) {
     const deterministic = analyzePreparationText(sourceText);
     try {
       const correction = await correctPreparationTone(sourceText, deterministic);
+      const outputFindings = analyzePreparationText(correction.correctedText);
+      const safeCorrection = outputFindings.personalInformation.detected
+        ? {
+            ...correction,
+            correctedText: outputFindings.redactedText,
+            riskNotes: [...correction.riskNotes, '교정 결과에서 개인정보를 다시 비공개 처리했습니다.'],
+          }
+        : correction;
       return NextResponse.json({
         deterministic,
-        correction,
+        correction: safeCorrection,
         provider: 'gemini',
         retryable: false,
         autoSent: false,

@@ -25,11 +25,36 @@ export function serviceUnavailable(message: string): NextResponse {
 }
 
 export function errorMessage(err: unknown, fallback: string): string {
-  return typeof err === 'object' && err !== null && 'message' in err
-    ? String((err as { message: unknown }).message) || fallback
-    : fallback;
+  // Provider, database, and filesystem errors can contain secrets or internal paths.
+  // Keep the detailed error in server logs and expose only the route-level message.
+  void err;
+  return fallback;
 }
 
 export function internalError(err: unknown, fallback: string): NextResponse {
   return NextResponse.json({ error: errorMessage(err, fallback) }, { status: 500 });
+}
+
+export const DEFAULT_EXTERNAL_REQUEST_TIMEOUT_MS = 15_000;
+
+/** Fetch external services with a bounded connection/headers wait. */
+export async function fetchWithTimeout(
+  input: RequestInfo | URL,
+  init: RequestInit = {},
+  timeoutMs = DEFAULT_EXTERNAL_REQUEST_TIMEOUT_MS,
+): Promise<Response> {
+  const controller = new AbortController();
+  const forwardAbort = () => controller.abort(init.signal?.reason);
+  if (init.signal) {
+    if (init.signal.aborted) forwardAbort();
+    else init.signal.addEventListener('abort', forwardAbort, { once: true });
+  }
+  const timeoutId = setTimeout(() => controller.abort(new Error('External request timed out')), timeoutMs);
+
+  try {
+    return await fetch(input, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeoutId);
+    init.signal?.removeEventListener('abort', forwardAbort);
+  }
 }

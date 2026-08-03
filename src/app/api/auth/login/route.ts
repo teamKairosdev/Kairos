@@ -4,20 +4,34 @@ import { eq } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { signSession } from '@/server/auth';
-import { badRequest, internalError } from '@/server/http';
+import { verifyMfaToken } from '@/server/mfa';
+import { badRequest, internalError, serviceUnavailable } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { email, password } = body || {};
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return badRequest('요청 본문이 올바르지 않습니다.');
+    }
+    const values = body && typeof body === 'object' && !Array.isArray(body)
+      ? body as Record<string, unknown>
+      : {};
+    const email = typeof values.email === 'string' ? values.email.trim().toLowerCase() : '';
+    const password = typeof values.password === 'string' ? values.password : '';
+    const mfaToken = typeof values.mfaToken === 'string' ? values.mfaToken.trim() : '';
 
     if (!email || !password) {
       return badRequest('이메일과 비밀번호를 입력해주세요.');
     }
+    if (email.length > 255 || password.length > 256) {
+      return badRequest('로그인 입력 길이가 올바르지 않습니다.');
+    }
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ error: '데이터베이스에 연결할 수 없습니다.' }, { status: 500 });
+      return serviceUnavailable('데이터베이스에 연결할 수 없습니다.');
     }
 
     const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -28,6 +42,10 @@ export async function POST(req: NextRequest) {
     const isValid = await bcrypt.compare(password, user.passwordHash);
     if (!isValid) {
       return NextResponse.json({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' }, { status: 401 });
+    }
+
+    if (user.mfaEnabled && (!mfaToken || !user.mfaSecret || !verifyMfaToken(mfaToken, user.mfaSecret))) {
+      return NextResponse.json({ error: 'OTP 번호가 필요합니다.', mfaRequired: true }, { status: 401 });
     }
 
     const token = await signSession({

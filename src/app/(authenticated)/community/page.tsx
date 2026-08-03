@@ -141,6 +141,7 @@ export default function CommunityPage() {
   const [category, setCategory] = useState<Category | 'all'>('all');
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [postLoadError, setPostLoadError] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [matches, setMatches] = useState<CommunityMatch[]>([]);
   const [matchesLoading, setMatchesLoading] = useState(true);
@@ -225,6 +226,7 @@ export default function CommunityPage() {
   const loadPosts = useCallback(async (page: number, cat: Category | 'all', append: boolean) => {
     const params = new URLSearchParams({ page: String(page), limit: String(LIMIT) });
     if (cat !== 'all') params.set('category', cat);
+    if (!append) setPostLoadError(null);
     try {
       const res = await fetch(`/api/community?${params.toString()}`);
       if (!res.ok) throw new Error(`Failed to fetch (${res.status})`);
@@ -234,6 +236,7 @@ export default function CommunityPage() {
       setPagination(data.pagination || { page, limit: LIMIT, total: next.length, totalPages: Math.ceil(next.length / LIMIT) });
     } catch (err: unknown) {
       toastRef.current.add({ title: '게시글을 불러오지 못했습니다.', description: (err as Error).message, color: 'red' });
+      if (!append) setPostLoadError((err as Error).message || '게시글 목록을 불러오지 못했습니다.');
       if (!append) setPosts([]);
     } finally {
       setLoading(false);
@@ -622,6 +625,12 @@ export default function CommunityPage() {
               <Skeleton className="h-3 w-3/4" />
             </div>
           ))}
+        </div>
+      ) : postLoadError ? (
+        <div className="rounded-2xl border border-red-200 bg-white p-10 text-center">
+          <p className="text-sm font-semibold text-gray-800">게시글 목록을 불러오지 못했습니다.</p>
+          <p className="mt-2 text-xs text-gray-500">{postLoadError}</p>
+          <button type="button" onClick={() => loadPosts(1, category, false)} className="mt-4 rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white hover:bg-blue-700">다시 시도</button>
         </div>
       ) : posts.length === 0 ? (
         <EmptyState

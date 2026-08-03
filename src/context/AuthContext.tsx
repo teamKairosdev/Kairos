@@ -29,12 +29,13 @@ interface AuthState {
   authenticated: boolean;
   loading: boolean;
   error: string | null;
+  mfaRequired: boolean;
 }
 
 interface AuthContextValue {
   state: AuthState;
   fetchUser: () => Promise<void>;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string, mfaToken?: string) => Promise<boolean>;
   register: (email: string, password: string, name: string) => Promise<boolean>;
   loginWithGoogle: () => void;
   logout: () => Promise<void>;
@@ -48,10 +49,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authenticated: false,
     loading: true,
     error: null,
+    mfaRequired: false,
   });
 
   const clearAuthState = useCallback(() => {
-    setState({ user: null, authenticated: false, loading: false, error: null });
+    setState({ user: null, authenticated: false, loading: false, error: null, mfaRequired: false });
   }, []);
 
   const fetchUser = useCallback(async () => {
@@ -65,7 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (storedUser) {
           setMockSessionCookie(true);
           const user = JSON.parse(storedUser);
-          setState({ user, authenticated: true, loading: false, error: null });
+          setState({ user, authenticated: true, loading: false, error: null, mfaRequired: false });
           return;
         }
       } catch {}
@@ -77,17 +79,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await fetch('/api/auth/me', { signal: controller.signal });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json() as { user: User | null };
-      setState({ user: data.user, authenticated: !!data.user, loading: false, error: null });
+      setState({ user: data.user, authenticated: !!data.user, loading: false, error: null, mfaRequired: false });
     } catch (err: unknown) {
       const message = networkErrorMessage(err);
-      setState({ user: null, authenticated: false, loading: false, error: message });
+      setState({ user: null, authenticated: false, loading: false, error: message, mfaRequired: false });
       toast.error(`사용자 정보를 불러오지 못했습니다: ${message}`);
     } finally {
       clearTimeout(timeoutId);
     }
   }, []);
 
-  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+  const login = useCallback(async (email: string, password: string, mfaToken?: string): Promise<boolean> => {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     if (email.trim() === 'testmockup' && password === '12345') {
@@ -119,7 +121,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const { initMockInterceptor } = await import('../lib/mockInterceptor');
         initMockInterceptor();
 
-        setState({ user: mockUser, authenticated: true, loading: false, error: null });
+        setState({ user: mockUser, authenticated: true, loading: false, error: null, mfaRequired: false });
         return true;
       }
     }
@@ -128,22 +130,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, ...(mfaToken ? { mfaToken } : {}) }),
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => ({})) as { error?: string; statusMessage?: string };
+        const err = await res.json().catch(() => ({})) as { error?: string; statusMessage?: string; mfaRequired?: boolean };
         const message = err?.error || err?.statusMessage || '로그인에 실패했습니다.';
-        setState(prev => ({ ...prev, loading: false, error: message }));
+        setState(prev => ({ ...prev, loading: false, error: message, mfaRequired: err.mfaRequired === true }));
         return false;
       }
 
       const data = await res.json() as AuthResponse;
-      setState({ user: data.user, authenticated: true, loading: false, error: null });
+      setState({ user: data.user, authenticated: true, loading: false, error: null, mfaRequired: false });
       return true;
     } catch (err: unknown) {
       const message = err instanceof Error && err.message !== 'Failed to fetch' ? err.message : networkErrorMessage(err);
-      setState(prev => ({ ...prev, loading: false, error: message }));
+      setState(prev => ({ ...prev, loading: false, error: message, mfaRequired: false }));
       return false;
     }
   }, []);
@@ -158,15 +160,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({})) as { error?: string };
-        setState(prev => ({ ...prev, loading: false, error: err?.error || '회원가입 실패' }));
+        setState(prev => ({ ...prev, loading: false, error: err?.error || '회원가입 실패', mfaRequired: false }));
         return false;
       }
       const data = await res.json() as AuthResponse;
-      setState({ user: data.user, authenticated: true, loading: false, error: null });
+      setState({ user: data.user, authenticated: true, loading: false, error: null, mfaRequired: false });
       return true;
     } catch (err: unknown) {
       const message = err instanceof Error && err.message !== 'Failed to fetch' ? err.message : networkErrorMessage(err);
-      setState(prev => ({ ...prev, loading: false, error: message }));
+      setState(prev => ({ ...prev, loading: false, error: message, mfaRequired: false }));
       return false;
     }
   }, []);

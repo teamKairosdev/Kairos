@@ -70,6 +70,9 @@ export default function CareerDiaryPage() {
       }
       const response = await fetch('/api/career-diary');
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (response.headers.get('X-Kairos-Demo') === '1') {
+        toast.add({ title: '미리보기 저장소를 사용 중입니다.', description: '현재 기록은 서버 DB에 영속화되지 않습니다.', color: 'yellow' });
+      }
       setEntries(await response.json() as MockDiaryRecord[]);
     } catch {
       setLoadError(true);

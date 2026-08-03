@@ -1,4 +1,5 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
+import { randomUUID } from 'node:crypto';
 import { join, basename } from 'node:path';
 
 export const UPLOAD_DIR = join(process.cwd(), 'uploads');
@@ -38,7 +39,29 @@ export function readDocumentMeta(): StoredDocumentMeta[] {
 
 export function writeDocumentMeta(meta: StoredDocumentMeta[]): void {
   if (!existsSync(UPLOAD_DIR)) mkdirSync(UPLOAD_DIR, { recursive: true });
-  writeFileSync(META_FILE, JSON.stringify(meta, null, 2));
+  const temporaryFile = `${META_FILE}.${process.pid}.${randomUUID()}.tmp`;
+  writeFileSync(temporaryFile, JSON.stringify(meta, null, 2), { encoding: 'utf8', mode: 0o600 });
+  renameSync(temporaryFile, META_FILE);
+}
+
+export function deleteOwnedDocuments(userId: string): void {
+  const meta = readDocumentMeta();
+  const remaining: StoredDocumentMeta[] = [];
+  for (const entry of meta) {
+    if (entry.userId !== userId) {
+      remaining.push(entry);
+      continue;
+    }
+
+    if (
+      /^[a-zA-Z0-9-]+$/.test(entry.id) &&
+      /^[a-z0-9]+$/.test(entry.ext)
+    ) {
+      const filePath = join(UPLOAD_DIR, `${entry.id}.${entry.ext}`);
+      if (existsSync(filePath)) unlinkSync(filePath);
+    }
+  }
+  if (remaining.length !== meta.length) writeDocumentMeta(remaining);
 }
 
 function hasOwner(entry: StoredDocumentMeta): entry is StoredDocumentMeta & { userId: string } {

@@ -7,6 +7,7 @@ import { badRequest, internalError, notFound, serviceUnavailable, unauthorized }
 import { buildResumeComparison, type ResumeCohortEntry } from '@/server/resumeCompare';
 
 const MAX_JOB_DESCRIPTION_LENGTH = 30_000;
+const MAX_COHORT_RESUMES = 1_000;
 
 function normalizeJobDescription(value: unknown): string {
   return typeof value === 'string' ? value.trim().slice(0, MAX_JOB_DESCRIPTION_LENGTH) : '';
@@ -39,7 +40,8 @@ async function compareResume(
   const cohortRows = await db
     .select({ userId: resumes.userId, originalContent: resumes.originalContent })
     .from(resumes)
-    .where(ne(resumes.userId, session.userId));
+    .where(ne(resumes.userId, session.userId))
+    .limit(MAX_COHORT_RESUMES);
 
   const comparison = buildResumeComparison(
     resume.originalContent,

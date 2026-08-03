@@ -30,6 +30,8 @@ import {
   unauthorized,
 } from '@/server/http';
 
+const MAX_ORCHESTRATION_REQUEST_BYTES = 256 * 1024;
+
 type Database = NonNullable<ReturnType<typeof getDb>>;
 
 interface OrchestrationBody {
@@ -316,8 +318,15 @@ export async function POST(req: NextRequest) {
 
   let body: OrchestrationBody;
   try {
+    const contentLength = Number(req.headers.get('content-length'));
+    if (Number.isFinite(contentLength) && contentLength > MAX_ORCHESTRATION_REQUEST_BYTES) {
+      return badRequest('오케스트레이션 요청 크기가 제한을 초과했습니다.');
+    }
     const parsed = await req.json();
     if (!isRecord(parsed)) return badRequest('요청 본문이 필요합니다.');
+    if (new TextEncoder().encode(JSON.stringify(parsed)).byteLength > MAX_ORCHESTRATION_REQUEST_BYTES) {
+      return badRequest('오케스트레이션 요청 크기가 제한을 초과했습니다.');
+    }
     body = parsed;
   } catch {
     return badRequest('유효한 JSON 요청이 필요합니다.');

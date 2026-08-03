@@ -3,23 +3,14 @@ import { count, desc } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { users, resumes, mockInterviews, atsAnalyses, careers, auditLogs } from '@/db/schema';
 import { requireAdmin } from '@/server/admin';
+import { internalError, serviceUnavailable } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   const admin = await requireAdmin(req);
   if (admin instanceof NextResponse) return admin;
 
   const db = getDb();
-  if (!db) {
-    return NextResponse.json({
-      usersCount: 0,
-      resumesCount: 0,
-      interviewsCount: 0,
-      atsCount: 0,
-      careersCount: 0,
-      recentUsers: [],
-      recentLogs: [],
-    });
-  }
+  if (!db) return serviceUnavailable('관리자 통계 저장소를 사용할 수 없습니다.');
 
   try {
     const [userRes] = await db.select({ count: count() }).from(users);
@@ -39,15 +30,7 @@ export async function GET(req: NextRequest) {
       recentUsers,
       recentLogs,
     });
-  } catch {
-    return NextResponse.json({
-      usersCount: 0,
-      resumesCount: 0,
-      interviewsCount: 0,
-      atsCount: 0,
-      careersCount: 0,
-      recentUsers: [],
-      recentLogs: [],
-    });
+  } catch (error: unknown) {
+    return internalError(error, '관리자 통계를 불러오지 못했습니다.');
   }
 }

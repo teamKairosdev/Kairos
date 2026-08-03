@@ -1,10 +1,10 @@
 import { pgTable, uuid, varchar, text, integer, jsonb, timestamp, customType, boolean, index, uniqueIndex } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
-// Custom pgvector Drizzle type definition for 1536-dim embeddings
+// text-embedding-004 returns 768-dimensional vectors by default.
 export const pgVector = customType<{ data: number[]; driverData: string }>({
   dataType() {
-    return 'vector(1536)';
+    return 'vector(768)';
   },
   toDriver(value: number[]): string {
     return JSON.stringify(value);
@@ -35,7 +35,10 @@ export const users = pgTable('users', {
   mfaEnabled: boolean('mfa_enabled').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
-});
+}, (table) => [
+  uniqueIndex('users_google_id_uq').on(table.googleId),
+  uniqueIndex('users_wallet_address_uq').on(table.walletAddress),
+]);
 
 // Existing tables from 0001 are kept in the schema so future diffs do not treat them as removals.
 export const billingInvoices = pgTable('billing_invoices', {
@@ -211,7 +214,7 @@ export const careers = pgTable('careers', {
   period: varchar('period', { length: 100 }).notNull(),
   description: text('description').notNull(),
   achievements: jsonb('achievements'), // string[]
-  embedding: pgVector('embedding'), // 1536-dim vector for semantic search
+  embedding: pgVector('embedding'), // 768-dim vector for semantic search
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

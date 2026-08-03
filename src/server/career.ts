@@ -15,21 +15,16 @@ export async function createCareerEntry(data: {
   achievements?: string[];
 }) {
   const db = getDb();
-  if (!db) {
-    return {
-      id: 'demo-career-' + Date.now(),
-      userId: data.userId,
-      company: data.company,
-      role: data.role,
-      period: data.period,
-      description: data.description,
-      achievements: data.achievements || [],
-      createdAt: new Date(),
-    };
-  }
+  if (!db) throw new Error('Database connection is not available');
 
   const textToEmbed = `${data.company} ${data.role}: ${data.description} ${data.achievements?.join(' ') || ''}`;
-  const embedding = await generateEmbedding(textToEmbed);
+  let embedding: number[] | null = null;
+  try {
+    embedding = await generateEmbedding(textToEmbed);
+  } catch {
+    // Career CRUD remains usable when the optional semantic provider is down.
+    // Search will report that semantic results are unavailable instead of faking them.
+  }
 
   const [inserted] = await db
     .insert(careers)
@@ -61,6 +56,7 @@ export async function searchCareersSemantic(userId: string, query: string, limit
         1 - (embedding <=> ${vectorStr}::vector) AS similarity
         FROM careers
         WHERE user_id = ${userId}::uuid
+          AND embedding IS NOT NULL
         ORDER BY embedding <=> ${vectorStr}::vector ASC
         LIMIT ${limit};`
   );

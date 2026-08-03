@@ -95,8 +95,7 @@ export async function DELETE(
     const media = await findOwnedMedia(db, id, mediaId, session.userId);
     if (!media) return notFound('미디어를 찾을 수 없습니다.');
 
-    await deleteInterviewMediaFile(media.storagePath);
-    await db
+    const deleted = await db
       .delete(interviewMedia)
       .where(
         and(
@@ -104,7 +103,15 @@ export async function DELETE(
           eq(interviewMedia.interviewId, id),
           eq(interviewMedia.userId, session.userId)
         )
-      );
+      )
+      .returning({ id: interviewMedia.id });
+
+    if (!deleted.length) return notFound('미디어를 찾을 수 없습니다.');
+    // Remove the private file after the ownership-scoped metadata delete. A
+    // cleanup failure leaves no database pointer to an inaccessible file.
+    await deleteInterviewMediaFile(media.storagePath).catch((error: unknown) => {
+      console.warn('[Kairos] interview media file cleanup failed:', error instanceof Error ? error.message : error);
+    });
 
     return NextResponse.json({ success: true });
   } catch (err: unknown) {

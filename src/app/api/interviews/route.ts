@@ -3,14 +3,14 @@ import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { interviewMessages, mockInterviews } from '@/db/schema';
 import { and, eq, desc } from 'drizzle-orm';
-import { unauthorized } from '@/server/http';
+import { badRequest, serviceUnavailable, unauthorized } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   const session = await getSession(req);
   if (!session?.userId) return unauthorized();
 
   const db = getDb();
-  if (!db) return NextResponse.json([]);
+  if (!db) return serviceUnavailable('면접 저장소를 사용할 수 없습니다.');
 
   const list = await db
     .select()
@@ -26,10 +26,15 @@ export async function POST(req: NextRequest) {
   if (!session) return unauthorized('Unauthorized');
 
   const body = await req.json();
-  const { jobTitle, companyName, difficulty } = body || {};
+  const jobTitle = typeof body?.jobTitle === 'string' ? body.jobTitle.trim() : '';
+  const companyName = typeof body?.companyName === 'string' ? body.companyName.trim() : '';
+  const difficulty = typeof body?.difficulty === 'string' ? body.difficulty : 'medium';
+  if (jobTitle.length > 255 || companyName.length > 255 || !['junior', 'medium', 'senior'].includes(difficulty)) {
+    return badRequest('면접 정보 형식이 올바르지 않습니다.');
+  }
 
   const db = getDb();
-  if (!db) return NextResponse.json({ error: 'DB 연결 실패' }, { status: 500 });
+  if (!db) return serviceUnavailable('면접 저장소를 사용할 수 없습니다.');
 
   let newSession: typeof mockInterviews.$inferSelect | undefined;
   try {
@@ -39,7 +44,7 @@ export async function POST(req: NextRequest) {
         userId: session.userId,
         jobTitle: jobTitle || '기술 면접',
         companyName: companyName || '일반 기업',
-        difficulty: difficulty || 'medium',
+        difficulty,
         status: 'in_progress',
       })
       .returning();

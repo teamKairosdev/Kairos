@@ -3,7 +3,7 @@ import { getDb } from '@/db';
 import { humanizedTexts } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
-import { unauthorized, internalError } from '@/server/http';
+import { unauthorized, internalError, serviceUnavailable } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,9 +13,7 @@ export async function GET(req: NextRequest) {
     }
 
     const db = getDb();
-    if (!db) {
-      return NextResponse.json([]);
-    }
+    if (!db) return serviceUnavailable('Humanizer 저장소를 사용할 수 없습니다.');
 
     const result = await db
       .select({

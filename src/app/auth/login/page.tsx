@@ -21,6 +21,7 @@ const inputClass =
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [mfaToken, setMfaToken] = useState('');
   const [loading, setLoading] = useState(false);
   const [walletLoading, setWalletLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState(false);
@@ -38,7 +39,7 @@ export default function LoginPage() {
     setLoading(true);
     setLocalError('');
     try {
-      const success = await login(email, password);
+      const success = await login(email, password, mfaToken);
       if (success) {
         router.push('/');
       }
@@ -84,7 +85,8 @@ export default function LoginPage() {
       const accounts: string[] = await provider.request({ method: 'eth_requestAccounts' });
       const address = accounts[0].toLowerCase();
       const nonceRes = await fetch('/api/auth/nonce');
-      const { nonce, id } = await nonceRes.json();
+      if (!nonceRes.ok) throw new Error('지갑 인증 요청을 시작할 수 없습니다.');
+      const { nonce } = await nonceRes.json();
       const message = `Kairos Sign-In\n${nonce}\n${address}`;
       const signature: `0x${string}` = await provider.request({
         method: 'personal_sign',
@@ -93,7 +95,7 @@ export default function LoginPage() {
       const walletRes = await fetch('/api/auth/wallet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address, message, signature, nonce: id }),
+        body: JSON.stringify({ address, message, signature, nonce, mode: 'login' }),
       });
       if (walletRes.ok) {
         router.push('/');
@@ -195,6 +197,29 @@ export default function LoginPage() {
               />
             </div>
 
+            {state.mfaRequired && (
+              <div>
+                <label htmlFor="login-mfa-token" className="block text-xs font-bold text-gray-500 mb-1.5">
+                  OTP 인증번호
+                </label>
+                <input
+                  id="login-mfa-token"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  pattern="[0-9]{6}"
+                  maxLength={6}
+                  value={mfaToken}
+                  onChange={e => setMfaToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  disabled={formDisabled}
+                  placeholder="6자리 인증번호"
+                  aria-invalid={!!displayError}
+                  aria-describedby={displayError ? 'login-error' : undefined}
+                  className={inputClass}
+                />
+              </div>
+            )}
+
             {displayError && (
               <div
                 id="login-error"
@@ -267,8 +292,8 @@ export default function LoginPage() {
               회원가입
             </Link>
           </p>
+          </div>
         </div>
       </div>
-    </div>
   );
 }

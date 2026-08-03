@@ -11,13 +11,17 @@ const PROTECTED_PATHS = [
   '/studio',
   '/docs',
   '/community',
+  '/workspace',
+  '/contexts',
+  '/mentor',
+  '/messages',
   '/settings',
   '/admin',
 ];
 
 function getJwtSecret(): Uint8Array {
   const secret = process.env.JWT_SECRET || '';
-  if (!secret) return new Uint8Array(0);
+  if (secret.length < 32) return new Uint8Array(0);
   return new TextEncoder().encode(secret);
 }
 
@@ -68,6 +72,10 @@ export const config = {
     '/studio/:path*',
     '/docs/:path*',
     '/community/:path*',
+    '/workspace/:path*',
+    '/contexts/:path*',
+    '/mentor/:path*',
+    '/messages/:path*',
     '/settings/:path*',
     '/admin/:path*',
   ],

@@ -78,7 +78,8 @@ describe('callLLMText', () => {
     expect(fetchMock).toHaveBeenCalledOnce()
     const [url, init] = fetchMock.mock.calls[0]
     expect(String(url)).toContain('gemini-2.0-flash-001:generateContent')
-    expect(String(url)).toContain('key=AIzaSy-real-key')
+     expect(String(url)).not.toContain('key=AIzaSy-real-key')
+     expect((init as any).headers['x-goog-api-key']).toBe('AIzaSy-real-key')
     expect((init as any).body).toContain('Hello')
   })
 

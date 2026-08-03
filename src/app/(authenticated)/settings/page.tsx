@@ -123,15 +123,20 @@ export default function SettingsPage() {
         return;
       }
       const accounts = (await provider.request({ method: 'eth_requestAccounts' })) as string[];
-      const address = accounts[0].toLowerCase();
+      const address = accounts[0]?.toLowerCase();
+      if (!address) {
+        toast.add({ title: '연결할 지갑 계정을 찾을 수 없습니다.', color: 'red' });
+        return;
+      }
       const nonceRes = await fetch('/api/auth/nonce');
-      const { nonce, id } = await nonceRes.json();
+      if (!nonceRes.ok) throw new Error('지갑 인증 요청을 시작할 수 없습니다.');
+      const { nonce } = await nonceRes.json();
       const message = `Kairos Sign-In\n${nonce}\n${address}`;
       const signature = (await provider.request({ method: 'personal_sign', params: [message, address] })) as `0x${string}`;
       const res = await fetch('/api/auth/wallet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address, message, signature, nonce: id }),
+         body: JSON.stringify({ address, message, signature, nonce, mode: 'link' }),
       });
       const data = await res.json().catch(() => null);
       if (res.ok) {

@@ -106,8 +106,9 @@ ${originalContent}
 
     return NextResponse.json({ success: true, result });
   } catch (err: unknown) {
+    console.error('[/api/resumes/:id/refine]', err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : '이력서 고도화 중 오류가 발생했습니다.' },
+      { error: '이력서 고도화 중 오류가 발생했습니다.' },
       { status: 500 }
     );
   }

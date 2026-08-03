@@ -300,6 +300,38 @@
 
 ---
 
+## 세션 21: 코드 전수 감사·보안 수정·발표자료 재검증 (2026-08-04)
+
+### 1. 코드 감사 및 수정
+- [x] 지갑 nonce 검증·재연 방지·연결 해제 흐름 보완
+- [x] 신규 workspace·contexts·mentor·messages 페이지 proxy 보호
+- [x] MFA 사용자 검증·로그인 흐름 보완
+- [x] 사용자별 LLM cache 격리와 refine 응답 shape 정합화
+- [x] Gemini embedding 차원과 pgvector schema 정합화
+- [x] 가짜 semantic 검색·DB 장애 성공 응답 제거
+- [x] 문서·Studio·면접 미디어 업로드 검증 강화
+- [x] 비공개 공유 채팅·관리자 설정·내부 오류 노출 보완
+- [x] `drizzle/0006_clumsy_lake.sql` 생성 및 로컬 PostgreSQL 최신 migration 적용
+
+### 2. 발표자료 재작업
+- [x] 웹 디자인 기법·WCAG·Figma·Fluent·Linear·Stripe chart layout 리서치
+- [x] 브랜드 `#2F20F7`, 실제 로고 에셋, 큰 타이포그래피, 비대칭 editorial grid 적용
+- [x] 출처 헤드라인 카드·통계 annotation·제품 wireframe·퍼널·아키텍처 레인 추가
+- [x] GIF/MP4/PNG 시연 슬롯과 기본 대체 화면 유지
+- [x] 14장 구성·키보드·터치·전체화면·reduced motion 유지
+
+### 3. 검증
+- [x] `npm test`: 31개 파일, 165/165 통과
+- [x] `npx tsc --noEmit --incremental false` 통과
+- [x] `npx drizzle-kit check` 통과
+- [x] `npm run build` 성공
+- [x] `npm run db:migrate` 최신 migration 적용 성공
+- [x] `git diff --check` 통과
+- [x] 정적 발표자료 14장·브랜드·로고·media input 3개·금지 용어 0 검사
+- [x] 커밋 (push 안 함)
+
+---
+
 ## 세션 20: 발표자료 디자인 전면 재작업 (2026-08-04)
 
 - [x] 사용자의 공식 브랜드 컬러 `#2F20F7` 확인 및 발표자료 1차 컬러 전환

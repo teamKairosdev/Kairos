@@ -152,7 +152,7 @@ export function resolveInterviewMediaPath(storagePath: string): string {
 export async function writeInterviewMediaFile(storagePath: string, bytes: Uint8Array): Promise<string> {
   const filePath = resolveInterviewMediaPath(storagePath);
   await mkdir(dirname(filePath), { recursive: true });
-  await writeFile(filePath, bytes, { flag: 'wx' });
+  await writeFile(filePath, bytes, { flag: 'wx', mode: 0o600 });
   return filePath;
 }
 

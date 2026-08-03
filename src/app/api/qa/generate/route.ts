@@ -80,13 +80,17 @@ export async function POST(req: NextRequest) {
       console.warn('[Kairos] QA save skipped (demo mode - no DB)');
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       id: saved?.id || 'demo-qa-' + Date.now(),
       title: qaResult.title,
       targetRole,
       qaPairs: qaResult.qaPairs,
       createdAt: (saved?.createdAt || new Date()).toISOString(),
+      persisted: Boolean(saved),
+      demo: !saved,
     });
+    if (!saved) response.headers.set('X-Kairos-Demo', '1');
+    return response;
   } catch (err: unknown) {
     console.error('[/api/qa/generate]', err);
     return internalError(err, 'QA generation error');

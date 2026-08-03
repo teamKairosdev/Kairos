@@ -206,6 +206,9 @@ export default function CareerMatchesPage() {
       }
       const [goalResponse, matchResponse] = await Promise.all([fetch('/api/career-goals'), fetch('/api/career-matches')]);
       if (!goalResponse.ok || !matchResponse.ok) throw new Error('load failed');
+      if (goalResponse.headers.get('X-Kairos-Demo') === '1' || matchResponse.headers.get('X-Kairos-Demo') === '1') {
+        toast.add({ title: '미리보기 저장소를 사용 중입니다.', description: '현재 추천 기록은 서버 DB에 영속화되지 않습니다.', color: 'yellow' });
+      }
       const nextGoals = await goalResponse.json() as MockGoalRecord[];
       setGoals(nextGoals);
       setSelectedGoalId((current) => current || nextGoals[0]?.id || '');
@@ -284,6 +287,9 @@ export default function CareerMatchesPage() {
         if (!response.ok) {
           const data = await response.json().catch(() => null) as { error?: string } | null;
           throw new Error(data?.error || `HTTP ${response.status}`);
+        }
+        if (response.headers.get('X-Kairos-Demo') === '1') {
+          toast.add({ title: '미리보기 결과입니다.', description: '추천 결과가 서버 DB에 저장되지 않았습니다.', color: 'yellow' });
         }
         const data = await response.json() as { assessment?: CareerFitAssessmentView; savedSuggestion?: StoredMatch | null };
         const nextAssessment = data.assessment;

@@ -43,13 +43,23 @@ export async function POST(req: NextRequest) {
     if (!company || !role || !description) {
       return badRequest('회사명, 직무, 주요 설명은 필수 입력 항목입니다.');
     }
+    if (typeof company !== 'string' || typeof role !== 'string' || typeof description !== 'string') {
+      return badRequest('회사명, 직무, 주요 설명 형식이 올바르지 않습니다.');
+    }
+    if ((period !== undefined && (typeof period !== 'string' || period.length > 100)) ||
+        company.trim().length > 255 || role.trim().length > 255 || description.trim().length > 20_000 ||
+        (achievements !== undefined && (!Array.isArray(achievements) || achievements.some((item: unknown) => typeof item !== 'string' || item.length > 1_000)))) {
+      return badRequest('경력 정보가 허용된 길이 또는 형식을 벗어났습니다.');
+    }
+
+    if (!getDb()) return serviceUnavailable('데이터베이스에 연결할 수 없습니다.');
 
     const newEntry = await createCareerEntry({
       userId: session.userId,
-      company,
-      role,
-      period: period || '기타',
-      description,
+      company: company.trim(),
+      role: role.trim(),
+      period: typeof period === 'string' && period.trim() ? period.trim() : '기타',
+      description: description.trim(),
       achievements: achievements || [],
     });
 

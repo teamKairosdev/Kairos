@@ -135,6 +135,9 @@ export default function HumanizerPage() {
       setStyleScore(data.styleScore ?? null);
       setSelectedHistoryId(next.id ?? null);
       setHistory(prev => [next, ...prev.filter(h => h.id !== next.id)]);
+      if (data.persisted === false) {
+        toast.add({ title: '미리보기 결과입니다.', description: '데이터베이스에 저장되지 않았습니다.', color: 'yellow' });
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '네트워크 오류가 발생했습니다.';
       setError(msg);

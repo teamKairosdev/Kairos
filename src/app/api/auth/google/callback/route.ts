@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { eq } from 'drizzle-orm';
-import { exchangeGoogleCode, fetchGoogleUserInfo, signSession } from '@/server/auth';
+import { exchangeGoogleCode, fetchGoogleUserInfo, normalizeEmail, signSession } from '@/server/auth';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { badRequest } from '@/server/http';
@@ -23,13 +23,13 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: '데이터베이스 연결 실패' }, { status: 500 });
     }
 
-    let [user] = await db.select().from(users).where(eq(users.email, googleUser.email));
+    let [user] = await db.select().from(users).where(eq(users.email, normalizeEmail(googleUser.email)));
 
     if (!user) {
       [user] = await db
         .insert(users)
         .values({
-          email: googleUser.email,
+          email: normalizeEmail(googleUser.email),
           name: googleUser.name || 'Google 사용자',
           avatarUrl: googleUser.picture || null,
           googleId: googleUser.sub,
@@ -45,6 +45,13 @@ export async function GET(req: NextRequest) {
         })
         .where(eq(users.id, user.id))
         .returning();
+    }
+
+    if (user.mfaEnabled) {
+      return NextResponse.json(
+        { error: '이 계정은 OTP 인증이 필요합니다. 비밀번호 로그인에서 OTP를 입력해주세요.', mfaRequired: true },
+        { status: 403 },
+      );
     }
 
     const token = await signSession({

@@ -3,21 +3,38 @@ import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { users } from '@/db/schema';
-import { signSession } from '@/server/auth';
-import { badRequest, internalError } from '@/server/http';
+import { normalizeEmail, signSession } from '@/server/auth';
+import { badRequest, internalError, serviceUnavailable } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { email, password, name } = body || {};
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return badRequest('요청 본문이 올바르지 않습니다.');
+    }
+    const values = body && typeof body === 'object' && !Array.isArray(body)
+      ? body as Record<string, unknown>
+      : {};
+    const email = typeof values.email === 'string' ? normalizeEmail(values.email) : '';
+    const password = typeof values.password === 'string' ? values.password : '';
+    const name = typeof values.name === 'string' ? values.name.trim() : '';
 
     if (!email || !password || !name) {
       return badRequest('이메일, 비밀번호, 이름을 모두 입력해주세요.');
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255) {
+      return badRequest('이메일 형식이 올바르지 않습니다.');
+    }
+    if (password.length < 8 || password.length > 256) {
+      return badRequest('비밀번호는 8자 이상 256자 이하로 입력해주세요.');
+    }
+    if (name.length > 255) return badRequest('이름은 255자 이하로 입력해주세요.');
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ error: '데이터베이스 연결 실패' }, { status: 500 });
+      return serviceUnavailable('데이터베이스 연결 실패');
     }
 
     const [existing] = await db.select().from(users).where(eq(users.email, email));

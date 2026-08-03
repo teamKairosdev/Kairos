@@ -3,8 +3,10 @@
  * Gemini Imagen API: models/imagen-3.0-generate-001:predict
  */
 import { GEMINI_BASE_URL } from './llm';
+import { fetchWithTimeout } from './http';
 
 const IMAGEN_MODEL = 'imagen-3.0-generate-001';
+export const IMAGE_GENERATION_TIMEOUT_MS = 60_000;
 
 function aspectRatioFromSize(size: string): string {
   const [w, h] = size.split('x').map(Number);
@@ -20,16 +22,17 @@ export async function generateStudioImage(prompt: string): Promise<string> {
     throw new Error('GOOGLE_GENERATIVE_AI_API_KEY가 설정되지 않았습니다.');
   }
 
-  const res = await fetch(
-    `${GEMINI_BASE_URL}/models/${IMAGEN_MODEL}:predict?key=${encodeURIComponent(googleApiKey)}`,
+  const res = await fetchWithTimeout(
+    `${GEMINI_BASE_URL}/models/${IMAGEN_MODEL}:predict`,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': googleApiKey },
       body: JSON.stringify({
         instances: [{ prompt }],
         parameters: { sampleCount: 1, aspectRatio: aspectRatioFromSize('1024x1024') },
       }),
-    }
+    },
+    IMAGE_GENERATION_TIMEOUT_MS,
   );
 
   if (!res.ok) {

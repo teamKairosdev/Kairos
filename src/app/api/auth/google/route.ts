@@ -1,8 +1,9 @@
+import { randomBytes } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { buildGoogleAuthUrl } from '@/server/auth';
 
 export async function GET() {
-  const state = Math.random().toString(36).substring(2, 15);
+  const state = randomBytes(32).toString('base64url');
   const authUrl = buildGoogleAuthUrl(state);
 
   const res = NextResponse.redirect(authUrl);

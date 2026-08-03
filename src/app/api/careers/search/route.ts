@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { searchCareersSemantic } from '@/server/career';
 import { getSession } from '@/server/getSession';
-import { badRequest, internalError, payloadTooLarge, unauthorized } from '@/server/http';
+import { badRequest, internalError, payloadTooLarge, serviceUnavailable, unauthorized } from '@/server/http';
 
 const MAX_QUERY_LENGTH = 500;
 
@@ -24,22 +24,10 @@ export async function GET(req: NextRequest) {
 
     try {
       const results = await searchCareersSemantic(session.userId, q, 5);
-      return NextResponse.json({ query: q, results });
+      return NextResponse.json({ query: q, results, semanticSearch: true });
     } catch (err: unknown) {
-      console.warn('pgvector search fallback notice:', err instanceof Error ? err.message : err);
-      return NextResponse.json({
-        query: q,
-        results: [
-          {
-            id: 'demo-semantic-result-1',
-            company: 'Kairos AI Lab',
-            role: 'Lead AI Engineer',
-            period: '2023 - 2026',
-            description: `시맨틱 벡터 검색 매칭 결과: "${q}" 키워드 관련 LLM & pgvector 연동 경험`,
-            similarity: 0.94,
-          },
-        ],
-      });
+      console.warn('pgvector search unavailable:', err instanceof Error ? err.message : err);
+      return serviceUnavailable('시맨틱 검색을 현재 사용할 수 없습니다. 경력 저장 후 잠시 뒤 다시 시도해주세요.');
     }
   } catch (err: unknown) {
     return internalError(err, 'Error');

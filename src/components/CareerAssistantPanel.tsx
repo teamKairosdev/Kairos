@@ -37,6 +37,7 @@ export default function CareerAssistantPanel() {
   });
 
   const [savedChatUrl, setSavedChatUrl] = useState<string | null>(null);
+  const [savedChatDemo, setSavedChatDemo] = useState(false);
   const [savingChat, setSavingChat] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -117,9 +118,12 @@ export default function CareerAssistantPanel() {
           messages,
         }),
       });
-      const data = await res.json();
-      if (data.url) setSavedChatUrl(data.url);
+      const data = await res.json() as { url?: string; demo?: boolean };
+      if (!res.ok || !data.url) throw new Error('공유 링크를 저장하지 못했습니다.');
+      setSavedChatDemo(data.demo === true);
+      setSavedChatUrl(data.url);
     } catch {
+      setSavedChatDemo(true);
       setSavedChatUrl(`/r/demo-${Date.now()}`);
     } finally {
       setSavingChat(false);
@@ -237,7 +241,7 @@ export default function CareerAssistantPanel() {
           </button>
           {savedChatUrl && (
             <span className="text-emerald-400 font-mono">
-              [저장됨:{' '}
+               [{savedChatDemo ? '미리보기 링크' : '저장됨'}:{' '}
               <Link href={savedChatUrl} target="_blank" className="underline">
                 링크 이동
               </Link>

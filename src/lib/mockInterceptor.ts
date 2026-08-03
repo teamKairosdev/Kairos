@@ -493,6 +493,20 @@ export function initMockInterceptor() {
     }
 
     // 5. Docs Endpoints
+    if (url.includes('/api/docs/parse') && method === 'POST') {
+      const raw = init?.body instanceof FormData ? init.body.get('file') : null;
+      if (!(raw instanceof File)) return json({ error: 'File is required' }, 400);
+      const ext = raw.name.split('.').pop()?.toLowerCase() || '';
+      if (ext !== 'hwp' && ext !== 'hwpx') return json({ error: 'Unsupported format' }, 422);
+      try {
+        const { extractHwpText } = await import('@/lib/hwpTextExtract');
+        const text = await extractHwpText(new Uint8Array(await raw.arrayBuffer()));
+        return json({ text, demo: true });
+      } catch {
+        return json({ error: 'HWP 파싱 실패' }, 422);
+      }
+    }
+
     if (url.includes('/api/docs') && !url.match(/\/api\/docs\/[^/]+/) && method === 'GET') {
       return json(readArray<MockDoc>('mock_docs'));
     }

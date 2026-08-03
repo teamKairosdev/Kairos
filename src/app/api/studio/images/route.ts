@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
 import { getSession } from '@/server/getSession';
-import { unauthorized, internalError } from '@/server/http';
+import { internalError, serviceUnavailable, unauthorized } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   try {
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     }
 
     const db = getDb();
-    if (!db) return NextResponse.json({ images: [] });
+    if (!db) return serviceUnavailable('데이터베이스에 연결할 수 없습니다.');
 
     const { studioImages: si } = await import('@/db/schema');
     const { eq, desc } = await import('drizzle-orm');

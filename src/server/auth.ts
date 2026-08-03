@@ -5,6 +5,7 @@
  * useRuntimeConfig() → process.env 직접 접근으로 변환 (Next.js)
  */
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
+import { fetchWithTimeout } from './http';
 
 export interface KairosUser {
   id: string;
@@ -19,6 +20,17 @@ export interface KairosSession extends JWTPayload {
   email: string;
   name: string;
   avatarUrl?: string | null;
+}
+
+export const WALLET_NONCE_COOKIE = 'kairos_wallet_nonce';
+export const WALLET_NONCE_TTL_SECONDS = 10 * 60;
+
+export function buildWalletSignInMessage(nonce: string, address: string): string {
+  return `Kairos Sign-In\n${nonce}\n${address.toLowerCase()}`;
+}
+
+export function normalizeEmail(value: string): string {
+  return value.trim().toLowerCase();
 }
 
 function getJwtSecret(): Uint8Array {
@@ -91,7 +103,7 @@ export async function exchangeGoogleCode(code: string): Promise<{
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const redirectUri = `${baseUrl}/api/auth/google/callback`;
 
-  const res = await fetch('https://oauth2.googleapis.com/token', {
+  const res = await fetchWithTimeout('https://oauth2.googleapis.com/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
@@ -101,7 +113,7 @@ export async function exchangeGoogleCode(code: string): Promise<{
       redirect_uri: redirectUri,
       grant_type: 'authorization_code',
     }),
-  });
+  }, 10_000);
 
   if (!res.ok) {
     const err = await res.text();
@@ -119,10 +131,27 @@ export async function fetchGoogleUserInfo(accessToken: string): Promise<{
   name: string;
   picture?: string;
 }> {
-  const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+  const res = await fetchWithTimeout('https://www.googleapis.com/oauth2/v3/userinfo', {
     headers: { Authorization: `Bearer ${accessToken}` },
-  });
+  }, 10_000);
 
   if (!res.ok) throw new Error('Google 사용자 정보 조회 실패');
-  return res.json();
+  const data = await res.json() as unknown;
+  if (
+    typeof data !== 'object' ||
+    data === null ||
+    typeof (data as { sub?: unknown }).sub !== 'string' ||
+    typeof (data as { email?: unknown }).email !== 'string' ||
+    (data as { email_verified?: unknown }).email_verified !== true
+  ) {
+    throw new Error('Google 사용자 정보가 유효하지 않습니다.');
+  }
+
+  const profile = data as { sub: string; email: string; name?: unknown; picture?: unknown };
+  return {
+    sub: profile.sub,
+    email: normalizeEmail(profile.email),
+    name: typeof profile.name === 'string' ? profile.name : '',
+    picture: typeof profile.picture === 'string' ? profile.picture : undefined,
+  };
 }

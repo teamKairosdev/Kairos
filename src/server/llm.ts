@@ -10,6 +10,7 @@
  */
 import { z } from 'zod';
 import { getSystemConfig } from './systemConfig';
+import { fetchWithTimeout } from './http';
 
 export interface LLMMessage {
   role: 'user' | 'model';
@@ -36,6 +37,7 @@ export interface LLMOptions {
 
 export const DEFAULT_MODEL = 'gemini-2.0-flash-001';
 export const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
+export const LLM_REQUEST_TIMEOUT_MS = 30_000;
 
 interface EndpointConfig {
   apiKey: string;
@@ -73,7 +75,7 @@ async function getConfig(): Promise<EndpointConfig> {
   return {
     apiKey: googleKey,
     baseUrl: GEMINI_BASE_URL,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': googleKey },
     gatewayUrl: '',
   };
 }
@@ -168,9 +170,6 @@ function buildEndpointUrl(
   action: 'generateContent' | 'streamGenerateContent'
 ): string {
   const query = new URLSearchParams();
-  if (cfg.baseUrl.includes('generativelanguage.googleapis.com')) {
-    query.set('key', cfg.apiKey);
-  }
   if (action === 'streamGenerateContent') query.set('alt', 'sse');
   const qs = query.toString();
   return `${cfg.baseUrl}/models/${encodeURIComponent(model)}:${action}${qs ? `?${qs}` : ''}`;
@@ -239,11 +238,11 @@ async function requestGemini(
   action: 'generateContent' | 'streamGenerateContent',
   body: Record<string, unknown>
 ): Promise<Response> {
-  const res = await fetch(buildEndpointUrl(cfg, model, action), {
+  const res = await fetchWithTimeout(buildEndpointUrl(cfg, model, action), {
     method: 'POST',
     headers: cfg.headers,
     body: JSON.stringify(body),
-  });
+  }, LLM_REQUEST_TIMEOUT_MS);
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
     const kind = action === 'streamGenerateContent' ? 'Gemini stream error' : 'Gemini API error';

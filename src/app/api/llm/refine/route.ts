@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { streamLLMText, collectStreamText } from '@/server/llm';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
@@ -9,16 +10,24 @@ export async function POST(req: NextRequest) {
     const session = await getSession(req);
     if (!session?.userId) return unauthorized();
 
-    const { resumeText, jobDescription } = await req.json();
+    const body = await req.json();
+    const resumeText = typeof body?.resumeText === 'string' ? body.resumeText : '';
+    const jobDescription = typeof body?.jobDescription === 'string' ? body.jobDescription : '';
 
     if (!resumeText) {
       return badRequest('Resume text is required');
     }
+    if (resumeText.length > 100_000 || jobDescription.length > 30_000) {
+      return badRequest('입력 길이가 제한을 초과했습니다.');
+    }
 
-    const cacheKey = `refine:${resumeText.slice(0, 200)}:${jobDescription?.slice(0, 200) || ''}`;
+    const cacheInput = JSON.stringify({ userId: session.userId, resumeText, jobDescription });
+    const cacheKey = `refine:${createHash('sha256').update(cacheInput).digest('hex')}`;
     const cached = await getCachedResponse(cacheKey, 'refine');
     if (cached) {
-      return NextResponse.json(JSON.parse(cached));
+      return new Response(cached, {
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
     }
 
     const instructions = `You are Kairos AI, an elite career steward and resume rewriting specialist.
@@ -39,7 +48,7 @@ Focus on maximizing professional impact and ATS compatibility.`;
     const [clientStream, cacheStream] = stream.tee();
     void collectStreamText(cacheStream).then((text) => {
       if (text) {
-        void setCachedResponse(cacheKey, 'refine', JSON.stringify({ text }), 3600);
+        void setCachedResponse(cacheKey, 'refine', text, 3600);
       }
     });
 

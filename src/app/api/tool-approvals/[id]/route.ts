@@ -92,6 +92,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
       .where(and(eq(toolApprovals.id, id), eq(toolApprovals.userId, session.userId)));
     if (!existing) return notFound('Tool approval not found');
     if (existing.status !== 'pending') return badRequest('이미 결정된 tool approval입니다.');
+    if (existing.expiresAt && new Date(existing.expiresAt).getTime() <= Date.now()) {
+      return badRequest('이미 만료된 tool approval입니다.');
+    }
 
     const decidedAt = new Date();
     const decisionCode =
@@ -100,13 +103,16 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
         : decision === 'approved'
           ? 'USER_APPROVED'
           : 'USER_REJECTED';
+    const expiresAt = Object.prototype.hasOwnProperty.call(body, 'expiresAt')
+      ? expiry
+      : existing.expiresAt;
     const [approval] = await db
       .update(toolApprovals)
       .set({
         status: decision,
         decisionCode,
         decidedAt,
-        expiresAt: expiry,
+        expiresAt,
       })
       .where(and(eq(toolApprovals.id, id), eq(toolApprovals.userId, session.userId)))
       .returning();
