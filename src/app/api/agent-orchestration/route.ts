@@ -10,11 +10,13 @@ import {
 } from '@/db/schema';
 import {
   agentRouter,
+  type AgentProvider,
   type AgentRoute,
   type AgentTaskType,
 } from '@/server/agentRouter';
 import { analyzeATSCompatibility } from '@/server/ats';
 import { callLLMText } from '@/server/llm';
+import { callProviderText } from '@/server/providers';
 import {
   hashValue,
   runIndependentSubtasks,
@@ -49,7 +51,7 @@ interface RequestedSubtask {
 }
 
 interface OrchestrationTaskOutput {
-  provider: 'gemini' | 'local-deterministic';
+  provider: AgentProvider;
   taskType: AgentTaskType;
   output: unknown;
 }
@@ -207,22 +209,25 @@ async function executeRoutedTask(
   route: AgentRoute,
   rootInput: unknown,
 ): Promise<{ route: AgentRoute; sharedProviderOutput: string | null }> {
-  if (route.provider !== 'gemini') {
-    return { route, sharedProviderOutput: null };
-  }
+  if (route.provider === 'local-deterministic') return { route, sharedProviderOutput: null };
 
   try {
-    const sharedProviderOutput = await callLLMText({
+    const providerOptions = {
       model: route.model ?? undefined,
       prompt: buildGeminiPrompt(route.taskType, rootInput),
       temperature: 0.2,
-    });
+    };
+    const sharedProviderOutput =
+      route.provider === 'gemini'
+        ? await callLLMText({ ...providerOptions, provider: 'gemini' })
+        : await callProviderText(route.provider, providerOptions);
     return { route, sharedProviderOutput };
   } catch {
     return {
       route: {
         ...route,
         provider: 'local-deterministic',
+        providerKind: 'local',
         model: null,
         fallbackUsed: true,
       },
@@ -356,7 +361,7 @@ export async function POST(req: NextRequest) {
       if (task.forceFailure) throw new Error('SUBTASK_FORCED_FAILURE');
       if (routed.sharedProviderOutput !== null) {
         return {
-          provider: 'gemini',
+          provider: route.provider,
           taskType: route.taskType,
           output: routed.sharedProviderOutput,
         };

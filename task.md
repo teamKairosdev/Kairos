@@ -300,6 +300,38 @@
 
 ---
 
+## 세션 22: 외부 에이전트·로컬 SLM·안전 Sandbox·블루 3D 발표 확장 (2026-08-04)
+
+### 1. 조사
+- [x] Hermes Agent 공식 runtime·API·MCP·A2A·MIT 라이선스·보안 경계 조사
+- [x] OpenClaw Gateway·provider·MCP·trusted operator 보안 모델 조사
+- [x] OpenCode server·SDK·ACP·MCP·MIT 라이선스·coding task 경계 조사
+- [x] Ollama·llama.cpp·Qwen/Phi 모델·QLoRA·Firecracker·Windows Sandbox·OWASP 조사
+- [x] Apple·Stripe·Linear·Vercel·Framer·WCAG·눈누 기반 blue/glass/3D/motion 디자인 조사
+
+### 2. 구현
+- [x] Gemini·OpenRouter·Ollama/llama.cpp·generic OpenAI-compatible ModelProviderAdapter 구현
+- [x] Hermes·OpenClaw·OpenCode ExternalAgentAdapter 구현 및 capability/allowlist/secret 보호
+- [x] `/api/providers` provider 상태·capability·health surface 구현
+- [x] local SLM endpoint 환경변수·모델 선택·deterministic fallback 구현
+- [x] Sandbox control-plane 구현: disabled·remote-firecracker·windows-sandbox 상태, approval·hash·timeout·output/network 제한
+- [x] shell·PowerShell·Node·임의 명령 기본 차단, Windows Sandbox는 config 생성·검증만 수행
+- [x] 발표자료에 blue token·glass chrome·정적 3D depth·motion·Pexels stock 출처 반영
+
+### 3. 실제 환경 검증
+- [x] Ollama `0.32.5` 설치 확인
+- [x] 로컬 모델 4개 확인
+- [x] `llama3.2:1b` localhost inference 응답 `OK` 확인
+- [x] `.env`·API key·provider token git 미추적 유지
+- [x] `npm test`: 34개 파일, 188/188 통과
+- [x] `npx tsc --noEmit --incremental false` 통과
+- [x] `npx drizzle-kit check` 통과
+- [x] `npm run build` 성공
+- [x] 정적 발표자료 검사 통과
+- [x] 커밋 (push 안 함)
+
+---
+
 ## 세션 21: 코드 전수 감사·보안 수정·발표자료 재검증 (2026-08-04)
 
 ### 1. 코드 감사 및 수정
@@ -552,3 +584,39 @@
 - [x] 이모지·외부 라이브러리·외부 폰트 없이 단독 실행 확인
 - [x] `</html>` 종료·10개 슬라이드·출처 URL·JavaScript 문법 검사
 - [x] 커밋 (push 안 함)
+
+---
+
+## 세션 22: 현재 코드·외부 adapter·발표 문서 정합화 (2026-08-04)
+
+### 1. 문서 작업 범위
+- [x] 사용자 지정 문서 `README.md`, `AI서비스톤_통합계획서.md`, `AI서비스톤_발표대본_5분.md`, `task.md`만 직접 수정
+- [x] 기존 계획서 원문 아이디어·심사기준·PPT 원문을 삭제하거나 의역하지 않고 최신 기준 섹션을 추가
+- [x] 병행 반영된 `src/server/providers/`, `src/server/sandbox/`, `providerConfig.ts`를 읽고 문서의 SLLM·VM·external agent runtime 범위를 실제 코드에 맞춰 갱신
+
+### 2. 코드 기준 수치
+- [x] `db/schema.ts`의 `pgTable` 정의 **44개** 확인
+- [x] `src/app/api/**/route.ts` **107개** 확인
+- [x] `src/app/**/page.tsx` **28개** 확인
+- [x] `test/**/*.test.ts` **34개 파일**, **186개 테스트** 확인
+- [x] `src/server/providers`의 model/external-agent adapter와 `src/server/sandbox`의 disabled·remote-firecracker·windows-sandbox 상태를 문서화
+
+### 3. SLLM·VM·외부 runtime 범위
+- [x] SLLM/SLM은 Ollama·llama.cpp 및 OpenAI-compatible model adapter의 text·structured·stream·health 범위로 기록하고 파인튜닝·GPU provisioning을 결과로 주장하지 않음
+- [x] VM은 Linux remote Firecracker job adapter와 Windows Sandbox config-only 경계로 기록하고, endpoint·token이 없으면 disabled로 기록
+- [x] Hermes·OpenClaw·OpenCode를 `kind: external-agent`로 구분하고 공식 URL·MIT 라이선스·allowlist·승인·격리·출력 검증 경계를 기록
+- [ ] 실제 remote endpoint health·submit·cancel·output 운영 검증과 외부 runtime 리허설을 수행
+
+### 4. 발표 자료 정합화
+- [x] 심사기준 15·15·20·40·10 합계 100점 기록
+- [x] 공식 10장 순서와 루트 14장 정적 덱, Q&A 11/14, Appendix 12/14~14/14의 차이 기록
+- [x] ATS·Diff 승인·텍스트 면접 GIF·MP4·PNG 슬롯 3개와 파일 부재 시 구조화 mock 경로 기록
+- [x] `#2F20F7`, blue glass, CSS 3D, motion, stock image 부재, 폰트·브랜드·미디어 출처와 라이선스 경계 기록
+- [ ] 최종 제출 전 정적 덱 DOM을 공식 10장 순서와 대응시키고 실제 GIF 파일 출처·라이선스를 등록
+
+### 5. 검증
+- [x] `npm test` — **34개 파일, 186/186 통과**
+- [x] `git diff --check` 통과
+- [x] 계획서 형식 검증에서 `#`·`##` 제목, `《》`, 체크리스트 본문, 이모지 금지와 금지 마크다운 문법을 재확인
+- [x] 사용자가 병행 작업 중인 코드·환경변수·발표자료 변경은 되돌리거나 수정하지 않음
+- [x] 이번 세션에서 직접 수정한 파일은 문서뿐이며 병행 작업의 코드·환경변수·발표자료 변경은 그대로 두고 커밋·push를 수행하지 않음

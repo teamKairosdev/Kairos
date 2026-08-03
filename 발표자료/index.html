@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#F7F6F2">
+  <meta name="theme-color" content="#2F20F7">
   <title>Kairos | AI 서비스톤 발표자료</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css">
   <style>
@@ -25,18 +25,22 @@
     :root {
       color-scheme: light;
       font-family: "Freesentation", "SUIT", "Pretendard", "Malgun Gothic", sans-serif;
+      --blue-950: #080D2B;
+      --blue-700: #1710B8;
+      --blue-500: #536DFF;
+      --blue-100: #E9EDFF;
       --brand: #2F20F7;
-      --ink: #11111F;
-      --paper: #F7F6F2;
-      --lavender: #E9E7FF;
+      --ink: var(--blue-950);
+      --paper: #F7F9FF;
+      --lavender: var(--blue-100);
       --white: #FFFFFF;
       --coral: #FF684A;
       --mint: #A8E6C1;
-      --line: #D8D7E3;
-      --ink-70: rgba(17, 17, 31, .70);
-      --ink-45: rgba(17, 17, 31, .45);
-      --paper-75: rgba(247, 246, 242, .75);
-      --paper-45: rgba(247, 246, 242, .45);
+      --line: #CDD5F2;
+      --ink-70: rgba(8, 13, 43, .70);
+      --ink-45: rgba(8, 13, 43, .45);
+      --paper-75: rgba(247, 249, 255, .78);
+      --paper-45: rgba(247, 249, 255, .48);
     }
 
     * { box-sizing: border-box; }
@@ -46,7 +50,7 @@
       min-height: 100vh;
       place-items: center;
       overflow: hidden;
-      background: var(--ink);
+      background: var(--blue-950);
       color: var(--ink);
       font-family: "Freesentation", "SUIT", "Pretendard", "Malgun Gothic", sans-serif;
       font-size: clamp(17px, 1cqw, 20px);
@@ -66,6 +70,32 @@
       outline-offset: 4px;
     }
 
+    /* Glass stays on utility surfaces; content panels remain opaque. */
+    .glass-surface {
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+    @supports (backdrop-filter: blur(1px)) {
+      .glass-surface {
+        background: rgba(255, 255, 255, .70);
+        -webkit-backdrop-filter: blur(18px) saturate(135%);
+        backdrop-filter: blur(18px) saturate(135%);
+      }
+    }
+    @supports not (backdrop-filter: blur(1px)) {
+      .glass-surface { background: var(--white); }
+    }
+    .product-chrome.source-chrome {
+      border-color: rgba(247, 249, 255, .24);
+      background: var(--blue-950);
+    }
+    @supports (backdrop-filter: blur(1px)) {
+      .product-chrome.source-chrome { background: rgba(8, 13, 43, .78); }
+    }
+    @supports not (backdrop-filter: blur(1px)) {
+      .product-chrome.source-chrome { background: var(--blue-950); }
+    }
+
     #stage {
       position: relative;
       width: min(100vw, calc(100vh * 16 / 9));
@@ -76,18 +106,18 @@
       container-type: inline-size;
       touch-action: pan-y;
       background: var(--paper);
-      box-shadow: 0 0 0 1px var(--line), 22px 22px 0 rgba(17, 17, 31, .18);
+      box-shadow: 0 0 0 1px var(--line), 22px 22px 0 rgba(8, 13, 43, .18);
     }
 
     #stage::after {
       position: absolute;
       inset: 12px;
       z-index: 50;
-      border: 1px solid rgba(17, 17, 31, .14);
+      border: 1px solid rgba(8, 13, 43, .14);
       pointer-events: none;
       content: "";
     }
-    #stage.tone-ink::after { border-color: rgba(247, 246, 242, .16); }
+    #stage.tone-ink::after { border-color: rgba(247, 249, 255, .16); }
 
     .topbar {
       position: absolute;
@@ -99,6 +129,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 24px;
+      padding: 10px 14px;
+      border-radius: 20px;
       pointer-events: none;
     }
 
@@ -131,6 +163,13 @@
     }
 
     .tone-ink .topbar-label { color: var(--paper); }
+    .tone-ink .topbar {
+      border-color: rgba(247, 249, 255, .24);
+      background: var(--blue-950);
+    }
+    @supports (backdrop-filter: blur(1px)) {
+      .tone-ink .topbar { background: rgba(8, 13, 43, .76); }
+    }
 
     .topbar-context {
       max-width: 45cqw;
@@ -154,7 +193,7 @@
       opacity: 0;
       pointer-events: none;
       transform: translateX(18px);
-      transition: opacity 240ms ease, transform 240ms ease, visibility 240ms ease;
+      transition: opacity 260ms ease, transform 260ms ease, visibility 260ms ease;
       will-change: opacity, transform;
     }
 
@@ -312,6 +351,7 @@
     .ink .rule { background: rgba(247, 246, 242, .24); }
 
     /* Cover */
+    .cover { background: radial-gradient(circle at 76% 42%, rgba(83, 109, 255, .16), transparent 25%), var(--paper); }
     .cover-inner { justify-content: center; }
     .cover-grid {
       display: grid;
@@ -360,7 +400,11 @@
       font-weight: 700;
     }
     .cover-footer::before { width: 42px; height: 2px; background: var(--coral); content: ""; }
-    .evidence-wrap { min-width: 0; }
+    .evidence-wrap {
+      position: relative;
+      min-width: 0;
+      perspective: 1400px;
+    }
     .frame-label {
       display: flex;
       align-items: center;
@@ -373,11 +417,48 @@
       letter-spacing: .1em;
     }
     .frame-label span:last-child { color: var(--ink-45); }
+    .hero-orb {
+      position: absolute;
+      top: -7cqw;
+      right: -5cqw;
+      z-index: 0;
+      width: 19cqw;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 1px solid rgba(83, 109, 255, .48);
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 24%, #FFFFFF 0 4%, rgba(255, 255, 255, .66) 5%, transparent 23%), radial-gradient(circle at 62% 66%, var(--brand), var(--blue-700) 52%, var(--blue-950) 100%);
+      box-shadow: inset -24px -26px 42px rgba(8, 13, 43, .44), 0 24px 52px rgba(47, 32, 247, .20);
+      pointer-events: none;
+      transform: perspective(900px) rotateX(18deg) rotateY(-18deg) translateZ(24px);
+      transform-style: preserve-3d;
+      animation: orb-drift 24s ease-in-out infinite alternate;
+    }
+    .hero-orb::after {
+      position: absolute;
+      top: 13%;
+      right: 13%;
+      width: 32%;
+      height: 18%;
+      border: 1px solid rgba(255, 255, 255, .64);
+      border-radius: 50%;
+      content: "";
+      transform: rotate(-28deg);
+    }
+    .hero-orb span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    @keyframes orb-drift {
+      from { transform: perspective(900px) rotateX(18deg) rotateY(-18deg) translate3d(0, 0, 24px); }
+      to { transform: perspective(900px) rotateX(20deg) rotateY(-14deg) translate3d(0, -8px, 30px); }
+    }
     .product-frame {
+      position: relative;
+      z-index: 1;
       overflow: hidden;
       border: 2px solid var(--ink);
       background: var(--white);
       box-shadow: 18px 18px 0 var(--lavender);
+      transform: perspective(1200px) rotateX(3deg) rotateY(-2deg) translateZ(16px);
+      transform-style: preserve-3d;
     }
     .product-chrome {
       display: flex;
@@ -537,6 +618,60 @@
     }
     .pain-item h3 { font-size: clamp(26px, 1.35cqw, 31px); }
     .pain-item p { margin-top: 5px; font-size: clamp(24px, 1.05cqw, 27px); }
+    .people-photo {
+      position: relative;
+      min-width: 0;
+      min-height: 170px;
+      margin-top: 18px;
+      overflow: hidden;
+      border: 1px solid var(--blue-500);
+      background: linear-gradient(135deg, var(--blue-950), var(--brand) 52%, var(--blue-500));
+      isolation: isolate;
+    }
+    .people-photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 170px;
+      object-fit: cover;
+      filter: saturate(.82) contrast(1.04);
+    }
+    .people-photo::before {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(8, 13, 43, 0) 42%, rgba(8, 13, 43, .78) 100%);
+      content: "";
+      pointer-events: none;
+    }
+    .people-photo figcaption {
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+      left: 12px;
+      z-index: 2;
+      color: var(--white);
+      font-size: clamp(16px, .78cqw, 19px);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .people-photo.image-fallback img { opacity: 0; }
+    .people-photo.image-fallback::after {
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      left: 16px;
+      z-index: 2;
+      color: var(--white);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: clamp(17px, .9cqw, 21px);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-align: center;
+      content: "FIELD NOTE / TEAM WORK";
+      transform: translateY(-50%);
+    }
+    .persona-photo { max-width: 32cqw; }
     .evidence-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.55fr) minmax(300px, .85fr);
@@ -550,6 +685,8 @@
       border-top: 4px solid var(--brand);
       border-bottom: 2px solid var(--ink);
       background: var(--white);
+      transform: perspective(1200px) rotateX(2deg) translateZ(8px);
+      transform-style: preserve-3d;
     }
     .chart-heading {
       display: flex;
@@ -990,8 +1127,9 @@
       cursor: pointer;
       font-size: clamp(16px, .82cqw, 19px);
       font-weight: 800;
+      transition: opacity 200ms ease, transform 200ms ease;
     }
-    .media-label:hover { background: var(--lavender); }
+    .media-label:hover { background: var(--lavender); opacity: .88; transform: translateY(-2px); }
     .file-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .file-status { min-width: 0; overflow: hidden; color: var(--ink-45); font-size: clamp(16px, .76cqw, 18px); text-overflow: ellipsis; white-space: nowrap; }
     .demo-note { margin-top: 16px; color: var(--ink-45); font-size: clamp(17px, .9cqw, 21px); line-height: 1.35; }
@@ -999,6 +1137,23 @@
     /* Impact */
     .impact-statement { max-width: 86cqw; margin-top: 24px; color: var(--ink); font-size: clamp(48px, 2.65cqw, 64px); font-weight: 800; line-height: 1.08; letter-spacing: -.06em; }
     .impact-statement strong { color: var(--brand); }
+    .human-context {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, .42fr);
+      gap: 24px;
+      align-items: center;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .human-context-note {
+      max-width: 58cqw;
+      color: var(--ink-70);
+      font-size: clamp(24px, 1.12cqw, 28px);
+      line-height: 1.3;
+    }
+    .impact-photo { min-height: 116px; margin-top: 0; }
+    .impact-photo img { min-height: 116px; }
     .impact-axis-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.18fr) minmax(0, .82fr);
@@ -1120,6 +1275,18 @@
     .font-panel h3 { font-size: clamp(26px, 1.42cqw, 32px); }
     .font-panel p { margin-top: 10px; font-size: clamp(24px, 1.04cqw, 27px); }
     .font-panel a { color: var(--brand); }
+    .photo-credit-panel {
+      margin-top: 26px;
+      padding-top: 16px;
+      border-top: 2px solid var(--blue-500);
+    }
+    .photo-credit-panel h3 { color: var(--ink); font-size: clamp(26px, 1.42cqw, 32px); }
+    .photo-credit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px; margin-top: 12px; }
+    .photo-credit { min-width: 0; padding-top: 12px; border-top: 1px solid var(--line); }
+    .photo-credit strong { display: block; color: var(--ink); font-size: clamp(22px, 1.02cqw, 26px); }
+    .photo-credit span { display: block; margin-top: 5px; color: var(--ink-70); font-size: clamp(20px, .9cqw, 23px); line-height: 1.25; }
+    .photo-credit a { display: block; margin-top: 6px; color: var(--brand); font-family: Consolas, "Courier New", monospace; font-size: clamp(16px, .76cqw, 18px); line-height: 1.3; overflow-wrap: anywhere; text-decoration: none; }
+    .photo-credit a:hover { text-decoration: underline; text-underline-offset: 4px; }
     .presenter-panel { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 24px; padding-top: 16px; border-top: 2px solid var(--ink); }
     .presenter-item { min-width: 0; }
     .presenter-item span { display: block; color: var(--ink-45); font-size: clamp(16px, .82cqw, 19px); }
@@ -1136,21 +1303,21 @@
       place-items: center;
       border: 1px solid var(--line);
       border-radius: 50%;
-      background: rgba(247, 246, 242, .86);
+      background: rgba(255, 255, 255, .86);
       color: var(--ink);
       cursor: pointer;
       pointer-events: auto;
-      transition: background 160ms ease, border-color 160ms ease;
+      transition: opacity 220ms ease, transform 220ms ease;
     }
-    .tone-ink .nav-button { border-color: rgba(247, 246, 242, .35); background: rgba(17, 17, 31, .86); color: var(--paper); }
-    .nav-button:hover { border-color: var(--brand); background: var(--lavender); }
+    .tone-ink .nav-button { border-color: rgba(247, 249, 255, .35); background: rgba(8, 13, 43, .86); color: var(--paper); }
+    .nav-button:hover { border-color: var(--brand); background: var(--lavender); opacity: .92; transform: scale(1.04); }
     .nav-button span { font-family: Consolas, "Courier New", monospace; font-size: clamp(20px, 1.1cqw, 26px); line-height: 1; }
     .statusbar { position: absolute; right: clamp(74px, 7.1cqw, 114px); bottom: clamp(20px, 2.2cqw, 34px); left: clamp(74px, 7.1cqw, 114px); z-index: 42; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; }
     .slide-status { color: var(--ink); font-family: Consolas, "Courier New", monospace; font-size: clamp(16px, .82cqw, 19px); font-weight: 800; letter-spacing: .08em; white-space: nowrap; }
     .tone-ink .slide-status { color: var(--paper); }
     .progress-track { height: 2px; overflow: hidden; background: var(--line); }
-    .tone-ink .progress-track { background: rgba(247, 246, 242, .24); }
-    .progress-fill { width: 7.14%; height: 100%; background: var(--brand); transition: width 220ms ease; }
+    .tone-ink .progress-track { background: rgba(247, 249, 255, .24); }
+    .progress-fill { width: 100%; height: 100%; background: var(--brand); transform: scaleX(.0714); transform-origin: left center; transition: transform 240ms ease; }
     .keyboard-hint { color: var(--ink-45); font-size: clamp(16px, .78cqw, 18px); white-space: nowrap; }
     .tone-ink .keyboard-hint { color: var(--paper-45); }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -1171,10 +1338,13 @@
       .architecture-head,
       .positioning-grid,
       .source-layout,
-      .evidence-grid { grid-template-columns: 1fr; }
+      .evidence-grid,
+      .human-context { grid-template-columns: 1fr; }
       .cover h1 { max-width: 90cqw; }
       .cover-subtitle { max-width: 90cqw; }
       .evidence-wrap { margin-top: 32px; }
+      .persona-photo { max-width: none; }
+      .human-context-note { max-width: none; }
       .loop-grid, .story-grid, .feature-grid, .impact-axis-grid, .implementation-grid, .module-columns { grid-template-columns: 1fr; }
       .feature-panel:first-child,
       .story-panel:first-child,
@@ -1200,14 +1370,18 @@
       .keyboard-hint { display: none; }
     }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
     }
     #stage:fullscreen { width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); }
   </style>
 </head>
 <body>
   <main id="stage" tabindex="0" aria-label="Kairos AI 서비스톤 발표자료">
-    <header class="topbar" aria-label="발표자료 머리말">
+    <header class="topbar glass-surface" aria-label="발표자료 머리말">
       <div class="topbar-brand">
         <span class="logo-plate"><img class="top-logo" src="../ASSETS/kairoslogo_basic자산%205.svg" alt="Kairos 로고"></span>
         <span class="topbar-label">AI 서비스톤</span>
@@ -1227,9 +1401,10 @@
               <div class="cover-footer">대회명만 표시 · 제품 증거를 기준으로 설명합니다</div>
             </div>
             <div class="evidence-wrap">
+              <div class="hero-orb" aria-hidden="true"><span>Hero depth</span></div>
               <div class="frame-label"><span>제품 증거 프레임</span><span>DIFF / RESUME</span></div>
               <div class="product-frame" aria-label="이력서 Diff 화면 구조 mockup">
-                <div class="product-chrome"><span>kairos / resume review</span><strong>USER APPROVAL</strong></div>
+                <div class="product-chrome glass-surface source-chrome"><span>kairos / resume review</span><strong>USER APPROVAL</strong></div>
                 <div class="product-body">
                   <aside class="product-rail">
                     <span class="rail-title">work flow</span>
@@ -1286,7 +1461,7 @@
            <div class="kicker">03 / 14 <span class="slide-number">필요성 · 대표 신입 지원자와 출처 신호</span></div>
            <h2 id="slide-title-3">청년에게 AI가 없는 것이 아니라,<br>경험을 연결하고 검증할 단서가 부족합니다.</h2>
           <div class="problem-top">
-            <div class="persona-story"><div class="eyebrow">대표 사용자 · 한 사람의 상황</div><p>졸업을 앞둔 신입 지원자는 프로젝트와 기술 스택이 있습니다.</p><p>하지만 공고마다 내 경험 중 무엇을 꺼내야 할지 다시 비교합니다.</p><p>AI가 고친 문장을 믿고 제출해도 되는지, 면접에서 어떻게 설명할지도 불안합니다.</p></div>
+            <div class="persona-story"><div class="eyebrow">대표 사용자 · 한 사람의 상황</div><p>졸업을 앞둔 신입 지원자는 프로젝트와 기술 스택이 있습니다.</p><p>하지만 공고마다 내 경험 중 무엇을 꺼내야 할지 다시 비교합니다.</p><p>AI가 고친 문장을 믿고 제출해도 되는지, 면접에서 어떻게 설명할지도 불안합니다.</p><figure class="people-photo persona-photo"><img data-stock-image src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="현대 사무실에서 함께 논의하는 팀" loading="lazy" referrerpolicy="no-referrer"><figcaption>대표 사용자 맥락 · 업무 분위기 참고 / 제품 화면 아님</figcaption></figure></div>
             <div class="pain-list" aria-label="Pain 3개"><div class="pain-item"><span class="pain-index">01</span><div><h3>공고와 경험 번역</h3><p>요구 역량을 내 경험의 근거 문장으로 바꾸는 비용</p></div></div><div class="pain-item"><span class="pain-index">02</span><div><h3>AI 문장 불신</h3><p>무엇이 바뀌었는지 확인하지 않으면 내 문장이 되지 않음</p></div></div><div class="pain-item"><span class="pain-index">03</span><div><h3>이력서와 면접 단절</h3><p>서류를 고친 뒤 다음 연습으로 이어지는 연결이 없음</p></div></div></div>
           </div>
            <div class="evidence-grid">
@@ -1365,6 +1540,7 @@
         <div class="slide-inner dense">
           <div class="kicker">08 / 14 <span class="slide-number">공익성 · 성과를 과장하지 않는 기대효과</span></div>
           <h2 id="slide-title-8" class="impact-statement">합격률을 약속하지 않고,<br><strong>준비의 다음 행동을 설계합니다.</strong></h2>
+          <div class="human-context"><p class="human-context-note"><span class="eyebrow">FIELD NOTE / WORK CONTEXT</span><br>사람과 팀의 업무 분위기를 보여주는 참고 이미지입니다. 제품 성능이나 사용자 성과의 증거로 사용하지 않습니다.</p><figure class="people-photo impact-photo"><img data-stock-image src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="업무 중 대화하는 두 명의 전문가" loading="lazy" referrerpolicy="no-referrer"><figcaption>사람·팀 맥락 참고 / 제품 화면 아님</figcaption></figure></div>
           <div class="impact-axis-grid"><article class="impact-axis"><strong>정보 비대칭을 줄이려는 설계</strong><p>공고의 요구와 내 경험 사이의 차이를 근거 단서로 확인합니다.</p></article><article class="impact-axis"><strong>반복 수정 비용을 줄이려는 설계</strong><p>어디를 왜 고칠지 보면서 다음 수정의 기준을 남깁니다.</p></article><article class="impact-axis"><strong>사용자 문장 통제권</strong><p>AI 제안을 Diff로 읽고 최종 문장을 직접 승인합니다.</p></article></div>
           <div class="kpi-design"><div class="kpi-design-head"><strong>KPI 측정 설계도</strong><span>baseline 0 · 측정 전 · 실제 성과 그래프 아님</span></div><div class="kpi-grid"><div class="kpi-item"><strong>01</strong><span>분석 완료율</span><div class="kpi-track"></div></div><div class="kpi-item"><strong>02</strong><span>Diff 승인율</span><div class="kpi-track"></div></div><div class="kpi-item"><strong>03</strong><span>텍스트 면접 완료율</span><div class="kpi-track"></div></div><div class="kpi-item"><strong>04</strong><span>첫 작업 시작까지 시간</span><div class="kpi-track"></div></div></div></div>
           <p class="impact-note">다음 검증에서 정상 입력부터 확인·승인·저장까지의 완료 여부, 소요 시간, 응답 성공률과 정성 피드백을 측정합니다.</p>
@@ -1377,11 +1553,11 @@
           <h2 id="slide-title-9">공익적 약속은 작게 말하고,<br>제품의 판단 구조는 직접 보여줍니다.</h2>
           <div class="demo-heading"><p>각 슬롯은 GIF·MP4·PNG를 선택하면 기본 mock 대신 실제 미디어를 보여줍니다.</p><strong>실제 AI · mock · 녹화본을 작은 라벨로 구분</strong></div>
           <div class="recording-board">
-            <div class="recording-banner"><strong>SCREEN RECORDING / DROP MEDIA</strong><span>30 sec × 3 · 실제 화면 교체 가능</span></div>
+            <div class="recording-banner glass-surface"><strong>SCREEN RECORDING / DROP MEDIA</strong><span>30 sec × 3 · 실제 화면 교체 가능</span></div>
             <div class="media-grid">
-              <article class="media-slot" data-slot="ats"><div class="media-slot-head"><strong>ATS 진단</strong><span>30초</span></div><div class="slot-viewport" aria-label="ATS 진단 구조화 mock"><div class="slot-mock"><div class="slot-mock-top"><span>ATS / INPUT</span><span>진단</span></div><div class="slot-mock-body"><div class="slot-mock-stats"><span>매칭 04</span><span>누락 03</span></div><div class="slot-mock-line"></div><div class="slot-mock-line short"></div><div class="slot-mock-line coral"></div></div></div><div class="media-preview" data-preview></div></div><div class="slot-meta"><span>구조화 mock</span><label class="media-label" for="media-ats">파일 선택</label><input class="file-input" id="media-ats" type="file" accept=".gif,.mp4,.png,video/mp4,image/gif,image/png" data-media-input></div><div class="file-status" data-file-status role="status">GIF / MP4 / PNG</div></article>
-              <article class="media-slot" data-slot="diff"><div class="media-slot-head"><strong>Diff 승인</strong><span>30초</span></div><div class="slot-viewport" aria-label="Diff 승인 구조화 mock"><div class="slot-mock"><div class="slot-mock-top"><span>RESUME / DIFF</span><span>승인</span></div><div class="slot-mock-body"><div class="slot-mock-split"><span>원문</span><span>AI 제안</span></div><div class="slot-mock-line coral"></div><div class="slot-mock-line short"></div><div class="slot-mock-line"></div></div></div><div class="media-preview" data-preview></div></div><div class="slot-meta"><span>구조화 mock</span><label class="media-label" for="media-diff">파일 선택</label><input class="file-input" id="media-diff" type="file" accept=".gif,.mp4,.png,video/mp4,image/gif,image/png" data-media-input></div><div class="file-status" data-file-status role="status">GIF / MP4 / PNG</div></article>
-              <article class="media-slot" data-slot="interview"><div class="media-slot-head"><strong>텍스트 면접</strong><span>30초</span></div><div class="slot-viewport" aria-label="텍스트 면접 구조화 mock"><div class="slot-mock"><div class="slot-mock-top"><span>INTERVIEW / TEXT</span><span>연습</span></div><div class="slot-mock-body"><div class="slot-mock-chat"><span>질문 · 경험의 판단은?</span><span>답변 · 근거를 연결합니다.</span></div><div class="slot-mock-line short"></div></div></div><div class="media-preview" data-preview></div></div><div class="slot-meta"><span>구조화 mock</span><label class="media-label" for="media-interview">파일 선택</label><input class="file-input" id="media-interview" type="file" accept=".gif,.mp4,.png,video/mp4,image/gif,image/png" data-media-input></div><div class="file-status" data-file-status role="status">GIF / MP4 / PNG</div></article>
+              <article class="media-slot" data-slot="ats"><div class="media-slot-head"><strong>ATS 진단</strong><span>30초</span></div><div class="slot-viewport" aria-label="ATS 진단 구조화 mock"><div class="slot-mock"><div class="slot-mock-top"><span>ATS / INPUT</span><span>진단</span></div><div class="slot-mock-body"><div class="slot-mock-stats"><span>매칭 04</span><span>누락 03</span></div><div class="slot-mock-line"></div><div class="slot-mock-line short"></div><div class="slot-mock-line coral"></div></div></div><div class="media-preview" data-preview></div></div><div class="slot-meta"><span>구조화 mock</span><label class="media-label glass-surface media-control" for="media-ats">파일 선택</label><input class="file-input" id="media-ats" type="file" accept=".gif,.mp4,.png,video/mp4,image/gif,image/png" data-media-input></div><div class="file-status" data-file-status role="status">GIF / MP4 / PNG</div></article>
+              <article class="media-slot" data-slot="diff"><div class="media-slot-head"><strong>Diff 승인</strong><span>30초</span></div><div class="slot-viewport" aria-label="Diff 승인 구조화 mock"><div class="slot-mock"><div class="slot-mock-top"><span>RESUME / DIFF</span><span>승인</span></div><div class="slot-mock-body"><div class="slot-mock-split"><span>원문</span><span>AI 제안</span></div><div class="slot-mock-line coral"></div><div class="slot-mock-line short"></div><div class="slot-mock-line"></div></div></div><div class="media-preview" data-preview></div></div><div class="slot-meta"><span>구조화 mock</span><label class="media-label glass-surface media-control" for="media-diff">파일 선택</label><input class="file-input" id="media-diff" type="file" accept=".gif,.mp4,.png,video/mp4,image/gif,image/png" data-media-input></div><div class="file-status" data-file-status role="status">GIF / MP4 / PNG</div></article>
+              <article class="media-slot" data-slot="interview"><div class="media-slot-head"><strong>텍스트 면접</strong><span>30초</span></div><div class="slot-viewport" aria-label="텍스트 면접 구조화 mock"><div class="slot-mock"><div class="slot-mock-top"><span>INTERVIEW / TEXT</span><span>연습</span></div><div class="slot-mock-body"><div class="slot-mock-chat"><span>질문 · 경험의 판단은?</span><span>답변 · 근거를 연결합니다.</span></div><div class="slot-mock-line short"></div></div></div><div class="media-preview" data-preview></div></div><div class="slot-meta"><span>구조화 mock</span><label class="media-label glass-surface media-control" for="media-interview">파일 선택</label><input class="file-input" id="media-interview" type="file" accept=".gif,.mp4,.png,video/mp4,image/gif,image/png" data-media-input></div><div class="file-status" data-file-status role="status">GIF / MP4 / PNG</div></article>
             </div>
             <p class="demo-note">파일을 고르면 실제 미디어가 보입니다. 파일이 없을 때 화면에 보이는 UI는 기능의 순서와 판단 지점을 설명하기 위한 구조화 mock입니다.</p>
           </div>
@@ -1450,10 +1626,11 @@
               <div class="appendix-source"><strong>Greenhouse · 공개 자료 · 확인일 2026.08</strong><span>Resume parsing 오류 원인 안내</span><a href="https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing" target="_blank" rel="noreferrer">https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing</a></div>
               <div class="appendix-source"><strong>NBER · WP 30886 · 2023</strong><span>온라인 노동시장 이력서 작성 지원 현장실험</span><a href="https://www.nber.org/papers/w30886" target="_blank" rel="noreferrer">https://www.nber.org/papers/w30886</a></div>
             </div>
-            <aside class="font-panel"><h3>폰트·브랜드 기준</h3><p><strong>Freesentation</strong> · 눈누 조사 기반 외부 폰트<br><a href="https://github.com/projectnoonnu/2404" target="_blank" rel="noreferrer">Freesentation source</a></p><p><strong>SUIT</strong> · 본문용 fallback<br><a href="https://github.com/sun-typeface/SUIT" target="_blank" rel="noreferrer">SUIT project · SIL OFL</a></p><p><strong>눈누</strong> · 폰트 탐색·이용 안내<br><a href="https://noonnu.cc" target="_blank" rel="noreferrer">https://noonnu.cc</a></p><p class="caption">fallback: Pretendard · Malgun Gothic · 외부 폰트 실패 시에도 레이아웃이 유지됩니다.</p></aside>
-          </div>
-          <div class="presenter-panel"><div class="presenter-item"><span>팀명</span><strong>[입력 필요]</strong></div><div class="presenter-item"><span>발표자</span><strong>[입력 필요]</strong></div><div class="presenter-item"><span>팀원</span><strong>[입력 필요]</strong></div></div>
-          <p class="source-disclaimer">발표 본문에는 출처명·기관·날짜만 표시하고 전체 URL은 이 부록에만 둡니다. 통계는 모집단과 기준시점을 함께 확인해야 합니다.</p>
+             <aside class="font-panel"><h3>폰트·브랜드 기준</h3><p><strong>Freesentation</strong> · 눈누 조사 기반 외부 폰트<br><a href="https://github.com/projectnoonnu/2404" target="_blank" rel="noreferrer">Freesentation source</a></p><p><strong>SUIT</strong> · 본문용 fallback<br><a href="https://github.com/sun-typeface/SUIT" target="_blank" rel="noreferrer">SUIT project · SIL OFL</a></p><p><strong>눈누</strong> · 폰트 탐색·이용 안내<br><a href="https://noonnu.cc" target="_blank" rel="noreferrer">https://noonnu.cc</a></p><p class="caption">fallback: Pretendard · Malgun Gothic · 외부 폰트 실패 시에도 레이아웃이 유지됩니다.</p></aside>
+           </div>
+           <div class="photo-credit-panel" role="region" aria-labelledby="photo-credit-title"><h3 id="photo-credit-title">스톡 이미지 출처·라이선스·저자 확인</h3><div class="photo-credit-grid"><article class="photo-credit"><strong>Pexels 3184325 · fauxels</strong><span>팀 협업 장면 · 업무 분위기 참고 이미지</span><a href="https://www.pexels.com/photo/people-sitting-on-chairs-in-a-room-3184325/" target="_blank" rel="noreferrer">원문·source 확인</a><a href="https://www.pexels.com/license/" target="_blank" rel="noreferrer">Pexels license</a><a href="https://www.pexels.com/@fauxels/" target="_blank" rel="noreferrer">저자 확인 · fauxels</a></article><article class="photo-credit"><strong>Pexels 3184465 · fauxels</strong><span>업무 중 대화 장면 · 사람 맥락 참고 이미지</span><a href="https://www.pexels.com/photo/people-working-in-an-office-3184465/" target="_blank" rel="noreferrer">원문·source 확인</a><a href="https://www.pexels.com/license/" target="_blank" rel="noreferrer">Pexels license</a><a href="https://www.pexels.com/@fauxels/" target="_blank" rel="noreferrer">저자 확인 · fauxels</a></article></div></div>
+           <div class="presenter-panel"><div class="presenter-item"><span>팀명</span><strong>[입력 필요]</strong></div><div class="presenter-item"><span>발표자</span><strong>[입력 필요]</strong></div><div class="presenter-item"><span>팀원</span><strong>[입력 필요]</strong></div></div>
+           <p class="source-disclaimer">발표 본문에는 출처명·기관·날짜만 표시하고 전체 URL은 이 부록에만 둡니다. 통계는 모집단과 기준시점을 함께 확인해야 합니다. 스톡 이미지는 사람·팀의 업무 맥락만 보조하며 제품 증거가 아닙니다.</p>
         </div>
       </section>
     </div>
@@ -1496,12 +1673,21 @@
           else slide.setAttribute('inert', '');
         });
         if (status) status.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-        if (progress) progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+        if (progress) progress.style.transform = `scaleX(${(current + 1) / slides.length})`;
         if (updateHash) window.history.replaceState(null, '', `#${current + 1}`);
       };
 
       const move = (step) => setSlide(current + step);
       const isInteractive = (target) => target instanceof Element && Boolean(target.closest('a, button, input, label, video'));
+
+      const markStockFallback = (image) => {
+        const frame = image.closest('.people-photo');
+        if (frame) frame.classList.add('image-fallback');
+      };
+      document.querySelectorAll('[data-stock-image]').forEach((image) => {
+        image.addEventListener('error', () => markStockFallback(image), { once: true });
+        if (image.complete && image.naturalWidth === 0) markStockFallback(image);
+      });
 
       document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowRight' || event.key === 'PageDown') {

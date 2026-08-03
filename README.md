@@ -6,7 +6,7 @@ Kairos는 **Next.js 16 (App Router)** 단일 프레임워크로 구축된 AI 기
 
 - **프레임워크**: Next.js 16 (App Router) · React 19 · TypeScript (strict)
 - **AI**: Google Gemini 2.0 Flash · text-embedding-004 · Imagen 3.0 (직접 REST 구현)
-- **DB**: NeonDB (PostgreSQL + pgvector 1536d) · Drizzle ORM
+- **DB**: NeonDB (PostgreSQL + pgvector 768d) · Drizzle ORM
 - **문서**: HWP/HWPX 뷰어·에디터 (@rhwp core/editor, WASM)
 
 ---
@@ -18,7 +18,7 @@ Kairos는 **Next.js 16 (App Router)** 단일 프레임워크로 구축된 AI 기
 flowchart TB
     subgraph Client["<b>Client Layer</b>"]
         direction TB
-        NEXT["<b>Next.js 16 App</b><br/>React 19 · 20 Pages<br/>Resume · Interview · ATS · Docs · Community · Studio"]
+        NEXT["<b>Next.js 16 App</b><br/>React 19 · 28 Pages<br/>Resume · Interview · ATS · Docs · Community · Studio"]
         HWP["<b>HWP Runtime</b><br/>@rhwp/core WASM (rhwp_bg.wasm)<br/>@rhwp/editor iframe Studio"]
         DEMO["<b>Demo Mode</b><br/>localStorage mock 데이터<br/>(testmockup 계정 · DB 미설정 폴백)"]
     end
@@ -26,7 +26,7 @@ flowchart TB
     subgraph Edge["<b>Edge / API Layer</b>"]
         direction TB
         MW["<b>proxy.ts</b><br/>JWT Session Guard<br/>11 Protected Paths"]
-        API["<b>Route Handlers</b><br/>48 Routes · getSession 검증<br/>http.ts 공통 에러 응답"]
+        API["<b>Route Handlers</b><br/>107 Routes · getSession 검증<br/>http.ts 공통 에러 응답"]
     end
 
     subgraph Services["<b>Service Layer (src/server)</b>"]
@@ -43,7 +43,7 @@ flowchart TB
     end
 
     subgraph Storage["<b>Storage Layer</b>"]
-        NEON[("<b>NeonDB</b><br/>PostgreSQL + pgvector<br/>1536d embeddings · 16 tables")]
+        NEON[("<b>NeonDB</b><br/>PostgreSQL + pgvector<br/>768d embeddings · 44 tables")]
         BLOB[("<b>Vercel Blob</b><br/>File Storage")]
         LOCAL[("<b>Local FS</b><br/>uploads/ · uploads/studio/")]
     end
@@ -77,9 +77,9 @@ flowchart TB
 |---|---|
 | **Framework** | Next.js 16 (App Router) · React 19 · TypeScript (strict) |
 | **AI / LLM** | Google Gemini 2.0 Flash · **직접 REST 구현** (`src/server/llm.ts`, AI SDK 미사용) |
-| **Embedding** | Google text-embedding-004 (1536d, `embedding.ts`) |
+| **Embedding** | Google text-embedding-004 (768d, `embedding.ts`) |
 | **Image** | Google Imagen 3.0 (`imageGen.ts`, `studio/*`) |
-| **Database** | NeonDB (PostgreSQL) · Drizzle ORM · pgvector (1536d) |
+| **Database** | NeonDB (PostgreSQL) · Drizzle ORM · pgvector (768d) |
 | **Auth** | JWT (jose, `kairos_session` 쿠키) · Google OAuth2 · Web3 Wallet (viem) · TOTP MFA (otplib + qrcode) |
 | **Storage** | Vercel Blob · Local filesystem (uploads/, HWP/DOCX/PDF) |
 | **HWP 문서** | @rhwp/core + @rhwp/editor (WASM, 브라우저 전용) · hwplib-js (서버 파싱) |
@@ -87,8 +87,19 @@ flowchart TB
 | **Styling** | Tailwind CSS v4 (CSS-first, @theme) · Freesentation 폰트 |
 | **Validation** | zod (LLM 구조화 응답 스키마) |
 | **UI 유틸** | sonner (토스트) · diff (단어 diff 렌더) |
-| **Testing** | Vitest (7개 테스트 파일 · 55 tests) |
+| **Testing** | Vitest (34개 테스트 파일 · 186 tests) |
 | **Deploy** | Vercel (icn1 서울 리전) · `.npmrc` legacy-peer-deps |
+
+---
+
+## Current Code Snapshot (2026-08-04)
+
+- **Schema tables**: `db/schema.ts`의 `export const ... = pgTable(...)` 기준 **44개**.
+- **API routes**: `src/app/api/**/route.ts` 파일 기준 **107개**.
+- **Pages**: `src/app/**/page.tsx` 파일 기준 **28개**.
+- **Tests**: `test/**/*.test.ts` **34개 파일**, Vitest 테스트 케이스 **186개**.
+- 위 수치는 생성된 `.next` 산출물이 아니라 현재 소스 파일을 센 값이며, 최신 `npm test` 결과 34개 파일·186개 통과와 일치한다.
+- 현재 `db/schema.ts`와 `src/server/embedding.ts`의 임베딩 차원은 **768d**이며, `drizzle/0006_clumsy_lake.sql`은 기존 경력 임베딩을 무효화하고 `vector(768)`로 변경한다.
 
 ---
 
@@ -101,7 +112,7 @@ flowchart TB
 | **ATS Analyzer** | JD 키워드 매칭 (40개 스킬 분류, 카테고리 가중치, 순수 알고리즘) | `ats.ts` |
 | **Text Humanizer** | AI 문체 → 자연 한국어 변환 + 문체 점수 | `humanizer.ts` · LLM Structured |
 | **Q&A Generator** | 직무별 면접 질문/모범답변 세트 생성 | `qa.ts` · LLM Structured |
-| **Career Semantic Search** | pgvector 1536d 코사인 유사도 경력 검색 | `embedding.ts` · `career.ts` |
+| **Career Semantic Search** | pgvector 768d 코사인 유사도 경력 검색 | `embedding.ts` · `career.ts` |
 | **Company Intelligence** | 회사 WLB/문화/연봉 분석 (24h 캐시) | `companyMeta.ts` |
 | **AI Photo Studio** | Imagen 3.0 이미지 생성 + 업로드 갤러리 | `imageGen.ts` · `studio/*` |
 | **HWP/HWPX 문서** | 서버 텍스트 추출(업로드 영속화) · 웹 뷰어(SVG 페이지) · 웹 에디터(저장) | `HwpViewer.tsx` · `HwpEditor.tsx` · `hwpParser.ts` |
@@ -187,26 +198,31 @@ flowchart LR
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'primaryColor': '#059669', 'primaryBorderColor': '#047857', 'lineColor': '#94a3b8', 'secondaryColor': '#f0fdf4', 'tertiaryColor': '#dbeafe', 'clusterBkg': '#f8fafc', 'clusterBorder': '#e2e8f0'}}}%%
 flowchart LR
-    subgraph API["<b>API Routes (src/app/api · 48 handlers)</b>"]
-        AUTH["auth/* 14"]
-        RESUME["resumes/* 4"]
-        INTERVIEW["interviews/* 3"]
+    subgraph API["<b>API Routes (src/app/api · 107 handlers)</b>"]
+        AUTH["auth/*"]
+        RESUME["resumes/*"]
+        INTERVIEW["interviews/*"]
         ATS["ats/analyze"]
-        LLM["llm/* 3"]
-        QA["qa/* 2"]
-        HUMAN["humanizer/* 2"]
-        CAREER["careers/* 3"]
-        STUDIO["studio/* 4"]
-        COMMUNITY["community/* 2"]
-        CHAT["chat/* 2"]
-        DOCS["docs/* 4"]
+        LLM["llm/*"]
+        QA["qa/*"]
+        HUMAN["humanizer/*"]
+        CAREER["careers/*"]
+        STUDIO["studio/*"]
+        COMMUNITY["community/*"]
+        CHAT["chat/*"]
+        DOCS["docs/*"]
         FILES["files/* (uploads 서빙)"]
         COMPANY["company/meta"]
-        ADMIN["admin/* 3"]
+        ADMIN["admin/*"]
         MCP["mcp/manifest"]
+        AGENT["agent-orchestration · agent-runs/* · workspaces/* · artifacts/*"]
+        APPROVALS["tool-approvals/*"]
+        CONTEXT["contexts/* · memory-exports/*"]
+        PROVIDERS["providers"]
+        SANDBOX["sandbox/*"]
     end
 
-    subgraph Services["<b>Service Modules (src/server · 21)</b>"]
+    subgraph Services["<b>Service Modules (src/server · 54 files)</b>"]
         LLM_SVC["llm.ts · llmCache.ts"]
         GUARD["guardrail.ts 4-Layer"]
         RESUME_SVC["resumes/* (라우트 직접)"]
@@ -224,6 +240,8 @@ flowchart LR
         MCP_SVC["mcp.ts"]
         IMG_SVC["imageGen.ts"]
         HTTP["http.ts (공통 에러 헬퍼)"]
+        PROVIDER_SVC["providers/* · providerConfig.ts"]
+        SANDBOX_SVC["sandbox/*"]
     end
 
     subgraph Middleware["<b>Proxy</b>"]
@@ -239,8 +257,8 @@ flowchart LR
     classDef svc fill:#059669,color:#fff,stroke:#047857
     classDef mw fill:#d97706,color:#fff,stroke:#b45309
     classDef store fill:#7c3aed,color:#fff,stroke:#6d28d9
-    class AUTH,RESUME,INTERVIEW,ATS,LLM,QA,HUMAN,CAREER,STUDIO,COMMUNITY,CHAT,DOCS,FILES,COMPANY,ADMIN,MCP api
-    class LLM_SVC,GUARD,RESUME_SVC,INTERVIEW_SVC,ATS_SVC,QA_SVC,HUMAN_SVC,CAREER_SVC,COMPANY_SVC,SKILLGAP,PARSER,AUTH_SVC,BLOB_SVC,SYS_CFG,MCP_SVC,IMG_SVC,HTTP svc
+    class AUTH,RESUME,INTERVIEW,ATS,LLM,QA,HUMAN,CAREER,STUDIO,COMMUNITY,CHAT,DOCS,FILES,COMPANY,ADMIN,MCP,AGENT,APPROVALS,CONTEXT,PROVIDERS,SANDBOX api
+    class LLM_SVC,GUARD,RESUME_SVC,INTERVIEW_SVC,ATS_SVC,QA_SVC,HUMAN_SVC,CAREER_SVC,COMPANY_SVC,SKILLGAP,PARSER,AUTH_SVC,BLOB_SVC,SYS_CFG,MCP_SVC,IMG_SVC,HTTP,PROVIDER_SVC,SANDBOX_SVC svc
     class AUTH_MW mw
     class DB,AI store
 ```
@@ -253,7 +271,7 @@ flowchart LR
 
 ## Database ERD
 
-Drizzle ORM 기반 **16개 테이블** (NeonDB PostgreSQL + pgvector). `DATABASE_URL` 미설정 시 DB 커넥션이 `null`이 되고 앱은 데모 모드로 동작합니다.
+Drizzle ORM 기반 **44개 테이블** (NeonDB PostgreSQL + pgvector 768d). `DATABASE_URL` 미설정 시 DB 커넥션이 `null`이 되고 앱은 데모 모드로 동작합니다.
 
 ```mermaid
 %%{init: {'theme':'base', 'themeVariables': { 'primaryColor': '#2563eb', 'primaryBorderColor': '#1d4ed8', 'lineColor': '#94a3b8', 'secondaryColor': '#f0f9ff', 'tertiaryColor': '#fef3c7', 'clusterBkg': '#f8fafc', 'clusterBorder': '#e2e8f0', 'nodeBorder': '#475569', 'nodeTextColor': '#1e293b'}}}%%
@@ -360,7 +378,7 @@ erDiagram
         varchar period
         text description
         jsonb achievements
-        vector embedding "pgvector 1536d"
+        vector embedding "pgvector 768d"
         timestamp created_at
         timestamp updated_at
     }
@@ -539,7 +557,7 @@ npm run db:migrate   # Apply migrations to the configured PostgreSQL database
 npm run db:studio    # Launch Drizzle Studio GUI
 
 # Tests
-npm test             # Vitest · 55 tests (src/server 대상)
+  npm test             # Vitest · 186 tests (34개 파일)
 ```
 
 ### Local PostgreSQL
@@ -555,6 +573,9 @@ npm test             # Vitest · 55 tests (src/server 대상)
 | **Vercel Blob** (선택) | `BLOB_READ_WRITE_TOKEN` |
 | **HWP Editor Studio** (선택) | `NEXT_PUBLIC_RHWP_STUDIO_URL` |
 | **Vercel AI Gateway** (선택) | `VERCEL_AI_GATEWAY_URL`, `VERCEL_AI_GATEWAY_KEY` |
+| **Model providers** (선택) | `AI_DEFAULT_MODEL_PROVIDER`, `OPENROUTER_*`, `OLLAMA_*`, `LLAMACPP_*`, `GENERIC_OPENAI_*`, `PROVIDER_ALLOWED_HOSTS` |
+| **External agent runtimes** (선택, server-only) | `HERMES_*`, `OPENCLAW_*`, `OPENCODE_*`, `PROVIDER_ALLOW_PRIVATE_NETWORK` |
+| **Sandbox control-plane** (선택, server-only) | `SANDBOX_BACKEND`, `SANDBOX_FIRECRACKER_ENDPOINT`, `SANDBOX_FIRECRACKER_TOKEN`, `SANDBOX_WINDOWS_*` |
 
 ---
 
@@ -569,24 +590,24 @@ kairos/
 │   │   ├── (authenticated)/    # resume, interview, ats, humanizer, qa, career, studio, docs, community, settings, admin
 │   │   ├── auth/               # login, register
 │   │   ├── r/[id]/             # 공유 AI 채팅 뷰어
-│   │   ├── presentation/       # 경진대회 발표자료 (10슬라이드)
+│   │   ├── presentation/       # Next.js 발표 페이지 (별도)
 │   │   ├── error.tsx           # 전역 에러 바운더리 (재시도 + digest)
 │   │   ├── loading.tsx         # 전역 로딩 스켈레톤
-│   │   └── api/                # 45 Route Handlers
+│   │   └── api/                # 107 Route Handlers
 │   ├── components/             # 12개 클라이언트 컴포넌트 (Navbar, Sidebar, Skeleton, HwpViewer, HwpEditor, ...)
 │   ├── context/                # AuthContext (JWT + 데모 모드)
 │   ├── hooks/                  # useChat, useDocumentParser
 │   ├── lib/                    # toast, mockInterceptor, hwpTextExtract, nav (내비게이션 단일 소스)
-│   ├── server/                 # 서비스 모듈 21개 (llm, embedding, imageGen, ats, qa, humanizer, ...)
+│   ├── server/                 # 서비스·adapter·sandbox 모듈 54개 (llm, providers, sandbox, ats, qa, ...)
 │   ├── data/                   # presentationSlides.tsx · mock/ (데모 프로필)
 │   ├── utils/                  # diff.ts (단어 단위 diff HTML)
 │   └── proxy.ts                # JWT 세션 가드 (Next 16 proxy, middleware.ts 대체)
-├── db/                         # Drizzle ORM (schema.ts 16테이블, index.ts)
+├── db/                         # Drizzle ORM (schema.ts 44테이블, index.ts)
 ├── shared/                     # 공용 타입 (User, AuthResponse)
 ├── packages/                   # 플랫폼 브리지 목 스텁 (tauri-bridge, mobile-bridge, agent-cli)
 ├── public/                     # 브랜드 SVG 7종 · rhwp_bg.wasm (postinstall 산출물)
 ├── scripts/                    # copy-rhwp.mjs (WASM 복사)
-├── test/                       # Vitest · 서비스 테스트 9파일
+├── test/                       # Vitest · 테스트 34파일 · 186 tests
 ├── drizzle/                    # SQL 마이그레이션
 ├── next.config.ts · vercel.json · drizzle.config.ts · vitest.config.ts · tsconfig.json
 ├── seed-design.json            # Seed Design CLI 설정 (컴포넌트 미생성)
@@ -607,6 +628,61 @@ kairos/
 
 ---
 
+## SLLM, VM, and External Agent Runtime Adapters
+
+- `src/server/agentWorkspace.ts`의 workspace 작업은 여전히 **local-only** 결정론적 작업(`draft`, `rewrite`, `summarize`, `diff`)이며 `web-fetch`는 unsupported, `shell`은 disabled다. 별도의 `src/app/api/agent-orchestration` 경로는 provider adapter를 선택한다.
+- `src/server/providers/types.ts`는 `model`과 `external-agent`를 `kind`로 구분한다. 모델 provider는 Gemini·OpenRouter·Ollama/llama.cpp·Generic OpenAI-compatible이고, Hermes·OpenClaw·OpenCode는 **external agent runtime adapter**다. `agentRouter.ts`의 provider ID가 같아 보여도 이 두 kind를 혼동하지 않는다.
+- SLLM/SLM의 현재 adapter 범위는 Ollama 또는 llama.cpp local endpoint와 OpenAI-compatible model endpoint의 text·structured·stream·health 계약이다. 파인튜닝, 가중치 배포, GPU provisioning은 구현 범위가 아니다.
+- `src/server/providers/`는 provider 설정, URL 정책, auth, timeout·output limit, JSON schema 검증, Gemini native adapter, OpenAI-compatible adapter, 세 external runtime adapter를 구현한다. license metadata는 설명용이고 `manualReviewRequired: true`이며 라이선스 승인을 자동으로 하지 않는다.
+- 원격 endpoint·필수 key·allowlist·`*_ENABLED=true`가 충족되지 않으면 provider config의 `enabled`가 false가 되고 adapter를 호출하지 않는다. provider 목록 health는 `not-applicable`, 호출은 `CONFIGURATION_REQUIRED`가 되며 orchestration은 가능한 경우 local-deterministic로 fallback한다.
+- `src/server/sandbox/`는 사용자의 재구현 요청에 따른 VM control-plane adapter다. `disabled`, `remote-firecracker`, `windows-sandbox` 세 backend와 job 상태·취소·만료·capability 조회를 제공한다.
+- `remote-firecracker`는 Linux 서버에서 HTTPS endpoint와 token이 모두 구성될 때만 `remote-adapter`로 available이 된다. 지원 action은 `structured-read`, `structured-write`, `structured-transform`이며 임의 code·shell·PowerShell·Node 실행은 거부한다.
+- `windows-sandbox`는 `.wsb` 설정 생성·검증만 하는 `config-only` backend이고 자동 실행하지 않는다. 현재 기본값 `SANDBOX_BACKEND=disabled`이며 endpoint가 없으면 sandbox job은 `disabled`와 `SANDBOX_NOT_CONFIGURED`를 반환한다.
+- sandbox network 기본 정책은 none이고 allowlist만 허용하며 input 128KB, timeout 100~120,000ms, output 1~1MB 경계를 적용한다. write·external 작업은 tool approval과 audit를 거친다.
+- remote endpoint가 없거나 health/configuration 검증이 끝나지 않으면 SLLM·VM·외부 runtime을 완전 실행했다고 설명하지 않는다. 현재 저장소에서 원격 Firecracker 실행 성공이나 실제 외부 runtime 운영 결과를 검증한 것은 아니다.
+
+| Runtime | Official URL | Upstream license | Kairos 분류 및 경계 |
+|---|---|---|---|
+| Hermes Agent | [공식 사이트](https://hermes-agent.nousresearch.com/) · [공식 저장소](https://github.com/NousResearch/hermes-agent) · [LICENSE](https://github.com/NousResearch/hermes-agent/blob/main/LICENSE) | MIT | `kind: external-agent`; `HERMES_ENABLED`, allowlisted base URL, server key가 없으면 disabled |
+| OpenClaw | [공식 사이트](https://openclaw.ai/) · [공식 저장소](https://github.com/openclaw/openclaw) · [LICENSE](https://github.com/openclaw/openclaw/blob/main/LICENSE) | MIT | `kind: external-agent`; local endpoint·gateway token이 없으면 disabled, upstream host tool 권한은 위임하지 않음 |
+| OpenCode | [공식 사이트](https://opencode.ai/) · [공식 저장소](https://github.com/anomalyco/opencode) · [LICENSE](https://github.com/anomalyco/opencode/blob/dev/LICENSE) | MIT | `kind: external-agent`; coding capability와 bearer/basic auth가 없으면 disabled |
+
+- 위 MIT 표기는 upstream 저장소의 라이선스이며 Kairos adapter 코드, 연결 대상 서비스의 이용약관, 모델·도구·데이터 라이선스를 대체하지 않습니다.
+- 외부 runtime은 신뢰 경계 밖의 프로세스로 취급합니다. adapter는 allowlist endpoint, 서버 전용 인증값, 요청 크기·timeout·output 제한, 사용자 소유 workspace, 읽기·쓰기·외부 전송 승인, 결과 검증 및 hash 기반 audit을 거친 뒤에만 호출합니다.
+- 외부 runtime에 Kairos DB, 세션 쿠키, 원문 개인정보, 임의 shell, 임의 VM, 임의 outbound network를 직접 넘기지 않습니다. upstream이 host tool 또는 sandbox를 제공하더라도 Kairos의 최소권한 정책을 별도로 적용합니다.
+- Hermes 보안 문서: <https://hermes-agent.nousresearch.com/docs/user-guide/security> · OpenClaw 보안 문서: <https://docs.openclaw.ai/gateway/security> · OpenCode 보안 정책: <https://github.com/anomalyco/opencode/blob/dev/SECURITY.md>
+
+---
+
+## Presentation Visual Language and Attribution
+
+- 정적 발표자료 `발표자료/index.html`의 브랜드 포인트 색은 CSS `--brand: #2F20F7`이며, `--blue-950`, `--blue-700`, `--blue-500`, `--blue-100`을 함께 사용한 blue visual language다. 로고·아이덴티티 원본은 `ASSETS/kairoslogo_basic자산 5.svg`, `ASSETS/kairos_identity_ki.pdf`다.
+- glass 효과는 `.glass-surface`와 `.source-chrome` 같은 유틸리티 표면에만 적용한다. `backdrop-filter`를 지원하지 않는 환경에서는 불투명 fallback을 사용한다.
+- 3D 표현은 외부 3D asset이 아니라 CSS `perspective`, `transform-style: preserve-3d`, `hero-orb`, `product-frame`으로 만든다.
+- motion은 슬라이드 전환 240ms, 진행 막대 220ms, hero orb drift 24초이며 `prefers-reduced-motion`에서 transition·animation을 최소화한다.
+- stock image는 현재 덱에 사용하지 않는다. `<img>`는 로컬 Kairos 로고이고, 시연 미디어는 사용자가 선택하는 GIF·MP4·PNG 슬롯 3개다. 저장소에 실제 stock 또는 시연 미디어 파일은 없으므로 파일을 추가할 때마다 출처와 이용 허가를 기록한다.
+- Freesentation source: <https://github.com/projectnoonnu/2404>. 해당 저장소 페이지에서 별도 LICENSE 파일을 확인하지 못했으므로 재배포·번들 전 라이선스 확인을 실행 과제로 둔다.
+- SUIT source 및 SIL Open Font License 1.1 안내: <https://github.com/sun-typeface/SUIT> · <https://scripts.sil.org/OFL>
+- 제3자 폰트·이미지·미디어는 루트 `NOTICE`와 `LICENSING.md`의 원칙대로 각자의 저작권·라이선스·귀속 조건을 별도로 따른다.
+
+---
+
+## Competition Materials Status
+
+| 심사 항목 | 배점 |
+|---|---:|
+| 문제 정의 | 15 |
+| 기대 효과 | 15 |
+| 창의성 | 20 |
+| 기술구현 및 완성도 | 40 |
+| 발표 | 10 |
+| 합계 | **100** |
+
+- 공식 10장 순서는 `AI_서비스톤_발표자료양식.md`의 표지, 서비스 개요, 문제 배경 및 타깃 사용자, 주요 기능, 사용자 이용 흐름, AI·SW 활용 구조, 프로토타입 또는 시연 화면, 기대효과 및 확장계획, Q & A, 제출 전 확인사항이다.
+- 루트 정적 덱 `발표자료/index.html`은 현재 `<section class="slide">` **14장**이며, Q&A는 11/14, Appendix A·B·C는 12/14~14/14에 있다. 14장 전체는 정적 증거·부록 덱이고, 본문 대본은 공식 10장 순서를 기준으로 한다.
+- 정적 덱에는 ATS·Diff 승인·텍스트 면접용 GIF·MP4·PNG 교체 슬롯이 각각 1개씩 있다. 미디어가 없으면 구조화 mock이 남으며, 이를 실시간 또는 실제 AI 결과로 말하지 않는다.
+- 공식 10장 순서와 현재 14장 DOM 순서를 최종 제출물에서 일치시키는 작업, 제출 전 확인사항의 실제 슬라이드 매핑, 실제 GIF 파일의 출처·라이선스 등록은 아직 실행 과제다.
+
 ## Deployment
 
 - **Vercel**: `vercel.json` — `next build`, 서울 리전 `icn1` 단일 배포, API 캐시 방지 + 보안 헤더.
@@ -616,4 +692,4 @@ kairos/
 
 ---
 
-*최종 수정: 2026-08-02 | Next.js 16 단일 프레임워크 기준 (Nuxt 4 / Nitro / Astro / Payload / PWA 제거 완료, middleware → proxy.ts 전환)*
+*최종 수정: 2026-08-04 | 코드 인벤토리 44 tables · 107 API routes · 28 pages · 34 test files / 186 tests 기준*

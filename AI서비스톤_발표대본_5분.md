@@ -12,6 +12,14 @@
 - 예선 본문 발표: 5:00
 - 질의응답: 본문과 별도로 5:00
 
+## 문서와 정적 덱 관계
+
+- 이 대본의 본문은 `AI_서비스톤_발표자료양식.md`의 공식 10장 제목·순서를 기준으로 한다.
+- 루트 `발표자료/index.html`은 현재 `<section class="slide">` 14장 정적 덱이다. 1~10은 본문·증거를 위한 정적 자료이고, 11/14는 Q&A, 12/14~14/14는 Appendix A~C다.
+- 현재 정적 덱의 Q&A는 11/14이며, 공식 템플릿상의 Q & A는 9장이다. 대본에서는 공식 번호를 말하고, 정적 덱에서는 11/14로 이동한다.
+- 현재 정적 덱의 DOM에는 문제 판단 보조 슬라이드와 구현 범위 슬라이드가 추가되어 공식 10장 순서와 완전히 일치하지 않는다. 최종 제출 전 공식 10장 순서로 재배열하거나 대응표를 확정하는 일은 실행 과제다.
+- 시연 슬롯은 ATS, Diff 승인, 텍스트 면접 각 1개로 총 3개이며 GIF·MP4·PNG를 선택할 수 있다. 파일이 없으면 구조화 mock이 남고 실제 AI 결과로 설명하지 않는다.
+
 ## 핵심 전달 문장
 
 > 매일의 경력 기록을 근거로 지원 준비를 돕는 AI 커리어 작업공간
@@ -114,8 +122,10 @@ Next.js UI
      -> ATS 결정론적 휴리스틱
      -> Gemini REST
   -> Drizzle ORM
-     -> Neon PostgreSQL · pgvector
+      -> Neon PostgreSQL · pgvector
 ```
+
+**코드 기준 수치:** `db/schema.ts` 44개 테이블, `src/app/api/**/route.ts` 107개 API route, `src/app/**/page.tsx` 28개 page, `test/**/*.test.ts` 34개 파일·186개 테스트. 이 수치는 정적 덱 14장 수나 발표 기능 수와 같은 의미가 아니다.
 
 **대본:**
 
@@ -144,6 +154,8 @@ Next.js UI
 
 **접속 메모:** 개발 경로는 `http://localhost:3000`, 발표 자료 경로는 `/presentation`이다. 배포 주소는 발표 전 운영 환경에서 확인한다.
 
+**정적 덱 슬롯 메모:** 루트 `발표자료/index.html`의 09/14에 ATS·Diff 승인·텍스트 면접 슬롯이 있다. 각 슬롯은 GIF·MP4·PNG를 브라우저에서 교체 미리보기하지만, 현재 저장소에는 실제 시연 파일이 없으므로 파일이 없을 때의 구조화 mock을 대체 자료로 고지한다.
+
 ## Slide 8. 7. 기대효과 및 확장계획 (07/09)
 
 **시간: 04:10-04:35, 25초**
@@ -152,7 +164,7 @@ Next.js UI
 
 **대본:**
 
-“Kairos가 현재 만드는 효과는 합격률을 과장하는 것이 아니라 준비 품질을 높이는 것입니다. 사용자는 무엇을 고칠지 근거를 보고, AI 제안을 Diff로 확인하고, 최종 문장을 직접 승인한 뒤 텍스트 면접으로 다음 준비를 이어갑니다. 현재 성과와 KPI는 측정 전입니다. 계획서에 코드 경로가 있는 QA·Humanizer, Career CRUD·검색, HWP/HWPX, 기본 커뮤니티 CRUD는 존재하지만 오늘의 핵심 데모 세 가지와 혼동하지 않습니다. 다음 단계는 경력 기록과 공고 근거 연결, 공고 자동 수집, 음성·화상 면접, 개인정보 보관·삭제 정책 고도화이며 모두 로드맵입니다.”
+“Kairos가 현재 만드는 효과는 합격률을 과장하는 것이 아니라 준비 품질을 높이는 것입니다. 사용자는 무엇을 고칠지 근거를 보고, AI 제안을 Diff로 확인하고, 최종 문장을 직접 승인한 뒤 텍스트 면접으로 다음 준비를 이어갑니다. 현재 성과와 KPI는 측정 전입니다. 계획서에 코드 경로가 있는 QA·Humanizer, Career CRUD·검색, HWP/HWPX, 기본 커뮤니티 CRUD는 존재하지만 오늘의 핵심 데모 세 가지와 혼동하지 않습니다. SLLM·VM adapter와 sandbox control-plane 계약은 코드에 있고, 실제 remote endpoint가 없으면 disabled 상태입니다. 원격 job 또는 외부 runtime을 완전 실행한 결과로 말하지 않습니다. 다음 단계는 경력 기록과 공고 근거 연결, 공고 자동 수집, 음성·화상 면접, 개인정보 보관·삭제 정책 고도화이며 모두 로드맵입니다.”
 
 ## Slide 9. Q & A (08/09)
 
@@ -204,7 +216,7 @@ Next.js UI
 
 **질문:** 계획서에 있던 Deep Agent나 자동화 기능은 왜 시연하지 않나요?
 
-**답변:** “현재 코드 경로로 확인된 핵심 데모는 ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접입니다. Deep Agent Canvas 전체, 외부 provider connector, 서브에이전팅, 자동매칭, 화상분석, 음성 면접, 3개월 멘토 성장판정, 자동 지원 제출과 회사별 합격 예측은 현재 완성품이 아닙니다. 미완성 항목은 로드맵으로만 설명하겠습니다.”
+**답변:** “현재 코드 경로로 확인된 핵심 데모는 ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접입니다. Deep Agent Canvas 전체, 외부 provider connector, 서브에이전팅, 자동매칭, 화상분석, 음성 면접, 3개월 멘토 성장판정, 자동 지원 제출과 회사별 합격 예측은 현재 완성품이 아닙니다. SLLM·VM adapter와 sandbox control-plane 계약은 코드에 있지만 remote endpoint가 없으면 disabled로 남습니다. Hermes·OpenClaw·OpenCode는 `kind: external-agent` adapter이며 model provider와 구분합니다. 현재 실제 원격 실행 결과가 없는 항목은 로드맵으로만 설명하겠습니다.”
 
 ### 카드 6. 비용
 
@@ -226,9 +238,27 @@ Next.js UI
 
 **답변:** “현재 사용자 검증 결과나 합격률 개선 수치는 제시하지 않습니다. 현재는 정상 입력부터 분석 또는 생성, 사용자 확인·승인, 저장까지 이어지는 구현 경로를 준비한 단계입니다. 다음 검증에서는 대표 신입 지원자가 세 흐름을 실제로 완료하는지, ATS 진단을 확인하는지, Diff를 승인하는지, 텍스트 면접을 종료하는지와 Gemini 성공률·응답시간을 측정하고 사용자의 정성 피드백을 함께 받겠습니다. 현재 KPI는 측정 전이라고 명시하겠습니다.”
 
+## 외부 Agent Runtime 기록
+
+- Hermes Agent: 공식 사이트 <https://hermes-agent.nousresearch.com/>, 공식 저장소 <https://github.com/NousResearch/hermes-agent>, upstream MIT 라이선스 <https://github.com/NousResearch/hermes-agent/blob/main/LICENSE>.
+- OpenClaw: 공식 사이트 <https://openclaw.ai/>, 공식 저장소 <https://github.com/openclaw/openclaw>, upstream MIT 라이선스 <https://github.com/openclaw/openclaw/blob/main/LICENSE>.
+- OpenCode: 공식 사이트 <https://opencode.ai/>, 공식 저장소 <https://github.com/anomalyco/opencode>, upstream MIT 라이선스 <https://github.com/anomalyco/opencode/blob/dev/LICENSE>.
+- 세 이름은 LLM model provider가 아니라 `kind: external-agent`로 구현된 외부 agent runtime adapter다. 현재 코드는 계약·config·disabled 경로와 adapter를 포함하지만 실제 remote endpoint 운영 연결은 확인하지 않았다.
+- 보안 경계는 endpoint allowlist, 인증 참조값, workspace 격리, timeout·payload 제한, 읽기·쓰기·외부 전송 승인, 결과 검증·audit이며 DB·세션·원문 개인정보·임의 shell·VM·outbound network는 기본 전달하지 않는다.
+- remote endpoint가 없으면 runtime adapter는 disabled이고, local deterministic 결과나 Gemini 응답을 외부 runtime 완전 실행으로 설명하지 않는다.
+
+## 정적 덱 시각언어·출처·라이선스
+
+- `발표자료/index.html`은 `#2F20F7`을 `--brand`로 사용하고 blue palette, 제한적 blue glass utility surface, CSS 3D orb/card, 240ms 전환과 24초 orb drift를 사용한다. `prefers-reduced-motion` 대응도 포함한다.
+- stock image는 사용하지 않는다. 로고는 `ASSETS/kairoslogo_basic자산 5.svg`이고, 실제 시연 파일이 없을 때는 GIF·MP4·PNG 슬롯의 구조화 mock을 사용한다.
+- Freesentation 출처는 <https://github.com/projectnoonnu/2404>이며 저장소의 별도 라이선스 고지는 발표 전 재확인한다. SUIT 출처와 SIL OFL 안내는 <https://github.com/sun-typeface/SUIT>, <https://scripts.sil.org/OFL>이다.
+- 로컬 브랜드 원본은 `ASSETS/kairos_identity_ki.pdf`와 `ASSETS/kairoslogo_basic자산 5.svg`이며, 미디어 파일을 추가할 때마다 출처·라이선스를 별도로 기록한다.
+
 ## 발표자 최종 확인
 
 - 발표자, 팀명, 팀원명은 모두 [입력 필요]로 남겨 둔다.
+- 심사기준 배점은 문제 정의 15점, 기대 효과 15점, 창의성 20점, 기술구현 및 완성도 40점, 발표 10점으로 합계 100점이다.
+- 공식 본문은 10장 순서로 말하고, 정적 덱은 14장·Q&A 11/14·Appendix 12/14~14/14임을 구분한다.
 - Slide 3의 세 숫자 옆에 모집단, 기준시점, 출처를 유지한다.
 - Slide 6에서는 현재 Next.js UI, API Route, ATS 휴리스틱, Gemini REST, Drizzle ORM, Neon PostgreSQL·pgvector만 설명한다.
 - Slide 7에서는 `/ats`, `/resume/[id]`, `/interview/[id]`의 실제 화면 순서를 지킨다.

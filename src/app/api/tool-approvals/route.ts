@@ -4,6 +4,7 @@ import { getDb } from '@/db';
 import { agentRuns, toolApprovals, toolAuditLogs } from '@/db/schema';
 import { classifyToolRisk, hashValue, isToolExecutionProhibited } from '@/server/harness';
 import { getSession } from '@/server/getSession';
+import { isSandboxExecutionProhibited, sandboxActionRequiresApproval } from '@/server/sandbox/security';
 import {
   badRequest,
   internalError,
@@ -70,11 +71,21 @@ export async function POST(req: NextRequest) {
 
   const toolName = typeof body.toolName === 'string' ? body.toolName.trim() : '';
   if (!toolName || toolName.length > 100) return badRequest('toolName이 필요합니다.');
-  if (isToolExecutionProhibited(toolName)) {
+  const action = body.action === undefined || body.action === null
+    ? null
+    : typeof body.action === 'string'
+      ? body.action.trim().toLowerCase()
+      : '';
+  if (action === '') return badRequest('action 형식이 올바르지 않습니다.');
+  if (isToolExecutionProhibited(toolName) || isSandboxExecutionProhibited(toolName, action || undefined)) {
     return badRequest('이 실행형 도구는 MVP에서 승인할 수 없습니다.');
   }
 
   const riskLevel = classifyToolRisk(toolName);
+  const requestedArguments = body.arguments !== undefined ? body.arguments : body.input;
+  const approvalArguments = action
+    ? { action, arguments: requestedArguments ?? {} }
+    : requestedArguments;
   const expiry = parseExpiry(body.expiresAt);
   if (expiry === 'invalid') return badRequest('expiresAt 형식이 올바르지 않습니다.');
   if (expiry instanceof Date && expiry.getTime() <= Date.now()) {
@@ -83,12 +94,12 @@ export async function POST(req: NextRequest) {
 
   const runId = typeof body.runId === 'string' && body.runId.trim() ? body.runId.trim() : null;
   const argumentsHash =
-    body.arguments !== undefined
-      ? hashValue(body.arguments)
+    approvalArguments !== undefined
+      ? hashValue(approvalArguments)
       : typeof body.argumentsHash === 'string' && /^[a-f0-9]{64,128}$/i.test(body.argumentsHash)
         ? body.argumentsHash.toLowerCase()
         : hashValue(null);
-  const readAutomaticallyApproved = riskLevel === 'read';
+  const readAutomaticallyApproved = riskLevel === 'read' && !(action && sandboxActionRequiresApproval(action));
   const now = new Date();
 
   const db = getDb();
@@ -135,6 +146,9 @@ export async function POST(req: NextRequest) {
       riskLevel,
       allowed: readAutomaticallyApproved,
       requiresApproval: !readAutomaticallyApproved,
+      toolActionHash: action
+        ? hashValue({ toolName, action, arguments: requestedArguments ?? {} })
+        : undefined,
     }, { status: 201 });
   } catch (error) {
     return internalError(error, 'tool approval을 생성하는 동안 오류가 발생했습니다.');

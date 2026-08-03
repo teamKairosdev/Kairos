@@ -1147,3 +1147,68 @@
 - [x] 출처: <https://www.dominican.edu/sites/default/files/2020-02/gail-matthews-research-summary.pdf>
 - [x] 출처: <https://blog.duolingo.com/how-duolingo-streak-builds-habit/>
 - [x] 출처: <https://doi.org/10.1111/j.2044-8295.1952.tb01145.x>
+
+# 《14. 최신 코드·발표·외부 런타임 정합화 (2026-08-04)》
+## 《14-1. 현재 코드 기준 수치》
+- [x] 기준일 2026-08-04의 소스 카운트는 생성된 `.next` 산출물이 아니라 현재 저장소 파일을 기준으로 한다
+- [x] `db/schema.ts`의 `export const ... = pgTable(...)` 정의는 44개이며 기존 문서의 16개 테이블 표기는 과거 상태다
+- [x] `src/app/api/` 하위 `route.ts` 파일은 107개이며 기존 문서의 45개·48개 route 표기는 과거 상태다
+- [x] `src/app/` 하위 `page.tsx` 파일은 28개이며 기존 문서의 19개·20개 page 표기는 과거 상태다
+- [x] `test/` 하위 `.test.ts` 파일은 34개이고 Vitest 테스트 케이스는 186개다
+- [x] 현재 `db/schema.ts`, `src/server/embedding.ts`, `drizzle/0006_clumsy_lake.sql`의 경력 임베딩 차원은 vector(768) 기준이다
+- [x] 위 네 수치는 심사기준의 기능 수, 발표자료의 14장 수, 실제 데모 3종 수와 서로 다른 집계 단위다
+- [ ] 코드 변경이 발생할 때마다 `rg --files` 카운트와 `npm test` 결과를 함께 다시 기록한다
+## 《14-2. SLLM·VM 재구현 요청과 실제 범위》
+- [x] 기존 원문 아이디어의 SLLM·VM 문장은 삭제·의역하지 않고 보존한다
+- [x] 이전 세션의 SLLM·VM 범위 제외 표기는 이전 결정 기록이며, 사용자의 재구현 요청으로 현재 기준은 이 절의 adapter·control-plane 실행 과제로 갱신한다
+- [x] 현재 코드에서 확인되는 control-plane 기반은 `src/server/agentRouter.ts`의 capability 기반 provider 선택, `src/server/providerConfig.ts`의 enabled·endpoint·auth·license metadata, `src/server/providers/`의 model/external-agent adapter, `src/server/sandbox/`의 backend·job lifecycle, `src/server/harness.ts`의 위험 분류·승인·실행형 도구 거부다
+- [x] 현재 `agentWorkspace` 내장 tool 상태에서 `text-editor`만 local-only로 available이고 `web-fetch`는 unsupported, `shell`과 workspace 내부 VM 실행은 disabled다
+- [x] 현재 SLLM/SLM adapter 범위는 Ollama·llama.cpp local endpoint와 OpenAI-compatible model endpoint의 text·structured·stream·health 계약이며 파인튜닝·가중치 배포·GPU provisioning은 포함하지 않는다
+- [x] 현재 VM control-plane 범위는 `disabled`, Linux 전용 `remote-firecracker`, Windows `.wsb` 생성·검증 전용 `windows-sandbox`와 job queued·running·completed·failed·expired·cancel lifecycle이며 generic VM allocation·lease API는 아니다
+- [x] `remote-firecracker`는 HTTPS endpoint와 token이 함께 구성된 Linux 서버에서만 `remote-adapter`가 되고, Windows backend는 `config-only`라 자동 실행하지 않는다
+- [x] 원격 model/runtime endpoint·필수 key·allowlist·enable flag가 없으면 provider adapter는 `enabled: false`이고 sandbox endpoint가 없으면 job은 `disabled`·`SANDBOX_NOT_CONFIGURED`가 된다
+- [x] local deterministic 작업이나 Gemini fallback은 SLLM·VM·외부 runtime의 완전 실행 증거가 아니며, 현재 저장소에는 실제 원격 Firecracker 또는 외부 runtime 운영 성공 결과가 없다
+- [x] 현재 설정 이름은 `OLLAMA_BASE_URL`, `LLAMACPP_BASE_URL`, `GENERIC_OPENAI_BASE_URL`, `HERMES_BASE_URL`, `OPENCLAW_BASE_URL`, `OPENCODE_BASE_URL`, `SANDBOX_FIRECRACKER_ENDPOINT`, `SANDBOX_BACKEND`이며 모두 server-only 설정이다
+- [ ] 실제 remote endpoint를 연결한 health·submit·cancel·output 검증, 운영 로그, 원격 job 영속성 리허설을 수행한다
+## 《14-3. External Agent Runtime Adapter 구분》
+- [x] `src/server/providers/types.ts`의 `ProviderKind`가 `model`과 `external-agent`를 구분하고 `src/server/providers/externalAgents.ts`가 Hermes·OpenClaw·OpenCode adapter를 구현한다
+- [x] Hermes Agent 공식 사이트: <https://hermes-agent.nousresearch.com/> 및 공식 저장소: <https://github.com/NousResearch/hermes-agent>
+- [x] Hermes Agent upstream 라이선스는 MIT이며 원문: <https://github.com/NousResearch/hermes-agent/blob/main/LICENSE>
+- [x] OpenClaw 공식 사이트: <https://openclaw.ai/> 및 공식 저장소: <https://github.com/openclaw/openclaw>
+- [x] OpenClaw upstream 라이선스는 MIT이며 원문: <https://github.com/openclaw/openclaw/blob/main/LICENSE>
+- [x] OpenCode 공식 사이트: <https://opencode.ai/> 및 공식 저장소: <https://github.com/anomalyco/opencode>
+- [x] OpenCode upstream 라이선스는 MIT이며 원문: <https://github.com/anomalyco/opencode/blob/dev/LICENSE>
+- [x] upstream MIT는 각 runtime 저장소의 라이선스일 뿐 Kairos adapter, 연결 서비스, 모델, tool, 데이터의 이용조건을 대신하지 않으며 `license.manualReviewRequired`도 true다
+- [x] 외부 runtime은 신뢰 경계 밖의 프로세스로 취급하고 endpoint allowlist·인증 참조값·workspace 격리·timeout·payload 제한·결과 검증·hash audit을 adapter 경계에 둔다
+- [x] 읽기·쓰기·외부 전송은 `harness.ts`의 위험 등급과 사용자 승인을 거치며 DB·세션 쿠키·원문 개인정보·임의 shell·VM·임의 outbound network를 기본 전달하지 않는다
+- [x] upstream이 host tool 또는 sandbox를 지원하더라도 Kairos 최소권한 정책과 별도 격리를 통과하기 전에는 사용하지 않는다
+- [x] remote runtime endpoint·auth·enable flag가 없으면 Hermes·OpenClaw·OpenCode config는 `enabled: false`이고 adapter를 반환하지 않는다
+- [x] OpenCode adapter는 coding capability와 session/message 계약을 제공하지만 structured response는 지원하지 않으며, 세 runtime의 실제 endpoint 실행은 별도 검증 대상이다
+- [x] provider와 external runtime의 공통 adapter 계약 및 disabled 경로는 코드에 구현되어 있다
+- [ ] 세 runtime별 실제 endpoint 등록·health·invoke·실패·disabled 운영 리허설과 보안 회귀 테스트를 수행한다
+## 《14-4. 발표자료 시각언어·출처·라이선스》
+- [x] `발표자료/index.html`은 CSS `--brand: #2F20F7`와 `--blue-950`, `--blue-700`, `--blue-500`, `--blue-100`을 사용한다
+- [x] glass visual language는 `.glass-surface`와 `.source-chrome`의 utility surface에만 적용하고 `backdrop-filter` 미지원 시 불투명 fallback을 사용한다
+- [x] 3D visual language는 외부 3D 파일이 아니라 `perspective`, `transform-style: preserve-3d`, `hero-orb`, `product-frame` CSS로 구현한다
+- [x] motion은 슬라이드 opacity·transform 240ms, 진행 막대 220ms, hero orb drift 24초이며 `prefers-reduced-motion`에서 최소화한다
+- [x] stock image는 현재 정적 덱에 없고 `<img>`는 `ASSETS/kairoslogo_basic자산 5.svg` 로컬 로고뿐이다
+- [x] 시연 미디어는 ATS·Diff 승인·텍스트 면접 3개 슬롯에서 사용자가 선택하는 GIF·MP4·PNG이며 현재 저장소에 실제 미디어 파일은 없다
+- [x] 로컬 브랜드 원본은 `ASSETS/kairoslogo_basic자산 5.svg`, `ASSETS/kairos_identity_ki.pdf`이고 제3자 자료는 `NOTICE`와 `LICENSING.md`에 따라 별도 귀속·라이선스를 확인한다
+- [x] Freesentation 출처: <https://github.com/projectnoonnu/2404>이며 저장소에서 별도 LICENSE 파일을 확인하지 못했으므로 재배포·번들 전 라이선스 확인이 필요하다
+- [x] SUIT 출처: <https://github.com/sun-typeface/SUIT>, SIL Open Font License 안내: <https://scripts.sil.org/OFL>
+- [ ] 추가 GIF·MP4·PNG 또는 stock image를 사용하기 전 원본 URL, 제작자, 이용 범위, 라이선스와 발표자료 귀속 문구를 기록한다
+## 《14-5. 심사기준·정적 덱·공식 순서·Q&A》
+- [x] 심사기준 합계는 문제 정의 15점, 기대 효과 15점, 창의성 20점, 기술구현 및 완성도 40점, 발표 10점으로 총 100점이다
+- [x] 공식 발표자료양식은 표지, 서비스 개요, 문제 배경 및 타깃 사용자, 주요 기능, 사용자 이용 흐름, AI·SW 활용 구조, 프로토타입 또는 시연 화면, 기대효과 및 확장계획, Q & A, 제출 전 확인사항의 10장 순서다
+- [x] 루트 `발표자료/index.html`은 `<section class="slide">` 14장 정적 덱이며 Q&A는 11/14, Appendix A·B·C는 12/14~14/14다
+- [x] 공식 10장 순서는 발표 대본의 본문 계약으로 유지하고 14장 정적 덱은 본문 증거와 부록을 포함한 정적 자료로 구분한다
+- [x] 정적 덱에는 GIF·MP4·PNG를 교체하는 ATS·Diff 승인·텍스트 면접 슬롯이 각 1개씩 있고 파일이 없을 때 구조화 mock을 표시한다
+- [x] Q&A는 본문 발표 5분과 별도로 5분 진행하며, 정적 덱의 Q&A 위치 11/14와 공식 템플릿 번호 9장을 혼동하지 않는다
+- [x] 현재 정적 덱 DOM에는 공식 10장과 다른 보조 슬라이드·순서가 있으므로 공식 순서로 재배열하거나 최종 대응표를 확정하기 전에는 정합화 완료로 말하지 않는다
+- [ ] `발표자료/index.html`의 14장과 공식 10장 순서, 제출 전 확인사항, Q&A 전환을 최종 제출물 기준으로 확정한다
+- [ ] 실제 GIF 파일을 추가하고 각 슬롯의 라이브·녹화본·구조화 mock 라벨과 Q&A 답변을 리허설한다
+## 《14-6. 문서 검증과 실행 과제 경계》
+- [x] 이번 변경 대상은 `README.md`, `AI서비스톤_통합계획서.md`, `AI서비스톤_발표대본_5분.md`, `task.md` 네 문서뿐이다
+- [x] 문서에 코드에서 확인한 44개 테이블, 107개 API route, 28개 page, 34개 테스트 파일·186개 테스트를 기록한다
+- [x] SLLM·VM·외부 runtime adapter의 계약·disabled 경로는 코드에 있으나 remote endpoint 운영 연결·실행 검증은 실행 과제로 남긴다
+- [ ] 최종 문서 검사에서 계획서의 `#`·`##` 제목과 `《》`, 체크리스트 본문, 이모지 금지, 표·인용·일반 불릿 금지를 재확인한다
