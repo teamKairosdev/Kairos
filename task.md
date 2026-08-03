@@ -300,6 +300,17 @@
 
 ---
 
+## 세션 19: 브랜드 에셋·컬러 최종 적용 (2026-08-04)
+
+- [x] `ASSETS/kairoslogo_basic자산 5.svg`, white logo, brandcopy, 배경 SVG, identity PDF 존재 확인
+- [x] 발표자료 상단·표지에 실제 `kairoslogo_basic자산 5.svg` 연결
+- [x] 로고 공식 포인트 컬러 `#B2E9FF`를 발표자료 주 강조색으로 적용
+- [x] 눈누 기반 프리젠테이션 폰트와 SUIT·Pretendard·맑은 고딕 fallback 유지
+- [x] 14장·GIF 슬롯·키보드·16:9·HTML 종료 검사 재통과
+- [x] 커밋 (push 안 함)
+
+---
+
 ## 세션 18: 심사위원 관점 고급 발표자료 전면 교체 (2026-08-04)
 
 - [x] 눈누·폰트 라이선스·WCAG 대비·16:9 프로젝터·편집적 데이터 시각화 리서치 반영

@@ -29,7 +29,7 @@
       --paper: #F4F7FB;
       --muted: #9FB3C8;
       --quiet: #70879D;
-      --cyan: #00E5FF;
+      --cyan: #B2E9FF;
       --lime: #A4EFBE;
       --amber: #F4BF62;
       --line: rgba(159, 179, 200, .20);
@@ -104,6 +104,7 @@
       pointer-events: none;
     }
     .brand { display: inline-flex; align-items: center; gap: .72cqw; min-width: 0; }
+    .brand-logo { display: block; width: 8.3cqw; height: auto; flex: 0 0 auto; }
     .brand-mark {
       display: grid;
       width: 2.05cqw;
@@ -224,8 +225,7 @@
     /* Cover */
     .cover .slide-inner { justify-content: center; }
     .cover-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 4cqw; align-items: end; margin-top: .3cqw; }
-    .cover-word { color: var(--paper); font-family: Consolas, "Courier New", monospace; font-size: clamp(72px, 9.5cqw, 164px); font-weight: 800; letter-spacing: -.12em; line-height: .84; }
-    .cover-word span { color: var(--cyan); }
+    .cover-logo-asset { display: block; width: min(31cqw, 540px); height: auto; margin-top: .65cqw; }
     .cover h1 { margin-top: 1.35cqw; }
     .cover-subtitle { max-width: 62cqw; margin-top: 1.1cqw; color: #C4D7E3; font-size: clamp(16px, 1.52cqw, 28px); }
     .cover-aside { padding: 1.35cqw; border-left: .18cqw solid var(--lime); background: linear-gradient(135deg, rgba(164, 239, 190, .085), rgba(164, 239, 190, .015)); }
@@ -537,7 +537,7 @@
 <body>
   <main id="stage" tabindex="0" aria-label="Kairos AI 서비스톤 발표자료">
     <header class="topbar" aria-label="발표자료 머리말">
-      <div class="brand"><span class="brand-mark" aria-hidden="true">K</span><span class="brand-name">Kairos</span><span class="brand-kind">AI 서비스톤</span></div>
+      <div class="brand"><img class="brand-logo" src="../ASSETS/kairoslogo_basic%EC%9E%90%EC%82%B0%205.svg" alt="Kairos 로고"><span class="brand-kind">AI 서비스톤</span></div>
       <span class="top-context">지원 준비를 위한 AI 커리어 작업공간</span>
     </header>
     <div class="slides" id="slides">
@@ -547,7 +547,7 @@
           <div class="cover-grid">
             <div>
               <div class="eyebrow">AI 서비스톤</div>
-              <div class="cover-word" aria-label="Kairos">Kai<span>ros</span></div>
+              <img class="cover-logo-asset" src="../ASSETS/kairoslogo_basic%EC%9E%90%EC%82%B0%205.svg" alt="Kairos 로고">
               <h1 id="slide-title-1">지원 준비를 위한<br>AI 커리어 작업공간</h1>
               <p class="cover-subtitle">공고와 이력서를 비교해 무엇을 고칠지 근거로 보여주고, 사용자가 승인한 수정으로 텍스트 면접까지 준비합니다.</p>
             </div>
@@ -798,7 +798,7 @@
           <div class="sources-grid">
             <article class="source-group"><h3>통계 3개 · 발표 canonical set</h3><ul><li>11.3개월 · <a href="https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210" target="_blank" rel="noreferrer">통계청 원문</a></li><li>48.6% · <a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847" target="_blank" rel="noreferrer">korea.kr 원문</a> · <a href="https://www.donga.com/news/Economy/article/all/20260723/134350159/1" target="_blank" rel="noreferrer">동아일보</a></li><li>64.4% · <a href="https://v.daum.net/v/20260108160242419" target="_blank" rel="noreferrer">무하유·지디넷코리아 보도</a></li></ul></article>
             <article class="source-group"><h3>R9 핵심 출처</h3><ul><li>ATS 파싱 한계 · <a href="https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing" target="_blank" rel="noreferrer">Greenhouse</a></li><li>이력서 작성 지원 연구 · <a href="https://www.nber.org/papers/w30886" target="_blank" rel="noreferrer">NBER WP 30886</a></li><li>번아웃 정의 · <a href="https://www.who.int/mental_health/evidence/burn-out/en/" target="_blank" rel="noreferrer">WHO</a></li></ul></article>
-            <article class="source-group"><h3>폰트·라이선스 확인</h3><ul><li>SUIT · <a href="https://github.com/sunn-us/SUIT" target="_blank" rel="noreferrer">프로젝트·라이선스</a></li><li>Presentation · <a href="https://github.com/projectnoonnu/2404" target="_blank" rel="noreferrer">Freesentation 소스</a></li><li>눈누 이용 안내 · <a href="https://noonnu.cc" target="_blank" rel="noreferrer">noonnu.cc</a></li></ul></article>
+            <article class="source-group"><h3>폰트·라이선스 확인</h3><ul><li>SUIT · <a href="https://github.com/sun-typeface/SUIT" target="_blank" rel="noreferrer">프로젝트·라이선스</a></li><li>Presentation · <a href="https://github.com/projectnoonnu/2404" target="_blank" rel="noreferrer">Freesentation 소스</a></li><li>눈누 이용 안내 · <a href="https://noonnu.cc" target="_blank" rel="noreferrer">noonnu.cc</a></li></ul></article>
           </div>
           <div class="presenter-panel"><div class="presenter-box"><strong>발표자 메모 · 입력 필요</strong><p>팀명: [입력 필요]<br>발표자: [입력 필요]<br>팀원: [입력 필요]</p></div><div class="next-box"><strong>다음 실행 체크</strong><ul><li>실제 GIF·MP4·PNG 삽입</li><li>공고·이력서 비식별 샘플 확인</li><li>AI 키와 DB 조건 점검</li><li>모의 발표 5분 측정</li></ul></div></div>
           <p class="source-final">세 통계는 서로 다른 모집단과 기준시점입니다. 합산·인과·제품 성과로 말하지 않습니다.</p>
