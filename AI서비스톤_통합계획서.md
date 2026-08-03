@@ -88,6 +88,11 @@
 - [x] 첫 취업 평균 소요기간 11.3개월(통계청 2025년 5월 부가조사), 2024년 11.5개월 역대 최장(R1)
 - [x] '쉬었음' 청년 15~39세 68만 명 중 82%가 재취업 번아웃 케이스, 전직 경험자가 4.6배(한국일보 2025-06-26)(R1)
 - [x] 자소서 1건 평균 작성 시간 약 7시간(프라임커리어 설문), 자소서 첨삭 비용 최소 9만 원~최대 30만 원 이상(시빅뉴스 2024-12-09)(R1)
+- [x] 2025년 5월 청년층(15~29세) 인구 797만 4000명으로 전년 동월보다 20만 명 감소(통계청 경제활동인구조사)(R9) 출처: <https://sri.kostat.go.kr/board.es?mid=a10301030200&bid=210>
+- [x] 2025년 5월 청년층 경제활동참가율 49.5%, 고용률 46.2%, 실업률 6.6%(통계청 경제활동인구조사)(R9) 출처: <https://sri.kostat.go.kr/board.es?mid=a10301030200&bid=210>
+- [x] 2025년 5월 대졸자(3년제 이하 포함)의 평균 졸업 소요기간 4년 4.4개월로 전년보다 0.6개월 증가(통계청 경제활동인구조사)(R9) 출처: <https://sri.kostat.go.kr/board.es?mid=a10301030200&bid=210>
+- [x] 재학·휴학 중 직장 체험을 한 청년 비율 43.2%로 전년 동월보다 0.4%p 하락(통계청 경제활동인구조사)(R9) 출처: <https://sri.kostat.go.kr/board.es?mid=a10301030200&bid=210>
+- [x] 졸업·중퇴 후 미취업 청년의 주된 활동은 직업교육·취업시험 준비 40.5%, 청년층 비경제활동인구 중 취업시험 준비자는 14.5%(통계청 경제활동인구조사)(R9) 출처: <https://sri.kostat.go.kr/board.es?mid=a10301030200&bid=210>
 - [ ] 페르소나 1: 신입 취준생(고졸/대졸) — 빈캔버스 증후군과 선택 장애, 자소서 작성 7시간, AI 생성 의심 64.4%에 맞서는 사용자
 - [ ] 페르소나 2: 재취업·이직자 — 82% 번아웃, 재취업 평균 5개월, 기술 시장 추세와 적기 신호가 필요한 사용자
 - [ ] 페르소나 3: 경력자(1~10+년) — 커리어 데이터 소실, 회사 내 커리어 관리 부재, 역량 맞춤 직종 추천이 필요한 사용자
@@ -145,6 +150,10 @@
 - [x] 1년 이하 계약직 비중 31.8%, 첫 일자리 월 200만 원 미만 비중 68%(서울경제 2025-12-09, 한국고용정보원)(R1) 출처: <https://www.sedaily.com/article/20034977>
 - [x] 평균 유보임금 3100만 원 — '눈높이가 높은 게 아니다', 중소기업 선호 48%가 대기업·공공기관보다 높음(한국은행, 연합뉴스 2026-01-20)(R1) 출처: <https://www.yna.co.kr/view/AKR20260120087551003>
 - [x] 1년 이상 미취업 시 생애 실질임금 -6.7%(한국노동연구원)(월간 리크루트 2026-07-01)(R1) 출처: <https://recruit.mk.co.kr/magazine/view_article.php?code=8&no=1220001>
+- [x] WHO ICD-11은 번아웃을 의학적 질병이 아닌 직업 맥락에서 발생하는 현상으로 정의하고 만성 직장 스트레스의 결과로 설명한다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
+- [x] WHO가 제시한 번아웃의 핵심 차원은 에너지 고갈·직업에 대한 심리적 거리 또는 냉소·직업적 효능감 저하다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
+- [x] OECD는 2024 고용전망에서 정신건강 정책을 치료뿐 아니라 직장 복귀와 고용 유지까지 연결해야 한다고 제안했다(R9) 출처: <https://www.oecd-ilibrary.org/employment/oecd-employment-outlook-2024_b4f2e0a0-en>
+- [ ] 재취업 지원에서 번아웃을 의욕 부족으로 단정하지 않고 스트레스·냉소·효능감 저하를 분리 기록하며 작은 복귀 행동과 상담 연결을 제공한다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
 - [ ] 첫 직장 퇴사-재취업 사이클을 라이프 코칭 관점에서 문제 정의한다(R1)
 
 ## 《3-6. AI 채용·자소서·면접 시장 (리서치 R2)》
@@ -155,6 +164,10 @@
 - [x] AI 면접 도입 기업 2023년 상반기 대비 2025년 상반기 3배, 응시자 6.4배, 평균 응시율 86%(무하유 몬스터, AI타임스 2025-07-30)(R2) 출처: <https://www.aitimes.com/news/articleView.html?idxno=201081>
 - [x] 2026년 인재상 'AI·데이터 활용 역량' 4위 부상(1위 직무 전문성 64.7%), 기업 74.5% 채용 유지·확대(원티드랩 2026 채용 트렌드 서베이)(R2) 출처: <https://www.kmjournal.net/news/articleView.html?idxno=5987>
 - [x] 2026년 3월 신입 채용 공고 -45%(1438건→791건), IT·통신 -73%(진학사 캐치, 스타트업엔 2026-04-03)(R1) 출처: <https://www.startupn.kr/news/articleView.html?idxno=57168>
+- [x] 채용 조직의 생성형 AI 적극 통합·실험 비율 37%로 전년 27%에서 상승했고, 사용 팀은 주당 업무시간 약 20%를 절약했다고 응답(LinkedIn Future of Recruiting 2025)(R9) 출처: <https://business.linkedin.com/talent-solutions/resources/future-of-recruiting>
+- [x] LinkedIn은 채용 AI의 효과를 단순 자동화가 아니라 후보자 경험·관계 형성·채용 관리자의 자문으로 시간 재배분하는 것으로 제시한다(R9) 출처: <https://business.linkedin.com/talent-solutions/resources/future-of-recruiting>
+- [x] 세계경제포럼 조사에서 기업 77%가 2030년까지 AI·기술 변화에 대응한 기존 인력 업스킬링을 계획했고, 41%는 AI 자동화 업무에 따른 인력 감축을 예상했다(R9) 출처: <https://www.weforum.org/publications/the-future-of-jobs-report-2025/>
+- [x] NBER 현장실험은 온라인 노동시장 구직자 약 50만 명에게 알고리즘 이력서 작성 지원을 제공했고 지원군 채용률이 약 8% 높아졌으며 고용주 만족도 저하 증거는 찾지 못했다(R9) 출처: <https://www.nber.org/papers/w30886>
 - [ ] AI 채용 확대·신입 공고 감소 추이를 시장 배경 슬라이드에 정리한다(R2)
 
 ## 《3-7. ATS 구조적 병목과 이력서 실패 (리서치 R3)》
@@ -168,6 +181,12 @@
 - [x] 'ATS 자동거절 75%'는 검증되지 않은 신화, 실제 위험은 리크루터 키워드 검색에서 '발견되지 않는 것'(Enhancv 리크루터 연구 2025)(R3) 출처: <https://enhancv.com/blog/does-ats-reject-resumes/>
 - [x] 글로벌 ATS 점유율(12,820개 기업 분석): Greenhouse 19.3%, Lever 16.6%, Workday 15.9%, iCIMS 15.3%(Jobscan 2025)(R3) 출처: <https://www.jobscan.co/blog/fortune-500-use-applicant-tracking-systems/>
 - [x] 국내 ATS: 그리팅(두들린) 1위, 2026년 7월 10,000+ 기업, 채용 프로세스 40일→14일 단축 사례(그리팅 공식)(R3) 출처: <https://www.greetinghr.com/>
+- [x] Greenhouse ATS는 제출 이력서에서 텍스트를 추출해 후보자 프로필 필드를 채우고 원문 파일과 추출 필드를 함께 확인하게 한다(R9) 출처: <https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing>
+- [x] Greenhouse는 이미지·표·텍스트 상자·복잡한 열 구조를 이력서 파싱 오류 원인으로 안내한다(R9) 출처: <https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing>
+- [x] Workday 후보자 경험 문서는 이력서 업로드와 후보자 프로필 입력을 별도 데이터 흐름으로 다룬다(R9) 출처: <https://www.workday.com/en-us/products/human-capital-management/recruiting.html>
+- [x] Jobscan의 키워드 연구는 인과효과 연구가 아니라 자사 분석 데이터와 최적화 권고이므로 면접 확률 인과로 단정할 수 없다(R9) 출처: <https://www.jobscan.co/blog/interview-rates-study>
+- [x] NBER의 약 8% 채용 증가 효과는 ATS 통과율이 아니라 온라인 노동시장의 이력서 문장 품질 개선 효과이므로 ATS 점수와 실제 면접 전환을 동일 지표로 홍보하면 안 된다(R9) 출처: <https://www.nber.org/papers/w30886>
+- [ ] ATS 기능은 단일 점수 대신 원문·파싱 필드 차이와 오류 원인을 보여주는 검증 화면으로 설계한다(R9) 출처: <https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing>
 - [ ] ATS 파싱 프리뷰 기능을 데모 시나리오 2(ATS 분석)에 반영한다(R3)
 
 ## 《3-8. 국내 커리어 플랫폼의 AI 전환 (리서치 R4)》
@@ -245,6 +264,10 @@
 - [x] 잡플래닛: 기업 리뷰 표준(재직 인증 기반 익명 리뷰, 리뷰 1건=6개월 열람권), 프리미엄 유료화, 거짓 리뷰 논란(R3)
 - [x] 시장 특성: 500대 기업 86.7% 인사업무 AI 활용, 채용 단계 AI 사용 52.8%, 청년 재직자 42.3% 취업 준비에 AI 사용(자소서·이력서 77.2%), 2026 AI 채용 확대 전망 90.5%(고용노동부·한국고용정보원)(R3)
 - [x] 무하유 프리즘 2025년 제출 자소서 64.4% AI 작성 의심(R3)
+- [x] 사람인은 AI 자소서 코칭에서 맞춤법·분량·진부한 표현·직무 키워드 점검을 제공하고 사용자가 수정하는 피드백형 흐름을 운영한다(R9) 출처: <https://www.saramin.co.kr/zf_user/tools/ai-writing>
+- [x] 사람인의 AI 커리어 매칭은 이력서와 채용공고의 직무 정보를 연결하는 지원 시점 추천 기능이다(R9) 출처: <https://www.saramin.co.kr/zf_user/jobs/af>
+- [x] 원티드는 포지션 탐색·이력서 코칭·채용 추천에 AI를 적용하고 자사 채용 데이터와 직무 기술을 기반으로 지원 의사결정을 보조한다(R9) 출처: <https://www.wanted.co.kr/ai>
+- [x] 잡코리아는 AI 추천과 이력서·채용공고 기반 맞춤형 서비스를 별도 제품군으로 제시한다(R9) 출처: <https://www.jobkorea.co.kr/service/ai>
 
 ## 《4-3. 갭 분석과 포지셔닝》
 - [x] 갭 1: 커리어 연속 기록 — 랠릿만 시도했으나 채용 기능과 분절, Kairos는 경력 일기+데이터 수집+맥락 관리로 잇는다(R3)
@@ -257,6 +280,7 @@
 - [x] 갭 8: 글로벌 B2C AI 커리어 코치(Teal, Kickresume)는 있으나 한국어·국내 채용 시장 대응이 없다(R5)
 - [x] 갭 9: 'AI 대 AI' 시대의 진짜 기록 증명 — 고용주 49~62%가 AI 생성 이력서를 거부/의심하므로 사용자 고유 기록 기반 개인화가 필요하다(R5)
 - [x] 갭 10: 웍스피어·원티드·커리어리의 에이전트가 모두 '이직 시점 매칭·서류 최적화'에 한정되고 상시 동행형 라이프 코칭이 없다(R4)
+- [x] 국내 플랫폼 공식 기능 설명은 공고 추천·서류 작성·지원 보조에 집중하므로, Kairos는 일상 기록을 근거로 다음 행동을 제안하는 지속형 맥락 관리로 차별화할 수 있다(R9) 출처: <https://www.saramin.co.kr/zf_user/tools/ai-writing>
 - [ ] 포지셔닝 맵(가로축: 채용 시점 지원-전 생애 커리어, 세로축: 단발 서비스-상시 에이전트)을 PPT용으로 제작한다
 - [ ] 경쟁사 3곳(잡코리아, 원티드, 랠릿)의 기능과 자사 11개 기능의 대응표를 작성한다
 
@@ -268,6 +292,10 @@
 - [x] Jobscan: 10M+ 구직자, 2.5M+ 지원서 분석, ATS 역엔지니어링(Workday·Greenhouse·iCIMS·Taleo·Lever), 최적화 사용자 인터뷰 3배 증가·구직 시간 절반 단축(R5) 출처: <https://www.jobscan.co/>
 - [x] Kickresume(2015, 브라티슬라바): 8M+ 구직자, 이력서 작성 7.5M+건, 2025년 AI 사용 분석에서 ATS 점검 64%가 이력서 작성 50%보다 높아 '검증'이 1차 수요임을 보여준다(R5) 출처: <https://www.kickresume.com/en/press/ai-job-search-data/>
 - [x] Oracle Career Coach(2025-10-15): 지원자 심층 프로필 분석·맞춤 직무 추천·24/7 대화형 지원·원클릭 인터뷰 일정, AI Agent Studio 기반 — B2B 커리어 코칭 대기업 진입 신호(R5) 출처: <https://www.oracle.com/news/announcement/ai-world-oracle-helps-organizations-optimize-the-candidate-and-hiring-experience-with-agentic-ai-2025-10-15/>
+- [x] BetterUp은 AI 코칭을 인간 코치의 대체가 아니라 접근성·개인화·실행 지원을 확장하는 제품으로 설명하고 목표 설정과 행동 추적을 기능으로 제시한다(R9) 출처: <https://www.betterup.com/products/betterup-ai-coaching>
+- [x] Teal은 이력서 작성뿐 아니라 Job Tracker·공고 저장·인터뷰 준비·오퍼 비교를 하나의 구직 워크플로로 묶는다(R9) 출처: <https://www.prnewswire.com/news-releases/teal-announces-series-a-funding-to-expand-its-ai-powered-careers-platform-bringing-total-financing-raised-to-19-million-302357544.html>
+- [x] Workday Illuminate은 Recruiting·Talent Mobility·Succession 등 HR 업무별 AI 에이전트를 확장하며 개인용 코치보다 조직 인재 데이터와 업무 프로세스 통합을 중심으로 한다(R9) 출처: <https://newsroom.workday.com/2025-05-19-Workday-Unveils-Next-Generation-of-Illuminate-Agents-to-Transform-HR-and-Finance-Operations>
+- [x] BetterUp·Teal·Workday 사례는 B2C 구직 워크플로·B2B 인간 코칭·B2B HR 에이전트로 시장이 분화됐음을 보여주며 한국어 개인 경력 맥락 장기 보존 포지션은 별도 검증 가치가 있다(R9) 출처: <https://www.betterup.com/products/betterup-ai-coaching>
 - [x] 내부 이동·커리어 플랫폼: Gloat 150만+ 직원 지원, Fuel50 내부 이동 최대 +65%, Eightfold 매칭 학습 16억+ 커리어 프로필 — 기업 내부 시장은 성숙하나 개인(B2C)은 미개척(R5) 출처: <https://engagedly.com/blog/best-talent-mobility-softwares/>
 - [x] GenSpark(글로벌 AI 워크스페이스): Series B $275M, 밸류 $1.25B(2025-11-20), 출시 5개월 만에 연환산 매출 $50M, Mixture-of-Agents로 다중 LLM 라우팅·80+ 도구(R5) 출처: <https://www.businesswire.com/news/home/20251120036880/en/Genspark-Raises-%24275M-Series-B-Launches-AI-Workspace-to-Put-Busywork-on-Autopilot>
 - [ ] 글로벌 벤치마크 8곳을 포지셔닝 맵에 배치하고 자사 위치를 표시한다(R5)
@@ -763,6 +791,11 @@
 ## 《12-2. 사회적 기여·지속가능성》
 - [x] 사회적 기여: 성적이 저조한 사용자에게 심리적 안전 감을 주는 직업 추천(C5), 취업준비생 대나무숲과 소규모 이벤트(C11)로 동병상련 지원
 - [x] 사회적 기여: 재취업 번아웃 82%('쉬었음' 청년, 한국일보 2025-06-26)에 대한 라이프 코칭 접근(V1)
+- [x] BetterUp은 AI 코칭을 인간 코치의 대체가 아니라 접근성·개인화·실행 지원을 확장하는 방식으로 설명한다(R9) 출처: <https://www.betterup.com/products/betterup-ai-coaching>
+- [x] O*NET Interest Profiler는 RIASEC 흥미 결과를 직업 탐색 정보로 연결하지만 진로를 결정하는 진단이 아니라고 명시한다(R9) 출처: <https://www.onetcenter.org/IP.html>
+- [x] 구현의도 메타분석은 언제·어디서·어떻게 행동할지 정하는 if-then 계획이 목표 달성에 유용할 수 있음을 보고했다(R9) 출처: <https://doi.org/10.1016/S0065-2601(06)38002-1>
+- [x] 듀오링고 스트릭은 연속 학습일을 시각화하는 기능이며 스트릭 자체가 학습 성과의 원인이라고 일반화해서는 안 된다(R9) 출처: <https://blog.duolingo.com/how-duolingo-streak-builds-habit/>
+- [ ] 심리 지원은 진단을 가장하지 않고 자기성찰·행동계획·필요 시 사람 연결을 제공하는 범위로 제한한다(R9) 출처: <https://www.betterup.com/products/betterup-ai-coaching>
 - [x] 지속가능성: 맥락관리와 에이전트아키텍쳐 기반으로 데이터가 쌓일수록 서비스 가치가 커지는 구조(V2)
 - [x] 지속가능성: 무료 AI 모델 라우팅(OpenRouter :free)으로 운영 비용을 낮춘다(R4)
 - [ ] 사회적 기여 수치(절감 시간, 비용, 심리 지표)를 측정할 KPI를 정의한다
