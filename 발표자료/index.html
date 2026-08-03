@@ -1,954 +1,123 @@
 <!doctype html>
-<html lang='ko'>
+<html lang="ko">
 <head>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <meta name='theme-color' content='#2F20F7'>
-  <title>Kairos | AI 서비스톤 발표자료</title>
-  <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css'>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2F20F7">
+  <title>Kairos | 당신의 경험이 흩어지지 않도록</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css">
   <style>
-    @font-face {
-      font-family: 'Freesentation';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-4Regular.woff2') format('woff2');
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Freesentation';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-7Bold.woff2') format('woff2');
-      font-style: normal;
-      font-weight: 700 900;
-      font-display: swap;
-    }
+    @font-face{font-family:Freesentation;src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-4Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+    @font-face{font-family:Freesentation;src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-7Bold.woff2") format("woff2");font-weight:700 900;font-display:swap}
+    :root{color-scheme:dark;font-family:Freesentation,SUIT,Pretendard,"Malgun Gothic",sans-serif;--navy:#050a28;--deep:#08123b;--panel:#0e1d50;--panel2:#12245c;--brand:#2F20F7;--sky:#B2E9FF;--white:#F8FBFF;--muted:rgba(232,243,255,.76);--faint:rgba(232,243,255,.5);--line:rgba(178,233,255,.25);--coral:#ff8b76;--mint:#a7f0da;--paper:#f5f8ff;--paper-ink:#0b153c;--paper-muted:#53617f}
+    *{box-sizing:border-box}html,body{width:100%;min-height:100%;margin:0}body{display:grid;min-height:100vh;place-items:center;overflow:hidden;background:var(--navy);color:var(--white);font-family:inherit;font-size:clamp(17px,1cqw,20px);font-synthesis:none;text-rendering:optimizeLegibility}button,input,textarea,select{font:inherit}button,a,label{-webkit-tap-highlight-color:transparent}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,#stage:focus-visible{outline:2px solid var(--sky);outline-offset:4px}
+    #stage{position:relative;width:min(100vw,calc(100vh * 16 / 9));height:min(100vh,calc(100vw * 9 / 16));aspect-ratio:16/9;overflow:hidden;isolation:isolate;container-type:inline-size;background:var(--navy);box-shadow:0 0 0 1px rgba(178,233,255,.18),0 28px 80px rgba(0,0,0,.36);touch-action:pan-y}#stage:after{position:absolute;inset:12px;z-index:60;border:1px solid rgba(178,233,255,.16);pointer-events:none;content:""}
+    .topbar{position:absolute;top:clamp(18px,2.1cqw,32px);right:clamp(26px,5.2cqw,84px);left:clamp(26px,5.2cqw,84px);z-index:50;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:10px 14px;border:1px solid rgba(178,233,255,.25);border-radius:18px;background:rgba(7,17,55,.66);-webkit-backdrop-filter:blur(18px) saturate(135%);backdrop-filter:blur(18px) saturate(135%);pointer-events:none}.topbar-brand{display:inline-flex;align-items:center;gap:14px;min-width:0}.top-logo{display:block;width:clamp(112px,10cqw,158px);height:auto}.topbar-label{color:var(--sky);font-size:clamp(16px,.88cqw,20px);font-weight:800;letter-spacing:.06em;white-space:nowrap}.topbar-context{max-width:48cqw;overflow:hidden;color:var(--muted);font-size:clamp(16px,.82cqw,19px);letter-spacing:.03em;text-overflow:ellipsis;white-space:nowrap}
+    .slides{position:absolute;inset:0}.slide{position:absolute;inset:0;visibility:hidden;overflow:hidden;opacity:0;pointer-events:none;transform:translateX(18px);transition:opacity 220ms ease,transform 220ms ease,visibility 220ms ease;will-change:opacity,transform;background:radial-gradient(circle at 80% 16%,rgba(47,32,247,.4),transparent 28%),radial-gradient(circle at 8% 86%,rgba(74,173,255,.14),transparent 30%),linear-gradient(130deg,#050a28 0%,#0a1450 49%,#14136c 100%);color:var(--white)}.slide.is-active{visibility:visible;opacity:1;pointer-events:auto;transform:translateX(0)}.slide:before{position:absolute;top:0;right:0;left:0;height:2px;background:var(--brand);content:""}.slide:after{position:absolute;right:-15cqw;bottom:-24cqw;z-index:0;width:42cqw;height:42cqw;border:1px solid rgba(178,233,255,.18);border-radius:50%;pointer-events:none;content:"";transform:rotate(18deg)}.slide-inner{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;width:100%;height:100%;padding:clamp(92px,8.2cqw,132px) clamp(74px,7.2cqw,116px) clamp(70px,6.2cqw,100px);overflow-y:auto;overscroll-behavior:contain;scrollbar-color:rgba(178,233,255,.32) transparent;scrollbar-width:thin}.slide-inner.dense{justify-content:flex-start;padding-top:clamp(82px,6.5cqw,105px)}
+    h1,h2,h3,p,figure,blockquote,dl,dd,dt,ol,ul{margin:0}h1,h2,h3{letter-spacing:-.055em}h1{max-width:88cqw;color:var(--white);font-size:clamp(48px,5cqw,88px);font-weight:800;line-height:1.02}h2{max-width:90cqw;color:var(--white);font-size:clamp(48px,3.55cqw,68px);font-weight:800;line-height:1.06}h3{color:var(--white);font-size:clamp(28px,1.8cqw,38px);font-weight:800;line-height:1.1}p,li,dd{color:var(--muted);font-size:clamp(24px,1.38cqw,31px);line-height:1.34;letter-spacing:-.03em}strong{font-weight:800}.small,small,.caption,.source-date,.source-link,.path,.status,.meta,code{font-size:clamp(17px,.86cqw,21px);line-height:1.32}.small,.caption,.source-date,.meta{color:var(--faint)}code,.mono,.path{color:var(--sky);font-family:Consolas,"Courier New",monospace;overflow-wrap:anywhere}.kicker{display:flex;align-items:center;gap:12px;align-self:flex-start;margin-bottom:16px;color:var(--sky);font-size:clamp(16px,.9cqw,20px);font-weight:800;letter-spacing:.1em}.kicker:before{width:34px;height:2px;background:currentColor;content:""}.slide-number{color:var(--faint);font-weight:700;letter-spacing:.04em}.eyebrow{color:var(--sky);font-size:clamp(17px,.9cqw,21px);font-weight:800;letter-spacing:.1em}.solid-panel{border:1px solid rgba(178,233,255,.23);background:var(--panel);box-shadow:0 18px 44px rgba(0,0,0,.18)}.glass-card{border:1px solid rgba(178,233,255,.34);background:rgba(14,28,76,.68);-webkit-backdrop-filter:blur(18px) saturate(130%);backdrop-filter:blur(18px) saturate(130%);box-shadow:0 16px 40px rgba(0,0,0,.16)}
 
-    :root {
-      color-scheme: light;
-      font-family: 'Freesentation', 'SUIT', 'Pretendard', 'Malgun Gothic', sans-serif;
-      --blue-950: #080D2B;
-      --blue-700: #1710B8;
-      --blue-500: #536DFF;
-      --blue-100: #E9EDFF;
-      --brand: #2F20F7;
-      --ink: var(--blue-950);
-      --paper: #F7F9FF;
-      --lavender: var(--blue-100);
-      --white: #FFFFFF;
-      --coral: #FF684A;
-      --mint: #A8E6C1;
-      --line: #CDD5F2;
-      --ink-70: rgba(8, 13, 43, .72);
-      --ink-45: rgba(8, 13, 43, .48);
-      --paper-75: rgba(247, 249, 255, .78);
-      --paper-45: rgba(247, 249, 255, .50);
-    }
+    /* The repeated orb is the visual memory of Kairos. */
+    .object-scene{position:relative;min-width:0;perspective:1200px}.orb-object{position:relative;width:min(30cqw,340px);aspect-ratio:1;margin:auto;transform:rotateX(18deg) rotateY(-24deg);transform-style:preserve-3d;animation:orb-float 10s ease-in-out infinite alternate}.orb-core{position:absolute;inset:16%;border:1px solid rgba(255,255,255,.65);border-radius:50%;background:radial-gradient(circle at 29% 23%,rgba(255,255,255,.98) 0 4%,rgba(178,233,255,.7) 5%,transparent 22%),radial-gradient(circle at 58% 66%,#4c5dff 0%,var(--brand) 46%,#10146a 100%);box-shadow:inset -24px -28px 42px rgba(3,8,35,.58),0 22px 56px rgba(47,32,247,.42);transform:translateZ(28px);transform-style:preserve-3d}.orb-core:after{position:absolute;top:14%;right:12%;width:32%;height:17%;border:1px solid rgba(255,255,255,.72);border-radius:50%;content:"";transform:rotate(-28deg)}.orb-ring{position:absolute;inset:4%;border:1px solid rgba(178,233,255,.64);border-radius:50%;transform-style:preserve-3d}.orb-ring.one{transform:rotateX(66deg) rotateZ(22deg) translateZ(10px)}.orb-ring.two{inset:-2%;border-color:rgba(255,255,255,.35);transform:rotateY(70deg) rotateZ(-22deg) translateZ(2px)}.orb-ring.three{inset:13%;border-color:rgba(47,32,247,.72);transform:rotateX(28deg) rotateY(58deg) translateZ(48px)}.orb-point{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--sky);box-shadow:0 0 18px var(--sky);transform:translateZ(66px)}.orb-point.a{top:7%;left:56%}.orb-point.b{right:7%;bottom:27%;background:var(--mint);box-shadow:0 0 18px var(--mint);transform:translateZ(34px)}.orb-point.c{bottom:11%;left:24%;background:var(--coral);box-shadow:0 0 18px var(--coral);transform:translateZ(54px)}@keyframes orb-float{from{transform:rotateX(18deg) rotateY(-24deg) translate3d(0,0,0)}to{transform:rotateX(21deg) rotateY(-17deg) translate3d(0,-9px,18px)}}
+    .line-list{display:grid;gap:8px}.line-list span{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:clamp(17px,.88cqw,21px)}.line-list span:before{width:8px;height:8px;flex:0 0 auto;border-radius:50%;background:var(--sky);content:""}
 
-    * { box-sizing: border-box; }
-    html, body { width: 100%; min-height: 100%; margin: 0; }
-    body {
-      display: grid;
-      min-height: 100vh;
-      place-items: center;
-      overflow: hidden;
-      background: var(--blue-950);
-      color: var(--ink);
-      font-family: 'Freesentation', 'SUIT', 'Pretendard', 'Malgun Gothic', sans-serif;
-      font-size: clamp(17px, 1cqw, 20px);
-      font-synthesis: none;
-      text-rendering: optimizeLegibility;
-    }
-    button, input, textarea, select { font: inherit; }
-    button, a, label { -webkit-tap-highlight-color: transparent; }
-    a { color: inherit; }
-    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, #stage:focus-visible {
-      outline: 2px solid var(--brand);
-      outline-offset: 4px;
-    }
+    /* 1. Cover */
+    .cover-inner{justify-content:center}.cover-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.84fr);gap:clamp(28px,5cqw,80px);align-items:center}.cover-event{display:inline-flex;align-items:center;padding-bottom:13px;border-bottom:2px solid var(--sky);color:var(--sky);font-size:clamp(17px,.94cqw,21px);font-weight:800;letter-spacing:.03em}.cover-logo{display:block;width:min(29cqw,430px);margin-top:28px}.cover h1{margin-top:28px}.cover h1 strong{color:var(--sky)}.cover-subtitle{max-width:58cqw;margin-top:22px;color:var(--muted);font-size:clamp(24px,1.42cqw,32px);line-height:1.34}.cover-meta{display:flex;flex-wrap:wrap;gap:14px 24px;margin-top:30px;color:var(--faint);font-size:clamp(17px,.86cqw,20px)}.cover-meta span:first-child{color:var(--sky)}.hero-scene{min-height:33cqw}.hero-scene .orb-object{width:min(36cqw,390px)}.hero-label{position:absolute;top:3%;left:5%;color:var(--faint);font-size:clamp(17px,.86cqw,20px);letter-spacing:.08em}.hero-glass{position:absolute;right:0;bottom:8%;width:62%;padding:20px;transform:translateZ(70px) rotateY(-8deg);transform-style:preserve-3d}.hero-glass h3{font-size:clamp(26px,1.65cqw,35px)}.hero-glass p{margin-top:8px;font-size:clamp(20px,1.08cqw,25px)}.hero-glass .line-list{margin-top:14px}
 
-    /* 유리 효과는 머리말과 제품 프레임의 chrome에만 사용한다. */
-    .glass-surface { border: 1px solid var(--line); background: var(--white); }
-    @supports (backdrop-filter: blur(1px)) {
-      .glass-surface { background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(18px) saturate(135%); backdrop-filter: blur(18px) saturate(135%); }
-    }
-    @supports not (backdrop-filter: blur(1px)) { .glass-surface { background: var(--white); } }
+    /* 2. Overview */
+    .overview-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(28px,4cqw,64px);align-items:center}.overview-lead{margin-top:20px;padding:22px 24px;border-left:4px solid var(--sky);background:var(--panel);color:var(--white);font-size:clamp(24px,1.42cqw,31px);font-weight:700;line-height:1.4}.context-orb{min-height:31cqw}.context-orb .orb-object{width:min(27cqw,300px)}.orb-label{position:absolute;padding:10px 14px;color:var(--white);font-size:clamp(17px,.9cqw,21px);font-weight:800}.orb-label.one{top:8%;left:0}.orb-label.two{top:38%;right:0}.orb-label.three{bottom:8%;left:8%}.context-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:38px;border-top:2px solid var(--sky)}.context-step{position:relative;min-width:0;padding:18px 18px 0 0}.context-step+.context-step{padding-left:18px;border-left:1px solid var(--line)}.context-step:not(:last-child):after{position:absolute;top:-8px;right:-5px;width:8px;height:8px;border-radius:50%;background:var(--sky);content:""}.context-step .number{color:var(--sky);font-family:Consolas,monospace;font-size:clamp(17px,.9cqw,21px);font-weight:800}.context-step h3{margin-top:11px;font-size:clamp(27px,1.45cqw,34px)}.context-step p{margin-top:7px;font-size:clamp(20px,1.02cqw,25px)}.overview-note{margin-top:24px;color:var(--faint);font-size:clamp(17px,.88cqw,20px)}
 
-    #stage {
-      position: relative;
-      width: min(100vw, calc(100vh * 16 / 9));
-      height: min(100vh, calc(100vw * 9 / 16));
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      isolation: isolate;
-      container-type: inline-size;
-      touch-action: pan-y;
-      background: var(--paper);
-      box-shadow: 0 0 0 1px var(--line), 22px 22px 0 rgba(8, 13, 43, .18);
-    }
-    #stage::after { position: absolute; inset: 12px; z-index: 50; border: 1px solid rgba(8, 13, 43, .14); pointer-events: none; content: ''; }
-    #stage.tone-ink::after { border-color: rgba(247, 249, 255, .17); }
+    /* 3. Problem */
+    .problem-layout{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(24px,3.5cqw,54px);margin-top:24px;align-items:stretch}.journey-panel{padding:22px}.journey-panel h3{margin-top:9px;font-size:clamp(28px,1.55cqw,36px)}.journey-list{display:grid;gap:0;margin-top:18px}.journey-item{position:relative;display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;padding:13px 0;border-top:1px solid var(--line)}.journey-item:before{position:absolute;top:0;bottom:0;left:65px;width:1px;background:rgba(178,233,255,.28);content:""}.journey-time{position:relative;z-index:1;color:var(--sky);font-size:clamp(17px,.86cqw,20px);font-weight:800}.journey-item strong{color:var(--white);font-size:clamp(22px,1.16cqw,27px);line-height:1.18}.journey-item p{margin-top:4px;font-size:clamp(19px,.98cqw,23px)}.stats-lead{margin-bottom:11px;color:var(--muted);font-size:clamp(17px,.88cqw,20px)}.source-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.source-card{min-width:0;padding:16px;border-top:3px solid var(--sky);background:var(--panel2)}.source-card:nth-child(2){border-top-color:var(--coral)}.source-card:nth-child(3){border-top-color:var(--mint)}.source-mark{color:var(--white);font-size:clamp(20px,1.02cqw,24px);font-weight:900;line-height:1.1}.source-date{display:block;margin-top:6px}.source-card h3{margin-top:14px;color:var(--muted);font-size:clamp(19px,.98cqw,23px);line-height:1.15}.source-value{display:flex;align-items:baseline;gap:4px;margin-top:12px;color:var(--sky);font-family:Consolas,monospace;font-size:clamp(39px,3.2cqw,62px);font-weight:900;letter-spacing:-.1em;line-height:.9}.source-card:nth-child(2) .source-value{color:var(--coral)}.source-card:nth-child(3) .source-value{color:var(--mint)}.source-value span{color:var(--muted);font-family:inherit;font-size:clamp(17px,.8cqw,20px);font-weight:800;letter-spacing:0}.source-card p{margin-top:12px;color:var(--faint);font-size:clamp(17px,.82cqw,20px);line-height:1.27}.source-link{display:block;margin-top:12px;color:var(--sky);text-decoration:none}.source-link:hover{text-decoration:underline;text-underline-offset:4px}.problem-note{margin-top:15px;color:var(--faint);font-size:clamp(17px,.86cqw,20px);line-height:1.35}
 
-    .topbar {
-      position: absolute;
-      top: clamp(18px, 2.25cqw, 34px);
-      right: clamp(26px, 5.4cqw, 86px);
-      left: clamp(26px, 5.4cqw, 86px);
-      z-index: 40;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 10px 14px;
-      border-radius: 20px;
-      pointer-events: none;
-    }
-    .topbar-brand { display: inline-flex; align-items: center; gap: 14px; min-width: 0; }
-    .logo-plate { display: inline-flex; align-items: center; padding: 8px 12px; background: var(--ink); }
-    .top-logo { display: block; width: clamp(108px, 9.5cqw, 154px); height: auto; }
-    .topbar-label { color: var(--ink); font-size: clamp(16px, .92cqw, 20px); font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
-    .topbar-context { max-width: 45cqw; overflow: hidden; color: var(--ink-45); font-size: clamp(16px, .82cqw, 18px); letter-spacing: .04em; text-overflow: ellipsis; white-space: nowrap; }
-    .tone-ink .topbar { border-color: rgba(247, 249, 255, .24); background: var(--blue-950); }
-    @supports (backdrop-filter: blur(1px)) { .tone-ink .topbar { background: rgba(8, 13, 43, .76); } }
-    .tone-ink .topbar-label { color: var(--paper); }
-    .tone-ink .topbar-context { color: var(--paper-45); }
+    /* 4. Product map */
+    .features-lead{max-width:78cqw;margin-top:14px;color:var(--muted);font-size:clamp(24px,1.28cqw,29px)}.module-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px}.module-area{min-width:0;padding:18px;border-top:3px solid var(--sky);background:var(--panel)}.module-area:nth-child(2){border-top-color:var(--mint)}.module-area:nth-child(3){border-top-color:var(--coral)}.module-area:nth-child(4){border-top-color:#777dff}.module-area h3{font-size:clamp(25px,1.3cqw,31px);line-height:1.12}.module-area p{margin-top:11px;color:var(--muted);font-size:clamp(19px,.98cqw,23px);line-height:1.28}.module-area code{display:block;margin-top:15px}.feature-demo-strip{display:grid;grid-template-columns:minmax(0,.75fr) repeat(3,minmax(0,1fr));gap:12px;align-items:stretch;margin-top:26px}.feature-demo-intro{padding:16px 18px;border-left:3px solid var(--sky);background:rgba(47,32,247,.22)}.feature-demo-intro strong{display:block;color:var(--white);font-size:clamp(22px,1.12cqw,27px)}.feature-demo-intro p{margin-top:7px;font-size:clamp(17px,.84cqw,20px)}.demo-call{min-width:0;padding:16px;border:1px solid rgba(178,233,255,.25);background:var(--paper);color:var(--paper-ink)}.demo-call .number{color:var(--brand);font-family:Consolas,monospace;font-size:clamp(17px,.86cqw,20px);font-weight:900}.demo-call strong{display:block;margin-top:7px;color:var(--paper-ink);font-size:clamp(23px,1.2cqw,29px)}.demo-call span{display:block;margin-top:5px;color:var(--paper-muted);font-size:clamp(17px,.84cqw,20px)}
 
-    .slides { position: absolute; inset: 0; }
-    .slide { position: absolute; inset: 0; visibility: hidden; overflow: hidden; opacity: 0; pointer-events: none; transform: translateX(18px); transition: opacity 260ms ease, transform 260ms ease, visibility 260ms ease; will-change: opacity, transform; }
-    .slide.is-active { visibility: visible; opacity: 1; pointer-events: auto; transform: translateX(0); }
-    .slide.paper { background: var(--paper); color: var(--ink); }
-    .slide.ink { background: var(--ink); color: var(--paper); }
-    .slide::before { position: absolute; top: 0; right: 0; left: 0; height: 2px; background: var(--brand); content: ''; }
-    .slide::after { position: absolute; right: -12cqw; bottom: -18cqw; z-index: 0; width: 34cqw; height: 34cqw; border: 1px solid rgba(47, 32, 247, .18); pointer-events: none; content: ''; transform: rotate(18deg); }
-    .slide.ink::after { border-color: rgba(168, 230, 193, .22); transform: rotate(-18deg); }
-    .slide-inner { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; height: 100%; padding: clamp(94px, 8.4cqw, 136px) clamp(74px, 7.1cqw, 114px) clamp(72px, 6.8cqw, 108px); overflow-y: auto; overscroll-behavior: contain; scrollbar-color: rgba(8, 13, 43, .28) transparent; scrollbar-width: thin; }
-    .slide-inner.dense { justify-content: flex-start; padding-top: clamp(82px, 6.6cqw, 106px); padding-bottom: clamp(60px, 5cqw, 82px); }
-    .ink .slide-inner { scrollbar-color: rgba(247, 249, 255, .30) transparent; }
+    /* Shared later slide styles */
+    .flow-lead,.architecture-lead,.impact-lead,.qa-lead,.checklist-lead{max-width:82cqw;margin-top:16px;color:var(--muted);font-size:clamp(24px,1.28cqw,30px)}.flow-timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:34px;border-top:2px solid var(--sky)}.timeline-step{position:relative;min-width:0;min-height:188px;padding:17px 15px 0 0}.timeline-step+.timeline-step{padding-left:15px;border-left:1px solid var(--line)}.timeline-step:not(:last-child):after{position:absolute;top:-7px;right:-4px;width:8px;height:8px;border-radius:50%;background:var(--sky);content:""}.timeline-number{color:var(--sky);font-family:Consolas,monospace;font-size:clamp(27px,1.8cqw,42px);font-weight:900}.timeline-step h3{margin-top:13px;font-size:clamp(25px,1.3cqw,31px)}.timeline-step p{margin-top:8px;font-size:clamp(19px,.98cqw,23px);line-height:1.25}.flow-bottom{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px;margin-top:20px}.flow-guard{padding:17px 19px;border:1px solid var(--line);background:var(--panel)}.flow-guard strong{display:block;color:var(--sky);font-size:clamp(22px,1.12cqw,27px)}.flow-guard p{margin-top:7px;font-size:clamp(19px,.98cqw,23px)}.flow-scene{min-height:180px;overflow:hidden}.flow-scene .orb-object{width:min(18cqw,220px);margin-top:12px}.flow-scene .glass-card{position:absolute;right:0;bottom:10%;padding:13px 16px;transform:translateZ(54px) rotateY(-10deg)}.flow-scene .glass-card p{color:var(--white);font-size:clamp(17px,.86cqw,20px)}
+    .architecture h2{max-width:75cqw}.arch-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;align-items:stretch;margin-top:30px}.arch-node{position:relative;min-width:0;padding:16px 15px;border:1px solid rgba(178,233,255,.32);background:rgba(9,20,61,.94)}.arch-node:not(:last-child):after{position:absolute;top:50%;right:-9px;z-index:2;width:8px;height:2px;background:var(--sky);content:""}.arch-node:not(:last-child):before{position:absolute;top:calc(50% - 4px);right:-10px;z-index:3;width:8px;height:8px;border-top:2px solid var(--sky);border-right:2px solid var(--sky);content:"";transform:rotate(45deg)}.arch-node:nth-child(2){border-color:#777dff}.arch-node:nth-child(3){border-color:var(--mint)}.arch-node:nth-child(4){border-color:var(--coral)}.arch-node h3{font-size:clamp(22px,1.08cqw,27px);line-height:1.16}.arch-node p{margin-top:10px;color:var(--muted);font-size:clamp(17px,.84cqw,20px);line-height:1.27}.provider-list{display:grid;gap:5px;margin-top:10px}.provider-list span{color:var(--sky);font-size:clamp(16px,.78cqw,19px);line-height:1.22}.boundary-note{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:20px;padding:14px 17px;border:1px solid rgba(255,139,118,.48);background:rgba(255,139,118,.08)}.boundary-note strong{color:var(--coral);font-size:clamp(22px,1.12cqw,28px)}.boundary-note p{margin-top:5px;font-size:clamp(17px,.84cqw,20px)}.architecture-paths{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px}.architecture-paths .path{color:var(--faint)}
 
-    h1, h2, h3, p, figure, blockquote, dl, dd, dt, ol, ul { margin: 0; }
-    h1, h2, h3 { letter-spacing: -.055em; }
-    h1 { max-width: 82cqw; color: var(--ink); font-size: clamp(48px, 4.45cqw, 82px); font-weight: 800; line-height: 1.02; }
-    h2 { max-width: 88cqw; color: var(--ink); font-size: clamp(48px, 3.35cqw, 64px); font-weight: 800; line-height: 1.06; }
-    h3 { color: var(--ink); font-size: clamp(28px, 1.7cqw, 36px); font-weight: 800; line-height: 1.12; }
-    p, li, dd { color: var(--ink-70); font-size: clamp(24px, 1.38cqw, 30px); line-height: 1.38; letter-spacing: -.03em; }
-    .ink h1, .ink h2, .ink h3 { color: var(--paper); }
-    .ink p, .ink li, .ink dd { color: var(--paper-75); }
-    strong { font-weight: 800; }
-    code, .mono { color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(16px, .86cqw, 20px); overflow-wrap: anywhere; }
-    .ink code, .ink .mono { color: var(--mint); }
-    .kicker { display: flex; align-items: center; gap: 12px; align-self: flex-start; margin-bottom: 16px; color: var(--brand); font-size: clamp(16px, .92cqw, 20px); font-weight: 800; letter-spacing: .10em; }
-    .kicker::before { width: 36px; height: 2px; background: currentColor; content: ''; }
-    .ink .kicker { color: var(--mint); }
-    .slide-number { color: var(--ink-45); font-weight: 700; letter-spacing: .05em; }
-    .ink .slide-number { color: var(--paper-45); }
-    .eyebrow { color: var(--brand); font-size: clamp(16px, .86cqw, 20px); font-weight: 800; letter-spacing: .12em; }
-    .ink .eyebrow { color: var(--mint); }
-    .caption, small, .path, .status, .meta, .source-date { font-size: clamp(17px, .9cqw, 21px); line-height: 1.32; }
-    .caption { color: var(--ink-45); }
-    .ink .caption { color: var(--paper-45); }
-    .path { display: block; color: var(--brand); font-family: Consolas, 'Courier New', monospace; overflow-wrap: anywhere; }
-    .ink .path { color: var(--mint); }
-    .rule { height: 1px; background: var(--line); }
-    .ink .rule { background: rgba(247, 249, 255, .24); }
-
-    /* Cover */
-    .cover { background: radial-gradient(circle at 76% 42%, rgba(83, 109, 255, .18), transparent 25%), var(--paper); }
-    .cover::after { right: -8cqw; bottom: -20cqw; width: 42cqw; height: 42cqw; border-width: 2px; border-color: rgba(47, 32, 247, .28); transform: rotate(32deg); }
-    .cover-inner { justify-content: center; }
-    .cover-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 4.7cqw, 76px); align-items: center; }
-    .cover-event { display: inline-flex; align-items: center; padding-bottom: 14px; border-bottom: 2px solid var(--brand); color: var(--ink); font-size: clamp(17px, 1cqw, 22px); font-weight: 800; letter-spacing: .03em; }
-    .cover-brand { display: inline-flex; width: fit-content; margin-top: 30px; padding: 18px 24px; background: var(--ink); }
-    .cover-brand img { display: block; width: min(31cqw, 450px); height: auto; }
-    .cover h1 { margin-top: 32px; }
-    .cover h1 strong { color: var(--brand); }
-    .cover-subtitle { max-width: 70cqw; margin-top: 24px; color: var(--ink-70); font-size: clamp(24px, 1.48cqw, 33px); line-height: 1.35; }
-    .cover-footer { display: flex; align-items: center; gap: 16px; margin-top: 34px; color: var(--ink-45); font-size: clamp(17px, .9cqw, 20px); font-weight: 700; }
-    .cover-footer::before { width: 42px; height: 2px; background: var(--coral); content: ''; }
-    .evidence-wrap { position: relative; min-width: 0; perspective: 1400px; }
-    .frame-label { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; color: var(--brand); font-size: clamp(16px, .86cqw, 20px); font-weight: 800; letter-spacing: .08em; }
-    .frame-label span:last-child { color: var(--ink-45); }
-    .hero-orb { position: absolute; top: -7cqw; right: -5cqw; z-index: 0; width: 19cqw; aspect-ratio: 1; overflow: hidden; border: 1px solid rgba(83, 109, 255, .48); border-radius: 50%; background: radial-gradient(circle at 30% 24%, #FFFFFF 0 4%, rgba(255, 255, 255, .66) 5%, transparent 23%), radial-gradient(circle at 62% 66%, var(--brand), var(--blue-700) 52%, var(--blue-950) 100%); box-shadow: inset -24px -26px 42px rgba(8, 13, 43, .44), 0 24px 52px rgba(47, 32, 247, .20); pointer-events: none; transform: perspective(900px) rotateX(18deg) rotateY(-18deg) translateZ(24px); transform-style: preserve-3d; animation: orb-drift 24s ease-in-out infinite alternate; }
-    .hero-orb::after { position: absolute; top: 13%; right: 13%; width: 32%; height: 18%; border: 1px solid rgba(255, 255, 255, .64); border-radius: 50%; content: ''; transform: rotate(-28deg); }
-    .hero-orb span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-    @keyframes orb-drift { from { transform: perspective(900px) rotateX(18deg) rotateY(-18deg) translate3d(0, 0, 24px); } to { transform: perspective(900px) rotateX(20deg) rotateY(-14deg) translate3d(0, -8px, 30px); } }
-    .product-frame { position: relative; z-index: 1; overflow: hidden; border: 2px solid var(--ink); background: var(--white); box-shadow: 18px 18px 0 var(--lavender); transform: perspective(1200px) rotateX(3deg) rotateY(-2deg) translateZ(16px); transform-style: preserve-3d; }
-    .product-chrome { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: var(--ink); color: var(--paper); font-family: Consolas, 'Courier New', monospace; font-size: clamp(16px, .78cqw, 18px); }
-    .product-chrome strong { color: var(--mint); font-size: clamp(16px, .78cqw, 18px); }
-    .product-body { display: grid; grid-template-columns: 26% 74%; min-height: 32cqw; }
-    .product-rail { display: grid; align-content: start; gap: 14px; padding: 18px 16px; border-right: 1px solid var(--line); background: var(--paper); }
-    .rail-title { color: var(--ink-45); font-size: clamp(16px, .72cqw, 18px); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .rail-item { padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--ink-70); font-size: clamp(16px, .82cqw, 19px); font-weight: 700; }
-    .rail-item.active { color: var(--brand); }
-    .product-main { padding: 18px 20px; }
-    .screen-head { display: flex; align-items: end; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
-    .screen-head strong { color: var(--ink); font-size: clamp(20px, 1.15cqw, 25px); }
-    .screen-head span { color: var(--coral); font-family: Consolas, 'Courier New', monospace; font-size: clamp(16px, .78cqw, 18px); }
-    .diff-head { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; color: var(--ink-45); font-size: clamp(16px, .75cqw, 18px); font-weight: 800; }
-    .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
-    .diff-col { display: grid; align-content: start; gap: 7px; }
-    .diff-line { min-height: 24px; padding: 5px 7px; color: var(--ink-70); font-size: clamp(16px, .79cqw, 19px); line-height: 1.3; }
-    .diff-line.removed { border-left: 2px solid var(--coral); background: rgba(255, 104, 74, .16); }
-    .diff-line.added { border-left: 2px solid var(--brand); background: rgba(168, 230, 193, .55); }
-    .evidence-note { margin-top: 20px; color: var(--ink-45); font-size: clamp(17px, .9cqw, 21px); line-height: 1.35; }
-
-    /* Overview */
-    .overview-intro { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: clamp(28px, 4cqw, 64px); align-items: end; }
-    .definition { padding: 20px 0 20px 26px; border-left: 4px solid var(--brand); color: var(--ink); font-size: clamp(24px, 1.45cqw, 32px); font-weight: 700; line-height: 1.35; }
-    .loop-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 48px; border-top: 2px solid var(--brand); }
-    .loop-step { position: relative; min-width: 0; min-height: 170px; padding: 24px 28px 18px 0; border-right: 1px solid var(--line); }
-    .loop-step + .loop-step { padding-left: 28px; }
-    .loop-step:last-child { border-right: 0; }
-    .loop-step::after { position: absolute; top: -18px; right: -9px; color: var(--brand); font-size: clamp(24px, 1.4cqw, 32px); content: '>'; }
-    .loop-step:last-child::after { display: none; }
-    .loop-number { color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(48px, 3.2cqw, 64px); font-weight: 800; line-height: 1; }
-    .loop-step h3 { margin-top: 18px; }
-    .loop-step p { margin-top: 10px; font-size: clamp(24px, 1.16cqw, 27px); }
-    .overview-foot { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); }
-    .overview-foot strong { display: block; color: var(--ink); font-size: clamp(26px, 1.12cqw, 30px); }
-    .overview-foot span { display: block; margin-top: 8px; color: var(--ink-70); font-size: clamp(24px, 1.08cqw, 27px); line-height: 1.3; }
-
-    /* Problem */
-    .problem-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 3.2cqw, 52px); margin-top: 26px; }
-    .persona-panel { min-width: 0; padding-left: 22px; border-left: 4px solid var(--coral); }
-    .persona-panel > p { margin-top: 14px; font-size: clamp(24px, 1.18cqw, 28px); }
-    .persona-photo { position: relative; min-height: 150px; margin-top: 22px; overflow: hidden; border: 1px solid var(--blue-500); background: linear-gradient(135deg, var(--blue-950), var(--brand) 52%, var(--blue-500)); }
-    .persona-photo img { display: block; width: 100%; height: 100%; min-height: 150px; object-fit: cover; filter: saturate(.82) contrast(1.04); }
-    .persona-photo::before { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(8, 13, 43, 0) 36%, rgba(8, 13, 43, .80) 100%); content: ''; pointer-events: none; }
-    .persona-photo figcaption { position: absolute; right: 12px; bottom: 10px; left: 12px; z-index: 2; color: var(--white); font-size: clamp(17px, .78cqw, 19px); font-weight: 700; line-height: 1.25; }
-    .persona-photo.image-fallback img { opacity: 0; }
-    .persona-photo.image-fallback::after { position: absolute; top: 50%; right: 16px; left: 16px; z-index: 2; color: var(--white); font-family: Consolas, 'Courier New', monospace; font-size: clamp(17px, .9cqw, 21px); font-weight: 800; letter-spacing: .08em; text-align: center; content: 'WORK CONTEXT'; transform: translateY(-50%); }
-    .pain-list { display: grid; gap: 12px; }
-    .pain-item { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; align-items: start; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
-    .pain-item:last-child { border-bottom: 0; }
-    .pain-index { color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(20px, 1.15cqw, 26px); font-weight: 800; }
-    .pain-item h3 { font-size: clamp(27px, 1.35cqw, 31px); }
-    .pain-item p { margin-top: 5px; font-size: clamp(24px, 1.04cqw, 27px); }
-    .source-area { margin-top: 30px; }
-    .source-area-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
-    .source-area-head strong { color: var(--ink); font-size: clamp(28px, 1.65cqw, 36px); }
-    .source-area-head span { max-width: 42cqw; color: var(--ink-45); font-size: clamp(17px, .86cqw, 20px); text-align: right; }
-    .source-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
-    .source-card { min-width: 0; padding: 16px 18px 18px; border-top: 4px solid var(--brand); background: var(--white); }
-    .source-card:nth-child(2) { border-top-color: var(--coral); }
-    .source-card:nth-child(3) { border-top-color: var(--mint); }
-    .source-mark { color: var(--ink); font-size: clamp(24px, 1.12cqw, 29px); font-weight: 900; letter-spacing: -.04em; }
-    .source-card .source-date { display: block; margin-top: 5px; color: var(--ink-45); }
-    .source-card h3 { margin-top: 12px; color: var(--ink-70); font-size: clamp(22px, 1.04cqw, 27px); line-height: 1.18; }
-    .source-value { display: flex; align-items: baseline; gap: 5px; margin-top: 10px; color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(38px, 2.9cqw, 58px); font-weight: 900; letter-spacing: -.09em; line-height: .9; }
-    .source-card:nth-child(2) .source-value { color: var(--coral); }
-    .source-card:nth-child(3) .source-value { color: var(--blue-700); }
-    .source-value span { color: var(--ink-70); font-family: inherit; font-size: clamp(18px, .92cqw, 22px); font-weight: 800; letter-spacing: 0; }
-    .source-card p { margin-top: 12px; color: var(--ink-45); font-size: clamp(17px, .86cqw, 20px); line-height: 1.32; }
-    .scale-note { margin-top: 14px; color: var(--ink-45); font-size: clamp(17px, .9cqw, 21px); line-height: 1.35; }
-
-    /* Features */
-    .features-intro { display: flex; align-items: end; justify-content: space-between; gap: 30px; }
-    .features-intro p { max-width: 38cqw; color: var(--ink-70); font-size: clamp(24px, 1.2cqw, 28px); }
-    .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 30px; }
-    .feature-panel { min-width: 0; padding-top: 16px; border-top: 4px solid var(--brand); }
-    .feature-panel:nth-child(2) { border-top-color: var(--coral); }
-    .feature-panel:nth-child(3) { border-top-color: var(--mint); }
-    .feature-index { color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(26px, 1.5cqw, 34px); font-weight: 800; }
-    .feature-panel:nth-child(2) .feature-index { color: var(--coral); }
-    .feature-panel:nth-child(3) .feature-index { color: var(--blue-700); }
-    .feature-panel h3 { margin-top: 10px; font-size: clamp(28px, 1.6cqw, 36px); }
-    .feature-panel > p { margin-top: 10px; font-size: clamp(24px, 1.08cqw, 27px); }
-    .feature-screen { display: grid; gap: 10px; min-height: 145px; margin-top: 16px; padding: 14px; border: 1px solid var(--ink); background: var(--white); }
-    .feature-screen-top { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-45); font-size: clamp(16px, .72cqw, 18px); font-weight: 800; }
-    .feature-screen-title { color: var(--ink); font-size: clamp(20px, 1.08cqw, 24px); font-weight: 800; }
-    .score-line { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .score-line span { padding: 8px; border-left: 3px solid var(--brand); background: var(--lavender); color: var(--ink); font-size: clamp(16px, .8cqw, 19px); }
-    .score-line span:last-child { border-left-color: var(--coral); background: rgba(255, 104, 74, .14); }
-    .mini-diff { display: grid; gap: 7px; }
-    .mini-diff span { padding: 6px 8px; color: var(--ink); font-size: clamp(16px, .8cqw, 19px); line-height: 1.2; }
-    .mini-diff .minus { border-left: 3px solid var(--coral); background: rgba(255, 104, 74, .14); }
-    .mini-diff .plus { border-left: 3px solid var(--brand); background: rgba(168, 230, 193, .55); }
-    .mini-chat { display: grid; gap: 7px; }
-    .mini-chat span { width: 82%; padding: 7px 9px; background: var(--lavender); color: var(--ink); font-size: clamp(16px, .8cqw, 19px); line-height: 1.2; }
-    .mini-chat span:last-child { width: 72%; margin-left: auto; background: var(--mint); }
-    .feature-result { margin-top: 12px; color: var(--ink); font-size: clamp(24px, 1.06cqw, 27px); font-weight: 800; line-height: 1.25; }
-    .feature-route { margin-top: 8px; }
-    .comparison-block { margin-top: 28px; padding-top: 16px; border-top: 2px solid var(--ink); }
-    .comparison-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
-    .comparison-title strong { color: var(--ink); font-size: clamp(26px, 1.25cqw, 31px); }
-    .comparison-title span { color: var(--ink-45); font-size: clamp(17px, .86cqw, 20px); }
-    .comparison-table { width: 100%; margin-top: 12px; border-collapse: collapse; table-layout: fixed; }
-    .comparison-table th, .comparison-table td { padding: 11px 14px; border-top: 1px solid var(--line); text-align: left; vertical-align: middle; }
-    .comparison-table th { width: 23%; color: var(--ink-45); font-size: clamp(18px, .92cqw, 22px); font-weight: 800; }
-    .comparison-table td { color: var(--ink); font-size: clamp(23px, 1.12cqw, 28px); font-weight: 800; }
-    .comparison-table td + td { color: var(--brand); }
-
-    /* Flow */
-    .flow-lead { max-width: 76cqw; margin-top: 18px; color: var(--ink-70); font-size: clamp(24px, 1.38cqw, 30px); }
-    .flow-timeline { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; margin-top: 34px; border-top: 2px solid var(--ink); }
-    .timeline-step { min-width: 0; min-height: 210px; padding: 16px 14px 0 0; border-right: 1px solid var(--line); }
-    .timeline-step + .timeline-step { padding-left: 14px; }
-    .timeline-step:last-child { border-right: 0; }
-    .timeline-number { color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(30px, 2cqw, 44px); font-weight: 900; }
-    .timeline-step h3 { margin-top: 16px; font-size: clamp(26px, 1.4cqw, 32px); }
-    .timeline-step p { margin-top: 9px; font-size: clamp(24px, 1.06cqw, 27px); line-height: 1.27; }
-    .flow-guard { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); }
-    .flow-guard strong { display: block; color: var(--ink); font-size: clamp(25px, 1.2cqw, 30px); }
-    .flow-guard p { margin-top: 7px; font-size: clamp(24px, 1.02cqw, 27px); }
-
-    /* Architecture */
-    .architecture-head { display: grid; grid-template-columns: 7fr 5fr; gap: 38px; align-items: end; }
-    .architecture-head .lead { margin-top: 0; color: var(--paper-75); }
-    .architecture-board { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, .40fr) minmax(0, 1fr); gap: 16px; align-items: stretch; margin-top: 34px; padding: 18px; background: repeating-linear-gradient(90deg, transparent 0, transparent 11.9%, rgba(247, 249, 255, .05) 12%, transparent 12.1%); }
-    .lane { min-width: 0; padding: 20px; border: 1px solid rgba(247, 249, 255, .35); background: rgba(17, 17, 31, .72); }
-    .lane.deterministic { border-top: 4px solid var(--mint); }
-    .lane.generative { border-top: 4px solid var(--coral); }
-    .lane-title { color: var(--paper); font-size: clamp(26px, 1.45cqw, 34px); font-weight: 800; }
-    .lane-note { margin-top: 7px; color: var(--paper-45); font-size: clamp(17px, .86cqw, 20px); line-height: 1.28; }
-    .lane-flow { display: grid; gap: 9px; margin-top: 20px; counter-reset: lane-step; }
-    .lane-node { position: relative; padding: 14px 14px 15px 46px; border: 1px solid rgba(247, 249, 255, .24); color: var(--paper); font-size: clamp(24px, 1.18cqw, 28px); font-weight: 700; line-height: 1.2; background: rgba(247, 249, 255, .06); counter-increment: lane-step; }
-    .lane-node::before { position: absolute; top: 15px; left: 14px; color: var(--mint); font-family: Consolas, 'Courier New', monospace; font-size: clamp(17px, .82cqw, 20px); content: '0' counter(lane-step); }
-    .generative .lane-node::before { color: var(--coral); }
-    .lane-node::after { display: block; margin-top: 7px; color: var(--paper-45); font-size: clamp(17px, .78cqw, 19px); font-weight: 400; content: '>'; }
-    .lane-node:last-child::after { display: none; }
-    .approval-boundary { display: flex; align-items: center; justify-content: center; min-width: 0; padding: 18px 12px; border: 2px solid var(--brand); background: var(--lavender); color: var(--ink); text-align: center; }
-    .approval-boundary strong { display: block; font-size: clamp(26px, 1.34cqw, 32px); line-height: 1.12; }
-    .approval-boundary span { display: block; margin-top: 11px; font-size: clamp(17px, .82cqw, 19px); line-height: 1.3; }
-    .architecture-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(247, 249, 255, .24); }
-    .store-item { padding: 14px 18px; border-left: 3px solid var(--mint); background: rgba(168, 230, 193, .12); }
-    .store-item:last-child { border-left-color: var(--coral); background: rgba(255, 104, 74, .12); }
-    .store-item strong { color: var(--paper); font-size: clamp(25px, 1.24cqw, 31px); }
-    .store-item span { display: block; margin-top: 6px; color: var(--paper-75); font-size: clamp(17px, .84cqw, 20px); line-height: 1.28; }
-    .architecture-paths { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 16px; }
-    .architecture-note { margin-top: 14px; color: var(--paper-45); font-size: clamp(17px, .86cqw, 20px); line-height: 1.35; }
-
-    /* Demo */
-    .demo-header { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-top: 14px; }
-    .demo-header p { max-width: 68cqw; font-size: clamp(24px, 1.28cqw, 29px); }
-    .demo-status-line { display: flex; align-items: center; gap: 12px; color: var(--ink-45); font-size: clamp(17px, .86cqw, 20px); font-weight: 800; text-align: right; white-space: nowrap; }
-    .demo-status-line::before { width: 10px; height: 10px; border-radius: 50%; background: var(--coral); content: ''; }
-    .demo-status-line.is-running::before { background: var(--brand); animation: status-pulse 1s ease-in-out infinite; }
-    @keyframes status-pulse { 50% { opacity: .35; transform: scale(.72); } }
-    .demo-shell { margin-top: 22px; padding: 14px; border: 2px solid var(--ink); background: var(--white); box-shadow: 14px 14px 0 var(--lavender); }
-    .demo-tabs { display: flex; gap: 8px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
-    .demo-tab { padding: 9px 16px; border: 1px solid var(--line); background: var(--paper); color: var(--ink-70); cursor: pointer; font-size: clamp(20px, .98cqw, 24px); font-weight: 800; transition: color 180ms ease, background 180ms ease, border-color 180ms ease; }
-    .demo-tab[aria-selected='true'] { border-color: var(--brand); background: var(--brand); color: var(--white); }
-    .demo-play { margin-left: auto; border-color: var(--brand); background: var(--brand); color: var(--white); }
-    .demo-play:hover { background: var(--blue-700); }
-    .demo-frame { margin-top: 14px; border: 1px solid var(--ink); box-shadow: none; transform: none; }
-    .demo-frame .product-chrome { padding: 10px 14px; }
-    .demo-frame .product-body { min-height: 32cqw; }
-    .demo-content { min-width: 0; padding: 16px 18px 14px; background: var(--white); }
-    .demo-view[hidden] { display: none; }
-    .demo-screen-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
-    .demo-screen-head strong { color: var(--ink); font-size: clamp(25px, 1.28cqw, 31px); }
-    .demo-screen-head span { color: var(--ink-45); font-size: clamp(17px, .82cqw, 19px); }
-    .demo-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 16px; margin-top: 14px; }
-    .demo-form { display: grid; gap: 8px; }
-    .demo-field { min-height: 44px; padding: 9px 12px; border: 1px solid var(--line); color: var(--ink-45); font-size: clamp(17px, .86cqw, 20px); line-height: 1.25; transition: border-color 180ms ease, background 180ms ease, color 180ms ease; }
-    .demo-field.filled { border-color: var(--brand); background: var(--lavender); color: var(--ink); }
-    .demo-field strong { display: block; margin-bottom: 4px; color: var(--ink-45); font-size: clamp(16px, .76cqw, 18px); }
-    .demo-field.filled strong { color: var(--brand); }
-    .demo-field span { display: block; }
-    .demo-result { min-width: 0; padding: 12px; border-left: 3px solid var(--brand); background: var(--paper); }
-    .demo-result-head { display: flex; justify-content: space-between; gap: 10px; color: var(--ink-45); font-size: clamp(16px, .78cqw, 18px); font-weight: 800; }
-    .demo-score { margin-top: 6px; color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(46px, 4.5cqw, 72px); font-weight: 900; letter-spacing: -.10em; line-height: .9; }
-    .demo-score span { margin-left: 4px; color: var(--ink-45); font-family: inherit; font-size: clamp(17px, .84cqw, 20px); letter-spacing: 0; }
-    .demo-details { display: grid; gap: 7px; margin-top: 12px; }
-    .demo-detail { display: flex; justify-content: space-between; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line); color: var(--ink-70); font-size: clamp(17px, .84cqw, 20px); }
-    .demo-detail strong { color: var(--ink); }
-    .demo-missing { margin-top: 10px; color: var(--coral); font-size: clamp(17px, .84cqw, 20px); font-weight: 800; }
-    .demo-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
-    .demo-step { padding: 9px 10px; border-top: 3px solid var(--line); color: var(--ink-45); font-size: clamp(17px, .82cqw, 19px); font-weight: 800; }
-    .demo-step.active { border-top-color: var(--brand); color: var(--brand); background: var(--lavender); }
-    .demo-step.done { border-top-color: var(--mint); color: var(--ink); }
-    .demo-foot { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
-    .demo-clock { color: var(--ink-45); font-family: Consolas, 'Courier New', monospace; font-size: clamp(17px, .82cqw, 19px); }
-    .demo-phase { color: var(--brand); font-size: clamp(17px, .86cqw, 20px); font-weight: 800; }
-    .diff-sim { margin-top: 14px; }
-    .diff-sim-head { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; color: var(--ink-45); font-size: clamp(17px, .82cqw, 19px); font-weight: 800; }
-    .diff-sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 7px; }
-    .diff-sim-column { display: grid; gap: 8px; min-width: 0; }
-    .diff-sim-line { min-height: 42px; padding: 9px 11px; color: var(--ink-70); font-size: clamp(18px, .94cqw, 22px); line-height: 1.25; }
-    .diff-sim-line.removed { border-left: 3px solid var(--coral); background: rgba(255, 104, 74, .15); }
-    .diff-sim-line.added { border-left: 3px solid var(--brand); background: rgba(168, 230, 193, .58); }
-    .diff-sim-line.muted { border-left: 3px solid var(--line); background: var(--paper); }
-    .diff-sim-line.is-hidden { visibility: hidden; }
-    .diff-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
-    .diff-confirm, .interview-end { padding: 10px 14px; border: 1px solid var(--brand); background: var(--white); color: var(--brand); cursor: pointer; font-size: clamp(17px, .86cqw, 20px); font-weight: 800; }
-    .diff-confirm:disabled { cursor: default; opacity: .38; }
-    .diff-confirm.is-ready { background: var(--brand); color: var(--white); animation: button-nudge 700ms ease-in-out infinite alternate; }
-    @keyframes button-nudge { to { transform: translateY(-2px); box-shadow: 0 5px 0 var(--lavender); } }
-    .diff-save { color: var(--ink-45); font-size: clamp(17px, .84cqw, 20px); font-weight: 800; }
-    .diff-save.is-done { color: var(--brand); }
-    .interview-sim { display: grid; grid-template-columns: 1fr .75fr; gap: 16px; margin-top: 14px; }
-    .chat-stack { display: grid; align-content: start; gap: 10px; min-height: 194px; padding: 12px; border: 1px solid var(--line); background: var(--paper); }
-    .chat-bubble { max-width: 86%; padding: 10px 12px; color: var(--ink); font-size: clamp(18px, .92cqw, 22px); line-height: 1.28; }
-    .chat-bubble.question { background: var(--lavender); }
-    .chat-bubble.answer { margin-left: auto; background: var(--mint); }
-    .chat-bubble.response { border: 1px solid var(--line); background: var(--white); }
-    .chat-bubble[hidden] { display: none; }
-    .interview-summary { align-self: stretch; padding: 14px; border-left: 3px solid var(--coral); background: var(--paper); }
-    .interview-summary h3 { color: var(--ink); font-size: clamp(24px, 1.18cqw, 29px); }
-    .summary-stat { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--line); color: var(--ink-70); font-size: clamp(18px, .9cqw, 21px); }
-    .summary-stat strong { color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(30px, 2.3cqw, 42px); }
-    .interview-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
-    .interview-end { border-color: var(--coral); color: var(--coral); }
-    .interview-end.is-ready { background: var(--coral); color: var(--white); }
-    .demo-note { margin-top: 14px; color: var(--ink-45); font-size: clamp(17px, .9cqw, 21px); line-height: 1.35; }
-
-    /* Impact */
-    .impact-statement { max-width: 86cqw; margin-top: 20px; color: var(--ink); font-size: clamp(48px, 2.7cqw, 64px); font-weight: 800; line-height: 1.08; letter-spacing: -.06em; }
-    .impact-statement strong { color: var(--brand); }
-    .impact-lead { max-width: 78cqw; margin-top: 14px; color: var(--ink-70); font-size: clamp(24px, 1.25cqw, 29px); }
-    .impact-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(0, .82fr); gap: 22px 30px; align-items: start; margin-top: 28px; }
-    .effect-panel { min-width: 0; padding-top: 14px; border-top: 4px solid var(--brand); }
-    .effect-panel:nth-child(2) { border-top-color: var(--coral); }
-    .effect-panel:nth-child(3) { border-top-color: var(--mint); }
-    .effect-panel:first-child { grid-row: span 3; padding-right: 30px; border-right: 1px solid var(--line); }
-    .effect-panel strong { display: block; color: var(--ink); font-size: clamp(28px, 1.55cqw, 36px); }
-    .effect-panel p { margin-top: 8px; font-size: clamp(24px, 1.08cqw, 27px); }
-    .effect-panel:first-child strong { font-size: clamp(34px, 2.05cqw, 46px); line-height: 1.05; }
-    .kpi-design { margin-top: 28px; padding-top: 14px; border-top: 2px solid var(--ink); }
-    .kpi-design-head { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
-    .kpi-design-head strong { color: var(--ink); font-size: clamp(26px, 1.28cqw, 31px); }
-    .kpi-design-head span { color: var(--ink-45); font-size: clamp(17px, .82cqw, 19px); }
-    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
-    .kpi-item { min-width: 0; }
-    .kpi-item strong { display: block; color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(28px, 1.52cqw, 34px); }
-    .kpi-item span { display: block; margin-top: 6px; color: var(--ink); font-size: clamp(24px, 1.02cqw, 28px); font-weight: 800; line-height: 1.2; }
-    .kpi-track { position: relative; height: 18px; margin-top: 11px; border-bottom: 2px solid var(--ink); background: var(--lavender); }
-    .kpi-track::before { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--brand); content: ''; }
-    .kpi-track::after { position: absolute; right: 0; bottom: -27px; color: var(--ink-45); font-size: clamp(16px, .76cqw, 18px); content: '측정 전'; }
-    .roadmap { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line); }
-    .roadmap-item { min-width: 0; }
-    .roadmap-item strong { display: block; color: var(--brand); font-size: clamp(24px, 1.14cqw, 29px); }
-    .roadmap-item span { display: block; margin-top: 6px; color: var(--ink-70); font-size: clamp(22px, 1.02cqw, 27px); line-height: 1.25; }
-    .impact-note { margin-top: 28px; color: var(--ink-45); font-size: clamp(17px, .9cqw, 21px); line-height: 1.35; }
-
-    /* Q&A */
-    .qa-title { color: var(--paper); font-size: clamp(64px, 7.2cqw, 120px); line-height: .9; letter-spacing: -.09em; }
-    .qa-subtitle { max-width: 70cqw; margin-top: 22px; color: var(--paper-75); font-size: clamp(24px, 1.4cqw, 31px); }
-    .qa-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 38px; }
-    .qa-item { min-width: 0; padding: 20px; border: 1px solid rgba(247, 249, 255, .35); border-top: 4px solid var(--mint); }
-    .qa-item:nth-child(2) { border-top-color: var(--coral); }
-    .qa-item:nth-child(3) { border-top-color: var(--brand); }
-    .qa-item strong { display: block; color: var(--paper); font-size: clamp(26px, 1.38cqw, 32px); line-height: 1.18; }
-    .qa-item p { margin-top: 13px; color: var(--paper-75); font-size: clamp(24px, 1.12cqw, 28px); line-height: 1.3; }
-    .qa-close { margin-top: 28px; color: var(--mint); font-size: clamp(24px, 1.08cqw, 27px); font-weight: 800; }
-
-    /* Checklist */
-    .checklist-intro { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-top: 18px; }
-    .checklist-intro p { max-width: 45cqw; font-size: clamp(24px, 1.16cqw, 28px); }
-    .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 0 30px; margin-top: 32px; border-top: 2px solid var(--ink); }
-    .check-item { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; align-items: center; min-width: 0; padding: 18px 0; border-bottom: 1px solid var(--line); }
-    .check-number { display: grid; width: 36px; height: 36px; place-items: center; border: 2px solid var(--brand); color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: 17px; font-weight: 800; }
-    .check-item p { color: var(--ink); font-size: clamp(24px, 1.08cqw, 28px); font-weight: 700; line-height: 1.25; }
-    .check-footer { margin-top: 24px; padding-top: 14px; border-top: 2px solid var(--coral); color: var(--ink-70); font-size: clamp(22px, 1.04cqw, 27px); line-height: 1.35; }
-
-    /* Appendix 11 */
-    .appendix-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
-    .appendix-head p { max-width: 48cqw; font-size: clamp(24px, 1.04cqw, 27px); text-align: right; }
-    .evidence-columns { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 22px; margin-top: 28px; }
-    .evidence-column { min-width: 0; padding-top: 15px; border-top: 4px solid var(--brand); }
-    .evidence-column:nth-child(2) { border-top-color: var(--coral); }
-    .evidence-column:nth-child(3) { border-top-color: var(--mint); }
-    .evidence-column h3 { font-size: clamp(27px, 1.42cqw, 33px); }
-    .evidence-column > p { margin-top: 7px; color: var(--ink-45); font-size: clamp(22px, 1.0cqw, 26px); }
-    .evidence-list { display: grid; gap: 0; margin-top: 16px; }
-    .evidence-item { padding: 13px 0; border-top: 1px solid var(--line); }
-    .evidence-item strong { display: block; color: var(--ink); font-size: clamp(24px, 1.12cqw, 29px); line-height: 1.2; }
-    .evidence-item span { display: block; margin-top: 5px; color: var(--ink-70); font-size: clamp(22px, .98cqw, 26px); line-height: 1.25; }
-    .evidence-item code { display: block; margin-top: 7px; }
-    .evidence-note-block { margin-top: 24px; padding-top: 14px; border-top: 2px solid var(--ink); color: var(--ink-70); font-size: clamp(22px, 1.06cqw, 27px); line-height: 1.35; }
-
-    /* Appendix 12 */
-    .module-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin-top: 24px; }
-    .module-column { min-width: 0; }
-    .module-column h3 { padding-bottom: 11px; border-bottom: 2px solid var(--brand); font-size: clamp(26px, 1.4cqw, 32px); }
-    .module-column:nth-child(2) h3 { border-bottom-color: var(--coral); }
-    .module-column:nth-child(3) h3 { border-bottom-color: var(--mint); }
-    .module-list { display: grid; gap: 0; }
-    .module-item { min-width: 0; padding: 13px 0; border-bottom: 1px solid var(--line); }
-    .module-number { color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(16px, .82cqw, 19px); font-weight: 800; }
-    .module-item strong { display: block; margin-top: 4px; color: var(--ink); font-size: clamp(24px, 1.12cqw, 29px); line-height: 1.15; }
-    .module-item p { margin-top: 5px; color: var(--ink-70); font-size: clamp(22px, .94cqw, 26px); line-height: 1.25; }
-    .module-item .status { display: inline-flex; align-items: center; gap: 7px; margin-top: 8px; color: var(--ink-45); font-size: clamp(16px, .78cqw, 18px); font-weight: 800; }
-    .module-item .status::before { width: 9px; height: 9px; background: var(--brand); content: ''; }
-    .module-column:nth-child(2) .status::before { background: var(--coral); }
-    .module-column:nth-child(3) .status::before { background: var(--mint); }
-    .module-foot { margin-top: 18px; color: var(--ink-45); font-size: clamp(17px, .84cqw, 19px); line-height: 1.35; }
-
-    /* Appendix 13 */
-    .positioning-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 30px; align-items: stretch; margin-top: 28px; }
-    .matrix { position: relative; min-width: 0; min-height: 390px; border: 1px solid var(--ink); background: var(--white); }
-    .matrix::before { position: absolute; top: 11%; bottom: 11%; left: 50%; width: 1px; background: var(--line); content: ''; }
-    .matrix::after { position: absolute; top: 50%; right: 8%; left: 8%; height: 1px; background: var(--line); content: ''; }
-    .axis { position: absolute; color: var(--ink-45); font-size: clamp(17px, .82cqw, 20px); font-weight: 700; }
-    .axis.left { bottom: 3%; left: 8%; }
-    .axis.right { right: 8%; bottom: 3%; color: var(--brand); }
-    .axis.top { top: 3%; left: 2%; writing-mode: vertical-rl; }
-    .axis.bottom { bottom: 12%; left: 2%; writing-mode: vertical-rl; }
-    .matrix-dot { position: absolute; z-index: 2; display: flex; align-items: center; gap: 8px; transform: translate(-50%, 50%); }
-    .matrix-dot::before { width: 12px; height: 12px; flex: 0 0 auto; border: 2px solid var(--ink); border-radius: 50%; background: var(--white); content: ''; }
-    .matrix-dot span { padding: 5px 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-size: clamp(17px, .86cqw, 20px); font-weight: 800; white-space: nowrap; }
-    .matrix-dot.kairos::before { width: 18px; height: 18px; border-color: var(--brand); background: var(--brand); }
-    .matrix-dot.kairos span { border-color: var(--brand); color: var(--brand); }
-    .jobkorea { left: 25%; bottom: 57%; }
-    .saramin { left: 34%; bottom: 49%; }
-    .wanted { left: 43%; bottom: 59%; }
-    .teal { left: 59%; bottom: 67%; }
-    .general-ai { left: 73%; bottom: 34%; }
-    .kairos { left: 78%; bottom: 77%; }
-    .positioning-notes { display: grid; align-content: start; gap: 15px; }
-    .positioning-note { padding: 15px 18px; border-top: 3px solid var(--brand); border-bottom: 1px solid var(--line); }
-    .positioning-note:nth-child(2) { border-top-color: var(--coral); }
-    .positioning-note:nth-child(3) { border-top-color: var(--mint); }
-    .positioning-note strong { display: block; color: var(--ink); font-size: clamp(26px, 1.22cqw, 30px); }
-    .positioning-note p { margin-top: 7px; color: var(--ink-70); font-size: clamp(22px, 1.02cqw, 27px); line-height: 1.28; }
-    .evidence-line { margin-top: 20px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--ink-45); font-size: clamp(17px, .84cqw, 19px); line-height: 1.35; }
-
-    /* Appendix 14 */
-    .source-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 30px; margin-top: 26px; }
-    .appendix-sources { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
-    .appendix-source { min-width: 0; padding: 12px 0 14px; border-top: 1px solid var(--line); }
-    .appendix-source strong { display: block; color: var(--ink); font-size: clamp(24px, 1.08cqw, 29px); line-height: 1.15; }
-    .appendix-source span { display: block; margin-top: 5px; color: var(--ink-70); font-size: clamp(21px, .92cqw, 25px); line-height: 1.25; }
-    .appendix-source a { display: block; margin-top: 6px; color: var(--brand); font-family: Consolas, 'Courier New', monospace; font-size: clamp(16px, .76cqw, 18px); line-height: 1.3; overflow-wrap: anywhere; text-decoration: none; }
-    .appendix-source a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .font-panel { padding-left: 24px; border-left: 2px solid var(--brand); }
-    .font-panel h3 { font-size: clamp(26px, 1.42cqw, 32px); }
-    .font-panel p { margin-top: 10px; font-size: clamp(22px, 1.0cqw, 26px); }
-    .font-panel a { color: var(--brand); }
-    .source-card-note { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--ink-45); font-size: clamp(17px, .86cqw, 20px); line-height: 1.35; }
-    .presenter-panel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; padding-top: 15px; border-top: 2px solid var(--ink); }
-    .presenter-item { min-width: 0; }
-    .presenter-item span { display: block; color: var(--ink-45); font-size: clamp(17px, .82cqw, 19px); }
-    .presenter-item strong { display: block; margin-top: 5px; color: var(--ink); font-size: clamp(26px, 1.28cqw, 30px); }
-    .source-disclaimer { margin-top: 14px; color: var(--ink-45); font-size: clamp(17px, .82cqw, 19px); line-height: 1.35; }
-
-    /* Navigation */
-    .side-nav { position: absolute; top: 50%; right: clamp(12px, 1.55cqw, 25px); left: clamp(12px, 1.55cqw, 25px); z-index: 42; display: flex; justify-content: space-between; pointer-events: none; transform: translateY(-50%); }
-    .nav-button { display: grid; width: clamp(38px, 2.8cqw, 48px); height: clamp(38px, 2.8cqw, 48px); padding: 0; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: rgba(255, 255, 255, .88); color: var(--ink); cursor: pointer; pointer-events: auto; transition: opacity 220ms ease, transform 220ms ease; }
-    .tone-ink .nav-button { border-color: rgba(247, 249, 255, .35); background: rgba(8, 13, 43, .86); color: var(--paper); }
-    .nav-button:hover { border-color: var(--brand); background: var(--lavender); opacity: .92; transform: scale(1.04); }
-    .nav-button span { font-family: Consolas, 'Courier New', monospace; font-size: clamp(20px, 1.1cqw, 26px); line-height: 1; }
-    .statusbar { position: absolute; right: clamp(74px, 7.1cqw, 114px); bottom: clamp(20px, 2.2cqw, 34px); left: clamp(74px, 7.1cqw, 114px); z-index: 42; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; }
-    .slide-status { color: var(--ink); font-family: Consolas, 'Courier New', monospace; font-size: clamp(16px, .82cqw, 19px); font-weight: 800; letter-spacing: .08em; white-space: nowrap; }
-    .tone-ink .slide-status { color: var(--paper); }
-    .progress-track { height: 2px; overflow: hidden; background: var(--line); }
-    .tone-ink .progress-track { background: rgba(247, 249, 255, .24); }
-    .progress-fill { width: 100%; height: 100%; background: var(--brand); transform: scaleX(.0714); transform-origin: left center; transition: transform 240ms ease; }
-    .keyboard-hint { color: var(--ink-45); font-size: clamp(16px, .78cqw, 18px); white-space: nowrap; }
-    .tone-ink .keyboard-hint { color: var(--paper-45); }
-
-    @media (max-width: 900px) {
-      body { display: block; overflow: auto; }
-      #stage { width: 100vw; height: 56.25vw; margin: 0 auto; }
-      .topbar, .statusbar { right: 7.4cqw; left: 7.4cqw; }
-      .slide-inner { padding-right: 8.2cqw; padding-left: 8.2cqw; }
-      .side-nav { right: 1.1cqw; left: 1.1cqw; }
-    }
-    @media (max-width: 680px) {
-      .topbar-context { display: none; }
-      .cover-grid, .overview-intro, .problem-layout, .architecture-head, .positioning-grid, .source-layout { grid-template-columns: 1fr; }
-      .cover h1, .cover-subtitle { max-width: 90cqw; }
-      .evidence-wrap { margin-top: 32px; }
-      .loop-grid, .feature-grid, .evidence-columns, .module-columns, .source-cards, .qa-grid, .kpi-grid, .roadmap, .checklist, .architecture-bottom { grid-template-columns: 1fr; }
-      .loop-step, .loop-step + .loop-step { padding: 20px 0; border-right: 0; border-bottom: 1px solid var(--line); }
-      .loop-step:last-child { border-bottom: 0; }
-      .loop-step::after { display: none; }
-      .source-area-head, .demo-header, .checklist-intro, .appendix-head { align-items: flex-start; flex-direction: column; }
-      .source-area-head span, .demo-status-line, .checklist-intro p, .appendix-head p { max-width: 90cqw; text-align: left; }
-      .flow-timeline { grid-template-columns: 1fr; }
-      .timeline-step, .timeline-step + .timeline-step { min-height: 0; padding: 14px 0; border-right: 0; border-bottom: 1px solid var(--line); }
-      .timeline-step:last-child { border-bottom: 0; }
-      .flow-guard { grid-template-columns: 1fr; }
-      .architecture-board { grid-template-columns: 1fr; }
-      .demo-grid, .diff-sim-grid, .interview-sim { grid-template-columns: 1fr; }
-      .demo-tabs { flex-wrap: wrap; }
-      .demo-tab { flex: 1 1 30%; }
-      .demo-content { padding: 12px; }
-      .demo-foot, .diff-actions, .interview-actions { align-items: flex-start; flex-direction: column; }
-      .effect-panel:first-child { grid-row: auto; padding-right: 0; border-right: 0; }
-      .impact-grid { grid-template-columns: 1fr; }
-      .presenter-panel, .appendix-sources { grid-template-columns: 1fr; }
-      .font-panel { padding-top: 18px; padding-left: 0; border-top: 2px solid var(--brand); border-left: 0; }
-      .keyboard-hint { display: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-    }
-    #stage:fullscreen { width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); }
+    /* Demo, impact, Q&A, checklist, appendix */
+    .demo-title-line{display:flex;align-items:end;justify-content:space-between;gap:24px}.demo-title-line p{max-width:54cqw;margin-top:14px;color:var(--muted);font-size:clamp(24px,1.18cqw,28px)}.demo-boundary{max-width:30cqw;color:var(--sky);font-size:clamp(17px,.84cqw,20px);line-height:1.3;text-align:right}.demo-shell{margin-top:20px;padding:13px;border:1px solid rgba(178,233,255,.35);background:rgba(8,17,53,.78);box-shadow:0 22px 46px rgba(0,0,0,.22)}.demo-tabs{display:flex;gap:8px;padding-bottom:11px;border-bottom:1px solid var(--line)}.demo-tab,.demo-play{padding:9px 15px;border:1px solid rgba(178,233,255,.28);background:rgba(14,31,83,.92);color:var(--muted);cursor:pointer;font-size:clamp(19px,.92cqw,23px);font-weight:800;transition:color 220ms ease,background 220ms ease,border-color 220ms ease,transform 220ms ease}.demo-tab:hover,.demo-play:hover{transform:translateY(-1px)}.demo-tab[aria-selected="true"]{border-color:var(--sky);background:var(--brand);color:var(--white)}.demo-play{margin-left:auto;border-color:var(--sky);background:var(--sky);color:#08112f}.demo-frame{margin-top:13px;overflow:hidden;border:1px solid rgba(178,233,255,.42);background:var(--paper);color:var(--paper-ink)}.demo-chrome{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;background:var(--deep);color:var(--white);font-family:Consolas,monospace;font-size:clamp(16px,.78cqw,19px)}.demo-chrome strong{color:var(--sky)}.demo-content{min-width:0;padding:17px 19px 14px}.demo-view[hidden]{display:none}.demo-screen-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-bottom:10px;border-bottom:1px solid #cbd5ee}.demo-screen-head strong{color:var(--paper-ink);font-size:clamp(25px,1.24cqw,31px)}.demo-screen-head span{color:var(--paper-muted);font-size:clamp(17px,.82cqw,20px)}.demo-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:15px;margin-top:14px}.demo-form{display:grid;gap:8px}.demo-field{min-height:42px;padding:9px 12px;border:1px solid #cbd5ee;color:var(--paper-muted);font-size:clamp(17px,.84cqw,20px);line-height:1.22;transition:border-color 220ms ease,background 220ms ease,color 220ms ease}.demo-field.filled{border-color:var(--brand);background:#e9ebff;color:var(--paper-ink)}.demo-field strong{display:block;margin-bottom:4px;color:var(--paper-muted);font-size:clamp(16px,.76cqw,18px)}.demo-field.filled strong{color:var(--brand)}.demo-field span{display:block}.demo-result{min-width:0;padding:12px;border-left:3px solid var(--brand);background:#eef1ff}.demo-result-head{display:flex;justify-content:space-between;gap:8px;color:var(--paper-muted);font-size:clamp(16px,.76cqw,18px);font-weight:800}.demo-score{margin-top:7px;color:var(--brand);font-family:Consolas,monospace;font-size:clamp(44px,4.2cqw,68px);font-weight:900;letter-spacing:-.1em;line-height:.9}.demo-score span{margin-left:4px;color:var(--paper-muted);font-family:inherit;font-size:clamp(17px,.8cqw,20px);letter-spacing:0}.demo-details{display:grid;gap:6px;margin-top:12px}.demo-detail{display:flex;justify-content:space-between;gap:10px;padding-bottom:6px;border-bottom:1px solid #cbd5ee;color:var(--paper-muted);font-size:clamp(17px,.8cqw,20px)}.demo-detail strong{color:var(--paper-ink)}.demo-missing{margin-top:10px;color:#d95a52;font-size:clamp(17px,.8cqw,20px);font-weight:800}.demo-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:13px}.demo-step{padding:9px 10px;border-top:3px solid #cbd5ee;color:var(--paper-muted);font-size:clamp(17px,.8cqw,19px);font-weight:800}.demo-step.active{border-top-color:var(--brand);background:#e9ebff;color:var(--brand)}.demo-step.done{border-top-color:#36a982;color:var(--paper-ink)}.demo-foot,.diff-actions,.interview-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:11px;padding-top:9px;border-top:1px solid #cbd5ee}.demo-clock{color:var(--paper-muted);font-family:Consolas,monospace;font-size:clamp(17px,.8cqw,19px)}.demo-phase{color:var(--brand);font-size:clamp(17px,.82cqw,20px);font-weight:800}.diff-sim{margin-top:14px}.diff-sim-head,.diff-sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.diff-sim-head{color:var(--paper-muted);font-size:clamp(17px,.8cqw,20px);font-weight:800}.diff-sim-grid{margin-top:7px}.diff-sim-column{display:grid;gap:8px;min-width:0}.diff-sim-line{min-height:39px;padding:9px 11px;color:var(--paper-muted);font-size:clamp(18px,.9cqw,22px);line-height:1.2;transition:opacity 220ms ease,transform 220ms ease}.diff-sim-line.removed{border-left:3px solid #e47766;background:#fff0ed}.diff-sim-line.added{border-left:3px solid var(--brand);background:#e5f8f0}.diff-sim-line.muted{border-left:3px solid #cbd5ee;background:#f1f4fb}.diff-sim-line.is-hidden{visibility:hidden;opacity:0;transform:translateY(5px)}.diff-confirm,.interview-end{padding:10px 14px;border:1px solid var(--brand);background:var(--paper);color:var(--brand);cursor:pointer;font-size:clamp(17px,.82cqw,20px);font-weight:800;transition:background 220ms ease,color 220ms ease,transform 220ms ease}.diff-confirm:disabled,.interview-end:disabled{cursor:default;opacity:.42}.diff-confirm.is-ready,.interview-end.is-ready{background:var(--brand);color:var(--white)}.diff-save{color:var(--paper-muted);font-size:clamp(17px,.8cqw,20px);font-weight:800}.diff-save.is-done{color:#278f6c}.interview-sim{display:grid;grid-template-columns:1fr .78fr;gap:15px;margin-top:14px}.chat-stack{display:grid;align-content:start;gap:9px;min-height:160px;padding:12px;border:1px solid #cbd5ee;background:#f1f4fb}.chat-bubble{max-width:86%;padding:10px 12px;color:var(--paper-ink);font-size:clamp(18px,.9cqw,22px);line-height:1.25}.chat-bubble.question{background:#e9ebff}.chat-bubble.answer{margin-left:auto;background:#dff6ed}.chat-bubble.response{border:1px solid #cbd5ee;background:var(--paper)}.chat-bubble[hidden],.interview-summary[hidden]{display:none}.interview-summary{align-self:stretch;padding:14px;border-left:3px solid var(--coral);background:#fff4f1}.interview-summary h3{color:var(--paper-ink);font-size:clamp(24px,1.12cqw,29px)}.summary-stat{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:13px;padding-bottom:8px;border-bottom:1px solid #e8ced0;color:var(--paper-muted);font-size:clamp(18px,.86cqw,21px)}.summary-stat strong{color:var(--brand);font-family:Consolas,monospace;font-size:clamp(28px,2.1cqw,40px)}.demo-limitations{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:18px;margin-top:13px}.demo-note,.demo-paths{color:var(--faint);font-size:clamp(17px,.84cqw,20px);line-height:1.34}.demo-paths{color:var(--sky);text-align:right}
+    .impact-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:34px;align-items:center}.effect-list{display:grid;gap:0;margin-top:27px;border-top:2px solid var(--sky)}.effect-row{display:grid;grid-template-columns:52px minmax(0,1fr);gap:16px;align-items:start;padding:16px 0;border-bottom:1px solid var(--line)}.effect-row .number{color:var(--sky);font-family:Consolas,monospace;font-size:clamp(19px,.94cqw,23px);font-weight:900}.effect-row strong{color:var(--white);font-size:clamp(27px,1.45cqw,35px);line-height:1.12}.effect-row p{margin-top:5px;font-size:clamp(19px,.98cqw,23px)}.impact-scene{min-height:30cqw}.impact-scene .orb-object{width:min(26cqw,300px)}.impact-card{position:absolute;right:0;bottom:6%;width:66%;padding:17px;transform:translateZ(62px) rotateY(-8deg)}.impact-card strong{display:block;color:var(--sky);font-size:clamp(23px,1.18cqw,29px)}.impact-card p{margin-top:7px;font-size:clamp(17px,.84cqw,20px)}.impact-limit{margin-top:22px;padding-top:13px;border-top:1px solid var(--line);color:var(--faint);font-size:clamp(17px,.86cqw,20px);line-height:1.35}
+    .qa h2{font-size:clamp(56px,6.3cqw,110px);letter-spacing:-.09em}.qa-layout{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:32px;align-items:center;margin-top:28px}.qa-scene{min-height:26cqw}.qa-scene .orb-object{width:min(23cqw,270px)}.qa-questions{display:grid;gap:0}.qa-item{display:grid;grid-template-columns:36px minmax(0,1fr);gap:13px;padding:14px 0;border-top:1px solid var(--line)}.qa-item .number{color:var(--sky);font-family:Consolas,monospace;font-size:clamp(17px,.86cqw,20px);font-weight:900}.qa-item strong{color:var(--white);font-size:clamp(24px,1.25cqw,30px);line-height:1.14}.qa-item p{margin-top:5px;font-size:clamp(18px,.92cqw,22px);line-height:1.27}
+    .checklist-layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:30px;align-items:center;margin-top:26px}.checklist{display:grid;grid-template-columns:1fr 1fr;gap:0 25px;border-top:2px solid var(--sky)}.check-item{display:grid;grid-template-columns:38px minmax(0,1fr);gap:12px;align-items:center;min-width:0;padding:15px 0;border-bottom:1px solid var(--line)}.check-number{display:grid;width:30px;height:30px;place-items:center;border:1px solid var(--sky);color:var(--sky);font-family:Consolas,monospace;font-size:15px;font-weight:800}.check-item p{color:var(--white);font-size:clamp(19px,.98cqw,23px);font-weight:700;line-height:1.23}.check-scene{min-height:26cqw}.check-scene .orb-object{width:min(22cqw,260px)}.check-card{position:absolute;right:0;bottom:5%;width:68%;padding:15px;transform:translateZ(54px) rotateY(-9deg)}.check-card strong{display:block;color:var(--sky);font-size:clamp(22px,1.12cqw,27px)}.check-card p{margin-top:6px;font-size:clamp(17px,.84cqw,20px)}
+    .appendix-head{display:flex;align-items:end;justify-content:space-between;gap:24px}.appendix-head p{max-width:45cqw;color:var(--muted);font-size:clamp(24px,1.04cqw,27px);text-align:right}.map-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-top:26px}.map-row{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:16px;min-width:0;padding:15px 17px;border-left:3px solid var(--sky);background:var(--panel)}.map-row:nth-child(2n){border-left-color:var(--mint)}.map-row:nth-child(3n){border-left-color:var(--coral)}.map-row h3{font-size:clamp(22px,1.1cqw,27px);line-height:1.13}.map-row p{margin-top:5px;font-size:clamp(17px,.86cqw,20px);line-height:1.25}.map-row .status{color:var(--sky);font-weight:800}.map-row code{display:block;margin-top:6px;color:var(--faint)}.map-note,.idea-foot{margin-top:17px;color:var(--faint);font-size:clamp(17px,.86cqw,20px);line-height:1.35}.idea-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-top:26px}.idea-item{min-width:0;padding:14px 16px;border-top:2px solid var(--sky);background:var(--panel)}.idea-item:nth-child(3n+2){border-top-color:var(--mint)}.idea-item:nth-child(3n){border-top-color:var(--coral)}.idea-item .number{color:var(--sky);font-family:Consolas,monospace;font-size:clamp(16px,.8cqw,19px);font-weight:900}.idea-item h3{margin-top:6px;font-size:clamp(22px,1.1cqw,27px)}.idea-item p{margin-top:6px;font-size:clamp(17px,.84cqw,20px);line-height:1.25}.idea-item .status{display:block;margin-top:8px;color:var(--sky);font-weight:800}
+    .positioning-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:28px;align-items:stretch;margin-top:25px}.matrix{position:relative;min-width:0;min-height:350px;border:1px solid rgba(178,233,255,.34);background:#0c1a4a}.matrix:before{position:absolute;top:10%;bottom:12%;left:50%;width:1px;background:var(--line);content:""}.matrix:after{position:absolute;top:50%;right:8%;left:8%;height:1px;background:var(--line);content:""}.axis{position:absolute;color:var(--faint);font-size:clamp(17px,.82cqw,20px);font-weight:700}.axis.left{bottom:3%;left:8%}.axis.right{right:8%;bottom:3%;color:var(--sky)}.axis.top{top:3%;left:2%;writing-mode:vertical-rl}.axis.bottom{bottom:14%;left:2%;writing-mode:vertical-rl}.matrix-dot{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;transform:translate(-50%,50%)}.matrix-dot:before{width:11px;height:11px;flex:0 0 auto;border:1px solid var(--sky);border-radius:50%;background:var(--deep);content:""}.matrix-dot span{padding:5px 8px;border:1px solid var(--line);background:#101f52;color:var(--white);font-size:clamp(17px,.82cqw,20px);font-weight:800;white-space:nowrap}.matrix-dot.kairos:before{width:17px;height:17px;border-color:var(--sky);background:var(--brand);box-shadow:0 0 18px rgba(178,233,255,.52)}.matrix-dot.kairos span{border-color:var(--sky);color:var(--sky)}.jobkorea{left:25%;bottom:55%}.saramin{left:33%;bottom:47%}.wanted{left:42%;bottom:58%}.careerly{left:52%;bottom:48%}.teal{left:61%;bottom:66%}.general-ai{left:72%;bottom:31%}.kairos{left:79%;bottom:78%}.positioning-notes{display:grid;align-content:start;gap:13px}.positioning-note{padding:14px 17px;border-left:3px solid var(--sky);background:var(--panel)}.positioning-note:nth-child(2){border-left-color:var(--mint)}.positioning-note:nth-child(3){border-left-color:var(--coral)}.positioning-note strong{display:block;color:var(--white);font-size:clamp(23px,1.18cqw,29px)}.positioning-note p{margin-top:7px;font-size:clamp(18px,.9cqw,22px);line-height:1.25}.positioning-note .small{display:block;margin-top:7px}
+    .source-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:28px;margin-top:24px}.appendix-sources{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}.appendix-source{min-width:0;padding:12px 0 14px;border-top:1px solid var(--line)}.appendix-source strong{display:block;color:var(--white);font-size:clamp(22px,1.06cqw,27px);line-height:1.15}.appendix-source span{display:block;margin-top:5px;color:var(--muted);font-size:clamp(18px,.9cqw,22px);line-height:1.25}.appendix-source a{display:block;margin-top:6px;color:var(--sky);font-family:Consolas,monospace;font-size:clamp(16px,.76cqw,18px);line-height:1.3;overflow-wrap:anywhere;text-decoration:none}.appendix-source a:hover{text-decoration:underline;text-underline-offset:4px}.brand-panel{padding-left:22px;border-left:2px solid var(--sky)}.brand-panel h3{font-size:clamp(25px,1.3cqw,31px)}.brand-panel p{margin-top:10px;font-size:clamp(19px,.94cqw,23px);line-height:1.28}.brand-panel a{color:var(--sky)}.brand-logo{display:block;width:min(23cqw,300px);margin-top:17px}.presenter-panel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:19px;padding-top:14px;border-top:2px solid var(--sky)}.presenter-item span{display:block;color:var(--faint);font-size:clamp(17px,.8cqw,19px)}.presenter-item strong{display:block;margin-top:5px;color:var(--white);font-size:clamp(25px,1.24cqw,30px)}.source-disclaimer{margin-top:13px;color:var(--faint);font-size:clamp(17px,.82cqw,19px);line-height:1.35}
+    .side-nav{position:absolute;top:50%;right:clamp(12px,1.5cqw,24px);left:clamp(12px,1.5cqw,24px);z-index:52;display:flex;justify-content:space-between;pointer-events:none;transform:translateY(-50%)}.nav-button{display:grid;width:clamp(38px,2.7cqw,48px);height:clamp(38px,2.7cqw,48px);padding:0;place-items:center;border:1px solid rgba(178,233,255,.3);border-radius:50%;background:rgba(8,18,59,.86);color:var(--white);cursor:pointer;pointer-events:auto;transition:opacity 220ms ease,transform 220ms ease,border-color 220ms ease}.nav-button:hover{border-color:var(--sky);opacity:.95;transform:scale(1.04)}.nav-button span{font-family:Consolas,monospace;font-size:clamp(20px,1.1cqw,26px);line-height:1}.statusbar{position:absolute;right:clamp(74px,7.2cqw,116px);bottom:clamp(20px,2.1cqw,33px);left:clamp(74px,7.2cqw,116px);z-index:52;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:15px}.slide-status{color:var(--sky);font-family:Consolas,monospace;font-size:clamp(16px,.8cqw,19px);font-weight:800;letter-spacing:.08em;white-space:nowrap}.progress-track{height:2px;overflow:hidden;background:rgba(178,233,255,.25)}.progress-fill{width:100%;height:100%;background:var(--sky);transform:scaleX(.0714);transform-origin:left center;transition:transform 220ms ease}.keyboard-hint{color:var(--faint);font-size:clamp(16px,.76cqw,18px);white-space:nowrap}
+    .demo-paths{overflow-wrap:anywhere}
+    @media(max-width:900px){body{display:block;overflow:auto}#stage{width:100vw;height:56.25vw;margin:0 auto}.topbar,.statusbar{right:7.4cqw;left:7.4cqw}.slide-inner{padding-right:8.3cqw;padding-left:8.3cqw}.side-nav{right:1.1cqw;left:1.1cqw}}
+    @media(max-width:680px){.topbar-context,.keyboard-hint{display:none}.cover-layout,.overview-layout,.problem-layout,.impact-layout,.qa-layout,.checklist-layout,.positioning-grid,.source-layout{grid-template-columns:1fr}.cover-subtitle{max-width:90cqw}.hero-scene,.context-orb,.flow-scene,.impact-scene,.qa-scene,.check-scene{min-height:230px;margin-top:24px}.module-map,.source-cards,.feature-demo-strip,.map-grid,.idea-map,.arch-flow,.presenter-panel{grid-template-columns:1fr}.context-steps,.flow-timeline,.checklist{grid-template-columns:1fr}.context-step,.context-step+.context-step,.timeline-step,.timeline-step+.timeline-step{min-height:0;padding:14px 0;border-left:0;border-bottom:1px solid var(--line)}.context-step:not(:last-child):after,.timeline-step:not(:last-child):after{display:none}.appendix-head,.demo-title-line{align-items:flex-start;flex-direction:column}.appendix-head p,.demo-boundary{max-width:90cqw;text-align:left}.demo-grid,.diff-sim-head,.diff-sim-grid,.interview-sim,.demo-limitations,.boundary-note,.flow-bottom{grid-template-columns:1fr}.demo-tabs{flex-wrap:wrap}.demo-tab{flex:1 1 28%}.demo-play{margin-left:0}.demo-foot,.diff-actions,.interview-actions{align-items:flex-start;flex-direction:column}.demo-paths{text-align:left}.arch-node:not(:last-child):after,.arch-node:not(:last-child):before{display:none}.brand-panel{padding-top:18px;padding-left:0;border-top:2px solid var(--sky);border-left:0}.matrix{min-height:300px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}#stage:fullscreen{width:min(100vw,calc(100vh * 16 / 9));height:min(100vh,calc(100vw * 9 / 16))}
   </style>
 </head>
 <body>
-  <main id='stage' tabindex='0' aria-label='Kairos AI 서비스톤 발표자료'>
-    <header class='topbar glass-surface' aria-label='발표자료 머리말'>
-      <div class='topbar-brand'>
-        <span class='logo-plate'><img class='top-logo' src='../ASSETS/kairoslogo_basic자산%205.svg' alt='Kairos 로고'></span>
-        <span class='topbar-label'>AI 서비스톤</span>
-      </div>
-      <span class='topbar-context'>지원 준비를 위한 AI 커리어 작업공간</span>
-    </header>
-    <div class='slides' id='slides'>
+  <main id="stage" tabindex="0" aria-label="Kairos AI 서비스톤 발표자료">
+    <header class="topbar" aria-label="발표자료 머리말"><div class="topbar-brand"><img class="top-logo" src="../ASSETS/kairoslogo_basic%EC%9E%90%EC%82%B0%205.svg" alt="Kairos 로고"><span class="topbar-label">AI 서비스톤</span></div><span class="topbar-context">삶의 맥락을 커리어 작업으로</span></header>
+    <div class="slides" id="slides">
       <!-- 1. 표지 -->
-      <section class="slide paper is-active cover" data-title='1. 표지' aria-labelledby='slide-title-1' aria-hidden='false'>
-        <div class='slide-inner cover-inner'>
-          <div class='cover-grid'>
-            <div class='cover-copy'>
-              <div class='cover-event'>2026 SW미래채움 × AI·SW중심대학 연합 경진대회 · AI 서비스톤</div>
-              <div class='cover-brand'><img src='../ASSETS/kairoslogo_basic자산%205.svg' alt='Kairos 로고'></div>
-              <h1 id='slide-title-1'>지원 준비를 위한<br><strong>AI 커리어 작업공간</strong></h1>
-              <p class='cover-subtitle'>채용공고를 읽고, 이력서를 고치고, 텍스트 면접으로 다음 준비를 이어갑니다.</p>
-              <div class='cover-footer'>Kairos 발표자료 · 본문 10장 · Appendix 4장</div>
-            </div>
-            <div class='evidence-wrap'>
-              <div class='hero-orb' aria-hidden='true'><span>Hero depth</span></div>
-              <div class='frame-label'><span>제품 화면 미리보기</span><span>DIFF / RESUME</span></div>
-              <div class='product-frame' aria-label='이력서 Diff 화면 구조'>
-                <div class='product-chrome glass-surface'><span>kairos / resume review</span><strong>USER CHECK</strong></div>
-                <div class='product-body'>
-                  <aside class='product-rail'>
-                    <span class='rail-title'>work flow</span>
-                    <span class='rail-item active'>ATS 진단</span>
-                    <span class='rail-item'>AI 개선</span>
-                    <span class='rail-item'>Diff 확인</span>
-                    <span class='rail-item'>텍스트 면접</span>
-                  </aside>
-                  <div class='product-main'>
-                    <div class='screen-head'><strong>수정안을 확인하세요</strong><span>draft / v.02</span></div>
-                    <div class='diff-head'><span>원문</span><span>AI 제안</span></div>
-                    <div class='diff-grid'>
-                      <div class='diff-col'>
-                        <div class='diff-line'>React 기반 서비스 개발</div>
-                        <div class='diff-line removed'>팀 협업 경험 보유</div>
-                        <div class='diff-line'>사용자 문제를 해결했습니다</div>
-                        <div class='diff-line removed'>프로젝트를 진행했습니다</div>
-                      </div>
-                      <div class='diff-col'>
-                        <div class='diff-line'>React 기반 화면을 설계</div>
-                        <div class='diff-line added'>주 2회 리뷰로 협업 품질을 개선</div>
-                        <div class='diff-line'>사용자 이탈 원인을 찾아 개선</div>
-                        <div class='diff-line added'>배포 후 지표를 확인해 다음 액션 결정</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p class='evidence-note'>AI 제안은 원문을 바로 바꾸지 않습니다. 사용자가 변경을 확인한 뒤 반영합니다.</p>
-            </div>
-          </div>
-        </div>
+      <section class="slide is-active cover" data-title="1. 표지" aria-labelledby="slide-title-1" aria-hidden="false">
+        <div class="slide-inner cover-inner"><div class="cover-layout"><div class="cover-copy"><div class="cover-event">2026 SW미래채움 x AI·SW중심대학 연합 경진대회 · AI 서비스톤</div><img class="cover-logo" src="../ASSETS/kairoslogo_basic%EC%9E%90%EC%82%B0%205.svg" alt="Kairos 로고"><h1 id="slide-title-1">당신의 경험이<br><strong>흩어지지 않도록</strong></h1><p class="cover-subtitle">삶과 경력의 맥락을 오래 이해하고, 다음 커리어 작업을 함께 설계하는 AI 작업공간</p><div class="cover-meta"><span>Kairos</span><span>팀명 [입력 필요]</span><span>발표자 [입력 필요]</span><span>팀원 [입력 필요]</span></div></div><div class="object-scene hero-scene" aria-label="맥락이 경험과 다음 행동으로 이어지는 3D 장면"><span class="hero-label">삶 / 경험 / 다음 행동</span><div class="orb-object" aria-hidden="true"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div><span class="orb-point a"></span><span class="orb-point b"></span><span class="orb-point c"></span></div><div class="glass-card hero-glass"><h3>맥락이 남는 자리</h3><p>오늘의 작은 경험이 다음 선택의 근거가 됩니다.</p><div class="line-list"><span>하루의 기록</span><span>경력의 흐름</span><span>다음 행동</span></div></div></div></div></div>
       </section>
-
-      <!-- 2. 서비스 개요 및 핵심 가치 -->
-      <section class="slide paper overview" data-title='2. 서비스 개요 및 핵심 가치' aria-labelledby='slide-title-2' aria-hidden='true' inert>
-        <div class='slide-inner'>
-          <div class='kicker'>02 / 14 <span class='slide-number'>서비스 개요 및 핵심 가치</span></div>
-          <div class='overview-intro'>
-            <div><h2 id='slide-title-2'>지원 준비를<br>한 흐름으로 정리합니다</h2></div>
-            <p class='definition'>Kairos는 채용공고와 이력서를 비교해 무엇을 고칠지 보여주고, AI 수정안은 사용자가 확인한 뒤 텍스트 면접까지 준비하게 하는 작업공간입니다.</p>
-          </div>
-          <div class='loop-grid' aria-label='Kairos 핵심 흐름'>
-            <article class='loop-step'><div class='loop-number'>01</div><h3>비교</h3><p>공고와 이력서의 키워드·스킬·경력·학력 단서를 나란히 봅니다.</p></article>
-            <article class='loop-step'><div class='loop-number'>02</div><h3>확인</h3><p>AI가 제안한 문장을 원문과 Diff로 읽고 반영할 내용을 고릅니다.</p></article>
-            <article class='loop-step'><div class='loop-number'>03</div><h3>연습</h3><p>저장한 이력서 이후 텍스트 면접을 별도로 시작해 답변을 연습합니다.</p></article>
-          </div>
-          <div class='overview-foot'><div><strong>핵심 가치</strong><span>무엇을 고칠지 확인하고, 바꿀 문장을 직접 선택합니다.</span></div><div><strong>현재 구현 범위</strong><span>ATS 분석 · 이력서 AI 개선·Diff 승인 · 텍스트 면접</span></div></div>
-        </div>
+      <!-- 2. 서비스 개요 -->
+      <section class="slide" data-title="2. 서비스 개요 및 핵심 가치" aria-labelledby="slide-title-2" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">02 / 14 <span class="slide-number">서비스 개요 및 핵심 가치</span></div><div class="overview-layout"><div><h2 id="slide-title-2">삶의 맥락이<br>다음 작업을 만듭니다.</h2><p class="overview-lead">Kairos는 사용자의 삶과 경력 맥락을 모아, 어떤 커리어 작업이든 다음 행동으로 바꾸는 AI 작업공간입니다.</p></div><div class="object-scene context-orb" aria-hidden="true"><div class="orb-object"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div></div><span class="glass-card orb-label one">기록</span><span class="glass-card orb-label two">판단</span><span class="glass-card orb-label three">실행</span></div></div><div class="context-steps" aria-label="Kairos의 네 단계"><article class="context-step"><span class="number">01</span><h3>삶의 맥락</h3><p>하루의 사건과 외부 context</p></article><article class="context-step"><span class="number">02</span><h3>경험의 기록</h3><p>경력·일상·성장의 흔적</p></article><article class="context-step"><span class="number">03</span><h3>커리어 판단</h3><p>목표와 직무를 다시 연결</p></article><article class="context-step"><span class="number">04</span><h3>실행 가능한 작업</h3><p>문서·발표·학습의 다음 행동</p></article></div><p class="overview-note">취업·이직·진학·발표·포트폴리오·학습은 같은 맥락 위에서 달라지는 작업입니다.</p></div>
       </section>
-
       <!-- 3. 문제 배경 및 타깃 사용자 -->
-      <section class="slide paper problem" data-title='3. 문제 배경 및 타깃 사용자' aria-labelledby='slide-title-3' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>03 / 14 <span class='slide-number'>문제 배경 및 타깃 사용자</span></div>
-          <h2 id='slide-title-3'>공고와 경험 사이에서,<br>무엇을 꺼내고 고칠지 정하기 어렵습니다.</h2>
-          <div class='problem-layout'>
-            <div class='persona-panel'>
-              <div class='eyebrow'>대표 타깃 · 신입 지원자</div>
-              <p>프로젝트와 기술 스택은 있지만, 공고마다 어떤 경험을 연결해야 할지 다시 비교해야 하는 사람입니다.</p>
-              <p>AI가 고친 문장을 그대로 믿기보다, 변경 이유를 확인하고 면접에서 설명할 문장을 준비하고 싶습니다.</p>
-              <figure class='persona-photo'><img data-stock-image src='https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1200' alt='업무를 함께 논의하는 사람들' loading='lazy' referrerpolicy='no-referrer'><figcaption>분위기 참고 이미지 · 제품 기능 화면 아님</figcaption></figure>
-            </div>
-            <div class='pain-list' aria-label='대표 사용자의 어려움'>
-              <div class='pain-item'><span class='pain-index'>01</span><div><h3>공고와 경험을 연결하는 비용</h3><p>요구 역량을 내 경험의 근거 문장으로 바꾸는 데 시간이 듭니다.</p></div></div>
-              <div class='pain-item'><span class='pain-index'>02</span><div><h3>AI 문장을 확인하기 어려움</h3><p>무엇이 바뀌었는지 보이지 않으면 최종 문장으로 쓰기 어렵습니다.</p></div></div>
-              <div class='pain-item'><span class='pain-index'>03</span><div><h3>서류와 면접의 다음 단계</h3><p>이력서를 고친 뒤 어떤 답변을 연습할지 이어지는 안내가 부족합니다.</p></div></div>
-            </div>
-          </div>
-          <div class='source-area'>
-            <div class='source-area-head'><strong>문제 규모를 보여주는 출처 카드</strong><span>세 수치는 Kairos 성과가 아니라 서로 다른 조사에서 본 문제 규모 근거입니다.</span></div>
-            <div class='source-cards'>
-              <article class='source-card'><div class='source-mark'>통계청</div><span class='source-date'>2025.05 · 청년층 부가조사</span><h3>첫 취업 평균 소요기간</h3><div class='source-value'>11.3<span>개월</span></div><p>취업 경험이 있는 청년 졸업자 중 첫 일자리가 임금근로자인 경우</p></article>
-              <article class='source-card'><div class='source-mark'>국가데이터처·동아일보</div><span class='source-date'>2026.05 조사 · 2026.07.23 보도</span><h3>졸업 후 1년 이상 미취업</h3><div class='source-value'>48.6<span>%</span></div><p>15~29세 최종학교 졸업자 중 현재 미취업자의 미취업 기간 비중</p></article>
-              <article class='source-card'><div class='source-mark'>무하유·지디넷코리아</div><span class='source-date'>2025년 제출분 · 2026.01 공개</span><h3>제출 자기소개서 AI 작성 의심</h3><div class='source-value'>64.4<span>%</span></div><p>무하유 프리즘 분석 기준의 AI 작성 의심 비율</p></article>
-            </div>
-            <p class='scale-note'>각 통계는 모집단·기준시점·측정 기준이 다르므로 합산하거나 인과관계로 말하지 않습니다.</p>
-          </div>
-        </div>
+      <section class="slide" data-title="3. 문제 배경 및 타깃 사용자" aria-labelledby="slide-title-3" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">03 / 14 <span class="slide-number">문제 배경 및 타깃 사용자</span></div><h2 id="slide-title-3">하루의 경험은 쌓이는데,<br>결정적인 순간에 꺼내기 어렵습니다.</h2><div class="problem-layout"><section class="solid-panel journey-panel" aria-label="한 사람의 하루와 커리어 여정"><div class="eyebrow">한 사람의 하루에서 커리어 여정까지</div><h3>기록되지 않은 맥락이<br>준비 비용이 됩니다.</h3><div class="journey-list"><div class="journey-item"><span class="journey-time">아침</span><div><strong>일상과 일</strong><p>회의, 돌봄, 학습, 작은 문제 해결</p></div></div><div class="journey-item"><span class="journey-time">공백</span><div><strong>쉬었음과 첫 취업 지연</strong><p>무엇을 했는지 설명할 근거가 흐려짐</p></div></div><div class="journey-item"><span class="journey-time">지원</span><div><strong>AI 문서 불신</strong><p>공고와 진짜 경험을 연결하기 어려움</p></div></div><div class="journey-item"><span class="journey-time">시간</span><div><strong>경험 데이터 소실</strong><p>여러 곳에 흩어진 기록을 다시 찾지 못함</p></div></div></div></section><div class="stats-panel"><p class="stats-lead">외부 문제 근거. Kairos의 성과 수치가 아니라 현재 문제의 규모를 보여주는 조사입니다.</p><div class="source-cards" aria-label="문제 규모 출처 카드"><article class="source-card"><div class="source-mark">통계청</div><span class="source-date">2025년 5월 청년층 부가조사</span><h3>첫 취업 평균 소요기간</h3><div class="source-value">11.3<span>개월</span></div><p>취업 경험이 있는 청년 졸업자 중 첫 일자리가 임금근로자인 경우</p><a class="source-link" href="https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210" target="_blank" rel="noreferrer">출처 URL 보기</a></article><article class="source-card"><div class="source-mark">국가데이터처<br>동아일보</div><span class="source-date">2026년 5월 조사 · 2026.07.23 보도</span><h3>졸업 후 1년 이상 미취업</h3><div class="source-value">48.6<span>%</span></div><p>15~29세 최종학교 졸업자 중 현재 미취업자의 미취업 기간 비중</p><a class="source-link" href="https://www.donga.com/news/Economy/article/all/20260723/134350159/1" target="_blank" rel="noreferrer">출처 URL 보기</a></article><article class="source-card"><div class="source-mark">무하유<br>지디넷코리아</div><span class="source-date">2025년 제출분 · 2026년 1월 공개</span><h3>제출 자기소개서 AI 작성 의심</h3><div class="source-value">64.4<span>%</span></div><p>무하유 프리즘 분석 기준의 AI 작성 의심 비율</p><a class="source-link" href="https://v.daum.net/v/20260108160242419" target="_blank" rel="noreferrer">출처 URL 보기</a></article></div><p class="problem-note">세 수치는 모집단·기준시점·측정 기준이 다르므로 합산하거나 인과관계로 말하지 않습니다.</p></div></div></div>
       </section>
-
-      <!-- 4. 서비스 주요 기능 -->
-      <section class="slide paper features" data-title='4. 서비스 주요 기능' aria-labelledby='slide-title-4' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>04 / 14 <span class='slide-number'>서비스 주요 기능</span></div>
-          <div class='features-intro'><h2 id='slide-title-4'>세 가지 기능이<br>한 준비 흐름을 만듭니다</h2><p>현재 실제 제품에서 확인하는 범위만 기능으로 설명합니다.</p></div>
-          <div class='feature-grid'>
-            <article class='feature-panel'><div class='feature-index'>01</div><h3>ATS 분석</h3><p>공고와 이력서의 키워드·스킬·경력·학력·키워드 밀도를 비교합니다.</p><div class='feature-screen'><div class='feature-screen-top'><span>ATS / 구조화 진단</span><span>예시 입력</span></div><div class='feature-screen-title'>점수와 함께 세부 진단</div><div class='score-line'><span>매칭 키워드 04</span><span>누락 키워드 03</span></div></div><p class='feature-result'>합격률이 아니라 입력 간 휴리스틱 차이를 확인</p><code class='feature-route'>/ats · src/server/ats.ts</code></article>
-            <article class='feature-panel'><div class='feature-index'>02</div><h3>AI 이력서 개선·Diff 승인</h3><p>AI가 개선안을 제안하고, 사용자는 원문과 변경을 비교해 반영합니다.</p><div class='feature-screen'><div class='feature-screen-top'><span>RESUME / DIFF</span><span>승인 전</span></div><div class='feature-screen-title'>원문과 제안문 사이</div><div class='mini-diff'><span class='minus'>삭제 · 단순 경험 서술</span><span class='plus'>추가 · 결과와 근거를 드러낸 문장</span></div></div><p class='feature-result'>자동 덮어쓰기 대신 사용자가 변경을 확인</p><code class='feature-route'>/resume/[id] · /api/resumes/[id]/chat</code></article>
-            <article class='feature-panel'><div class='feature-index'>03</div><h3>텍스트 면접</h3><p>질문과 답변을 주고받고, 면접 종료 뒤 메시지와 질문 수를 요약합니다.</p><div class='feature-screen'><div class='feature-screen-top'><span>INTERVIEW / TEXT</span><span>진행 중</span></div><div class='feature-screen-title'>답변을 텍스트로 연습</div><div class='mini-chat'><span>최근 프로젝트에서 가장 어려웠던 판단은?</span><span>문제의 원인을 나눠보고 우선순위를 정했습니다.</span></div></div><p class='feature-result'>이력서 저장 이후 다음 연습으로 이동</p><code class='feature-route'>/interview/[id] · /api/interviews/[id]/chat</code></article>
-          </div>
-          <div class='comparison-block'>
-            <div class='comparison-title'><strong>기존 준비 방식과 Kairos의 차이</strong><span>차이는 결과의 크기가 아니라 확인 지점에 있습니다.</span></div>
-            <table class='comparison-table' aria-label='기존 준비 방식과 Kairos 비교'><tbody>
-              <tr><th scope='row'>비교 01</th><td>점수만 제공</td><td>수정 원인 공개</td></tr>
-              <tr><th scope='row'>비교 02</th><td>AI 결과 덮어쓰기</td><td>사용자 Diff 승인</td></tr>
-              <tr><th scope='row'>비교 03</th><td>단발 생성</td><td>다음 준비 연결</td></tr>
-            </tbody></table>
-          </div>
-        </div>
+      <!-- 4. 주요 기능 -->
+      <section class="slide" data-title="4. 서비스 주요 기능" aria-labelledby="slide-title-4" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">04 / 14 <span class="slide-number">서비스 주요 기능</span></div><h2 id="slide-title-4">Kairos는 한 기능이 아니라,<br>맥락이 이어지는 작업공간입니다.</h2><p class="features-lead">네 영역이 삶의 맥락을 준비 작업으로 옮깁니다. 아래 세 장면은 현재 실제로 확인하는 첫 루프입니다.</p><div class="module-map" aria-label="Kairos 전체 제품 모듈"><article class="module-area"><h3>Context Sea</h3><p>경력·일상·공공 API·memory export</p><code>/contexts</code></article><article class="module-area"><h3>Career Diary &amp; Growth</h3><p>일기·목표·RIASEC·Mandalart·mentor</p><code>/career/diary · /mentor</code></article><article class="module-area"><h3>Agent Workspace</h3><p>local workspace·version·feedback·provider adapters</p><code>/workspace</code></article><article class="module-area"><h3>Preparation Loop</h3><p>ATS·resume·interview·community</p><code>/ats · /resume · /interview</code></article></div><div class="feature-demo-strip" aria-label="현재 실제 시연 가능한 세 장면"><div class="feature-demo-intro"><strong>현재 확인하는 세 장면</strong><p>전체 Kairos의 일부인 첫 준비 루프</p></div><div class="demo-call"><span class="number">01</span><strong>ATS 분석</strong><span>공고와 이력서의 근거 비교</span></div><div class="demo-call"><span class="number">02</span><strong>Diff 승인</strong><span>AI 변경을 읽고 사용자 결정</span></div><div class="demo-call"><span class="number">03</span><strong>텍스트 면접</strong><span>다음 질문과 답변 연습</span></div></div></div>
       </section>
-
       <!-- 5. 사용자 이용 흐름 -->
-      <section class="slide paper flow" data-title='5. 사용자 이용 흐름' aria-labelledby='slide-title-5' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>05 / 14 <span class='slide-number'>사용자 이용 흐름</span></div>
-          <h2 id='slide-title-5'>공고 입력에서 면접 종료까지,<br>사용자가 확인하며 이동합니다.</h2>
-          <p class='flow-lead'>입력부터 저장까지의 핵심 행동은 자동으로 건너뛰지 않습니다. 사용자가 분석 결과와 변경을 확인한 뒤 다음 단계로 갑니다.</p>
-          <div class='flow-timeline' aria-label='5단계 사용자 이용 흐름'>
-            <article class='timeline-step'><div class='timeline-number'>01</div><h3>입력</h3><p>직무명, 채용공고 요구사항, 이력서 텍스트를 준비합니다.</p></article>
-            <article class='timeline-step'><div class='timeline-number'>02</div><h3>ATS 분석</h3><p>키워드·스킬·경력·학력·밀도 진단과 누락 키워드를 봅니다.</p></article>
-            <article class='timeline-step'><div class='timeline-number'>03</div><h3>AI 제안</h3><p>이력서 문장 개선을 요청하고 제안문을 생성합니다.</p></article>
-            <article class='timeline-step'><div class='timeline-number'>04</div><h3>Diff 승인·저장</h3><p>삭제·추가 변경을 읽고 승인한 뒤 편집기에 적용해 저장합니다.</p></article>
-            <article class='timeline-step'><div class='timeline-number'>05</div><h3>텍스트 면접</h3><p>저장 후 면접을 별도로 시작하고 종료 요약을 확인합니다.</p></article>
-          </div>
-          <div class='flow-guard'><div><strong>사용자의 확인 지점</strong><p>ATS 결과 확인 · Diff 승인 · 면접 종료</p></div><div><strong>현재 범위의 선</strong><p>이력서 저장과 면접 시작은 별도 동작이며 자동 전달을 전제로 하지 않습니다.</p></div></div>
-        </div>
+      <section class="slide" data-title="5. 사용자 이용 흐름" aria-labelledby="slide-title-5" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">05 / 14 <span class="slide-number">사용자 이용 흐름</span></div><h2 id="slide-title-5">기록은 한 번 쓰고 끝나지 않습니다.</h2><p class="flow-lead">하루의 장면이 맥락으로 정리되고, 목표와 작업을 거쳐 다시 성장 기록으로 돌아옵니다.</p><div class="flow-timeline" aria-label="Kairos 전체 사용자 이용 흐름"><article class="timeline-step"><div class="timeline-number">01</div><h3>하루의 기록<br>/ 외부 context</h3><p>일기, 경력, 사용자가 선택한 외부 데이터</p></article><article class="timeline-step"><div class="timeline-number">02</div><h3>맥락 정리</h3><p>무슨 일이었고 어떤 경험이었는지 구조화</p></article><article class="timeline-step"><div class="timeline-number">03</div><h3>목표<br>/ 직무 탐색</h3><p>관심과 경험을 다음 방향과 연결</p></article><article class="timeline-step"><div class="timeline-number">04</div><h3>공고·이력서<br>·면접 작업</h3><p>목표에 맞는 커리어 작업을 실행</p></article><article class="timeline-step"><div class="timeline-number">05</div><h3>사용자 승인<br>/ 성장 기록</h3><p>내가 확인한 결과를 저장하고 다음에 사용</p></article></div><div class="flow-bottom"><div class="flow-guard"><strong>사용자의 자리</strong><p>승인하고, 수정하고, 저장합니다.</p></div><div class="flow-guard"><strong>현재 검증 범위</strong><p>ATS vertical slice는 이 전체 흐름의 한 사례입니다. 현재 세 데모는 맥락 자동 연결의 완성품이 아닙니다.</p></div></div><div class="object-scene flow-scene" aria-hidden="true"><div class="orb-object"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div></div><div class="glass-card"><p>기록이 다시 작업의 근거가 되는 순환</p></div></div></div>
       </section>
-
-      <!-- 6. AI·SW 활용 기술 및 서비스 구조 -->
-      <section class="slide ink architecture" data-title='6. AI·SW 활용 기술 및 서비스 구조' aria-labelledby='slide-title-6' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>06 / 14 <span class='slide-number'>AI·SW 활용 기술 및 서비스 구조</span></div>
-          <div class='architecture-head'><h2 id='slide-title-6'>판단은 규칙으로,<br>표현은 생성으로.</h2><p class='lead'>점수의 근거와 문장 생성의 역할을 분리하고, 사용자가 확인하는 경계를 둡니다.</p></div>
-          <div class='architecture-board'>
-            <div class='lane deterministic'><div class='lane-title'>결정론적 ATS 휴리스틱</div><div class='lane-note'>같은 입력에서 같은 기준으로 계산되는 진단</div><div class='lane-flow'><div class='lane-node'>Next.js UI → API Route</div><div class='lane-node'>키워드·스킬·경력·학력·키워드 밀도</div><div class='lane-node'>매칭 점수·세부 진단·누락 키워드</div></div></div>
-            <div class='approval-boundary'><div><strong>사용자<br>확인</strong><span>원문·변경을 나눈 뒤 반영</span></div></div>
-            <div class='lane generative'><div class='lane-title'>생성형 레인</div><div class='lane-note'>문장 개선과 텍스트 답변을 제안하는 경로</div><div class='lane-flow'><div class='lane-node'>API Route 입력·세션 확인</div><div class='lane-node'>Gemini REST</div><div class='lane-node'>이력서 개선안·면접 응답</div></div></div>
-          </div>
-          <div class='architecture-bottom'><div class='store-item'><strong>Drizzle ORM → Neon PostgreSQL</strong><span>이력서·분석·면접 세션의 저장 경로</span></div><div class='store-item'><strong>pgvector</strong><span>경력 임베딩 검색 경로이며 ATS 점수에는 직접 사용하지 않음</span></div></div>
-          <div class='architecture-paths'><code class='path'>src/app/(authenticated)/ats/page.tsx</code><code class='path'>src/server/ats.ts</code><code class='path'>src/app/(authenticated)/resume/[id]/page.tsx</code><code class='path'>src/app/(authenticated)/interview/[id]/page.tsx</code></div>
-          <p class='architecture-note'>ATS 점수는 합격률이 아니라 키워드·스킬·경력·학력·키워드 밀도를 비교하는 휴리스틱입니다. 이력서 개선과 면접 응답은 Gemini REST 생성 경로입니다.</p>
-        </div>
+      <!-- 6. AI·SW 활용 구조 -->
+      <section class="slide architecture" data-title="6. AI·SW 활용 기술 및 서비스 구조" aria-labelledby="slide-title-6" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">06 / 14 <span class="slide-number">AI·SW 활용 기술 및 서비스 구조</span></div><h2 id="slide-title-6">맥락은 저장하고, 모델은 교체하며,<br>행동은 승인받습니다.</h2><p class="architecture-lead">하나의 모델에 모든 일을 맡기지 않고, 데이터·라우팅·결정론적 도구·사용자 확인을 분리합니다.</p><div class="arch-flow" aria-label="Kairos 서비스 구조"><article class="arch-node"><h3>Context/DB/pgvector</h3><p>삶·경력 기록과 임베딩 검색</p></article><article class="arch-node"><h3>Router/provider adapters</h3><div class="provider-list"><span>Gemini</span><span>Ollama/llama.cpp</span><span>OpenRouter</span><span>Hermes/OpenClaw/OpenCode external runtime</span></div></article><article class="arch-node"><h3>deterministic tools/harness/approval</h3><p>입력 검증, 위험 분류, 사용자 승인</p></article><article class="arch-node"><h3>artifacts/version</h3><p>결과, 변경, 피드백을 다시 조회</p></article><article class="arch-node"><h3>user</h3><p>읽고 고르고 다음 작업을 시작</p></article></div><div class="boundary-note"><div><strong>SLLM / VM</strong><p>설정·원격 조건 필요</p></div><p>현재 활성화된 실행으로 말하지 않습니다. Ollama·llama.cpp endpoint와 VM 원격 조건이 없으면 adapter와 sandbox는 비활성 경계에 있습니다.</p></div><div class="architecture-paths"><span class="path">src/server/agentRouter.ts</span><span class="path">src/server/providers/</span><span class="path">src/server/harness.ts</span><span class="path">src/server/sandbox/</span></div></div>
       </section>
-
       <!-- 7. 프로토타입 또는 시연 화면 -->
-      <section class="slide paper demo" data-title='7. 프로토타입 또는 시연 화면' aria-labelledby='slide-title-7' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>07 / 14 <span class='slide-number'>프로토타입 또는 시연 화면</span></div>
-          <h2 id='slide-title-7'>세 장면을 한 제품 프레임에서<br>수동으로 재생합니다.</h2>
-          <div class='demo-header'><p>ATS 분석, Diff 승인, 텍스트 면접을 탭으로 고른 뒤 재생합니다. 각 장면은 자동 반복하지 않습니다.</p><div class='demo-status-line' data-demo-status>예시 화면 · 재생 전</div></div>
-          <div class='demo-shell'>
-            <div class='demo-tabs' role='tablist' aria-label='시연 장면 선택'>
-              <button class='demo-tab' type='button' role='tab' aria-selected='true' data-demo-tab='ats'>ATS 분석</button>
-              <button class='demo-tab' type='button' role='tab' aria-selected='false' data-demo-tab='diff'>Diff 승인</button>
-              <button class='demo-tab' type='button' role='tab' aria-selected='false' data-demo-tab='interview'>텍스트 면접</button>
-              <button class='demo-tab demo-play' type='button' data-demo-play>재생</button>
-            </div>
-            <div class='demo-frame product-frame'>
-              <div class='product-chrome glass-surface'><span data-demo-path>kairos / ats</span><strong data-demo-mode>예시 화면</strong></div>
-              <div class='product-body'>
-                <aside class='product-rail'>
-                  <span class='rail-title'>demo flow</span>
-                  <span class='rail-item active' data-demo-rail='ats'>ATS 분석</span>
-                  <span class='rail-item' data-demo-rail='diff'>Diff 승인</span>
-                  <span class='rail-item' data-demo-rail='interview'>텍스트 면접</span>
-                  <span class='rail-item'>22초 수동 재생</span>
-                </aside>
-                <div class='demo-content'>
-                  <div class='demo-view' data-demo-view='ats' role='tabpanel'>
-                    <div class='demo-screen-head'><strong>채용공고와 이력서 비교</strong><span data-ats-label>입력 대기</span></div>
-                    <div class='demo-grid'>
-                      <div class='demo-form'>
-                        <div class='demo-field' data-ats-field='title'><strong>직무명</strong><span data-ats-text='title'>입력 대기</span></div>
-                        <div class='demo-field' data-ats-field='job'><strong>채용공고 요구사항</strong><span data-ats-text='job'>입력 대기</span></div>
-                        <div class='demo-field' data-ats-field='resume'><strong>이력서 텍스트</strong><span data-ats-text='resume'>입력 대기</span></div>
-                      </div>
-                      <div class='demo-result'>
-                        <div class='demo-result-head'><span>ATS 매칭 점수</span><span>휴리스틱</span></div>
-                        <div class='demo-score' data-ats-score>--<span>/ 100</span></div>
-                        <div class='demo-details' data-ats-details hidden>
-                          <div class='demo-detail'><span>기술 스택 매칭</span><strong>72</strong></div>
-                          <div class='demo-detail'><span>경력 요건</span><strong>66</strong></div>
-                          <div class='demo-detail'><span>학력 요건</span><strong>80</strong></div>
-                          <div class='demo-detail'><span>키워드 밀도</span><strong>58</strong></div>
-                        </div>
-                        <div class='demo-missing' data-ats-missing hidden>누락 키워드 · TypeScript · 테스트</div>
-                      </div>
-                    </div>
-                    <div class='demo-steps'>
-                      <div class='demo-step' data-ats-step='0'>이력서·채용공고 파싱</div>
-                      <div class='demo-step' data-ats-step='1'>핵심 키워드 매칭</div>
-                      <div class='demo-step' data-ats-step='2'>점수 산출</div>
-                    </div>
-                    <div class='demo-foot'><span class='demo-phase' data-ats-phase>입력 단계</span><span class='demo-clock' data-ats-clock>00.0s / 22.0s</span></div>
-                  </div>
-
-                  <div class='demo-view' data-demo-view='diff' role='tabpanel' hidden>
-                    <div class='demo-screen-head'><strong>AI 이력서 개선·Diff</strong><span data-diff-label>원문 확인</span></div>
-                    <div class='diff-sim'>
-                      <div class='diff-sim-head'><span>원문 문장</span><span>AI 제안 문장</span></div>
-                      <div class='diff-sim-grid'>
-                        <div class='diff-sim-column'>
-                          <div class='diff-sim-line muted'>React 기반 서비스 개발</div>
-                          <div class='diff-sim-line removed' data-diff-removed>팀 협업 경험 보유</div>
-                          <div class='diff-sim-line muted'>사용자 문제를 해결했습니다</div>
-                        </div>
-                        <div class='diff-sim-column'>
-                          <div class='diff-sim-line muted'>React 기반 화면을 설계</div>
-                          <div class='diff-sim-line added is-hidden' data-diff-added>주 2회 리뷰로 협업 품질을 개선</div>
-                          <div class='diff-sim-line added is-hidden' data-diff-added>배포 후 지표를 확인해 다음 액션 결정</div>
-                        </div>
-                      </div>
-                      <div class='diff-actions'><button class='diff-confirm' type='button' data-diff-confirm disabled>AI 제안 확정하여 편집기에 적용</button><span class='diff-save' data-diff-save>저장 대기</span></div>
-                    </div>
-                    <div class='demo-foot'><span class='demo-phase' data-diff-phase>원문 확인</span><span class='demo-clock' data-diff-clock>00.0s / 22.0s</span></div>
-                  </div>
-
-                  <div class='demo-view' data-demo-view='interview' role='tabpanel' hidden>
-                    <div class='demo-screen-head'><strong>텍스트 면접</strong><span data-interview-label>질문 준비</span></div>
-                    <div class='interview-sim'>
-                      <div class='chat-stack'>
-                        <div class='chat-bubble question'>최근 프로젝트에서 가장 어려웠던 판단은 무엇이었나요?</div>
-                        <div class='chat-bubble answer' data-interview-answer hidden>문제의 원인을 나눠보고 우선순위를 정했습니다.</div>
-                        <div class='chat-bubble response' data-interview-response hidden></div>
-                      </div>
-                      <div class='interview-summary' data-interview-summary hidden><h3>면접 요약</h3><div class='summary-stat'><span>주고받은 메시지</span><strong>4</strong></div><div class='summary-stat'><span>진행된 질문</span><strong>2</strong></div></div>
-                    </div>
-                    <div class='interview-actions'><button class='interview-end' type='button' data-interview-end disabled>면접 종료</button><span class='demo-phase' data-interview-phase>질문 대기</span></div>
-                    <div class='demo-foot'><span class='demo-phase' data-interview-state>텍스트 대화</span><span class='demo-clock' data-interview-clock>00.0s / 22.0s</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p class='demo-note'>시연 상태: 예시 입력 · JS 애니메이션 · 실제 제품 흐름 재현. 영상·음성은 저장·재생만 제공하며, 자세·시선·발성 분석은 하지 않습니다.</p>
-          </div>
-        </div>
+      <section class="slide" data-title="7. 프로토타입 또는 시연 화면" aria-labelledby="slide-title-7" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">07 / 14 <span class="slide-number">프로토타입 또는 시연 화면</span></div><div class="demo-title-line"><div><h2 id="slide-title-7">전체 Kairos 중 검증한<br>첫 번째 준비 루프</h2><p>ATS 분석, Diff 승인, 텍스트 면접을 JS로 수동 재생합니다.</p></div><p class="demo-boundary">실제 코드 경로와 제한을 함께 봅니다. 이 화면은 브라우저 안의 JS 데모입니다.</p></div><div class="demo-shell"><div class="demo-tabs" role="tablist" aria-label="준비 루프 시연 장면"><button class="demo-tab" type="button" role="tab" aria-selected="true" data-demo-tab="ats">ATS 분석</button><button class="demo-tab" type="button" role="tab" aria-selected="false" data-demo-tab="diff">Diff 승인</button><button class="demo-tab" type="button" role="tab" aria-selected="false" data-demo-tab="interview">텍스트 면접</button><button class="demo-play" type="button" data-demo-play>재생</button></div><div class="demo-frame"><div class="demo-chrome"><span data-demo-path>kairos / ats</span><strong data-demo-mode>JS 데모</strong></div><div class="demo-content">
+          <div class="demo-view" data-demo-view="ats" role="tabpanel"><div class="demo-screen-head"><strong>채용공고와 이력서 비교</strong><span data-ats-label>입력 대기</span></div><div class="demo-grid"><div class="demo-form"><div class="demo-field" data-ats-field="title"><strong>직무명</strong><span data-ats-text="title">입력 대기</span></div><div class="demo-field" data-ats-field="job"><strong>채용공고 요구사항</strong><span data-ats-text="job">입력 대기</span></div><div class="demo-field" data-ats-field="resume"><strong>이력서 텍스트</strong><span data-ats-text="resume">입력 대기</span></div></div><div class="demo-result"><div class="demo-result-head"><span>ATS 매칭 점수</span><span>휴리스틱</span></div><div class="demo-score" data-ats-score>--<span>/ 100</span></div><div class="demo-details" data-ats-details hidden><div class="demo-detail"><span>기술 스택 매칭</span><strong>72</strong></div><div class="demo-detail"><span>경력 요건</span><strong>66</strong></div><div class="demo-detail"><span>학력 요건</span><strong>80</strong></div><div class="demo-detail"><span>키워드 밀도</span><strong>58</strong></div></div><div class="demo-missing" data-ats-missing hidden>누락 키워드 · TypeScript · 테스트</div></div></div><div class="demo-steps"><div class="demo-step" data-ats-step="0">입력 파싱</div><div class="demo-step" data-ats-step="1">키워드 매칭</div><div class="demo-step" data-ats-step="2">점수 산출</div></div><div class="demo-foot"><span class="demo-phase" data-ats-phase>입력 단계</span><span class="demo-clock" data-ats-clock>00.0s / 22.0s</span></div></div>
+          <div class="demo-view" data-demo-view="diff" role="tabpanel" hidden><div class="demo-screen-head"><strong>AI 이력서 개선과 Diff</strong><span data-diff-label>원문 확인</span></div><div class="diff-sim"><div class="diff-sim-head"><span>원문 문장</span><span>AI 제안 문장</span></div><div class="diff-sim-grid"><div class="diff-sim-column"><div class="diff-sim-line muted">React 기반 서비스 개발</div><div class="diff-sim-line removed">팀 협업 경험 보유</div><div class="diff-sim-line muted">사용자 문제를 해결했습니다</div></div><div class="diff-sim-column"><div class="diff-sim-line muted">React 기반 화면을 설계</div><div class="diff-sim-line added is-hidden" data-diff-added>주 2회 리뷰로 협업 품질을 개선</div><div class="diff-sim-line added is-hidden" data-diff-added>배포 후 지표를 확인해 다음 행동 결정</div></div></div><div class="diff-actions"><button class="diff-confirm" type="button" data-diff-confirm disabled>AI 제안 확정하여 편집기에 적용</button><span class="diff-save" data-diff-save>저장 대기</span></div></div><div class="demo-foot"><span class="demo-phase" data-diff-phase>원문 확인</span><span class="demo-clock" data-diff-clock>00.0s / 22.0s</span></div></div>
+          <div class="demo-view" data-demo-view="interview" role="tabpanel" hidden><div class="demo-screen-head"><strong>텍스트 면접</strong><span data-interview-label>질문 준비</span></div><div class="interview-sim"><div class="chat-stack"><div class="chat-bubble question">최근 프로젝트에서 가장 어려웠던 판단은 무엇이었나요?</div><div class="chat-bubble answer" data-interview-answer hidden>문제의 원인을 나눠보고 우선순위를 정했습니다.</div><div class="chat-bubble response" data-interview-response hidden></div></div><div class="interview-summary" data-interview-summary hidden><h3>면접 요약</h3><div class="summary-stat"><span>주고받은 메시지</span><strong>4</strong></div><div class="summary-stat"><span>진행된 질문</span><strong>2</strong></div></div></div><div class="interview-actions"><button class="interview-end" type="button" data-interview-end disabled>면접 종료</button><span class="demo-phase" data-interview-phase>질문 대기</span></div><div class="demo-foot"><span class="demo-phase" data-interview-state>텍스트 대화</span><span class="demo-clock" data-interview-clock>00.0s / 22.0s</span></div></div>
+        </div></div><div class="demo-limitations"><p class="demo-note">ATS는 합격률이 아닌 결정론적 휴리스틱입니다. 이력서 개선과 면접 응답은 실제 환경에서 로그인과 API 설정이 필요하며, 음성·화상 분석은 현재 제공하지 않습니다.</p><p class="demo-paths">src/app/(authenticated)/ats/page.tsx<br>src/app/(authenticated)/resume/[id]/page.tsx<br>src/app/(authenticated)/interview/[id]/page.tsx</p></div></div></div>
       </section>
-
       <!-- 8. 기대효과 및 확장계획 -->
-      <section class="slide paper impact" data-title='8. 기대효과 및 확장계획' aria-labelledby='slide-title-8' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>08 / 14 <span class='slide-number'>기대효과 및 확장계획</span></div>
-          <h2 id='slide-title-8' class='impact-statement'>효과는 행동으로 확인하고,<br><strong>확장은 다음 단계로 검증합니다.</strong></h2>
-          <p class='impact-lead'>공고와 경험의 정보 차이를 줄이고, AI가 바꾼 문장을 사용자가 확인하게 한다.</p>
-          <div class='impact-grid'>
-            <article class='effect-panel'><strong>무엇을 고칠지 확인</strong><p>공고와 이력서의 키워드·스킬·경력·학력·밀도를 비교해 수정할 지점을 찾습니다.</p></article>
-            <article class='effect-panel'><strong>바꿀 문장 직접 선택</strong><p>원문과 AI 제안을 Diff로 보고 사용자가 반영할 문장을 고릅니다.</p></article>
-            <article class='effect-panel'><strong>다음 연습으로 이동</strong><p>저장 후 텍스트 면접을 시작해 준비의 다음 행동을 확인합니다.</p></article>
-          </div>
-          <div class='kpi-design'><div class='kpi-design-head'><strong>측정 전 KPI 4개</strong><span>현재 성과 수치가 아니라 다음 검증 항목</span></div><div class='kpi-grid'><div class='kpi-item'><strong>01</strong><span>분석 완료율</span><div class='kpi-track'></div></div><div class='kpi-item'><strong>02</strong><span>Diff 승인율</span><div class='kpi-track'></div></div><div class='kpi-item'><strong>03</strong><span>텍스트 면접 완료율</span><div class='kpi-track'></div></div><div class='kpi-item'><strong>04</strong><span>첫 작업 시작까지 시간</span><div class='kpi-track'></div></div></div></div>
-          <div class='roadmap'><div class='roadmap-item'><strong>다음 1</strong><span>경력 기록과 공고 근거 연결</span></div><div class='roadmap-item'><strong>다음 2</strong><span>공고 자동 수집과 근거 보강</span></div><div class='roadmap-item'><strong>다음 3</strong><span>개인정보 보관·삭제 정책 고도화</span></div></div>
-          <p class='impact-note'>합격률·시간 절감·비용 절감은 현재 성과로 주장하지 않습니다. 실제 사용자가 세 흐름을 완료하는지부터 측정합니다.</p>
-        </div>
+      <section class="slide" data-title="8. 기대효과 및 확장계획" aria-labelledby="slide-title-8" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">08 / 14 <span class="slide-number">기대효과 및 확장계획</span></div><div class="impact-layout"><div><h2 id="slide-title-8">AI가 성공을 약속하는 대신,<br>준비가 쌓이게 합니다.</h2><p class="impact-lead">좋은 결과를 대신 말하지 않고, 사용자가 자신의 근거와 다음 행동을 계속 소유하게 합니다.</p><div class="effect-list"><article class="effect-row"><span class="number">01</span><div><strong>흩어진 경험을 다시 찾을 수 있음</strong><p>기록과 context가 다음 작업의 출발점이 됩니다.</p></div></article><article class="effect-row"><span class="number">02</span><div><strong>AI 변경을 사용자가 통제</strong><p>원문과 제안을 비교하고 승인한 뒤 저장합니다.</p></div></article><article class="effect-row"><span class="number">03</span><div><strong>준비 작업이 누적됨</strong><p>문서·면접·목표의 결과가 다음 판단에 남습니다.</p></div></article><article class="effect-row"><span class="number">04</span><div><strong>정보 비대칭을 줄이는 기록 기반 판단</strong><p>공고와 내 경험 사이의 차이를 근거로 확인합니다.</p></div></article></div></div><div class="object-scene impact-scene" aria-hidden="true"><div class="orb-object"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div><span class="orb-point a"></span><span class="orb-point b"></span></div><div class="glass-card impact-card"><strong>다음 단계</strong><p>경력 기록과 작업을 연결하고, provider 동의와 export를 더 분명하게 만듭니다.</p></div></div></div><p class="impact-limit">공익성은 청년의 준비 비용·정보 격차·경력 단절을 줄이는 방향에 한정합니다. 취업 성공률과 비용 절감은 현재 성과로 주장하지 않습니다.</p></div>
       </section>
-
       <!-- 9. Q&A -->
-      <section class="slide ink qa" data-title='9. Q&A' aria-labelledby='slide-title-9' aria-hidden='true' inert>
-        <div class='slide-inner'>
-          <div class='kicker'>09 / 14 <span class='slide-number'>Q&A</span></div>
-          <h2 id='slide-title-9' class='qa-title'>Q&A</h2>
-          <p class='qa-subtitle'>현재 코드로 확인할 수 있는 범위와 아직 측정하지 않은 범위를 나누어 답하겠습니다.</p>
-          <div class='qa-grid'>
-            <article class='qa-item'><strong>ATS 점수가 합격률인가요?</strong><p>아닙니다. 키워드·스킬·경력·학력·키워드 밀도를 비교하는 휴리스틱입니다.</p></article>
-            <article class='qa-item'><strong>AI가 문장을 확정하나요?</strong><p>아닙니다. 원문과 제안을 Diff로 확인하고 사용자가 승인한 뒤 적용합니다.</p></article>
-            <article class='qa-item'><strong>영상 면접도 분석하나요?</strong><p>현재는 영상·음성 저장과 재생만 제공합니다. 자세·시선·발성 분석은 없습니다.</p></article>
-          </div>
-          <p class='qa-close'>질문은 구현 범위, 환경 설정, 검증 계획의 언어로 답합니다.</p>
-        </div>
+      <section class="slide" data-title="9. Q &amp; A" aria-labelledby="slide-title-9" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">09 / 14 <span class="slide-number">Q&amp;A</span></div><h2 id="slide-title-9">무엇이 다르고,<br>어디까지 왔나.</h2><p class="qa-lead">Kairos의 범위는 서비스 비전, 현재 코드, 다음 검증을 나누어 답합니다.</p><div class="qa-layout"><div class="object-scene qa-scene" aria-hidden="true"><div class="orb-object"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div><span class="orb-point a"></span><span class="orb-point c"></span></div></div><div class="qa-questions"><article class="qa-item"><span class="number">01</span><div><strong>AI 자소서 서비스와 무엇이 다른가?</strong><p>자소서 한 장이 아니라 삶·경력·일상 context를 모아 어떤 커리어 작업으로든 이어갑니다.</p></div></article><article class="qa-item"><span class="number">02</span><div><strong>왜 기존 플랫폼으로 부족한가?</strong><p>채용 순간의 도구를 대체한다고 주장하지 않습니다. 흩어진 기록과 다음 행동 사이를 연결하는 가설입니다.</p></div></article><article class="qa-item"><span class="number">03</span><div><strong>맥락 데이터는 어떻게 보호하는가?</strong><p>사용자 동의, 소유권 조건, 선택 import, 삭제와 memory export를 기준으로 다룹니다.</p></div></article><article class="qa-item"><span class="number">04</span><div><strong>현재 구현과 미래 기능은?</strong><p>ATS·resume Diff·텍스트 면접은 실제 루프입니다. 자동 수집, 원격 runtime, SLLM·VM 실행은 설정과 추가 검증이 필요합니다.</p></div></article></div></div></div>
       </section>
-
-      <!-- 10. 제출 전 확인사항 -->
-      <section class="slide paper checklist-slide" data-title='10. 제출 전 확인사항' aria-labelledby='slide-title-10' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>10 / 14 <span class='slide-number'>제출 전 확인사항</span></div>
-          <div class='checklist-intro'><h2 id='slide-title-10'>발표 직전,<br>이 여섯 가지만 확인합니다.</h2><p>실제 발표에서 읽는 본문이 아니라 제출 전 점검용 페이지입니다.</p></div>
-          <div class='checklist' aria-label='제출 전 확인 체크리스트'>
-            <div class='check-item'><span class='check-number'>01</span><p>공식 본문 순서 1~10과 Appendix 11~14가 맞는가?</p></div>
-            <div class='check-item'><span class='check-number'>02</span><p>ATS·Diff 승인·텍스트 면접 세 흐름을 직접 재생할 수 있는가?</p></div>
-            <div class='check-item'><span class='check-number'>03</span><p>11.3개월·48.6%·64.4%에 모집단·기준시점·출처가 붙었는가?</p></div>
-            <div class='check-item'><span class='check-number'>04</span><p>실제 제품 흐름과 예시 입력, 측정 전 수치를 구분했는가?</p></div>
-            <div class='check-item'><span class='check-number'>05</span><p>영상·음성은 저장·재생만 제공한다는 범위를 확인했는가?</p></div>
-            <div class='check-item'><span class='check-number'>06</span><p>팀 정보는 Appendix 14에만 입력했는가?</p></div>
-          </div>
-          <p class='check-footer'>제출 전에는 팀 정보와 링크를 확인하고, 발표 중에는 구현된 흐름과 향후 계획을 섞어 말하지 않습니다.</p>
-        </div>
+      <!-- 10. 체크리스트 -->
+      <section class="slide" data-title="10. 제출 전 확인사항" aria-labelledby="slide-title-10" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">10 / 14 <span class="slide-number">제출 전 확인사항</span></div><h2 id="slide-title-10">발표 직전,<br>이 여섯 가지만 확인합니다.</h2><p class="checklist-lead">공식 본문 1~10과 Appendix 11~14의 경계까지 한 번 더 확인합니다.</p><div class="checklist-layout"><div class="checklist" aria-label="제출 전 확인 체크리스트"><div class="check-item"><span class="check-number">01</span><p>Kairos가 단일 문서 도구로만 읽히지 않는가?</p></div><div class="check-item"><span class="check-number">02</span><p>공식 1~10 순서와 Appendix 11~14가 맞는가?</p></div><div class="check-item"><span class="check-number">03</span><p>11.3개월·48.6%·64.4%에 출처 URL이 붙었는가?</p></div><div class="check-item"><span class="check-number">04</span><p>Slide 7의 세 데모와 실제 코드 경로를 구분했는가?</p></div><div class="check-item"><span class="check-number">05</span><p>SLLM·VM을 설정 전 활성 기능처럼 말하지 않는가?</p></div><div class="check-item"><span class="check-number">06</span><p>팀명·발표자·팀원 정보를 마지막에 입력했는가?</p></div></div><div class="object-scene check-scene" aria-hidden="true"><div class="orb-object"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div></div><div class="glass-card check-card"><strong>사실의 경계</strong><p>구현된 것, 연결 조건이 필요한 것, 앞으로 검증할 것을 나누어 말합니다.</p></div></div></div></div>
       </section>
-
-      <!-- 11. Appendix 구현 증거 -->
-      <section class="slide paper appendix-a" data-title='11. Appendix · 구현 증거' aria-labelledby='slide-title-11' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>11 / 14 <span class='slide-number'>Appendix · 구현 증거</span></div>
-          <div class='appendix-head'><h2 id='slide-title-11'>현재 연결된 흐름과<br>코드 경로를 확인합니다.</h2><p>화면이 있다는 사실, 연결된다는 사실, 효과가 검증됐다는 사실을 분리해 기록합니다.</p></div>
-          <div class='evidence-columns'>
-            <div class='evidence-column'><h3>핵심 제품 흐름</h3><p>실제 시연하는 세 가지</p><div class='evidence-list'><article class='evidence-item'><strong>ATS 분석</strong><span>입력 → 파싱 → 키워드 매칭 → 69점과 세부 진단</span><code>src/server/ats.ts</code></article><article class='evidence-item'><strong>이력서 AI 개선·Diff 승인</strong><span>제안 생성 → 삭제·추가 비교 → 적용 → 저장</span><code>src/app/(authenticated)/resume/[id]/page.tsx</code></article><article class='evidence-item'><strong>텍스트 면접</strong><span>질문·답변 스트림 → 면접 종료 → 메시지·질문 수 요약</span><code>src/app/(authenticated)/interview/[id]/page.tsx</code></article></div></div>
-            <div class='evidence-column'><h3>화면과 요청</h3><p>사용자가 보는 입력 경로</p><div class='evidence-list'><article class='evidence-item'><strong>ATS 화면</strong><span>직무명·공고·이력서 텍스트를 입력하고 분석 시작</span><code>src/app/(authenticated)/ats/page.tsx</code></article><article class='evidence-item'><strong>작업공간</strong><span>입력 텍스트 작업·결과·버전·Diff를 한 화면에서 관리</span><code>src/app/(authenticated)/workspace/page.tsx</code></article><article class='evidence-item'><strong>생성 경로</strong><span>이력서 개선과 면접 응답은 Gemini REST 설정에 의존</span><code>GOOGLE_GENERATIVE_AI_API_KEY</code></article></div></div>
-            <div class='evidence-column'><h3>현재 확인할 선</h3><p>발표에서 과장하지 않는 범위</p><div class='evidence-list'><article class='evidence-item'><strong>ATS 점수</strong><span>합격률이 아닌 정규화 입력 기반 휴리스틱</span><code>키워드·스킬·경력·학력·밀도</code></article><article class='evidence-item'><strong>예시 입력</strong><span>Slide 7 애니메이션은 외부 요청 없이 제품 흐름을 재현</span><code>시연 상태 · 예시 화면</code></article><article class='evidence-item'><strong>영상·음성</strong><span>저장과 재생만 제공하며 분석 결과는 생성하지 않음</span><code>분석 기능 없음</code></article></div></div>
-          </div>
-          <p class='evidence-note-block'>현재 발표의 구현 범위는 ATS 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접입니다. 나머지는 코드 경로 또는 다음 계획으로만 구분합니다.</p>
-        </div>
+      <!-- 11. 전체 기능 연결 지도 -->
+      <section class="slide" data-title="11. Appendix · 전체 기능 연결 지도" aria-labelledby="slide-title-11" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">11 / 14 <span class="slide-number">Appendix · 전체 기능 연결 지도</span></div><div class="appendix-head"><h2 id="slide-title-11">전체 제품은<br>이 연결로 확장됩니다.</h2><p>화면 경로와 현재 상태를 한 장에 함께 봅니다.</p></div><div class="map-grid"><article class="map-row"><div><h3>Context Sea</h3><p>개인 context 보관함</p></div><div><span class="status">화면·API 경로 확인</span><p>공식 API 준비, 사용자 파일 import, 검색, JSON·Markdown export</p><code>src/app/(authenticated)/contexts/page.tsx</code></div></article><article class="map-row"><div><h3>Career Diary &amp; Growth</h3><p>기록과 성장 계획</p></div><div><span class="status">일기·로드맵 경로 확인</span><p>경력 일기 CRUD, 목표·과제·완료 지표. RIASEC·Mandalart는 확장 범위</p><code>career/diary · mentor</code></div></article><article class="map-row"><div><h3>Agent Workspace</h3><p>작업을 쌓는 캔버스</p></div><div><span class="status">local MVP 경로 확인</span><p>텍스트 작업, 결과, version, Diff, feedback. 외부 실행은 조건 전 비활성</p><code>src/app/(authenticated)/workspace/page.tsx</code></div></article><article class="map-row"><div><h3>Preparation Loop</h3><p>첫 번째 검증 루프</p></div><div><span class="status">실제 데모 3종</span><p>ATS 결정론적 분석, resume 개선·Diff 승인, 텍스트 면접 종료 저장</p><code>/ats · /resume/[id] · /interview/[id]</code></div></article><article class="map-row"><div><h3>Community</h3><p>진전 공유와 유사 방향</p></div><div><span class="status">CRUD·match 경로 확인</span><p>게시글, 익명 작성, 본인 삭제, 커리어 유사도 매칭과 활동 기록</p><code>src/app/(authenticated)/community/page.tsx</code></div></article><article class="map-row"><div><h3>Documents &amp; media</h3><p>확장 작업 영역</p></div><div><span class="status">일부 경로 확인</span><p>HWP/HWPX 문서 흐름과 면접 미디어 저장·재생. 영상·음성 분석은 제공하지 않음</p><code>docs · interview/[id]</code></div></article></div><p class="map-note">상태 표시는 실제 코드 경로의 존재를 뜻하며, 사용자 효과나 운영 안정성을 이미 검증했다는 의미는 아닙니다.</p></div>
       </section>
-
-      <!-- 12. Appendix 전체 아이디어 모듈과 상태 -->
-      <section class="slide paper appendix-b" data-title='12. Appendix · 전체 아이디어 모듈과 상태' aria-labelledby='slide-title-12' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>12 / 14 <span class='slide-number'>Appendix · 전체 아이디어 모듈과 상태</span></div>
-          <div class='appendix-head'><h2 id='slide-title-12'>아이디어 모듈은<br>상태별로 나눠 봅니다.</h2><p>오늘의 데모와 구현 경로가 있는 모듈, 연결·검증이 필요한 모듈을 같은 의미로 말하지 않습니다.</p></div>
-          <div class='module-columns'>
-            <div class='module-column'><h3>현재 시연</h3><div class='module-list'><article class='module-item'><span class='module-number'>01</span><strong>ATS 분석</strong><p>공고·이력서 비교와 세부 진단</p><span class='status'>Slide 7 시연</span></article><article class='module-item'><span class='module-number'>02</span><strong>이력서 개선·Diff</strong><p>AI 제안과 사용자 승인·저장</p><span class='status'>Slide 7 시연</span></article><article class='module-item'><span class='module-number'>03</span><strong>텍스트 면접</strong><p>질문·답변·종료 요약</p><span class='status'>Slide 7 시연</span></article><article class='module-item'><span class='module-number'>04</span><strong>workspace</strong><p>작업·결과·버전·Diff 관리</p><span class='status'>코드 경로 확인</span></article></div></div>
-            <div class='module-column'><h3>구현·연결 경로</h3><div class='module-list'><article class='module-item'><span class='module-number'>05</span><strong>career diary</strong><p>경력 기록 입력·조회 화면</p><span class='status'>데모 범위 밖</span></article><article class='module-item'><span class='module-number'>06</span><strong>goals · mentor</strong><p>목표·milestone·로드맵 화면</p><span class='status'>데모 범위 밖</span></article><article class='module-item'><span class='module-number'>07</span><strong>contexts</strong><p>파일 import/export와 컨텍스트 연결</p><span class='status'>연결 조건 확인</span></article><article class='module-item'><span class='module-number'>08</span><strong>messages · community</strong><p>준비 메시지·게시글·match 경로</p><span class='status'>DB·사용자 검증</span></article></div></div>
-            <div class='module-column'><h3>확장·검증 전</h3><div class='module-list'><article class='module-item'><span class='module-number'>09</span><strong>media</strong><p>영상·음성 저장·재생만 제공</p><span class='status'>분석 기능 없음</span></article><article class='module-item'><span class='module-number'>10</span><strong>compare</strong><p>이력서 기준선 비교 경로</p><span class='status'>효과 분석 대기</span></article><article class='module-item'><span class='module-number'>11</span><strong>routing · license</strong><p>승인 경로·provider fallback·계약 검토</p><span class='status'>운영·법률 검토</span></article></div></div>
-          </div>
-          <p class='module-foot'>모듈의 이름이나 경로가 사용자 효과의 검증을 뜻하지는 않습니다. 실제 입력·확인·저장 로그와 사용자 검증이 다음 기준입니다.</p>
-        </div>
+      <!-- 12. 아이디어 1~11 맥락 map -->
+      <section class="slide" data-title="12. Appendix · 아이디어 1~11 맥락 map" aria-labelledby="slide-title-12" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">12 / 14 <span class="slide-number">Appendix · 아이디어 1~11 맥락 map</span></div><div class="appendix-head"><h2 id="slide-title-12">아이디어는 기능 목록이 아니라,<br>하나의 맥락으로 연결됩니다.</h2><p>원문의 뜻을 현재 코드와 계획의 상태로 다시 배치했습니다.</p></div><div class="idea-map"><article class="idea-item"><span class="number">01</span><h3>공고와 경험 비교</h3><p>요구사항과 내 문장을 나란히 읽는 시작점</p><span class="status">구현 · /ats</span></article><article class="idea-item"><span class="number">02</span><h3>작업 캔버스</h3><p>명령, 결과, version, 수정 흐름을 한곳에 둠</p><span class="status">경로 확인 · /workspace</span></article><article class="idea-item"><span class="number">03</span><h3>진전 공유 커뮤니티</h3><p>비슷한 방향을 찾고 서로의 다음 행동을 봄</p><span class="status">CRUD·match 경로</span></article><article class="idea-item"><span class="number">04</span><h3>외부 맥락의 바다</h3><p>선택한 provider의 기록을 모으고 다시 내보냄</p><span class="status">import·export 경로</span></article><article class="idea-item"><span class="number">05</span><h3>통합 작업공간</h3><p>작업의 성격에 맞춰 provider를 고르는 기반</p><span class="status">adapter 계약·연결 조건</span></article><article class="idea-item"><span class="number">06</span><h3>상황별 AI 라우팅</h3><p>모델과 작업을 분리해 선택하는 구조</p><span class="status">설정·원격 조건 필요</span></article><article class="idea-item"><span class="number">07</span><h3>작업 분해와 협업</h3><p>긴 작업을 작은 단계와 agent 경로로 나눔</p><span class="status">orchestration 경로·검증 전</span></article><article class="idea-item"><span class="number">08</span><h3>경력 일기와 라이프 코칭</h3><p>일상의 사건을 경험과 다음 행동으로 남김</p><span class="status">일기 CRUD · 자동 수집은 계획</span></article><article class="idea-item"><span class="number">09</span><h3>목표와 흥미의 구조</h3><p>RIASEC·Mandalart로 방향을 구체화</p><span class="status">계획 영역</span></article><article class="idea-item"><span class="number">10</span><h3>허용과 승인 하네스</h3><p>도구 위험을 나누고 사용자가 행동을 확인</p><span class="status">harness 경로·외부 실행 전</span></article><article class="idea-item"><span class="number">11</span><h3>열린 기반과 조직 확장</h3><p>개인 기록과 조직용 SaaS의 경계를 설계</p><span class="status">정책·로드맵</span></article></div><p class="idea-foot">현재 실제로 이어진 첫 루프는 01의 분석, 02의 작업·버전 관점, 10의 사용자 확인 원칙을 ATS·resume·interview 화면에서 보여줍니다.</p></div>
       </section>
-
-      <!-- 13. Appendix 경쟁 포지셔닝 -->
-      <section class="slide paper appendix-c" data-title='13. Appendix · 경쟁 포지셔닝' aria-labelledby='slide-title-13' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>13 / 14 <span class='slide-number'>Appendix · 경쟁 포지셔닝</span></div>
-          <div class='appendix-head'><h2 id='slide-title-13'>지원의 순간과<br>확인하는 경험을 비교합니다.</h2><p>공개된 기능 설명과 Kairos의 현재 검증 가설을 두 축으로 정리한 지도입니다.</p></div>
-          <div class='positioning-grid'>
-            <div class='matrix' aria-label='채용공고 중심과 경험 검증 중심, 단발과 연속의 포지셔닝 맵'><span class='axis left'>채용공고 중심</span><span class='axis right'>경험·문장 검증 중심</span><span class='axis top'>연속 준비</span><span class='axis bottom'>단발 지원</span><div class='matrix-dot jobkorea'><span>잡코리아</span></div><div class='matrix-dot saramin'><span>사람인</span></div><div class='matrix-dot wanted'><span>원티드</span></div><div class='matrix-dot teal'><span>Teal</span></div><div class='matrix-dot general-ai'><span>일반 AI</span></div><div class='matrix-dot kairos'><span>Kairos</span></div></div>
-            <div class='positioning-notes'><article class='positioning-note'><strong>채용공고 중심</strong><p>공고 탐색·매칭·이력서 최적화처럼 지원 순간의 결정을 돕는 범주</p></article><article class='positioning-note'><strong>경험·문장 검증 중심</strong><p>내 경험과 AI 변경을 나란히 보고 최종 문장을 확인하는 방향</p></article><article class='positioning-note'><strong>Kairos의 현재 가설</strong><p>ATS 분석·Diff 승인·텍스트 면접을 하나의 준비 흐름으로 이어 보기</p></article></div>
-          </div>
-          <p class='evidence-line'>자료 근거: 잡코리아·사람인·원티드의 공개 AI 기능 설명과 Teal의 지원 준비 설명. 비교는 공개 자료와 현재 가설을 정리한 것이며 경쟁사 우열이나 성과를 단정하지 않습니다.</p>
-        </div>
+      <!-- 13. 경쟁 포지셔닝 -->
+      <section class="slide" data-title="13. Appendix · 경쟁 포지셔닝" aria-labelledby="slide-title-13" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">13 / 14 <span class="slide-number">Appendix · 경쟁 포지셔닝</span></div><div class="appendix-head"><h2 id="slide-title-13">채용의 순간과<br>전 생애 맥락 사이.</h2><p>두 축으로 서로 다른 서비스의 도움 범위를 바라봅니다.</p></div><div class="positioning-grid"><div class="matrix" aria-label="채용 순간과 전 생애 맥락, 단발 도구와 지속 작업공간의 포지셔닝 맵"><span class="axis left">채용 순간</span><span class="axis right">전 생애 맥락</span><span class="axis top">지속 작업공간</span><span class="axis bottom">단발 도구</span><div class="matrix-dot jobkorea"><span>잡코리아</span></div><div class="matrix-dot saramin"><span>사람인</span></div><div class="matrix-dot wanted"><span>원티드</span></div><div class="matrix-dot careerly"><span>커리어리</span></div><div class="matrix-dot teal"><span>Teal</span></div><div class="matrix-dot general-ai"><span>일반 AI</span></div><div class="matrix-dot kairos"><span>Kairos</span></div></div><div class="positioning-notes"><article class="positioning-note"><strong>채용 순간</strong><p>공고 탐색, 매칭, 이력서처럼 지원 시점의 결정을 돕는 범주</p></article><article class="positioning-note"><strong>전 생애 맥락</strong><p>일상·경력·학습의 기록을 이후 작업에도 다시 쓰는 범주</p></article><article class="positioning-note"><strong>Kairos의 가설</strong><p>기존 서비스의 역할을 부정하지 않고, 그 앞뒤에 기록과 승인 흐름을 연결합니다.</p><span class="small">위치는 공개 기능 설명과 현재 가설을 시각화한 것이며 우열을 뜻하지 않습니다.</span></article></div></div></div>
       </section>
-
-      <!-- 14. Appendix 출처·폰트·팀 정보 -->
-      <section class="slide paper appendix-d" data-title='14. Appendix · 출처·폰트·팀 정보' aria-labelledby='slide-title-14' aria-hidden='true' inert>
-        <div class='slide-inner dense'>
-          <div class='kicker'>14 / 14 <span class='slide-number'>Appendix · 출처·폰트·팀 정보</span></div>
-          <div class='appendix-head'><h2 id='slide-title-14'>원문과 팀 정보는<br>이 부록에서 확인합니다.</h2><p>본문에는 출처명·날짜·수치를, 전체 링크와 입력 정보는 마지막 부록에 둡니다.</p></div>
-          <div class='source-layout'>
-            <div class='appendix-sources'>
-              <div class='appendix-source'><strong>통계청 · 2025.05</strong><span>첫 취업 평균 11.3개월</span><a href='https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210' target='_blank' rel='noreferrer'>통계청 원문 링크</a></div>
-              <div class='appendix-source'><strong>국가데이터처·동아일보 · 2026.05 / 2026.07.23</strong><span>졸업 후 1년 이상 미취업 48.6%</span><a href='https://www.donga.com/news/Economy/article/all/20260723/134350159/1' target='_blank' rel='noreferrer'>동아일보 보도 링크</a></div>
-              <div class='appendix-source'><strong>무하유·지디넷코리아 · 2026.01</strong><span>제출 자기소개서 AI 작성 의심 64.4%</span><a href='https://v.daum.net/v/20260108160242419' target='_blank' rel='noreferrer'>지디넷코리아 인용 링크</a></div>
-              <div class='appendix-source'><strong>Greenhouse 공개 자료</strong><span>Resume parsing 오류 원인 안내</span><a href='https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing' target='_blank' rel='noreferrer'>Greenhouse 자료 링크</a></div>
-            </div>
-            <aside class='font-panel'><h3>폰트·브랜드 기준</h3><p><strong>Freesentation</strong> · 본문 제목<br><a href='https://github.com/projectnoonnu/2404' target='_blank' rel='noreferrer'>Freesentation source</a></p><p><strong>SUIT</strong> · 본문 fallback<br><a href='https://github.com/sun-typeface/SUIT' target='_blank' rel='noreferrer'>SUIT project · SIL OFL</a></p><p><strong>Kairos logo</strong> · 저장소의 실제 SVG 에셋 사용</p><p class='caption'>분위기 참고 이미지는 제품 기능의 근거가 아니며, 로고와 출처 카드는 공식 기관 로고로 표시하지 않습니다.</p></aside>
-          </div>
-          <div class='presenter-panel'><div class='presenter-item'><span>팀명</span><strong>[입력 필요]</strong></div><div class='presenter-item'><span>발표자</span><strong>[입력 필요]</strong></div><div class='presenter-item'><span>팀원</span><strong>[입력 필요]</strong></div></div>
-          <p class='source-card-note'>Slide 3의 세 수치는 문제 규모 근거이며 Kairos 성과가 아닙니다. 모집단과 기준시점이 다른 통계를 합산하지 않습니다.</p>
-          <p class='source-disclaimer'>출처 카드의 기관명은 텍스트 표기이며 실제 공식 로고처럼 사용하지 않습니다. 팀 정보 입력은 이 Appendix 14에서만 합니다.</p>
-        </div>
+      <!-- 14. 출처·폰트·브랜드·팀 정보 -->
+      <section class="slide" data-title="14. Appendix · 출처·폰트·브랜드·팀 정보" aria-labelledby="slide-title-14" aria-hidden="true" inert>
+        <div class="slide-inner dense"><div class="kicker">14 / 14 <span class="slide-number">Appendix · 출처·폰트·브랜드·팀 정보</span></div><div class="appendix-head"><h2 id="slide-title-14">출처와 브랜드,<br>팀 정보를 남깁니다.</h2><p>본문의 세 통계와 사용한 폰트·로고의 원문 경로입니다.</p></div><div class="source-layout"><div class="appendix-sources"><div class="appendix-source"><strong>통계청 · 2025년 5월</strong><span>첫 취업 평균 11.3개월</span><a href="https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210" target="_blank" rel="noreferrer">https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210</a></div><div class="appendix-source"><strong>국가데이터처·동아일보 · 2026년</strong><span>졸업 후 1년 이상 미취업 48.6%</span><a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847" target="_blank" rel="noreferrer">https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847</a><a href="https://www.donga.com/news/Economy/article/all/20260723/134350159/1" target="_blank" rel="noreferrer">https://www.donga.com/news/Economy/article/all/20260723/134350159/1</a></div><div class="appendix-source"><strong>무하유·지디넷코리아 · 2026년 1월</strong><span>제출 자기소개서 AI 작성 의심 64.4%</span><a href="https://v.daum.net/v/20260108160242419" target="_blank" rel="noreferrer">https://v.daum.net/v/20260108160242419</a></div><div class="appendix-source"><strong>Greenhouse 공개 자료</strong><span>이력서 파싱 오류 원인 안내</span><a href="https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing" target="_blank" rel="noreferrer">Greenhouse resume parsing 자료</a></div></div><aside class="brand-panel"><h3>폰트·브랜드 기준</h3><p><strong>Freesentation</strong><br><a href="https://github.com/projectnoonnu/2404" target="_blank" rel="noreferrer">source: github.com/projectnoonnu/2404</a></p><p><strong>SUIT</strong><br><a href="https://github.com/sun-typeface/SUIT" target="_blank" rel="noreferrer">source: github.com/sun-typeface/SUIT</a><br><a href="https://scripts.sil.org/OFL" target="_blank" rel="noreferrer">SIL OFL</a></p><p><strong>Kairos logo</strong><br>../ASSETS/kairoslogo_basic%EC%9E%90%EC%82%B0%205.svg</p><img class="brand-logo" src="../ASSETS/kairoslogo_basic%EC%9E%90%EC%82%B0%205.svg" alt="Kairos 로고"></aside></div><div class="presenter-panel"><div class="presenter-item"><span>팀명</span><strong>[입력 필요]</strong></div><div class="presenter-item"><span>발표자</span><strong>[입력 필요]</strong></div><div class="presenter-item"><span>팀원</span><strong>[입력 필요]</strong></div></div><p class="source-disclaimer">세 통계는 외부 문제 근거이며 Kairos의 성과가 아닙니다. 모집단과 기준시점이 다른 수치를 합산하지 않습니다.</p></div>
       </section>
     </div>
-    <nav class='side-nav' aria-label='슬라이드 이동'>
-      <button class='nav-button' type='button' data-prev aria-label='이전 슬라이드'><span>&lt;</span></button>
-      <button class='nav-button' type='button' data-next aria-label='다음 슬라이드'><span>&gt;</span></button>
-    </nav>
-    <div class='statusbar' aria-live='polite'>
-      <span class='slide-status' data-slide-status>01 / 14</span>
-      <div class='progress-track' aria-hidden='true'><div class='progress-fill' data-progress></div></div>
-      <span class='keyboard-hint'>&lt; &gt; · PageUp / PageDown · Home / End · F 전체 화면</span>
-    </div>
+    <nav class="side-nav" aria-label="슬라이드 이동"><button class="nav-button" type="button" data-prev aria-label="이전 슬라이드"><span>&lt;</span></button><button class="nav-button" type="button" data-next aria-label="다음 슬라이드"><span>&gt;</span></button></nav>
+    <div class="statusbar" aria-live="polite"><span class="slide-status" data-slide-status>01 / 14</span><div class="progress-track" aria-hidden="true"><div class="progress-fill" data-progress></div></div><span class="keyboard-hint">&lt; &gt; · PageUp / PageDown · Home / End · F 전체 화면</span></div>
   </main>
   <script>
     (() => {
@@ -960,6 +129,8 @@
       let touchStartX = 0;
       let touchStartY = 0;
       let wheelLock = false;
+      const qs = (selector) => document.querySelector(selector);
+      const qsa = (selector) => Array.from(document.querySelectorAll(selector));
 
       const readHash = () => {
         const value = Number.parseInt(window.location.hash.slice(1), 10);
@@ -968,7 +139,6 @@
 
       const setSlide = (index, updateHash = true) => {
         current = Math.max(0, Math.min(slides.length - 1, index));
-        stage.classList.toggle('tone-ink', slides[current].classList.contains('ink'));
         slides.forEach((slide, slideIndex) => {
           const active = slideIndex === current;
           slide.classList.toggle('is-active', active);
@@ -980,60 +150,37 @@
         if (progress) progress.style.transform = `scaleX(${(current + 1) / slides.length})`;
         if (updateHash) window.history.replaceState(null, '', `#${current + 1}`);
       };
-
       const move = (step) => setSlide(current + step);
-      const isTypingTarget = (target) => {
-        if (!(target instanceof HTMLElement)) return false;
-        return target.matches('input, textarea, select, [contenteditable=true]');
-      };
-      const isInteractive = (target) => target instanceof Element && Boolean(target.closest('a, button, input, textarea, select, label, [contenteditable=true]'));
-
-      const markStockFallback = (image) => {
-        const frame = image.closest('.persona-photo');
-        if (frame) frame.classList.add('image-fallback');
-      };
-      document.querySelectorAll('[data-stock-image]').forEach((image) => {
-        image.addEventListener('error', () => markStockFallback(image), { once: true });
-        if (image.complete && image.naturalWidth === 0) markStockFallback(image);
-      });
+      const isTypingTarget = (target) => target instanceof HTMLElement && target.matches('input, textarea, select, [contenteditable="true"]');
+      const isInteractive = (target) => target instanceof Element && Boolean(target.closest('a, button, input, textarea, select, label, [contenteditable="true"]'));
 
       document.addEventListener('keydown', (event) => {
         if (isTypingTarget(event.target)) return;
-        if (event.key === 'ArrowRight' || event.key === 'PageDown') {
-          event.preventDefault();
-          move(1);
-        } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
-          event.preventDefault();
-          move(-1);
-        } else if (event.key === 'Home') {
-          event.preventDefault();
-          setSlide(0);
-        } else if (event.key === 'End') {
-          event.preventDefault();
-          setSlide(slides.length - 1);
-        } else if (event.key.toLowerCase() === 'f') {
+        if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); move(1); }
+        else if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); move(-1); }
+        else if (event.key === 'Home') { event.preventDefault(); setSlide(0); }
+        else if (event.key === 'End') { event.preventDefault(); setSlide(slides.length - 1); }
+        else if (event.key.toLowerCase() === 'f') {
           event.preventDefault();
           if (document.fullscreenElement) document.exitFullscreen();
           else if (stage && stage.requestFullscreen) stage.requestFullscreen();
         }
       });
-
-      document.querySelector('[data-prev]').addEventListener('click', () => move(-1));
-      document.querySelector('[data-next]').addEventListener('click', () => move(1));
+      qs('[data-prev]').addEventListener('click', () => move(-1));
+      qs('[data-next]').addEventListener('click', () => move(1));
 
       stage.addEventListener('click', (event) => {
         if (isInteractive(event.target)) return;
         if (!(event.target === stage || event.target.closest('.slide-inner'))) return;
-        move(event.clientX / window.innerWidth < .5 ? -1 : 1);
+        const rect = stage.getBoundingClientRect();
+        move(event.clientX - rect.left < rect.width / 2 ? -1 : 1);
       });
-
       stage.addEventListener('touchstart', (event) => {
         const touch = event.changedTouches[0];
         if (!touch) return;
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
       }, { passive: true });
-
       stage.addEventListener('touchend', (event) => {
         const touch = event.changedTouches[0];
         if (!touch) return;
@@ -1041,7 +188,6 @@
         const dy = touch.clientY - touchStartY;
         if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
       }, { passive: true });
-
       stage.addEventListener('wheel', (event) => {
         if (Math.abs(event.deltaY) < 8 || wheelLock) return;
         const active = slides[current].querySelector('.slide-inner');
@@ -1053,88 +199,71 @@
         }
         wheelLock = true;
         move(event.deltaY > 0 ? 1 : -1);
-        window.setTimeout(() => { wheelLock = false; }, 500);
+        window.setTimeout(() => { wheelLock = false; }, 420);
       }, { passive: true });
-
       window.addEventListener('hashchange', () => setSlide(readHash(), false));
 
       const demoDuration = 22000;
       const demoState = { active: 'ats', raf: 0, sequence: 0, running: false };
-      const demoStatus = document.querySelector('[data-demo-status]');
-      const demoPath = document.querySelector('[data-demo-path]');
-      const demoMode = document.querySelector('[data-demo-mode]');
-      const demoTabs = Array.from(document.querySelectorAll('[data-demo-tab]'));
-      const demoViews = Array.from(document.querySelectorAll('[data-demo-view]'));
-      const demoRails = Array.from(document.querySelectorAll('[data-demo-rail]'));
-      const prefersReducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const demoTabs = qsa('[data-demo-tab]');
+      const demoViews = qsa('[data-demo-view]');
+      const reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const formatSeconds = (value) => `${(value / 1000).toFixed(1)}s / 22.0s`;
+      const demoLabels = { ats: 'ATS 분석', diff: 'Diff 승인', interview: '텍스트 면접' };
+      const demoPaths = { ats: 'kairos / ats', diff: 'kairos / resume / diff', interview: 'kairos / interview / text' };
 
       const updateDemoChrome = (kind, elapsed, done = false) => {
-        const labels = { ats: 'ATS 분석', diff: 'Diff 승인', interview: '텍스트 면접' };
-        const paths = { ats: 'kairos / ats', diff: 'kairos / resume / diff', interview: 'kairos / interview / text' };
-        const label = labels[kind];
-        if (demoPath) demoPath.textContent = paths[kind];
-        if (demoMode) demoMode.textContent = '예시 화면';
-        if (demoStatus) {
-          demoStatus.textContent = done ? `예시 화면 · ${label} 완료 · 22.0s` : demoState.running ? `예시 화면 · ${label} · ${formatSeconds(elapsed)}` : `예시 화면 · ${label} · 재생 전`;
-          demoStatus.classList.toggle('is-running', demoState.running);
-        }
+        const label = demoLabels[kind];
+        const path = qs('[data-demo-path]');
+        const mode = qs('[data-demo-mode]');
+        const demoStatus = qs('[data-demo-status]');
+        if (path) path.textContent = demoPaths[kind];
+        if (mode) mode.textContent = 'JS 데모';
+        if (demoStatus) demoStatus.textContent = done ? `${label} 완료` : demoState.running ? `${label} · ${formatSeconds(elapsed)}` : `${label} · 재생 전`;
       };
-
       const setSteps = (selector, activeIndex, completed = false) => {
-        document.querySelectorAll(selector).forEach((step, index) => {
+        qsa(selector).forEach((step, index) => {
           step.classList.toggle('active', !completed && index === activeIndex);
           step.classList.toggle('done', completed || index < activeIndex);
         });
       };
-
       const resetATS = () => {
-        document.querySelectorAll('[data-ats-field]').forEach((field) => field.classList.remove('filled'));
-        document.querySelector('[data-ats-text=title]').textContent = '입력 대기';
-        document.querySelector('[data-ats-text=job]').textContent = '입력 대기';
-        document.querySelector('[data-ats-text=resume]').textContent = '입력 대기';
-        document.querySelector('[data-ats-score]').innerHTML = '--<span>/ 100</span>';
-        document.querySelector('[data-ats-details]').hidden = true;
-        document.querySelector('[data-ats-missing]').hidden = true;
-        document.querySelector('[data-ats-label]').textContent = '입력 대기';
-        document.querySelector('[data-ats-phase]').textContent = '입력 단계';
-        document.querySelector('[data-ats-clock]').textContent = '00.0s / 22.0s';
+        qsa('[data-ats-field]').forEach((field) => field.classList.remove('filled'));
+        qs('[data-ats-text="title"]').textContent = '입력 대기';
+        qs('[data-ats-text="job"]').textContent = '입력 대기';
+        qs('[data-ats-text="resume"]').textContent = '입력 대기';
+        qs('[data-ats-score]').innerHTML = '--<span>/ 100</span>';
+        qs('[data-ats-details]').hidden = true;
+        qs('[data-ats-missing]').hidden = true;
+        qs('[data-ats-label]').textContent = '입력 대기';
+        qs('[data-ats-phase]').textContent = '입력 단계';
+        qs('[data-ats-clock]').textContent = '00.0s / 22.0s';
         setSteps('[data-ats-step]', -1);
       };
-
       const resetDiff = () => {
-        document.querySelector('[data-diff-label]').textContent = '원문 확인';
-        document.querySelector('[data-diff-phase]').textContent = '원문 확인';
-        document.querySelector('[data-diff-clock]').textContent = '00.0s / 22.0s';
-        document.querySelectorAll('[data-diff-added]').forEach((line) => line.classList.add('is-hidden'));
-        const confirm = document.querySelector('[data-diff-confirm]');
+        qs('[data-diff-label]').textContent = '원문 확인';
+        qs('[data-diff-phase]').textContent = '원문 확인';
+        qs('[data-diff-clock]').textContent = '00.0s / 22.0s';
+        qsa('[data-diff-added]').forEach((line) => line.classList.add('is-hidden'));
+        const confirm = qs('[data-diff-confirm]');
         confirm.disabled = true;
         confirm.classList.remove('is-ready');
-        document.querySelector('[data-diff-save]').textContent = '저장 대기';
-        document.querySelector('[data-diff-save]').classList.remove('is-done');
+        qs('[data-diff-save]').textContent = '저장 대기';
+        qs('[data-diff-save]').classList.remove('is-done');
       };
-
       const resetInterview = () => {
-        document.querySelector('[data-interview-label]').textContent = '질문 준비';
-        document.querySelector('[data-interview-phase]').textContent = '질문 대기';
-        document.querySelector('[data-interview-state]').textContent = '텍스트 대화';
-        document.querySelector('[data-interview-clock]').textContent = '00.0s / 22.0s';
-        document.querySelector('[data-interview-answer]').hidden = true;
-        document.querySelector('[data-interview-response]').hidden = true;
-        document.querySelector('[data-interview-response]').textContent = '';
-        document.querySelector('[data-interview-summary]').hidden = true;
-        const end = document.querySelector('[data-interview-end]');
+        qs('[data-interview-label]').textContent = '질문 준비';
+        qs('[data-interview-phase]').textContent = '질문 대기';
+        qs('[data-interview-state]').textContent = '텍스트 대화';
+        qs('[data-interview-clock]').textContent = '00.0s / 22.0s';
+        qs('[data-interview-answer]').hidden = true;
+        qs('[data-interview-response]').hidden = true;
+        qs('[data-interview-response]').textContent = '';
+        qs('[data-interview-summary]').hidden = true;
+        const end = qs('[data-interview-end]');
         end.disabled = true;
         end.classList.remove('is-ready');
       };
-
-      const resetDemo = (kind) => {
-        if (kind === 'ats') resetATS();
-        if (kind === 'diff') resetDiff();
-        if (kind === 'interview') resetInterview();
-        updateDemoChrome(kind, 0);
-      };
-
       const cancelDemo = () => {
         if (demoState.raf) window.cancelAnimationFrame(demoState.raf);
         demoState.raf = 0;
@@ -1142,31 +271,29 @@
         demoState.running = false;
         updateDemoChrome(demoState.active, 0);
       };
-
       const selectDemo = (kind) => {
         cancelDemo();
         demoState.active = kind;
         demoTabs.forEach((tab) => tab.setAttribute('aria-selected', String(tab.dataset.demoTab === kind)));
         demoViews.forEach((view) => { view.hidden = view.dataset.demoView !== kind; });
-        demoRails.forEach((rail) => rail.classList.toggle('active', rail.dataset.demoRail === kind));
-        resetDemo(kind);
+        if (kind === 'ats') resetATS();
+        if (kind === 'diff') resetDiff();
+        if (kind === 'interview') resetInterview();
+        updateDemoChrome(kind, 0);
       };
-
       const runTimeline = (kind, renderer) => {
         cancelDemo();
         const sequence = demoState.sequence;
         demoState.running = true;
-        updateDemoChrome(kind, 0);
-        const visualDuration = prefersReducedMotion() ? 0 : demoDuration;
+        const visualDuration = reducedMotion() ? 0 : demoDuration;
         const start = performance.now();
         const frame = (now) => {
           if (sequence !== demoState.sequence) return;
           const elapsed = visualDuration === 0 ? demoDuration : Math.min(demoDuration, now - start);
           renderer(elapsed);
           updateDemoChrome(kind, elapsed);
-          if (elapsed < demoDuration) {
-            demoState.raf = window.requestAnimationFrame(frame);
-          } else {
+          if (elapsed < demoDuration) demoState.raf = window.requestAnimationFrame(frame);
+          else {
             demoState.running = false;
             demoState.raf = 0;
             renderer(demoDuration);
@@ -1175,93 +302,53 @@
         };
         demoState.raf = window.requestAnimationFrame(frame);
       };
-
       function runATSAnimation() {
         resetATS();
         runTimeline('ats', (elapsed) => {
-          const title = document.querySelector('[data-ats-text=title]');
-          const job = document.querySelector('[data-ats-text=job]');
-          const resume = document.querySelector('[data-ats-text=resume]');
-          if (elapsed >= 900) { title.textContent = '프론트엔드 개발자'; title.closest('[data-ats-field]').classList.add('filled'); }
-          if (elapsed >= 1800) { job.textContent = 'React · TypeScript · 테스트'; job.closest('[data-ats-field]').classList.add('filled'); }
-          if (elapsed >= 2900) { resume.textContent = 'React 서비스 개발 · 2년 경력'; resume.closest('[data-ats-field]').classList.add('filled'); }
+          if (elapsed >= 900) { qs('[data-ats-text="title"]').textContent = '프론트엔드 개발자'; qs('[data-ats-field="title"]').classList.add('filled'); }
+          if (elapsed >= 1800) { qs('[data-ats-text="job"]').textContent = 'React · TypeScript · 테스트'; qs('[data-ats-field="job"]').classList.add('filled'); }
+          if (elapsed >= 2900) { qs('[data-ats-text="resume"]').textContent = 'React 서비스 개발 · 2년 경력'; qs('[data-ats-field="resume"]').classList.add('filled'); }
           const step = elapsed < 8000 ? 0 : elapsed < 13000 ? 1 : elapsed < 17000 ? 2 : 3;
           const labels = ['입력 중', '이력서·채용공고 파싱', '핵심 키워드 매칭', '점수 산출', '세부 진단 완료'];
           const labelIndex = elapsed < 4000 ? 0 : elapsed < 8000 ? 1 : elapsed < 13000 ? 2 : elapsed < 17000 ? 3 : 4;
-          document.querySelector('[data-ats-label]').textContent = labels[labelIndex];
-          document.querySelector('[data-ats-phase]').textContent = labels[labelIndex];
-          document.querySelector('[data-ats-clock]').textContent = formatSeconds(elapsed);
+          qs('[data-ats-label]').textContent = labels[labelIndex];
+          qs('[data-ats-phase]').textContent = labels[labelIndex];
+          qs('[data-ats-clock]').textContent = formatSeconds(elapsed);
           setSteps('[data-ats-step]', Math.min(step, 2), elapsed >= 17000);
-          if (elapsed >= 17000) {
-            document.querySelector('[data-ats-score]').innerHTML = '69<span>/ 100</span>';
-            document.querySelector('[data-ats-details]').hidden = false;
-            document.querySelector('[data-ats-missing]').hidden = false;
-          }
+          if (elapsed >= 17000) { qs('[data-ats-score]').innerHTML = '69<span>/ 100</span>'; qs('[data-ats-details]').hidden = false; qs('[data-ats-missing]').hidden = false; }
         });
       }
-
       function runDiffAnimation() {
         resetDiff();
         runTimeline('diff', (elapsed) => {
-          const label = elapsed < 4000 ? '원문 확인' : elapsed < 8000 ? 'AI 제안 생성 중' : elapsed < 13000 ? '삭제/추가 색상 Diff' : elapsed < 18000 ? 'AI 제안 확정하여 편집기에 적용' : '저장 완료';
-          document.querySelector('[data-diff-label]').textContent = label;
-          document.querySelector('[data-diff-phase]').textContent = label;
-          document.querySelector('[data-diff-clock]').textContent = formatSeconds(elapsed);
-          if (elapsed >= 8000) document.querySelectorAll('[data-diff-added]').forEach((line) => line.classList.remove('is-hidden'));
-          const confirm = document.querySelector('[data-diff-confirm]');
+          const label = elapsed < 4000 ? '원문 확인' : elapsed < 8000 ? 'AI 제안 생성 중' : elapsed < 13000 ? '삭제·추가 색상 Diff' : elapsed < 18000 ? '사용자 승인 대기' : '저장 완료';
+          qs('[data-diff-label]').textContent = label;
+          qs('[data-diff-phase]').textContent = label;
+          qs('[data-diff-clock]').textContent = formatSeconds(elapsed);
+          if (elapsed >= 8000) qsa('[data-diff-added]').forEach((line) => line.classList.remove('is-hidden'));
+          const confirm = qs('[data-diff-confirm]');
           if (elapsed >= 13000 && elapsed < 18000) { confirm.disabled = false; confirm.classList.add('is-ready'); }
-          if (elapsed >= 18000) {
-            confirm.disabled = false;
-            confirm.classList.remove('is-ready');
-            document.querySelector('[data-diff-save]').textContent = '저장 완료';
-            document.querySelector('[data-diff-save]').classList.add('is-done');
-          }
+          if (elapsed >= 18000) { confirm.disabled = false; confirm.classList.remove('is-ready'); qs('[data-diff-save]').textContent = '저장 완료'; qs('[data-diff-save]').classList.add('is-done'); }
         });
       }
-
       function runInterviewAnimation() {
         resetInterview();
         runTimeline('interview', (elapsed) => {
-          const label = elapsed < 4000 ? '질문 bubble' : elapsed < 8000 ? '답변 bubble' : elapsed < 15000 ? 'AI plain-text 응답 streaming' : elapsed < 18000 ? '면접 종료 준비' : '면접 종료 · 요약';
-          document.querySelector('[data-interview-label]').textContent = label;
-          document.querySelector('[data-interview-phase]').textContent = label;
-          document.querySelector('[data-interview-clock]').textContent = formatSeconds(elapsed);
-          if (elapsed >= 4000) document.querySelector('[data-interview-answer]').hidden = false;
-          if (elapsed >= 8000) {
-            const response = '공고의 요구사항과 프로젝트 경험을 연결해, 우선순위를 정하고 결과를 확인했습니다.';
-            const amount = Math.min(response.length, Math.floor(((elapsed - 8000) / 7000) * response.length));
-            const responseBubble = document.querySelector('[data-interview-response]');
-            responseBubble.hidden = false;
-            responseBubble.textContent = response.slice(0, amount);
-          }
-          const end = document.querySelector('[data-interview-end]');
+          const label = elapsed < 4000 ? '질문 준비' : elapsed < 8000 ? '답변 입력' : elapsed < 15000 ? 'AI plain-text 응답' : elapsed < 18000 ? '면접 종료 준비' : '면접 종료·요약';
+          qs('[data-interview-label]').textContent = label;
+          qs('[data-interview-phase]').textContent = label;
+          qs('[data-interview-clock]').textContent = formatSeconds(elapsed);
+          if (elapsed >= 4000) qs('[data-interview-answer]').hidden = false;
+          if (elapsed >= 8000) { const response = '공고의 요구사항과 프로젝트 경험을 연결해, 우선순위를 정하고 결과를 확인했습니다.'; const amount = Math.min(response.length, Math.floor(((elapsed - 8000) / 7000) * response.length)); const bubble = qs('[data-interview-response]'); bubble.hidden = false; bubble.textContent = response.slice(0, amount); }
+          const end = qs('[data-interview-end]');
           if (elapsed >= 15000 && elapsed < 18000) { end.disabled = false; end.classList.add('is-ready'); }
-          if (elapsed >= 18000) {
-            end.disabled = false;
-            end.classList.remove('is-ready');
-            document.querySelector('[data-interview-summary]').hidden = false;
-            document.querySelector('[data-interview-state]').textContent = '완료 요약';
-          }
+          if (elapsed >= 18000) { end.disabled = false; end.classList.remove('is-ready'); qs('[data-interview-summary]').hidden = false; qs('[data-interview-state]').textContent = '완료 요약'; }
         });
       }
-
-      document.querySelector('[data-demo-play]').addEventListener('click', () => {
-        if (demoState.active === 'ats') runATSAnimation();
-        if (demoState.active === 'diff') runDiffAnimation();
-        if (demoState.active === 'interview') runInterviewAnimation();
-      });
+      qs('[data-demo-play]').addEventListener('click', () => { if (demoState.active === 'ats') runATSAnimation(); if (demoState.active === 'diff') runDiffAnimation(); if (demoState.active === 'interview') runInterviewAnimation(); });
       demoTabs.forEach((tab) => tab.addEventListener('click', () => selectDemo(tab.dataset.demoTab)));
-      document.querySelector('[data-diff-confirm]').addEventListener('click', () => {
-        if (document.querySelector('[data-diff-confirm]').disabled) return;
-        document.querySelector('[data-diff-save]').textContent = '편집기에 적용됨';
-      });
-      document.querySelector('[data-interview-end]').addEventListener('click', () => {
-        const end = document.querySelector('[data-interview-end]');
-        if (end.disabled) return;
-        document.querySelector('[data-interview-summary]').hidden = false;
-        document.querySelector('[data-interview-state]').textContent = '완료 요약';
-      });
-
+      qs('[data-diff-confirm]').addEventListener('click', () => { const button = qs('[data-diff-confirm]'); if (button.disabled) return; qs('[data-diff-save]').textContent = '편집기에 적용됨'; });
+      qs('[data-interview-end]').addEventListener('click', () => { const button = qs('[data-interview-end]'); if (button.disabled) return; qs('[data-interview-summary]').hidden = false; qs('[data-interview-state]').textContent = '완료 요약'; });
       selectDemo('ats');
       setSlide(readHash(), false);
     })();
