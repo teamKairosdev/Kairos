@@ -10,6 +10,7 @@
 - [x] 원문 무손실 원칙: 「원문」 블록(V1~V3, 아이디어 1~11, L1~L3, C1~C11, PPT 구성 5종, 우선순위, 8슬라이드 구성)은 단어, 숫자, 괄호, 오타(플렛폼, RHWP 편집, tool_low_edit, Mandarate, 수가 사진 임무로 착각해)를 그대로 보존한다
 - [x] 원문은 요약하거나 의역하지 않고 문장의 자연스러운 구두점 기준으로 분할하여 - [x] 체크라인으로 재구성하며 단어 순서를 유지한다
 - [x] 리서치 사실은 출처명과 함께 - [x] 로 표기하고 실행 과제는 - [ ] 로 표기한다
+- [x] 링크는 체크라인 안에 출처: <URL> 형태로 표기한다
 - [ ] 문서 완성 후 모든 《 》 제목이 # 나 ## 규칙을 지키는지 점검한다
 - [ ] 문서 완성 후 이모지, 문단, 표, 인용구가 없는지 점검한다
 - [ ] 문서 완성 후 원문 블록 전체가 체크라인으로 보존되었는지 원문과 대조 점검한다
@@ -109,7 +110,95 @@
 - [ ] PPT 문제 정의 슬라이드에 사용할 통계 5개를 선정해 출처와 연도를 명기한다
 - [ ] 시장 규모(CAGR 22.3%)는 기대 효과 슬라이드에서도 재사용한다
 
-## 《3-3. Pain Point 요약》
+## 《3-3. 청년 고용 위기: '쉬었음' 규모와 추이 (리서치 R1)》
+- [x] '쉬었음' 2030세대 64만 8000명(2026년 5월), 2016년 41만 3000명 대비 10년 새 23만 5000명 증가(매일경제 2026-06-23)(R1) 출처: <https://www.mk.co.kr/news/economy/12081192>
+- [x] 15~39세 '쉬었음' 68만 1000명(2026년 2월, 15~29세 40만 2000명+30대 27만 9000명)(천지일보 2026-04-15)(R1) 출처: <https://www.newscj.com/news/articleView.html?idxno=3394082>
+- [x] 20~39세 '쉬었음' 연평균 71만 7000명(2025년)으로 2003년 통계 작성 이래 최고, 2022년 62만 2000명 대비 +15.3%(아주경제 2026-01-19)(R1) 출처: <https://www.ajunews.com/view/20260119093610254>
+- [x] 15~39세 '쉬었음' 80만 명 돌파(2025년 2월, 사상 처음)(한국일보 2025-06-25)(R1) 출처: <https://www.hankookilbo.com/news/article/A2025061717520005144>
+- [x] 20대 '쉬었음' 비중 6.6%(2026년 5월)로 데이터 공개(2014년) 이후 최고(매일경제 2026-06-23)(R1) 출처: <https://www.mk.co.kr/news/economy/12081192>
+- [x] '쉬었음' 비경제활동 비중 22.3%(2019년 14.6%→2025년), 일자리를 원치 않는 청년 28만 7000명→45만 명(한국은행, 연합뉴스 2026-01-20)(R1) 출처: <https://www.yna.co.kr/view/AKR20260120087551003>
+- [x] '쉬었음' 청년 경제적 손실 약 44조 원(2019~2023 누적, 한국경제인협회 추산)(아주경제 2026-01-19)(R1) 출처: <https://www.ajunews.com/view/20260119093610254>
+- [ ] '쉬었음' 증가 추이 그래프를 문제 정의 슬라이드에 배치한다(R1)
+
+## 《3-4. 미취업 규모·고용률·실업률 (리서치 R1)》
+- [x] 미취업 2030 171만 명(실업자 45만+쉬었음 72만+취업준비생 54만), 2030 인구(1253만)의 약 14%(연합뉴스 2026-04-29)(R1) 출처: <https://www.yna.co.kr/view/AKR20260429098800002>
+- [x] 청년 고용률 43.5%(2026년 1분기) 코로나19 당시(2021년 42.1%) 이후 최저, 2년 연속 하락(서울경제 2026-04-19)(R1) 출처: <https://www.sedaily.com/article/20034365>
+- [x] 청년 고용률 43.9%(2026년 6월) 전년 동월 대비 -1.7%p, 26개월 연속 하락(연합뉴스 2026-07-15)(R1) 출처: <https://www.yna.co.kr/view/AKR20260715023552002>
+- [x] 청년 취업자 342만 8000명(2026년 6월) 전년比 -19만 7000명, 44개월 연속 감소(연합뉴스 2026-07-15)(R1) 출처: <https://www.yna.co.kr/view/AKR20260715023552002>
+- [x] 청년 실업률 7.0%(2026년 6월) 전년 대비 +0.9%p, 1년 3개월 만에 최대 상승 폭(아시아투데이 2026-07-15)(R1) 출처: <https://www.asiatoday.co.kr/kn/view.php?key=20260715010005682>
+- [x] 20대 구직단념자 7만 3407명, 전체(35만 4000명)의 20.7%로 전 연령대 중 최대(동아일보 2026-04-27)(R1) 출처: <https://www.donga.com/news/Society/article/all/20260427/134023430/1>
+- [x] 2024년 대졸자 취업률 69.5%(-0.8%p) 4년 만에 감소 전환(교육부 2025-12-30)(R1) 출처: <https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=105011&lev=0&m=020402&opType=N&page=1&s=moe&searchType=null&statusYN=W&temp=Y>
+- [x] 2026년 5월 졸업자 취업률 68.9%(-2.1%p), 미취업자 124만 3000명(전자신문 2026-07-23)(R1) 출처: <https://www.etnews.com/20260723000045>
+- [ ] 고용률·실업률·미취업 규모를 한 장의 지표 카드로 묶는다(R1)
+
+## 《3-5. 재취업 번아웃·첫 취업 지연·일자리 질 (리서치 R1)》
+- [x] 퇴사 후 1년 이상 경력단절 62.4%(2026년 상반기 20~39세 쉬었음 68만 4611명 중 42만 7143명), 전년 대비 13.5% 증가(서울경제 2026-07-28)(R1) 출처: <https://www.sedaily.com/article/20034459>
+- [x] 퇴사 사유: 개인·가족 사정 39%, 근로여건 불만족 34%, 계절·임시 일 종료 15%(한국일보 2025-06-25)(R1) 출처: <https://www.hankookilbo.com/news/article/A2025061314520002493>
+- [x] '쉬는 이유': 원하는 임금·근로조건에 맞는 일자리가 없을 것 같아서 42%, 이전에 찾아봤지만 없었기 때문에 24%(한국일보 2025-06-25)(R1) 출처: <https://www.hankookilbo.com/news/article/A2025061314520002493>
+- [x] 첫 일자리 퇴사율 62.7%, 사유는 근로여건 불만족 44.4%·계약만료 18.0%·개인·가족 사유 14.5%(서울경제 2026-07-23)(R1) 출처: <https://www.sedaily.com/article/20071120>
+- [x] 첫 일자리 평균 근속 1년 6.8개월(2025년 조사 1년 6.4개월 대비 단축 추세)(정책브리핑 2026-07-23)(R1) 출처: <https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847>
+- [x] 1년 이하 계약직 비중 31.8%, 첫 일자리 월 200만 원 미만 비중 68%(서울경제 2025-12-09, 한국고용정보원)(R1) 출처: <https://www.sedaily.com/article/20034977>
+- [x] 평균 유보임금 3100만 원 — '눈높이가 높은 게 아니다', 중소기업 선호 48%가 대기업·공공기관보다 높음(한국은행, 연합뉴스 2026-01-20)(R1) 출처: <https://www.yna.co.kr/view/AKR20260120087551003>
+- [x] 1년 이상 미취업 시 생애 실질임금 -6.7%(한국노동연구원)(월간 리크루트 2026-07-01)(R1) 출처: <https://recruit.mk.co.kr/magazine/view_article.php?code=8&no=1220001>
+- [ ] 첫 직장 퇴사-재취업 사이클을 라이프 코칭 관점에서 문제 정의한다(R1)
+
+## 《3-6. AI 채용·자소서·면접 시장 (리서치 R2)》
+- [x] 500대 기업 86.7%가 인사 업무에 AI 도구 활용, 74.5%는 향후 채용 AI 도입·확대 계획(고용노동부 2025-11-28)(R2) 출처: <https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=18662>
+- [x] AI 채용 기업 활용 분야: 인적성·역량 검사 69.8%, 지원서류 검토 46.5%, AI 면접·면접 결과 활용 46.5%(고용노동부 2025-11-28)(R2) 출처: <https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=18662>
+- [x] Z세대 취준생 98%가 취업 준비에 AI 활용(자소서 초안 작성 84%, 면접 예상 질문 생성 67%, AI 유료 서비스 구독 48%)(진학사 캐치 1025명, 뉴시스 2026-07-03)(R2) 출처: <https://www.newsis.com/view/NISX20260703_0003694378>
+- [x] 청년 42.3%가 취업 준비에 AI 도구 사용, 활용 분야는 자소서·이력서 작성 77.2% 최다(고용노동부 2025-11-28)(R2) 출처: <https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=18662>
+- [x] AI 면접 도입 기업 2023년 상반기 대비 2025년 상반기 3배, 응시자 6.4배, 평균 응시율 86%(무하유 몬스터, AI타임스 2025-07-30)(R2) 출처: <https://www.aitimes.com/news/articleView.html?idxno=201081>
+- [x] 2026년 인재상 'AI·데이터 활용 역량' 4위 부상(1위 직무 전문성 64.7%), 기업 74.5% 채용 유지·확대(원티드랩 2026 채용 트렌드 서베이)(R2) 출처: <https://www.kmjournal.net/news/articleView.html?idxno=5987>
+- [x] 2026년 3월 신입 채용 공고 -45%(1438건→791건), IT·통신 -73%(진학사 캐치, 스타트업엔 2026-04-03)(R1) 출처: <https://www.startupn.kr/news/articleView.html?idxno=57168>
+- [ ] AI 채용 확대·신입 공고 감소 추이를 시장 배경 슬라이드에 정리한다(R2)
+
+## 《3-7. ATS 구조적 병목과 이력서 실패 (리서치 R3)》
+- [x] Fortune 500의 97.8%가 ATS 사용(2025년), 리크루터 99.7%가 ATS 필터 사용(Jobscan 2025)(R3) 출처: <https://www.jobscan.co/blog/fortune-500-use-applicant-tracking-systems/>
+- [x] 고용 1건당 평균 지원자 180명(2024년, 10M+ 지원 분석), 지원자→면접 전환율 3%, 면접→채용 27%(CareerPlug 2025)(R3) 출처: <https://www.careerplug.com/recruiting-metrics-and-kpis/>
+- [x] 지원자 97%가 면접 전 탈락(1/180 구조), 스크리닝이 최대 병목(pin.com 2026)(R3) 출처: <https://pin-com.ghost.io/recruitment-funnel-benchmarks/>
+- [x] 리크루터 필터 기준: 스킬 76.4%, 학력 59.7%, 직무 타이틀 55.3%, 자격증·라이선스 50.6%, 경력연수 44%(Jobscan 2025, n=384)(R3) 출처: <https://www.jobscan.co/blog/interview-rates-study>
+- [x] 직무 타이틀 일치 시 면접률 10.6배, 석·박사 6.7배, 학사 6.1배, 커버레터 포함 3.4배, LinkedIn 최적화 2.2배(Jobscan 250만 건 분석)(R3) 출처: <https://www.jobscan.co/blog/interview-rates-study>
+- [x] 적격 지원자 거절의 43%가 자격 격차와 무관한 포맷·파싱·임의 필터 실패(자격 불일치 57%, 파싱 오류 23%, 포맷 12%, 임의 필터 8%)(EDLIGO 1000건 분석, 2025-12)(R3) 출처: <https://www.edligo.net/job-search-tips/i-analyzed-1000-rejected-resumes-heres-what-ats-actually-sees-and-its-not-what-you-think>
+- [x] ATS 거절의 73%가 인간 검토 전 첫 10초 내 발생, 표 포함 DOCX 31% 파싱 실패(EDLIGO 2025-12)(R3) 출처: <https://www.edligo.net/job-search-tips/i-analyzed-1000-rejected-resumes-heres-what-ats-actually-sees-and-its-not-what-you-think>
+- [x] 'ATS 자동거절 75%'는 검증되지 않은 신화, 실제 위험은 리크루터 키워드 검색에서 '발견되지 않는 것'(Enhancv 리크루터 연구 2025)(R3) 출처: <https://enhancv.com/blog/does-ats-reject-resumes/>
+- [x] 글로벌 ATS 점유율(12,820개 기업 분석): Greenhouse 19.3%, Lever 16.6%, Workday 15.9%, iCIMS 15.3%(Jobscan 2025)(R3) 출처: <https://www.jobscan.co/blog/fortune-500-use-applicant-tracking-systems/>
+- [x] 국내 ATS: 그리팅(두들린) 1위, 2026년 7월 10,000+ 기업, 채용 프로세스 40일→14일 단축 사례(그리팅 공식)(R3) 출처: <https://www.greetinghr.com/>
+- [ ] ATS 파싱 프리뷰 기능을 데모 시나리오 2(ATS 분석)에 반영한다(R3)
+
+## 《3-8. 국내 커리어 플랫폼의 AI 전환 (리서치 R4)》
+- [x] 잡코리아가 2026-01-29 '웍스피어'로 사명 변경, "AI 커리어 에이전트 플랫폼" 전환 선포(ZDNet 2026-01-29)(R4) 출처: <https://zdnet.co.kr/view/?no=20260129093004>
+- [x] 웍스피어(잡코리아) 2026-02-04 전면 UI 개편 — '오늘의 AI 인사이트', 'AI 추천 3.0', 자체 LLM LOOP, '큐레이션 잡'(ZDNet 2026-02-04)(R4) 출처: <https://zdnet.co.kr/view/?no=20260204095526>
+- [x] 잡코리아·알바몬 합산 MAU 5,000만+, 노출 공고 134,317건(업계 최다 표기)(ZDNet 2026-01-12)(R4) 출처: <https://zdnet.co.kr/view/?no=20260112084411>
+- [x] 사람인: AI 자소서 코칭(2025-08-28), AI 커리어 매칭 에이전트(2026-03-26), 멘토링매치(멘토 약 25,000명, 평점 4.9, 1회 최대 37,000원)(R4) 출처: <https://www.hankyung.com/article/202603255642O>
+- [x] 원티드: 구직자용 AI 에이전트 2종(2025-11-20) — 포지션 검색·이력서 코칭, 디자인 시스템 Montage(2026-03-11)(R4) 출처: <https://blog.wantedlab.com/news/20251120>
+- [x] 커리어리 2.0(2025-12-28): 커리어 에이전트, AI 경력 프로필(활동·글 기반 스킬 자동 정리), AI 공고 비교(R4) 출처: <https://play.google.com/store/apps/details?id=com.publy.news>
+- [x] 랠릿(인프랩): MY 로그 2024-03-06 공개, 4대 보험 기반 경력·연봉 자동 연동, 2025 예고 — Google Calendar·Jira·Trello·Gmail·Slack·GitHub 자동 동기화+AI 요약, 프로필 버저닝(R4) 출처: <https://biz.inflearn.com/pages/rallit-future>
+- [x] 글로벌 HR 테크 시장 2026년 USD 475.1억 → 2031년 USD 777.4억(CAGR 10.35%)(Mordor Intelligence 2026-02-27)(R4) 출처: <https://www.mordorintelligence.kr/industry-reports/hr-tech-market>
+- [ ] 국내 플랫폼 5곳의 AI 기능 로드맵을 경쟁 분석 슬라이드에 비교한다(R4)
+
+## 《3-9. 글로벌 AI 커리어·라이프코칭 검증 (리서치 R5)》
+- [x] AI Career Coach 시장 $5.48B(2025)→$14.82B(2030), CAGR 22%(The Business Research Company 2026-07)(R5) 출처: <https://www.thebusinessresearchcompany.com/report/artificial-intelligence-ai-career-coach-market-report>
+- [x] Teal(2019 설립, 마이애미): 회원 2M+, 유료 전환 100,000+, 지원 준비 시간 97% 단축(8시간 작업→수 분)(PR Newswire 2025-01-22)(R5) 출처: <https://www.prnewswire.com/news-releases/teal-announces-series-a-funding-to-expand-its-ai-powered-careers-platform-bringing-total-financing-raised-to-19-million-302357544.html>
+- [x] BetterUp: 코칭 세션 5M+, AI 코칭 구축 근거 200M 데이터포인트/4M 세션, RCT에서 ChatGPT 대비 낙관 11배·스트레스 제거 9.5배·습관 형성 6.9배, 95% 만족(BetterUp 2025)(R5) 출처: <https://www.betterup.com/products/betterup-ai-coaching>
+- [x] NBER RCT(n=480,948): AI 지원 작성 도구가 채용 +7.8%, 임금 +8.4%(Wiles·Munyikwa·Horton, NBER WP 30886, 2023)(R5) 출처: <https://www.nber.org/papers/w30886>
+- [x] Kickresume AI 사용 분석(2025, 1.2M명): ATS 점검 64%, 이력서 작성 50%, 커리어 상담 <1% — AI 커리어 코칭은 미개척 수요(2026-04-30)(R5) 출처: <https://www.kickresume.com/en/press/ai-job-search-data/>
+- [x] 신입 채용 변화: 고용주 38%가 신입 업무를 AI로 대체, 31%는 경력 요건 상향, 74%는 일부 직무에서 AI 스킬 강점·필수 요구(ZipRecruiter 2026 AI Employer Report)(R5) 출처: <https://www.ziprecruiter-research.org/economic-insights-research/ai-employer-report-2026>
+- [x] 후보자 71%가 AI로 이력서 작성, 고용주 49%는 AI 이력서 자동 탈락·62%는 개인화 없는 AI 이력서 거부(HireVue 2026·Resume.io 2025)(R5) 출처: <https://www.hirevue.com/wp-content/uploads/2026/04/HV_2026_Report_2026-AI-in-Hiring-Report_Web.pdf>
+- [x] AI 채용 신뢰 격차: 후보자 26%만 'AI 평가 공정' 신뢰 vs 고용주 관리자 70% 신뢰(Greenhouse 2026)(R5) 출처: <https://www.resume.io/blog/resume-rejections>
+- [ ] 글로벌 B2C AI 코칭 선례(Teal, BetterUp)를 기대 효과 슬라이드에 인용한다(R5)
+
+## 《3-10. 진로심리·UX 원칙 근거 (리서치 R6)》
+- [x] 만다라트: 9×9=81칸, 중앙 3×3에 최종 목표·주변 8칸 하위 목표 확장, 오타니 쇼헤이 사례, 학술 검증 논문은 미발견(조선비즈 2021-07-30)(R6) 출처: <https://www.chosun.com/economy/weeklybiz/2021/07/30/DNEIX25TP5FF7EX3XZZHSQLIXA/>
+- [x] 홀랜드 RIASEC 6유형(1959): 일치성 가설 — 성격-환경 유형 일치 시 직무만족·근속 상관(R6) 출처: <https://dianachoi.tistory.com/4>
+- [x] Super 생애진로발달 5단계(성장→탐색→확립→유지→이완), 경력 전환 시 mini-cycle 재순환(R6) 출처: <https://teachers.institute/guidance-counselling/supers-stages-career-development/>
+- [x] 커리어 오그램: 구성주의 진로상담, 삶의 이야기를 경력 계획에 활용(DBPIA NODE12274127)(R6) 출처: <https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12274127>
+- [x] 빈캔버스 증후군: 시작 전 200개의 보이지 않는 결정(UXMagic 2026-03-18), 힉의 법칙 — 선택지 증가 시 결정 시간 로그 증가(1952)(R6) 출처: <https://uxmagic.ai/blog/blank-canvas-syndrome-ai-ux-workflow>
+- [x] 듀오링고 스트릭: 7일 이상 스트릭 학습자 600만+, 7일 스트릭 도달 시 코스 완주 가능성 3.6배, 손실 회피가 동기 부여(듀오링고 공식 2022-01-31)(R6) 출처: <https://blog.duolingo.com/how-duolingo-streak-builds-habit>
+- [x] 동병상련: Farrow et al.(2022) 실험에서 위로 효과가 유의하지 않음 — '진전 공유(accountability)' 프레임으로 설계해야 함(Oxford Economic Papers)(R6) 출처: <https://academic.oup.com/oep/article/74/2/523/6333591>
+- [x] Accountability 파트너: 목표 공유 시 달성률 65%(Gail Matthews, 2차 인용)(R6) 출처: <https://consultcameron.com/the-importance-of-accountability-partners-in-goal-setting/>
+- [ ] 만다라트·RIASEC·스트릭을 문제 정의의 해법 근거로 연결한다(R6)
+
+## 《3-11. Pain Point 요약》
 - [ ] Pain 1: 빈캔버스 증후군과 선택 장애 — 시작 전 200개 결정 부담(UXMagic), 힉의 법칙(선택지 증가 시 결정 시간 로그 증가)(R5)
 - [ ] Pain 2: 정보 비대칭 — 기업 내부 사정, 잡플래닛 불만요소, 실시간 기술 시장 추세를 구직자가 알기 어렵다(C7, C11 원문)
 - [ ] Pain 3: 경력 데이터 소실 — 슬랙, 지라, 카톡, 깃허브, 개인블로그의 비정형 데이터를 기록하지 않으면 경험이 커리어로 축적되지 않는다(아이디어 8 원문)
@@ -119,6 +208,11 @@
 - [ ] Pain 7: 근속 단절 — 첫 직장 평균 근속 18.4개월(국회예산정책처)로 커리어 기록이 매번 끊긴다(R1)
 - [ ] 발표에서 Pain Point를 3개로 압축해 각각 하나의 슬라이드에 매핑한다
 
+## 《3-12. 문제 정의 한 문장 (신규)》
+- [ ] 문제 정의 한 문장: "첫 취업 평균 11.2개월, 1년 이상 미취업 48.6%, 자소서 64.4% AI 작성 의심 시대에, 청년들은 자신의 진짜 경험을 기록·증명·활용할 도구 없이 빈캔버스와 정보 비대칭, AI 대 AI 불신 속에서 좌절한다"
+- [ ] 문제 정의 한 문장을 발표 표지와 홈 화면 카피에 반영한다
+- [ ] 문제 정의 한 문장을 심사기준표 '문제 정의 15점' 답변의 첫 문장으로 고정한다
+- [ ] 문제 정의 한 문장을 페르소나 3종의 공통 아픔과 교차 검증한다(R1~R6)
 # 《4. 경쟁 분석: 왜 지금, 왜 Kairos인가》
 ## 《4-1. 모델 서비스 (Gespark·Gemini Canvas·Claude·Liner) — 리서치 R2》
 - [x] Gespark: Mainfunc Inc.(미국 팔로알토, 2023-12 설립, 전 바이두·MS 빙 출신 에릭 징/케이 주)(R2)
@@ -154,8 +248,24 @@
 - [x] 갭 4: 자동 매칭 커뮤니티 — 동병상련 매칭 추천을 알고리즘 기반 인공지능 자체 시스템이 하는 사례가 없다(아이디어 3 원문)
 - [x] 갭 5: 감성 UX — 정보 밀도 과다(잡코리아, 사람인)도 아니고 빈캔버스(젠스파크)도 아닌 감성적이고 안정적인 UX 포지셔닝(V2 원문)
 - [x] 갭 6: AI 대 AI 시대의 구조 — 64.4% AI 작성 의심 시대에 나의 진짜 기록이 자산이 되는 구조가 부재하다(R3)
+- [x] 갭 7: 커리어 데이터 연속 기록 — 국내에 랠릿(개발자 한정)만 있고 전 직군 대상 상시 기록 서비스가 없다(R4)
+- [x] 갭 8: 글로벌 B2C AI 커리어 코치(Teal, Kickresume)는 있으나 한국어·국내 채용 시장 대응이 없다(R5)
+- [x] 갭 9: 'AI 대 AI' 시대의 진짜 기록 증명 — 고용주 49~62%가 AI 생성 이력서를 거부/의심하므로 사용자 고유 기록 기반 개인화가 필요하다(R5)
+- [x] 갭 10: 웍스피어·원티드·커리어리의 에이전트가 모두 '이직 시점 매칭·서류 최적화'에 한정되고 상시 동행형 라이프 코칭이 없다(R4)
 - [ ] 포지셔닝 맵(가로축: 채용 시점 지원-전 생애 커리어, 세로축: 단발 서비스-상시 에이전트)을 PPT용으로 제작한다
 - [ ] 경쟁사 3곳(잡코리아, 원티드, 랠릿)의 기능과 자사 11개 기능의 대응표를 작성한다
+
+## 《4-4. 글로벌 플랫폼 (Teal·BetterUp·Workday·LinkedIn·Jobscan·Kickresume·Oracle) — 리서치 R5》
+- [x] Teal(2019, 마이애미): 회원 2M+, 유료 100,000+ Teal Plus(전체의 약 5%, 24시간 내 5% 전환), AI 이력서 빌더·Job Tracker·AI 인터뷰 코치·오퍼 평가/연봉 협상, 지원 준비 시간 97% 단축(R5) 출처: <https://www.prnewswire.com/news-releases/teal-announces-series-a-funding-to-expand-its-ai-powered-careers-platform-bringing-total-financing-raised-to-19-million-302357544.html>
+- [x] BetterUp(2013, 오스틴): 4,000+ 코치·750+ 조직, 누적 세션 5M+, AI 코칭 근거 200M 데이터포인트/4M 세션, AI+휴먼 병행 시 기본 성과 +36%·직원 1,000명당 ROI $29M(R5) 출처: <https://www.betterup.com/powered-by-ai>
+- [x] Workday Illuminate(2024-09-17 발표): 연 1조+ 트랜잭션 데이터, Recruiting·Talent Mobility·Succession 에이전트, 2025-05-19 신규 7종, Flex Credits 구독형 AI 소비 모델(R5) 출처: <https://newsroom.workday.com/2025-05-19-Workday-Unveils-Next-Generation-of-Illuminate-Agents-to-Transform-HR-and-Finance-Operations>
+- [x] LinkedIn: 등록 회원 10억+, Hiring Assistant(2024-10-29)로 채용자 1명당 시간 4시간+ 절약·검토 프로필 62% 감소, AI 코칭 참여 직원 학습 시간 25% 증가(R5) 출처: <https://www.linkedin.com/business/talent/blog/talent-acquisition/introducing-hiring-assistant>
+- [x] Jobscan: 10M+ 구직자, 2.5M+ 지원서 분석, ATS 역엔지니어링(Workday·Greenhouse·iCIMS·Taleo·Lever), 최적화 사용자 인터뷰 3배 증가·구직 시간 절반 단축(R5) 출처: <https://www.jobscan.co/>
+- [x] Kickresume(2015, 브라티슬라바): 8M+ 구직자, 이력서 작성 7.5M+건, 2025년 AI 사용 분석에서 ATS 점검 64%가 이력서 작성 50%보다 높아 '검증'이 1차 수요임을 보여준다(R5) 출처: <https://www.kickresume.com/en/press/ai-job-search-data/>
+- [x] Oracle Career Coach(2025-10-15): 지원자 심층 프로필 분석·맞춤 직무 추천·24/7 대화형 지원·원클릭 인터뷰 일정, AI Agent Studio 기반 — B2B 커리어 코칭 대기업 진입 신호(R5) 출처: <https://www.oracle.com/news/announcement/ai-world-oracle-helps-organizations-optimize-the-candidate-and-hiring-experience-with-agentic-ai-2025-10-15/>
+- [x] 내부 이동·커리어 플랫폼: Gloat 150만+ 직원 지원, Fuel50 내부 이동 최대 +65%, Eightfold 매칭 학습 16억+ 커리어 프로필 — 기업 내부 시장은 성숙하나 개인(B2C)은 미개척(R5) 출처: <https://engagedly.com/blog/best-talent-mobility-softwares/>
+- [x] GenSpark(글로벌 AI 워크스페이스): Series B $275M, 밸류 $1.25B(2025-11-20), 출시 5개월 만에 연환산 매출 $50M, Mixture-of-Agents로 다중 LLM 라우팅·80+ 도구(R5) 출처: <https://www.businesswire.com/news/home/20251120036880/en/Genspark-Raises-%24275M-Series-B-Launches-AI-Workspace-to-Put-Busywork-on-Autopilot>
+- [ ] 글로벌 벤치마크 8곳을 포지셔닝 맵에 배치하고 자사 위치를 표시한다(R5)
 
 # 《5. 핵심 기능 11가지 (원문 아이디어 무손실)》
 ## 《5-1. ATS 분석법 기반 평가 (아이디어 1)》
@@ -199,6 +309,14 @@
 - [x] 리서치: Notion API 완전 지원, GitHub API(30 req/min), LinkedIn은 스크래핑·채용 용도 금지(사실상 불가), 삼성노트 공식 API 없음(R4)
 - [x] 리서치: 잡코리아 API는 개인 수집 승낙 안 함, 큐넷은 한국산업인력공단 오픈API 경유 필요(R4)
 - [x] 리서치: Claude의 프로젝트별 분리 메모리+요약 관리 UI(2025-10-23)가 메모리 export/import UX의 기준이다(R2)
+- [x] 리서치: 워크넷 채용정보 API(공공데이터 3038225, 무료 인증키, REST JSON/XML)로 지원·관심 공고 자동 추적, 큐넷 국가자격 확인서 API(15064692, 실시간, 무료, 개발계정 트래픽 10,000)로 자격 취득 자동 기록(R8) 출처: <https://www.data.go.kr/data/3038225/openapi.do>
+- [x] 리서치: 국민연금 가입현황 API(공공데이터 15005710)는 개인 이력이 아닌 통계만 제공 — 개인 경력 인증에는 불가, 시장 컨텍스트(근로 인구 규모) 용도로만 사용(R8) 출처: <https://www.data.go.kr/data/15005710/openapi.do>
+- [x] 리서치: DART Open API(opendart.fss.or.kr, 40자리 인증키 무료, 일일 20,000회 추정·재확인 필요)로 재직 기업 공시·재무·임원변동을 회사 컨텍스트로 자동 수집(R8) 출처: <https://opendart.fss.or.kr>
+- [x] 리서치: Notion API는 내부/공개(OAuth 2.0)/PAT 3가지 인증 모델과 웹훅 지원 — 사용자 동의 기반 경력 노트 연동이 가장 유력한 개인 데이터 소스다(R8) 출처: <https://developers.notion.com/guides/get-started/overview>
+- [x] 리서치: GitHub REST API(PAT 인증 5,000 req/hour)로 커밋·PR·저장소 활동을 경력 타임라인에 자동 기록, 백업·내보내기 경로로도 활용(R8) 출처: <https://docs.github.com/en/rest>
+- [x] 리서치: Samsung Notes는 공개 API 없음(수동 PDF 내보내기만), LinkedIn은 API·스크래핑 모두 제한(타인 프로필 읽기 폐쇄, 이용약관 스크래핑 금지) — 사용자 수동 내보내기로 우회 설계(R8) 출처: <https://blog.closelyhq.com/how-to-scrape-linkedin-data-legally/>
+- [x] 리서치: 잡플래닛 리뷰는 로그인 벽(열람권) 뒤에 있어 크롤링 시 계정 필요·이용약관 위반 리스크, 공식 API 없음 — 리뷰는 출처 명시·집계만 사용(R8) 출처: <https://www.jobplanet.co.kr/welcome/review_operation_policy>
+- [x] 리서치: 사람인 채용정보 API(oapi.saramin.co.kr, 신청·승인 절차, 'Powered by 취업 사람인' 출처 표기 의무)는 워크넷과 함께 채용 컨텍스트 소스로 활용 가능(R8) 출처: <https://oapi.saramin.co.kr>
 - [ ] 프로바이더별 연동 우선순위(Notion, GitHub, 공공 API 순)를 정하고 인증 플로우를 설계한다
 - [ ] 메모리 export(JSON/MD)와 import 포맷을 정의하고 백업 기능을 구현한다
 - [ ] 사용자 동의 수집 화면(동의 시점, 범위, 철회)을 만든다
@@ -244,6 +362,9 @@
 - [x] 사용자가 자신의 인생과 삶과 경험 즉 커리어를 설계하는곳
 - [x] 리서치: 워크넷 Open API(무료 인증키), 고용24 OPEN API(훈련과정·채용, 기업회원), DART OPENDART(사업보고서·재무지표, 누구나 인증키, 20,000건/일), 국민연금공단 공공데이터(사업장 가입자 수·당월고지금액 — 임금 규모 파악)(R4)
 - [x] 리서치: 대법원 2022.5.12. 2021도1533(야놀자 크롤링)은 공개 데이터 크롤링을 정보통신망침입죄 무죄로 판단, 단 로그인+캡처+이용약관 제한 시 리스크가 상승한다(R4)
+- [x] 리서치: 커리어 기록 앱 트렌드 — 랠릿 MY 로그(4대 보험 기반 경력·연봉 자동 연동), 커리어리 AI 경력 프로필, 커리어 로그(자소서·지원 현황 관리), 잡로그(지원일지), TimeStory(경력 타임라인 시각화)(R8) 출처: <https://www.rallit.com/feed/15/career-log>
+- [x] 리서치: 대법원 2021도1533 무죄의 전제는 접근 공개+기술적 보호조치 없음+이용약관이 접근 자체를 제한하지 않음 — 로그인 벽(잡플래닛·LinkedIn)은 계약 위반 소지가 크므로 API·사용자 동의 방식으로 설계(R8) 출처: <https://m.blog.naver.com/shinkimlaw/222786839632>
+- [x] 리서치: 큐넷 국가자격 확인서 API(한국산업인력공단, 실시간 업데이트, 무료)로 '자격증 취득' 사실 검증·자동 기록, 고용24 훈련과정 API로 학습 이력 연계(저작자표시-비영리-변경금지 유의)(R8) 출처: <https://www.data.go.kr/data/15064692/openapi.do>
 - [ ] 뒤로가기 시 입력 보존(드래프트 자동 저장)을 전 화면에 적용한다
 - [ ] 슬랙/지라/카톡/깃허브 수집은 명시적 동의 없이 하지 않는다
 - [ ] 데스크탑 연동(playwirght/selenium)은 법률 검토 후 범위를 확정한다
@@ -278,7 +399,6 @@
 - [x] 이모지 문자 절대 금지
 - [ ] 마크다운 렌더러 실패 감지(미렌더 텍스트 노출)와 retry 로직을 프론트엔드에 구현한다
 - [ ] 이모지 필터(입력·출력·이름 입력 등 전 채널)를 공용 유틸로 구현한다
-
 # 《6. 사용자 개선 AI 응답 루프와 백엔드 AGENT 서빙 시스템 (원문 무손실)》
 ## 《6-1. 응답 루프 설계 (원문 블록 L1)》
 - [x] 사용자 개선 에이아이 응답 루프. 즉, 사용자는 에이전트의 행동이나 답변 및 단계 노드에 대하여 하나하나 주석 달듯이 코멘트를 할수있으며
@@ -439,6 +559,11 @@
 - [x] LinkedIn 스크래핑·채용 용도 금지(사실상 불가), 삼성노트 공식 API 없음, 잡코리아 API 개인 수집 승낙 안 함(R4)
 - [x] 대법원 2022.5.12. 2021도1533(야놀자 크롤링): 공개 데이터 크롤링 정보통신망침입죄 무죄, 단 로그인+캡처+이용약관 제한 시 리스크 상승 → 공식 공공 API 경유가 안전(R4)
 - [x] Playwright/Selenium 데스크탑 처리: 웹에서는 비정상적 API유사 요청으로 문제 소지(아이디어 8 원문)
+- [x] 리서치: 워크넷 채용정보 API(공공데이터 3038225, 무료 인증키, REST), 고용24 사업주훈련 훈련과정 API(15037378, 저작자표시-비영리-변경금지), 큐넷 국가자격 확인서 API(15064692, 실시간), 국민연금 가입현황 API(15005710, 통계만)(R8) 출처: <https://www.data.go.kr/data/3038225/openapi.do>
+- [x] 리서치: DART Open API(opendart.fss.or.kr)는 회원가입 즉시 40자리 인증키 무료 발급, 일일 20,000회 한도 추정(공식 FAQ 재확인 필요)(R8) 출처: <https://opendart.fss.or.kr>
+- [x] 리서치: 사람인 채용정보 API(oapi.saramin.co.kr)는 신청·승인 절차 후 사용, 'Powered by 취업 사람인' 출처 표기 의무(R8) 출처: <https://oapi.saramin.co.kr>
+- [x] 리서치: GitHub REST API는 비인증 60 req/hour/IP, PAT 인증 시 5,000 req/hour — 커리어 타임라인의 코드 활동 축으로 활용(R8) 출처: <https://docs.github.com/en/rest>
+- [x] 리서치: Notion API(내부/공개/PAT 인증, 웹훅)와 랠릿 MY 로그·커리어리 AI 경력 프로필이 커리어 데이터 자산화 트렌드를 보여준다(R8) 출처: <https://www.rallit.com/feed/15/career-log>
 - [ ] 프로바이더별 연동 상태(동의/인증/동기화 주기/오류 처리)를 관리하는 커넥터 계층을 만든다
 - [ ] 공공 API 호출량 제한(20,000건/일 등)을 준수하는 큐·캐시를 설계한다
 
@@ -472,6 +597,29 @@
 - [ ] 개인정보 동의 화면(수집 항목, 목적, 철회 방법)과 파기 정책을 문서화한다
 - [ ] 면접 영상 저장 기간과 접근 권한 정책을 정한다
 
+## 《8-10. 기술 리서치 R7 보강 (LiteLLM 라우팅 전략, OpenRouter :free, RouteLLM ICLR 2025, 엘리스 런박스 가격, QLoRA 11GB, Firecracker/E2B, Temporal, Kanana, HarnessAudit)》
+- [x] OpenAI Agents SDK Handoff: LLM이 호출 가능한 툴로 노출, transfer_to_<agent_name>, handoff() 파라미터(on_handoff, input_type)(R7) 출처: <https://openai.github.io/openai-agents-python/handoffs/>
+- [x] Claude Code Subagents: 독립 context window·시스템 프롬프트·툴·권한, 병렬 리서치, agent teams/background agents로 장기 병렬 작업(R7) 출처: <https://code.claude.com/docs/en/subagents>
+- [x] LangGraph Supervisor: create_supervisor()로 supervisor+팀원 구성, parallel_tool_calls 기본값 False, 병렬 툴 콜은 OpenAI·Anthropic 모델만 지원(R7) 출처: <https://reference.langchain.com/python/langgraph-supervisor/supervisor/create_supervisor>
+- [x] LiteLLM 라우팅 전략: Weighted Pick(기본·권장), Rate-Limit Aware v2, Latency-Based, Least-Busy, Lowest Cost Routing(Async, 토큰당 비용 최저 모델 선택), config.yaml에 rpm/tpm/weight 설정(R7) 출처: <https://docs.litellm.ai/docs/routing>
+- [x] OpenRouter 무료 모델 라우터: openrouter/free, 모델 id 뒤에 :free 접미사(예: meta-llama/llama-3.2-3b-instruct:free), 라우터·무료 모델 모두 과금 없음, 단 rate limit·가용성·지연 제한(R7) 출처: <https://openrouter.ai/docs/guides/routing/routers/free-router>
+- [x] RouteLLM(UC Berkeley·Anyscale·Canva, ICLR 2025): 사용자 선호도 기반 학습 라우터, 강/약 모델 구분으로 품질 유지+비용 2배 이상 절감(R7) 출처: <https://proceedings.iclr.cc/paper_files/paper/2025/file/5503a7c69d48a2f86fc00b3dc09de686-Paper-Conference.pdf>
+- [x] 엘리스 런박스 GPU 가격: B200 SXM ₩7,870/hr~, H100 SXM ₩4,240/hr~, 온디맨드 초 단위 과금, Reserved(1·12개월) 할인(R7) 출처: <https://elice.io/ko/cloud/runbox>
+- [x] QLoRA 4-bit 양자화+LoRA 어댑터로 LLaMA-7B를 ~12GB VRAM(실측 11181MiB)에서 파인튜닝 가능, --max_memory_MB로 메모리 한도 제한(R7) 출처: <https://gist.github.com/Birch-san/57878c4a27cf34f57d3e861865a7d0a2>
+- [x] Gemma 3 파인튜닝: Axolotl 프레임워크, Vertex AI training(H100 등) 또는 Enterprise Colab에서 실행(Google Cloud 공식 예제)(R7) 출처: <https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/model_garden/model_garden_axolotl_gemma3_finetuning.ipynb>
+- [x] HarnessAudit(arXiv 2605.14271, 2026): 에이전트 실행 궤적(모델 I/O·도구 호출·내부 상태·승인)을 기록하는 감사 계층, HarnessAudit-Bench 210개 태스크·8개 도메인, 위반은 리소스 접근·에이전트 간 정보 전달에 집중(R7) 출처: <https://arxiv.org/html/2605.14271v1>
+- [x] NeMo Guardrails는 Apache 2.0 라이선스 확인, OpenAI Agents SDK Guardrails는 input/output/tool 3종+tripwire_triggered, blocking/parallel 실행 모드(R7) 출처: <https://github.com/NVIDIA/NeMo-Guardrails/blob/main/LICENSE.md>
+- [x] Firecracker microVM: 1 CPU/128MiB VM에서 오버헤드 ≤5MiB, 부팅 ≤125ms, CPU 성능 베어메탈 >95%(R7) 출처: <https://github.com/firecracker-microvm/firecracker/blob/main/SPECIFICATION.md>
+- [x] E2B Sandbox: pause/resume 시 파일시스템+메모리(실행 중 프로세스 포함) 보존, 상태(Running/Paused/Snapshotting/Killed), 1분 유휴 자동 일시정지 풀로 비용 절감(R7) 출처: <https://e2b.dev/docs/sandbox/persistence>
+- [x] LangGraph 타임트래블: 모든 checkpoint 저장, get_state_history()로 과거 상태 replay/fork 수정 실행(R7) 출처: <https://docs.langchain.com/oss/python/langgraph/use-time-travel>
+- [x] Temporal Approval 패턴: 외부 결정(사람 승인)을 Signal로 대기, durable execution으로 상태 보존·자동 재개, 지연 시 에스컬레이션 자동화(R7) 출처: <https://docs.temporal.io/design-patterns/approval>
+- [x] FSL(Functional Source License): 2년 후 Apache 2.0/MIT 자동 전환, 포크 사례(Elasticsearch→OpenSearch, Redis→Valkey, Terraform→OpenTofu)(R7) 출처: <https://fsl.software/>
+- [x] 카카오 Kanana-1.5(8B/2.1B, 2025-05-23)는 Apache 2.0으로 상업 활용 가능, Kanana-2 SLM(2026-07-28)은 Kanana Open License(조건부 상업 허용)라 사용 전 확인 필요(R7) 출처: <https://www.kakaocorp.com/page/detail/11566>
+- [x] LangSmith LLM-as-judge: 오프라인(데이터셋)·온라인(실시간) 평가 지원, SDK로 평가자 직접 생성 가능(R7) 출처: <https://docs.langchain.com/langsmith/llm-as-judge>
+- [x] 엘리스 ECI Terraform Provider(elice-dev/eci): eci_virtual_machine·eci_block_storage 리소스, api_endpoint portal.elice.cloud/api(R7) 출처: <https://help.elice.io/help/docs/eci/terraform>
+- [ ] LiteLLM Weighted Pick/Lowest Cost 전략을 라우팅 스키마에 반영한다(R7)
+- [ ] E2B pause/resume 풀과 1분 유휴 일시정지 정책을 샌드박스 설계에 적용한다(R7)
+- [ ] HarnessAudit 감사 로그(모델 I/O·도구 호출·승인) 스키마를 정의한다(R7)
 # 《9. UI/UX 계획 (원문 구상 + 리서치)》
 ## 《9-1. Deep Agent Canvas UX (Gemini Canvas 버전 이력, Claude Artifacts 버전 셀렉터·포크, AG-UI 이벤트 표시)》
 - [x] Gemini Canvas: 문서+코드 공동 편집, 자동 저장, Previous/Next 버전 버튼, Export to Docs/Slides(R2)
@@ -631,3 +779,226 @@
 - [ ] 오픈소스 코어의 과잉 제한을 피하는 기능 분리(코어 오픈, 조직 관리 기능 상용)를 설계한다
 - [ ] 라이선스 검증(OLIS) 절차와 NOTICE 문서를 준비한다
 - [ ] 카이로스 고유의 독자 라이선싱 이름과 이용약관을 확정한다
+
+# 《13. 자료조사 출처 URL 모음 (신규)》
+- [x] 본 섹션은 R1~R8 리서치 파일에 수록된 URL 전체를 리서치 번호별로 수집한 목록이다
+- [x] 중복이 있더라도 각 리서치 파일에서 인용된 URL을 그대로 수록한다
+
+## 《13-1. R1 청년고용·쉬었음 출처 URL 모음》
+- [x] 출처: <https://www.mk.co.kr/news/economy/12081192>
+- [x] 출처: <https://www.newscj.com/news/articleView.html?idxno=3394082>
+- [x] 출처: <https://www.ajunews.com/view/20260119093610254>
+- [x] 출처: <https://www.hankookilbo.com/news/article/A2025061717520005144>
+- [x] 출처: <https://www.hankookilbo.com/news/article/A2025061314520002493>
+- [x] 출처: <https://www.yna.co.kr/view/AKR20260429098800002>
+- [x] 출처: <https://www.yna.co.kr/view/AKR20260715023552002>
+- [x] 출처: <https://www.yna.co.kr/view/AKR20260723089100002>
+- [x] 출처: <https://www.yna.co.kr/view/AKR20260120087551003>
+- [x] 출처: <https://www.sedaily.com/article/20034365>
+- [x] 출처: <https://www.sedaily.com/article/20071120>
+- [x] 출처: <https://www.sedaily.com/article/20034459>
+- [x] 출처: <https://www.sedaily.com/article/20034977>
+- [x] 출처: <https://www.asiatoday.co.kr/kn/view.php?key=20260715010005682>
+- [x] 출처: <https://www.donga.com/news/Economy/article/all/20260723/134350159/1>
+- [x] 출처: <https://www.donga.com/news/Society/article/all/20260427/134023430/1>
+- [x] 출처: <https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847>
+- [x] 출처: <https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=105011&lev=0&m=020402&opType=N&page=1&s=moe&searchType=null&statusYN=W&temp=Y>
+- [x] 출처: <https://www.etnews.com/20260723000045>
+- [x] 출처: <https://www.bok.or.kr/portal/bbs/P0002353/view.do?menuNo=200433&nttId=10095939>
+- [x] 출처: <https://www.startupn.kr/news/articleView.html?idxno=57168>
+- [x] 출처: <https://www.hdmn.co.kr/news/articleView.html?idxno=39095>
+- [x] 출처: <https://www.seoul.co.kr/news/economy/finance/2026/03/17/20260317500002>
+- [x] 출처: <https://www.mohw.go.kr/board.es?act=view&bid=0027&list_no=1479278&mid=a10503000000&nPage=14&tag=>
+- [x] 출처: <https://www.newspim.com/news/view/20260410000298>
+- [x] 출처: <https://www.etoday.co.kr/news/view/2588871>
+- [x] 출처: <https://www.joongang.co.kr/article/25445302>
+- [x] 출처: <https://recruit.mk.co.kr/magazine/view_article.php?code=8&no=1220001>
+
+## 《13-2. R2 AI채용·자소서·면접 출처 URL 모음》
+- [x] 출처: <https://www.moel.go.kr/news/enews/report/enewsView.do?news_seq=18662>
+- [x] 출처: <https://v.daum.net/v/20251128120118527>
+- [x] 출처: <https://www.etnews.com/20250225000303>
+- [x] 출처: <https://www.aitimes.com/news/articleView.html?idxno=201081>
+- [x] 출처: <https://www.aitimes.com/news/articleView.html?idxno=204134>
+- [x] 출처: <https://www.newsis.com/view/NISX20260703_0003694378>
+- [x] 출처: <https://www.civicnews.com/news/articleView.html?idxno=37875>
+- [x] 출처: <https://www.hankyung.com/article/2026070709791>
+- [x] 출처: <https://www.industrynews.co.kr/news/articleView.html?idxno=76605>
+- [x] 출처: <https://www.kmjournal.net/news/articleView.html?idxno=5987>
+- [x] 출처: <https://v.daum.net/v/VPTI2kJ6EB>
+- [x] 출처: <https://www.thebusinessresearchcompany.com/report/artificial-intelligence-ai-career-coach-market-report>
+- [x] 출처: <https://www.researchandmarkets.com/reports/6226142/ai-career-coach-global-market-report>
+- [x] 출처: <https://community.linkareer.com/jayuu/5683145>
+- [x] 출처: <https://www.wanted.co.kr/dashboard/welcome/product/ats>
+
+## 《13-3. R3 ATS·이력서 출처 URL 모음》
+- [x] 출처: <https://www.jobscan.co/blog/fortune-500-use-applicant-tracking-systems/>
+- [x] 출처: <https://www.jobscan.co/blog/interview-rates-study>
+- [x] 출처: <https://www.jobscan.co/state-of-the-job-search>
+- [x] 출처: <https://www.careerplug.com/recruiting-metrics-and-kpis/>
+- [x] 출처: <https://www.selectsoftwarereviews.com/blog/applicant-tracking-system-statistics>
+- [x] 출처: <https://www.hbs.edu/ris/Publication%20Files/hiddenworkers09032021_Fuller_white_paper_33a2047f-41dd-47b1-9a8d-bd08cf3bfa94.pdf>
+- [x] 출처: <https://news.harvard.edu/gazette/story/2021/09/new-study-says-hidden-workers-are-being-excluded/>
+- [x] 출처: <https://www.edligo.net/job-search-tips/i-analyzed-1000-rejected-resumes-heres-what-ats-actually-sees-and-its-not-what-you-think>
+- [x] 출처: <https://enhancv.com/blog/does-ats-reject-resumes/>
+- [x] 출처: <https://www.resumeadapter.com/ats-statistics>
+- [x] 출처: <https://www.icims.com/blog/what-is-cv-resume-parsing>
+- [x] 출처: <https://resumegeni.com/blog/workday-ats-resume-guide>
+- [x] 출처: <https://resumeoptimizerpro.com/blog/icims-resume-format-guide>
+- [x] 출처: <https://www.prnewswire.com/news-releases/ladders-updates-popular-recruiter-eye-tracking-study-with-new-key-insights-on-how-job-seekers-can-improve-their-resumes-300744217.html>
+- [x] 출처: <https://www.ashbyhq.com/talent-trends-report>
+- [x] 출처: <https://pin-com.ghost.io/recruitment-funnel-benchmarks/>
+- [x] 출처: <https://onehour.digital/blog/ats-adoption-statistics>
+- [x] 출처: <https://www.pin.com/blog/ats-market-share-report/>
+- [x] 출처: <https://www.compono.com/articles/latest-hr-and-talent-statistics>
+- [x] 출처: <http://www.itdaily.kr/news/articleView.html?idxno=227392>
+- [x] 출처: <https://it.chosun.com/news/articleView.html?idxno=2023092120061>
+- [x] 출처: <https://www.greetinghr.com/>
+- [x] 출처: <https://www.monthlypeople.com/news/articleView.html?idxno=700251>
+- [x] 출처: <https://www.etnews.com/20230801000031>
+- [x] 출처: <https://zdnet.co.kr/view?no=20250402085737>
+- [x] 출처: <https://rivers.saramin.co.kr/>
+- [x] 출처: <https://www.joongang.co.kr/article/25234895>
+
+## 《13-4. R4 국내커리어플랫폼 출처 URL 모음》
+- [x] 출처: <https://zdnet.co.kr/view/?no=20260204095526>
+- [x] 출처: <https://zdnet.co.kr/view/?no=20260129093004>
+- [x] 출처: <https://zdnet.co.kr/view/?no=20260112084411>
+- [x] 출처: <https://zdnet.co.kr/view/?no=20260204180558>
+- [x] 출처: <https://www.hankyung.com/article/202603255642O>
+- [x] 출처: <https://career.saramin.co.kr/mentor/intro>
+- [x] 출처: <https://blog.wantedlab.com/news/20251120>
+- [x] 출처: <https://montage.wanted.co.kr>
+- [x] 출처: <https://blog.wantedlab.com/news/20251114>
+- [x] 출처: <https://play.google.com/store/apps/details?id=com.publy.news>
+- [x] 출처: <https://ai-academy.careerly.co.kr>
+- [x] 출처: <https://biz.inflearn.com/pages/rallit-future>
+- [x] 출처: <https://www.rallit.com/feed/15/career-log>
+- [x] 출처: <https://www.jobplanet.co.kr/promotion/discount11>
+- [x] 출처: <https://www.jobplanet.co.kr/events/membership>
+- [x] 출처: <https://www.g-enews.com/article/ICT/2024/10/2024102813572188163b60030fa2_1>
+- [x] 출처: <https://www.mordorintelligence.kr/industry-reports/hr-tech-market>
+- [x] 출처: <https://www.ziksir.com/news/articleViewAmp.html?idxno=102017>
+- [x] 출처: <https://www.segye.com/newsView/20240422515991>
+- [x] 출처: <https://www.etoday.co.kr/news/view/2569657>
+
+## 《13-5. R5 글로벌AI커리어 출처 URL 모음》
+- [x] 출처: <https://www.prnewswire.com/news-releases/teal-announces-series-a-funding-to-expand-its-ai-powered-careers-platform-bringing-total-financing-raised-to-19-million-302357544.html>
+- [x] 출처: <https://www.betterup.com/products/betterup-ai-coaching>
+- [x] 출처: <https://www.betterup.com/powered-by-ai>
+- [x] 출처: <https://www.businesswire.com/news/home/20250121963707/en/BetterUp-Launches-AI-Coaching-Bridging-Human-Expertise-and-AI-Innovation-to-Transform-Organizational-Impact-at-Scale>
+- [x] 출처: <https://www.betterup.com/press/series-e>
+- [x] 출처: <https://newsroom.workday.com/2025-05-19-Workday-Unveils-Next-Generation-of-Illuminate-Agents-to-Transform-HR-and-Finance-Operations>
+- [x] 출처: <https://newsroom.workday.com/2024-09-17-Announcing-Workday-Illuminate-TM-The-Next-Generation-of-Workday-AI>
+- [x] 출처: <https://www.linkedin.com/business/talent/blog/talent-acquisition/introducing-hiring-assistant>
+- [x] 출처: <https://business.linkedin.com/hire/resources/future-of-recruiting>
+- [x] 출처: <https://www.jobscan.co/>
+- [x] 출처: <https://www.kickresume.com/en/>
+- [x] 출처: <https://www.kickresume.com/en/press/ai-job-search-data/>
+- [x] 출처: <https://www.oracle.com/news/announcement/ai-world-oracle-helps-organizations-optimize-the-candidate-and-hiring-experience-with-agentic-ai-2025-10-15/>
+- [x] 출처: <https://www.businesswire.com/news/home/20251120036880/en/Genspark-Raises-%24275M-Series-B-Launches-AI-Workspace-to-Put-Busywork-on-Autopilot>
+- [x] 출처: <https://liner.com/search>
+- [x] 출처: <https://liner.com/learn/liner-accurate-ai-search>
+- [x] 출처: <https://www.thebusinessresearchcompany.com/report/artificial-intelligence-ai-career-coach-market-report>
+- [x] 출처: <https://market.us/report/ai-career-coach-market/>
+- [x] 출처: <https://gitnux.org/ai-coaching-statistics/>
+- [x] 출처: <https://www.thebusinessresearchcompany.com/report/career-development-software-market-report>
+- [x] 출처: <https://www.hirevue.com/wp-content/uploads/2026/04/HV_2026_Report_2026-AI-in-Hiring-Report_Web.pdf>
+- [x] 출처: <https://www.ziprecruiter-research.org/economic-insights-research/ai-employer-report-2026>
+- [x] 출처: <https://www.gartner.com/en/human-resources/trends/top-priorities-for-hr-leaders>
+- [x] 출처: <https://www.gartner.com/en/articles/ai-in-hr>
+- [x] 출처: <https://www.nber.org/papers/w30886>
+- [x] 출처: <https://www.forbes.com/sites/mariagraciasantillanalinares/2025/01/22/ai-startup-aims-to-graduate-from-job-search-to-career-coach/>
+- [x] 출처: <https://www.inc.com/annabel-burba/how-betterup-built-an-ai-only-coaching-product-95-percent-of-its-customers-love/91221747>
+- [x] 출처: <https://www.businessinsider.com/ai-career-coach-accessible-employee-coaching-professional-development-2025-4>
+- [x] 출처: <https://scoutapply.com/research/keyword-matching-statistics>
+- [x] 출처: <https://resume.io/blog/resume-rejections>
+- [x] 출처: <https://www.resume-now.com/job-resources/careers/ai-applicant-report>
+- [x] 출처: <https://topresume.com/career-advice/ai-in-hiring-survey>
+- [x] 출처: <https://resumegenius.com/blog/job-hunting/hiring-insights-report>
+- [x] 출처: <https://www.zendikt.com/category/talent-marketplace-software>
+- [x] 출처: <https://engagedly.com/blog/best-talent-mobility-softwares/>
+- [x] 출처: <https://aibusinessweekly.net/p/ai-hr-statistics>
+
+## 《13-6. R6 진로심리·UX기법 출처 URL 모음》
+- [x] 출처: <https://www.chosun.com/economy/weeklybiz/2021/07/30/DNEIX25TP5FF7EX3XZZHSQLIXA/>
+- [x] 출처: <http://teen.mk.co.kr/youth/youth01_01_view.php?c1=4&c2=104&c3=&idx=243>
+- [x] 출처: <https://www.campl.co.kr/news/articleView.html?idxno=11391>
+- [x] 출처: <https://coachingflow.tistory.com/entry/목표-실현의-지름길-만다라트-계획표-오타니-쇼헤이>
+- [x] 출처: <https://dianachoi.tistory.com/4>
+- [x] 출처: <https://blog.naver.com/momni120/223324642248>
+- [x] 출처: <https://teachers.institute/guidance-counselling/supers-stages-career-development/>
+- [x] 출처: <https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12274127>
+- [x] 출처: <https://accesson.kr/kpageneral/assets/pdf/16124/journal-40-4-511.pdf>
+- [x] 출처: <https://uxmagic.ai/blog/blank-canvas-syndrome-ai-ux-workflow>
+- [x] 출처: <https://www.joongang.co.kr/article/25299433>
+- [x] 출처: <https://ko.wikipedia.org/wiki/힉의_법칙>
+- [x] 출처: <https://jkf87.github.io/laws-of-ux/10-hicks-law>
+- [x] 출처: <https://www.nngroup.com/articles/ten-usability-heuristics/>
+- [x] 출처: <https://blog.duolingo.com/how-duolingo-streak-builds-habit>
+- [x] 출처: <https://psycnet.apa.org/record/1998-04232-003>
+- [x] 출처: <https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003070570>
+- [x] 출처: <https://academic.oup.com/oep/article/74/2/523/6333591>
+- [x] 출처: <https://pmc.ncbi.nlm.nih.gov/articles/PMC11203176/>
+- [x] 출처: <https://consultcameron.com/the-importance-of-accountability-partners-in-goal-setting/>
+- [x] 출처: <https://smartkeys.org/accountability-partners/>
+- [x] 출처: <https://en.wikipedia.org/wiki/Accountability_partner>
+- [x] 출처: <https://sk.sagepub.com/ency/edvol/counseling/chpt/career-barriers-inventory>
+- [x] 출처: <https://www.riss.kr/search/detail/DetailView.do?p_mat_type=be54d9b8bc7cdb09&control_no=5c44d9f0c2c5be94ffe0bdc3ef48d419>
+- [x] 출처: <https://psychotricks.com/jam-experiment/>
+- [x] 출처: <https://yukaichou.com/behavioral-analysis/prospect-theory-loss-aversion-kahneman-tversky/>
+
+## 《13-7. R7 멀티에이전트·기술아키텍처 출처 URL 모음》
+- [x] 출처: <https://openai.github.io/openai-agents-python/handoffs/>
+- [x] 출처: <https://code.claude.com/docs/en/subagents>
+- [x] 출처: <https://reference.langchain.com/python/langgraph-supervisor/supervisor/create_supervisor>
+- [x] 출처: <https://github.com/langchain-ai/langgraph-supervisor-py>
+- [x] 출처: <https://docs.litellm.ai/docs/routing>
+- [x] 출처: <https://openrouter.ai/docs/guides/routing/routers/free-router>
+- [x] 출처: <https://proceedings.iclr.cc/paper_files/paper/2025/file/5503a7c69d48a2f86fc00b3dc09de686-Paper-Conference.pdf>
+- [x] 출처: <https://elice.io/ko/cloud/runbox>
+- [x] 출처: <https://elice.io/ko/cloud/pricing/ai-cloud>
+- [x] 출처: <https://help.elice.io/help/docs/elicecloud/ondemand/>
+- [x] 출처: <https://gist.github.com/Birch-san/57878c4a27cf34f57d3e861865a7d0a2>
+- [x] 출처: <https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/model_garden/model_garden_axolotl_gemma3_finetuning.ipynb>
+- [x] 출처: <https://arxiv.org/html/2605.14271v1>
+- [x] 출처: <https://github.com/NVIDIA/NeMo-Guardrails/blob/main/LICENSE.md>
+- [x] 출처: <https://openai.github.io/openai-agents-python/guardrails/>
+- [x] 출처: <https://github.com/firecracker-microvm/firecracker/blob/main/SPECIFICATION.md>
+- [x] 출처: <https://e2b.dev/docs/sandbox/persistence>
+- [x] 출처: <https://docs.langchain.com/oss/python/langgraph/use-time-travel>
+- [x] 출처: <https://temporal.io/blog/human-in-the-loop-approvals>
+- [x] 출처: <https://docs.temporal.io/design-patterns/approval>
+- [x] 출처: <https://fsl.software/>
+- [x] 출처: <https://chaoss.community/what-happens-to-relicensed-open-source-projects-and-their-forks/>
+- [x] 출처: <https://www.kakaocorp.com/page/detail/11566>
+- [x] 출처: <https://www.kakaocorp.com/page/detail/12089>
+- [x] 출처: <https://huggingface.co/kakaocorp/kanana-2-3b-instruct>
+- [x] 출처: <https://docs.langchain.com/langsmith/llm-as-judge>
+- [x] 출처: <https://github.com/elice-dev/terraform-provider-eci>
+- [x] 출처: <https://help.elice.io/help/docs/eci/terraform>
+- [x] 출처: <https://help.elice.io/help/docs/eci/iac/terraform-overview>
+
+## 《13-8. R8 공공데이터·커리어관리 출처 URL 모음》
+- [x] 출처: <https://www.data.go.kr/data/3038225/openapi.do>
+- [x] 출처: <https://www.data.go.kr/data/15037378/openapi.do>
+- [x] 출처: <https://www.data.go.kr/data/15064692/openapi.do>
+- [x] 출처: <https://www.data.go.kr/data/15005710/openapi.do>
+- [x] 출처: <http://openapi.q-net.or.kr/api/service/rest/InquiryCfmnPolicySVC/getList>
+- [x] 출처: <https://opendart.fss.or.kr>
+- [x] 출처: <https://oapi.saramin.co.kr>
+- [x] 출처: <https://developers.notion.com/guides/get-started/overview>
+- [x] 출처: <https://developers.notion.com/guides/get-started/quick-start>
+- [x] 출처: <https://www.icqa.or.kr>
+- [x] 출처: <https://www.pqi.or.kr>
+- [x] 출처: <https://korea-kca.com>
+- [x] 출처: <https://www.rallit.com/feed/15/career-log>
+- [x] 출처: <https://apps.apple.com/us/app/id6748353450>
+- [x] 출처: <https://play.google.com/store/apps/details?id=com.apx.apx112>
+- [x] 출처: <https://apps.apple.com/us/app/id1476882118>
+- [x] 출처: <https://www.jobplanet.co.kr/welcome/review_operation_policy>
+- [x] 출처: <https://zdnet.co.kr/view/?no=20250717104009>
+- [x] 출처: <https://m.blog.naver.com/shinkimlaw/222786839632>
+- [x] 출처: <https://file.scourt.go.kr/dcboard/1727143941701_111221.pdf>
+- [x] 출처: <https://blog.closelyhq.com/how-to-scrape-linkedin-data-legally/>
+- [x] 출처: <https://apiserpent.com/blog/official-linkedin-api-vs-scraping>
