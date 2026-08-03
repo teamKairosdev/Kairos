@@ -300,6 +300,21 @@
 
 ---
 
+## 세션 20: 발표자료 디자인 전면 재작업 (2026-08-04)
+
+- [x] 사용자의 공식 브랜드 컬러 `#2F20F7` 확인 및 발표자료 1차 컬러 전환
+- [x] 디자인 혹평 기준으로 작은 글자·카드 과밀·장식성 그라디언트·placeholder 중심 구조 재설계
+- [x] 눈누·WCAG·프로젝터 타이포그래피·editorial data storytelling 리서치 반영
+- [x] 실제 `kairoslogo_basic자산 5.svg` 로고 사용 유지
+- [x] 통계청·국가데이터처·동아일보·무하유·지디넷코리아 출처 헤드라인 카드 추가
+- [x] 문제정의·공익성·경쟁 차별성·제품 증거·기능 전체 맵·Q&A를 편집형 그래픽으로 재배치
+- [x] 본문 최소 24px, 제목 최소 48px 수준의 `clamp()` 타이포그래피 적용
+- [x] GIF·MP4·PNG 3개 시연 슬롯과 기본 wireframe 대체 화면 유지
+- [x] 정적 검사: 14장, `#2F20F7`, 로고 경로, source card 3개, media input 3개, SLLM·VM·Firecracker·E2B 0, 이모지 0
+- [x] 커밋 (push 안 함)
+
+---
+
 ## 세션 19: 브랜드 에셋·컬러 최종 적용 (2026-08-04)
 
 - [x] `ASSETS/kairoslogo_basic자산 5.svg`, white logo, brandcopy, 배경 SVG, identity PDF 존재 확인
