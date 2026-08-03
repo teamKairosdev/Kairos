@@ -300,6 +300,21 @@
 
 ---
 
+## 세션 27: 단일 HTML 임베드·반복 JS 시연 최종화 (2026-08-04)
+
+- [x] 외부 폰트 stylesheet·`@font-face`·외부 이미지 의존 제거
+- [x] 실제 Kairos 로고 SVG를 inline symbol로 임베드하고 topbar·표지에서 재사용
+- [x] GIF·MP4·PNG 파일 input을 제거하고 제품 흐름 기반 JS 데모로 전환
+- [x] ATS·Diff·텍스트 면접 demo 상태를 idle·running·paused·done으로 관리
+- [x] 재생·일시정지·다시 재생·반복 컨트롤 및 requestAnimationFrame 구현
+- [x] Diff 승인 전 저장 대기, 사용자 적용 후 편집기 반영, 별도 저장 이후 저장 완료 순서 정리
+- [x] 면접 답변·plain-text 응답·종료 요약 상태를 실제 코드 흐름에 맞게 정리
+- [x] 공식 1~10 및 Appendix 11~14, 문제정의·공익성·전체 제품 비전 유지
+- [x] 자체 포함 검사: 외부 폰트 0, 외부 이미지 0, 파일 input 0, inline logo 1, logo use 2, 14장, 이모지 0
+- [x] 커밋 (push 안 함)
+
+---
+
 ## 세션 26: 발표자료 픽셀 검증 시작 (2026-08-04)
 
 - [ ] 로컬 `발표자료` HTTP 서버 실행
