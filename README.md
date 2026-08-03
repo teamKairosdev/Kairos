@@ -522,7 +522,7 @@ npm install
 
 # Configure environment
 cp .env.example .env
-# 필수: GOOGLE_GENERATIVE_AI_API_KEY, DATABASE_URL, JWT_SECRET
+# 필수: GOOGLE_GENERATIVE_AI_API_KEY, DATABASE_URL, JWT_SECRET, NEXT_PUBLIC_APP_URL
 # 선택: GOOGLE_CLIENT_ID/SECRET, BLOB_READ_WRITE_TOKEN, VERCEL_AI_GATEWAY_URL/KEY,
 #       NEXT_PUBLIC_RHWP_STUDIO_URL
 
@@ -535,24 +535,26 @@ npm run start
 
 # Database commands
 npm run db:generate  # Generate Drizzle migrations
-npm run db:migrate   # Apply migrations to NeonDB
+npm run db:migrate   # Apply migrations to the configured PostgreSQL database
 npm run db:studio    # Launch Drizzle Studio GUI
 
 # Tests
 npm test             # Vitest · 55 tests (src/server 대상)
 ```
 
+### Local PostgreSQL
+
+로컬 개발에서는 PostgreSQL 16과 `pgvector` 확장을 설치·실행하고, 빈 데이터베이스를 만든 뒤 `.env`의 `DATABASE_URL`을 실제 로컬 사용자·비밀번호·데이터베이스명으로 설정합니다. 이후 `npm run db:migrate`를 실행해 `drizzle/` 마이그레이션을 적용합니다.
+
 ### Environment Variables (`.env.example`)
 
 | Group | Keys |
 |---|---|
-| **Gemini AI** | `GOOGLE_GENERATIVE_AI_API_KEY` |
-| **Vercel AI Gateway** (선택) | `VERCEL_AI_GATEWAY_URL`, `VERCEL_AI_GATEWAY_KEY` |
-| **NeonDB** | `DATABASE_URL`, `DATABASE_URL_UNPOOLED` |
-| **Vercel Blob** | `BLOB_READ_WRITE_TOKEN` |
-| **Google OAuth2** | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` |
-| **JWT Session** | `JWT_SECRET` (32자 이상) |
+| **Required** | `GOOGLE_GENERATIVE_AI_API_KEY`, `DATABASE_URL`, `JWT_SECRET`, `NEXT_PUBLIC_APP_URL` |
+| **Google OAuth2** (선택) | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` |
+| **Vercel Blob** (선택) | `BLOB_READ_WRITE_TOKEN` |
 | **HWP Editor Studio** (선택) | `NEXT_PUBLIC_RHWP_STUDIO_URL` |
+| **Vercel AI Gateway** (선택) | `VERCEL_AI_GATEWAY_URL`, `VERCEL_AI_GATEWAY_KEY` |
 
 ---
 

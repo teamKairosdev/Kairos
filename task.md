@@ -300,6 +300,34 @@
 
 ---
 
+## 세션 15: 전체 아이디어 구현·로컬 PostgreSQL·발표 고도화 (2026-08-03)
+
+### 1. 범위 결정
+- [x] SLLM 파인튜닝과 VM 인스턴스 할당은 구현·발표·계획서 범위에서 제외한다
+- [x] 나머지 원문 아이디어는 실제 구현·실행 가능한 MVP·명시적 로드맵으로 분류했다
+- [x] `.env`와 실제 비밀값은 git 추적하지 않는다
+
+### 2. 병렬 구현
+- [x] 로컬 PostgreSQL 서비스 실행·DATABASE_URL 연결·Drizzle 마이그레이션
+- [x] Deep Agent Canvas MVP: 도구 상태·Markdown retry·버전·Diff 편집
+- [x] Career Community 동병상련 자동매칭, 경력 일기·직무 매칭·진로기법 MVP를 구현했다
+- [x] Sea of Contexts의 파일 import/export·공식 API 커넥터 상태 MVP를 구현했다
+- [x] 취업준비생 메시지·톤교정·멘토 로드맵·성장 데이터 MVP
+- [x] AI 라우팅·서브에이전팅·하네스 MVP
+- [x] 심사기준 근거자료·출처·시각화 발표자료를 실제 구현 범위에 맞춰 고도화했다
+
+### 3. 통합 검증
+- [x] PostgreSQL clean migration 성공 및 핵심 API 통합 테스트 실행
+- [x] 계획서에서 SLLM·VM 범위를 범위 제외로 갱신하고 실제 구현 목록을 정리했다
+- [x] 발표자료에서 근거자료·시각화·실제 데모 범위를 갱신했다
+- [x] 전체 테스트·빌드·task.md 갱신: `npm test` 29개 파일, 161/161 통과, TypeScript·Drizzle check·build 통과
+- [x] 커뮤니티 익명·활동점수·체크인 미션, 영상 면접 미디어 MVP, 이력서 비교 MVP, 로컬 공공 API 동기화 MVP를 추가했다
+- [x] 라이선스 산출물 `LICENSE`, `NOTICE`, `LICENSING.md`를 추가했다
+- [x] `.env`는 gitignore 상태로 유지하고 `.env.example`에는 placeholder만 유지했다
+- [x] 커밋 전 상태 확인 완료 (push 안 함)
+
+---
+
 ## 세션 10-D: R9 문제정의 리서치 계획서 통합 (2026-08-03)
 
 - [x] R9 신규 문제정의 리서치 30개 사실을 통합 계획서에 반영
@@ -336,7 +364,8 @@
 
 ### 2. 구현 상태 대조
 - [x] 실제 구현 완료로 문서화한 범위: ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접 plain-text 스트리밍, QA/Humanizer, Career CRUD·검색, HWP/HWPX 뷰어·에디터, 기본 커뮤니티 게시·조회·본인 글 삭제
-- [x] 설계·로드맵으로 분리한 범위: Deep Agent Canvas 전체, VM·툴 호출, 외부 provider connector, sLLM, 서브에이전트, 자동매칭, 화상면접, 3개월 멘토 성장판정
+- [x] 설계·로드맵으로 분리한 범위: Deep Agent Canvas 전체, 툴 호출, 외부 provider connector, 서브에이전트, 자동매칭, 화상면접, 3개월 멘토 성장판정
+- [x] 범위 제외로 확정한 항목: SLLM 파인튜닝과 VM 인스턴스 할당
 
 ### 3. 검증
 - [x] 계획서 형식 검사: `#` 14개, `##` 87개, 체크라인 934개, 비제목·비체크 비공백 라인 0개
@@ -419,3 +448,18 @@
 - [x] `git diff --check` 통과
 - [x] 앱 소스 이모지 0개 확인
 - [x] 커밋 (push 안 함)
+
+---
+
+## 세션 16: 환경변수 템플릿·로컬 PostgreSQL 안내 정리 (2026-08-03)
+
+### 1. 작업 범위
+- [x] 코드 grep 결과 기준으로 필수 환경변수 4개와 실제 코드에서 읽는 선택 환경변수만 `.env.example`에 반영
+- [x] `.env.example`의 PostgreSQL URL을 placeholder로만 구성하고 실제 비밀번호·API key·token을 포함하지 않음
+- [x] README에 로컬 PostgreSQL·`pgvector` 준비와 `npm run db:migrate` 실행 절차를 간단히 기록
+- [x] SLLM·VM 환경변수는 추가하지 않음
+
+### 2. 검증
+- [x] `.env`와 `.env.local`이 `.gitignore` 대상이고 `.env.example`만 예외인 것을 확인
+- [x] `git diff --check` 및 허용 파일 diff의 secret 패턴 검사
+- [x] `.env.example`, `README.md`, `task.md` 외 소스·계획서는 수정하지 않음

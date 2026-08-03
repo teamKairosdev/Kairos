@@ -251,6 +251,21 @@ export default function CareerPage() {
         </button>
       </div>
 
+      <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-xs md:p-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-violet-500">Career Planning</p>
+            <h2 className="mt-1 text-base font-bold text-gray-900">기록한 경력을 다음 선택으로 연결하세요</h2>
+            <p className="mt-1 text-sm text-gray-500">일기, 목표, 후보 직무 탐색을 개인 기록으로 관리할 수 있습니다.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/career/diary" className="rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-600 hover:border-blue-200 hover:text-blue-600">경력 일기</Link>
+            <Link href="/career/goals" className="rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-600 hover:border-violet-200 hover:text-violet-600">목표와 마일스톤</Link>
+            <Link href="/career/matches" className="rounded-lg bg-gray-900 px-3 py-2 text-xs font-semibold text-white hover:bg-gray-700">후보 직무 추천</Link>
+          </div>
+        </div>
+      </div>
+
       {/* Semantic Search */}
       <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl p-6 border border-blue-100">
         <div className="flex items-center gap-2 mb-3">

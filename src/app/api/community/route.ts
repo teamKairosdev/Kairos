@@ -4,13 +4,16 @@ import { communityPosts, users } from '@/db/schema';
 import { desc, eq, and, sql } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
 import { unauthorized, badRequest, internalError } from '@/server/http';
+import { toPublicCommunityPost } from './response';
 
 const VALID_CATEGORIES = ['interview_pass', 'career_tip', 'qna'] as const;
 
 export async function GET(req: NextRequest) {
+  const page = Math.max(1, parseInt(req.nextUrl.searchParams.get('page') || '1'));
+  const limit = Math.min(50, Math.max(1, parseInt(req.nextUrl.searchParams.get('limit') || '20')));
+
   try {
-    const page = Math.max(1, parseInt(req.nextUrl.searchParams.get('page') || '1'));
-    const limit = Math.min(50, Math.max(1, parseInt(req.nextUrl.searchParams.get('limit') || '20')));
+    const session = await getSession(req);
     const category = req.nextUrl.searchParams.get('category') || undefined;
     const offset = (page - 1) * limit;
 
@@ -26,6 +29,7 @@ export async function GET(req: NextRequest) {
           title: communityPosts.title,
           content: communityPosts.content,
           category: communityPosts.category,
+          isAnonymous: communityPosts.isAnonymous,
           likesCount: communityPosts.likesCount,
           createdAt: communityPosts.createdAt,
           user: {
@@ -42,11 +46,12 @@ export async function GET(req: NextRequest) {
 
       const countResult = await db
         .select({ count: sql<number>`count(*)` })
-        .from(communityPosts);
+        .from(communityPosts)
+        .where(category ? eq(communityPosts.category, category) : sql`1=1`);
       const total = Number(countResult[0]?.count ?? 0);
 
       return NextResponse.json({
-        posts,
+        posts: posts.map(post => toPublicCommunityPost(post, session?.userId)),
         pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
       });
     }
@@ -54,7 +59,7 @@ export async function GET(req: NextRequest) {
     console.warn('[Kairos] community GET DB fetch failed (demo mode)');
   }
 
-  return NextResponse.json({ posts: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } });
+  return NextResponse.json({ posts: [], pagination: { page, limit, total: 0, totalPages: 0 } });
 }
 
 export async function POST(req: NextRequest) {
@@ -65,10 +70,13 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { title, content, category } = body || {};
+    const { title, content, category, isAnonymous } = body || {};
 
     if (!title || !content) {
       return badRequest('제목과 내용을 입력해주세요.');
+    }
+    if (isAnonymous !== undefined && typeof isAnonymous !== 'boolean') {
+      return badRequest('익명 표시 설정이 올바르지 않습니다.');
     }
 
     const finalCategory = category || 'career_tip';
@@ -80,19 +88,27 @@ export async function POST(req: NextRequest) {
     if (db) {
       const [post] = await db
         .insert(communityPosts)
-        .values({ userId: session.userId, title, content, category: finalCategory })
+        .values({
+          userId: session.userId,
+          title,
+          content,
+          category: finalCategory,
+          isAnonymous: isAnonymous === true,
+        })
         .returning();
-      return NextResponse.json(post);
+      return NextResponse.json(toPublicCommunityPost({ ...post, user: null }, session.userId));
     }
 
     return NextResponse.json({
       id: 'demo-post-' + Date.now(),
-      userId: session.userId,
       title,
       content,
       category: finalCategory,
+      isAnonymous: isAnonymous === true,
       likesCount: 0,
       createdAt: new Date().toISOString(),
+      user: null,
+      isOwner: true,
     });
   } catch (err: unknown) {
     return internalError(err, 'Error');

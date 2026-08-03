@@ -119,7 +119,7 @@ Next.js UI
 
 **대본:**
 
-“실제 요청은 Next.js UI에서 시작합니다. ATS, 이력서, 면접 화면의 입력이 API Route로 들어가고, 여기서 입력과 세션을 확인합니다. ATS 경로는 LLM 점수가 아니라 정규화된 키워드와 스킬 taxonomy 및 alias, 경력연수, 학력, 키워드 밀도를 결정론적으로 계산합니다. 이력서 개선과 텍스트 면접 응답은 Gemini REST를 사용합니다. 결과와 세션 저장은 Drizzle ORM으로 처리해 Neon PostgreSQL에 연결하고, pgvector는 경력 임베딩 검색 경로이며 ATS 점수에 직접 사용하지 않습니다. VM, sLLM, LangGraph, Firecracker, 자동매칭, 화상분석은 현재 구현으로 제시하지 않고 로드맵으로만 남겼습니다.”
+“실제 요청은 Next.js UI에서 시작합니다. ATS, 이력서, 면접 화면의 입력이 API Route로 들어가고, 여기서 입력과 세션을 확인합니다. ATS 경로는 LLM 점수가 아니라 정규화된 키워드와 스킬 taxonomy 및 alias, 경력연수, 학력, 키워드 밀도를 결정론적으로 계산합니다. 이력서 개선과 텍스트 면접 응답은 Gemini REST를 사용합니다. 결과와 세션 저장은 Drizzle ORM으로 처리해 Neon PostgreSQL에 연결하고, pgvector는 경력 임베딩 검색 경로이며 ATS 점수에 직접 사용하지 않습니다.”
 
 ## Slide 7. 6. 프로토타입 또는 시연 화면 (06/09)
 
@@ -204,7 +204,7 @@ Next.js UI
 
 **질문:** 계획서에 있던 Deep Agent나 자동화 기능은 왜 시연하지 않나요?
 
-**답변:** “현재 코드 경로로 확인된 핵심 데모는 ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접입니다. VM 할당, sLLM, Deep Agent Canvas 전체, LangGraph·Firecracker 실행 환경, 외부 provider connector, 서브에이전팅, 자동매칭, 화상분석, 음성 면접, 3개월 멘토 성장판정, 자동 지원 제출과 회사별 합격 예측은 현재 완성품이 아닙니다. 이 항목들은 로드맵으로만 설명하겠습니다.”
+**답변:** “현재 코드 경로로 확인된 핵심 데모는 ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접입니다. Deep Agent Canvas 전체, 외부 provider connector, 서브에이전팅, 자동매칭, 화상분석, 음성 면접, 3개월 멘토 성장판정, 자동 지원 제출과 회사별 합격 예측은 현재 완성품이 아닙니다. 미완성 항목은 로드맵으로만 설명하겠습니다.”
 
 ### 카드 6. 비용
 
@@ -233,5 +233,5 @@ Next.js UI
 - Slide 6에서는 현재 Next.js UI, API Route, ATS 휴리스틱, Gemini REST, Drizzle ORM, Neon PostgreSQL·pgvector만 설명한다.
 - Slide 7에서는 `/ats`, `/resume/[id]`, `/interview/[id]`의 실제 화면 순서를 지킨다.
 - 실제 AI, mock, 녹화본, 정적 캡처를 각각 구분해 고지한다.
-- VM, sLLM, 자동매칭, 화상분석과 그 밖의 로드맵을 구현 완료처럼 말하지 않는다.
+- 미구현 기능과 그 밖의 로드맵을 구현 완료처럼 말하지 않는다.
 - 예선 본문 5:00과 별도 질의응답 5:00을 구분한다.

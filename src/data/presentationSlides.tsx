@@ -4,6 +4,27 @@ import React from 'react';
 
 export const SLIDE_COUNT = 10;
 
+const PRESENTATION_SOURCES = {
+  firstEmployment: {
+    label: '통계청 청년층 부가조사 · 2025',
+    url: 'https://kostat.go.kr/board.es?mid=a10301030200&bid=210',
+    host: 'kostat.go.kr 원문',
+  },
+  longTermUnemployed: {
+    label: '국가데이터처·동아일보 · 2026',
+    urls: [
+      'https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847',
+      'https://www.donga.com/news/Economy/article/all/20260723/134350159/1',
+    ],
+    host: 'korea.kr · donga.com 원문',
+  },
+  aiSuspicion: {
+    label: '무하유·지디넷코리아 · 2026',
+    url: 'https://v.daum.net/v/20260108160242419',
+    host: 'v.daum.net 원문',
+  },
+} as const;
+
 export const SLIDE_CSS = `
 .ks-root {
   position: fixed;
@@ -465,9 +486,24 @@ export const SLIDE_CSS = `
 
 .ks-stat-card {
   min-width: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  align-items: start;
   padding: clamp(0.7rem, 1.2vw, 1rem);
-  border-top: 2px solid rgba(98, 215, 239, 0.65);
-  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(157, 176, 207, 0.2);
+  border-top: 3px solid rgba(98, 215, 239, 0.72);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.ks-stat-card:nth-child(2) {
+  border-top-color: rgba(185, 161, 255, 0.78);
+}
+
+.ks-stat-card:nth-child(3) {
+  border-top-color: rgba(244, 204, 120, 0.78);
 }
 
 .ks-stat-number {
@@ -478,25 +514,220 @@ export const SLIDE_CSS = `
   line-height: 1;
 }
 
-.ks-stat-card p {
-  margin-top: 0.4rem;
+.ks-stat-card:nth-child(2) .ks-stat-number { color: var(--purple); }
+.ks-stat-card:nth-child(3) .ks-stat-number { color: var(--amber); }
+
+.ks-stat-number span {
+  margin-left: 0.14em;
   color: #d4deeb;
-  font-size: clamp(0.68rem, 1vw, 0.84rem);
+  font-family: inherit;
+  font-size: 0.42em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ks-stat-body {
+  min-width: 0;
+}
+
+.ks-stat-card p {
+  margin-top: 0;
+  color: #d4deeb;
+  font-size: clamp(0.72rem, 1.05vw, 0.9rem);
   line-height: 1.35;
 }
 
-.ks-stat-card small {
-  display: block;
-  margin-top: 0.55rem;
-  color: var(--subtle);
-  font-size: clamp(0.55rem, 0.78vw, 0.7rem);
+.ks-stat-meta {
+  display: grid;
+  gap: 0.38rem;
+  margin: 0.75rem 0 0;
+}
+
+.ks-stat-meta-row {
+  display: grid;
+  grid-template-columns: 3.1rem minmax(0, 1fr);
+  gap: 0.4rem;
+  align-items: start;
+}
+
+.ks-stat-meta-row dt {
+  color: var(--cyan);
+  font-size: clamp(0.58rem, 0.78vw, 0.7rem);
+  font-weight: 800;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.ks-stat-card:nth-child(2) .ks-stat-meta-row dt { color: var(--purple); }
+.ks-stat-card:nth-child(3) .ks-stat-meta-row dt { color: var(--amber); }
+
+.ks-stat-meta-row dd {
+  min-width: 0;
+  margin: 0;
+  color: #b8c7d8;
+  font-size: clamp(0.6rem, 0.85vw, 0.74rem);
   line-height: 1.35;
+}
+
+.ks-source-panel {
+  margin-top: var(--gap);
+  padding: clamp(0.65rem, 1.1vw, 0.9rem) clamp(0.75rem, 1.4vw, 1.1rem);
+  border: 1px solid rgba(157, 176, 207, 0.16);
+  border-radius: 14px;
+  background: rgba(7, 16, 31, 0.35);
+}
+
+.ks-source-panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ks-source-panel-header strong {
+  color: #dce7f3;
+  font-size: clamp(0.68rem, 0.95vw, 0.8rem);
+}
+
+.ks-source-panel-header span {
+  color: var(--subtle);
+  font-size: clamp(0.56rem, 0.78vw, 0.68rem);
+}
+
+.ks-source-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-small);
+  margin-top: 0.65rem;
+}
+
+.ks-source-link {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.18rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid rgba(157, 176, 207, 0.14);
+  border-radius: 9px;
+  color: #cad7e5;
+  font-size: clamp(0.59rem, 0.82vw, 0.72rem);
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.ks-source-link:hover {
+  border-color: rgba(98, 215, 239, 0.45);
+  color: #f0f7fd;
+}
+
+.ks-source-link small {
+  color: var(--subtle);
+  font-size: clamp(0.53rem, 0.7vw, 0.62rem);
 }
 
 .ks-feature-card {
   display: flex;
   flex-direction: column;
   min-height: 185px;
+}
+
+.ks-feature-section {
+  margin-top: var(--gap-large);
+}
+
+.ks-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.7rem;
+}
+
+.ks-section-heading .ks-overline {
+  margin-bottom: 0.15rem;
+}
+
+.ks-section-heading strong {
+  color: #dce7f3;
+  font-size: clamp(0.8rem, 1.2vw, 0.98rem);
+}
+
+.ks-feature-section > .ks-grid {
+  margin-top: 0;
+}
+
+.ks-roadmap {
+  margin-top: var(--gap);
+  padding: clamp(0.75rem, 1.35vw, 1.05rem);
+  border: 1px dashed rgba(185, 161, 255, 0.38);
+  border-radius: 16px;
+  background: linear-gradient(120deg, rgba(185, 161, 255, 0.085), rgba(244, 204, 120, 0.04));
+}
+
+.ks-roadmap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ks-roadmap-header strong {
+  color: #e3d9ff;
+  font-size: clamp(0.78rem, 1.15vw, 0.94rem);
+}
+
+.ks-roadmap-header span {
+  color: var(--subtle);
+  font-size: clamp(0.58rem, 0.82vw, 0.7rem);
+}
+
+.ks-roadmap-items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-small);
+  margin-top: 0.7rem;
+}
+
+.ks-roadmap-item {
+  display: grid;
+  grid-template-columns: 1.35rem minmax(0, 1fr);
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.65rem;
+  border: 1px solid rgba(185, 161, 255, 0.18);
+  border-radius: 11px;
+  background: rgba(7, 16, 31, 0.32);
+}
+
+.ks-roadmap-item::before {
+  content: 'R';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: rgba(185, 161, 255, 0.16);
+  color: var(--purple);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.ks-roadmap-item strong {
+  display: block;
+  color: #d8d1ee;
+  font-size: clamp(0.66rem, 0.98vw, 0.8rem);
+  line-height: 1.35;
+}
+
+.ks-roadmap-item p {
+  margin-top: 0.25rem;
+  color: #9daac0;
+  font-size: clamp(0.58rem, 0.82vw, 0.7rem);
+  line-height: 1.35;
 }
 
 .ks-feature-index {
@@ -535,6 +766,16 @@ export const SLIDE_CSS = `
   background: var(--panel);
 }
 
+.ks-flow-step.approval {
+  border-color: rgba(129, 230, 179, 0.42);
+  background: rgba(129, 230, 179, 0.075);
+}
+
+.ks-flow-step.separate {
+  border-color: rgba(244, 204, 120, 0.42);
+  background: rgba(244, 204, 120, 0.065);
+}
+
 .ks-flow-step:not(:last-child)::after {
   content: '→';
   position: absolute;
@@ -555,6 +796,9 @@ export const SLIDE_CSS = `
   font-weight: 800;
   letter-spacing: 0.08em;
 }
+
+.ks-flow-step.approval .ks-step-number { color: var(--green); }
+.ks-flow-step.separate .ks-step-number { color: var(--amber); }
 
 .ks-flow-step h3 { font-size: clamp(0.78rem, 1.25vw, 1rem); }
 .ks-flow-step p { margin-top: 0.5rem; font-size: clamp(0.62rem, 0.95vw, 0.78rem); }
@@ -616,9 +860,9 @@ export const SLIDE_CSS = `
 }
 
 .ks-arch-services {
-  flex: 1.5 1 250px;
+  flex: 2 1 500px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--gap-small);
   border-color: rgba(185, 161, 255, 0.28);
   background: rgba(185, 161, 255, 0.075);
@@ -638,6 +882,70 @@ export const SLIDE_CSS = `
   border: 1px solid rgba(185, 161, 255, 0.18);
   border-radius: 10px;
   background: rgba(7, 16, 31, 0.3);
+}
+
+.ks-arch-service code {
+  display: block;
+  margin-top: 0.35rem;
+  color: #d8ccff;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: clamp(0.54rem, 0.78vw, 0.66rem);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.ks-arch-service small code {
+  display: inline;
+  margin-top: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.ks-arch-backend {
+  max-width: 860px;
+  margin: var(--gap-small) auto 0;
+}
+
+.ks-arch-down {
+  display: block;
+  color: var(--purple);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.ks-arch-backend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-small);
+  margin-top: 0.35rem;
+}
+
+.ks-arch-output {
+  min-width: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(98, 215, 239, 0.18);
+  border-radius: 12px;
+  background: rgba(98, 215, 239, 0.045);
+}
+
+.ks-arch-output:last-child {
+  border-color: rgba(129, 230, 179, 0.2);
+  background: rgba(129, 230, 179, 0.045);
+}
+
+.ks-arch-output strong {
+  color: #e9f3fb;
+  font-size: clamp(0.68rem, 1vw, 0.82rem);
+}
+
+.ks-arch-output small {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--subtle);
+  font-size: clamp(0.56rem, 0.82vw, 0.68rem);
+  line-height: 1.35;
 }
 
 .ks-architecture-notes {
@@ -759,6 +1067,73 @@ export const SLIDE_CSS = `
 .ks-status-card h3 { margin-top: 0.8rem; font-size: clamp(0.88rem, 1.35vw, 1.08rem); }
 .ks-status-card p { margin-top: 0.55rem; font-size: clamp(0.65rem, 1vw, 0.81rem); }
 
+.ks-impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap-large);
+}
+
+.ks-impact-card {
+  position: relative;
+  min-width: 0;
+  padding: clamp(0.85rem, 1.45vw, 1.2rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+}
+
+.ks-impact-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0 0 0 100%;
+  background: rgba(98, 215, 239, 0.08);
+}
+
+.ks-impact-card:nth-child(2)::after { background: rgba(129, 230, 179, 0.08); }
+.ks-impact-card:nth-child(3)::after { background: rgba(185, 161, 255, 0.1); }
+
+.ks-impact-card h3 {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.8rem;
+  font-size: clamp(0.88rem, 1.35vw, 1.08rem);
+}
+
+.ks-impact-card > p {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.55rem;
+  font-size: clamp(0.65rem, 1vw, 0.81rem);
+}
+
+.ks-impact-measure {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.8rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(157, 176, 207, 0.15);
+}
+
+.ks-impact-measure strong {
+  display: block;
+  color: #cdd9e7;
+  font-size: clamp(0.62rem, 0.9vw, 0.74rem);
+}
+
+.ks-impact-measure span {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--subtle);
+  font-size: clamp(0.59rem, 0.86vw, 0.7rem);
+  line-height: 1.4;
+}
+
 .ks-kpi-box {
   margin-top: var(--gap);
   padding: clamp(0.8rem, 1.4vw, 1.1rem);
@@ -771,6 +1146,14 @@ export const SLIDE_CSS = `
   display: block;
   color: #dce7f3;
   font-size: clamp(0.76rem, 1.15vw, 0.92rem);
+}
+
+.ks-kpi-note {
+  display: block;
+  margin-top: 0.28rem;
+  color: var(--subtle);
+  font-size: clamp(0.58rem, 0.82vw, 0.7rem);
+  line-height: 1.4;
 }
 
 .ks-kpi-grid {
@@ -992,14 +1375,17 @@ export const SLIDE_CSS = `
 @media (max-width: 700px) {
   .ks-grid-3,
   .ks-status-grid,
+  .ks-impact-grid,
   .ks-architecture-notes,
   .ks-demo-steps,
   .ks-qa-grid { grid-template-columns: 1fr; }
 
   .ks-pain-grid { grid-template-columns: 1fr; }
+  .ks-roadmap-items,
+  .ks-source-links,
+  .ks-arch-backend-grid { grid-template-columns: 1fr; }
   .ks-stat-grid { grid-template-columns: 1fr; }
   .ks-stat-card { display: grid; grid-template-columns: 5.2rem 1fr; column-gap: 0.7rem; align-items: center; }
-  .ks-stat-card small { grid-column: 1 / -1; }
   .ks-feature-card { min-height: 0; }
   .ks-flow { grid-template-columns: 1fr; gap: 0.85rem; }
   .ks-flow-step:not(:last-child)::after { content: '↓'; top: auto; right: 50%; bottom: -0.87rem; transform: translateX(50%); }
@@ -1042,6 +1428,46 @@ function Badge({ className = '', children }: { className?: string; children: Rea
   return <span className={`ks-badge ${className}`}>{children}</span>;
 }
 
+function SourcePanel() {
+  return (
+    <div className="ks-source-panel" aria-label="슬라이드 3 통계 출처">
+      <div className="ks-source-panel-header">
+        <strong>출처 · 기준연도</strong>
+        <span>짧은 표기에서 원문으로 연결</span>
+      </div>
+      <div className="ks-source-links">
+        <a
+          className="ks-source-link"
+          href={PRESENTATION_SOURCES.firstEmployment.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>{PRESENTATION_SOURCES.firstEmployment.label}</span>
+          <small>{PRESENTATION_SOURCES.firstEmployment.host}</small>
+        </a>
+        <a
+          className="ks-source-link"
+          href={PRESENTATION_SOURCES.longTermUnemployed.urls[0]}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>{PRESENTATION_SOURCES.longTermUnemployed.label}</span>
+          <small>{PRESENTATION_SOURCES.longTermUnemployed.host}</small>
+        </a>
+        <a
+          className="ks-source-link"
+          href={PRESENTATION_SOURCES.aiSuspicion.url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>{PRESENTATION_SOURCES.aiSuspicion.label}</span>
+          <small>{PRESENTATION_SOURCES.aiSuspicion.host}</small>
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function Slide({
   index,
   visible,
@@ -1070,9 +1496,19 @@ function Slide({
   );
 }
 
-function FlowStep({ number, title, description }: { number: string; title: string; description: string }) {
+function FlowStep({
+  number,
+  title,
+  description,
+  className = '',
+}: {
+  number: string;
+  title: string;
+  description: string;
+  className?: string;
+}) {
   return (
-    <div className="ks-flow-step">
+    <div className={`ks-flow-step ${className}`}>
       <span className="ks-step-number">{number}</span>
       <h3>{title}</h3>
       <p>{description}</p>
@@ -1196,22 +1632,70 @@ export default function PresentationSlides({ current }: { current: number }) {
         </div>
         <div className="ks-stat-grid">
           <div className="ks-stat-card">
-            <div className="ks-stat-number">11.3개월</div>
-            <p>첫 취업 평균 소요기간</p>
-            <small>출처: 통계청 경제활동인구조사<br />기준: 2025년 5월 부가조사</small>
+            <div className="ks-stat-number">
+              11.3<span>개월</span>
+            </div>
+            <div className="ks-stat-body">
+              <p>첫 취업 평균 소요기간</p>
+              <dl className="ks-stat-meta">
+                <div className="ks-stat-meta-row">
+                  <dt>기준시점</dt>
+                  <dd>2025년 5월</dd>
+                </div>
+                <div className="ks-stat-meta-row">
+                  <dt>모집단</dt>
+                  <dd>취업 경험이 있는 청년 졸업자 중 첫 일자리가 임금근로자인 경우</dd>
+                </div>
+                <div className="ks-stat-meta-row">
+                  <dt>출처</dt>
+                  <dd>통계청 청년층 부가조사</dd>
+                </div>
+              </dl>
+            </div>
           </div>
           <div className="ks-stat-card">
-            <div className="ks-stat-number">48.6%</div>
-            <p>졸업 후 1년 이상 미취업 청년</p>
-            <small>출처: 매일경제<br />기준: 2026년 5월 부가조사, 2026-07-23 보도</small>
+            <div className="ks-stat-number">48.6<span>%</span></div>
+            <div className="ks-stat-body">
+              <p>졸업 후 1년 이상 미취업 비중</p>
+              <dl className="ks-stat-meta">
+                <div className="ks-stat-meta-row">
+                  <dt>기준시점</dt>
+                  <dd>2026년 5월</dd>
+                </div>
+                <div className="ks-stat-meta-row">
+                  <dt>모집단</dt>
+                  <dd>15~29세 최종학교 졸업자 중 현재 미취업자</dd>
+                </div>
+                <div className="ks-stat-meta-row">
+                  <dt>출처</dt>
+                  <dd>국가데이터처 부가조사·동아일보</dd>
+                </div>
+              </dl>
+            </div>
           </div>
           <div className="ks-stat-card">
-            <div className="ks-stat-number">64.4%</div>
-            <p>제출 자기소개서 AI 작성 의심</p>
-            <small>출처: 무하유 프리즘<br />기준: 2025년 제출 자기소개서 분석</small>
+            <div className="ks-stat-number">64.4<span>%</span></div>
+            <div className="ks-stat-body">
+              <p>제출 자기소개서 AI 작성 의심 비중</p>
+              <dl className="ks-stat-meta">
+                <div className="ks-stat-meta-row">
+                  <dt>기준시점</dt>
+                  <dd>2025년 제출분, 2026년 1월 공개</dd>
+                </div>
+                <div className="ks-stat-meta-row">
+                  <dt>모집단</dt>
+                  <dd>2025년 실제 채용에 제출된 자기소개서</dd>
+                </div>
+                <div className="ks-stat-meta-row">
+                  <dt>출처</dt>
+                  <dd>무하유 프리즘·지디넷코리아</dd>
+                </div>
+              </dl>
+            </div>
           </div>
         </div>
-        <p className="ks-footnote">수치는 서로 다른 조사 대상과 정의를 사용하며, Kairos의 성과 수치가 아닙니다.</p>
+        <p className="ks-footnote">세 수치는 서로 다른 모집단·정의·기준시점을 사용한 외부 근거이며, Kairos의 성과 수치가 아닙니다.</p>
+        <SourcePanel />
       </Slide>
 
       {/* SLIDE 4: KEY FEATURES */}
@@ -1223,39 +1707,74 @@ export default function PresentationSlides({ current }: { current: number }) {
           세 가지 기능
         </h2>
         <p className="ks-lead">현재 코드와 시연 경로가 연결된 기능만 제시합니다. 각 기능은 최종 판단을 사용자에게 남깁니다.</p>
-        <div className="ks-grid ks-grid-3">
-          <div className="ks-card ks-feature-card">
-            <div className="ks-feature-index">01</div>
-            <h3>ATS 휴리스틱 분석</h3>
-            <p>공고와 이력서 텍스트에서 기술 키워드, 경력, 학력, 키워드 밀도를 결정론적으로 비교합니다.</p>
-            <div className="ks-badge-row">
-              <Badge className="cyan">결정론적 분석</Badge>
-              <Badge className="outline">/ats</Badge>
+        <div className="ks-feature-section">
+          <div className="ks-section-heading">
+            <div>
+              <div className="ks-overline">현재 구현</div>
+              <strong>코드 경로와 브라우저 시연이 연결된 3개</strong>
             </div>
-            <span className="ks-feature-route">POST /api/ats/analyze</span>
+            <Badge className="green">시연 가능</Badge>
           </div>
-          <div className="ks-card ks-feature-card">
-            <div className="ks-feature-index">02</div>
-            <h3>AI 이력서 개선 + Diff 승인</h3>
-            <p>Gemini가 개선 본문을 제안하고, 원문과 변경점을 비교한 뒤 사용자가 편집기에 반영합니다.</p>
-            <div className="ks-badge-row">
-              <Badge className="purple">Gemini REST</Badge>
-              <Badge className="green">사용자 승인</Badge>
+          <div className="ks-grid ks-grid-3">
+            <div className="ks-card ks-feature-card">
+              <div className="ks-feature-index">01</div>
+              <h3>ATS 휴리스틱 분석</h3>
+              <p>공고와 이력서 텍스트에서 기술 키워드, 경력, 학력, 키워드 밀도를 결정론적으로 비교합니다.</p>
+              <div className="ks-badge-row">
+                <Badge className="cyan">결정론적 분석</Badge>
+                <Badge className="outline">/ats</Badge>
+              </div>
+              <span className="ks-feature-route">POST /api/ats/analyze</span>
             </div>
-            <span className="ks-feature-route">/resume/[id] · Diff</span>
-          </div>
-          <div className="ks-card ks-feature-card">
-            <div className="ks-feature-index">03</div>
-            <h3>텍스트 기반 AI 면접</h3>
-            <p>직무와 난이도를 정한 뒤 텍스트로 질문과 답변을 주고받고, 종료 시 대화 세션을 정리합니다.</p>
-            <div className="ks-badge-row">
-              <Badge className="amber">텍스트 전용</Badge>
-              <Badge className="cyan">스트리밍</Badge>
+            <div className="ks-card ks-feature-card">
+              <div className="ks-feature-index">02</div>
+              <h3>AI 이력서 개선 + Diff 승인</h3>
+              <p>Gemini가 개선 본문을 제안하고, 원문과 변경점을 비교한 뒤 사용자가 편집기에 반영합니다.</p>
+              <div className="ks-badge-row">
+                <Badge className="purple">Gemini REST</Badge>
+                <Badge className="green">사용자 승인</Badge>
+              </div>
+              <span className="ks-feature-route">POST /api/resumes/[id]/refine · Diff UI</span>
             </div>
-            <span className="ks-feature-route">/interview/[id]</span>
+            <div className="ks-card ks-feature-card">
+              <div className="ks-feature-index">03</div>
+              <h3>텍스트 기반 AI 면접</h3>
+              <p>직무와 난이도를 정한 뒤 텍스트로 질문과 답변을 주고받고, 종료 시 대화 세션을 정리합니다.</p>
+              <div className="ks-badge-row">
+                <Badge className="amber">텍스트 전용</Badge>
+                <Badge className="cyan">plain-text stream</Badge>
+              </div>
+              <span className="ks-feature-route">POST /api/interviews/[id]/chat</span>
+            </div>
           </div>
         </div>
-        <p className="ks-scope-note">실제 회사별 ATS 합격 예측, 음성 면접, 자동 지원 제출은 현재 구현 범위에 포함하지 않습니다.</p>
+        <div className="ks-roadmap">
+          <div className="ks-roadmap-header">
+            <strong>로드맵 · 아직 구현하지 않은 확장 기능</strong>
+            <span>현재 기능과 섞지 않고 다음 검증 대상으로 분리</span>
+          </div>
+          <div className="ks-roadmap-items">
+            <div className="ks-roadmap-item">
+              <div>
+                <strong>경력 기록 ↔ 공고 근거 연결</strong>
+                <p>사용자의 경험 기록에서 지원 문장의 근거를 찾는 다음 단계입니다.</p>
+              </div>
+            </div>
+            <div className="ks-roadmap-item">
+              <div>
+                <strong>공고 자동 수집</strong>
+                <p>현재는 사용자가 공고 텍스트를 직접 입력하며, 수집은 확장 대상입니다.</p>
+              </div>
+            </div>
+            <div className="ks-roadmap-item">
+              <div>
+                <strong>음성 면접</strong>
+                <p>현재 면접은 텍스트 전용이며, 음성 입력·출력은 구현 전입니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p className="ks-scope-note">실제 회사별 ATS 합격 예측과 자동 지원 제출은 현재 구현 범위에 포함하지 않습니다.</p>
       </Slide>
 
       {/* SLIDE 5: USER FLOW */}
@@ -1267,16 +1786,16 @@ export default function PresentationSlides({ current }: { current: number }) {
           면접은 별도로 시작합니다
         </h2>
         <p className="ks-lead">
-          <strong>공고·이력서 입력 → ATS 분석 → AI 개선 → Diff 확인·이력서 저장 → 텍스트 면접 별도 시작</strong>
+          <strong>공고·이력서 → ATS → AI 개선 → Diff 승인 → 텍스트 면접</strong>
         </p>
-        <div className="ks-flow">
-          <FlowStep number="01" title="공고·이력서 입력" description="채용공고와 이력서 텍스트를 입력합니다." />
-          <FlowStep number="02" title="ATS 분석" description="매칭 키워드와 누락 단서를 확인합니다." />
+        <div className="ks-flow" aria-label="Kairos 지원 준비 흐름">
+          <FlowStep className="input" number="01" title="공고·이력서" description="채용공고와 이력서 텍스트를 입력합니다." />
+          <FlowStep number="02" title="ATS" description="매칭 키워드와 누락 단서를 확인합니다." />
           <FlowStep number="03" title="AI 개선" description="Gemini가 수정 제안을 생성합니다." />
-          <FlowStep number="04" title="Diff 확인·이력서 저장" description="원문과 제안문을 비교하고 반영할 내용을 저장합니다." />
-          <FlowStep number="05" title="이력서 저장 후 텍스트 면접 별도 시작" description="면접 화면을 별도로 열어 직무와 난이도를 정합니다." />
+          <FlowStep className="approval" number="04" title="Diff 승인" description="원문과 제안문을 비교하고 사용자가 반영 여부를 결정합니다." />
+          <FlowStep className="separate" number="05" title="텍스트 면접" description="저장 후 별도 화면에서 직무·난이도를 정해 대화합니다." />
         </div>
-        <p className="ks-flow-note">이력서 저장과 면접 시작은 별도 동작이며, 이력서나 경력 기록이 ATS·면접으로 자동 전달되지는 않습니다.</p>
+        <p className="ks-flow-note">Diff 승인은 사용자 판단 지점입니다. 이력서 저장과 텍스트 면접 시작은 별도 동작이며, 데이터가 다음 단계로 자동 전달되지는 않습니다.</p>
       </Slide>
 
       {/* SLIDE 6: ARCHITECTURE */}
@@ -1288,54 +1807,64 @@ export default function PresentationSlides({ current }: { current: number }) {
           단순하게 설명합니다
         </h2>
         <p className="ks-lead">화면에서 입력한 내용은 Next.js API route를 거쳐 기능별 분석·생성 경로로 나뉘고, 필요한 결과를 데이터베이스에 저장합니다.</p>
-        <div className="ks-architecture">
+        <div className="ks-architecture" aria-label="실제 코드 요청 경로">
           <div className="ks-arch-node">
-              <strong>Next.js 16 UI</strong>
-            <small>ATS · 이력서 · 면접 화면</small>
+            <strong>Next.js 16 UI</strong>
+            <small>/ats · /resume/[id] · /interview/[id]</small>
           </div>
-          <span className="ks-arch-arrow">→</span>
+          <span className="ks-arch-arrow" aria-hidden="true">→</span>
           <div className="ks-arch-node">
-            <strong>API route</strong>
-            <small>입력 검증 · 세션 확인</small>
+            <strong>Route Handlers</strong>
+            <small>입력 검증 · 세션·소유권 확인</small>
           </div>
-          <span className="ks-arch-arrow">→</span>
+          <span className="ks-arch-arrow" aria-hidden="true">→</span>
           <div className="ks-arch-services">
-            <div className="ks-arch-services-label">기능별 실행 경로</div>
+            <div className="ks-arch-services-label">실제 코드의 기능별 실행 경로</div>
             <div className="ks-arch-service">
-              <strong>ATS 결정론적 분석</strong>
-              <small>키워드·경력·학력·밀도</small>
+              <strong>ATS</strong>
+              <code>/api/ats/analyze</code>
+              <small><code>analyzeATSCompatibility</code><br />→ atsAnalyses</small>
             </div>
             <div className="ks-arch-service">
-              <strong>Gemini REST</strong>
-              <small>구조화 응답·텍스트 스트리밍</small>
+              <strong>이력서 개선</strong>
+              <code>/api/resumes/[id]/refine</code>
+              <small><code>callLLMStructured</code><br />→ resumeRefinements</small>
+            </div>
+            <div className="ks-arch-service">
+              <strong>텍스트 면접</strong>
+              <code>/api/interviews/[id]/chat</code>
+              <small><code>streamLLMText</code><br />→ interviewMessages</small>
             </div>
           </div>
-          <span className="ks-arch-arrow">→</span>
-          <div className="ks-arch-node">
-            <strong>Drizzle ORM</strong>
-            <small>PostgreSQL 쿼리·스키마</small>
-          </div>
-          <span className="ks-arch-arrow">→</span>
-          <div className="ks-arch-node">
-            <strong>Neon PostgreSQL</strong>
-            <small>pgvector · 경력 임베딩 검색</small>
+        </div>
+        <div className="ks-arch-backend">
+          <span className="ks-arch-down" aria-hidden="true">↓</span>
+          <div className="ks-arch-backend-grid">
+            <div className="ks-arch-output">
+              <strong>Gemini REST · AI 경로</strong>
+              <small>이력서 개선의 구조화 응답 · 텍스트 면접 stream</small>
+            </div>
+            <div className="ks-arch-output">
+              <strong>Drizzle ORM → Neon PostgreSQL</strong>
+              <small>ATS·개선·대화 결과 저장 · pgvector 경력 검색<br />DATABASE_URL 설정 시 영속화</small>
+            </div>
           </div>
         </div>
         <div className="ks-architecture-notes">
           <div className="ks-architecture-note">
             <strong>ATS 점수의 출처</strong>
-            <p>LLM이 아니라 현재 코드의 휴리스틱 로직이 산출합니다.</p>
+            <p><code>src/server/ats.ts</code>의 휴리스틱 로직이 산출하며 LLM을 거치지 않습니다.</p>
           </div>
           <div className="ks-architecture-note">
             <strong>Gemini의 역할</strong>
-            <p>이력서 개선·대화·면접 응답 생성에 직접 REST로 사용합니다.</p>
+            <p><code>callLLMStructured</code>와 <code>streamLLMText</code>가 직접 REST를 호출합니다.</p>
           </div>
           <div className="ks-architecture-note">
-            <strong>pgvector의 역할</strong>
-            <p>경력 임베딩 검색 경로이며 ATS 점수에 직접 사용하지 않습니다.</p>
+            <strong>저장 조건</strong>
+            <p><code>getDb()</code>가 연결되면 저장하고, 없으면 데모 응답으로 동작합니다.</p>
           </div>
         </div>
-        <p className="ks-footnote">현재 발표 범위에는 VM, sLLM, LangGraph, Firecracker 기반 실행 환경을 포함하지 않습니다.</p>
+        <p className="ks-footnote">위 다이어그램은 현재 시연하는 세 가지 사용자 경로와 실제 호출 함수·저장 테이블을 기준으로 구성했습니다.</p>
       </Slide>
 
       {/* SLIDE 7: DEMO */}
@@ -1394,34 +1923,47 @@ export default function PresentationSlides({ current }: { current: number }) {
       <Slide index={8} visible={current === 7}>
         <Tagline className="green" time="04:15-04:40 · 25초">07 / 09 · 기대효과 및 확장계획</Tagline>
         <h2>
-          합격률을 과장하지 않고,
+          효과를 단정하지 않고,
           <br />
           준비 품질을 개선합니다
         </h2>
         <p className="ks-lead">현재는 사용자가 무엇을 고쳤는지 이해하고, 이력서를 저장한 뒤 텍스트 면접을 별도로 시작하는 경험을 만들었습니다. 효과는 실제 사용 데이터로 검증해야 합니다.</p>
-        <div className="ks-status-grid">
-          <div className="ks-status-card">
-            <Badge className="green">구현 완료</Badge>
-            <h3>현재 코드에서 동작</h3>
-            <p>ATS 휴리스틱 분석, Gemini 이력서 개선 제안과 Diff 반영, 텍스트 면접 세션 흐름을 제공합니다.</p>
+        <div className="ks-impact-grid">
+          <div className="ks-impact-card">
+            <Badge className="cyan">개인 · 기대효과</Badge>
+            <h3>수정 이유를 이해하고 승인하는 준비</h3>
+            <p>AI 제안을 그대로 받지 않고 원문·변경점을 비교해 사용자가 반영 여부를 결정합니다.</p>
+            <div className="ks-impact-measure">
+              <strong>검증할 변화</strong>
+              <span>Diff 승인율 · 수정 후 저장 완료율</span>
+            </div>
           </div>
-          <div className="ks-status-card">
-            <Badge className="amber">프로토타입</Badge>
-            <h3>발표용 순서 안내</h3>
-            <p>공고·이력서 입력부터 이력서 저장 후 텍스트 면접 별도 시작까지의 5단계 순서를 안내합니다.</p>
+          <div className="ks-impact-card">
+            <Badge className="green">사회 · 기대효과</Badge>
+            <h3>실제 경험을 근거로 남기는 지원 준비</h3>
+            <p>AI 작성 의심 환경에서 공고와 본인의 경험을 연결해 설명 가능한 문장을 만드는 가설입니다.</p>
+            <div className="ks-impact-measure">
+              <strong>검증할 변화</strong>
+              <span>근거 확인 이해도 · 자기서술 자신감</span>
+            </div>
           </div>
-          <div className="ks-status-card">
-            <Badge className="purple">로드맵</Badge>
-            <h3>다음에 확장할 범위</h3>
-            <p>경력 기록과 공고의 근거 연결, 공고 자동 수집, 음성 면접, 개인정보 보관·삭제 정책을 고도화합니다.</p>
+          <div className="ks-impact-card">
+            <Badge className="purple">시장 · 기대효과</Badge>
+            <h3>공고·이력서·면접을 잇는 작업 흐름</h3>
+            <p>분리된 준비 도구를 하나의 작업공간에서 이어 쓰는 제품 가설을 실제 사용으로 검증합니다.</p>
+            <div className="ks-impact-measure">
+              <strong>검증할 변화</strong>
+              <span>기능 간 전환율 · 재방문·재사용률</span>
+            </div>
           </div>
         </div>
         <div className="ks-kpi-box">
-          <strong>KPI · 현재는 기준선 측정 단계</strong>
+          <strong>측정 전 KPI · 기준선부터 수집</strong>
+          <span className="ks-kpi-note">기대효과는 아직 검증 전이며, 현재는 제품 사용 행동과 시스템 품질 지표만 측정합니다.</span>
           <div className="ks-kpi-grid">
             <div className="ks-kpi">
               <div className="ks-kpi-value">측정 전</div>
-              <div className="ks-kpi-label">ATS 입력 대비 결과 완료율</div>
+              <div className="ks-kpi-label">ATS 분석 완료율</div>
             </div>
             <div className="ks-kpi">
               <div className="ks-kpi-value">측정 전</div>
@@ -1433,10 +1975,11 @@ export default function PresentationSlides({ current }: { current: number }) {
             </div>
             <div className="ks-kpi">
               <div className="ks-kpi-value">측정 전</div>
-              <div className="ks-kpi-label">Gemini 성공률·응답시간</div>
+              <div className="ks-kpi-label">AI 요청 완료율·p95 응답시간</div>
             </div>
           </div>
         </div>
+        <p className="ks-footnote">현재 코드로 확인 가능한 것은 기능 동작과 사용 흐름이며, 기대효과의 크기와 인과관계는 사용자 테스트 이후 판단합니다.</p>
       </Slide>
 
       {/* SLIDE 9: Q&A */}

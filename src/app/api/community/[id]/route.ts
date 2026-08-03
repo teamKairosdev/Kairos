@@ -4,6 +4,7 @@ import { communityPosts, users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
 import { unauthorized, badRequest, notFound, internalError } from '@/server/http';
+import { toPublicCommunityPost } from '../response';
 
 export async function GET(
   _req: NextRequest,
@@ -12,6 +13,7 @@ export async function GET(
   try {
     const { id } = await params;
     if (!id) return badRequest('게시글 ID가 필요합니다.');
+    const session = await getSession(_req);
 
     const db = getDb();
     if (db) {
@@ -22,6 +24,7 @@ export async function GET(
           title: communityPosts.title,
           content: communityPosts.content,
           category: communityPosts.category,
+          isAnonymous: communityPosts.isAnonymous,
           likesCount: communityPosts.likesCount,
           createdAt: communityPosts.createdAt,
           user: {
@@ -33,7 +36,7 @@ export async function GET(
         .leftJoin(users, eq(communityPosts.userId, users.id))
         .where(eq(communityPosts.id, id));
 
-      if (post) return NextResponse.json(post);
+      if (post) return NextResponse.json(toPublicCommunityPost(post, session?.userId));
     }
 
     return notFound('게시글을 찾을 수 없습니다.');

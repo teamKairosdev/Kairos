@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, useRef, use, type ChangeEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useChat } from '@/hooks/useChat';
@@ -13,6 +13,54 @@ const interviewTips = [
   { icon: '수치', title: '수치로 증명', desc: '경험과 성과를 구체적인 수치와 데이터로 뒷받침하세요.' },
   { icon: '질문', title: '역질문 준비', desc: '면접 말미에는 회사나 팀에 대한 관심 있는 질문을 해보세요.' },
 ];
+
+type MediaKind = 'video' | 'audio';
+
+interface InterviewMedia {
+  id: string;
+  interviewId: string;
+  mediaType: MediaKind;
+  mimeType: string;
+  originalFileName: string;
+  sizeBytes: number;
+  durationMs?: number | null;
+  analysisStatus: string;
+  createdAt: string;
+  expiresAt: string;
+  url: string;
+}
+
+const MAX_INTERVIEW_MEDIA_BYTES = 100 * 1024 * 1024;
+
+function formatMediaSize(bytes: number): string {
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))}KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+}
+
+function formatMediaDuration(durationMs?: number | null): string | null {
+  if (durationMs == null) return null;
+  const totalSeconds = Math.max(0, Math.floor(durationMs / 1000));
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+  const seconds = String(totalSeconds % 60).padStart(2, '0');
+  return `${minutes}:${seconds}`;
+}
+
+function getRecordingExtension(mimeType: string): string {
+  const baseMimeType = mimeType.split(';', 1)[0].toLowerCase();
+  if (baseMimeType === 'video/mp4') return 'mp4';
+  if (baseMimeType === 'video/quicktime') return 'mov';
+  if (baseMimeType === 'audio/mp4') return 'm4a';
+  if (baseMimeType === 'audio/ogg' || baseMimeType === 'video/ogg') return 'ogg';
+  return 'webm';
+}
+
+function getPreferredRecorderMimeType(kind: MediaKind): string | undefined {
+  if (typeof MediaRecorder === 'undefined') return undefined;
+  const candidates = kind === 'video'
+    ? ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm']
+    : ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/ogg'];
+  return candidates.find((candidate) => MediaRecorder.isTypeSupported(candidate));
+}
 
 interface InterviewSession {
   id: string;
@@ -49,10 +97,23 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
   const [endPhase, setEndPhase] = useState<'confirm' | 'summary'>('confirm');
   const [ending, setEnding] = useState(false);
   const isCompleted = sessionInfo?.status === 'completed';
+  const [mediaItems, setMediaItems] = useState<InterviewMedia[]>([]);
+  const [mediaLoading, setMediaLoading] = useState(true);
+  const [mediaBusy, setMediaBusy] = useState(false);
+  const [mediaError, setMediaError] = useState<string | null>(null);
+  const [recorderSupported, setRecorderSupported] = useState<boolean | null>(null);
+  const [recordingKind, setRecordingKind] = useState<MediaKind | null>(null);
+  const [recordingSeconds, setRecordingSeconds] = useState(0);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const msgKeyRef = useRef(new Map<number, string>());
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const mediaChunksRef = useRef<Blob[]>([]);
+  const recordingStartedAtRef = useRef<number | null>(null);
+  const previewVideoRef = useRef<HTMLVideoElement>(null);
+  const mediaFileInputRef = useRef<HTMLInputElement>(null);
 
   const { messages, setMessages, input, handleInputChange, handleSubmit, stop, streamStarted, isLoading: isStreaming } = useChat({
     api: `/api/interviews/${interviewId}/chat`,
@@ -169,6 +230,181 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
     setShowEndModal(false);
   }
 
+  async function fetchMedia() {
+    setMediaLoading(true);
+    try {
+      const res = await fetch(`/api/interviews/${interviewId}/media`);
+      const data = await res.json().catch(() => null) as { media?: InterviewMedia[]; error?: string } | null;
+      if (!res.ok) throw new Error(data?.error || '미디어 목록을 불러오지 못했습니다.');
+      setMediaItems(Array.isArray(data?.media) ? data.media : []);
+      setMediaError(null);
+    } catch (err: unknown) {
+      setMediaError(err instanceof Error ? err.message : '미디어 목록을 불러오지 못했습니다.');
+    } finally {
+      setMediaLoading(false);
+    }
+  }
+
+  async function uploadMedia(blob: Blob, fileName: string, durationMs?: number) {
+    if (blob.size > MAX_INTERVIEW_MEDIA_BYTES) {
+      setMediaError('영상·음성 파일은 100MB 이하만 저장할 수 있습니다.');
+      return;
+    }
+
+    setMediaBusy(true);
+    setMediaError(null);
+    try {
+      const formData = new FormData();
+      formData.append('file', blob, fileName);
+      if (durationMs != null) formData.append('durationMs', String(durationMs));
+
+      const res = await fetch(`/api/interviews/${interviewId}/media`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json().catch(() => null) as { media?: InterviewMedia; error?: string } | null;
+      if (!res.ok || !data?.media) throw new Error(data?.error || '미디어 업로드에 실패했습니다.');
+
+      setMediaItems((current) => [data.media as InterviewMedia, ...current]);
+      toast.add({
+        title: '미디어가 저장되었습니다.',
+        description: '분석 대기 상태입니다. 현재는 재생과 삭제만 제공됩니다.',
+        color: 'blue',
+      });
+    } catch (err: unknown) {
+      setMediaError(err instanceof Error ? err.message : '미디어 업로드에 실패했습니다.');
+    } finally {
+      setMediaBusy(false);
+    }
+  }
+
+  function releaseMediaStream() {
+    mediaStreamRef.current?.getTracks().forEach((track) => track.stop());
+    mediaStreamRef.current = null;
+    if (previewVideoRef.current) previewVideoRef.current.srcObject = null;
+  }
+
+  async function startRecording(kind: MediaKind) {
+    if (recordingKind || mediaBusy || recorderSupported !== true) return;
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia(
+        kind === 'video' ? { video: true, audio: true } : { audio: true }
+      );
+      const preferredMimeType = getPreferredRecorderMimeType(kind);
+      const recorder = preferredMimeType
+        ? new MediaRecorder(stream, { mimeType: preferredMimeType })
+        : new MediaRecorder(stream);
+      const startedAt = Date.now();
+
+      mediaChunksRef.current = [];
+      recordingStartedAtRef.current = startedAt;
+      mediaStreamRef.current = stream;
+      mediaRecorderRef.current = recorder;
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) mediaChunksRef.current.push(event.data);
+      };
+      recorder.onerror = () => {
+        setMediaError('녹화 중 브라우저 오류가 발생했습니다. 파일 업로드를 이용해주세요.');
+      };
+      recorder.onstop = () => {
+        const contentType = recorder.mimeType || preferredMimeType || (kind === 'video' ? 'video/webm' : 'audio/webm');
+        const blob = new Blob(mediaChunksRef.current, { type: contentType });
+        const durationMs = Math.max(0, Date.now() - startedAt);
+        const fileName = `interview-${startedAt}.${getRecordingExtension(contentType)}`;
+        mediaChunksRef.current = [];
+        recordingStartedAtRef.current = null;
+        mediaRecorderRef.current = null;
+        setRecordingKind(null);
+        releaseMediaStream();
+        void uploadMedia(blob, fileName, durationMs);
+      };
+
+      if (kind === 'video' && previewVideoRef.current) {
+        previewVideoRef.current.srcObject = stream;
+      }
+      setRecordingKind(kind);
+      setRecordingSeconds(0);
+      recorder.start(250);
+    } catch (err: unknown) {
+      releaseMediaStream();
+      mediaRecorderRef.current = null;
+      setRecordingKind(null);
+      setMediaError(
+        err instanceof Error && err.name === 'NotAllowedError'
+          ? '카메라·마이크 권한이 없어 녹화를 시작할 수 없습니다. 파일 업로드를 이용해주세요.'
+          : '녹화를 시작할 수 없습니다. 파일 업로드를 이용해주세요.'
+      );
+    }
+  }
+
+  function stopRecording() {
+    const recorder = mediaRecorderRef.current;
+    if (!recorder || recorder.state === 'inactive') return;
+    recorder.stop();
+  }
+
+  function handleMediaFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('video/') && !file.type.startsWith('audio/')) {
+      setMediaError('영상 또는 음성 파일만 업로드할 수 있습니다.');
+      return;
+    }
+    void uploadMedia(file, file.name);
+  }
+
+  async function deleteMedia(mediaId: string) {
+    if (!window.confirm('이 미디어를 삭제할까요? 삭제 후에는 재생할 수 없습니다.')) return;
+    setMediaBusy(true);
+    try {
+      const res = await fetch(`/api/interviews/${interviewId}/media/${mediaId}`, { method: 'DELETE' });
+      const data = await res.json().catch(() => null) as { error?: string } | null;
+      if (!res.ok) throw new Error(data?.error || '미디어 삭제에 실패했습니다.');
+      setMediaItems((current) => current.filter((item) => item.id !== mediaId));
+    } catch (err: unknown) {
+      setMediaError(err instanceof Error ? err.message : '미디어 삭제에 실패했습니다.');
+    } finally {
+      setMediaBusy(false);
+    }
+  }
+
+  useEffect(() => {
+    setRecorderSupported(
+      typeof MediaRecorder !== 'undefined'
+      && typeof navigator !== 'undefined'
+      && Boolean(navigator.mediaDevices?.getUserMedia)
+    );
+  }, []);
+
+  useEffect(() => {
+    fetchMedia();
+  }, [interviewId]);
+
+  useEffect(() => {
+    if (!recordingKind) return;
+    const startedAt = recordingStartedAtRef.current || Date.now();
+    const timer = setInterval(() => {
+      setRecordingSeconds(Math.floor((Date.now() - startedAt) / 1000));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [recordingKind]);
+
+  useEffect(() => {
+    if (recordingKind !== 'video' || !previewVideoRef.current || !mediaStreamRef.current) return;
+    previewVideoRef.current.srcObject = mediaStreamRef.current;
+    void previewVideoRef.current.play().catch(() => {});
+  }, [recordingKind]);
+
+  useEffect(() => {
+    return () => {
+      const recorder = mediaRecorderRef.current;
+      if (recorder && recorder.state !== 'inactive') recorder.stop();
+      releaseMediaStream();
+    };
+  }, []);
+
   useEffect(() => {
     async function fetchSession() {
       try {
@@ -248,7 +484,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
             mobileTab === 'info' ? 'text-blue-600 border-b-2 border-blue-500' : 'text-gray-400'
           }`}
         >
-           세션 정보
+           녹화·정보
         </button>
       </div>
 
@@ -259,8 +495,8 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
         }`}
       >
         <div className="p-5 border-b border-gray-100">
-          <Link href="/interview" className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors mb-3">
-            ← 목록으로
+           <Link href="/interview" className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors mb-3">
+             목록으로
           </Link>
           <div className="flex items-center gap-2 mb-1">
             <div className={`w-2 h-2 rounded-full ${isCompleted ? 'bg-gray-400' : isStreaming ? 'animate-pulse bg-amber-400' : 'animate-pulse bg-emerald-400'}`} />
@@ -303,19 +539,186 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
           </div>
         </div>
 
-        <div className="flex-1 p-5 overflow-y-auto">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">면접 팁</h3>
-          <ul className="space-y-3">
-            {interviewTips.map(tip => (
-              <li key={tip.title} className="flex gap-2.5">
-                <span className="text-base shrink-0 mt-0.5">{tip.icon}</span>
-                <div>
-                  <p className="text-xs font-semibold text-gray-700">{tip.title}</p>
-                  <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{tip.desc}</p>
+        <div className="flex-1 p-4 sm:p-5 overflow-y-auto space-y-4">
+          <section className="rounded-2xl border border-gray-200 bg-white p-4 shadow-xs">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-sm font-bold text-gray-900">영상·음성 연습</h3>
+                <p className="text-xs text-gray-400 mt-1 leading-relaxed">답변을 녹화해 저장하고 다시 재생해보세요.</p>
+              </div>
+              {mediaItems.length > 0 && (
+                <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-[10px] font-semibold text-gray-500">
+                  {mediaItems.length}개
+                </span>
+              )}
+            </div>
+
+            {recordingKind && (
+              <div className="mt-3 rounded-xl border border-blue-100 bg-blue-50/60 p-3">
+                {recordingKind === 'video' ? (
+                  <video
+                    ref={previewVideoRef}
+                    autoPlay
+                    muted
+                    playsInline
+                    className="aspect-video w-full rounded-lg bg-gray-900 object-cover"
+                  />
+                ) : (
+                  <div className="flex items-center gap-2 rounded-lg bg-white px-3 py-4 text-xs font-semibold text-blue-700">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
+                    음성 녹음 중
+                  </div>
+                )}
+                <div className="mt-2 flex items-center justify-between gap-2">
+                  <span className="font-mono text-xs font-semibold text-blue-700">
+                    {String(Math.floor(recordingSeconds / 60)).padStart(2, '0')}:{String(recordingSeconds % 60).padStart(2, '0')}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={stopRecording}
+                    className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700"
+                  >
+                    녹화 중지
+                  </button>
                 </div>
-              </li>
-            ))}
-          </ul>
+              </div>
+            )}
+
+            {!recordingKind && recorderSupported === true && (
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => startRecording('video')}
+                  disabled={mediaBusy}
+                  className="rounded-xl border border-blue-200 bg-blue-50 px-2 py-2.5 text-xs font-semibold text-blue-700 hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  영상 녹화 시작
+                </button>
+                <button
+                  type="button"
+                  onClick={() => startRecording('audio')}
+                  disabled={mediaBusy}
+                  className="rounded-xl border border-gray-200 bg-gray-50 px-2 py-2.5 text-xs font-semibold text-gray-700 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  음성 녹음 시작
+                </button>
+              </div>
+            )}
+
+            {recorderSupported === false && (
+              <div className="mt-3 rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-relaxed text-amber-800">
+                이 브라우저에서는 카메라·마이크 녹화를 지원하지 않습니다. 아래에서 영상 또는 음성 파일을 선택해 업로드해주세요.
+              </div>
+            )}
+
+            <input
+              ref={mediaFileInputRef}
+              type="file"
+              accept="video/webm,video/mp4,video/ogg,video/quicktime,audio/webm,audio/ogg,audio/mp4,audio/mpeg,audio/wav,audio/aac"
+              onChange={handleMediaFileChange}
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => mediaFileInputRef.current?.click()}
+              disabled={mediaBusy || Boolean(recordingKind)}
+              className="mt-3 w-full rounded-xl border border-dashed border-gray-300 px-3 py-2.5 text-xs font-semibold text-gray-600 hover:border-blue-300 hover:bg-blue-50/50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {mediaBusy ? '저장 중...' : '파일 업로드'}
+            </button>
+            <p className="mt-2 text-[10px] leading-relaxed text-gray-400">WebM, MP4, OGG 등 · 파일당 최대 100MB</p>
+
+            {mediaError && (
+              <p className="mt-2 rounded-lg bg-red-50 px-2.5 py-2 text-[11px] leading-relaxed text-red-600">{mediaError}</p>
+            )}
+
+            <div className="mt-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-semibold text-gray-700">저장된 미디어</h4>
+                {mediaLoading && <span className="text-[10px] text-gray-400">불러오는 중</span>}
+              </div>
+              {!mediaLoading && mediaItems.length === 0 && (
+                <p className="rounded-xl bg-gray-50 px-3 py-4 text-center text-[11px] leading-relaxed text-gray-400">
+                  아직 저장된 영상이나 음성이 없습니다.
+                </p>
+              )}
+              {mediaItems.map((item) => (
+                <div key={item.id} className="rounded-xl border border-gray-100 bg-gray-50/70 p-2.5">
+                  {item.mediaType === 'video' ? (
+                    <video controls preload="metadata" src={item.url} className="aspect-video w-full rounded-lg bg-gray-900" />
+                  ) : (
+                    <audio controls preload="metadata" src={item.url} className="w-full" />
+                  )}
+                  <div className="mt-2 min-w-0">
+                    <p className="truncate text-xs font-semibold text-gray-700" title={item.originalFileName}>
+                      {item.originalFileName}
+                    </p>
+                    <p className="mt-1 text-[10px] leading-relaxed text-gray-400">
+                      {item.mediaType === 'video' ? '영상' : '음성'} · {formatMediaSize(item.sizeBytes)}
+                      {formatMediaDuration(item.durationMs) ? ` · ${formatMediaDuration(item.durationMs)}` : ''}
+                      {' · '}{new Date(item.createdAt).toLocaleDateString('ko-KR')}
+                    </p>
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                      <span className="rounded-full bg-blue-50 px-2 py-1 text-[10px] font-semibold text-blue-600">
+                        {item.analysisStatus === 'pending' ? '분석 대기' : item.analysisStatus}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => deleteMedia(item.id)}
+                        disabled={mediaBusy}
+                        className="text-[10px] font-semibold text-gray-400 hover:text-red-600 disabled:opacity-50"
+                      >
+                        삭제
+                      </button>
+                    </div>
+                    <p className="mt-1 text-[10px] text-gray-400">
+                      {new Date(item.expiresAt).toLocaleDateString('ko-KR')}까지 보관
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="text-sm font-bold text-gray-900">분석 로드맵</h3>
+              <span className="rounded-full bg-white px-2 py-1 text-[10px] font-semibold text-blue-600">MVP</span>
+            </div>
+            <p className="mt-2 text-xs leading-relaxed text-gray-600">
+              현재는 파일 저장과 재생만 제공합니다. 자세·시선·발성 점수는 생성하지 않습니다.
+            </p>
+            <ol className="mt-3 space-y-2 text-[11px] leading-relaxed text-gray-600">
+              <li><span className="mr-2 font-semibold text-blue-600">01</span>음성 전사와 화자 구간 확인</li>
+              <li><span className="mr-2 font-semibold text-blue-600">02</span>전사 결과를 직접 수정하고 분석 요청</li>
+              <li><span className="mr-2 font-semibold text-blue-600">03</span>동의한 범위 안에서 피드백 리포트 제공</li>
+            </ol>
+          </section>
+
+          <section className="rounded-2xl border border-gray-200 bg-white p-4">
+            <h3 className="text-sm font-bold text-gray-900">개인정보 및 보관</h3>
+            <p className="mt-2 text-xs leading-relaxed text-gray-500">
+              카메라와 마이크 권한은 녹화할 때만 요청합니다. 파일은 이 면접 세션의 소유자만 재생·삭제할 수 있습니다.
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-gray-500">
+              이 MVP는 서버 로컬 저장소에 파일을 최대 30일 보관하며, 필요하지 않은 파일은 삭제 버튼으로 즉시 제거해주세요.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-400">면접 팁</h3>
+            <ul className="space-y-3">
+              {interviewTips.map(tip => (
+                <li key={tip.title} className="flex gap-2.5">
+                  <span className="mt-0.5 shrink-0 text-base">{tip.icon}</span>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-700">{tip.title}</p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-gray-400">{tip.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
 
         <div className="p-5 border-t border-gray-100">
@@ -336,12 +739,12 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
             AI
           </div>
-          <div>
-            <p className="text-sm font-bold text-gray-900">Kairos AI 면접관</p>
-            <p className={`text-xs font-medium ${isCompleted ? 'text-gray-400' : 'text-emerald-500'}`}>
-              {isCompleted ? '종료된 면접' : '온라인 · 실시간 평가 중'}
-            </p>
-          </div>
+           <div>
+             <p className="text-sm font-bold text-gray-900">Kairos AI 면접관</p>
+             <p className={`text-xs font-medium ${isCompleted ? 'text-gray-400' : 'text-emerald-500'}`}>
+               {isCompleted ? '종료된 면접' : '온라인 · 텍스트 면접 진행 중'}
+             </p>
+           </div>
           {!isCompleted && (
             <button
               onClick={openEndModal}
@@ -436,9 +839,9 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
             <button
               type="submit"
               disabled={isStreaming || isCompleted || !input.trim()}
-              className="shrink-0 w-11 h-11 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-40"
+          className="shrink-0 w-11 h-11 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-40"
             >
-              ➔
+               전송
             </button>
           </form>
           <p className="text-xs text-gray-400 mt-2 text-center">Enter로 전송 · Shift+Enter로 줄바꿈</p>

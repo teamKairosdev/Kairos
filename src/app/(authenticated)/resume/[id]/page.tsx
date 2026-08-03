@@ -40,14 +40,65 @@ interface ChatApiResponse {
   suggestedContent?: string;
 }
 
+interface ResumeCompareResponse {
+  current: {
+    sectionCompleteness: {
+      score: number;
+      completed: number;
+      total: number;
+      missing: string[];
+    };
+    keywordCount: number;
+    sentenceLength: {
+      averageWords: number;
+      sentenceCount: number;
+    };
+    jobMatch: {
+      status: 'calculated' | 'not_provided';
+      score: number | null;
+      matchedKeywords: string[];
+      missingKeywords: string[];
+    };
+  };
+  baseline: {
+    source: 'cohort' | 'example';
+    status: 'actual' | 'insufficient_data';
+    label: string;
+    sampleSize: number;
+    minimumSampleSize: number;
+    isActual: boolean;
+    metrics: {
+      sectionCompleteness: { score: number };
+      keywordCount: number;
+      sentenceLength: { averageWords: number };
+      jobMatch: { score: number | null };
+    };
+    notice: string;
+  };
+  comparisons: {
+    sectionCompleteness: { current: number | null; baseline: number | null; delta: number | null };
+    keywordCount: { current: number | null; baseline: number | null; delta: number | null };
+    sentenceLength: { current: number | null; baseline: number | null; delta: number | null };
+    jobMatch: { current: number | null; baseline: number | null; delta: number | null };
+  };
+  weaknesses: string[];
+  suggestions: string[];
+  privacyNotice: string;
+  disclaimer: string;
+}
+
 export default function ResumeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const id = resolvedParams.id;
   const toast = useToast();
 
-  const [activeTab, setActiveTab] = useState<'editor' | 'diff' | 'feedback'>('editor');
+  const [activeTab, setActiveTab] = useState<'editor' | 'diff' | 'feedback' | 'compare'>('editor');
   const [data, setData] = useState<ResumeDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [compareData, setCompareData] = useState<ResumeCompareResponse | null>(null);
+  const [compareLoading, setCompareLoading] = useState(false);
+  const [compareError, setCompareError] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
 
   // Live Form States
   const [editingTitle, setEditingTitle] = useState('');
@@ -82,8 +133,29 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
     }
   }
 
+  async function fetchComparison(description = jobDescription) {
+    setCompareLoading(true);
+    setCompareError('');
+    const query = description.trim() ? `?jobDescription=${encodeURIComponent(description.trim())}` : '';
+    try {
+      const res = await fetch(`/api/resumes/${id}/compare${query}`, { cache: 'no-store' });
+      if (!res.ok) {
+        throw new Error('비교 결과를 불러오지 못했습니다.');
+      }
+      setCompareData((await res.json()) as ResumeCompareResponse);
+    } catch (err: unknown) {
+      setCompareError(err instanceof Error ? err.message : '비교 결과를 불러오지 못했습니다.');
+    } finally {
+      setCompareLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchResume();
+  }, [id]);
+
+  useEffect(() => {
+    fetchComparison('');
   }, [id]);
 
   useEffect(() => {
@@ -131,6 +203,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         setSuggestedContent('');
         toast.add({ title: '이력서 저장 성공', description: '변경 사항이 안전하게 반영되었습니다.', color: 'green' });
         await fetchResume();
+        await fetchComparison();
       }
     } catch (err: unknown) {
       toast.add({ title: '저장 실패', description: (err instanceof Error ? err.message : undefined) || '오류가 발생했습니다.', color: 'red' });
@@ -145,6 +218,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
       const res = await fetch(`/api/resumes/${id}/refine`, { method: 'POST' });
       if (res.ok) {
         await fetchResume();
+        await fetchComparison();
         setActiveTab('feedback');
         toast.add({ title: 'AI 정밀 평가 완료', description: '최신 평가서 탭을 확인하세요.', color: 'green' });
       }
@@ -306,6 +380,14 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
               >
                 AI 종합 평가서
               </button>
+              <button
+                role="tab"
+                aria-selected={activeTab === 'compare'}
+                onClick={() => setActiveTab('compare')}
+                className={`whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-t-lg active:scale-[0.98] ${activeTab === 'compare' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3 -mb-px' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3'}`}
+              >
+                평균 비교
+              </button>
             </div>
 
             {/* Tab 1: Live Editor */}
@@ -463,6 +545,138 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     <p className="text-[10px] text-slate-400">[AI 정밀 평가 실행]을 클릭하여 본문을 최초로 진단해 보세요.</p>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Tab 4: Privacy-preserving cohort comparison */}
+            {activeTab === 'compare' && (
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-800">익명 기준선과 비교</h3>
+                    <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                      섹션 완성도, 키워드 수, 문장 길이를 집계 기준선과 비교합니다.
+                    </p>
+                  </div>
+                  {compareData && (
+                    <span className={`shrink-0 px-2.5 py-1 rounded-lg text-[10px] font-bold border ${compareData.baseline.isActual ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-amber-50 text-amber-700 border-amber-100'}`}>
+                      {compareData.baseline.label}
+                    </span>
+                  )}
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
+                  <div>
+                    <label htmlFor="compare-job-description" className="block text-xs font-bold text-slate-600">
+                      비교할 채용 공고
+                    </label>
+                    <p className="text-[11px] text-slate-400 mt-1">
+                      선택 입력입니다. 입력하면 공고 키워드 기반 매치 휴리스틱을 계산합니다.
+                    </p>
+                  </div>
+                  <textarea
+                    id="compare-job-description"
+                    value={jobDescription}
+                    onChange={event => setJobDescription(event.target.value)}
+                    rows={4}
+                    placeholder="채용 공고의 요구사항을 붙여 넣으세요."
+                    className="w-full resize-y rounded-xl border border-slate-200 bg-white p-3 text-xs leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => fetchComparison()}
+                      disabled={compareLoading}
+                      className="w-full sm:w-auto rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      {compareLoading ? '비교 계산 중' : '기준선과 비교하기'}
+                    </button>
+                    <span className="text-[10px] text-slate-400">공고 원문은 비교 결과에 저장하거나 표시하지 않습니다.</span>
+                  </div>
+                </div>
+
+                {compareLoading && !compareData ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[0, 1, 2, 3].map(index => (
+                      <div key={index} className="h-24 rounded-2xl skeleton animate-pulse" />
+                    ))}
+                  </div>
+                ) : compareError ? (
+                  <div className="rounded-2xl border border-red-100 bg-red-50/50 p-6 text-center space-y-3">
+                    <p className="text-xs font-semibold text-red-700">{compareError}</p>
+                    <button
+                      type="button"
+                      onClick={() => fetchComparison()}
+                      className="rounded-lg bg-white border border-red-200 px-3 py-2 text-xs font-bold text-red-700 hover:bg-red-50"
+                    >
+                      다시 시도
+                    </button>
+                  </div>
+                ) : compareData ? (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {[
+                        { key: 'sectionCompleteness' as const, label: '섹션 완성도', unit: '점', value: compareData.current.sectionCompleteness.score },
+                        { key: 'keywordCount' as const, label: '고유 키워드 수', unit: '개', value: compareData.current.keywordCount },
+                        { key: 'sentenceLength' as const, label: '평균 문장 길이', unit: '단어', value: compareData.current.sentenceLength.averageWords },
+                        { key: 'jobMatch' as const, label: '공고 매치 휴리스틱', unit: '점', value: compareData.current.jobMatch.score },
+                      ].map(metric => {
+                        const comparison = compareData.comparisons[metric.key];
+                        return (
+                          <div key={metric.key} className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 space-y-2">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-xs font-bold text-slate-600">{metric.label}</span>
+                              <span className="text-[10px] text-slate-400">현재</span>
+                            </div>
+                            <div className="flex items-end justify-between gap-2">
+                              <strong className="text-2xl font-black text-slate-900">
+                                {metric.value === null ? '미입력' : `${metric.value}`}
+                                {metric.value !== null && <span className="ml-1 text-[10px] font-semibold text-slate-400">{metric.unit}</span>}
+                              </strong>
+                              <span className={`text-[10px] font-bold ${comparison.delta !== null && comparison.delta < 0 ? 'text-amber-600' : 'text-emerald-600'}`}>
+                                {comparison.delta === null ? '비교 불가' : `기준선 대비 ${comparison.delta > 0 ? '+' : ''}${comparison.delta}`}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-slate-400">
+                              기준선: {comparison.baseline === null ? '미입력' : `${comparison.baseline}${metric.unit}`}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-100 bg-white p-4 space-y-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <h4 className="text-xs font-bold text-slate-700">기준선 상태</h4>
+                        <span className="text-[10px] font-semibold text-slate-400">
+                          {compareData.baseline.isActual ? `익명 표본 ${compareData.baseline.sampleSize}명` : '실제 통계 아님'}
+                        </span>
+                      </div>
+                      <p className="text-xs leading-relaxed text-slate-500">{compareData.baseline.notice}</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="rounded-2xl border border-amber-100 bg-amber-50/40 p-4 space-y-3">
+                        <h4 className="text-xs font-bold text-amber-800">약점 및 비교 한계</h4>
+                        <ul className="list-disc list-inside space-y-1.5 text-xs leading-relaxed text-slate-600">
+                          {compareData.weaknesses.map((weakness, index) => <li key={index}>{weakness}</li>)}
+                        </ul>
+                      </div>
+                      <div className="rounded-2xl border border-blue-100 bg-blue-50/40 p-4 space-y-3">
+                        <h4 className="text-xs font-bold text-blue-800">개선 제안</h4>
+                        <ul className="list-disc list-inside space-y-1.5 text-xs leading-relaxed text-slate-600">
+                          {compareData.suggestions.map((suggestion, index) => <li key={index}>{suggestion}</li>)}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4 space-y-1.5">
+                      <h4 className="text-xs font-bold text-slate-700">개인정보 안내</h4>
+                      <p className="text-[11px] leading-relaxed text-slate-500">{compareData.privacyNotice}</p>
+                      <p className="text-[11px] leading-relaxed text-slate-400">{compareData.disclaimer}</p>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             )}
           </div>

@@ -275,7 +275,7 @@
 - [x] Claude Code 서브에이전트: 독립 컨텍스트, 백그라운드 실행, 에이전트 뷰 상태 로스터(Working/Needs input/Completed/Failed)(R2)
 - [x] Liner: 한국 스타트업, 전 세계 1,300만+ 사용자, 문장 단위 인용 출처 명시(SimpleQA 95.3% 1위), Liner Scholar 학술 리서치, 원클릭 인용 생성, 크롬 확장 워크플로우 통합(R2)
 - [x] AI Agent UI 트렌드: AG-UI 프로토콜(TOOL_CALL_START→ARGS→RESULT 이벤트), 인터럽트(HITL) 승인 모달, 추론 접힘 블록, 셸 명령 표시(Cursor)(R2)
-- [x] Codex는 태스크별 독립 클라우드 샌드박스, Devin은 VM+타임라인 UI, Manus는 가상 컴퓨터 뷰+진행 패널(R2)
+- [x] 외부 에이전트 실행 환경 사례는 이번 구현·대회 범위에서 제외한다(R2)
 
 ## 《4-2. 국내 플랫폼 (잡코리아·사람인·원티드·커리어리·랠릿·잡플래닛) — 리서치 R3》
 - [x] 잡코리아(웍스피어): 2026-02-04 메인 UI 전면 개편(AI 인사이트, AI 추천 3.0), 자체 한국어 HR LLM 'LOOP ai'(2400만 건 데이터), 경력직 인재 추천 '원픽'(R3)
@@ -342,11 +342,12 @@
 - [x] ▲쉘 명령어 실행 등 터미널 도구 사용 및 웹페치 도구 사용 시 Radius 가 적용된 UI로 사용 커맨드 및 페치 URL 표시,
 - [x] ▲장시간 작업의 영속성, 에이전트 루프를 통하여 컨텍스트가 유지되므로 수십분의 작업도 연속하여 처리,
 - [x] ▲에이전트는 명령을 받을 시 VM 인스턴스를 백엔드 시스템으로부터 할당받는다.
+- [x] 이번 구현·대회 범위에서 SLLM 파인튜닝과 VM 인스턴스 할당은 제외한다
 - [x] / Gemini의 Canvas 같이 사용자가 직접 수정도 가능하며, 변경(버전) 기록을 확인하고 특정 시점의 것을 다운로드 받거나 편집 명령 등 자유도 높은 사용자 조작을 보장,
 - [x] 또한 PPTX 및 HWPX 편집 등 대부분의 문서처리작업 혹은 웹페치가 필요한 작업 등을 이 딥에이전트캔버스에서 할수가 있다.
 - [x] 또한 diff 시스템으로 AI가 매번 완전히 새 대답으로 갈아엎고 대답하지 않게 하기 위하여 LLM AI API로 단순히 응답을 받아오는것이 아닌 자체 툴(예를들어 tool_low_edit) 사용을 강제하여 세밀한 수정도 가능토록 한다.
 - [x] 리서치: Gemini Canvas 버전 Previous/Next 버튼, Claude Artifacts 버전 셀렉터+포크, AG-UI 프로토콜(TOOL_CALL_START→ARGS→RESULT)이 UI 기준이다(R2)
-- [x] 리서치: Codex 태스크별 독립 클라우드 샌드박스, Devin VM+타임라인 UI, Manus 가상 컴퓨터 뷰가 VM 할당 UI의 참고다(R2)
+- [x] 외부 에이전트 실행 환경과 할당 UI 사례는 이번 구현·대회 범위에서 제외한다(R2)
 - [ ] AG-UI 이벤트 표시를 위한 프론트엔드 이벤트 버스 구조를 설계한다
 - [ ] 툴 호출 알림, 셸 명령 표시, 페치 URL 표시를 구분하는 컴포넌트를 구현한다
 - [ ] 버전 히스토리 타임라인과 특정 시점 다운로드 기능을 구현한다
@@ -392,13 +393,13 @@
 ## 《5-6. 자체 AI동작 라우트 기능과 자체 특화 SLM모델 (아이디어 6)》
 - [x] 6. 자체 AI동작 라우트 기능과 자체 특화 SLM모델: 이 둘은 명령, 전 응답, 컨텍스트 및 주어진 과업과 상황등을 종합적으로 신속히 분석해 적절한 Skills 및 LLM AI API 모델을 배치한다.
 - [x] 또한 자체 SLLM 특화 모델은 엘리스 클라우드 서비스를 이용하여 이미 존재하는 SLM을 파인튜닝해 최대효과 최소용량의 sLLM을 개발한다.
+- [x] 이번 구현·대회 범위에서 SLLM 파인튜닝과 VM 인스턴스 할당은 제외한다
 - [x] 이는 가벼운 보조작업, 서브 에이전팅 태스트에 쓰일수도 있으며 자체 AI동작 라우트 기능과 협업할 수 있다.
-- [x] 리서치: 엘리스 클라우드 런박스 GPUaaS 최대 80% 저렴, ECI Terraform, ML API로 파인튜닝 모델 등록·서빙 가능(단 매니지드 파인튜닝 UI는 미확인, GPU에서 직접 훈련하는 구조)(R4)
-- [x] 리서치: Vertex AI는 Gemma 3 1B~27B, Llama 3.2 1B/3B, Qwen3 4B~32B 지원, QLoRA로 7B급 12GB GPU에서 파인튜닝 가능(R4)
+- [x] 리서치: SLLM 파인튜닝 환경(엘리스 클라우드 GPU·Vertex AI·QLoRA)은 이번 구현·대회 범위에서 제외한다(R4)
 - [x] 리서치: RouteLLM 이진 라우팅으로 비용 85% 절감 사례가 있다(R4)
 - [ ] 라우팅 규칙(과업 유형별 Skills/모델 배치)의 스키마를 정의한다
 - [ ] 라우팅 판정 정확도 측정용 테스트셋(명령 100건)을 만든다
-- [ ] sLLM 파인튜닝은 엘리스 클라우드 GPU + QLoRA로 1차 검증하고 Vertex AI 서빙을 대안으로 남긴다
+- [x] SLLM 파인튜닝 검증과 Vertex AI 서빙 대안은 이번 구현·대회 범위에서 제외한다
 
 ## 《5-7. 서브에이전팅 (아이디어 7)》
 - [x] 7. 서브에이전팅: (API를 논리적으로 분할하여 하나의 LLM AI API에서 여러 하위 서브 에이전트를 만들거나 아예 다른 API를 쓸수도 있다.)
@@ -584,9 +585,9 @@
 ## 《8-1. 시스템 아키텍처 개요》
 - [x] 프론트엔드: Next.js 기반(기존 Kairos 프로젝트), Deep Agent Canvas와 커뮤니티 광장 UXUI를 핵심 화면으로 구성한다
 - [x] 백엔드: 에이전트 런타임, 서브에이전트 오케스트레이션, 백엔드 에이전트 행동평가원(L2), 데이터 프로바이더 통합 계층으로 구성한다
-- [x] 에이전트 계층: LLM 라우팅(통합AI워크스페이스), sLLM 파인튜닝 모델, 서브에이전트 풀을 배치한다(R4)
+- [x] 에이전트 계층: LLM 라우팅(통합AI워크스페이스)과 서브에이전트 풀을 배치한다(R4)
 - [x] 데이터 계층: Sea of your Contexts 프로바이더 연동과 공공 API(워크넷, 고용24, DART, 국민연금) 데이터를 수집한다(R4)
-- [x] 하네스 계층: 가드레일(NeMo Guardrails), 툴 승인, 샌드박스(Firecracker/E2B)로 자율적 에이전트의 안전을 보장한다(R6)
+- [x] 하네스 계층: 가드레일(NeMo Guardrails)과 툴 승인으로 자율적 에이전트의 안전을 보장한다(R6)
 - [x] 원문 원칙: 맥락관리와 에이전트아키텍쳐가 생명(V2)
 - [ ] 아키텍처 다이어그램(6~7레이어)을 PPT 슬라이드 6(AI·SW 활용 구조)용으로 제작한다
 - [ ] MVP 범위를 확정하고 각 계층의 구현 우선순위를 정한다
@@ -605,13 +606,8 @@
 - [ ] 무료 모델 풀(OpenRouter :free)을 기본으로 비용 추적 UI를 개발한다
 - [ ] 라우팅 결정 로그를 남겨 라우팅 정확도를 측정한다
 
-## 《8-4. sLLM 파인튜닝 (R4: 엘리스 클라우드 GPU + QLoRA + ML API 서빙, Vertex AI)》
-- [x] 엘리스 클라우드: 런박스 GPUaaS 최대 80% 저렴, ECI Terraform, ML API로 파인튜닝 모델 등록·서빙(단 매니지드 파인튜닝 UI는 미확인, GPU에서 직접 훈련하는 구조)(R4)
-- [x] Vertex AI: Gemma 3 1B~27B, Llama 3.2 1B/3B, Qwen3 4B~32B 지원(R4)
-- [x] QLoRA: 7B급 12GB GPU에서 파인튜닝 가능(R4)
-- [ ] 대상 과업(자소서 교정, 공고-이력서 매치, 톤 교정)별 파인튜닝 데이터셋을 만든다
-- [ ] 베이스 모델(Gemma 3 4B 후보)을 정하고 QLoRA 실험을 진행한다
-- [ ] sLLM 품질 기준(라우팅 폴백 시 품질 저하 지표)을 정의한다
+## 《8-4. 제외 기술 범위》
+- [x] SLLM 파인튜닝, GPU 학습·서빙·품질 검증은 이번 구현·대회 범위에서 제외한다
 
 ## 《8-5. 데이터 프로바이더 통합 (R4: Notion/GitHub API, 워크넷·고용24·DART·국민연금 공공 API, LinkedIn 제약, 삼성노트 무API, Playwright/Selenium 법적 경계 + 대법원 2021도1533 판례)》
 - [x] 워크넷 Open API(무료 인증키), 고용24 OPEN API(훈련과정·채용, 기업회원), DART OPENDART(사업보고서·재무지표, 누구나 인증키, 20,000건/일), 국민연금공단 공공데이터(사업장 가입자 수·당월고지금액)(R4)
@@ -627,11 +623,10 @@
 - [ ] 프로바이더별 연동 상태(동의/인증/동기화 주기/오류 처리)를 관리하는 커넥터 계층을 만든다
 - [ ] 공공 API 호출량 제한(20,000건/일 등)을 준수하는 큐·캐시를 설계한다
 
-## 《8-6. 에이전트 런타임·샌드박스·영속성 (R4: Firecracker/E2B, LangGraph 체크포인터, 장기 태스크)》
-- [x] Firecracker microVM(부팅 125ms, E2B·Vercel Sandbox 채택), gVisor(checkpoint/restore), E2B(에이전트 샌드박스, pause/snapshot/resume)(R4)
+## 《8-6. 에이전트 런타임·영속성 범위》
+- [x] 에이전트 런타임의 샌드박스 실행과 VM 인스턴스 할당은 이번 구현·대회 범위에서 제외한다
 - [x] LangGraph 체크포인터(Postgres, 시간여행/재개), Temporal(durable execution, 사람 승인 수개월 대기 비용 0)(R4)
-- [x] 원문: ▲에이전트는 명령을 받을 시 VM 인스턴스를 백엔드 시스템으로부터 할당받는다(아이디어 2)
-- [ ] VM 인스턴스 수명 주기(할당→유지→해제)와 비용 제어 정책을 설계한다
+- [x] 원문 아이디어의 VM 인스턴스 할당은 이번 구현·대회 범위에서 제외한다
 - [ ] 수십분 장시간 작업의 영속성(체크포인트, 재개)을 데모에 포함한다
 
 ## 《8-7. 가드레일·하네스 (R6: NeMo Guardrails, Constitutional AI, 툴 위험 등급화, 종료 조건)》
@@ -657,28 +652,25 @@
 - [ ] 개인정보 동의 화면(수집 항목, 목적, 철회 방법)과 파기 정책을 문서화한다
 - [ ] 면접 영상 저장 기간과 접근 권한 정책을 정한다
 
-## 《8-10. 기술 리서치 R7 보강 (LiteLLM 라우팅 전략, OpenRouter :free, RouteLLM ICLR 2025, 엘리스 런박스 가격, QLoRA 11GB, Firecracker/E2B, Temporal, Kanana, HarnessAudit)》
+## 《8-10. 기술 리서치 R7 보강 (LiteLLM 라우팅 전략, OpenRouter :free, RouteLLM ICLR 2025, Temporal, Kanana, HarnessAudit)》
 - [x] OpenAI Agents SDK Handoff: LLM이 호출 가능한 툴로 노출, transfer_to_<agent_name>, handoff() 파라미터(on_handoff, input_type)(R7) 출처: <https://openai.github.io/openai-agents-python/handoffs/>
 - [x] Claude Code Subagents: 독립 context window·시스템 프롬프트·툴·권한, 병렬 리서치, agent teams/background agents로 장기 병렬 작업(R7) 출처: <https://code.claude.com/docs/en/subagents>
 - [x] LangGraph Supervisor: create_supervisor()로 supervisor+팀원 구성, parallel_tool_calls 기본값 False, 병렬 툴 콜은 OpenAI·Anthropic 모델만 지원(R7) 출처: <https://reference.langchain.com/python/langgraph-supervisor/supervisor/create_supervisor>
 - [x] LiteLLM 라우팅 전략: Weighted Pick(기본·권장), Rate-Limit Aware v2, Latency-Based, Least-Busy, Lowest Cost Routing(Async, 토큰당 비용 최저 모델 선택), config.yaml에 rpm/tpm/weight 설정(R7) 출처: <https://docs.litellm.ai/docs/routing>
 - [x] OpenRouter 무료 모델 라우터: openrouter/free, 모델 id 뒤에 :free 접미사(예: meta-llama/llama-3.2-3b-instruct:free), 라우터·무료 모델 모두 과금 없음, 단 rate limit·가용성·지연 제한(R7) 출처: <https://openrouter.ai/docs/guides/routing/routers/free-router>
 - [x] RouteLLM(UC Berkeley·Anyscale·Canva, ICLR 2025): 사용자 선호도 기반 학습 라우터, 강/약 모델 구분으로 품질 유지+비용 2배 이상 절감(R7) 출처: <https://proceedings.iclr.cc/paper_files/paper/2025/file/5503a7c69d48a2f86fc00b3dc09de686-Paper-Conference.pdf>
-- [x] 엘리스 런박스 GPU 가격: B200 SXM ₩7,870/hr~, H100 SXM ₩4,240/hr~, 온디맨드 초 단위 과금, Reserved(1·12개월) 할인(R7) 출처: <https://elice.io/ko/cloud/runbox>
-- [x] QLoRA 4-bit 양자화+LoRA 어댑터로 LLaMA-7B를 ~12GB VRAM(실측 11181MiB)에서 파인튜닝 가능, --max_memory_MB로 메모리 한도 제한(R7) 출처: <https://gist.github.com/Birch-san/57878c4a27cf34f57d3e861865a7d0a2>
-- [x] Gemma 3 파인튜닝: Axolotl 프레임워크, Vertex AI training(H100 등) 또는 Enterprise Colab에서 실행(Google Cloud 공식 예제)(R7) 출처: <https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/model_garden/model_garden_axolotl_gemma3_finetuning.ipynb>
+- [x] R7의 SLLM 파인튜닝·GPU 학습·서빙 관련 기술 조사는 이번 구현·대회 범위에서 제외한다(R7)
 - [x] HarnessAudit(arXiv 2605.14271, 2026): 에이전트 실행 궤적(모델 I/O·도구 호출·내부 상태·승인)을 기록하는 감사 계층, HarnessAudit-Bench 210개 태스크·8개 도메인, 위반은 리소스 접근·에이전트 간 정보 전달에 집중(R7) 출처: <https://arxiv.org/html/2605.14271v1>
 - [x] NeMo Guardrails는 Apache 2.0 라이선스 확인, OpenAI Agents SDK Guardrails는 input/output/tool 3종+tripwire_triggered, blocking/parallel 실행 모드(R7) 출처: <https://github.com/NVIDIA/NeMo-Guardrails/blob/main/LICENSE.md>
-- [x] Firecracker microVM: 1 CPU/128MiB VM에서 오버헤드 ≤5MiB, 부팅 ≤125ms, CPU 성능 베어메탈 >95%(R7) 출처: <https://github.com/firecracker-microvm/firecracker/blob/main/SPECIFICATION.md>
-- [x] E2B Sandbox: pause/resume 시 파일시스템+메모리(실행 중 프로세스 포함) 보존, 상태(Running/Paused/Snapshotting/Killed), 1분 유휴 자동 일시정지 풀로 비용 절감(R7) 출처: <https://e2b.dev/docs/sandbox/persistence>
+- [x] R7의 Firecracker·E2B 샌드박스 기술 조사는 이번 구현·대회 범위에서 제외한다(R7)
 - [x] LangGraph 타임트래블: 모든 checkpoint 저장, get_state_history()로 과거 상태 replay/fork 수정 실행(R7) 출처: <https://docs.langchain.com/oss/python/langgraph/use-time-travel>
 - [x] Temporal Approval 패턴: 외부 결정(사람 승인)을 Signal로 대기, durable execution으로 상태 보존·자동 재개, 지연 시 에스컬레이션 자동화(R7) 출처: <https://docs.temporal.io/design-patterns/approval>
 - [x] FSL(Functional Source License): 2년 후 Apache 2.0/MIT 자동 전환, 포크 사례(Elasticsearch→OpenSearch, Redis→Valkey, Terraform→OpenTofu)(R7) 출처: <https://fsl.software/>
 - [x] 카카오 Kanana-1.5(8B/2.1B, 2025-05-23)는 Apache 2.0으로 상업 활용 가능, Kanana-2 SLM(2026-07-28)은 Kanana Open License(조건부 상업 허용)라 사용 전 확인 필요(R7) 출처: <https://www.kakaocorp.com/page/detail/11566>
 - [x] LangSmith LLM-as-judge: 오프라인(데이터셋)·온라인(실시간) 평가 지원, SDK로 평가자 직접 생성 가능(R7) 출처: <https://docs.langchain.com/langsmith/llm-as-judge>
-- [x] 엘리스 ECI Terraform Provider(elice-dev/eci): eci_virtual_machine·eci_block_storage 리소스, api_endpoint portal.elice.cloud/api(R7) 출처: <https://help.elice.io/help/docs/eci/terraform>
+- [x] R7의 VM 인프라 프로바이더 조사는 이번 구현·대회 범위에서 제외한다(R7)
 - [ ] LiteLLM Weighted Pick/Lowest Cost 전략을 라우팅 스키마에 반영한다(R7)
-- [ ] E2B pause/resume 풀과 1분 유휴 일시정지 정책을 샌드박스 설계에 적용한다(R7)
+- [x] E2B pause/resume 풀과 1분 유휴 일시정지 정책은 이번 구현·대회 범위에서 제외한다(R7)
 - [ ] HarnessAudit 감사 로그(모델 I/O·도구 호출·승인) 스키마를 정의한다(R7)
 ## 《8-11. 실제 구현·프로토타입·로드맵 상태와 기술구현 40점 대응》
 - [x] 상태 판정 기준: 실제 구현 완료는 현재 코드와 실행 경로로 확인된 범위, 프로토타입·데모 준비는 코드 기능을 발표용 계정·샘플·리허설로 묶는 단계, 설계·로드맵은 코드 근거가 없어 향후 구현할 범위로 구분한다
@@ -692,7 +684,8 @@
 - [x] 실제 구현 완료: 기본 커뮤니티 CRUD 범위는 `src/app/api/community/route.ts`, `src/app/api/community/[id]/route.ts`, `src/app/(authenticated)/community/page.tsx`의 목록·상세 조회·작성·본인 글 삭제이며, 수정·좋아요·자동매칭은 포함하지 않는다
 - [ ] 프로토타입·데모 준비: `src/app/(authenticated)/ats/page.tsx`, `src/app/(authenticated)/resume/[id]/page.tsx`, `src/app/(authenticated)/interview/[id]/page.tsx`의 코드 흐름을 README Demo Mode의 `testmockup / 12345` 계정·샘플 데이터·성공 화면 캡처·1분 리허설로 묶어 준비한다
 - [ ] 프로토타입·데모 준비: `src/server/http.ts`, 각 실제 API 라우트의 오류 응답, 화면의 재시도 코드를 기준으로 정상 입력·빈 입력·LLM 오류·미인증·타인 자원 접근을 재현하고 정적 화면 대체경로를 확인한다
-- [ ] 설계·로드맵: Deep Agent Canvas 전체(캔버스 UI·VM 할당·툴 호출·장시간 영속성·버전·`tool_low_edit` 편집), 외부 provider connector, sLLM, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 구현 API·서비스 경로가 없고 README의 플랫폼 브리지도 Mock 스텁이므로 실제 구현 완료로 표시하지 않고 로드맵으로 관리한다
+- [x] 범위 제외: Deep Agent Canvas의 VM 할당·샌드박스 실행과 sLLM은 이번 구현·대회 범위에 포함하지 않으며 로드맵에도 남기지 않는다
+- [ ] 설계·로드맵: Deep Agent Canvas의 캔버스 UI·툴 호출·장시간 영속성·버전·`tool_low_edit` 편집, 외부 provider connector, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 구현 API·서비스 경로가 없어 향후 범위로 관리한다
 - [x] 기술구현 40점 대응의 단일 기준: 기능 수가 아니라 실제 데모 3종의 입력→분석 또는 생성→사용자 확인 또는 승인→결과 저장·재조회까지 엔드투엔드로 평가한다
 - [x] 테스트 대응 근거: ATS 결정론적 로직, Gemini 텍스트·구조화 응답과 upstream SSE 청크 파싱, 가드레일 4계층, Humanizer에 대한 Vitest 테스트를 실행 근거로 제시하고 테스트 수와 실행일을 함께 기록한다
 - [x] 오류 대체경로 대응 근거: `http.ts`의 오류 응답, LLM 빈 응답·비정상 응답 처리, ATS·QA·Humanizer·Career 화면의 재시도, HWP 뷰어·에디터의 로딩·실패 재시도를 엔드투엔드 화면에 포함한다
@@ -796,7 +789,8 @@
 - [x] 실제 구현 완료: 공식 발표에는 ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접 스트림, QA·Humanizer, Career, HWP/HWPX, 기본 커뮤니티 CRUD 중 실제 코드 경로가 있는 내용만 구현 범위로 제시한다
 - [x] 발표자료의 실제 시연 범위: `src/data/presentationSlides.tsx`는 5분 발표에서 ATS 휴리스틱, 이력서 AI 개선·Diff 승인, 텍스트 기반 면접 3개만 직접 시연 대상으로 두며, QA/Humanizer·Career·HWP/HWPX·기본 커뮤니티 CRUD는 구현 완료 범위이지만 핵심 데모 3개와 혼동하지 않는다
 - [ ] 프로토타입·데모 준비: `src/app/(authenticated)/ats/page.tsx`, `src/app/(authenticated)/resume/[id]/page.tsx`, `src/app/(authenticated)/interview/[id]/page.tsx`의 실제 구현 흐름을 공식 10슬라이드 7에 성공 화면·오류 대체경로 캡처 또는 녹화로 배치한다
-- [ ] 설계·로드맵: Deep Agent Canvas 전체(캔버스 UI·VM·툴 호출·영속성·버전·diff 편집), 외부 provider connector, sLLM, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 API·서비스 경로가 없고 `packages/agent-cli`, `packages/tauri-bridge`, `packages/mobile-bridge`가 README에서 Mock 스텁으로 명시되므로 공식 10슬라이드 8에서만 보완·확장 계획으로 제시한다
+- [x] 범위 제외: Deep Agent Canvas의 VM·샌드박스 실행과 sLLM은 이번 구현·대회 범위에 포함하지 않으며 공식 발표 로드맵에도 남기지 않는다
+- [ ] 설계·로드맵: Deep Agent Canvas의 캔버스 UI·툴 호출·영속성·버전·diff 편집, 외부 provider connector, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 API·서비스 경로가 없고 `packages/agent-cli`, `packages/tauri-bridge`, `packages/mobile-bridge`가 README에서 Mock 스텁으로 명시되므로 공식 10슬라이드 8에서 보완·확장 계획으로 관리한다
 - [x] 원문 8슬라이드 구성은 1 타이틀, 2 서비스 개요 및 핵심 가치, 3 문제 배경 및 타깃 사용자, 4 서비스 주요 기능, 5 사용자 이용 흐름, 6 AI·SW 활용 기술 및 서비스 구조, 7 프로토타입 시연, 8 구현 범위 및 보완 계획으로 그대로 보존한다
 - [x] 공식 10슬라이드의 1~7은 원문 8슬라이드의 1~7과 대응한다
 - [x] 공식 10슬라이드 8은 기대효과 및 확장계획으로 사용하고, 원문 8의 구현 범위·미구현 기능·오류 제약은 공식 7의 시연 유의사항과 공식 8의 확장계획에 함께 배치한다
@@ -854,7 +848,8 @@
 ## 《11-4. 실행 상태·KPI·증거 묶음》
 - [x] 실제 구현 완료: 8-11의 코드 근거가 있는 ATS, 이력서 AI·Diff 승인, 텍스트 면접 plain-text 스트리밍, QA·Humanizer, Career, HWP/HWPX, 기본 커뮤니티 CRUD 범위만 완료 기능으로 집계한다
 - [ ] 프로토타입·데모 준비: `/ats`, `/resume/[id]`, `/interview/[id]`의 코드 흐름과 README Demo Mode 계정을 기준으로 실제 데모 3종의 샘플 데이터·영상 또는 실시간 리허설·정적 대체 화면·발표자 역할을 준비한다
-- [ ] 설계·로드맵: Deep Agent Canvas 전체(캔버스 UI·VM·툴 호출·영속성·버전·diff 편집), 외부 provider connector, sLLM, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 관련 API·서비스 경로가 없고 README의 플랫폼 브리지가 Mock 스텁이므로 구현 완료 수와 데모 성공률에 포함하지 않는다
+- [x] 범위 제외: Deep Agent Canvas의 VM·샌드박스 실행과 sLLM은 이번 구현·대회 범위에 포함하지 않으며 구현 완료 수와 데모 성공률에 포함하지 않는다
+- [ ] 설계·로드맵: Deep Agent Canvas의 캔버스 UI·툴 호출·영속성·버전·diff 편집, 외부 provider connector, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 관련 API·서비스 경로가 없어 구현 완료 수와 데모 성공률에 포함하지 않는다
 - [ ] KPI 1 실행 과제: 엔드투엔드 완료율을 시작한 데모 흐름 중 결과 확인·저장 또는 사용자 승인까지 도달한 횟수로 정의하고 정상 입력 5회 리허설의 목표값을 정한다
 - [ ] KPI 2 실행 과제: AI 결과 검증률을 ATS 세부 원인 확인 또는 Diff 승인 후 저장한 결과 수를 AI 결과 수로 나눈 값으로 정의하고 샘플 사용자 테스트의 목표값을 정한다
 - [ ] KPI 3 실행 과제: 오류 회복률을 주입한 오류 중 재시도·대체 화면·안내로 시연을 완료한 횟수로 정의하고 실제 발표 리허설에서 100%를 목표로 점검한다
@@ -1074,6 +1069,7 @@
 - [x] 출처: <https://yukaichou.com/behavioral-analysis/prospect-theory-loss-aversion-kahneman-tversky/>
 
 ## 《13-7. R7 멀티에이전트·기술아키텍처 출처 URL 모음》
+- [x] R7의 SLLM 파인튜닝·Firecracker·E2B·VM 인프라 관련 외부 기술 조사 URL은 이번 구현·대회 범위에서 제외한다
 - [x] 출처: <https://openai.github.io/openai-agents-python/handoffs/>
 - [x] 출처: <https://code.claude.com/docs/en/subagents>
 - [x] 출처: <https://reference.langchain.com/python/langgraph-supervisor/supervisor/create_supervisor>
@@ -1081,16 +1077,16 @@
 - [x] 출처: <https://docs.litellm.ai/docs/routing>
 - [x] 출처: <https://openrouter.ai/docs/guides/routing/routers/free-router>
 - [x] 출처: <https://proceedings.iclr.cc/paper_files/paper/2025/file/5503a7c69d48a2f86fc00b3dc09de686-Paper-Conference.pdf>
-- [x] 출처: <https://elice.io/ko/cloud/runbox>
-- [x] 출처: <https://elice.io/ko/cloud/pricing/ai-cloud>
-- [x] 출처: <https://help.elice.io/help/docs/elicecloud/ondemand/>
-- [x] 출처: <https://gist.github.com/Birch-san/57878c4a27cf34f57d3e861865a7d0a2>
-- [x] 출처: <https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/model_garden/model_garden_axolotl_gemma3_finetuning.ipynb>
+- [x] 범위 제외 출처: <https://elice.io/ko/cloud/runbox>
+- [x] 범위 제외 출처: <https://elice.io/ko/cloud/pricing/ai-cloud>
+- [x] 범위 제외 출처: <https://help.elice.io/help/docs/elicecloud/ondemand/>
+- [x] 범위 제외 출처: <https://gist.github.com/Birch-san/57878c4a27cf34f57d3e861865a7d0a2>
+- [x] 범위 제외 출처: <https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/model_garden/model_garden_axolotl_gemma3_finetuning.ipynb>
 - [x] 출처: <https://arxiv.org/html/2605.14271v1>
 - [x] 출처: <https://github.com/NVIDIA/NeMo-Guardrails/blob/main/LICENSE.md>
 - [x] 출처: <https://openai.github.io/openai-agents-python/guardrails/>
-- [x] 출처: <https://github.com/firecracker-microvm/firecracker/blob/main/SPECIFICATION.md>
-- [x] 출처: <https://e2b.dev/docs/sandbox/persistence>
+- [x] 범위 제외 출처: <https://github.com/firecracker-microvm/firecracker/blob/main/SPECIFICATION.md>
+- [x] 범위 제외 출처: <https://e2b.dev/docs/sandbox/persistence>
 - [x] 출처: <https://docs.langchain.com/oss/python/langgraph/use-time-travel>
 - [x] 출처: <https://temporal.io/blog/human-in-the-loop-approvals>
 - [x] 출처: <https://docs.temporal.io/design-patterns/approval>
@@ -1100,9 +1096,9 @@
 - [x] 출처: <https://www.kakaocorp.com/page/detail/12089>
 - [x] 출처: <https://huggingface.co/kakaocorp/kanana-2-3b-instruct>
 - [x] 출처: <https://docs.langchain.com/langsmith/llm-as-judge>
-- [x] 출처: <https://github.com/elice-dev/terraform-provider-eci>
-- [x] 출처: <https://help.elice.io/help/docs/eci/terraform>
-- [x] 출처: <https://help.elice.io/help/docs/eci/iac/terraform-overview>
+- [x] 범위 제외 출처: <https://github.com/elice-dev/terraform-provider-eci>
+- [x] 범위 제외 출처: <https://help.elice.io/help/docs/eci/terraform>
+- [x] 범위 제외 출처: <https://help.elice.io/help/docs/eci/iac/terraform-overview>
 
 ## 《13-8. R8 공공데이터·커리어관리 출처 URL 모음》
 - [x] 출처: <https://www.data.go.kr/data/3038225/openapi.do>
