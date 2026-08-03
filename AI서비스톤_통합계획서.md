@@ -98,6 +98,10 @@
 - [ ] 페르소나 3: 경력자(1~10+년) — 커리어 데이터 소실, 회사 내 커리어 관리 부재, 역량 맞춤 직종 추천이 필요한 사용자
 - [ ] 페르소나별 가상 인터뷰를 2~3개씩 작성하여 발표 슬라이드 3(문제 배경 및 타깃 사용자)에 활용한다
 - [ ] 페르소나 3종의 한 화면 요약 아트워크를 PPT용으로 제작한다
+- [ ] 페르소나 1 실행 카드: 15~29세 신입 취준생이 공고를 읽고도 첫 행동을 고르지 못하는 상황, ATS 분석과 이력서 Diff 승인을 거쳐 지원 가능한 문서를 만드는 결과를 가상 인터뷰로 검증한다
+- [ ] 페르소나 2 실행 카드: 재취업·이직자가 장기 미취업과 번아웃으로 지원을 멈춘 상황, 텍스트 면접과 경력 기록을 통해 다음 행동을 하나 정하는 결과를 가상 인터뷰로 검증한다
+- [ ] 페르소나 3 실행 카드: 1~10+년 경력자가 여러 도구에 흩어진 경험을 찾지 못하는 상황, Career CRUD·검색과 문서 뷰어를 통해 증거를 다시 꺼내는 결과를 가상 인터뷰로 검증한다
+- [ ] 각 페르소나 실행 카드에 상황, 사용자가 직접 하는 행동, 실패 시 대체 행동, 확인할 결과, 연결되는 실제 코드 화면을 한 세트로 기록한다
 
 ## 《3-2. 시장·통계 근거 (리서치 R1 팩트)》
 - [x] 첫 취업 평균 소요기간 11.3개월(통계청 2025년 5월 부가조사), 2024년 11.5개월 역대 최장(R1)
@@ -153,6 +157,9 @@
 - [x] WHO ICD-11은 번아웃을 의학적 질병이 아닌 직업 맥락에서 발생하는 현상으로 정의하고 만성 직장 스트레스의 결과로 설명한다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
 - [x] WHO가 제시한 번아웃의 핵심 차원은 에너지 고갈·직업에 대한 심리적 거리 또는 냉소·직업적 효능감 저하다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
 - [x] OECD는 2024 고용전망에서 정신건강 정책을 치료뿐 아니라 직장 복귀와 고용 유지까지 연결해야 한다고 제안했다(R9) 출처: <https://www.oecd-ilibrary.org/employment/oecd-employment-outlook-2024_b4f2e0a0-en>
+- [x] 통계청 지역별고용조사는 육아·결혼·임신·출산·가족돌봄·근로조건 등 경력단절 사유를 별도 문항으로 조사한다(2025년 기준)(R9) 출처: <https://kostat.go.kr/understand/info/info_10_2.jsp>
+- [x] 재취업 지원에서 번아웃은 단순한 의욕 부족이 아니라 업무 맥락의 스트레스·냉소·직업적 효능감 저하를 분리해 기록해야 한다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
+- [x] 재취업 지원은 번아웃 차원을 분리 기록한 뒤 작은 복귀 행동과 필요 시 상담 연결로 이어야 하며, 이를 단순한 의욕 부족으로 대체하지 않는다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
 - [ ] 재취업 지원에서 번아웃을 의욕 부족으로 단정하지 않고 스트레스·냉소·효능감 저하를 분리 기록하며 작은 복귀 행동과 상담 연결을 제공한다(R9) 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
 - [ ] 첫 직장 퇴사-재취업 사이클을 라이프 코칭 관점에서 문제 정의한다(R1)
 
@@ -166,6 +173,7 @@
 - [x] 2026년 3월 신입 채용 공고 -45%(1438건→791건), IT·통신 -73%(진학사 캐치, 스타트업엔 2026-04-03)(R1) 출처: <https://www.startupn.kr/news/articleView.html?idxno=57168>
 - [x] 채용 조직의 생성형 AI 적극 통합·실험 비율 37%로 전년 27%에서 상승했고, 사용 팀은 주당 업무시간 약 20%를 절약했다고 응답(LinkedIn Future of Recruiting 2025)(R9) 출처: <https://business.linkedin.com/talent-solutions/resources/future-of-recruiting>
 - [x] LinkedIn은 채용 AI의 효과를 단순 자동화가 아니라 후보자 경험·관계 형성·채용 관리자의 자문으로 시간 재배분하는 것으로 제시한다(R9) 출처: <https://business.linkedin.com/talent-solutions/resources/future-of-recruiting>
+- [x] LinkedIn Future of Recruiting 2025는 1,000명 이상의 인재 담당자 설문과 플랫폼의 수십억 개 데이터 포인트를 결합한 자료다(R9) 출처: <https://business.linkedin.com/talent-solutions/resources/future-of-recruiting>
 - [x] 세계경제포럼 조사에서 기업 77%가 2030년까지 AI·기술 변화에 대응한 기존 인력 업스킬링을 계획했고, 41%는 AI 자동화 업무에 따른 인력 감축을 예상했다(R9) 출처: <https://www.weforum.org/publications/the-future-of-jobs-report-2025/>
 - [x] NBER 현장실험은 온라인 노동시장 구직자 약 50만 명에게 알고리즘 이력서 작성 지원을 제공했고 지원군 채용률이 약 8% 높아졌으며 고용주 만족도 저하 증거는 찾지 못했다(R9) 출처: <https://www.nber.org/papers/w30886>
 - [ ] AI 채용 확대·신입 공고 감소 추이를 시장 배경 슬라이드에 정리한다(R2)
@@ -220,6 +228,10 @@
 - [x] 듀오링고 스트릭: 7일 이상 스트릭 학습자 600만+, 7일 스트릭 도달 시 코스 완주 가능성 3.6배, 손실 회피가 동기 부여(듀오링고 공식 2022-01-31)(R6) 출처: <https://blog.duolingo.com/how-duolingo-streak-builds-habit>
 - [x] 동병상련: Farrow et al.(2022) 실험에서 위로 효과가 유의하지 않음 — '진전 공유(accountability)' 프레임으로 설계해야 함(Oxford Economic Papers)(R6) 출처: <https://academic.oup.com/oep/article/74/2/523/6333591>
 - [x] Accountability 파트너: 목표 공유 시 달성률 65%(Gail Matthews, 2차 인용)(R6) 출처: <https://consultcameron.com/the-importance-of-accountability-partners-in-goal-setting/>
+- [x] 만다라트 9×9 구조는 목표를 하위 행동으로 분해하는 시각 규칙으로 설명할 수 있으나 취업 성과를 높인다는 학술 인과 근거는 확인되지 않았다(R9) 출처: <https://www.j-platpat.inpit.go.jp/>
+- [x] 구현의도 연구는 언제·어디서·어떻게 행동할지를 정하는 if-then 계획과 단순한 응원·위로를 구분하는 근거를 제공한다(R9) 출처: <https://doi.org/10.1016/S0065-2601(06)38002-1>
+- [x] accountability는 단순한 위로가 아니라 목표·기한·진척 보고를 포함하는 구조화된 목표 설정으로 설계해야 한다(R9) 출처: <https://www.dominican.edu/sites/default/files/2020-02/gail-matthews-research-summary.pdf>
+- [x] 빈캔버스 문제는 첫 행동을 고르는 선택 수와 관련되며 최근 경력 기록에서 시작 행동 1~3개를 제안하고 사용자가 거절·수정하게 하는 설계 근거가 있다(R9) 출처: <https://doi.org/10.1111/j.2044-8295.1952.tb01145.x>
 - [ ] 만다라트·RIASEC·스트릭을 문제 정의의 해법 근거로 연결한다(R6)
 
 ## 《3-11. Pain Point 요약》
@@ -231,12 +243,25 @@
 - [ ] Pain 6: 비용 부담 — 자소서 첨삭 9만~30만 원 이상(시빅뉴스 2024-12-09), 취업 준비 총비용 부담(R1)
 - [ ] Pain 7: 근속 단절 — 첫 직장 평균 근속 18.4개월(국회예산정책처)로 커리어 기록이 매번 끊긴다(R1)
 - [ ] 발표에서 Pain Point를 3개로 압축해 각각 하나의 슬라이드에 매핑한다
+- [ ] 발표 Pain 1 실행 카드: 빈캔버스와 선택장애를 최근 기록 기반의 1~3개 시작 행동 제안으로 줄이고, 제안 거절·수정까지 확인한다
+- [ ] 발표 Pain 2 실행 카드: 정보 비대칭을 공고·이력서의 키워드와 파싱 결과 차이를 보여주는 ATS 화면으로 줄이고, 단일 점수의 인과 해석은 하지 않는다
+- [ ] 발표 Pain 3 실행 카드: AI 대 AI 불신을 원문·AI 제안·Diff·사용자 승인으로 분리하여 사용자가 최종 문장을 소유하는 흐름으로 줄인다
+- [ ] Pain 3개 실행 카드마다 근거 통계, 사용자 발화, 실제 화면, 오류 대체경로, 측정할 KPI를 1:1로 연결한다
 
 ## 《3-12. 문제 정의 한 문장 (신규)》
 - [ ] 문제 정의 한 문장: "첫 취업 평균 11.2개월, 1년 이상 미취업 48.6%, 자소서 64.4% AI 작성 의심 시대에, 청년들은 자신의 진짜 경험을 기록·증명·활용할 도구 없이 빈캔버스와 정보 비대칭, AI 대 AI 불신 속에서 좌절한다"
 - [ ] 문제 정의 한 문장을 발표 표지와 홈 화면 카피에 반영한다
 - [ ] 문제 정의 한 문장을 심사기준표 '문제 정의 15점' 답변의 첫 문장으로 고정한다
 - [ ] 문제 정의 한 문장을 페르소나 3종의 공통 아픔과 교차 검증한다(R1~R6)
+## 《3-13. 발표 숫자 단일 기준 세트》
+- [x] 기존 원문·리서치 숫자는 근거 보존용으로 삭제하지 않으며, 발표에서 반복할 숫자는 이 섹션의 단일 기준 세트만 사용한다
+- [x] 발표 기준 1: 첫 취업 11.3개월 — 모집단: 취업 경험이 있는 청년 졸업자 중 첫 일자리가 임금근로자인 경우, 기준시점: 2025년 5월, 출처: 통계청 2025년 5월 경제활동인구조사 청년층 부가조사, 출처 목록: <https://kostat.go.kr/board.es?mid=a10301030200&bid=210>
+- [x] 발표 기준 2: 졸업 후 1년 이상 미취업 48.6% — 모집단: 15~29세 최종학교 졸업자 중 현재 미취업자, 기준시점: 2026년 5월, 기준: 미취업 기간 1년 이상 비중, 출처: 국가데이터처 2026년 5월 경제활동인구조사 청년층 부가조사 및 동아일보 2026-07-23, 출처: <https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847> <https://www.donga.com/news/Economy/article/all/20260723/134350159/1>
+- [x] 발표 기준 3: 자소서 AI 작성 의심 64.4% — 모집단: 2025년 실제 채용에 제출된 자기소개서, 기준시점: 2025년 제출분을 2026년 1월 공개한 분석, 기준: 무하유 프리즘의 AI 작성 의심 비율, 출처: 무하유·몬스터 2026 AI 채용 트렌드 리포트 및 지디넷코리아 2026-01-08, 출처: <https://v.daum.net/v/20260108160242419>
+- [x] 세 수치는 모집단·기준시점·측정 기준이 서로 다르므로 한 모집단의 연속 지표처럼 합산하거나 인과관계로 말하지 않는다
+- [x] 발표용 canonical set 표기 규칙: 각 숫자 옆에 모집단·기준시점·출처명·출처 URL을 함께 표기하고, 다른 원문 숫자는 원문 보존 데이터로만 사용하며 발표·KPI·성과 비교에 재사용하지 않는다
+- [ ] 출처 URL, 모집단, 기준시점을 PPT의 각 숫자 옆과 발표 답변 카드에 함께 기재한다
+- [ ] 발표 기준 세트 밖의 숫자와 출처·모집단·기준시점이 확인되지 않은 발표자료 숫자는 사용 금지로 표시하고 대본에서 제외한다
 # 《4. 경쟁 분석: 왜 지금, 왜 Kairos인가》
 ## 《4-1. 모델 서비스 (Gespark·Gemini Canvas·Claude·Liner) — 리서치 R2》
 - [x] Gespark: Mainfunc Inc.(미국 팔로알토, 2023-12 설립, 전 바이두·MS 빙 출신 에릭 징/케이 주)(R2)
@@ -306,6 +331,7 @@
 - [x] 리서치: Fortune 500 기업의 99%가 ATS 사용, 지원자의 3%만 면접 도달(CoverSentry 2026)(R1)
 - [x] 리서치: ATS 스코어링 가중치 — 스킬 일치 40% + 경력연수 20% + 직무 타이틀 유사도 20% + 학력/자격증 10% + 지역 10%(CrawlJobs), 매치율 75% 이상 권장(Jobscan)(R1)
 - [x] 리서치: 국내 ATS — 그리팅(두들린) 1위, 잡코리아 나인하이어, 사람인 리버스(디지털데일리 2024-05-06)(R1)
+- [x] 원문 보존과 실제 구현 구분: 1번 원문의 "어조 어휘·공고의 논조" 표현은 원문 아이디어로 그대로 보존하며, 현재 구현 완료 범위는 어조·감성·논조 분석이 아닌 키워드·스킬·경력·학력·키워드 밀도 휴리스틱이다
 - [ ] 공고의 논조와 단어를 추출하는 프롬프트 템플릿과 어조 분석 기준을 만든다
 - [ ] ATS 스코어링 가중치를 반영한 자체 평가 로직 프로토타입을 구현한다
 - [ ] 데모 시나리오: 실제 공고 1건과 이력서 1건으로 매치율 계산 과정을 시연한다(R1)
@@ -654,6 +680,28 @@
 - [ ] LiteLLM Weighted Pick/Lowest Cost 전략을 라우팅 스키마에 반영한다(R7)
 - [ ] E2B pause/resume 풀과 1분 유휴 일시정지 정책을 샌드박스 설계에 적용한다(R7)
 - [ ] HarnessAudit 감사 로그(모델 I/O·도구 호출·승인) 스키마를 정의한다(R7)
+## 《8-11. 실제 구현·프로토타입·로드맵 상태와 기술구현 40점 대응》
+- [x] 상태 판정 기준: 실제 구현 완료는 현재 코드와 실행 경로로 확인된 범위, 프로토타입·데모 준비는 코드 기능을 발표용 계정·샘플·리허설로 묶는 단계, 설계·로드맵은 코드 근거가 없어 향후 구현할 범위로 구분한다
+- [x] 실제 구현 완료: 결정론적 ATS 분석은 `src/server/ats.ts`의 `analyzeATSCompatibility`, `src/app/api/ats/analyze/route.ts`, `test/services/ats.test.ts`로 입력·분석·결과 응답 경로가 확인된다
+- [x] 실제 구현 완료: 이력서 AI 개선·Diff 승인 흐름은 `src/app/api/resumes/[id]/refine/route.ts`, `src/app/(authenticated)/resume/[id]/page.tsx`, `src/utils/diff.ts`의 AI 제안·변경 비교·사용자 확정·저장으로 확인된다
+- [x] ATS 구현의 실제 분석 항목: `src/server/ats.ts`는 LLM 어조 분석이 아니라 정규화된 공고·이력서 키워드와 스킬 taxonomy·alias, 경력연수, 학력, 키워드 밀도를 결정론적 휴리스틱으로 계산하며, 세부 점수는 스킬 40%·경력 30%·학력 15%·키워드 밀도 15%이고 회사별 ATS나 합격확률을 재현하지 않는다
+- [x] 실제 구현 완료: 텍스트 기반 면접 스트리밍은 `src/server/llm.ts`가 Gemini의 upstream `alt=sse` 청크를 내부 파싱하지만, `src/app/api/interviews/[id]/chat/route.ts`는 클라이언트에 `Content-Type: text/plain; charset=utf-8` plain-text 스트림을 반환하고 `src/hooks/useChat.ts`가 이를 소비하며 `test/services/llm.test.ts`로 파싱을 검증한다
+- [x] 실제 구현 완료: QA 생성과 Humanizer는 `src/server/qa.ts`, `src/server/humanizer.ts`, 각 `generate`·`process` 라우트의 구조화 응답 스키마와 `test/services/humanizer.test.ts`로 확인된다
+- [x] 실제 구현 완료: Career CRUD·검색은 `src/app/api/careers/route.ts`, `src/app/api/careers/[id]/route.ts`, `src/app/api/careers/search/route.ts`, `src/server/career.ts`의 목록·생성·수정·삭제·시맨틱 검색 경로로 확인되며 검색 실패 시 demo 결과는 실제 검색 결과로 말하지 않는다
+- [x] 실제 구현 완료: HWP/HWPX 별도 문서 뷰어·에디터는 `src/components/HwpViewer.tsx`, `src/components/HwpEditor.tsx`, `src/app/(authenticated)/docs/[id]/page.tsx`, `src/app/(authenticated)/docs/edit/page.tsx`, docs API의 업로드·바이너리·텍스트 경로로 확인된다
+- [x] 실제 구현 완료: 기본 커뮤니티 CRUD 범위는 `src/app/api/community/route.ts`, `src/app/api/community/[id]/route.ts`, `src/app/(authenticated)/community/page.tsx`의 목록·상세 조회·작성·본인 글 삭제이며, 수정·좋아요·자동매칭은 포함하지 않는다
+- [ ] 프로토타입·데모 준비: `src/app/(authenticated)/ats/page.tsx`, `src/app/(authenticated)/resume/[id]/page.tsx`, `src/app/(authenticated)/interview/[id]/page.tsx`의 코드 흐름을 README Demo Mode의 `testmockup / 12345` 계정·샘플 데이터·성공 화면 캡처·1분 리허설로 묶어 준비한다
+- [ ] 프로토타입·데모 준비: `src/server/http.ts`, 각 실제 API 라우트의 오류 응답, 화면의 재시도 코드를 기준으로 정상 입력·빈 입력·LLM 오류·미인증·타인 자원 접근을 재현하고 정적 화면 대체경로를 확인한다
+- [ ] 설계·로드맵: Deep Agent Canvas 전체(캔버스 UI·VM 할당·툴 호출·장시간 영속성·버전·`tool_low_edit` 편집), 외부 provider connector, sLLM, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 구현 API·서비스 경로가 없고 README의 플랫폼 브리지도 Mock 스텁이므로 실제 구현 완료로 표시하지 않고 로드맵으로 관리한다
+- [x] 기술구현 40점 대응의 단일 기준: 기능 수가 아니라 실제 데모 3종의 입력→분석 또는 생성→사용자 확인 또는 승인→결과 저장·재조회까지 엔드투엔드로 평가한다
+- [x] 테스트 대응 근거: ATS 결정론적 로직, Gemini 텍스트·구조화 응답과 upstream SSE 청크 파싱, 가드레일 4계층, Humanizer에 대한 Vitest 테스트를 실행 근거로 제시하고 테스트 수와 실행일을 함께 기록한다
+- [x] 오류 대체경로 대응 근거: `http.ts`의 오류 응답, LLM 빈 응답·비정상 응답 처리, ATS·QA·Humanizer·Career 화면의 재시도, HWP 뷰어·에디터의 로딩·실패 재시도를 엔드투엔드 화면에 포함한다
+- [x] 보안·소유권 대응 근거: ATS·resume refine·interview chat/PATCH·Career PUT/DELETE·docs·community POST/DELETE에서 `getSession` 또는 사용자 소유권 조건이 코드에 있고 `src/server/guardrail.ts`의 입력·컨텍스트·출력·루프 검사가 있다
+- [x] mock 구현 범위: 개발용 `testmockup / 12345` 로그인은 `is_mock_mode`·localStorage fixture·`initMockInterceptor`를 사용하고, 면접 plain-text mock 스트림과 HWP/HWPX 바이트 IndexedDB 저장·조회도 제공하지만 mock 응답은 실제 Gemini가 아니며 운영 DB 영속성의 증거가 아니다
+- [x] 실제 환경변수 의존성: 실제 Gemini 텍스트·구조화·면접 스트리밍·QA/Humanizer·이력서 개선에는 `GOOGLE_GENERATIVE_AI_API_KEY`가 필요하고, DB 기반 Career CRUD·시맨틱 검색과 영속 저장에는 `DATABASE_URL`·pgvector가 필요하며, `VERCEL_AI_GATEWAY_URL`·`VERCEL_AI_GATEWAY_KEY`는 선택 경로이고 HWP 에디터는 기본 공개 데모 origin 대신 기밀 문서 배포 시 `NEXT_PUBLIC_RHWP_STUDIO_URL` 셀프호스팅 설정이 필요하다
+- [x] 보안·소유권 제한: ATS는 세션 검증 후 DB 연결 시 연결된 `resumeId` 소유권을 확인하고, resume·interview·Career·docs·community 작성·삭제는 세션 또는 본인 조건을 사용하지만, community 조회는 공개이고 QA/Humanizer 생성·처리와 Career 검색의 비로그인·demo fallback은 완전한 운영 소유권 격리로 표현하지 않는다
+- [ ] 보안·소유권 보완: `resumes/[id]` PUT의 소유권 조건, 파일 메타데이터의 사용자 귀속, QA·Humanizer 비로그인 fallback, Career 검색 demo fallback을 점검한 뒤 발표에서 보안 완결로 과장하지 않는다
+- [ ] 기술구현 40점 체크: 데모 3종마다 정상 경로, 실패 경로, 테스트 근거, 소유권 경계, 발표용 대체경로를 한 장의 점검 카드로 만든다
 # 《9. UI/UX 계획 (원문 구상 + 리서치)》
 ## 《9-1. Deep Agent Canvas UX (Gemini Canvas 버전 이력, Claude Artifacts 버전 셀렉터·포크, AG-UI 이벤트 표시)》
 - [x] Gemini Canvas: 문서+코드 공동 편집, 자동 저장, Previous/Next 버전 버튼, Export to Docs/Slides(R2)
@@ -744,6 +792,21 @@
 - [ ] 자료조사 및 문제정의 보완을 최우선 일정으로 배치한다
 - [ ] 발표 대본은 당일 가이드로만 사용할 수 있는 압축본으로 작성한다
 
+## 《10-5. 공식 10슬라이드와 원문 8슬라이드의 발표 상태》
+- [x] 실제 구현 완료: 공식 발표에는 ATS 결정론적 분석, 이력서 AI 개선·Diff 승인, 텍스트 면접 스트림, QA·Humanizer, Career, HWP/HWPX, 기본 커뮤니티 CRUD 중 실제 코드 경로가 있는 내용만 구현 범위로 제시한다
+- [x] 발표자료의 실제 시연 범위: `src/data/presentationSlides.tsx`는 5분 발표에서 ATS 휴리스틱, 이력서 AI 개선·Diff 승인, 텍스트 기반 면접 3개만 직접 시연 대상으로 두며, QA/Humanizer·Career·HWP/HWPX·기본 커뮤니티 CRUD는 구현 완료 범위이지만 핵심 데모 3개와 혼동하지 않는다
+- [ ] 프로토타입·데모 준비: `src/app/(authenticated)/ats/page.tsx`, `src/app/(authenticated)/resume/[id]/page.tsx`, `src/app/(authenticated)/interview/[id]/page.tsx`의 실제 구현 흐름을 공식 10슬라이드 7에 성공 화면·오류 대체경로 캡처 또는 녹화로 배치한다
+- [ ] 설계·로드맵: Deep Agent Canvas 전체(캔버스 UI·VM·툴 호출·영속성·버전·diff 편집), 외부 provider connector, sLLM, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 해당 API·서비스 경로가 없고 `packages/agent-cli`, `packages/tauri-bridge`, `packages/mobile-bridge`가 README에서 Mock 스텁으로 명시되므로 공식 10슬라이드 8에서만 보완·확장 계획으로 제시한다
+- [x] 원문 8슬라이드 구성은 1 타이틀, 2 서비스 개요 및 핵심 가치, 3 문제 배경 및 타깃 사용자, 4 서비스 주요 기능, 5 사용자 이용 흐름, 6 AI·SW 활용 기술 및 서비스 구조, 7 프로토타입 시연, 8 구현 범위 및 보완 계획으로 그대로 보존한다
+- [x] 공식 10슬라이드의 1~7은 원문 8슬라이드의 1~7과 대응한다
+- [x] 공식 10슬라이드 8은 기대효과 및 확장계획으로 사용하고, 원문 8의 구현 범위·미구현 기능·오류 제약은 공식 7의 시연 유의사항과 공식 8의 확장계획에 함께 배치한다
+- [x] 공식 10슬라이드 9는 Q&A, 공식 10은 제출 전 확인사항이며, 최종 발표는 원문 8슬라이드를 삭제하거나 재번호화하지 않고 공식 10슬라이드에 통합한다
+- [ ] 최종 발표자료는 `AI_서비스톤_발표자료양식.md`의 공식 10슬라이드 제목·순서를 기준으로 제작하고 원문 8슬라이드 내용은 대응 슬라이드의 근거로 배치한다
+- [ ] 예선 5분 발표에서는 구현 완료 3종의 시연과 단일 숫자 기준 세트만 사용하고, 로드맵은 마지막 확장계획에서 짧게 설명한다
+## 《10-6. 예선 5분 시간 배분과 실제 데모 3개》
+- [x] 예선 5분 시간 배분: 0:00~0:20 표지·한 줄 가치, 0:20~1:10 문제·canonical 숫자 3개, 1:10~1:40 실제 기능·사용자 흐름, 1:40~4:10 실제 데모 3개, 4:10~4:40 구조·한계, 4:40~5:00 기대효과·로드맵·질의응답 전환으로 고정한다
+- [x] 실제 데모 3개: 1번 `/ats` 결정론적 ATS 분석, 2번 `/resume/[id]` AI 개선·Diff 확인·사용자 승인, 3번 `/interview/[id]` 텍스트 기반 plain-text 스트리밍·면접 완료 저장으로 고정한다
+- [ ] 각 데모를 50초 안에 시연하고 입력값·기대 결과·실패 시 대체 화면을 발표 대본에 고정한다
 # 《11. 실행 로드맵》
 ## 《11-1. 단계별 일정 (1. 문제 정의 보강 2. PPT 3. 대본 4. 백엔드 연동 5. 시연 반영)》
 - [ ] 1단계 문제 정의 보강: 통계(R1)와 페르소나 3종, 가상 인터뷰를 완성한다
@@ -760,6 +823,7 @@
 ## 《11-2. 데모 시연 시나리오 (시연 가능한 화면: Deep Agent Canvas, ATS 분석, AI 멘토, 커뮤니티 등)》
 - [x] 데모 후보 1: Deep Agent Canvas — 프롬프트 입력, 툴 호출 상태 알림, 캔버스 수정, 버전 기록 확인(아이디어 2)
 - [x] 데모 후보 2: ATS 분석 — 공고와 이력서의 단어·어조 일치도 평가와 매치율 표시(아이디어 1)
+- [x] 데모 후보 2의 원문 표현은 원문 보존용이며, 실제 3종 데모의 ATS 화면은 키워드·스킬·경력·학력·키워드 밀도 휴리스틱만 표시한다
 - [x] 데모 후보 3: AI 멘토 3개월 로드맵 — 과제 선택과 성장 데이터, 상위 5% 타이틀 화면(C6)
 - [x] 데모 후보 4: 커뮤니티 광장 UXUI — 동병상련 자동 매칭과 진전 공유 화면(아이디어 3, V3)
 - [x] 데모 후보 5: 경력 일기 — 기록 화면과 뒤로가기 시 입력 보존, 성장 그래프(아이디어 8)
@@ -767,6 +831,11 @@
 - [ ] 데모 시나리오 3종을 정하고 각각 1분 이내로 압축한다
 - [ ] 시연 중 오류 발생 시 대체 경로(정적 화면 전환)를 준비한다
 - [ ] 시연용 계정과 샘플 데이터를 사전에 준비한다
+- [x] 실제 데모 1 기능 범위: `/ats`에서 공고·이력서 텍스트 입력→결정론적 매치율·발견·누락 키워드와 세부 점수→결과 저장·재조회 흐름을 보여준다
+- [x] 실제 데모 2 기능 범위: `/resume/[id]`에서 AI 개선 요청→개선 초안→`src/utils/diff.ts` Diff 확인→사용자 확정 적용→이력서 저장 흐름을 보여준다
+- [x] 실제 데모 3 기능 범위: `/interview/[id]`에서 텍스트 답변 입력→`/api/interviews/[id]/chat`의 클라이언트 plain-text 스트림→실시간 답변 표시→면접 종료·완료 상태 저장 흐름을 보여주며, upstream Gemini SSE 파싱을 클라이언트 SSE로 표현하지 않는다
+- [ ] 실제 데모 3종 준비: `/ats`, `/resume/[id]`, `/interview/[id]`의 코드 흐름과 README Demo Mode 계정을 기준으로 각 흐름을 1분 이내 영상 또는 실시간 순서로 만들고 입력값·기대 결과·실패 시 대체 화면을 대본에 고정한다
+- [ ] 현재 실제 데모 3종에서 Deep Agent Canvas 전체, AI 멘토 3개월 성장판정, 커뮤니티 자동매칭은 관련 API·서비스 경로가 없으므로 제외하고 설계·로드맵으로만 설명한다
 
 ## 《11-3. 발표 질의응답 대비 (취약점: 데이터 출처, 개인정보, AI 신뢰성 — R1/R3 통계로 방어)》
 - [ ] Q1 데이터 출처: 모든 통계의 출처(통계청, 매일경제, 고용노동부, 무하유)와 기준연도를 답변 카드로 준비한다(R1)
@@ -776,6 +845,20 @@
 - [ ] Q5 실제 사용자 수/검증: 파일럿 계획과 성과 지표(KPI)로 답변한다
 - [ ] Q6 수익 모델: B2B SaaS와 이중 라이선싱, AI 코칭 시장 규모로 답변한다(R6)
 - [ ] 예상 질문 10개를 작성하고 각각 30초 답변으로 리허설한다
+- [ ] 질문·답변 카드 1: 지금 실제로 작동하는 것은 무엇인가에 대해 ATS, 이력서 AI·Diff 승인, 텍스트 면접을 코드 경로와 함께 답변한다
+- [ ] 질문·답변 카드 2: ATS 점수가 합격 확률인가에 대해 결정론적 키워드·경력·학력·밀도 계산이며 실제 면접 전환의 인과 지표가 아니라고 답변한다
+- [ ] 질문·답변 카드 3: AI 결과를 믿을 수 있는가에 대해 원문 보존, 구조화 응답 검증, Diff 사용자 승인, 가드레일, 테스트 근거를 순서대로 답변한다
+- [ ] 질문·답변 카드 4: 개인정보와 소유권은 어떻게 보호하는가에 대해 세션·소유권 검사와 미완성 경계인 resume PUT·파일 메타데이터 점검을 분리해 답변한다
+- [ ] 질문·답변 카드 5: 통계 숫자가 왜 다른가에 대해 발표 단일 기준 세트의 모집단·기준시점·출처를 읽고 다른 숫자는 보존용이며 발표에서 사용하지 않는다고 답변한다
+- [ ] 질문·답변 카드 6: Deep Agent Canvas와 3개월 멘토 기능은 왜 보이지 않는가에 대해 현재 코드 근거가 없는 설계·로드맵이며 실제 구현 완료와 혼동하지 않는다고 답변한다
+## 《11-4. 실행 상태·KPI·증거 묶음》
+- [x] 실제 구현 완료: 8-11의 코드 근거가 있는 ATS, 이력서 AI·Diff 승인, 텍스트 면접 plain-text 스트리밍, QA·Humanizer, Career, HWP/HWPX, 기본 커뮤니티 CRUD 범위만 완료 기능으로 집계한다
+- [ ] 프로토타입·데모 준비: `/ats`, `/resume/[id]`, `/interview/[id]`의 코드 흐름과 README Demo Mode 계정을 기준으로 실제 데모 3종의 샘플 데이터·영상 또는 실시간 리허설·정적 대체 화면·발표자 역할을 준비한다
+- [ ] 설계·로드맵: Deep Agent Canvas 전체(캔버스 UI·VM·툴 호출·영속성·버전·diff 편집), 외부 provider connector, sLLM, 서브에이전팅, 자동매칭, 화상면접, 3개월 멘토 성장판정은 관련 API·서비스 경로가 없고 README의 플랫폼 브리지가 Mock 스텁이므로 구현 완료 수와 데모 성공률에 포함하지 않는다
+- [ ] KPI 1 실행 과제: 엔드투엔드 완료율을 시작한 데모 흐름 중 결과 확인·저장 또는 사용자 승인까지 도달한 횟수로 정의하고 정상 입력 5회 리허설의 목표값을 정한다
+- [ ] KPI 2 실행 과제: AI 결과 검증률을 ATS 세부 원인 확인 또는 Diff 승인 후 저장한 결과 수를 AI 결과 수로 나눈 값으로 정의하고 샘플 사용자 테스트의 목표값을 정한다
+- [ ] KPI 3 실행 과제: 오류 회복률을 주입한 오류 중 재시도·대체 화면·안내로 시연을 완료한 횟수로 정의하고 실제 발표 리허설에서 100%를 목표로 점검한다
+- [ ] KPI별 측정 시점, 모집단, 성공 조건, 로그 또는 체크 증거, 발표 슬라이드 표기 방법을 한 줄 카드로 확정한다
 
 # 《12. 기대 효과와 지속가능성》
 ## 《12-1. 기대 효과 (리서치: AI Career Coach 시장 CAGR 22.3%, 자소서 AI 활용 91% 등)》
@@ -792,6 +875,7 @@
 - [x] 사회적 기여: 성적이 저조한 사용자에게 심리적 안전 감을 주는 직업 추천(C5), 취업준비생 대나무숲과 소규모 이벤트(C11)로 동병상련 지원
 - [x] 사회적 기여: 재취업 번아웃 82%('쉬었음' 청년, 한국일보 2025-06-26)에 대한 라이프 코칭 접근(V1)
 - [x] BetterUp은 AI 코칭을 인간 코치의 대체가 아니라 접근성·개인화·실행 지원을 확장하는 방식으로 설명한다(R9) 출처: <https://www.betterup.com/products/betterup-ai-coaching>
+- [x] BetterUp 제품 설명은 AI 코칭에서도 전문 코치와 조직 맥락을 결합하고 목표 설정·행동 추적을 제공하므로 Kairos는 심리 진단을 가장하지 않고 자기성찰·행동계획·필요 시 사람 연결로 제한한다(R9) 출처: <https://www.betterup.com/products/betterup-ai-coaching>
 - [x] O*NET Interest Profiler는 RIASEC 흥미 결과를 직업 탐색 정보로 연결하지만 진로를 결정하는 진단이 아니라고 명시한다(R9) 출처: <https://www.onetcenter.org/IP.html>
 - [x] 구현의도 메타분석은 언제·어디서·어떻게 행동할지 정하는 if-then 계획이 목표 달성에 유용할 수 있음을 보고했다(R9) 출처: <https://doi.org/10.1016/S0065-2601(06)38002-1>
 - [x] 듀오링고 스트릭은 연속 학습일을 시각화하는 기능이며 스트릭 자체가 학습 성과의 원인이라고 일반화해서는 안 된다(R9) 출처: <https://blog.duolingo.com/how-duolingo-streak-builds-habit/>
@@ -823,6 +907,7 @@
 # 《13. 자료조사 출처 URL 모음 (신규)》
 - [x] 본 섹션은 R1~R8 리서치 파일에 수록된 URL 전체를 리서치 번호별로 수집한 목록이다
 - [x] 중복이 있더라도 각 리서치 파일에서 인용된 URL을 그대로 수록한다
+- [x] R9 신규 문제정의 보강의 유용한 사실은 본문에 반영하고, R9 출처 URL은 13-9에 별도로 수록한다
 
 ## 《13-1. R1 청년고용·쉬었음 출처 URL 모음》
 - [x] 출처: <https://www.mk.co.kr/news/economy/12081192>
@@ -1042,3 +1127,27 @@
 - [x] 출처: <https://file.scourt.go.kr/dcboard/1727143941701_111221.pdf>
 - [x] 출처: <https://blog.closelyhq.com/how-to-scrape-linkedin-data-legally/>
 - [x] 출처: <https://apiserpent.com/blog/official-linkedin-api-vs-scraping>
+## 《13-9. R9 신규 문제정의 보강 출처 URL 모음》
+- [x] 출처: <https://sri.kostat.go.kr/board.es?mid=a10301030200&bid=210>
+- [x] 출처: <https://www.who.int/mental_health/evidence/burn-out/en/>
+- [x] 출처: <https://www.oecd-ilibrary.org/employment/oecd-employment-outlook-2024_b4f2e0a0-en>
+- [x] 출처: <https://kostat.go.kr/understand/info/info_10_2.jsp>
+- [x] 출처: <https://business.linkedin.com/talent-solutions/resources/future-of-recruiting>
+- [x] 출처: <https://www.weforum.org/publications/the-future-of-jobs-report-2025/>
+- [x] 출처: <https://www.nber.org/papers/w30886>
+- [x] 출처: <https://support.greenhouse.io/hc/en-us/articles/360025993511-How-to-troubleshoot-resume-parsing>
+- [x] 출처: <https://www.workday.com/en-us/products/human-capital-management/recruiting.html>
+- [x] 출처: <https://www.jobscan.co/blog/interview-rates-study>
+- [x] 출처: <https://www.saramin.co.kr/zf_user/tools/ai-writing>
+- [x] 출처: <https://www.saramin.co.kr/zf_user/jobs/af>
+- [x] 출처: <https://www.wanted.co.kr/ai>
+- [x] 출처: <https://www.jobkorea.co.kr/service/ai>
+- [x] 출처: <https://www.betterup.com/products/betterup-ai-coaching>
+- [x] 출처: <https://www.prnewswire.com/news-releases/teal-announces-series-a-funding-to-expand-its-ai-powered-careers-platform-bringing-total-financing-raised-to-19-million-302357544.html>
+- [x] 출처: <https://newsroom.workday.com/2025-05-19-Workday-Unveils-Next-Generation-of-Illuminate-Agents-to-Transform-HR-and-Finance-Operations>
+- [x] 출처: <https://www.onetcenter.org/IP.html>
+- [x] 출처: <https://www.j-platpat.inpit.go.jp/>
+- [x] 출처: <https://doi.org/10.1016/S0065-2601(06)38002-1>
+- [x] 출처: <https://www.dominican.edu/sites/default/files/2020-02/gail-matthews-research-summary.pdf>
+- [x] 출처: <https://blog.duolingo.com/how-duolingo-streak-builds-habit/>
+- [x] 출처: <https://doi.org/10.1111/j.2044-8295.1952.tb01145.x>

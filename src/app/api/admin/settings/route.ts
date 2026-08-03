@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllSystemConfigs } from '@/server/systemConfig';
 import { internalError } from '@/server/http';
+import { requireAdmin } from '@/server/admin';
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
+    const admin = await requireAdmin(req);
+    if (admin instanceof NextResponse) return admin;
+
     const configs = await getAllSystemConfigs();
     return NextResponse.json({
       configs,

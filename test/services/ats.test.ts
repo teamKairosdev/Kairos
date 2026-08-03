@@ -15,6 +15,13 @@ describe('analyzeATSCompatibility', () => {
     expect(result.detailedBreakdown).toHaveProperty('keywordDensityScore')
   })
 
+  it('returns the same result for the same input', () => {
+    const resume = '5 years of experience with React, TypeScript, and PostgreSQL'
+    const jd = 'React, TypeScript, PostgreSQL, and Docker experience required'
+
+    expect(analyzeATSCompatibility(resume, jd)).toEqual(analyzeATSCompatibility(resume, jd))
+  })
+
   it('detects matching skills from resume', () => {
     const resume = 'I have 3 years experience with React, TypeScript, and Node.js'
     const jd = 'We need React, TypeScript, Node.js, and Docker'

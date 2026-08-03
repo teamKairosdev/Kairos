@@ -1,21 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { searchCareersSemantic } from '@/server/career';
 import { getSession } from '@/server/getSession';
-import { badRequest, internalError } from '@/server/http';
+import { badRequest, internalError, payloadTooLarge, unauthorized } from '@/server/http';
+
+const MAX_QUERY_LENGTH = 500;
 
 export async function GET(req: NextRequest) {
   try {
-    const q = req.nextUrl.searchParams.get('q') || '';
+    const session = await getSession(req);
+    if (!session?.userId) {
+      return unauthorized();
+    }
+
+    const q = req.nextUrl.searchParams.get('q')?.trim() || '';
 
     if (!q.trim()) {
       return badRequest('검색어를 입력해 주세요.');
     }
 
-    const session = await getSession(req);
-    const userId = session?.userId || '00000000-0000-0000-0000-000000000000';
+    if (q.length > MAX_QUERY_LENGTH) {
+      return payloadTooLarge('검색어가 너무 깁니다.');
+    }
 
     try {
-      const results = await searchCareersSemantic(userId, q, 5);
+      const results = await searchCareersSemantic(session.userId, q, 5);
       return NextResponse.json({ query: q, results });
     } catch (err: unknown) {
       console.warn('pgvector search fallback notice:', err instanceof Error ? err.message : err);

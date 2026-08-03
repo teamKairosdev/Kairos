@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { getSession } from '@/server/getSession';
 import { badRequest, notFound, internalError, unauthorized } from '@/server/http';
-
-const UPLOAD_DIR = join(process.cwd(), 'uploads');
-const META_FILE = join(UPLOAD_DIR, '.metadata.json');
+import { findOwnedDocument, readDocumentMeta, UPLOAD_DIR, writeDocumentMeta } from '@/server/documentStore';
 
 const MIME_MAP: Record<string, string> = {
   hwp: 'application/x-hwp',
@@ -26,10 +24,8 @@ export async function GET(
     const { id } = await params;
     if (!id) return badRequest('Document ID required');
 
-    const meta = existsSync(META_FILE)
-      ? JSON.parse(readFileSync(META_FILE, 'utf-8'))
-      : [];
-    const entry = meta.find((m: { id: string }) => m.id === id);
+    const meta = readDocumentMeta();
+    const entry = findOwnedDocument(meta, id, session.userId);
     if (!entry) return notFound('Document not found');
 
     const wantsText = req.nextUrl.searchParams.get('text') === '1';
@@ -47,7 +43,8 @@ export async function GET(
     return new NextResponse(file, {
       headers: {
         'Content-Type': contentType,
-        'Content-Disposition': `inline; filename="${entry.title}.${entry.ext}"`,
+        'Content-Disposition': `inline; filename="${entry.title.replace(/[\r\n"]/g, '_')}.${entry.ext}"`,
+        'Cache-Control': 'private, no-store',
       },
     });
   } catch (err: unknown) {
@@ -66,10 +63,8 @@ export async function DELETE(
     const { id } = await params;
     if (!id) return badRequest('Document ID required');
 
-    const meta = existsSync(META_FILE)
-      ? JSON.parse(readFileSync(META_FILE, 'utf-8'))
-      : [];
-    const idx = meta.findIndex((m: { id: string }) => m.id === id);
+    const meta = readDocumentMeta();
+    const idx = meta.findIndex((entry) => entry.id === id && entry.userId === session.userId);
     if (idx === -1) return notFound('Document not found');
 
     const entry = meta[idx];
@@ -80,8 +75,7 @@ export async function DELETE(
     }
 
     meta.splice(idx, 1);
-    const { writeFileSync } = await import('fs');
-    writeFileSync(META_FILE, JSON.stringify(meta, null, 2));
+    writeDocumentMeta(meta);
 
     return NextResponse.json({ success: true });
   } catch (err: unknown) {

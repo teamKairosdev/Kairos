@@ -4,8 +4,16 @@ export function unauthorized(message = '로그인이 필요합니다.'): NextRes
   return NextResponse.json({ error: message }, { status: 401 });
 }
 
+export function forbidden(message = '접근 권한이 없습니다.'): NextResponse {
+  return NextResponse.json({ error: message }, { status: 403 });
+}
+
 export function badRequest(message: string): NextResponse {
   return NextResponse.json({ error: message }, { status: 400 });
+}
+
+export function payloadTooLarge(message = '파일 용량이 제한을 초과했습니다.'): NextResponse {
+  return NextResponse.json({ error: message }, { status: 413 });
 }
 
 export function notFound(message: string): NextResponse {

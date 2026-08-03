@@ -140,7 +140,7 @@ export default function LoginPage() {
           {isDev && (
             <div className="relative p-3 bg-blue-50 rounded-2xl border border-blue-100/50 text-left space-y-2">
               <div className="flex items-center gap-1.5 text-xs font-bold text-blue-700">
-                <span>💡</span>
+                <span aria-hidden="true">안내</span>
                 <span>테스트 모드 (Mock 체험)</span>
               </div>
               <p className="text-[10px] text-blue-600 font-medium leading-relaxed">

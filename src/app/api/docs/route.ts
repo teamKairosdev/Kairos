@@ -1,24 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
 import { getSession } from '@/server/getSession';
 import { internalError, unauthorized } from '@/server/http';
-
-const UPLOAD_DIR = join(process.cwd(), 'uploads');
-const META_FILE = join(UPLOAD_DIR, '.metadata.json');
-
-interface DocMeta {
-  id: string;
-  title: string;
-  ext: string;
-  size: number;
-  createdAt: string;
-}
-
-function readMeta(): DocMeta[] {
-  if (!existsSync(META_FILE)) return [];
-  return JSON.parse(readFileSync(META_FILE, 'utf-8'));
-}
+import { existsSync } from 'node:fs';
+import { UPLOAD_DIR, readDocumentMeta } from '@/server/documentStore';
 
 export async function GET(req: NextRequest) {
   try {
@@ -26,7 +10,9 @@ export async function GET(req: NextRequest) {
     if (!session) return unauthorized();
 
     if (!existsSync(UPLOAD_DIR)) return NextResponse.json([]);
-    const meta = readMeta();
+    const meta = readDocumentMeta()
+      .filter((entry) => entry.userId === session.userId)
+      .map(({ userId: _userId, ...entry }) => entry);
     return NextResponse.json(
       meta.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     );

@@ -30,6 +30,10 @@ export async function proxy(req: NextRequest) {
 
   if (!isProtected) return NextResponse.next();
 
+  if (process.env.NODE_ENV !== 'production' && req.cookies.get('kairos_mock_session')?.value === '1') {
+    return NextResponse.next();
+  }
+
   const token = req.cookies.get('kairos_session')?.value;
   if (!token) {
     const loginUrl = req.nextUrl.clone();
@@ -39,7 +43,11 @@ export async function proxy(req: NextRequest) {
 
   try {
     const secret = getJwtSecret();
-    if (secret.length === 0) return NextResponse.next(); // dev mode: skip
+    if (secret.length === 0) {
+      const loginUrl = req.nextUrl.clone();
+      loginUrl.pathname = '/auth/login';
+      return NextResponse.redirect(loginUrl);
+    }
     await jwtVerify(token, secret);
     return NextResponse.next();
   } catch {

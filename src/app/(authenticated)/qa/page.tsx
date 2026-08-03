@@ -290,7 +290,7 @@ export default function QAPage() {
           ) : error ? (
             <div className="bg-white rounded-2xl border border-red-200 shadow-xs p-5 space-y-3 animate-fade-in-up">
               <div className="flex items-start gap-2.5">
-                <span className="text-lg shrink-0" aria-hidden="true">⚠️</span>
+                 <span className="text-xs font-semibold shrink-0" aria-hidden="true">주의</span>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-red-600">Q&A 생성에 실패했습니다</p>
                   <p className="text-xs text-gray-500 mt-1 break-words">{error}</p>
@@ -306,7 +306,7 @@ export default function QAPage() {
             </div>
           ) : !selectedSet ? (
             <EmptyState
-              icon="🎯"
+               icon="Q&A"
               title="생성된 Q&A가 여기에 표시됩니다"
               description="목표 직무를 입력하고 Q&A 세트를 생성해보세요"
               actionLabel="Q&A 생성하기"

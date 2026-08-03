@@ -7,11 +7,11 @@ import { put } from '@vercel/blob';
 export async function uploadToBlob(
   filename: string,
   body: Buffer | ReadableStream | string,
-  options?: { access?: 'public'; contentType?: string }
+  options: { access: 'public'; contentType?: string }
 ) {
   return put(filename, body, {
-    access: options?.access || 'public',
+    access: options.access,
     token: process.env.BLOB_READ_WRITE_TOKEN,
-    contentType: options?.contentType,
+    contentType: options.contentType,
   });
 }

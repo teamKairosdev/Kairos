@@ -233,7 +233,7 @@ export default function DocsPage() {
         ) : files.length === 0 ? (
           <EmptyState
             className="p-16 text-center"
-            icon="📂"
+            icon="문서"
             iconWrapperClass="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-orange-400 text-2xl"
             title="아직 문서가 없습니다"
             description="첫 문서를 업로드해 AI 분석을 시작하세요"
@@ -318,7 +318,7 @@ export default function DocsPage() {
                 onChange={e => pickFile(e.target.files?.[0] || null)}
                 className="hidden"
               />
-              <span className="text-3xl mb-2">📎</span>
+              <span className="text-sm font-semibold mb-2" aria-hidden="true">파일</span>
               <p className="text-sm font-medium text-gray-600 break-words text-center">
                 {selectedFile ? selectedFile.name : '클릭하거나 파일을 끌어다 놓으세요'}
               </p>

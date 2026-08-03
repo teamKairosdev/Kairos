@@ -137,6 +137,7 @@ export default function ATSPage() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
   const [result, setResult] = useState<ATSAnalysisResult | null>(null);
+  const [isDemoResult, setIsDemoResult] = useState(false);
   const [resultKey, setResultKey] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [resumes, setResumes] = useState<ResumeSummary[]>([]);
@@ -212,6 +213,7 @@ export default function ATSPage() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setIsDemoResult(false);
     setResultKey(k => k + 1);
     try {
       const res = await fetch('/api/ats/analyze', {
@@ -234,6 +236,7 @@ export default function ATSPage() {
         return;
       }
       setResult(data.analysis as ATSAnalysisResult);
+      setIsDemoResult(data.demo === true);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : '네트워크 오류가 발생했습니다.';
       setError(msg);
@@ -383,7 +386,7 @@ export default function ATSPage() {
           ) : error ? (
             <div className="bg-white rounded-2xl border border-red-200 shadow-xs p-5 space-y-3 animate-fade-in-up">
               <div className="flex items-start gap-2.5">
-                <span className="text-lg shrink-0" aria-hidden="true">⚠️</span>
+                 <span className="text-xs font-semibold shrink-0" aria-hidden="true">주의</span>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-red-600">분석에 실패했습니다</p>
                   <p className="text-xs text-gray-500 mt-1 break-words">{error}</p>
@@ -399,7 +402,7 @@ export default function ATSPage() {
             </div>
           ) : !result ? (
             <EmptyState
-              icon="📊"
+               icon="분석"
               title="분석 결과가 여기에 표시됩니다"
               description="채용공고와 이력서를 입력하고 ATS 분석을 실행해보세요"
               actionLabel="분석 시작하기"
@@ -417,6 +420,7 @@ export default function ATSPage() {
                 </button>
                 <ScoreRing score={result.matchScore} />
                 <p className="text-sm font-semibold text-gray-700 mt-3">ATS 매칭 점수</p>
+                {isDemoResult && <p className="text-[11px] text-blue-500 mt-1">데모 모드 · 같은 입력은 같은 결과를 반환합니다.</p>}
               </div>
 
               {result.detailedBreakdown && (

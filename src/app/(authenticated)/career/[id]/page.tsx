@@ -23,6 +23,11 @@ interface CareerSearchResult extends Career {
   similarity: number;
 }
 
+interface CareerSearchResponse {
+  results: CareerSearchResult[];
+  demo?: boolean;
+}
+
 function formatDate(iso?: string): string {
   if (!iso) return '';
   const d = new Date(iso);
@@ -45,6 +50,7 @@ export default function CareerDetailPage({ params }: { params: Promise<{ id: str
   const [deleting, setDeleting] = useState(false);
   const [similar, setSimilar] = useState<CareerSearchResult[]>([]);
   const [similarLoading, setSimilarLoading] = useState(false);
+  const [similarDemo, setSimilarDemo] = useState(false);
 
   const [form, setForm] = useState({
     company: '',
@@ -96,10 +102,12 @@ export default function CareerDetailPage({ params }: { params: Promise<{ id: str
     fetch(`/api/careers/search?q=${encodeURIComponent(query)}`)
       .then(res => res.ok ? res.json() : null)
       .then(data => {
-        if (cancelled || !data) return;
-        const filtered = (data.results as CareerSearchResult[])
-          .filter(r => r.id !== career.id && !String(r.id).startsWith('demo-'));
-        setSimilar(filtered);
+         if (cancelled || !data) return;
+         const response = data as CareerSearchResponse;
+         const filtered = response.results
+           .filter(r => r.id !== career.id && !String(r.id).startsWith('demo-'));
+         setSimilarDemo(response.demo === true);
+         setSimilar(filtered);
       })
       .catch(() => {})
       .finally(() => {
@@ -187,7 +195,7 @@ export default function CareerDetailPage({ params }: { params: Promise<{ id: str
   if (loadError || !career) {
     return (
       <div className="bg-white rounded-2xl border border-red-200 p-10 text-center space-y-4 animate-fade-in-up">
-        <div className="text-3xl">⚠️</div>
+        <div className="text-sm font-semibold">주의</div>
         <div>
           <p className="text-sm font-semibold text-gray-800">경력 정보를 불러오지 못했습니다</p>
           <p className="text-xs text-gray-500 mt-1">항목이 삭제되었거나 서버 연결에 문제가 있을 수 있습니다.</p>
@@ -284,7 +292,10 @@ export default function CareerDetailPage({ params }: { params: Promise<{ id: str
 
       {/* Similar Careers */}
       <div className="animate-fade-in-up">
-        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-4">유사 경력 추천</h2>
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-widest">유사 경력 추천</h2>
+          {similarDemo && <span className="text-[10px] font-semibold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">데모 결과</span>}
+        </div>
         {similarLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="skeleton animate-pulse h-20 rounded-xl" />
@@ -319,7 +330,7 @@ export default function CareerDetailPage({ params }: { params: Promise<{ id: str
           </div>
         ) : (
           <EmptyState
-            icon="🧭"
+            icon="추천"
             title="유사 경력을 찾지 못했습니다"
             description="경력을 더 추가하면 AI가 유사한 이력을 추천해드립니다"
             className="bg-white rounded-2xl border border-dashed border-gray-200 p-10 text-center"

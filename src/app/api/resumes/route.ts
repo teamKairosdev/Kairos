@@ -7,7 +7,7 @@ import { unauthorized, badRequest } from '@/server/http';
 
 export async function GET(req: NextRequest) {
   const session = await getSession(req);
-  if (!session) return NextResponse.json([], { status: 200 });
+  if (!session?.userId) return unauthorized();
 
   const db = getDb();
   if (!db) return NextResponse.json([]);

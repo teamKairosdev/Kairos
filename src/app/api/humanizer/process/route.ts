@@ -3,19 +3,52 @@ import { processAIHumanizer } from '@/server/humanizer';
 import { getDb } from '@/db';
 import { humanizedTexts } from '@/db/schema';
 import { getSession } from '@/server/getSession';
-import { badRequest, internalError } from '@/server/http';
+import { badRequest, internalError, payloadTooLarge, unauthorized } from '@/server/http';
+
+const MAX_REQUEST_BYTES = 64 * 1024;
+const MAX_TEXT_LENGTH = 20_000;
+
+interface ProcessBody {
+  originalText?: unknown;
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { originalText } = body || {};
+    const session = await getSession(req);
+    if (!session?.userId) {
+      return unauthorized();
+    }
+
+    const contentLength = Number(req.headers.get('content-length'));
+    if (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_BYTES) {
+      return payloadTooLarge('요청 크기가 제한을 초과했습니다.');
+    }
+
+    const rawBody = await req.text();
+    if (new TextEncoder().encode(rawBody).byteLength > MAX_REQUEST_BYTES) {
+      return payloadTooLarge('요청 크기가 제한을 초과했습니다.');
+    }
+
+    let body: ProcessBody;
+    try {
+      body = JSON.parse(rawBody) as ProcessBody;
+    } catch {
+      return badRequest('요청 형식이 올바르지 않습니다.');
+    }
+
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return badRequest('요청 형식이 올바르지 않습니다.');
+    }
+
+    const originalText = typeof body.originalText === 'string' ? body.originalText : '';
 
     if (!originalText || !originalText.trim()) {
       return badRequest('변환할 문장을 입력해 주세요.');
     }
 
-    const session = await getSession(req);
-    const userId = session?.userId || '00000000-0000-0000-0000-000000000000';
+    if (originalText.length > MAX_TEXT_LENGTH) {
+      return payloadTooLarge('입력 길이가 제한을 초과했습니다.');
+    }
 
     const result = await processAIHumanizer(originalText);
 
@@ -26,7 +59,7 @@ export async function POST(req: NextRequest) {
         [saved] = await db
           .insert(humanizedTexts)
           .values({
-            userId,
+            userId: session.userId,
             originalText,
             humanizedText: result.humanizedText,
             styleScore: result.styleScore,

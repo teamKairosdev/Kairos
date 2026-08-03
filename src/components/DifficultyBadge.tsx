@@ -15,9 +15,9 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 };
 
 const DIFFICULTY_EMOJI_LABELS: Record<string, string> = {
-  junior: '🌱 주니어',
-  medium: '⚡ 미들',
-  senior: '🔥 시니어',
+  junior: '주니어',
+  medium: '미들',
+  senior: '시니어',
 };
 
 const DIFFICULTY_BADGE_COLORS: Record<string, string> = {

@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { analyzeCompanyMetaInfo } from '@/server/companyMeta';
 import { getCachedResponse, setCachedResponse } from '@/server/llmCache';
-import { badRequest, internalError, errorMessage } from '@/server/http';
+import { getSession } from '@/server/getSession';
+import { badRequest, internalError, errorMessage, unauthorized } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getSession(req);
+    if (!session?.userId) return unauthorized();
+
     const body = await req.json();
     const { companyName, rawReviews } = body || {};
 

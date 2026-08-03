@@ -238,7 +238,7 @@ export default function HumanizerPage() {
           ) : error ? (
             <div className="bg-white rounded-2xl border border-red-200 shadow-xs p-5 space-y-3 animate-fade-in-up">
               <div className="flex items-start gap-2.5">
-                <span className="text-lg shrink-0" aria-hidden="true">⚠️</span>
+                 <span className="text-xs font-semibold shrink-0" aria-hidden="true">주의</span>
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-red-600">변환에 실패했습니다</p>
                   <p className="text-xs text-gray-500 mt-1 break-words">{error}</p>
@@ -274,7 +274,7 @@ export default function HumanizerPage() {
             </div>
           ) : (
             <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-16 flex flex-col items-center justify-center gap-3 text-center h-full">
-              <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">✍️</div>
+               <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-sm font-semibold">편집</div>
               <p className="text-sm font-medium text-gray-600">변환된 문장이 여기에 표시됩니다</p>
               <p className="text-xs text-gray-400">왼쪽 입력란에 AI 문장을 붙여넣고 휴머나이즈를 실행하세요</p>
             </div>
@@ -305,7 +305,7 @@ export default function HumanizerPage() {
         ) : history.length === 0 ? (
           <div className="px-6 py-10">
             <EmptyState
-              icon="📝"
+               icon="문장"
               title="아직 변환 기록이 없습니다"
               description="AI 문장을 입력하고 첫 변환을 실행해보세요"
               actionLabel="휴머나이즈 시작"

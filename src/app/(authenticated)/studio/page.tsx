@@ -244,7 +244,7 @@ export default function PhotoStudioPage() {
                 onChange={onFileChange}
                 className="hidden"
               />
-              <span className="text-2xl mb-2">{dragOver ? '📥' : '📁'}</span>
+              <span className="text-xs font-semibold mb-2" aria-hidden="true">{dragOver ? '업로드' : '파일'}</span>
               <p className="text-xs text-gray-500">
                 {selectedFile ? selectedFile.name : '클릭 또는 드래그하여 선택'}
               </p>
@@ -279,7 +279,7 @@ export default function PhotoStudioPage() {
             </div>
           ) : loadError ? (
             <div className="bg-white rounded-2xl border border-red-200 p-10 text-center space-y-4 animate-fade-in-up">
-              <div className="text-3xl">⚠️</div>
+              <div className="text-sm font-semibold">주의</div>
               <div>
                 <p className="text-sm font-semibold text-gray-800">이미지 목록을 불러오지 못했습니다</p>
                 <p className="text-xs text-gray-500 mt-1">서버 연결 상태를 확인하고 다시 시도해주세요.</p>
@@ -296,7 +296,7 @@ export default function PhotoStudioPage() {
             </div>
           ) : images.length === 0 ? (
             <EmptyState
-              icon="🎨"
+              icon="이미지"
               title="아직 작업물이 없어요"
               description="AI로 프로필 사진을 생성하거나 이미지를 업로드해보세요"
               actionLabel="이미지 업로드하기"
@@ -316,6 +316,7 @@ export default function PhotoStudioPage() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
+                    unoptimized={img.imageUrl.startsWith('/uploads/')}
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />

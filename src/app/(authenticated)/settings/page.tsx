@@ -261,7 +261,7 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500">
-                  💳
+                  지갑
                 </div>
                 <div>
                   <p className="text-sm font-mono text-gray-900">

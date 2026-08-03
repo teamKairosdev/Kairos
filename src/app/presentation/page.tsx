@@ -44,28 +44,59 @@ export default function PresentationPage() {
       }
     };
 
-    // Touch / swipe
-    let touchStartX = 0;
-    let touchStartY = 0;
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartX = e.changedTouches[0].screenX;
-      touchStartY = e.changedTouches[0].screenY;
-    };
-    const onTouchEnd = (e: TouchEvent) => {
-      const dx = e.changedTouches[0].screenX - touchStartX;
-      const dy = e.changedTouches[0].screenY - touchStartY;
-      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 50) {
-        showSlide(currentRef.current + (dy < 0 ? 1 : -1));
-      }
+    const getSlideContent = (target: EventTarget | null): HTMLElement | null => {
+      if (!(target instanceof Element)) return null;
+      return target.closest<HTMLElement>('.ks-slide-content');
     };
 
-    // Wheel
-    let wheelTimeout = false;
+    // Touch / swipe. Let a slide consume the gesture while its content can scroll.
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartScroller: HTMLElement | null = null;
+    let touchStartScrollTop = 0;
+    let touchStartScrollHeight = 0;
+    let touchStartClientHeight = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      const touch = e.changedTouches[0];
+      if (!touch) return;
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchStartScroller = getSlideContent(e.target);
+      if (touchStartScroller) {
+        touchStartScrollTop = touchStartScroller.scrollTop;
+        touchStartScrollHeight = touchStartScroller.scrollHeight;
+        touchStartClientHeight = touchStartScroller.clientHeight;
+      }
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      const touch = e.changedTouches[0];
+      if (!touch) return;
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 50) {
+        const hasScrollableContent = touchStartScrollHeight > touchStartClientHeight + 1;
+        const atTop = touchStartScrollTop <= 1;
+        const atBottom = touchStartScrollTop + touchStartClientHeight >= touchStartScrollHeight - 1;
+        const canChangeSlide = !touchStartScroller || !hasScrollableContent || (dy < 0 ? atBottom : atTop);
+        if (canChangeSlide) showSlide(currentRef.current + (dy < 0 ? 1 : -1));
+      }
+      touchStartScroller = null;
+    };
+
+    // Wheel. Navigate only when the active slide is already at its scroll boundary.
+    let wheelTimer: number | null = null;
     const onWheel = (e: WheelEvent) => {
-      if (wheelTimeout) return;
-      wheelTimeout = true;
-      window.setTimeout(() => {
-        wheelTimeout = false;
+      if (e.ctrlKey || e.deltaY === 0) return;
+      const content = getSlideContent(e.target);
+      if (content && content.scrollHeight > content.clientHeight + 1) {
+        const atTop = content.scrollTop <= 1;
+        const atBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 1;
+        const contentCanScroll = e.deltaY < 0 ? !atTop : !atBottom;
+        if (contentCanScroll) return;
+      }
+      if (wheelTimer !== null) return;
+      wheelTimer = window.setTimeout(() => {
+        wheelTimer = null;
       }, 600);
       showSlide(currentRef.current + (e.deltaY > 0 ? 1 : -1));
     };
@@ -92,6 +123,7 @@ export default function PresentationPage() {
       document.removeEventListener('touchend', onTouchEnd);
       document.removeEventListener('wheel', onWheel);
       window.removeEventListener('hashchange', onHashChange);
+      if (wheelTimer !== null) window.clearTimeout(wheelTimer);
     };
   }, [showSlide]);
 
@@ -107,18 +139,11 @@ export default function PresentationPage() {
         rel="stylesheet"
       />
       <style>{SLIDE_CSS}</style>
-      <style>{`@media (max-width: 480px) {
-  .ks-keyboard-hint { display: none; }
-  .ks-nav-dots { gap: 0.7rem; }
-  .ks-nav-dot { width: 14px; height: 14px; }
-  .ks-brand-badge { display: none; }
-}`}</style>
-
       <div className="ks-root">
-        {/* Branding — 기존 페이지와 조화 */}
+        {/* 발표 페이지의 고정 셸 */}
         <div className="ks-brand">
           <span className="ks-brand-name">
-            <span>✨</span> Kairos Platform
+            Kairos Platform
           </span>
           <span className="ks-brand-badge">발표자료</span>
         </div>

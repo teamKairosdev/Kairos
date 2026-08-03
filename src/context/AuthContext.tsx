@@ -5,6 +5,14 @@ import { toast } from 'sonner';
 import type { User, AuthResponse } from '../../shared/types';
 
 const FETCH_TIMEOUT_MS = 10_000;
+const MOCK_SESSION_COOKIE = 'kairos_mock_session';
+
+function setMockSessionCookie(enabled: boolean) {
+  if (typeof document === 'undefined' || process.env.NODE_ENV === 'production') return;
+  document.cookie = enabled
+    ? `${MOCK_SESSION_COOKIE}=1; Path=/; SameSite=Lax`
+    : `${MOCK_SESSION_COOKIE}=; Max-Age=0; Path=/; SameSite=Lax`;
+}
 
 function networkErrorMessage(err: unknown): string {
   if (err instanceof DOMException && err.name === 'AbortError') {
@@ -55,6 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const storedUser = localStorage.getItem('mock_user');
         if (storedUser) {
+          setMockSessionCookie(true);
           const user = JSON.parse(storedUser);
           setState({ user, authenticated: true, loading: false, error: null });
           return;
@@ -83,13 +92,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (email.trim() === 'testmockup' && password === '12345') {
       if (typeof window !== 'undefined') {
-        const randIndex = Math.floor(Math.random() * 50) + 1;
+        const mockProfileIndex = 1;
         localStorage.setItem('is_mock_mode', 'true');
-        localStorage.setItem('mock_profile_idx', String(randIndex));
+        localStorage.setItem('mock_profile_idx', String(mockProfileIndex));
 
         const { generateProfiles } = await import('../data/mock/mockup');
         const profiles = generateProfiles();
-        const activeProfile = profiles[randIndex - 1];
+        const activeProfile = profiles[mockProfileIndex - 1];
 
         const mockUser: User = {
           id: activeProfile.user.id,
@@ -99,12 +108,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
 
         localStorage.setItem('mock_user', JSON.stringify(mockUser));
-        localStorage.setItem('mock_resumes', JSON.stringify(activeProfile.resumes));
+        localStorage.setItem('mock_resumes', JSON.stringify(activeProfile.resumes.map(resume => ({ ...resume, demo: true }))));
         localStorage.setItem('mock_careers', JSON.stringify(activeProfile.careers));
-        localStorage.setItem('mock_interviews', JSON.stringify(activeProfile.interviews));
+        localStorage.setItem('mock_interviews', JSON.stringify(activeProfile.interviews.map(interview => ({ ...interview, demo: true }))));
         localStorage.setItem('mock_chats', JSON.stringify(activeProfile.interviewChats));
         localStorage.setItem('mock_docs', JSON.stringify(activeProfile.docs));
         localStorage.setItem('mock_qa', JSON.stringify(activeProfile.qaSets));
+        setMockSessionCookie(true);
 
         const { initMockInterceptor } = await import('../lib/mockInterceptor');
         initMockInterceptor();
@@ -168,7 +178,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     if (typeof window !== 'undefined' && localStorage.getItem('is_mock_mode') === 'true') {
       ['is_mock_mode', 'mock_profile_idx', 'mock_user', 'mock_resumes', 'mock_careers',
-       'mock_interviews', 'mock_chats', 'mock_docs', 'mock_qa'].forEach(k => localStorage.removeItem(k));
+       'mock_interviews', 'mock_chats', 'mock_docs', 'mock_qa', 'mock_humanizer'].forEach(k => localStorage.removeItem(k));
+      setMockSessionCookie(false);
       clearAuthState();
       window.location.href = '/auth/login';
       return;

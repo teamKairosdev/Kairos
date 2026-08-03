@@ -1,9 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { callLLMStructured } from '@/server/llm';
 import { z } from 'zod';
+import { getSession } from '@/server/getSession';
+import { getDb } from '@/db';
+import { resumes } from '@/db/schema';
+import { and, eq } from 'drizzle-orm';
+import { notFound, unauthorized } from '@/server/http';
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
+    const session = await getSession(req);
+    if (!session?.userId) return unauthorized();
+
+    const { id } = await params;
+    const db = getDb();
+    if (db) {
+      const [resume] = await db
+        .select({ id: resumes.id })
+        .from(resumes)
+        .where(and(eq(resumes.id, id), eq(resumes.userId, session.userId)));
+      if (!resume) return notFound('Resume not found');
+    }
+
     const body = await req.json();
     const { message, currentContent } = body || {};
 

@@ -19,6 +19,7 @@ interface ResumeItem {
   status: string;
   originalContent: string;
   currentScore?: number | null;
+  demo?: boolean;
   createdAt: string;
 }
 
@@ -185,7 +186,7 @@ export default function ResumeListPage() {
           </div>
         ) : fetchError ? (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-12 text-center space-y-3 animate-fade-in-up">
-            <div className="text-2xl">⚠️</div>
+            <div className="text-sm font-semibold">주의</div>
             <p className="text-sm font-medium text-gray-600">이력서 목록을 불러오지 못했습니다.</p>
             <p className="text-xs text-gray-400">네트워크 상태를 확인한 후 다시 시도해 주세요.</p>
             <button
@@ -222,6 +223,7 @@ export default function ResumeListPage() {
                       <div className="text-xs font-bold text-gray-400 bg-gray-50 border border-gray-100 rounded-lg px-2 py-1.5">미평가</div>
                     ) : (
                       <>
+                        {r.demo && <div className="text-[10px] font-semibold text-blue-500 mb-0.5">데모</div>}
                         <div className="text-2xl font-black text-blue-600">{r.currentScore}</div>
                         <div className="text-[10px] text-gray-400 font-medium">점</div>
                       </>
@@ -259,7 +261,7 @@ export default function ResumeListPage() {
           </div>
         ) : (
           <EmptyState
-            icon="📄"
+            icon="이력서"
             iconWrapperClass="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400"
             title="등록된 이력서가 없습니다"
             description="첫 이력서를 등록하고 AI로 고도화하세요"
@@ -297,7 +299,7 @@ export default function ResumeListPage() {
                 accept=".pdf,.docx,.doc,.txt,.hwp,.hwpx"
                 className="hidden"
               />
-              <span className="text-2xl mb-1">📎</span>
+              <span className="text-sm font-semibold mb-1" aria-hidden="true">파일</span>
               <p className="text-xs text-gray-500">PDF / DOCX / HWP 드로하기</p>
               <p className="text-xs text-gray-400 mt-0.5">또는 아래에 직접 입력</p>
             </label>

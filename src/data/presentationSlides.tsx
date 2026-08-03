@@ -6,255 +6,1034 @@ export const SLIDE_COUNT = 10;
 
 export const SLIDE_CSS = `
 .ks-root {
-  position: fixed; inset: 0; z-index: 100;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
   overflow: hidden;
-  background: #0a0e27; color: #e2e8f0;
-  font-family: 'Pretendard', 'Satoshi', system-ui, sans-serif;
-  --title-size: clamp(1.5rem, 5vw, 4rem);
-  --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
-  --h3-size: clamp(1rem, 2.5vw, 1.75rem);
-  --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
-  --small-size: clamp(0.65rem, 1vw, 0.875rem);
-  --slide-padding: clamp(1rem, 4vw, 4rem);
-  --content-gap: clamp(0.5rem, 2vw, 2rem);
-  --element-gap: clamp(0.25rem, 1vw, 1rem);
-}
-@media (max-height: 700px) {
-  .ks-root { --slide-padding: clamp(0.75rem, 3vw, 2rem); --content-gap: clamp(0.4rem, 1.5vw, 1rem); --title-size: clamp(1.25rem, 4.5vw, 2.5rem); --h2-size: clamp(1rem, 3vw, 1.75rem); }
-}
-@media (max-height: 600px) {
-  .ks-root { --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem); --content-gap: clamp(0.3rem, 1vw, 0.75rem); --title-size: clamp(1.1rem, 4vw, 2rem); --body-size: clamp(0.7rem, 1.2vw, 0.95rem); }
-  .ks-nav-dots, .ks-keyboard-hint { display: none !important; }
-}
-@media (max-width: 600px) {
-  .ks-root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ks-root *, .ks-root *::before, .ks-root *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+  background: #07101f;
+  color: #e6edf7;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+  --title-size: clamp(1.8rem, 4.8vw, 4.2rem);
+  --h2-size: clamp(1.5rem, 3.5vw, 3rem);
+  --h3-size: clamp(1rem, 1.8vw, 1.35rem);
+  --body-size: clamp(0.78rem, 1.25vw, 1.05rem);
+  --small-size: clamp(0.64rem, 0.9vw, 0.82rem);
+  --slide-padding-x: clamp(1rem, 5vw, 5rem);
+  --slide-padding-top: clamp(4.4rem, 9vh, 6.2rem);
+  --slide-padding-bottom: clamp(3.1rem, 7vh, 4.8rem);
+  --gap-large: clamp(0.9rem, 2.3vw, 2rem);
+  --gap: clamp(0.55rem, 1.3vw, 1.1rem);
+  --gap-small: clamp(0.3rem, 0.8vw, 0.65rem);
+  --panel: rgba(16, 29, 52, 0.82);
+  --panel-soft: rgba(255, 255, 255, 0.045);
+  --line: rgba(157, 176, 207, 0.18);
+  --text: #e6edf7;
+  --muted: #a9b8cc;
+  --subtle: #71829a;
+  --cyan: #62d7ef;
+  --purple: #b9a1ff;
+  --green: #81e6b3;
+  --amber: #f4cc78;
 }
 
+@media (max-height: 700px) {
+  .ks-root {
+    --slide-padding-top: 3.7rem;
+    --slide-padding-bottom: 2.5rem;
+    --title-size: clamp(1.55rem, 4.2vw, 3rem);
+    --h2-size: clamp(1.25rem, 3vw, 2.35rem);
+    --body-size: clamp(0.72rem, 1.1vw, 0.94rem);
+  }
+}
+
+@media (max-height: 590px) {
+  .ks-root {
+    --slide-padding-top: 3.1rem;
+    --slide-padding-bottom: 2rem;
+    --gap-large: 0.75rem;
+    --gap: 0.45rem;
+  }
+
+  .ks-keyboard-hint,
+  .ks-nav-dots {
+    display: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .ks-root {
+    --slide-padding-x: 1rem;
+    --slide-padding-top: 4rem;
+    --slide-padding-bottom: 2.8rem;
+    --title-size: clamp(1.55rem, 8vw, 2.5rem);
+    --h2-size: clamp(1.3rem, 6vw, 2rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks-root *,
+  .ks-root *::before,
+  .ks-root *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Each slide occupies the same viewport. Only the active slide participates in input. */
 .ks-slides-container {
-  display: flex; flex-direction: column;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 100vh; height: 100dvh;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .ks-slide {
-  width: 100vw; height: 100vh; height: 100dvh; overflow: hidden;
-  display: flex; flex-direction: column; position: relative; flex-shrink: 0;
-  background: linear-gradient(135deg, #0a0e27 0%, #111640 40%, #0d1b3e 100%);
-}
-.ks-slide::before {
-  content: ''; position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(41, 147, 188, 0.15), transparent 32%),
+    radial-gradient(circle at 88% 82%, rgba(111, 77, 182, 0.14), transparent 35%),
+    linear-gradient(135deg, #07101f 0%, #0d1930 52%, #111a32 100%);
+  transition: opacity 0.35s ease, visibility 0.35s ease;
 }
+
+.ks-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+}
+
 .ks-slide::after {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), rgba(168, 85, 247, 0.5), transparent);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(98, 215, 239, 0.7), rgba(185, 161, 255, 0.7), transparent);
 }
-.ks-slide[data-visible] { opacity: 1; }
-.ks-slide:not([data-visible]) { opacity: 0; position: absolute; pointer-events: none; }
+
+.ks-slide[data-visible] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+}
 
 .ks-slide-content {
-  flex: 1; display: flex; flex-direction: column; justify-content: center;
-  max-height: 100%; overflow: hidden;
-  padding: clamp(1rem, 4vw, 4rem);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  padding: var(--slide-padding-top) var(--slide-padding-x) var(--slide-padding-bottom);
+  scrollbar-color: rgba(157, 176, 207, 0.35) transparent;
 }
 
 .ks-slide-number {
-  position: absolute; bottom: clamp(0.5rem, 2vw, 2rem); right: clamp(0.5rem, 2vw, 2rem);
-  font-family: 'Clash Display', sans-serif; font-size: clamp(0.7rem, 1.5vw, 1rem);
-  color: rgba(148, 163, 184, 0.5); letter-spacing: 0.1em; z-index: 10;
+  position: absolute;
+  right: clamp(0.7rem, 2vw, 2rem);
+  bottom: clamp(0.55rem, 1.8vw, 1.4rem);
+  z-index: 10;
+  color: rgba(169, 184, 204, 0.56);
+  font-family: 'Clash Display', 'Pretendard', system-ui, sans-serif;
+  font-size: clamp(0.68rem, 1vw, 0.85rem);
+  letter-spacing: 0.12em;
+}
+
+.ks-root h1,
+.ks-root h2,
+.ks-root h3 {
+  margin: 0;
+}
+
+.ks-root h1,
+.ks-root h2 {
+  font-family: 'Clash Display', 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+  letter-spacing: -0.045em;
 }
 
 .ks-root h1 {
-  font-family: 'Clash Display', sans-serif; font-size: var(--title-size);
-  font-weight: 700; line-height: 1.1;
-  background: linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #3b82f6 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  max-width: 940px;
+  color: var(--text);
+  font-size: var(--title-size);
+  font-weight: 750;
+  line-height: 1.08;
 }
+
 .ks-root h2 {
-  font-family: 'Clash Display', sans-serif; font-size: var(--h2-size); font-weight: 600;
-  background: linear-gradient(135deg, #06b6d4, #a855f7);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; margin-bottom: var(--element-gap);
+  max-width: 900px;
+  color: var(--text);
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.12;
 }
-.ks-root h3 { font-family: 'Clash Display', sans-serif; font-size: var(--h3-size); font-weight: 600; color: #e2e8f0; }
-.ks-root p, .ks-root li { font-size: var(--body-size); line-height: 1.6; color: #94a3b8; }
-.ks-root strong { color: #f1f5f9; font-weight: 600; }
 
-.ks-subtitle {
-  font-size: clamp(0.9rem, 1.8vw, 1.4rem); color: #64748b; margin-top: 0.5em;
-  font-weight: 400;
+.ks-root h3 {
+  color: var(--text);
+  font-size: var(--h3-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
 }
-.ks-tagline {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.4em 1em; border-radius: 999px;
-  background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2);
-  font-size: var(--small-size); color: #67e8f9; margin-bottom: var(--content-gap);
-}
-.ks-tagline.cyan { background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.2); color: #67e8f9; }
-.ks-tagline.purple { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
 
-.ks-badge {
-  display: inline-block; padding: 0.2em 0.6em; border-radius: 6px;
-  font-size: var(--small-size); font-weight: 500;
+.ks-root p,
+.ks-root li {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--body-size);
+  line-height: 1.55;
+  letter-spacing: -0.02em;
 }
-.ks-badge.cyan { background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.2); }
-.ks-badge.purple { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.2); }
-.ks-badge.blue { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.2); }
-.ks-badge.green { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.2); }
-.ks-badge.amber { background: rgba(251, 191, 36, 0.15); color: #fde68a; border: 1px solid rgba(251, 191, 36, 0.2); }
-.ks-badge.red { background: rgba(248, 113, 113, 0.15); color: #fca5a5; border: 1px solid rgba(248, 113, 113, 0.2); }
 
-.ks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: clamp(0.5rem, 1.5vw, 1rem); }
-.ks-grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
-.ks-grid-4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); }
-
-.ks-card {
-  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 16px; padding: clamp(0.8rem, 2vw, 1.5rem);
-  backdrop-filter: blur(10px); transition: border-color 0.3s, transform 0.3s;
-}
-.ks-card:hover { border-color: rgba(6, 182, 212, 0.3); transform: translateY(-2px); }
-.ks-card h3 { font-size: clamp(0.85rem, 1.5vw, 1.2rem); margin-bottom: 0.4em; }
-.ks-card p, .ks-card li { font-size: clamp(0.65rem, 1.2vw, 0.9rem); color: #94a3b8; }
-.ks-card .ks-stat {
-  font-family: 'Clash Display', sans-serif; font-size: clamp(1.5rem, 4vw, 3rem);
-  font-weight: 700; line-height: 1;
-  background: linear-gradient(135deg, #06b6d4, #a855f7);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.ks-card .ks-stat-label { font-size: var(--small-size); color: #64748b; margin-top: 0.3em; }
-
-.ks-stat-row { display: flex; gap: clamp(0.5rem, 2vw, 2rem); flex-wrap: wrap; justify-content: center; }
-.ks-stat-item { text-align: center; padding: clamp(0.5rem, 1.5vw, 1rem); }
-.ks-stat-item .ks-number {
-  font-family: 'Clash Display', sans-serif; font-size: clamp(1.2rem, 3vw, 2.5rem);
+.ks-root strong {
+  color: #f6f9fd;
   font-weight: 700;
 }
-.ks-stat-item .ks-number.red { color: #fca5a5; }
-.ks-stat-item .ks-number.amber { color: #fde68a; }
-.ks-stat-item .ks-number.cyan { color: #67e8f9; }
-.ks-stat-item .ks-label { font-size: var(--small-size); color: #64748b; }
 
-.ks-flow-arrow {
-  display: flex; align-items: center; justify-content: center;
-  font-size: clamp(1rem, 2vw, 1.5rem); color: #06b6d4;
+.ks-lead {
+  max-width: 760px;
+  margin-top: var(--gap);
 }
 
-.ks-tech-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
-  gap: clamp(0.4rem, 1vw, 0.75rem);
+.ks-subtitle {
+  max-width: 680px;
+  margin-top: var(--gap);
+  color: #afbed0;
+  font-size: clamp(0.92rem, 1.8vw, 1.35rem);
+  line-height: 1.55;
 }
-.ks-tech-item {
-  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(148, 163, 184, 0.08);
-  border-radius: 12px; padding: clamp(0.5rem, 1.2vw, 1rem);
-  text-align: center;
-}
-.ks-tech-item .ks-name { font-size: clamp(0.7rem, 1.2vw, 0.9rem); font-weight: 600; color: #e2e8f0; }
-.ks-tech-item .ks-desc { font-size: clamp(0.55rem, 0.9vw, 0.75rem); color: #64748b; margin-top: 0.2em; }
 
-.ks-cover-logo {
-  font-family: 'Clash Display', sans-serif; font-size: clamp(2rem, 6vw, 5rem);
-  font-weight: 700; line-height: 1;
-  background: linear-gradient(135deg, #06b6d4 0%, #a855f7 40%, #f59e0b 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+.ks-overline {
+  margin-bottom: 0.55em;
+  color: var(--cyan);
+  font-size: var(--small-size);
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.ks-tagline {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: var(--gap-large);
+  padding: 0.42em 0.85em;
+  border: 1px solid rgba(98, 215, 239, 0.28);
+  border-radius: 999px;
+  background: rgba(98, 215, 239, 0.1);
+  color: var(--cyan);
+  font-size: var(--small-size);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.ks-tagline-time {
+  margin-left: 0.65em;
+  padding-left: 0.65em;
+  border-left: 1px solid currentColor;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: 0.82;
+}
+
+.ks-tagline.purple {
+  border-color: rgba(185, 161, 255, 0.3);
+  background: rgba(185, 161, 255, 0.1);
+  color: var(--purple);
+}
+
+.ks-tagline.amber {
+  border-color: rgba(244, 204, 120, 0.3);
+  background: rgba(244, 204, 120, 0.1);
+  color: var(--amber);
+}
+
+.ks-tagline.green {
+  border-color: rgba(129, 230, 179, 0.3);
+  background: rgba(129, 230, 179, 0.1);
+  color: var(--green);
+}
+
+.ks-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.28em 0.65em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--muted);
+  font-size: var(--small-size);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ks-badge.cyan { border-color: rgba(98, 215, 239, 0.3); background: rgba(98, 215, 239, 0.1); color: var(--cyan); }
+.ks-badge.purple { border-color: rgba(185, 161, 255, 0.3); background: rgba(185, 161, 255, 0.1); color: var(--purple); }
+.ks-badge.green { border-color: rgba(129, 230, 179, 0.3); background: rgba(129, 230, 179, 0.1); color: var(--green); }
+.ks-badge.amber { border-color: rgba(244, 204, 120, 0.3); background: rgba(244, 204, 120, 0.1); color: var(--amber); }
+.ks-badge.red { border-color: rgba(248, 139, 139, 0.3); background: rgba(248, 139, 139, 0.1); color: #ffb2b2; }
+.ks-badge.outline { background: transparent; color: #c7d3e3; }
+
+.ks-grid {
+  display: grid;
+  gap: var(--gap);
+  margin-top: var(--gap-large);
+}
+
+.ks-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.ks-card {
+  min-width: 0;
+  padding: clamp(0.85rem, 1.6vw, 1.35rem);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+}
+
+.ks-card p {
+  margin-top: 0.55em;
+  font-size: clamp(0.7rem, 1.1vw, 0.91rem);
+}
+
+.ks-card h3 + .ks-badge-row,
+.ks-card p + .ks-badge-row {
+  margin-top: 0.8rem;
+}
+
+.ks-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
 .ks-highlight-box {
-  border-left: 3px solid #06b6d4; padding: clamp(0.5rem, 1.5vw, 1rem) clamp(0.8rem, 2vw, 1.5rem);
-  background: rgba(6, 182, 212, 0.05); border-radius: 0 12px 12px 0;
-  margin-bottom: var(--element-gap);
+  max-width: 820px;
+  margin-top: var(--gap-large);
+  padding: clamp(0.75rem, 1.5vw, 1.2rem) clamp(0.9rem, 2vw, 1.5rem);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 14px 14px 0;
+  background: rgba(98, 215, 239, 0.075);
 }
-.ks-highlight-box p { color: #cbd5e1; font-size: clamp(0.7rem, 1.3vw, 1rem); }
 
-.ks-demo-frame {
-  width: 100%; max-width: 800px; aspect-ratio: 16/9;
-  border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.15);
-  background: rgba(0, 0, 0, 0.3); display: flex; align-items: center; justify-content: center;
-  margin: 0 auto;
+.ks-highlight-box p { color: #ced9e7; }
+
+.ks-scope-note,
+.ks-footnote {
+  margin-top: var(--gap);
+  color: var(--subtle) !important;
+  font-size: var(--small-size) !important;
 }
-.ks-demo-frame p { font-size: var(--body-size); color: #64748b; }
 
-.ks-checklist-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.5em 0; }
-.ks-checklist-item .ks-box {
-  width: 1.2em; height: 1.2em; border: 2px solid rgba(148, 163, 184, 0.3);
-  border-radius: 4px; flex-shrink: 0;
+.ks-cover-logo {
+  margin-top: 0.15em;
+  color: #f3f7fb;
+  font-family: 'Clash Display', 'Pretendard', system-ui, sans-serif;
+  font-size: clamp(3.2rem, 10vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.09em;
+  line-height: 0.95;
+}
+
+.ks-cover-logo span {
+  color: var(--cyan);
+}
+
+.ks-cover-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(130px, 1fr));
+  gap: 0.55rem;
+  width: min(100%, 430px);
+  margin-top: clamp(1.2rem, 3vw, 2.3rem);
+  text-align: left;
+}
+
+.ks-cover-meta-item {
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ks-cover-meta-item span {
+  display: block;
+  margin-bottom: 0.2em;
+  color: var(--subtle);
+  font-size: var(--small-size);
+}
+
+.ks-cover-meta-item strong {
+  display: block;
+  color: #dce7f3;
+  font-size: clamp(0.74rem, 1.1vw, 0.92rem);
+}
+
+.ks-cover-time {
+  margin-top: 0.85rem;
+  color: var(--subtle) !important;
+  font-size: var(--small-size) !important;
+}
+
+.ks-problem-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.2fr);
+  gap: var(--gap);
+  margin-top: var(--gap-large);
+}
+
+.ks-persona-card {
+  height: 100%;
+  box-sizing: border-box;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(185, 161, 255, 0.26);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(45, 37, 78, 0.78), rgba(15, 28, 49, 0.82));
+}
+
+.ks-persona-card h3 { font-size: clamp(1rem, 1.7vw, 1.35rem); }
+
+.ks-persona-context {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(185, 161, 255, 0.2);
+  color: #c7c0e4;
+  font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+  line-height: 1.5;
+}
+
+.ks-pain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-small);
+}
+
+.ks-pain-card {
+  padding: clamp(0.75rem, 1.4vw, 1.1rem);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: var(--panel-soft);
+}
+
+.ks-pain-card .ks-pain-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-bottom: 0.7rem;
+  border-radius: 9px;
+  background: rgba(244, 204, 120, 0.14);
+  color: var(--amber);
+  font-size: var(--small-size);
+  font-weight: 800;
+}
+
+.ks-pain-card h3 { font-size: clamp(0.82rem, 1.3vw, 1rem); }
+.ks-pain-card p { margin-top: 0.45rem; font-size: clamp(0.65rem, 1vw, 0.82rem); }
+
+.ks-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+
+.ks-stat-card {
+  min-width: 0;
+  padding: clamp(0.7rem, 1.2vw, 1rem);
+  border-top: 2px solid rgba(98, 215, 239, 0.65);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.ks-stat-number {
+  color: var(--cyan);
+  font-family: 'Clash Display', 'Pretendard', system-ui, sans-serif;
+  font-size: clamp(1.25rem, 3vw, 2.35rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ks-stat-card p {
+  margin-top: 0.4rem;
+  color: #d4deeb;
+  font-size: clamp(0.68rem, 1vw, 0.84rem);
+  line-height: 1.35;
+}
+
+.ks-stat-card small {
+  display: block;
+  margin-top: 0.55rem;
+  color: var(--subtle);
+  font-size: clamp(0.55rem, 0.78vw, 0.7rem);
+  line-height: 1.35;
+}
+
+.ks-feature-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 185px;
+}
+
+.ks-feature-index {
+  margin-bottom: 1.15rem;
+  color: var(--cyan);
+  font-family: 'Clash Display', 'Pretendard', system-ui, sans-serif;
+  font-size: clamp(1.3rem, 3vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ks-feature-card:nth-child(2) .ks-feature-index { color: var(--purple); }
+.ks-feature-card:nth-child(3) .ks-feature-index { color: var(--amber); }
+
+.ks-feature-route {
+  margin-top: auto;
+  padding-top: 1rem;
+  color: var(--subtle);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--small-size);
+}
+
+.ks-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap-large);
+}
+
+.ks-flow-step {
+  position: relative;
+  min-width: 0;
+  padding: clamp(0.8rem, 1.45vw, 1.25rem) clamp(0.7rem, 1.2vw, 1rem);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+}
+
+.ks-flow-step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  top: 50%;
+  right: -0.82rem;
+  z-index: 3;
+  color: var(--cyan);
+  font-size: 1.25rem;
+  font-weight: 700;
+  transform: translateY(-50%);
+}
+
+.ks-flow-step .ks-step-number {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--cyan);
+  font-size: var(--small-size);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.ks-flow-step h3 { font-size: clamp(0.78rem, 1.25vw, 1rem); }
+.ks-flow-step p { margin-top: 0.5rem; font-size: clamp(0.62rem, 0.95vw, 0.78rem); }
+
+.ks-flow-note {
+  max-width: 760px;
+  margin: var(--gap) auto 0;
+  color: var(--subtle) !important;
+  text-align: center;
+  font-size: var(--small-size) !important;
+}
+
+.ks-architecture {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--gap-small);
+  margin-top: var(--gap-large);
+}
+
+.ks-arch-node,
+.ks-arch-services {
+  min-width: 0;
+  padding: clamp(0.7rem, 1.25vw, 1rem);
+  border: 1px solid rgba(98, 215, 239, 0.22);
+  border-radius: 14px;
+  background: rgba(98, 215, 239, 0.065);
+}
+
+.ks-arch-node {
+  flex: 1 1 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.ks-arch-node strong,
+.ks-arch-service strong {
+  color: #e9f3fb;
+  font-size: clamp(0.72rem, 1.15vw, 0.92rem);
+}
+
+.ks-arch-node small,
+.ks-arch-service small {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--subtle);
+  font-size: clamp(0.56rem, 0.85vw, 0.7rem);
+  line-height: 1.35;
+}
+
+.ks-arch-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--cyan);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.ks-arch-services {
+  flex: 1.5 1 250px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-small);
+  border-color: rgba(185, 161, 255, 0.28);
+  background: rgba(185, 161, 255, 0.075);
+}
+
+.ks-arch-services-label {
+  grid-column: 1 / -1;
+  color: var(--purple);
+  font-size: var(--small-size);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.ks-arch-service {
+  min-width: 0;
+  padding: 0.65rem;
+  border: 1px solid rgba(185, 161, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(7, 16, 31, 0.3);
+}
+
+.ks-architecture-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+
+.ks-architecture-note {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.ks-architecture-note strong {
+  display: block;
+  color: #dce7f3;
+  font-size: clamp(0.7rem, 1vw, 0.82rem);
+}
+
+.ks-architecture-note p {
+  margin-top: 0.35rem;
+  font-size: clamp(0.61rem, 0.9vw, 0.74rem);
+}
+
+.ks-demo-board {
+  margin-top: var(--gap-large);
+  padding: clamp(0.9rem, 1.8vw, 1.45rem);
+  border: 1px dashed rgba(244, 204, 120, 0.45);
+  border-radius: 20px;
+  background: rgba(244, 204, 120, 0.045);
+}
+
+.ks-demo-board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: var(--gap);
+}
+
+.ks-demo-board-header strong {
+  color: #f8e3ae;
+  font-size: clamp(0.78rem, 1.25vw, 1rem);
+}
+
+.ks-demo-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+.ks-demo-step {
+  min-width: 0;
+  padding: clamp(0.75rem, 1.25vw, 1rem);
+  border: 1px solid rgba(157, 176, 207, 0.18);
+  border-radius: 14px;
+  background: rgba(7, 16, 31, 0.38);
+}
+
+.ks-demo-step .ks-step-number {
+  color: var(--amber);
+  font-size: var(--small-size);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.ks-demo-step h3 { margin-top: 0.55rem; font-size: clamp(0.78rem, 1.2vw, 0.98rem); }
+.ks-demo-step p { margin-top: 0.45rem; font-size: clamp(0.62rem, 0.95vw, 0.78rem); }
+
+.ks-demo-path {
+  display: block;
+  margin-top: 0.7rem;
+  color: #c9d6e6;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: var(--small-size);
+  word-break: break-word;
+}
+
+.ks-demo-access {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+
+.ks-demo-access p {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: clamp(0.65rem, 1vw, 0.8rem);
+}
+
+.ks-demo-access p strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #dce7f3;
+}
+
+.ks-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap-large);
+}
+
+.ks-status-card {
+  min-width: 0;
+  padding: clamp(0.8rem, 1.5vw, 1.2rem);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+}
+
+.ks-status-card h3 { margin-top: 0.8rem; font-size: clamp(0.88rem, 1.35vw, 1.08rem); }
+.ks-status-card p { margin-top: 0.55rem; font-size: clamp(0.65rem, 1vw, 0.81rem); }
+
+.ks-kpi-box {
+  margin-top: var(--gap);
+  padding: clamp(0.8rem, 1.4vw, 1.1rem);
+  border: 1px solid rgba(98, 215, 239, 0.2);
+  border-radius: 16px;
+  background: rgba(98, 215, 239, 0.045);
+}
+
+.ks-kpi-box > strong {
+  display: block;
+  color: #dce7f3;
+  font-size: clamp(0.76rem, 1.15vw, 0.92rem);
+}
+
+.ks-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-small);
+  margin-top: 0.75rem;
+}
+
+.ks-kpi {
+  min-width: 0;
+  padding: 0.65rem;
+  border-radius: 11px;
+  background: rgba(7, 16, 31, 0.35);
+}
+
+.ks-kpi-value {
+  color: var(--cyan);
+  font-size: clamp(0.72rem, 1.2vw, 0.95rem);
+  font-weight: 800;
+}
+
+.ks-kpi-label {
+  margin-top: 0.3rem;
+  color: #c8d4e3;
+  font-size: clamp(0.6rem, 0.88vw, 0.72rem);
+  line-height: 1.35;
+}
+
+.ks-qa-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: var(--gap-large);
 }
 
 .ks-qa-card {
-  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(148, 163, 184, 0.1);
-  border-radius: 16px; padding: clamp(1rem, 3vw, 2.5rem);
-  text-align: center; max-width: 600px; margin: 0 auto;
+  min-width: 0;
+  padding: clamp(0.85rem, 1.6vw, 1.3rem);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
 }
-.ks-qa-card .ks-q { font-size: var(--h3-size); color: #e2e8f0; margin-bottom: 1em; }
-.ks-qa-card .ks-a { font-size: var(--body-size); color: #94a3b8; line-height: 1.8; }
+
+.ks-qa-card .ks-q {
+  color: #f1f6fb;
+  font-size: clamp(0.8rem, 1.35vw, 1.08rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.ks-qa-card .ks-a {
+  margin-top: 0.55rem;
+  color: var(--muted);
+  font-size: clamp(0.65rem, 1vw, 0.82rem);
+  line-height: 1.55;
+}
+
+.ks-checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-small) var(--gap-large);
+  max-width: 980px;
+  margin-top: var(--gap-large);
+}
+
+.ks-checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(157, 176, 207, 0.11);
+}
+
+.ks-checklist-item .ks-box {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 auto;
+  margin-top: 0.08rem;
+  border: 1px solid rgba(157, 176, 207, 0.5);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ks-checklist-item span:last-child {
+  color: #c7d3e1;
+  font-size: clamp(0.68rem, 1.08vw, 0.88rem);
+  line-height: 1.45;
+}
+
+.ks-final-note {
+  margin-top: var(--gap-large);
+  color: var(--subtle) !important;
+  font-size: var(--small-size) !important;
+}
 
 /* Navigation */
 .ks-nav-dots {
-  position: absolute; right: clamp(0.5rem, 2vw, 2rem); top: 50%; transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 0.5rem; z-index: 200;
+  position: absolute;
+  top: 50%;
+  right: clamp(0.55rem, 1.8vw, 1.8rem);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transform: translateY(-50%);
 }
+
 .ks-nav-dot {
-  width: 10px; height: 10px; border-radius: 50%; border: none; cursor: pointer;
-  background: rgba(148, 163, 184, 0.2); transition: all 0.3s; padding: 0;
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(157, 176, 207, 0.28);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-.ks-nav-dot.active { background: #06b6d4; box-shadow: 0 0 12px rgba(6, 182, 212, 0.5); }
-.ks-nav-dot:hover { background: rgba(6, 182, 212, 0.5); }
+
+.ks-nav-dot:hover,
+.ks-nav-dot.active {
+  background: var(--cyan);
+  transform: scale(1.25);
+}
 
 .ks-keyboard-hint {
-  position: absolute; bottom: clamp(0.5rem, 2vw, 1.5rem); left: 50%; transform: translateX(-50%);
-  font-size: clamp(0.5rem, 0.8vw, 0.75rem); color: rgba(148, 163, 184, 0.3);
-  z-index: 200; letter-spacing: 0.1em; text-align: center;
-  display: flex; align-items: center; gap: 0.75rem;
-}
-.ks-keyboard-hint kbd {
-  display: inline-block; padding: 0.15em 0.5em; border-radius: 4px;
-  background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.2);
-  font-size: inherit; font-family: inherit;
+  position: absolute;
+  bottom: clamp(0.55rem, 1.7vw, 1.35rem);
+  left: 50%;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(169, 184, 204, 0.5);
+  font-size: clamp(0.52rem, 0.8vw, 0.7rem);
+  letter-spacing: 0.02em;
+  text-align: center;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
-/* Branding (existing page harmony) */
+.ks-keyboard-hint kbd {
+  padding: 0.14em 0.45em;
+  border: 1px solid rgba(157, 176, 207, 0.2);
+  border-radius: 4px;
+  background: rgba(157, 176, 207, 0.08);
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Persistent shell */
 .ks-brand {
-  position: absolute; top: clamp(0.5rem, 2vw, 1.5rem); left: clamp(0.5rem, 2vw, 1.5rem);
-  display: flex; align-items: center; gap: 0.6rem; z-index: 200;
-}
-.ks-brand-name {
-  font-family: 'Clash Display', sans-serif; font-weight: 700;
-  font-size: clamp(0.9rem, 1.5vw, 1.15rem); color: #e2e8f0; letter-spacing: 0.02em;
-  display: inline-flex; align-items: center; gap: 0.5rem;
-}
-.ks-brand-badge {
-  font-size: clamp(0.55rem, 0.9vw, 0.7rem); color: #67e8f9;
-  border: 1px solid rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.1);
-  padding: 0.2em 0.7em; border-radius: 999px; letter-spacing: 0.05em;
-}
-.ks-dashboard-link {
-  position: absolute; top: clamp(0.5rem, 2vw, 1.5rem); right: clamp(0.5rem, 2vw, 1.5rem);
+  position: absolute;
+  top: clamp(0.65rem, 1.8vw, 1.4rem);
+  left: clamp(0.7rem, 2vw, 1.8rem);
   z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ks-brand-name {
+  color: #eef4fb;
+  font-family: 'Clash Display', 'Pretendard', system-ui, sans-serif;
+  font-size: clamp(0.86rem, 1.35vw, 1.05rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.ks-brand-badge {
+  padding: 0.25em 0.65em;
+  border: 1px solid rgba(98, 215, 239, 0.25);
+  border-radius: 999px;
+  background: rgba(98, 215, 239, 0.08);
+  color: var(--cyan);
+  font-size: clamp(0.55rem, 0.8vw, 0.68rem);
+}
+
+.ks-dashboard-link {
+  position: absolute;
+  top: clamp(0.6rem, 1.8vw, 1.4rem);
+  right: clamp(0.7rem, 2vw, 1.8rem);
+  z-index: 200;
+  color: #dbe8f5;
+  font-size: var(--small-size);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ks-dashboard-link span {
+  display: inline-block;
+  padding: 0.55em 0.85em;
+  border: 1px solid rgba(157, 176, 207, 0.22);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+@media (max-width: 920px) {
+  .ks-problem-layout { grid-template-columns: 1fr; }
+  .ks-pain-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ks-architecture {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .ks-arch-node,
+  .ks-arch-services {
+    box-sizing: border-box;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  .ks-arch-arrow {
+    justify-content: center;
+    min-height: 1.3rem;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .ks-grid-3,
+  .ks-status-grid,
+  .ks-architecture-notes,
+  .ks-demo-steps,
+  .ks-qa-grid { grid-template-columns: 1fr; }
+
+  .ks-pain-grid { grid-template-columns: 1fr; }
+  .ks-stat-grid { grid-template-columns: 1fr; }
+  .ks-stat-card { display: grid; grid-template-columns: 5.2rem 1fr; column-gap: 0.7rem; align-items: center; }
+  .ks-stat-card small { grid-column: 1 / -1; }
+  .ks-feature-card { min-height: 0; }
+  .ks-flow { grid-template-columns: 1fr; gap: 0.85rem; }
+  .ks-flow-step:not(:last-child)::after { content: '↓'; top: auto; right: 50%; bottom: -0.87rem; transform: translateX(50%); }
+  .ks-arch-services { grid-template-columns: 1fr; }
+  .ks-arch-services-label { grid-column: auto; }
+  .ks-demo-access { grid-template-columns: 1fr; }
+  .ks-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ks-checklist-grid { grid-template-columns: 1fr; }
+  .ks-cover-meta { grid-template-columns: 1fr; }
+  .ks-dashboard-link span { padding: 0.5em 0.65em; }
+}
+
+@media (max-width: 480px) {
+  .ks-keyboard-hint { display: none; }
+  .ks-nav-dots { right: 0.45rem; gap: 0.65rem; }
+  .ks-nav-dot { width: 11px; height: 11px; }
+  .ks-brand-badge { display: none; }
+  .ks-dashboard-link { display: none; }
 }
 `;
 
 function Tagline({
   className = '',
-  style,
+  time,
   children,
 }: {
   className?: string;
-  style?: React.CSSProperties;
+  time?: string;
   children: React.ReactNode;
 }) {
   return (
-    <span className={`ks-tagline ${className}`} style={style}>
-      {children}
+    <span className={`ks-tagline ${className}`}>
+      <span>{children}</span>
+      {time && <span className="ks-tagline-time">{time}</span>}
     </span>
   );
 }
@@ -291,499 +1070,420 @@ function Slide({
   );
 }
 
+function FlowStep({ number, title, description }: { number: string; title: string; description: string }) {
+  return (
+    <div className="ks-flow-step">
+      <span className="ks-step-number">{number}</span>
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </div>
+  );
+}
+
 export default function PresentationSlides({ current }: { current: number }) {
   return (
-    <div id="slides-container" className="ks-slides-container" style={{ transform: `translateY(-${current * 100}%)` }}>
+    <div id="slides-container" className="ks-slides-container">
       {/* SLIDE 1: COVER */}
       <Slide index={1} visible={current === 0} contentStyle={{ alignItems: 'center', textAlign: 'center' }}>
-        <Tagline style={{ marginBottom: 'clamp(1rem,3vw,2rem)' }}>
-          2026 SW미래채움 × AI·SW중심대학 연합 경진대회
-        </Tagline>
-        <div className="ks-cover-logo">Kairos</div>
-        <h1 style={{ fontSize: 'clamp(1.2rem,3vw,2.2rem)', marginTop: '0.3em' }}>AI Career Operating System</h1>
-        <p className="ks-subtitle" style={{ marginTop: 'clamp(0.5rem,2vw,1.5rem)' }}>
-          AI로 커리어의 결정적 순간을 포착하다
-        </p>
-        <div
-          style={{
-            marginTop: 'clamp(1rem,3vw,2.5rem)',
-            display: 'flex',
-            gap: 'clamp(0.5rem,2vw,2rem)',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
-          <Badge className="cyan">트랙: AI 서비스톤</Badge>
-          <Badge className="purple">팀: Kairos</Badge>
-          <Badge className="blue">서비스: kairos.service.rhee.life</Badge>
+        <Tagline time="00:00-00:20 · 20초">2026 SW미래채움 × AI·SW중심대학 연합 경진대회</Tagline>
+        <div className="ks-overline">AI 서비스톤</div>
+        <div className="ks-cover-logo">
+          Kai<span>ros</span>
         </div>
-        <p style={{ marginTop: 'clamp(1.5rem,4vw,3rem)', fontSize: 'var(--small-size)', color: '#475569' }}>
-          발표자: (팀원명) · 2026
-        </p>
+        <h1 style={{ marginTop: '0.35em' }}>
+          지원 준비를 위한
+          <br />
+          AI 커리어 작업공간
+        </h1>
+        <p className="ks-subtitle">채용공고와 이력서 텍스트를 근거로 지원 준비를 돕는 AI 커리어 작업공간</p>
+        <div className="ks-cover-meta">
+          <div className="ks-cover-meta-item">
+            <span>팀명</span>
+            <strong>팀명 입력 필요</strong>
+          </div>
+          <div className="ks-cover-meta-item">
+            <span>발표자</span>
+            <strong>발표자 입력 필요</strong>
+          </div>
+          <div className="ks-cover-meta-item">
+            <span>참가 트랙</span>
+            <strong>AI 서비스톤</strong>
+          </div>
+          <div className="ks-cover-meta-item">
+            <span>서비스</span>
+            <strong>Kairos</strong>
+          </div>
+        </div>
+        <p className="ks-cover-time">발표 본문 5분 · 질의응답 별도 5분 내외</p>
       </Slide>
 
       {/* SLIDE 2: SERVICE OVERVIEW */}
       <Slide index={2} visible={current === 1}>
-        <Tagline>01 / 09 · 서비스 개요</Tagline>
+        <Tagline time="00:20-00:45 · 25초">01 / 09 · 서비스 개요</Tagline>
         <h2>
-          AI가 대신하는
+          공고·이력서 입력부터
           <br />
-          커리어 전략
+          지원 준비까지 확인합니다
         </h2>
-        <p style={{ maxWidth: 720, marginBottom: 'var(--content-gap)' }}>
-          Kairos는 <strong>Google Gemini AI</strong>와 <strong>pgvector 시맨틱 검색</strong>으로 이력서 분석, 모의면접,
-          ATS 최적화를 하나의 플랫폼에서 제공합니다.
+        <p className="ks-lead">
+          Kairos는 채용공고와 이력서 텍스트를 기준으로 ATS 단서를 분석하고, Gemini REST 기반 개선 제안을 저장한 뒤 텍스트 면접을 별도로 시작하는 작업공간입니다.
         </p>
-        <div className="ks-grid" style={{ marginTop: 'var(--element-gap)' }}>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div className="ks-stat">3</div>
-            <div className="ks-stat-label">
-              단계 이력서 개선
-              <br />
-              Draft → Evaluate → Improve
-            </div>
-          </div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div className="ks-stat">SSE</div>
-            <div className="ks-stat-label">
-              실시간 AI 모의면접
-              <br />
-              스트리밍 응답 + 피드백
-            </div>
-          </div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div className="ks-stat">1536</div>
-            <div className="ks-stat-label">
-              차원 pgvector
-              <br />
-              경력 시맨틱 검색
-            </div>
-          </div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div className="ks-stat">4</div>
-            <div className="ks-stat-label">
-              레이어 AI 가드레일
-              <br />
-              안전한 LLM 운영
-            </div>
-          </div>
-        </div>
-      </Slide>
-
-      {/* SLIDE 3: PROBLEM BACKGROUND */}
-      <Slide index={3} visible={current === 2}>
-        <Tagline className="red">02 / 09 · 문제 배경</Tagline>
-        <h2>
-          청년 고용 위기,
-          <br />
-          더 이상 개인의 문제가 아니다
-        </h2>
-        <div className="ks-stat-row" style={{ marginBottom: 'var(--content-gap)' }}>
-          <div className="ks-stat-item">
-            <div className="ks-number red">6.1%</div>
-            <div className="ks-label">
-              청년 실업률 (2025)
-              <br />
-              3년만에 최고치
-            </div>
-          </div>
-          <div className="ks-stat-item">
-            <div className="ks-number amber">48.5만</div>
-            <div className="ks-label">
-              &apos;쉬었음&apos; 청년
-              <br />
-              역대 최대 규모
-            </div>
-          </div>
-          <div className="ks-stat-item">
-            <div className="ks-number cyan">17.4%</div>
-            <div className="ks-label">
-              체감 실업률
-              <br />
-              확장실업률 기준
-            </div>
-          </div>
-          <div className="ks-stat-item">
-            <div className="ks-number red">22개월</div>
-            <div className="ks-label">
-              청년 고용률
-              <br />
-              연속 하락
-            </div>
-          </div>
+        <div className="ks-highlight-box">
+          <p>
+            <strong>핵심 가치</strong>
+            <br />
+            공고와 이력서 텍스트를 근거로 지원 준비를 돕는 AI 커리어 작업공간
+          </p>
         </div>
         <div className="ks-grid ks-grid-3">
           <div className="ks-card">
-            <h3>🏢 미스매치</h3>
-            <p>
-              청년 34.1%가 <strong>&quot;원하는 일자리가 없어서&quot;</strong> 구직 포기.
-              <br />
-              정보통신업 구직자 과잉 vs 건설업 인력 부족.
-            </p>
-            <p style={{ marginTop: '0.5em', fontSize: 'var(--small-size)', color: '#64748b' }}>
-              출처: 한국노동연구원 (2026)
-            </p>
+            <h3>근거를 먼저 보기</h3>
+            <p>공고와 이력서에서 발견된 키워드, 누락 단서, 개선 이유를 나눠 확인합니다.</p>
           </div>
           <div className="ks-card">
-            <h3>🤖 AI 대체</h3>
-            <p>
-              AI 도입으로 <strong>신입 채용 수요 감소</strong>, 경력직 선호 심화.
-              <br />
-              중견기업 경력직 채용 비중 20.6% → 25.2%.
-            </p>
-            <p style={{ marginTop: '0.5em', fontSize: 'var(--small-size)', color: '#64748b' }}>
-              출처: 한국일보 고용24 분석
-            </p>
+            <h3>수정은 제안으로</h3>
+            <p>AI가 본문을 제안하되, 원문과 변경점을 비교한 뒤 사용자가 반영 여부를 결정합니다.</p>
           </div>
           <div className="ks-card">
-            <h3>⏳ 취업 지연</h3>
-            <p>
-              첫 취업까지 평균 <strong>11.5개월</strong> (역대 최장).
-              <br />
-              졸업 후 1년 이상 미취업 46.6%.
-            </p>
-            <p style={{ marginTop: '0.5em', fontSize: 'var(--small-size)', color: '#64748b' }}>
-              출처: 국가데이터처
-            </p>
+            <h3>다음 행동으로</h3>
+            <p>분석 결과를 이력서 개선에 반영하고, 저장 후 텍스트 면접을 별도로 시작해 지원 전 준비를 정리합니다.</p>
           </div>
         </div>
+        <p className="ks-scope-note">
+          현재 범위: 공고·이력서 텍스트 분석, 이력서 개선 제안, 텍스트 면접. 지원 제출과 채용 결과 예측은 제공하지 않습니다.
+        </p>
+      </Slide>
+
+      {/* SLIDE 3: PROBLEM BACKGROUND AND TARGET */}
+      <Slide index={3} visible={current === 2}>
+        <Tagline className="purple" time="00:45-01:25 · 40초">02 / 09 · 문제 배경 및 타깃 사용자</Tagline>
+        <h2>
+          지원할수록 반복되는 준비,
+          <br />
+          경험을 근거로 정리하기 어렵습니다
+        </h2>
+        <p className="ks-lead">대표 페르소나는 자신의 경험은 있지만, 공고마다 무엇을 고치고 어떻게 말할지 다시 판단해야 하는 신입 지원자입니다.</p>
+        <div className="ks-problem-layout">
+          <div className="ks-persona-card">
+            <div className="ks-overline">대표 페르소나 1명</div>
+            <h3>졸업 1년 차 신입 개발자</h3>
+            <p style={{ marginTop: '0.65rem' }}>
+              프로젝트 경험과 기술 스택은 있지만 채용공고의 요구사항과 자신의 경험을 연결해 이력서 문장으로 만드는 데 시간이 걸립니다.
+            </p>
+            <div className="ks-persona-context">
+              <strong>지원 직전 상황</strong>
+              <br />
+              공고를 읽고 이력서를 고친 뒤, AI가 제안한 문장을 믿고 반영해도 되는지 확인하고 싶습니다.
+            </div>
+          </div>
+          <div className="ks-pain-grid">
+            <div className="ks-pain-card">
+              <span className="ks-pain-number">01</span>
+              <h3>비교 비용</h3>
+              <p>공고의 요구 역량과 내 경험을 문장 단위로 일일이 대조해야 합니다.</p>
+            </div>
+            <div className="ks-pain-card">
+              <span className="ks-pain-number">02</span>
+              <h3>표현의 불확실성</h3>
+              <p>AI가 바꾼 문장을 그대로 믿기 어렵고, 원문과 변경 근거를 확인해야 합니다.</p>
+            </div>
+            <div className="ks-pain-card">
+              <span className="ks-pain-number">03</span>
+              <h3>준비의 단절</h3>
+              <p>이력서, 공고, 면접 준비가 분리되어 다음 행동으로 이어지기 어렵습니다.</p>
+            </div>
+          </div>
+        </div>
+        <div className="ks-stat-grid">
+          <div className="ks-stat-card">
+            <div className="ks-stat-number">11.3개월</div>
+            <p>첫 취업 평균 소요기간</p>
+            <small>출처: 통계청 경제활동인구조사<br />기준: 2025년 5월 부가조사</small>
+          </div>
+          <div className="ks-stat-card">
+            <div className="ks-stat-number">48.6%</div>
+            <p>졸업 후 1년 이상 미취업 청년</p>
+            <small>출처: 매일경제<br />기준: 2026년 5월 부가조사, 2026-07-23 보도</small>
+          </div>
+          <div className="ks-stat-card">
+            <div className="ks-stat-number">64.4%</div>
+            <p>제출 자기소개서 AI 작성 의심</p>
+            <small>출처: 무하유 프리즘<br />기준: 2025년 제출 자기소개서 분석</small>
+          </div>
+        </div>
+        <p className="ks-footnote">수치는 서로 다른 조사 대상과 정의를 사용하며, Kairos의 성과 수치가 아닙니다.</p>
       </Slide>
 
       {/* SLIDE 4: KEY FEATURES */}
       <Slide index={4} visible={current === 3}>
-        <Tagline className="purple">03 / 09 · 주요 기능</Tagline>
+        <Tagline className="purple" time="01:25-02:00 · 35초">03 / 09 · 주요 기능</Tagline>
         <h2>
-          커리어 전 생애를
+          실제로 시연하는
           <br />
-          6가지 AI 도구로
+          세 가지 기능
         </h2>
-        <div className="ks-grid ks-grid-3" style={{ marginTop: 'var(--element-gap)' }}>
-          <div className="ks-card">
-            <h3>📄 Resume Studio</h3>
-            <p>
-              3-stage 파이프라인: Draft → LLM Evaluate → STAR Improve. 변경사항 Diff 확인 및 1-Click 적용.
-            </p>
+        <p className="ks-lead">현재 코드와 시연 경로가 연결된 기능만 제시합니다. 각 기능은 최종 판단을 사용자에게 남깁니다.</p>
+        <div className="ks-grid ks-grid-3">
+          <div className="ks-card ks-feature-card">
+            <div className="ks-feature-index">01</div>
+            <h3>ATS 휴리스틱 분석</h3>
+            <p>공고와 이력서 텍스트에서 기술 키워드, 경력, 학력, 키워드 밀도를 결정론적으로 비교합니다.</p>
+            <div className="ks-badge-row">
+              <Badge className="cyan">결정론적 분석</Badge>
+              <Badge className="outline">/ats</Badge>
+            </div>
+            <span className="ks-feature-route">POST /api/ats/analyze</span>
           </div>
-          <div className="ks-card">
-            <h3>🎤 Mock Interview</h3>
-            <p>SSE 실시간 스트리밍 면접. 난이도별 질문 생성, 답변 평가, 점수 피드백.</p>
+          <div className="ks-card ks-feature-card">
+            <div className="ks-feature-index">02</div>
+            <h3>AI 이력서 개선 + Diff 승인</h3>
+            <p>Gemini가 개선 본문을 제안하고, 원문과 변경점을 비교한 뒤 사용자가 편집기에 반영합니다.</p>
+            <div className="ks-badge-row">
+              <Badge className="purple">Gemini REST</Badge>
+              <Badge className="green">사용자 승인</Badge>
+            </div>
+            <span className="ks-feature-route">/resume/[id] · Diff</span>
           </div>
-          <div className="ks-card">
-            <h3>📊 ATS Analyzer</h3>
-            <p>80+ 스킬, 7개 카테고리 기반 JD 매칭. 키워드 분석 및 맞춤형 개선 추천.</p>
-          </div>
-          <div className="ks-card">
-            <h3>✍️ Text Humanizer</h3>
-            <p>AI 생성 텍스트를 자연스러운 인간 어체로 변환. 스타일 점수 + 변경사항 요약.</p>
-          </div>
-          <div className="ks-card">
-            <h3>💬 Q&A Generator</h3>
-            <p>직무별 맞춤 면접 질문 + 모범 답변 + 핵심 포인트 + 난이도 자동 생성.</p>
-          </div>
-          <div className="ks-card">
-            <h3>🔍 Semantic Search</h3>
-            <p>pgvector 1536차원 임베딩. 경력·이력서·커리어 데이터 시맨틱 검색.</p>
+          <div className="ks-card ks-feature-card">
+            <div className="ks-feature-index">03</div>
+            <h3>텍스트 기반 AI 면접</h3>
+            <p>직무와 난이도를 정한 뒤 텍스트로 질문과 답변을 주고받고, 종료 시 대화 세션을 정리합니다.</p>
+            <div className="ks-badge-row">
+              <Badge className="amber">텍스트 전용</Badge>
+              <Badge className="cyan">스트리밍</Badge>
+            </div>
+            <span className="ks-feature-route">/interview/[id]</span>
           </div>
         </div>
+        <p className="ks-scope-note">실제 회사별 ATS 합격 예측, 음성 면접, 자동 지원 제출은 현재 구현 범위에 포함하지 않습니다.</p>
       </Slide>
 
       {/* SLIDE 5: USER FLOW */}
       <Slide index={5} visible={current === 4}>
-        <Tagline>04 / 09 · 사용자 이용 흐름</Tagline>
+        <Tagline time="02:00-02:35 · 35초">04 / 09 · 사용자 이용 흐름</Tagline>
         <h2>
-          로그인부터 취업 성공까지,
+          입력한 근거로 준비하고,
           <br />
-          5단계
+          면접은 별도로 시작합니다
         </h2>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5,1fr)',
-            gap: 'clamp(0.3rem,1vw,1rem)',
-            marginTop: 'var(--element-gap)',
-          }}
-        >
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(1.5rem,4vw,3rem)', marginBottom: '0.3em' }}>🔐</div>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)' }}>1단계</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.85rem)' }}>
-              회원가입 / 로그인
-              <br />
-              Email · Google · Web3 Wallet
-            </p>
-          </div>
-          <div className="ks-flow-arrow">→</div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(1.5rem,4vw,3rem)', marginBottom: '0.3em' }}>📝</div>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)' }}>2단계</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.85rem)' }}>
-              이력서 업로드 / 작성
-              <br />
-              PDF · DOCX · HWP 지원
-            </p>
-          </div>
-          <div className="ks-flow-arrow">→</div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(1.5rem,4vw,3rem)', marginBottom: '0.3em' }}>🤖</div>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)' }}>3단계</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.85rem)' }}>
-              AI 분석 / 개선
-              <br />
-              ATS 평가 · STAR 재작성
-            </p>
-          </div>
-          <div className="ks-flow-arrow">→</div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(1.5rem,4vw,3rem)', marginBottom: '0.3em' }}>🎯</div>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)' }}>4단계</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.85rem)' }}>
-              모의면접 / Q&A
-              <br />
-              SSE 실시간 트레이닝
-            </p>
-          </div>
-          <div className="ks-flow-arrow">→</div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 'clamp(1.5rem,4vw,3rem)', marginBottom: '0.3em' }}>🚀</div>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)' }}>5단계</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.85rem)' }}>
-              취업 성공
-              <br />
-              커리어 관리 지속
-            </p>
-          </div>
+        <p className="ks-lead">
+          <strong>공고·이력서 입력 → ATS 분석 → AI 개선 → Diff 확인·이력서 저장 → 텍스트 면접 별도 시작</strong>
+        </p>
+        <div className="ks-flow">
+          <FlowStep number="01" title="공고·이력서 입력" description="채용공고와 이력서 텍스트를 입력합니다." />
+          <FlowStep number="02" title="ATS 분석" description="매칭 키워드와 누락 단서를 확인합니다." />
+          <FlowStep number="03" title="AI 개선" description="Gemini가 수정 제안을 생성합니다." />
+          <FlowStep number="04" title="Diff 확인·이력서 저장" description="원문과 제안문을 비교하고 반영할 내용을 저장합니다." />
+          <FlowStep number="05" title="이력서 저장 후 텍스트 면접 별도 시작" description="면접 화면을 별도로 열어 직무와 난이도를 정합니다." />
         </div>
-        <div className="ks-highlight-box" style={{ marginTop: 'var(--element-gap)', maxWidth: 600, alignSelf: 'center' }}>
-          <p>
-            <strong>완전한 Offline 지원</strong> — PWA + IndexedDB + 오프라인 큐로 네트워크 없이도 핵심 기능 사용 가능
-          </p>
-        </div>
+        <p className="ks-flow-note">이력서 저장과 면접 시작은 별도 동작이며, 이력서나 경력 기록이 ATS·면접으로 자동 전달되지는 않습니다.</p>
       </Slide>
 
-      {/* SLIDE 6: TECH ARCHITECTURE */}
+      {/* SLIDE 6: ARCHITECTURE */}
       <Slide index={6} visible={current === 5}>
-        <Tagline className="purple">05 / 09 · AI·SW 활용 구조</Tagline>
+        <Tagline className="purple" time="02:35-03:20 · 45초">05 / 09 · AI·SW 활용 구조</Tagline>
         <h2>
-          Dual-Framework
+          실제 요청 경로를
           <br />
-          AI 네이티브 아키텍처
+          단순하게 설명합니다
         </h2>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 'clamp(0.5rem,1.5vw,1.5rem)',
-            marginTop: 'var(--element-gap)',
-          }}
-        >
-          <div>
-            <div className="ks-tech-grid">
-              <div className="ks-tech-item">
-                <div className="ks-name">Next.js 15</div>
-                <div className="ks-desc">App Router + RSC</div>
-              </div>
-              <div className="ks-tech-item">
-                <div className="ks-name">React 19</div>
-                <div className="ks-desc">Server + Client Components</div>
-              </div>
-              <div className="ks-tech-item">
-                <div className="ks-name">Gemini 2.0</div>
-                <div className="ks-desc">Flash + Embedding 004</div>
-              </div>
-              <div className="ks-tech-item">
-                <div className="ks-name">NeonDB</div>
-                <div className="ks-desc">pgvector 1536d</div>
-              </div>
-              <div className="ks-tech-item">
-                <div className="ks-name">Drizzle ORM</div>
-                <div className="ks-desc">PostgreSQL 스키마</div>
-              </div>
-              <div className="ks-tech-item">
-                <div className="ks-name">Vercel AI</div>
-                <div className="ks-desc">Gateway + Blob</div>
-              </div>
-              <div className="ks-tech-item">
-                <div className="ks-name">vectra</div>
-                <div className="ks-desc">IndexedDB 로컬 벡터 검색</div>
-              </div>
-              <div className="ks-tech-item">
-                <div className="ks-name">Payload CMS</div>
-                <div className="ks-desc">관리자 대시보드</div>
-              </div>
+        <p className="ks-lead">화면에서 입력한 내용은 Next.js API route를 거쳐 기능별 분석·생성 경로로 나뉘고, 필요한 결과를 데이터베이스에 저장합니다.</p>
+        <div className="ks-architecture">
+          <div className="ks-arch-node">
+              <strong>Next.js 16 UI</strong>
+            <small>ATS · 이력서 · 면접 화면</small>
+          </div>
+          <span className="ks-arch-arrow">→</span>
+          <div className="ks-arch-node">
+            <strong>API route</strong>
+            <small>입력 검증 · 세션 확인</small>
+          </div>
+          <span className="ks-arch-arrow">→</span>
+          <div className="ks-arch-services">
+            <div className="ks-arch-services-label">기능별 실행 경로</div>
+            <div className="ks-arch-service">
+              <strong>ATS 결정론적 분석</strong>
+              <small>키워드·경력·학력·밀도</small>
+            </div>
+            <div className="ks-arch-service">
+              <strong>Gemini REST</strong>
+              <small>구조화 응답·텍스트 스트리밍</small>
             </div>
           </div>
-          <div className="ks-card" style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(0.3rem,0.8vw,0.75rem)' }}>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)' }}>🔐 4-Layer Guardrail</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.8rem)' }}>Input → Context → Output → Loop</p>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)', marginTop: '0.5em' }}>☁️ Multi-Platform</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.8rem)' }}>
-              Web · Tauri Desktop · React Native Mobile · Chrome/VS Code Extension
-            </p>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)', marginTop: '0.5em' }}>🌐 i18n</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.8rem)' }}>한국어 (default) · 영어</p>
-            <h3 style={{ fontSize: 'clamp(0.75rem,1.2vw,1rem)', marginTop: '0.5em' }}>🧪 Testing</h3>
-            <p style={{ fontSize: 'clamp(0.6rem,0.9vw,0.8rem)' }}>Vitest · 9개 서비스 테스트 · 561 lines</p>
+          <span className="ks-arch-arrow">→</span>
+          <div className="ks-arch-node">
+            <strong>Drizzle ORM</strong>
+            <small>PostgreSQL 쿼리·스키마</small>
+          </div>
+          <span className="ks-arch-arrow">→</span>
+          <div className="ks-arch-node">
+            <strong>Neon PostgreSQL</strong>
+            <small>pgvector · 경력 임베딩 검색</small>
           </div>
         </div>
+        <div className="ks-architecture-notes">
+          <div className="ks-architecture-note">
+            <strong>ATS 점수의 출처</strong>
+            <p>LLM이 아니라 현재 코드의 휴리스틱 로직이 산출합니다.</p>
+          </div>
+          <div className="ks-architecture-note">
+            <strong>Gemini의 역할</strong>
+            <p>이력서 개선·대화·면접 응답 생성에 직접 REST로 사용합니다.</p>
+          </div>
+          <div className="ks-architecture-note">
+            <strong>pgvector의 역할</strong>
+            <p>경력 임베딩 검색 경로이며 ATS 점수에 직접 사용하지 않습니다.</p>
+          </div>
+        </div>
+        <p className="ks-footnote">현재 발표 범위에는 VM, sLLM, LangGraph, Firecracker 기반 실행 환경을 포함하지 않습니다.</p>
       </Slide>
 
       {/* SLIDE 7: DEMO */}
       <Slide index={7} visible={current === 6}>
-        <Tagline>06 / 09 · 프로토타입 시연</Tagline>
-        <h2>실시간 서비스 시연</h2>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 'clamp(0.5rem,1.5vw,1.5rem)',
-            marginTop: 'var(--element-gap)',
-          }}
-        >
-          <div className="ks-card">
-            <h3>📄 Resume Studio</h3>
-            <p style={{ marginTop: '0.3em' }}>이력서 업로드 → AI 평가 → STAR 개선 → Diff 확인 → 1-Click 적용</p>
-            <div style={{ marginTop: '0.5em', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <Badge className="green">구현 완료</Badge>
-              <Badge className="cyan">SSR: false</Badge>
+        <Tagline time="03:20-04:15 · 55초">06 / 09 · 프로토타입 또는 시연 화면</Tagline>
+        <h2>
+          가짜 캡처 대신,
+          <br />
+          실제 실행 순서를 보여드립니다
+        </h2>
+        <p className="ks-lead">실제 이미지가 준비되지 않은 상태에서 정적 화면을 캡처처럼 만들지 않았습니다. 발표에서는 브라우저를 직접 열어 아래 순서로 시연합니다.</p>
+        <div className="ks-demo-board">
+          <div className="ks-demo-board-header">
+            <strong>시연 안내 · 실제 캡처 아님</strong>
+            <div className="ks-badge-row">
+              <Badge className="amber">브라우저 직접 시연</Badge>
+              <Badge className="outline">Mock 화면: ATS · 이력서 상세 · 면접 상세</Badge>
             </div>
           </div>
-          <div className="ks-card">
-            <h3>🎤 Mock Interview</h3>
-            <p style={{ marginTop: '0.3em' }}>직무 선택 → AI 질문 생성 → SSE 실시간 응답 → 평가 점수</p>
-            <div style={{ marginTop: '0.5em', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <Badge className="green">구현 완료</Badge>
-              <Badge className="purple">SSE Streaming</Badge>
+          <div className="ks-demo-steps">
+            <div className="ks-demo-step">
+              <span className="ks-step-number">01</span>
+              <h3>ATS 휴리스틱 분석</h3>
+              <p>직무명·공고·이력서 텍스트를 입력하고 매칭 점수, 발견·누락 키워드, 세부 진단을 확인합니다.</p>
+              <span className="ks-demo-path">/ats</span>
             </div>
-          </div>
-          <div className="ks-card">
-            <h3>📊 ATS Analyzer</h3>
-            <p style={{ marginTop: '0.3em' }}>JD 입력 → 80+ 스킬 매칭 → 점수 + 키워드 분석 + 추천</p>
-            <div style={{ marginTop: '0.5em', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <Badge className="green">구현 완료</Badge>
-              <Badge className="amber">No LLM (Pure Alg)</Badge>
+            <div className="ks-demo-step">
+              <span className="ks-step-number">02</span>
+              <h3>AI 개선과 Diff 승인</h3>
+              <p>이력서 작업공간에서 AI에게 수정을 요청하고, Diff를 확인한 뒤 제안을 편집기에 반영합니다.</p>
+              <span className="ks-demo-path">/resume/[id]</span>
             </div>
-          </div>
-          <div className="ks-card">
-            <h3>🔍 Semantic Search</h3>
-            <p style={{ marginTop: '0.3em' }}>pgvector 1536d 임베딩 → 코사인 유사도 → 경력 검색</p>
-            <div style={{ marginTop: '0.5em', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <Badge className="green">구현 완료</Badge>
-              <Badge className="cyan">pgvector</Badge>
+            <div className="ks-demo-step">
+              <span className="ks-step-number">03</span>
+              <h3>텍스트 기반 면접</h3>
+              <p>직무·난이도를 선택하고 텍스트로 답변한 뒤, 면접을 종료해 세션을 정리합니다.</p>
+              <span className="ks-demo-path">/interview/[id]</span>
             </div>
           </div>
         </div>
-        <div className="ks-highlight-box" style={{ marginTop: 'var(--element-gap)' }}>
+        <div className="ks-demo-access">
           <p>
-            <strong>접속 경로:</strong>{' '}
-            <a href="https://kairos.service.rhee.life" target="_blank" style={{ color: '#67e8f9' }}>
-              kairos.service.rhee.life
-            </a>{' '}
-            · 데모 계정: testmockup / 12345
+            <strong>접속 경로</strong>
+            개발: <code>http://localhost:3000</code> · 발표 자료: <code>/presentation</code><br />
+            배포 주소는 발표 전 운영 환경에서 확인 필요
+          </p>
+          <p>
+            <strong>네트워크 장애 시 대체 경로</strong>
+            개발용 mock 계정 <code>testmockup / 12345</code>으로 로컬 fixture를 시연합니다. mock 응답은 실제 Gemini가 아닙니다.
           </p>
         </div>
+        <p className="ks-footnote">실제 AI 시연에는 로그인 세션과 <code>GOOGLE_GENERATIVE_AI_API_KEY</code>가 필요하며, 저장 기능에는 데이터베이스 설정이 필요합니다.</p>
       </Slide>
 
-      {/* SLIDE 8: IMPACT & PLANS */}
+      {/* SLIDE 8: IMPACT AND ROADMAP */}
       <Slide index={8} visible={current === 7}>
-        <Tagline className="purple">07 / 09 · 기대효과 및 확장계획</Tagline>
+        <Tagline className="green" time="04:15-04:40 · 25초">07 / 09 · 기대효과 및 확장계획</Tagline>
         <h2>
-          개인을 넘어
+          합격률을 과장하지 않고,
           <br />
-          사회로
+          준비 품질을 개선합니다
         </h2>
-        <div className="ks-grid ks-grid-3" style={{ marginTop: 'var(--element-gap)' }}>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <h3>🎯 기대효과</h3>
-            <p style={{ marginTop: '0.5em' }}>
-              AI 기반 커리어 코칭으로 <strong>취업 준비 기간 단축</strong>
-              <br />
-              개인 맞춤형 스킬 갭 분석으로 <strong>효율적 역량 개발</strong>
-              <br />
-              데이터 기반 커리어 의사결정 지원
-            </p>
+        <p className="ks-lead">현재는 사용자가 무엇을 고쳤는지 이해하고, 이력서를 저장한 뒤 텍스트 면접을 별도로 시작하는 경험을 만들었습니다. 효과는 실제 사용 데이터로 검증해야 합니다.</p>
+        <div className="ks-status-grid">
+          <div className="ks-status-card">
+            <Badge className="green">구현 완료</Badge>
+            <h3>현재 코드에서 동작</h3>
+            <p>ATS 휴리스틱 분석, Gemini 이력서 개선 제안과 Diff 반영, 텍스트 면접 세션 흐름을 제공합니다.</p>
           </div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <h3>📱 확장계획</h3>
-            <p style={{ marginTop: '0.5em' }}>
-              <strong>Mobile:</strong> React Native (Expo) STT/TTS 면접
-              <br />
-              <strong>Desktop:</strong> Tauri v2 네이티브 HWP 편집
-              <br />
-              <strong>Extension:</strong> Chrome DOM 파서 · VS Code 커밋 요약
-            </p>
+          <div className="ks-status-card">
+            <Badge className="amber">프로토타입</Badge>
+            <h3>발표용 순서 안내</h3>
+            <p>공고·이력서 입력부터 이력서 저장 후 텍스트 면접 별도 시작까지의 5단계 순서를 안내합니다.</p>
           </div>
-          <div className="ks-card" style={{ textAlign: 'center' }}>
-            <h3>🌍 사회적 가치</h3>
-            <p style={{ marginTop: '0.5em' }}>
-              <strong>청년 고용률 제고</strong> — 고용 미스매치 해소
-              <br />
-              <strong>지역 인재 양성</strong> — 공공데이터 기반 스킬갭 분석
-              <br />
-              <strong>지속가능성</strong> — 평생 커리어 관리 플랫폼
-            </p>
+          <div className="ks-status-card">
+            <Badge className="purple">로드맵</Badge>
+            <h3>다음에 확장할 범위</h3>
+            <p>경력 기록과 공고의 근거 연결, 공고 자동 수집, 음성 면접, 개인정보 보관·삭제 정책을 고도화합니다.</p>
+          </div>
+        </div>
+        <div className="ks-kpi-box">
+          <strong>KPI · 현재는 기준선 측정 단계</strong>
+          <div className="ks-kpi-grid">
+            <div className="ks-kpi">
+              <div className="ks-kpi-value">측정 전</div>
+              <div className="ks-kpi-label">ATS 입력 대비 결과 완료율</div>
+            </div>
+            <div className="ks-kpi">
+              <div className="ks-kpi-value">측정 전</div>
+              <div className="ks-kpi-label">AI 제안 대비 Diff 승인율</div>
+            </div>
+            <div className="ks-kpi">
+              <div className="ks-kpi-value">측정 전</div>
+              <div className="ks-kpi-label">면접 시작 대비 종료율</div>
+            </div>
+            <div className="ks-kpi">
+              <div className="ks-kpi-value">측정 전</div>
+              <div className="ks-kpi-label">Gemini 성공률·응답시간</div>
+            </div>
           </div>
         </div>
       </Slide>
 
       {/* SLIDE 9: Q&A */}
-      <Slide index={9} visible={current === 8} contentStyle={{ alignItems: 'center', textAlign: 'center' }}>
-        <Tagline>08 / 09 · 질의응답</Tagline>
-        <div className="ks-qa-card">
-          <div className="ks-q">궁금하신 점을 자유롭게 질문해 주세요</div>
-          <div className="ks-a">
-            <p>Kairos는 여러분의 커리어 여정을 AI와 함께합니다.</p>
-            <p style={{ marginTop: '1em', fontSize: 'var(--small-size)', color: '#475569' }}>
-              발표 내용에 대해 질문해 주시면 성실히 답변드리겠습니다.
-            </p>
+      <Slide index={9} visible={current === 8}>
+        <Tagline time="04:40-04:50 · 10초">08 / 09 · Q &amp; A</Tagline>
+        <h2>
+          질문을 미리 답합니다
+          <br />
+          한계도 함께 공개합니다
+        </h2>
+        <div className="ks-qa-grid">
+          <div className="ks-qa-card">
+            <div className="ks-q">개인정보는 어떻게 다루나요?</div>
+            <div className="ks-a">현재 입력 본문은 Gemini 요청에 포함될 수 있고, 데이터베이스 설정 시 Neon에 저장됩니다. 발표에서는 비식별 샘플을 사용하며, 보관·삭제 정책은 고도화 대상입니다.</div>
+          </div>
+          <div className="ks-qa-card">
+            <div className="ks-q">ATS 점수가 실제 합격 가능성인가요?</div>
+            <div className="ks-a">아닙니다. 구현된 키워드·경력·학력·밀도 휴리스틱의 비교 신호일 뿐 회사별 ATS나 채용 확률을 재현하지 않습니다. 점수보다 누락 단서와 원문을 확인하는 용도입니다.</div>
+          </div>
+          <div className="ks-qa-card">
+            <div className="ks-q">실제 AI와 mock은 어떻게 구분하나요?</div>
+            <div className="ks-a">실제 모드는 Gemini REST 호출과 환경변수를 사용합니다. testmockup 계정은 localStorage 인터셉터와 사전 응답을 사용하므로 실제 AI가 아니며, 시연 화면에 구분해 표시합니다.</div>
+          </div>
+          <div className="ks-qa-card">
+            <div className="ks-q">경쟁사와 무엇이 다른가요?</div>
+            <div className="ks-a">현재의 차별화 가설은 공고 분석, AI 수정, 사용자 Diff 승인을 한 흐름에 묶는 것입니다. 시장 우위나 경쟁사 대비 성과는 아직 검증하지 않았고, 경력 기록 연결을 다음 단계로 검증합니다.</div>
           </div>
         </div>
       </Slide>
 
       {/* SLIDE 10: CHECKLIST */}
       <Slide index={10} visible={current === 9}>
-        <Tagline className="purple">09 / 09 · 제출 전 확인사항</Tagline>
-        <h2>발표자 체크리스트</h2>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 'var(--content-gap)',
-            marginTop: 'var(--element-gap)',
-            maxWidth: 800,
-          }}
-        >
-          <div>
-            <div className="ks-checklist-item">
-              <div className="ks-box" />
-              <span>서비스 문제와 타깃 사용자가 명확한가?</span>
-            </div>
-            <div className="ks-checklist-item">
-              <div className="ks-box" />
-              <span>주요 기능과 사용자 흐름이 구체적인가?</span>
-            </div>
-            <div className="ks-checklist-item">
-              <div className="ks-box" />
-              <span>프로토타입 또는 시연물이 확인 가능한가?</span>
-            </div>
-          </div>
-          <div>
-            <div className="ks-checklist-item">
-              <div className="ks-box" />
-              <span>발표 시간 기준에 맞게 구성되었는가? (5분+Q&amp;A 5분)</span>
-            </div>
-            <div className="ks-checklist-item">
-              <div className="ks-box" />
-              <span>예선/본선 모두 활용 가능하도록 팀 정보 정확 기재</span>
-            </div>
-            <div className="ks-checklist-item">
-              <div className="ks-box" />
-              <span>사회 문제 인식 · 통계 근거 · 공익성 입증 완료</span>
-            </div>
-          </div>
+        <Tagline className="purple" time="04:50-05:00 · 10초">09 / 09 · 제출 전 확인사항</Tagline>
+        <h2>발표 전 최종 체크리스트</h2>
+        <div className="ks-checklist-grid">
+          <div className="ks-checklist-item"><div className="ks-box" /><span>표지의 팀명과 발표자를 입력했는가? 현재 상태: 팀명 입력 필요 · 발표자 입력 필요</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>서비스 문제와 단일 타깃 페르소나, Pain 3개가 명확한가?</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>통계 3개의 출처명과 기준시점을 함께 표기했는가?</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>주요 기능을 ATS, 이력서 AI 개선·Diff, 텍스트 면접 3개로 설명했는가?</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>시연 순서가 /ats → /resume/[id] → /interview/[id]로 준비되었는가?</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>실제 AI 조건과 mock 대체 경로를 구분해 설명할 수 있는가?</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>실제 캡처가 없으면 가짜 이미지를 사용하지 않고 직접 시연하는가?</span></div>
+           <div className="ks-checklist-item"><div className="ks-box" /><span>발표 본문 5분 배분을 지키고, 질의응답 5분 내외는 별도로 운영하는가?</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>현재 미구현인 지원 제출, 음성 면접, 오프라인 지원을 기능처럼 말하지 않았는가?</span></div>
+          <div className="ks-checklist-item"><div className="ks-box" /><span>개인정보 입력·저장 조건과 ATS 점수의 한계를 질문에 답할 수 있는가?</span></div>
         </div>
-        <div style={{ marginTop: 'var(--content-gap)', textAlign: 'center', fontSize: 'var(--small-size)', color: '#475569' }}>
-          감사합니다. — Kairos 팀
-        </div>
+        <p className="ks-final-note">제출 전 입력 필요: 발표자 입력 필요 · 팀명 입력 필요</p>
       </Slide>
     </div>
   );

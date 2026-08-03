@@ -28,7 +28,7 @@ const interviewAnswers = [
 const stats = [
   { value: '50개', label: '직무 매칭 데이터' },
   { value: '1536차원', label: '임베딩 차원' },
-  { value: '98%', label: 'AI 피드백 정확도' },
+  { value: '결정론적', label: 'ATS 분석 방식' },
   { value: '실시간', label: '스트리밍 면접관' },
 ];
 
@@ -47,12 +47,12 @@ const activities = [
 ];
 
 const quickLinks = [
-  { label: '이력서 관리', icon: '📄', to: '/resume' },
-  { label: '면접 연습', icon: '🎤', to: '/interview' },
-  { label: 'ATS 진단', icon: '🎯', to: '/ats' },
-  { label: '문서 보관함', icon: '📁', to: '/docs' },
-  { label: '포토스튜디오', icon: '🎨', to: '/studio' },
-  { label: '설정', icon: '⚙️', to: '/settings' },
+  { label: '이력서 관리', icon: '이력서', to: '/resume' },
+  { label: '면접 연습', icon: '면접', to: '/interview' },
+  { label: 'ATS 진단', icon: 'ATS', to: '/ats' },
+  { label: '문서 보관함', icon: '문서', to: '/docs' },
+  { label: '포토스튜디오', icon: '사진', to: '/studio' },
+  { label: '설정', icon: '설정', to: '/settings' },
 ];
 
 export default function HomePage() {
@@ -101,8 +101,8 @@ export default function HomePage() {
   function triggerVectorSearch() {
     if (!vectorSearchQuery.trim()) return;
     setVectorResults([
-      { company: '카카오', role: '플랫폼 엔지니어', similarity: Math.floor(Math.random() * 15) + 85 },
-      { company: '라인', role: '서버 아키텍트', similarity: Math.floor(Math.random() * 20) + 70 },
+      { company: '카카오', role: '플랫폼 엔지니어', similarity: 84 },
+      { company: '라인', role: '서버 아키텍트', similarity: 73 },
     ]);
   }
 
@@ -155,7 +155,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div className="space-y-2">
               <h1 className="text-2xl font-bold text-slate-900">
-                {state.user?.name}님, 반갑습니다 👋
+                {state.user?.name}님, 반갑습니다
               </h1>
               <p className="text-sm font-medium text-slate-400 leading-relaxed">{greetingMessage}</p>
             </div>
@@ -163,7 +163,7 @@ export default function HomePage() {
               href="/interview"
               className="flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 hover:shadow-md transition-all duration-200"
             >
-              <span>🎤</span>
+              <span aria-hidden="true">면접</span>
               <span>모의 면접 바로가기</span>
             </Link>
           </div>
@@ -181,7 +181,7 @@ export default function HomePage() {
               <p className="text-2xl font-extrabold text-slate-800 mt-2">{stat.value}</p>
               {stat.trend && (
                 <p className="text-xs mt-3 font-semibold flex items-center gap-1 text-blue-600">
-                  <span>✨</span>
+                  <span aria-hidden="true">AI</span>
                   <span>{stat.trend}</span>
                 </p>
               )}
@@ -239,7 +239,7 @@ export default function HomePage() {
                     href={item.to}
                     className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200"
                   >
-                    <span>{item.icon}</span>
+                    <span aria-hidden="true">{item.icon}</span>
                     <span>{item.label}</span>
                   </Link>
                 ))}
@@ -249,7 +249,7 @@ export default function HomePage() {
             <div className="rounded-2xl border border-blue-50 p-6 bg-gradient-to-br from-blue-50/20 via-blue-50/10 to-white shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 shadow-sm text-blue-600">
-                  💡
+                  안내
                 </div>
                 <h3 className="text-sm font-bold text-slate-800">커리어 가이드 팁</h3>
               </div>
@@ -276,7 +276,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="max-w-6xl mx-auto px-6 pt-16 sm:pt-20 pb-14 sm:pb-16 relative z-10 text-center space-y-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold shadow-xs animate-fade-in-up motion-reduce:animate-none">
-          <span>✨</span>
+          <span aria-hidden="true">AI</span>
           <span>Next-Gen AI Career Orchestrator</span>
         </div>
 
@@ -306,7 +306,7 @@ export default function HomePage() {
             onClick={fillMockCredentials}
             className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-blue-600 text-white font-bold text-sm hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 active:scale-[0.98] transition-all duration-200 shadow-md focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
           >
-            🚀 테스트 모드로 즉시 시작하기 (Mock 체험)
+            테스트 모드로 즉시 시작하기 (Mock 체험)
           </button>
           <Link
             href="/auth/register"
@@ -341,7 +341,7 @@ export default function HomePage() {
           {/* Bento 1: Resume Enhancer */}
           <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none">
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">📄</div>
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 text-[10px] leading-tight text-center font-bold">이력서</div>
               <h3 className="text-xl font-bold text-slate-900">이력서 3단계 AI 고도화</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Draft → Evaluate → Improve 체인으로 초안을 작성하고 STAR 기법 기반 성과 중심으로 정밀 재작성합니다.
@@ -370,7 +370,7 @@ export default function HomePage() {
           {/* Bento 2: ATS Matching */}
           <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none" style={{ animationDelay: '0.05s' }}>
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🎯</div>
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 text-[10px] leading-tight text-center font-bold">ATS</div>
               <h3 className="text-xl font-bold text-slate-900">AI ATS 적합성 진단</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
                 채용공고(JD)의 키워드를 자동으로 추출하여 내 이력서와의 매칭률 및 누락 키워드를 분석합니다.
@@ -399,7 +399,7 @@ export default function HomePage() {
           {/* Bento 3: Mock Interview */}
           <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none" style={{ animationDelay: '0.1s' }}>
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🎤</div>
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 text-[10px] leading-tight text-center font-bold">면접</div>
               <h3 className="text-xl font-bold text-slate-900">실시간 AI 스트리밍 면접</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
                 직무와 난이도에 맞춘 맞춤형 질문과 실시간 스트리밍 대화로 면접을 대비하세요.
@@ -408,7 +408,7 @@ export default function HomePage() {
 
             <div className="bg-white p-5 rounded-2xl border border-slate-100 space-y-3">
               <div className="p-3 bg-blue-50/50 rounded-xl border border-blue-100 text-xs text-blue-900 font-medium">
-                💬 {activeInterviewQuestion}
+                질문: {activeInterviewQuestion}
               </div>
               <div className="space-y-1.5">
                 {interviewAnswers.map((ans, idx) => (
@@ -417,7 +417,7 @@ export default function HomePage() {
                     onClick={() => setActiveInterviewQuestion(ans.response)}
                     className="w-full text-left p-3 rounded-xl border border-slate-100 text-xs text-slate-600 hover:border-blue-300 hover:bg-blue-50/30 transition-all font-medium"
                   >
-                    👉 {ans.label}
+                    답변: {ans.label}
                   </button>
                 ))}
               </div>
@@ -427,8 +427,9 @@ export default function HomePage() {
           {/* Bento 4: Semantic Search */}
           <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm hover:shadow-lift hover:-translate-y-1 transition-all duration-200 space-y-6 flex flex-col justify-between animate-fade-in-up motion-reduce:animate-none" style={{ animationDelay: '0.15s' }}>
             <div className="space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 font-bold">🗂️</div>
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 text-[10px] leading-tight text-center font-bold">경력</div>
               <h3 className="text-xl font-bold text-slate-900">AI 시맨틱 경력 검색</h3>
+              <span className="inline-block text-[10px] font-semibold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">데모 결과</span>
               <p className="text-xs text-slate-400 leading-relaxed">
                 1536차원 임베딩 기반으로 내 경력 이력을 자연어로 손쉽게 찾아보세요.
               </p>

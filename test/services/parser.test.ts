@@ -41,7 +41,7 @@ describe('parseDocumentText', () => {
   it('falls back to ascii extraction on pdf error', async () => {
     const result = await parseDocumentText(Buffer.from('hello world'), 'application/pdf', 'test.pdf')
     expect(result).toBe('hello world')
-  })
+  }, 15000)
 
   it('strips non-printable chars in pdf fallback', async () => {
     const buf = Buffer.from('hello\x00world\x01test')

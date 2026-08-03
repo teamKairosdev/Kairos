@@ -15,6 +15,13 @@
       "when": 1785374137937,
       "tag": "0001_perpetual_sabretooth",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785755643144,
+      "tag": "0002_security_access_control",
+      "breakpoints": true
     }
   ]
 }

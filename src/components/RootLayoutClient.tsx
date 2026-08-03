@@ -109,7 +109,7 @@ export default function RootLayoutClient({
                                 : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                             }`}
                           >
-                            <span className="text-base">{item.icon}</span>
+                            <span className="text-xs font-semibold" aria-hidden="true">{item.icon}</span>
                             <span>{item.label}</span>
                           </Link>
                         );
@@ -120,7 +120,7 @@ export default function RootLayoutClient({
               })}
             </nav>
             <div className="p-4 border-t border-slate-800 text-xs text-slate-500">
-              © 2026 Kairos
+              Copyright 2026 Kairos
             </div>
           </aside>
         </div>
@@ -139,7 +139,7 @@ export default function RootLayoutClient({
 
       <footer className="border-t border-slate-200 bg-white/70 py-6 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© 2026 Kairos Personal AI Career Steward. All rights reserved.</div>
+          <div>Copyright 2026 Kairos Personal AI Career Steward. All rights reserved.</div>
           <nav className="flex flex-wrap items-center justify-center gap-4" aria-label="푸터 메뉴">
             {NAV_ITEMS.filter((item) => item.section !== 'account').map((item) => (
               <Link key={item.href} href={item.href} className="hover:text-blue-600 transition-colors">

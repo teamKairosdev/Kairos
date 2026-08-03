@@ -310,7 +310,7 @@ export default function CommunityPage() {
         </div>
       ) : posts.length === 0 ? (
         <EmptyState
-          icon="💬"
+           icon="소통"
           title="아직 게시글이 없습니다"
           description="첫 게시글을 작성해 커뮤니티를 시작해보세요"
           actionLabel="새 글 작성"

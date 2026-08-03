@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { setSystemConfig } from '@/server/systemConfig';
-import { getSession } from '@/server/getSession';
 import { badRequest, internalError } from '@/server/http';
+import { requireAdmin } from '@/server/admin';
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getSession(req);
+    const admin = await requireAdmin(req);
+    if (admin instanceof NextResponse) return admin;
+
     const body = await req.json();
     const { key, value, category, description } = body || {};
 
@@ -15,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     const ip = req.headers.get('x-forwarded-for') || '127.0.0.1';
 
-    await setSystemConfig(key, value, category || 'env', description || '', session?.userId, ip);
+    await setSystemConfig(key, value, category || 'env', description || '', admin.userId, ip);
 
     return NextResponse.json({
       success: true,

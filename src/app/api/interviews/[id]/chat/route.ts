@@ -1,15 +1,19 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { streamLLMText, type GeminiInputMessage } from '@/server/llm';
 import { buildContextWindow, type ContextMessage } from '@/server/context';
 import { getDb } from '@/db';
 import { mockInterviews, interviewMessages } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
-import { errorMessage } from '@/server/http';
+import { errorMessage, notFound, unauthorized } from '@/server/http';
 
 interface HistoryEntry {
   sender: string;
   message: string;
+}
+
+function conflict(message: string): NextResponse {
+  return NextResponse.json({ error: message }, { status: 409 });
 }
 
 export async function POST(
@@ -19,10 +23,11 @@ export async function POST(
   try {
     const { id } = await params;
     const session = await getSession(req);
+    if (!session?.userId) return unauthorized('Unauthorized');
     const body = await req.json();
     const { messages } = body || {};
 
-    if (!messages || messages.length === 0) {
+    if (!Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: 'Messages are required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -34,18 +39,15 @@ export async function POST(
 
     const db = getDb();
     if (db) {
-      const [interview] = await db.select().from(mockInterviews).where(eq(mockInterviews.id, id));
+      const [interview] = await db
+        .select()
+        .from(mockInterviews)
+        .where(and(eq(mockInterviews.id, id), eq(mockInterviews.userId, session.userId)));
       if (!interview) {
-        return new Response(JSON.stringify({ error: '면접 세션을 찾을 수 없습니다.' }), {
-          status: 404,
-          headers: { 'Content-Type': 'application/json' },
-        });
+        return notFound('면접 세션을 찾을 수 없습니다.');
       }
-      if (session && interview.userId !== session.userId) {
-        return new Response(JSON.stringify({ error: '접근 권한이 없습니다.' }), {
-          status: 403,
-          headers: { 'Content-Type': 'application/json' },
-        });
+      if (interview.status !== 'in_progress') {
+        return conflict('면접이 이미 종료되었습니다.');
       }
 
       jobTitle = interview.jobTitle;
@@ -97,7 +99,38 @@ export async function POST(
       temperature: 0.7,
     });
 
-    return new Response(stream, {
+    const reader = stream.getReader();
+    const decoder = new TextDecoder();
+    let assistantMessage = '';
+    const persistedStream = new ReadableStream<Uint8Array>({
+      async pull(controller) {
+        try {
+          const { done, value } = await reader.read();
+          if (done) {
+            assistantMessage += decoder.decode();
+            if (db && assistantMessage.trim()) {
+              await db.insert(interviewMessages).values({
+                interviewId: id,
+                sender: 'interviewer',
+                message: assistantMessage,
+              }).catch(() => {});
+            }
+            controller.close();
+            return;
+          }
+
+          controller.enqueue(value);
+          assistantMessage += decoder.decode(value, { stream: true });
+        } catch (err) {
+          controller.error(err);
+        }
+      },
+      cancel(reason) {
+        reader.cancel(reason).catch(() => {});
+      },
+    });
+
+    return new Response(persistedStream, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   } catch (err: unknown) {

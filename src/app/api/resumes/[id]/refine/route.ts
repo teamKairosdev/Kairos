@@ -3,7 +3,7 @@ import { callLLMStructured } from '@/server/llm';
 import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { resumes, resumeRefinements } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { unauthorized, notFound } from '@/server/http';
 import { checkInputGuardrail, checkOutputAsyncGuardrail } from '@/server/guardrail';
@@ -21,9 +21,11 @@ export async function POST(
   let originalContent = '';
   let title = '';
   if (db) {
-    const [target] = await db.select().from(resumes).where(eq(resumes.id, id));
+    const [target] = await db
+      .select()
+      .from(resumes)
+      .where(and(eq(resumes.id, id), eq(resumes.userId, session.userId)));
     if (target) {
-      if (target.userId !== session.userId) return notFound('Resume not found');
       originalContent = target.originalContent;
       title = target.title;
     }
@@ -86,7 +88,7 @@ ${originalContent}
           status: 'improved',
           updatedAt: new Date(),
         })
-        .where(eq(resumes.id, id));
+        .where(and(eq(resumes.id, id), eq(resumes.userId, session.userId)));
 
       await db.insert(resumeRefinements).values({
         resumeId: id,

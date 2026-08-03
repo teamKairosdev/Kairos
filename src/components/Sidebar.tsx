@@ -13,7 +13,7 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col h-full text-slate-300">
       <div className="p-4 border-b border-slate-800 flex items-center gap-2">
-        <span className="text-xl">✨</span>
+        <span className="text-xs font-bold text-blue-300" aria-hidden="true">AI</span>
         <span className="font-bold text-white text-lg tracking-wide">Kairos Career OS</span>
       </div>
 
@@ -40,7 +40,7 @@ export default function Sidebar() {
                           : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
                       } ${focusRing}`}
                     >
-                      <span className="text-base">{item.icon}</span>
+                      <span className="text-xs font-semibold" aria-hidden="true">{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>
                   );
@@ -52,7 +52,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-slate-800 text-xs text-slate-500 text-center">
-        © 2026 Kairos
+        Copyright 2026 Kairos
       </div>
     </aside>
   );

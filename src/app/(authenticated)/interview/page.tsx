@@ -17,6 +17,7 @@ interface Interview {
   status?: 'in_progress' | 'completed' | string;
   overallScore?: number | null;
   overallFeedback?: string | null;
+  demo?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -64,8 +65,13 @@ export default function InterviewListPage() {
         body: JSON.stringify({ jobTitle, companyName, difficulty }),
       });
       if (res.ok) {
-        const data = (await res.json()) as { id?: string };
-        router.push(`/interview/${data.id}`);
+        const data = (await res.json()) as { session?: { id?: string } };
+        const sessionId = data.session?.id;
+        if (!sessionId) {
+          toast.add({ title: '면접 세션 ID를 받지 못했습니다.', color: 'red' });
+          return;
+        }
+        router.push(`/interview/${sessionId}`);
       } else {
         toast.add({ title: '면접 생성 실패', color: 'red' });
       }
@@ -80,7 +86,7 @@ export default function InterviewListPage() {
     return s === 'completed' ? '완료' : '진행중';
   };
 
-  const scoredInterviews = interviews.filter(i => i.overallScore);
+  const scoredInterviews = interviews.filter(i => i.overallScore != null);
 
   return (
     <div className="space-y-8">
@@ -126,7 +132,7 @@ export default function InterviewListPage() {
           </div>
         ) : interviews.length === 0 ? (
           <EmptyState
-            icon="🎤"
+             icon="면접"
             iconWrapperClass="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl"
             title="아직 면접 이력이 없습니다"
             description="AI 면접관과 첫 모의 면접을 시작해보세요"
@@ -160,7 +166,10 @@ export default function InterviewListPage() {
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   {interview.overallScore != null && (
-                    <span className="text-sm font-bold text-blue-600">{interview.overallScore}점</span>
+                    <div className="flex items-center gap-1.5">
+                      {interview.demo && <span className="text-[10px] font-semibold text-blue-500">데모</span>}
+                      <span className="text-sm font-bold text-blue-600">{interview.overallScore}점</span>
+                    </div>
                   )}
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                     interview.status === 'completed'

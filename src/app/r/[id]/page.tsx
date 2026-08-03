@@ -133,7 +133,7 @@ export default function SharedChatPage({ params }: { params: Promise<{ id: strin
       <div className="max-w-3xl mx-auto">
         <div className="rounded-3xl border border-gray-100 bg-white shadow-card p-8 sm:p-12 text-center space-y-4">
           <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto text-2xl">
-            🔍
+             검색
           </div>
           <h1 className="text-lg font-bold text-gray-900">공유된 대화를 찾을 수 없습니다</h1>
           <p className="text-sm text-gray-400 max-w-sm mx-auto leading-relaxed">
@@ -214,7 +214,7 @@ export default function SharedChatPage({ params }: { params: Promise<{ id: strin
                 }`}
               >
                 <div className={`font-semibold text-xs mb-1.5 ${m.role === 'user' ? 'text-blue-100' : 'text-slate-400'}`}>
-                  {m.role === 'user' ? '👤 지원자' : '🤖 Kairos AI'}
+                  {m.role === 'user' ? '지원자' : 'Kairos AI'}
                 </div>
                 <p className="whitespace-pre-wrap">{m.content}</p>
               </div>

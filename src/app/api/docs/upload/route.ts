@@ -1,42 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
-import { join } from 'path';
 import { getSession } from '@/server/getSession';
-import { badRequest, internalError, unauthorized } from '@/server/http';
+import { badRequest, internalError, payloadTooLarge, unauthorized } from '@/server/http';
+import {
+  UPLOAD_DIR,
+  readDocumentMeta,
+  writeDocumentMeta,
+} from '@/server/documentStore';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 
-const UPLOAD_DIR = join(process.cwd(), 'uploads');
-const META_FILE = join(UPLOAD_DIR, '.metadata.json');
-
-interface DocMeta {
-  id: string;
-  title: string;
-  ext: string;
-  size: number;
-  createdAt: string;
-  textContent: string;
-}
-
-function readMeta(): DocMeta[] {
-  if (!existsSync(META_FILE)) return [];
-  return JSON.parse(readFileSync(META_FILE, 'utf-8'));
-}
-
-function writeMeta(meta: DocMeta[]) {
-  if (!existsSync(UPLOAD_DIR)) mkdirSync(UPLOAD_DIR, { recursive: true });
-  writeFileSync(META_FILE, JSON.stringify(meta, null, 2));
-}
+const MAX_DOCUMENT_BYTES = 10 * 1024 * 1024;
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getSession(req);
-    if (!session) return unauthorized();
+    if (!session?.userId) return unauthorized();
 
     const formData = await req.formData();
-    const file = formData.get('file') as File | null;
-    const titleVal = formData.get('title') as string | null;
+    const file = formData.get('file');
+    const titleVal = formData.get('title');
 
-    if (!file) {
+    if (!(file instanceof File)) {
       return badRequest('File is required');
+    }
+
+    if (file.size > MAX_DOCUMENT_BYTES) {
+      return payloadTooLarge('문서 용량은 10MB 이하만 업로드할 수 있습니다.');
     }
 
     const ext = file.name.split('.').pop()?.toLowerCase() || 'hwp';
@@ -46,7 +35,7 @@ export async function POST(req: NextRequest) {
     }
 
     const id = crypto.randomUUID();
-    const title = titleVal?.trim() || file.name;
+    const title = typeof titleVal === 'string' ? titleVal.trim() || file.name : file.name;
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
@@ -72,9 +61,17 @@ export async function POST(req: NextRequest) {
       console.warn('[Docs] Text extraction failed:', (e as Error).message);
     }
 
-    const meta = readMeta();
-    meta.push({ id, title, ext, size: buffer.byteLength, createdAt: new Date().toISOString(), textContent });
-    writeMeta(meta);
+    const meta = readDocumentMeta();
+    meta.push({
+      id,
+      userId: session.userId,
+      title,
+      ext,
+      size: buffer.byteLength,
+      createdAt: new Date().toISOString(),
+      textContent,
+    });
+    writeDocumentMeta(meta);
 
     return NextResponse.json({ id, title, ext, size: buffer.byteLength, textContent });
   } catch (err: unknown) {

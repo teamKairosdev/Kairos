@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { analyzeATSCompatibility } from '@/server/ats';
 import { getDb } from '@/db';
-import { atsAnalyses } from '@/db/schema';
+import { atsAnalyses, resumes } from '@/db/schema';
+import { and, eq } from 'drizzle-orm';
 import { getSession } from '@/server/getSession';
-import { unauthorized, badRequest, internalError } from '@/server/http';
+import { unauthorized, badRequest, internalError, notFound } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +24,15 @@ export async function POST(req: NextRequest) {
 
     const db = getDb();
     if (!db) {
-      return NextResponse.json({ id: 'demo-ats-' + Date.now(), analysis });
+      return NextResponse.json({ id: 'demo-ats', analysis, demo: true });
+    }
+
+    if (resumeId) {
+      const [ownedResume] = await db
+        .select({ id: resumes.id })
+        .from(resumes)
+        .where(and(eq(resumes.id, resumeId), eq(resumes.userId, session.userId)));
+      if (!ownedResume) return notFound('Resume not found');
     }
 
     const [saved] = await db

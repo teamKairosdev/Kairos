@@ -95,7 +95,7 @@ export default function DocDetailPage({ params }: { params: Promise<{ id: string
     return (
       <div className="max-w-4xl mx-auto py-8">
         <EmptyState
-          icon="📄"
+          icon="문서"
           title="문서를 찾을 수 없습니다"
           description={loadError || '문서가 삭제되었거나 접근할 수 없습니다.'}
           actionLabel="다시 시도"

@@ -8,10 +8,10 @@ import { useToast } from '@/lib/toast';
 import DifficultyBadge from '@/components/DifficultyBadge';
 
 const interviewTips = [
-  { icon: '🎯', title: 'STAR 기법 활용', desc: '상황(S), 과제(T), 행동(A), 결과(R) 순서로 답변하세요.' },
-  { icon: '⏱️', title: '답변 시간 조절', desc: '질문당 1~3분 이내로 간결하고 핵심적으로 답변하세요.' },
-  { icon: '📊', title: '수치로 증명', desc: '경험과 성과를 구체적인 수치와 데이터로 뒷받침하세요.' },
-  { icon: '🔍', title: '역질문 준비', desc: '면접 말미에는 회사나 팀에 대한 관심 있는 질문을 해보세요.' },
+  { icon: '목표', title: 'STAR 기법 활용', desc: '상황(S), 과제(T), 행동(A), 결과(R) 순서로 답변하세요.' },
+  { icon: '시간', title: '답변 시간 조절', desc: '질문당 1~3분 이내로 간결하고 핵심적으로 답변하세요.' },
+  { icon: '수치', title: '수치로 증명', desc: '경험과 성과를 구체적인 수치와 데이터로 뒷받침하세요.' },
+  { icon: '질문', title: '역질문 준비', desc: '면접 말미에는 회사나 팀에 대한 관심 있는 질문을 해보세요.' },
 ];
 
 interface InterviewSession {
@@ -25,6 +25,7 @@ interface InterviewSession {
   overallFeedback?: string | null;
   createdAt?: string;
   updatedAt?: string;
+  messages?: ChatDisplayMessage[];
 }
 
 interface ChatDisplayMessage {
@@ -46,6 +47,8 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
   const [elapsedTime, setElapsedTime] = useState('00:00');
   const [showEndModal, setShowEndModal] = useState(false);
   const [endPhase, setEndPhase] = useState<'confirm' | 'summary'>('confirm');
+  const [ending, setEnding] = useState(false);
+  const isCompleted = sessionInfo?.status === 'completed';
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -122,29 +125,44 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
       key =
         typeof crypto !== 'undefined' && crypto.randomUUID
           ? crypto.randomUUID()
-          : `${idx}-${Date.now()}-${Math.random()}`;
+          : `${idx}`;
       msgKeyRef.current.set(idx, key);
     }
     return key;
   }
 
   function openEndModal() {
+    if (isCompleted) return;
     setEndPhase('confirm');
     setShowEndModal(true);
   }
 
-  function confirmEndInterview() {
+  async function confirmEndInterview() {
+    if (ending || isCompleted) return;
     stop();
-    setEndPhase('summary');
-    fetch(`/api/interviews/${interviewId}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'completed' }),
-    }).catch(() => {});
-    setTimeout(() => {
-      setShowEndModal(false);
-      router.push('/interview');
-    }, 2500);
+    setEnding(true);
+    try {
+      const res = await fetch(`/api/interviews/${interviewId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'completed' }),
+      });
+      if (!res.ok) throw new Error(`면접 종료 저장 실패 (${res.status})`);
+
+      setSessionInfo((current) => current ? { ...current, status: 'completed' } : current);
+      setEndPhase('summary');
+      setTimeout(() => {
+        setShowEndModal(false);
+        router.push('/interview');
+      }, 2500);
+    } catch (err: unknown) {
+      setEnding(false);
+      toast.add({
+        title: '면접 종료 저장 실패',
+        description: err instanceof Error ? err.message : '잠시 후 다시 시도해주세요.',
+        color: 'red',
+      });
+    }
   }
 
   function closeEndModal() {
@@ -156,8 +174,20 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
       try {
         const res = await fetch(`/api/interviews/${interviewId}`);
         if (res.ok) {
-          const data = await res.json();
+          const data = (await res.json()) as InterviewSession;
           setSessionInfo(data);
+          const apiMessages = Array.isArray(data.messages)
+            ? data.messages.filter(
+                (message) =>
+                  message &&
+                  (message.role === 'user' || message.role === 'assistant') &&
+                  typeof message.content === 'string' &&
+                  message.content.trim()
+              )
+            : [];
+          if (apiMessages.length > 0) {
+            setMessages((current) => current.length > 0 ? current : apiMessages);
+          }
         }
       } catch {}
     }
@@ -210,7 +240,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
             mobileTab === 'chat' ? 'text-blue-600 border-b-2 border-blue-500' : 'text-gray-400'
           }`}
         >
-          💬 면접 진행
+           면접 진행
         </button>
         <button
           onClick={() => setMobileTab('info')}
@@ -218,7 +248,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
             mobileTab === 'info' ? 'text-blue-600 border-b-2 border-blue-500' : 'text-gray-400'
           }`}
         >
-          📋 세션 정보
+           세션 정보
         </button>
       </div>
 
@@ -233,9 +263,9 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
             ← 목록으로
           </Link>
           <div className="flex items-center gap-2 mb-1">
-            <div className={`w-2 h-2 rounded-full animate-pulse ${isStreaming ? 'bg-amber-400' : 'bg-emerald-400'}`} />
-            <span className={`text-xs font-medium ${isStreaming ? 'text-amber-600' : 'text-emerald-600'}`}>
-              {isStreaming ? 'AI 응답 중' : '대기 중'}
+            <div className={`w-2 h-2 rounded-full ${isCompleted ? 'bg-gray-400' : isStreaming ? 'animate-pulse bg-amber-400' : 'animate-pulse bg-emerald-400'}`} />
+            <span className={`text-xs font-medium ${isCompleted ? 'text-gray-500' : isStreaming ? 'text-amber-600' : 'text-emerald-600'}`}>
+              {isCompleted ? '면접 종료' : isStreaming ? 'AI 응답 중' : '대기 중'}
             </span>
           </div>
           <h1 className="text-base font-bold text-gray-900">{sessionInfo?.jobTitle || 'AI 모의 면접'}</h1>
@@ -289,12 +319,14 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
         </div>
 
         <div className="p-5 border-t border-gray-100">
-          <button
-            onClick={openEndModal}
-            className="w-full py-3 min-h-[44px] rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all active:scale-[0.98]"
-          >
-            면접 종료
-          </button>
+          {!isCompleted && (
+            <button
+              onClick={openEndModal}
+              className="w-full py-3 min-h-[44px] rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all active:scale-[0.98]"
+            >
+              면접 종료
+            </button>
+          )}
         </div>
       </div>
 
@@ -306,14 +338,18 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
           </div>
           <div>
             <p className="text-sm font-bold text-gray-900">Kairos AI 면접관</p>
-            <p className="text-xs text-emerald-500 font-medium">온라인 · 실시간 평가 중</p>
+            <p className={`text-xs font-medium ${isCompleted ? 'text-gray-400' : 'text-emerald-500'}`}>
+              {isCompleted ? '종료된 면접' : '온라인 · 실시간 평가 중'}
+            </p>
           </div>
-          <button
-            onClick={openEndModal}
-            className="ml-auto shrink-0 px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all duration-200 active:scale-[0.98]"
-          >
-            면접 종료
-          </button>
+          {!isCompleted && (
+            <button
+              onClick={openEndModal}
+              className="ml-auto shrink-0 px-3.5 py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-500 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all duration-200 active:scale-[0.98]"
+            >
+              면접 종료
+            </button>
+          )}
         </div>
 
         {/* Messages */}
@@ -363,18 +399,27 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
 
         {/* Input Area */}
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-100 bg-white">
-          <form onSubmit={handleSubmit} className="flex items-end gap-2 sm:gap-3 bg-gray-50 rounded-2xl border border-gray-200 px-4 py-3 focus-within:border-blue-300 focus-within:ring-2 focus-within:ring-blue-100 transition-all">
+          <form
+            onSubmit={(event) => {
+              if (isCompleted) {
+                event.preventDefault();
+                return;
+              }
+              handleSubmit(event);
+            }}
+            className="flex items-end gap-2 sm:gap-3 bg-gray-50 rounded-2xl border border-gray-200 px-4 py-3 focus-within:border-blue-300 focus-within:ring-2 focus-within:ring-blue-100 transition-all"
+          >
             <textarea
               ref={inputRef}
               value={input}
               onChange={handleInputChange}
-              placeholder={isStreaming ? 'AI 면접관이 답변을 작성 중입니다...' : '답변을 입력하세요... (Shift+Enter로 줄바꿈)'}
+              placeholder={isCompleted ? '종료된 면접입니다.' : isStreaming ? 'AI 면접관이 답변을 작성 중입니다...' : '답변을 입력하세요... (Shift+Enter로 줄바꿈)'}
               rows={1}
-              disabled={isStreaming}
+              disabled={isStreaming || isCompleted}
               onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
-                  handleSubmit(e);
+                  if (!isCompleted) handleSubmit(e);
                 }
               }}
               className="flex-1 min-w-0 bg-transparent text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none max-h-32 leading-relaxed disabled:cursor-not-allowed"
@@ -385,12 +430,12 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
                 onClick={stop}
                 className="shrink-0 h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 active:scale-[0.98]"
               >
-                ⏹ 생성 중지
+                 생성 중지
               </button>
             )}
             <button
               type="submit"
-              disabled={isStreaming || !input.trim()}
+              disabled={isStreaming || isCompleted || !input.trim()}
               className="shrink-0 w-11 h-11 bg-blue-600 text-white rounded-xl flex items-center justify-center hover:bg-blue-700 transition-colors disabled:opacity-40"
             >
               ➔
@@ -406,7 +451,7 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
           <div className="bg-white rounded-3xl shadow-lift w-full max-w-md p-6 space-y-5 animate-fade-in-up">
             {endPhase === 'confirm' ? (
               <>
-                <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center text-xl mx-auto">⏹</div>
+                <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center text-xs font-semibold mx-auto">종료</div>
                 <div className="text-center space-y-1.5">
                   <h3 className="text-lg font-bold text-gray-900">정말 종료할까요?</h3>
                   <p className="text-sm text-gray-500">
@@ -425,15 +470,16 @@ export default function InterviewDetailPage({ params }: { params: Promise<{ id: 
                   </button>
                   <button
                     onClick={confirmEndInterview}
+                    disabled={ending}
                     className="flex-1 py-2.5 rounded-xl bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition-colors active:scale-[0.98]"
                   >
-                    면접 종료
+                    {ending ? '저장 중...' : '면접 종료'}
                   </button>
                 </div>
               </>
             ) : (
               <>
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mx-auto">✅</div>
+                 <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-semibold mx-auto">완료</div>
                 <div className="text-center">
                   <h3 className="text-lg font-bold text-gray-900">면접이 종료되었습니다</h3>
                   <p className="text-sm text-gray-500 mt-1">지금까지의 면접 요약입니다.</p>

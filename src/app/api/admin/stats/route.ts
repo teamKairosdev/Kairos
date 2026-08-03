@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { count, desc } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { users, resumes, mockInterviews, atsAnalyses, careers, auditLogs } from '@/db/schema';
+import { requireAdmin } from '@/server/admin';
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
+  const admin = await requireAdmin(req);
+  if (admin instanceof NextResponse) return admin;
+
   const db = getDb();
   if (!db) {
     return NextResponse.json({

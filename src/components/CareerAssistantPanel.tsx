@@ -133,7 +133,7 @@ export default function CareerAssistantPanel() {
         aria-label="AI 커리어 패널 열기"
         className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg shadow-indigo-500/30 hover:scale-105 active:scale-[0.98] transition-all duration-200 font-medium text-sm border border-indigo-400/30 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:outline-none"
       >
-        <span aria-hidden className="text-base">🤖</span>
+        <span aria-hidden className="text-xs font-bold">AI</span>
         <span>AI 커리어 패널</span>
       </button>
     );
@@ -153,7 +153,7 @@ export default function CareerAssistantPanel() {
       {/* Header */}
       <div className="p-3.5 bg-slate-800/80 border-b border-slate-700/60 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span aria-hidden className="text-lg">🤖</span>
+          <span aria-hidden className="text-xs font-bold">AI</span>
           <div>
             <h3 className="text-sm font-semibold text-white leading-none">Kairos AI 어시스턴트</h3>
             <p className="text-[10px] text-indigo-400 font-mono mt-0.5">Career Guidance Engine</p>
@@ -233,7 +233,7 @@ export default function CareerAssistantPanel() {
             disabled={savingChat || messages.length <= 1}
             className="text-indigo-400 hover:text-indigo-300 disabled:opacity-40 transition-colors"
           >
-            {savingChat ? '저장 중...' : '🔗 공유 가능 링크 생성'}
+            {savingChat ? '저장 중...' : '공유 가능 링크 생성'}
           </button>
           {savedChatUrl && (
             <span className="text-emerald-400 font-mono">

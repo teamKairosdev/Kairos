@@ -29,6 +29,7 @@ interface ResumeDetailResponse {
     title: string;
     status: string;
     currentScore: number | null;
+    demo?: boolean;
     originalContent: string;
   };
   refinementHistory: RefinementHistoryEntry[];
@@ -262,6 +263,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         <div className="flex items-center gap-6 bg-white border border-slate-100 shadow-sm px-6 py-3 rounded-2xl">
           <div className="text-right">
             <div className="text-sm font-bold text-slate-400 uppercase tracking-wider">AI 평가 점수</div>
+            {data.resume.demo && <div className="text-[10px] font-semibold text-blue-500 mt-0.5">데모 결과</div>}
             {data.resume.currentScore == null ? (
               <div className="text-xl font-bold text-slate-400 mt-0.5">미평가</div>
             ) : (
@@ -286,7 +288,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                 onClick={() => setActiveTab('editor')}
                 className={`whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-t-lg active:scale-[0.98] ${activeTab === 'editor' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3 -mb-px' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3'}`}
               >
-                📝 실시간 편집기
+                실시간 편집기
               </button>
               <button
                 role="tab"
@@ -294,7 +296,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                 onClick={() => setActiveTab('diff')}
                 className={`whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-t-lg active:scale-[0.98] ${activeTab === 'diff' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3 -mb-px' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3'}`}
               >
-                🔍 AI 수정 비교 (Diff)
+                AI 수정 비교 (Diff)
               </button>
               <button
                 role="tab"
@@ -302,7 +304,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                 onClick={() => setActiveTab('feedback')}
                 className={`whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-t-lg active:scale-[0.98] ${activeTab === 'feedback' ? 'border-b-2 border-blue-600 font-bold text-blue-600 pb-3 -mb-px' : 'text-slate-400 font-semibold hover:text-slate-600 pb-3'}`}
               >
-                📊 AI 종합 평가서
+                AI 종합 평가서
               </button>
             </div>
 
@@ -336,7 +338,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     className="w-full sm:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
                   >
                     {saving && <Spinner className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />}
-                    <span>💾 변경사항 저장</span>
+                    <span>변경사항 저장</span>
                   </button>
                   <button
                     onClick={triggerRefine}
@@ -344,7 +346,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     className="w-full sm:w-auto justify-center border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl py-2.5 px-4 font-semibold text-xs transition disabled:opacity-50 flex items-center gap-1.5"
                   >
                     {refining && <Spinner className="w-3 h-3 border border-slate-600 border-t-transparent rounded-full animate-spin" />}
-                    <span>✨ AI 정밀 평가 실행</span>
+                    <span>AI 정밀 평가 실행</span>
                   </button>
                 </div>
               </div>
@@ -375,7 +377,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                   />
                 ) : (
                   <div className="p-12 text-center text-slate-400 bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl space-y-2">
-                    <div className="text-2xl">🔍</div>
+                    <div className="text-sm font-semibold">비교</div>
                     <p className="text-xs font-semibold">우측 AI 에이전트와 대화하여 이력서 첨삭을 요청해 보세요.</p>
                     <p className="text-[10px] text-slate-400">AI가 문서를 고치면 변경된 단어들이 여기에 실시간 적녹 색상으로 표시됩니다.</p>
                   </div>
@@ -444,7 +446,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     {latestRefinement.evaluationFeedback?.suggestions && (
                       <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100 space-y-3">
                         <div className="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-                          ⭐ Actionable Suggestions (추천 기재 보강 사항)
+                          Actionable Suggestions (추천 기재 보강 사항)
                         </div>
                         <ul className="text-xs text-slate-600 space-y-2 list-decimal list-inside">
                           {latestRefinement.evaluationFeedback.suggestions.map((sug: string, idx: number) => (
@@ -456,7 +458,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                   </div>
                 ) : (
                   <div className="p-12 text-center text-slate-400 bg-slate-50/50 border border-dashed border-slate-200 rounded-2xl space-y-2">
-                    <div className="text-2xl">📊</div>
+                   <div className="text-sm font-semibold">평가</div>
                     <p className="text-xs font-semibold">이력서 평가 데이터가 존재하지 않습니다.</p>
                     <p className="text-[10px] text-slate-400">[AI 정밀 평가 실행]을 클릭하여 본문을 최초로 진단해 보세요.</p>
                   </div>
@@ -479,7 +481,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
 
             <div className="flex-1 overflow-y-auto py-4 space-y-4 pr-1 select-text">
               <div className="text-xs text-center text-slate-400 bg-slate-50/60 p-3 rounded-2xl border border-slate-100/50 leading-relaxed font-semibold">
-                💡 실시간으로 좌측 이력서 본문 맥락이 연계됩니다.<br />
+                안내: 실시간으로 좌측 이력서 본문 맥락이 연계됩니다.<br />
                 "React 경력을 추가해줘" 혹은 "성과를 수치화해줘" 라고 대화하세요.
               </div>
 
@@ -497,7 +499,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
                     {msg.suggestedContent && (
                       <div className="mt-2.5 p-3 rounded-xl bg-white border border-slate-100 space-y-2 text-slate-800 shadow-sm shrink-0">
                         <div className="flex items-center gap-1 text-[10px] font-bold text-blue-600">
-                          ✨ AI가 이력서 개선 초안을 생성했습니다.
+                          AI가 이력서 개선 초안을 생성했습니다.
                         </div>
                         <button
                           onClick={() => applySuggestedContent(msg.suggestedContent!)}

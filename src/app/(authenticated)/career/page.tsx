@@ -25,6 +25,7 @@ interface CareerSearchResult extends Career {
 interface CareerSearchResponse {
   query: string;
   results: CareerSearchResult[];
+  demo?: boolean;
 }
 
 const SEARCH_STEPS = ['임베딩 생성 중…', '관련 이력 검색 중…', '결과 정리 중…'];
@@ -253,7 +254,7 @@ export default function CareerPage() {
       {/* Semantic Search */}
       <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl p-6 border border-blue-100">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-blue-600">🔍</span>
+          <span className="text-xs font-semibold text-blue-600" aria-hidden="true">검색</span>
           <span className="text-sm font-semibold text-blue-800">AI 시맨틱 검색</span>
           <span className="text-xs text-blue-500 bg-blue-100 px-2 py-0.5 rounded-full">pgvector 1536차원</span>
         </div>
@@ -310,6 +311,7 @@ export default function CareerPage() {
           <div className="mt-4 space-y-2 animate-fade-in-up">
             <div className="flex items-center justify-between gap-2 flex-wrap text-xs text-blue-600 font-medium mb-3">
               <span className="min-w-0 truncate">&ldquo;{searchResults.query}&rdquo; 검색 결과</span>
+              {searchResults.demo && <span className="shrink-0 text-[10px] font-semibold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full">데모 결과</span>}
               <button
                 onClick={() => {
                   setSearchResults(null);
@@ -318,7 +320,7 @@ export default function CareerPage() {
                 }}
                 className="text-blue-400 hover:text-blue-600"
               >
-                ✕ 초기화
+                초기화
               </button>
             </div>
             {searchResults.results.length === 0 ? (
@@ -377,7 +379,7 @@ export default function CareerPage() {
           </div>
         ) : loadError ? (
           <div className="bg-white rounded-2xl border border-red-200 p-10 text-center space-y-4 animate-fade-in-up">
-            <div className="text-3xl">⚠️</div>
+            <div className="text-sm font-semibold">주의</div>
             <div>
               <p className="text-sm font-semibold text-gray-800">경력 목록을 불러오지 못했습니다</p>
               <p className="text-xs text-gray-500 mt-1">서버 연결 상태를 확인하고 다시 시도해주세요.</p>
@@ -464,7 +466,7 @@ export default function CareerPage() {
           </div>
         ) : (
           <EmptyState
-            icon="💼"
+            icon="경력"
             title="등록된 경력이 없습니다"
             description="첫 경력을 추가하고 커리어를 체계적으로 관리하세요"
             actionLabel="경력 추가하기"

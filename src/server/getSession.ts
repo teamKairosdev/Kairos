@@ -8,5 +8,8 @@ import { verifySession, type KairosSession } from './auth';
 export async function getSession(req: NextRequest): Promise<KairosSession | null> {
   const token = req.cookies.get('kairos_session')?.value;
   if (!token) return null;
-  return verifySession(token);
+
+  const session = await verifySession(token);
+  if (!session || typeof session.userId !== 'string' || !session.userId) return null;
+  return session;
 }

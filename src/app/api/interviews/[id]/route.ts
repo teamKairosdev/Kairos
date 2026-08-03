@@ -1,22 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/db';
-import { mockInterviews } from '@/db/schema';
-import { eq } from 'drizzle-orm';
-import { notFound, unauthorized } from '@/server/http';
+import { interviewMessages, mockInterviews } from '@/db/schema';
+import { and, asc, eq } from 'drizzle-orm';
+import { badRequest, notFound, unauthorized } from '@/server/http';
 import { getSession } from '@/server/getSession';
+
+function conflict(message: string): NextResponse {
+  return NextResponse.json({ error: message }, { status: 409 });
+}
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const session = await getSession(req);
+  if (!session?.userId) return unauthorized('Unauthorized');
+
   const db = getDb();
   if (!db) return NextResponse.json({ error: 'DB 연결 실패' }, { status: 500 });
 
-  const [item] = await db.select().from(mockInterviews).where(eq(mockInterviews.id, id));
+  const [item] = await db
+    .select()
+    .from(mockInterviews)
+    .where(and(eq(mockInterviews.id, id), eq(mockInterviews.userId, session.userId)));
   if (!item) return notFound('Not found');
 
-  return NextResponse.json(item);
+  const messages = await db
+    .select({ sender: interviewMessages.sender, message: interviewMessages.message })
+    .from(interviewMessages)
+    .where(eq(interviewMessages.interviewId, id))
+    .orderBy(asc(interviewMessages.createdAt));
+
+  return NextResponse.json({
+    ...item,
+    messages: messages.map((message) => ({
+      role: message.sender === 'candidate' ? 'user' : 'assistant',
+      content: message.message,
+    })),
+  });
 }
 
 export async function PATCH(
@@ -25,18 +47,31 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const session = await getSession(req);
-  if (!session) return unauthorized('Unauthorized');
+  if (!session?.userId) return unauthorized('Unauthorized');
 
   const db = getDb();
   if (!db) return NextResponse.json({ error: 'DB 연결 실패' }, { status: 500 });
 
-  const [item] = await db.select().from(mockInterviews).where(eq(mockInterviews.id, id));
-  if (!item) return notFound('Not found');
-  if (item.userId !== session.userId) {
-    return NextResponse.json({ error: '접근 권한이 없습니다.' }, { status: 403 });
+  const body = await req.json();
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return badRequest('Invalid request body');
   }
 
-  const body = await req.json();
+  const [item] = await db
+    .select()
+    .from(mockInterviews)
+    .where(and(eq(mockInterviews.id, id), eq(mockInterviews.userId, session.userId)));
+  if (!item) return notFound('Not found');
+
+  if (body.status !== undefined) {
+    if (body.status !== 'completed') {
+      return badRequest('Only in-progress interviews can be completed');
+    }
+    if (item.status !== 'in_progress') {
+      return conflict('면접이 이미 종료되었습니다.');
+    }
+  }
+
   const updateData: {
     status?: string;
     overallScore?: number | null;
@@ -46,10 +81,19 @@ export async function PATCH(
   if (body.overallScore !== undefined) updateData.overallScore = body.overallScore;
   if (body.overallFeedback !== undefined) updateData.overallFeedback = body.overallFeedback;
 
-  await db
+  const where = body.status === 'completed'
+    ? and(eq(mockInterviews.id, id), eq(mockInterviews.userId, session.userId), eq(mockInterviews.status, 'in_progress'))
+    : and(eq(mockInterviews.id, id), eq(mockInterviews.userId, session.userId));
+
+  const updated = await db
     .update(mockInterviews)
     .set({ ...updateData, updatedAt: new Date() })
-    .where(eq(mockInterviews.id, id));
+    .where(where)
+    .returning({ id: mockInterviews.id });
+
+  if (!updated.length) {
+    return body.status === 'completed' ? conflict('면접이 이미 종료되었습니다.') : notFound('Not found');
+  }
 
   return NextResponse.json({ success: true });
 }

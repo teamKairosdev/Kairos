@@ -1,9 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { streamLLMText, toGeminiMessages, type GeminiInputMessage } from '@/server/llm';
-import { badRequest, internalError } from '@/server/http';
+import { getSession } from '@/server/getSession';
+import { badRequest, internalError, unauthorized } from '@/server/http';
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getSession(req);
+    if (!session?.userId) return unauthorized();
+
     const body = await req.json();
     const {
       messages,
