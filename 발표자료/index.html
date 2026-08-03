@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kairos | AI 서비스톤 발표자료</title>
+  <style>
+    :root { color-scheme: dark; font-family: Arial, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+    body { display: grid; place-items: center; }
+    a { color: inherit; }
+    button:focus-visible, a:focus-visible, #stage:focus-visible { outline: .18cqw solid #7ce8ff; outline-offset: .25cqw; }
+    #stage {
+      position: relative; width: min(100vw, 177.7777778vh); height: min(100vh, 56.25vw); aspect-ratio: 16 / 9;
+      overflow: hidden; isolation: isolate; container-type: inline-size; color: #edf5fb; touch-action: manipulation;
+      background: radial-gradient(circle at 82% 10%, rgba(62,140,188,.18), transparent 30%), radial-gradient(circle at 8% 90%, rgba(122,78,184,.15), transparent 34%), linear-gradient(135deg,#071017,#0b1723 58%,#111727);
+    }
+    #stage::before { position: absolute; inset: 0; z-index: -1; content: ""; opacity: .45; background-image: linear-gradient(rgba(205,236,250,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(205,236,250,.035) 1px,transparent 1px); background-size: 3.2cqw 3.2cqw; mask-image: linear-gradient(to bottom,#000,transparent 86%); }
+    #stage::after { position: absolute; inset: .6cqw; z-index: 20; border: 1px solid rgba(176,216,234,.14); pointer-events: none; content: ""; }
+    .topbar { position: absolute; top: 2.15cqw; right: 6.8cqw; left: 6.8cqw; z-index: 15; display: flex; align-items: center; justify-content: space-between; gap: 2cqw; pointer-events: none; }
+    .brand { display: inline-flex; align-items: center; gap: .7cqw; min-width: 0; }
+    .brand-mark { width: 2.05cqw; height: 2.05cqw; flex: 0 0 auto; color: #7ce8ff; }
+    .brand-name { color: #f7fbfe; font-size: 1.1cqw; font-weight: 800; letter-spacing: .02em; }
+    .brand-kind { padding: .35cqw .7cqw; border: 1px solid rgba(124,232,255,.28); border-radius: 99px; color: #8bdff1; font-size: .72cqw; font-weight: 700; letter-spacing: .04em; }
+    .top-context { color: rgba(201,221,234,.62); font-size: .76cqw; letter-spacing: .08em; text-transform: uppercase; }
+    .slides { position: absolute; inset: 0; }
+    .slide { position: absolute; inset: 0; visibility: hidden; opacity: 0; pointer-events: none; transform: translateX(1.4cqw); transition: opacity 240ms ease, transform 240ms ease, visibility 240ms ease; }
+    .slide.is-active { visibility: visible; opacity: 1; pointer-events: auto; transform: translateX(0); }
+    .slide::before { position: absolute; top: 0; right: 0; width: 38cqw; height: .16cqw; content: ""; background: linear-gradient(90deg,transparent,rgba(124,232,255,.68)); }
+    .slide-inner { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; height: 100%; padding: 8cqw 7.2cqw 7.4cqw; }
+    .slide.dense .slide-inner { justify-content: flex-start; padding-top: 7.2cqw; }
+    .slide-kicker { display: inline-flex; align-items: center; align-self: flex-start; gap: .7cqw; margin-bottom: 1.05cqw; color: #7ce8ff; font-size: .82cqw; font-weight: 800; letter-spacing: .12em; }
+    .slide-kicker::before { width: 2.2cqw; height: .12cqw; content: ""; background: currentColor; }
+    .slide-number-label { margin-left: .5cqw; color: rgba(196,220,232,.52); font-weight: 600; letter-spacing: .06em; }
+    h1, h2, h3, p, figure, blockquote, dl, dd, dt, ol, ul { margin: 0; }
+    h1, h2, h3 { letter-spacing: -.055em; }
+    h1 { color: #f5fbff; font-size: 5.15cqw; font-weight: 800; line-height: 1.05; }
+    h2 { max-width: 78cqw; color: #eff8fc; font-size: 3.42cqw; font-weight: 800; line-height: 1.08; }
+    h3 { color: #f0f8fc; font-size: 1.35cqw; font-weight: 750; line-height: 1.2; }
+    p, li, dd { color: #a9bfce; font-size: 1.18cqw; line-height: 1.48; }
+    strong { color: #edf8fc; font-weight: 750; }
+    code { color: #b9f1ff; font-family: Consolas, "Courier New", monospace; font-size: .92em; }
+    .lead { max-width: 67cqw; margin-top: 1.1cqw; color: #bdd0db; font-size: 1.35cqw; line-height: 1.48; }
+    .micro { color: #7893a3; font-size: .76cqw; line-height: 1.45; }
+    .eyebrow { color: #7893a3; font-size: .72cqw; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .speaker-line { display: flex; align-items: flex-start; gap: .75cqw; margin-top: 1.25cqw; padding: .7cqw 1.1cqw; border-left: .18cqw solid #7ce8ff; background: rgba(124,232,255,.06); }
+    .speaker-line .label { flex: 0 0 auto; color: #7ce8ff; font-size: .76cqw; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .speaker-line p { color: #d1e3eb; font-size: 1.02cqw; }
+    .card { min-width: 0; padding: 1.22cqw; border: 1px solid rgba(160,202,220,.17); border-radius: 1.05cqw; background: rgba(15,32,45,.78); box-shadow: 0 1.2cqw 3cqw rgba(0,0,0,.13); }
+    .card p { margin-top: .62cqw; font-size: 1.02cqw; }
+    .badge { display: inline-flex; align-items: center; width: fit-content; padding: .34cqw .65cqw; border: 1px solid rgba(167,204,219,.2); border-radius: 99px; color: #b6cbd6; font-size: .7cqw; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+    .badge.cyan { border-color: rgba(124,232,255,.34); background: rgba(124,232,255,.09); color: #84e8fc; }
+    .badge.lime { border-color: rgba(164,239,190,.35); background: rgba(164,239,190,.09); color: #a4efbe; }
+    .badge.amber { border-color: rgba(245,202,121,.35); background: rgba(245,202,121,.09); color: #f5ca79; }
+    .badge.violet { border-color: rgba(199,178,255,.35); background: rgba(199,178,255,.09); color: #c7b2ff; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: .5cqw; margin-top: .85cqw; }
+    .rule-title { display: flex; align-items: center; justify-content: space-between; gap: 1cqw; margin-bottom: .7cqw; }
+    .rule-title strong { font-size: 1.02cqw; }
+    .rule-title .micro { text-align: right; }
+
+    /* Slide 1 */
+    .cover .slide-inner { align-items: center; padding-right: 10cqw; padding-left: 10cqw; text-align: center; }
+    .cover .slide-kicker { align-self: center; color: #a4efbe; }
+    .cover-logo { margin-top: 1.1cqw; color: #f4fbff; font-size: 9.5cqw; font-weight: 850; letter-spacing: -.1em; line-height: .9; }
+    .cover-logo span { color: #7ce8ff; }
+    .cover h1 { margin-top: 1.4cqw; }
+    .cover-subtitle { max-width: 60cqw; margin-top: 1.1cqw; color: #b8ced9; font-size: 1.35cqw; }
+    .cover-meta { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .7cqw; width: 76cqw; margin-top: 2cqw; text-align: left; }
+    .meta-item { min-width: 0; padding: .78cqw .9cqw; border: 1px solid rgba(160,202,220,.17); border-radius: .75cqw; background: rgba(255,255,255,.035); }
+    .meta-item span { display: block; margin-bottom: .32cqw; color: #7893a3; font-size: .72cqw; }
+    .meta-item strong { display: block; overflow-wrap: anywhere; color: #dbeaf1; font-size: .92cqw; }
+    .cover-time { margin-top: 1.1cqw; color: #7893a3; font-size: .8cqw; }
+
+    /* Slide 2 */
+    .overview-head { display: grid; grid-template-columns: 1.05fr .95fr; gap: 3.5cqw; align-items: end; }
+    .overview-statement { padding: 1.5cqw 1.7cqw; border: 1px solid rgba(124,232,255,.22); border-radius: 1.1cqw; background: linear-gradient(135deg,rgba(124,232,255,.1),rgba(124,232,255,.025)); }
+    .overview-statement .eyebrow { color: #7ce8ff; }
+    .overview-statement p { margin-top: .8cqw; color: #d8eef5; font-size: 1.65cqw; font-weight: 700; letter-spacing: -.045em; line-height: 1.27; }
+    .overview-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .85cqw; margin-top: 2.1cqw; }
+    .overview-card { min-height: 11.5cqw; }
+    .overview-card .index { color: #7ce8ff; font-family: Consolas,"Courier New",monospace; font-size: 1.4cqw; font-weight: 800; }
+    .overview-card:nth-child(2) .index { color: #c7b2ff; }
+    .overview-card:nth-child(3) .index { color: #a4efbe; }
+    .overview-card h3 { margin-top: 1.05cqw; }
+    .scope-note { margin-top: 1.1cqw; padding-top: .8cqw; border-top: 1px solid rgba(160,202,220,.13); color: #8299a8; font-size: .86cqw; }
+
+    /* Slide 3 */
+    .problem .slide-kicker, .features .slide-kicker, .architecture .slide-kicker, .checklist .slide-kicker { color: #c7b2ff; }
+    .problem .slide-inner { padding-top: 6.8cqw; }
+    .problem .lead { margin-top: .7cqw; font-size: 1.08cqw; }
+    .problem-head { display: grid; grid-template-columns: .85fr 1.15fr; gap: 1cqw; margin-top: 1.25cqw; }
+    .persona-card { padding: 1.05cqw 1.2cqw; border: 1px solid rgba(199,178,255,.3); border-radius: .95cqw; background: linear-gradient(145deg,rgba(70,50,108,.34),rgba(20,30,48,.78)); }
+    .persona-card h3 { margin-top: .65cqw; font-size: 1.28cqw; }
+    .persona-card p { margin-top: .5cqw; font-size: .92cqw; }
+    .persona-meta { margin-top: .85cqw; padding-top: .65cqw; border-top: 1px solid rgba(199,178,255,.19); color: #cbbff0; font-size: .78cqw; line-height: 1.4; }
+    .pain-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .7cqw; }
+    .pain-card { padding: .95cqw; border: 1px solid rgba(160,202,220,.14); border-radius: .85cqw; background: rgba(255,255,255,.035); }
+    .pain-card .index { color: #f5ca79; font-family: Consolas,"Courier New",monospace; font-size: .78cqw; font-weight: 800; }
+    .pain-card h3 { margin-top: .75cqw; font-size: 1.04cqw; }
+    .pain-card p { margin-top: .45cqw; font-size: .84cqw; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .8cqw; margin-top: 1.05cqw; }
+    .stat-card { min-width: 0; padding: .85cqw .95cqw; border: 1px solid rgba(160,202,220,.17); border-top: .19cqw solid #7ce8ff; border-radius: .85cqw; background: rgba(9,23,34,.76); }
+    .stat-card:nth-child(2) { border-top-color: #c7b2ff; }
+    .stat-card:nth-child(3) { border-top-color: #f5ca79; }
+    .stat-value { color: #7ce8ff; font-family: Consolas,"Courier New",monospace; font-size: 2.35cqw; font-weight: 800; letter-spacing: -.08em; line-height: 1; }
+    .stat-card:nth-child(2) .stat-value { color: #c7b2ff; }
+    .stat-card:nth-child(3) .stat-value { color: #f5ca79; }
+    .stat-value small { margin-left: .15cqw; color: #d9e6ec; font-family: inherit; font-size: .42em; letter-spacing: 0; }
+    .stat-title { min-height: 2.3em; margin-top: .48cqw; color: #deedf2; font-size: .91cqw; font-weight: 700; line-height: 1.25; }
+    .stat-meta { display: grid; gap: .28cqw; margin-top: .62cqw; }
+    .stat-meta-row { display: grid; grid-template-columns: 3.3cqw minmax(0,1fr); gap: .35cqw; align-items: start; }
+    .stat-meta-row dt { color: #7ce8ff; font-size: .67cqw; font-weight: 800; line-height: 1.35; white-space: nowrap; }
+    .stat-card:nth-child(2) .stat-meta-row dt { color: #c7b2ff; }
+    .stat-card:nth-child(3) .stat-meta-row dt { color: #f5ca79; }
+    .stat-meta-row dd { min-width: 0; color: #9fb5c2; font-size: .66cqw; line-height: 1.32; overflow-wrap: anywhere; }
+    .stat-caveat { margin-top: .55cqw; color: #8299a8; font-size: .72cqw; }
+    .source-strip { margin-top: .8cqw; padding: .65cqw .8cqw; border: 1px solid rgba(160,202,220,.13); border-radius: .7cqw; background: rgba(3,11,18,.38); }
+    .source-strip-title { color: #bdcfda; font-size: .7cqw; font-weight: 800; letter-spacing: .08em; }
+    .source-links { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .5cqw; margin-top: .45cqw; }
+    .source-links a { min-width: 0; color: #91c7d6; font-size: .62cqw; line-height: 1.32; overflow-wrap: anywhere; text-decoration: none; }
+    .source-links a:hover { color: #e8faff; text-decoration: underline; text-underline-offset: .18cqw; }
+
+    /* Slide 4 */
+    .feature-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .85cqw; margin-top: 1.55cqw; }
+    .feature-card { min-height: 15.2cqw; border-top: .2cqw solid #7ce8ff; }
+    .feature-card:nth-child(2) { border-top-color: #c7b2ff; }
+    .feature-card:nth-child(3) { border-top-color: #f5ca79; }
+    .feature-number { color: #7ce8ff; font-family: Consolas,"Courier New",monospace; font-size: 1.6cqw; font-weight: 800; }
+    .feature-card:nth-child(2) .feature-number { color: #c7b2ff; }
+    .feature-card:nth-child(3) .feature-number { color: #f5ca79; }
+    .feature-card h3 { margin-top: 1.05cqw; }
+    .feature-card p { font-size: .93cqw; }
+    .route { display: block; margin-top: 1.05cqw; color: #94bfcc; font-family: Consolas,"Courier New",monospace; font-size: .72cqw; overflow-wrap: anywhere; }
+    .roadmap { margin-top: 1.2cqw; padding: .85cqw 1cqw; border: 1px dashed rgba(199,178,255,.35); border-radius: .9cqw; background: rgba(199,178,255,.055); }
+    .roadmap-head { display: flex; align-items: center; justify-content: space-between; gap: 1cqw; }
+    .roadmap-head strong { color: #d8ccff; font-size: .98cqw; }
+    .roadmap-head span { color: #8c7db5; font-size: .7cqw; }
+    .roadmap-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .7cqw; margin-top: .7cqw; }
+    .roadmap-item { display: grid; grid-template-columns: 1.2cqw minmax(0,1fr); gap: .5cqw; min-width: 0; }
+    .roadmap-item::before { width: 1.1cqw; height: 1.1cqw; margin-top: .13cqw; border: 1px solid #c7b2ff; border-radius: 50%; content: ""; }
+    .roadmap-item strong { display: block; color: #d1c8ed; font-size: .78cqw; line-height: 1.3; }
+    .roadmap-item p { margin-top: .25cqw; color: #8e9baa; font-size: .7cqw; line-height: 1.3; }
+    .feature-caveat { margin-top: .65cqw; color: #8197a5; font-size: .75cqw; }
+
+    /* Slide 5 */
+    .flow-summary { display: flex; align-items: center; gap: .75cqw; margin-top: 1.3cqw; color: #cfe5ed; font-size: 1.38cqw; font-weight: 750; letter-spacing: -.045em; }
+    .flow-summary .separator { position: relative; width: 1.45cqw; height: .1cqw; flex: 0 0 auto; background: #7ce8ff; }
+    .flow-summary .separator::after { position: absolute; top: -.22cqw; right: 0; width: .45cqw; height: .45cqw; border-top: .1cqw solid #7ce8ff; border-right: .1cqw solid #7ce8ff; content: ""; transform: rotate(45deg); }
+    .flow-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: .95cqw; margin-top: 2.2cqw; padding: 0; list-style: none; }
+    .flow-step { position: relative; min-width: 0; min-height: 13.5cqw; padding: 1.1cqw .95cqw; border: 1px solid rgba(160,202,220,.17); border-radius: .95cqw; background: rgba(15,32,45,.8); }
+    .flow-step:not(:last-child)::after { position: absolute; top: 50%; right: -.8cqw; width: .7cqw; height: .1cqw; content: ""; background: #7ce8ff; }
+    .flow-step:not(:last-child)::before { position: absolute; top: calc(50% - .25cqw); right: -.82cqw; width: .5cqw; height: .5cqw; border-top: .1cqw solid #7ce8ff; border-right: .1cqw solid #7ce8ff; content: ""; transform: rotate(45deg); }
+    .flow-step.approval { border-color: rgba(164,239,190,.4); background: rgba(164,239,190,.075); }
+    .flow-step.interview { border-color: rgba(245,202,121,.4); background: rgba(245,202,121,.06); }
+    .flow-index { color: #7ce8ff; font-family: Consolas,"Courier New",monospace; font-size: .76cqw; font-weight: 800; letter-spacing: .08em; }
+    .flow-step.approval .flow-index { color: #a4efbe; }
+    .flow-step.interview .flow-index { color: #f5ca79; }
+    .flow-step h3 { margin-top: 1.1cqw; font-size: 1.08cqw; }
+    .flow-step p { margin-top: .55cqw; font-size: .82cqw; }
+    .flow-note { max-width: 72cqw; margin-top: 1.45cqw; color: #9cb2be; font-size: .88cqw; }
+    .flow-note strong { color: #a4efbe; }
+
+    /* Slides 6-10 */
+    .architecture .lead, .demo .lead, .impact .lead { margin-top: .75cqw; font-size: 1.05cqw; }
+    .path-summary { display: flex; align-items: center; gap: .65cqw; margin-top: 1.25cqw; color: #d2e8ef; font-family: Consolas,"Courier New",monospace; font-size: 1.03cqw; font-weight: 700; }
+    .path-arrow { position: relative; width: 1.6cqw; height: .1cqw; flex: 0 0 auto; background: #7ce8ff; }
+    .path-arrow::after { position: absolute; top: -.22cqw; right: 0; width: .45cqw; height: .45cqw; border-top: .1cqw solid #7ce8ff; border-right: .1cqw solid #7ce8ff; content: ""; transform: rotate(45deg); }
+    .architecture-diagram { display: grid; grid-template-columns: 1.05fr .12fr 1.05fr .12fr 2.25fr; gap: .7cqw; align-items: stretch; margin-top: 1cqw; }
+    .arch-node, .arch-branch { min-width: 0; padding: .9cqw; border: 1px solid rgba(124,232,255,.23); border-radius: .85cqw; background: rgba(124,232,255,.06); }
+    .arch-node { display: flex; flex-direction: column; justify-content: center; }
+    .arch-index { color: #7ce8ff; font-family: Consolas,"Courier New",monospace; font-size: .7cqw; font-weight: 800; }
+    .arch-node strong, .arch-branch strong { display: block; margin-top: .45cqw; color: #edf8fc; font-size: 1.04cqw; }
+    .arch-node small, .arch-branch small { display: block; margin-top: .35cqw; color: #91a9b5; font-size: .72cqw; line-height: 1.35; overflow-wrap: anywhere; }
+    .arch-connector { position: relative; align-self: center; height: .1cqw; background: #7ce8ff; }
+    .arch-connector::after { position: absolute; top: -.22cqw; right: 0; width: .48cqw; height: .48cqw; border-top: .1cqw solid #7ce8ff; border-right: .1cqw solid #7ce8ff; content: ""; transform: rotate(45deg); }
+    .arch-branch { border-color: rgba(199,178,255,.32); background: rgba(199,178,255,.065); }
+    .branch-title { color: #c7b2ff; font-size: .73cqw; font-weight: 800; letter-spacing: .08em; }
+    .branch-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .55cqw; margin-top: .65cqw; }
+    .branch-item { min-width: 0; padding: .6cqw; border: 1px solid rgba(199,178,255,.17); border-radius: .6cqw; background: rgba(7,16,26,.36); }
+    .branch-item strong { margin-top: 0; font-size: .84cqw; }
+    .branch-item small { font-size: .65cqw; }
+    .storage-line { display: flex; align-items: center; justify-content: center; gap: .75cqw; margin-top: .7cqw; }
+    .storage-line .down { position: relative; width: .1cqw; height: 1.15cqw; background: #c7b2ff; }
+    .storage-line .down::after { position: absolute; bottom: 0; left: -.2cqw; width: .45cqw; height: .45cqw; border-right: .1cqw solid #c7b2ff; border-bottom: .1cqw solid #c7b2ff; content: ""; transform: rotate(45deg); }
+    .storage-box { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .6cqw; width: 72cqw; padding: .72cqw; border: 1px solid rgba(164,239,190,.3); border-radius: .75cqw; background: rgba(164,239,190,.055); }
+    .storage-box div { min-width: 0; padding: .55cqw; border: 1px solid rgba(164,239,190,.16); border-radius: .5cqw; }
+    .storage-box strong { display: block; color: #b8f4ca; font-family: Consolas,"Courier New",monospace; font-size: .77cqw; overflow-wrap: anywhere; }
+    .storage-box small { display: block; margin-top: .25cqw; color: #8ba698; font-size: .62cqw; line-height: 1.3; }
+    .architecture-notes { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65cqw; margin-top: .75cqw; }
+    .architecture-note { padding: .62cqw .72cqw; border: 1px solid rgba(160,202,220,.13); border-radius: .65cqw; background: rgba(255,255,255,.03); }
+    .architecture-note strong { display: block; color: #d4e5eb; font-size: .75cqw; }
+    .architecture-note p { margin-top: .28cqw; color: #90a6b2; font-size: .68cqw; line-height: 1.35; }
+
+    .demo .slide-kicker { color: #f5ca79; }
+    .demo-banner { display: flex; align-items: center; justify-content: space-between; gap: 1cqw; margin-top: 1.15cqw; padding: .7cqw .9cqw; border: 1px dashed rgba(245,202,121,.42); border-radius: .75cqw; background: rgba(245,202,121,.06); }
+    .demo-banner strong { color: #f7dc9f; font-size: .88cqw; }
+    .demo-banner span { color: #b6a57f; font-size: .7cqw; }
+    .demo-routes { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .8cqw; margin-top: .8cqw; }
+    .demo-route { min-width: 0; padding: .9cqw; border: 1px solid rgba(160,202,220,.16); border-radius: .8cqw; background: rgba(10,23,33,.75); }
+    .route-index { color: #f5ca79; font-family: Consolas,"Courier New",monospace; font-size: .76cqw; font-weight: 800; letter-spacing: .1em; }
+    .demo-route h3 { margin-top: .68cqw; font-size: 1.05cqw; }
+    .demo-route p { margin-top: .48cqw; font-size: .78cqw; }
+    .demo-route .route-code { display: block; margin-top: .75cqw; color: #c9dae1; font-family: Consolas,"Courier New",monospace; font-size: .72cqw; overflow-wrap: anywhere; }
+    .demo-lower { display: grid; grid-template-columns: 1fr 1fr; gap: .8cqw; margin-top: .8cqw; }
+    .demo-panel { min-width: 0; padding: .8cqw .9cqw; border: 1px solid rgba(160,202,220,.14); border-radius: .75cqw; background: rgba(255,255,255,.03); }
+    .demo-panel h3 { font-size: .86cqw; }
+    .demo-panel ul { display: grid; gap: .3cqw; margin: .52cqw 0 0; padding-left: 1.05cqw; }
+    .demo-panel li { color: #9fb5c2; font-size: .72cqw; line-height: 1.35; }
+    .demo-footnote { margin-top: .5cqw; color: #879da9; font-size: .68cqw; }
+
+    .impact .slide-kicker { color: #a4efbe; }
+    .impact-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .8cqw; margin-top: 1.15cqw; }
+    .impact-card { min-width: 0; min-height: 12.5cqw; padding: .95cqw; border: 1px solid rgba(160,202,220,.17); border-radius: .85cqw; background: rgba(15,32,45,.78); }
+    .impact-card h3 { margin-top: .8cqw; font-size: 1.03cqw; }
+    .impact-card p { margin-top: .45cqw; font-size: .78cqw; }
+    .measure { margin-top: .78cqw; padding-top: .55cqw; border-top: 1px solid rgba(160,202,220,.13); }
+    .measure strong { display: block; color: #cfe0e7; font-size: .68cqw; }
+    .measure span { display: block; margin-top: .2cqw; color: #879da9; font-size: .66cqw; line-height: 1.35; }
+    .impact-lower { display: grid; grid-template-columns: 1.2fr .8fr; gap: .8cqw; margin-top: .8cqw; }
+    .kpi-panel, .next-panel { min-width: 0; padding: .8cqw .9cqw; border: 1px solid rgba(164,239,190,.2); border-radius: .78cqw; background: rgba(164,239,190,.045); }
+    .kpi-panel h3, .next-panel h3 { color: #d7f1df; font-size: .86cqw; }
+    .kpi-panel .micro { margin-top: .25cqw; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .45cqw; margin-top: .65cqw; }
+    .kpi { min-width: 0; padding: .48cqw; border-radius: .5cqw; background: rgba(2,13,20,.3); }
+    .kpi strong { display: block; color: #a4efbe; font-size: .68cqw; }
+    .kpi span { display: block; margin-top: .2cqw; color: #9db1aa; font-size: .59cqw; line-height: 1.25; }
+    .next-panel { border-color: rgba(199,178,255,.23); background: rgba(199,178,255,.045); }
+    .next-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .35cqw .7cqw; margin-top: .55cqw; padding: 0; list-style: none; }
+    .next-list li { position: relative; padding-left: .85cqw; color: #ac9ed0; font-size: .68cqw; line-height: 1.3; }
+    .next-list li::before { position: absolute; top: .42em; left: 0; width: .42cqw; height: .42cqw; border: 1px solid #c7b2ff; border-radius: 50%; content: ""; }
+
+    .qa .slide-kicker { color: #f5ca79; }
+    .qa-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .8cqw; margin-top: 1.55cqw; }
+    .qa-card { min-width: 0; padding: 1cqw 1.1cqw; border: 1px solid rgba(160,202,220,.16); border-radius: .85cqw; background: rgba(15,32,45,.78); }
+    .qa-card .question { color: #f0f7fa; font-size: 1.04cqw; font-weight: 750; line-height: 1.3; }
+    .qa-card .answer { margin-top: .55cqw; color: #a9bfca; font-size: .82cqw; line-height: 1.42; }
+    .qa-principle { margin-top: 1cqw; color: #f1d69a; font-size: .85cqw; }
+
+    .checklist .slide-inner { padding-top: 6.9cqw; }
+    .check-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 2.3cqw; row-gap: .15cqw; margin-top: 1.3cqw; }
+    .check-item { display: flex; align-items: flex-start; gap: .65cqw; min-width: 0; padding: .52cqw 0; border-bottom: 1px solid rgba(160,202,220,.12); }
+    .check-box { width: 1.05cqw; height: 1.05cqw; flex: 0 0 auto; margin-top: .14cqw; border: 1px solid rgba(164,239,190,.62); border-radius: .25cqw; background: rgba(164,239,190,.07); }
+    .check-item span:last-child { color: #bfd1da; font-size: .82cqw; line-height: 1.35; }
+    .final-note { margin-top: .8cqw; color: #f1d69a; font-size: .78cqw; }
+    .final-sources { margin-top: .7cqw; padding: .62cqw .75cqw; border: 1px solid rgba(160,202,220,.14); border-radius: .68cqw; background: rgba(3,11,18,.42); }
+    .final-sources > strong { display: block; color: #d1e2e9; font-size: .72cqw; letter-spacing: .08em; }
+    .final-sources .source-links { margin-top: .4cqw; }
+    .final-sources .source-links a { font-size: .58cqw; }
+
+    .side-nav { position: absolute; top: 50%; right: 1.65cqw; left: 1.65cqw; z-index: 18; display: flex; justify-content: space-between; pointer-events: none; transform: translateY(-50%); }
+    .nav-button { display: grid; width: 2.7cqw; height: 2.7cqw; padding: 0; place-items: center; border: 1px solid rgba(174,215,230,.18); border-radius: 50%; background: rgba(3,13,21,.48); color: #bfe6ef; cursor: pointer; opacity: .48; pointer-events: auto; transition: opacity 160ms ease,border-color 160ms ease,background 160ms ease; }
+    .nav-button:hover { border-color: rgba(124,232,255,.6); background: rgba(124,232,255,.12); opacity: 1; }
+    .nav-button svg { width: 1.05cqw; height: 1.05cqw; }
+    .statusbar { position: absolute; right: 6.8cqw; bottom: 2cqw; left: 6.8cqw; z-index: 17; display: grid; grid-template-columns: 7cqw minmax(0,1fr) auto; align-items: center; gap: 1cqw; }
+    .slide-status { color: #d6e9f0; font-family: Consolas,"Courier New",monospace; font-size: .78cqw; font-weight: 800; letter-spacing: .08em; white-space: nowrap; }
+    .progress-track { height: .22cqw; overflow: hidden; border-radius: 99px; background: rgba(179,216,229,.15); }
+    .progress-fill { width: 10%; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#7ce8ff,#a4efbe); transition: width 220ms ease; }
+    .keyboard-hint { color: rgba(190,214,224,.64); font-size: .72cqw; white-space: nowrap; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (prefers-reduced-motion: reduce) { .slide, .progress-fill { transition: none; } }
+    #stage:fullscreen { width: min(100vw,177.7777778vh); height: min(100vh,56.25vw); }
+  </style>
+</head>
+<body>
+  <main id="stage" tabindex="0" aria-label="Kairos AI 서비스톤 발표자료">
+    <header class="topbar" aria-label="발표자료 머리말">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M7 8v24M7 20h9M16 20 31 8M16 20l15 12" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2" />
+          <circle cx="7" cy="8" r="2.2" fill="currentColor" /><circle cx="31" cy="8" r="2.2" fill="currentColor" /><circle cx="31" cy="32" r="2.2" fill="currentColor" />
+        </svg>
+        <span class="brand-name">Kairos</span><span class="brand-kind">AI 서비스톤</span>
+      </div>
+      <span class="top-context">지원 준비를 위한 AI 커리어 작업공간</span>
+    </header>
+
+    <div class="slides" id="slides">
+      <section class="slide cover is-active" data-title="표지" aria-labelledby="slide-title-1" aria-hidden="false">
+        <div class="slide-inner">
+          <div class="slide-kicker">2026 SW미래채움 · AI·SW중심대학 연합 경진대회</div>
+          <div class="eyebrow">AI 서비스톤</div>
+          <div class="cover-logo" aria-hidden="true">Kai<span>ros</span></div>
+          <h1 id="slide-title-1">지원 준비를 위한<br>AI 커리어 작업공간</h1>
+          <p class="cover-subtitle">채용공고와 이력서 텍스트를 근거로 지원 준비를 돕는 작업공간</p>
+          <div class="cover-meta" aria-label="발표 입력 정보">
+            <div class="meta-item"><span>팀명</span><strong>[입력 필요]</strong></div>
+            <div class="meta-item"><span>발표자</span><strong>[입력 필요]</strong></div>
+            <div class="meta-item"><span>팀원명</span><strong>[입력 필요]</strong></div>
+            <div class="meta-item"><span>발표 시간</span><strong>본문 5분 · Q&amp;A 별도</strong></div>
+          </div>
+          <p class="cover-time">매일의 경력 기록을 근거로 지원 준비를 돕는 AI 커리어 작업공간</p>
+          <div class="speaker-line" aria-label="표지 발표 문장"><span class="label">발표 문장</span><p>지원 준비를 위한 AI 커리어 작업공간, Kairos를 소개합니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide overview" data-title="서비스 개요" aria-labelledby="slide-title-2" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">02 / 10 <span class="slide-number-label">서비스 개요</span></div>
+          <div class="overview-head">
+            <div><h2 id="slide-title-2">공고와 이력서를 근거로<br>지원 준비를 한 흐름에 놓습니다</h2><p class="lead">Kairos는 채용공고와 이력서 텍스트를 기준으로 ATS 단서를 분석하고, AI 개선 제안을 사용자가 확인한 뒤 저장하고, 텍스트 면접을 별도로 시작하는 작업공간입니다.</p></div>
+            <div class="overview-statement"><div class="eyebrow">핵심 전달 문장</div><p>매일의 경력 기록을 근거로 지원 준비를 돕는 AI 커리어 작업공간</p></div>
+          </div>
+          <div class="overview-cards">
+            <article class="card overview-card"><div class="index">01</div><h3>근거를 먼저 보기</h3><p>공고와 이력서에서 발견된 키워드, 누락 단서, 개선 이유를 나눠 확인합니다.</p></article>
+            <article class="card overview-card"><div class="index">02</div><h3>수정은 제안으로</h3><p>AI가 본문을 제안하되 원문과 변경점을 비교한 뒤 사용자가 반영 여부를 결정합니다.</p></article>
+            <article class="card overview-card"><div class="index">03</div><h3>다음 행동으로</h3><p>이력서를 저장한 후 텍스트 면접을 별도로 시작해 지원 전 준비를 정리합니다.</p></article>
+          </div>
+          <p class="scope-note"><strong>현재 구현 범위</strong> 공고·이력서 텍스트 분석, 이력서 개선 제안, 텍스트 면접. 지원 제출과 회사별 합격 예측은 제공하지 않습니다.</p>
+          <div class="speaker-line" aria-label="서비스 개요 발표 문장"><span class="label">발표 문장</span><p>공고를 읽고, 이력서를 고치고, 면접을 준비하는 단절된 과정을 근거 중심의 준비 흐름으로 묶습니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide problem dense" data-title="문제 배경 및 타깃 사용자" aria-labelledby="slide-title-3" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">03 / 10 <span class="slide-number-label">문제 배경 및 타깃 사용자</span></div>
+          <h2 id="slide-title-3">경험은 있지만, 공고와 나를<br>연결하고 검증하기 어렵습니다</h2>
+          <p class="lead">대표 타깃은 프로젝트 경험과 기술 스택은 있지만, 공고마다 무엇을 고치고 어떻게 말할지 다시 판단해야 하는 신입 지원자입니다.</p>
+          <div class="problem-head">
+            <article class="persona-card"><div class="eyebrow">대표 타깃</div><h3>졸업 1년 차 신입 지원자</h3><p>경험은 있으나 요구사항과 자신의 경험을 문장으로 연결하는 데 시간이 걸립니다.</p><div class="persona-meta"><strong>지원 직전</strong><br>AI가 고친 문장을 믿고 반영해도 되는지 확인하고 싶습니다.</div></article>
+            <div class="pain-grid" aria-label="대표 문제 세 가지">
+              <article class="pain-card"><div class="index">PAIN 01</div><h3>비교 비용</h3><p>공고의 요구 역량과 내 경험을 문장 단위로 대조해야 합니다.</p></article>
+              <article class="pain-card"><div class="index">PAIN 02</div><h3>표현의 불확실성</h3><p>AI 문장을 그대로 믿기 어렵고 원문과 변경 근거를 확인해야 합니다.</p></article>
+              <article class="pain-card"><div class="index">PAIN 03</div><h3>준비의 단절</h3><p>이력서와 면접 준비가 분리되어 다음 행동으로 이어지기 어렵습니다.</p></article>
+            </div>
+          </div>
+          <div class="stats-grid" aria-label="문제 배경 통계 카드">
+            <article class="stat-card"><div class="stat-value">11.3<small>개월</small></div><div class="stat-title">첫 취업 평균 소요기간</div><dl class="stat-meta"><div class="stat-meta-row"><dt>모집단</dt><dd>취업 경험이 있는 청년 졸업자 중 첫 일자리가 임금근로자인 경우</dd></div><div class="stat-meta-row"><dt>기준시점</dt><dd>2025년 5월</dd></div><div class="stat-meta-row"><dt>출처</dt><dd>통계청 청년층 부가조사</dd></div></dl></article>
+            <article class="stat-card"><div class="stat-value">48.6<small>%</small></div><div class="stat-title">졸업 후 1년 이상 미취업 비중</div><dl class="stat-meta"><div class="stat-meta-row"><dt>모집단</dt><dd>15~29세 최종학교 졸업자 중 현재 미취업자</dd></div><div class="stat-meta-row"><dt>기준시점</dt><dd>2026년 5월 · 미취업 기간 1년 이상</dd></div><div class="stat-meta-row"><dt>출처</dt><dd>국가데이터처 부가조사 · 동아일보</dd></div></dl></article>
+            <article class="stat-card"><div class="stat-value">64.4<small>%</small></div><div class="stat-title">제출 자기소개서 AI 작성 의심 비중</div><dl class="stat-meta"><div class="stat-meta-row"><dt>모집단</dt><dd>2025년 실제 채용에 제출된 자기소개서</dd></div><div class="stat-meta-row"><dt>기준시점</dt><dd>2025년 제출분 · 2026년 1월 공개</dd></div><div class="stat-meta-row"><dt>출처</dt><dd>무하유 프리즘 · 지디넷코리아</dd></div></dl></article>
+          </div>
+          <p class="stat-caveat">세 수치는 서로 다른 모집단·기준시점·측정 기준의 외부 근거이며 Kairos의 성과 수치가 아닙니다.</p>
+          <aside class="source-strip" aria-label="슬라이드 3 통계 출처 URL"><div class="source-strip-title">출처 원문 URL</div><div class="source-links">
+            <a href="https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210" target="_blank" rel="noreferrer">https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210</a>
+            <a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847" target="_blank" rel="noreferrer">https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847</a>
+            <a href="https://www.donga.com/news/Economy/article/all/20260723/134350159/1" target="_blank" rel="noreferrer">https://www.donga.com/news/Economy/article/all/20260723/134350159/1</a>
+            <a href="https://v.daum.net/v/20260108160242419" target="_blank" rel="noreferrer">https://v.daum.net/v/20260108160242419</a>
+          </div></aside>
+          <div class="speaker-line" aria-label="문제 배경 발표 문장"><span class="label">발표 문장</span><p>세 수치는 하나의 인과 지표로 합치지 않고, 지원 준비의 반복 비용과 검증 불안을 설명하는 근거로만 사용합니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide features dense" data-title="주요 기능" aria-labelledby="slide-title-4" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">04 / 10 <span class="slide-number-label">주요 기능</span></div>
+          <h2 id="slide-title-4">현재 코드와 시연 경로가 연결된<br>세 가지 기능만 말합니다</h2>
+          <p class="lead">세 기능 모두 분석 또는 제안 뒤 사용자가 결과를 확인하는 지점을 둡니다.</p>
+          <div class="rule-title" style="margin-top:1.35cqw"><strong>구현 완료 · 실제 시연 가능</strong><span class="badge lime">현재 범위</span></div>
+          <div class="feature-grid" style="margin-top:0">
+            <article class="card feature-card"><div class="feature-number">01</div><h3>ATS 휴리스틱 분석</h3><p>공고와 이력서 텍스트의 정규화 키워드, 스킬, 경력, 학력, 키워드 밀도를 결정론적으로 비교합니다.</p><div class="pill-row"><span class="badge cyan">LLM 점수 아님</span><span class="badge">/ats</span></div><span class="route">POST /api/ats/analyze</span></article>
+            <article class="card feature-card"><div class="feature-number">02</div><h3>이력서 AI 개선 · Diff 승인</h3><p>Gemini가 개선안을 제안하고, 원문과 변경점을 비교한 뒤 사용자가 편집기에 반영하고 저장합니다.</p><div class="pill-row"><span class="badge violet">Gemini REST</span><span class="badge lime">사용자 승인</span></div><span class="route">POST /api/resumes/[id]/refine</span></article>
+            <article class="card feature-card"><div class="feature-number">03</div><h3>텍스트 기반 AI 면접</h3><p>직무와 난이도를 정하고 텍스트로 질문과 답변을 주고받은 뒤 면접 세션을 종료합니다.</p><div class="pill-row"><span class="badge amber">텍스트 전용</span><span class="badge cyan">plain-text stream</span></div><span class="route">POST /api/interviews/[id]/chat</span></article>
+          </div>
+          <div class="roadmap"><div class="roadmap-head"><strong>다음 단계 · 아직 구현하지 않은 확장</strong><span>구현 완료와 섞지 않음</span></div><div class="roadmap-list">
+            <div class="roadmap-item"><div><strong>경력 기록과 공고 근거 연결</strong><p>경험 기록에서 지원 문장의 근거를 찾는 단계</p></div></div>
+            <div class="roadmap-item"><div><strong>공고 자동 수집</strong><p>현재는 사용자가 공고 텍스트를 직접 입력</p></div></div>
+            <div class="roadmap-item"><div><strong>음성·화상 면접</strong><p>현재 면접은 텍스트 전용</p></div></div>
+          </div></div>
+          <p class="feature-caveat">자동 지원 제출과 회사별 합격 예측은 현재 구현 범위가 아닙니다.</p>
+          <div class="speaker-line" aria-label="주요 기능 발표 문장"><span class="label">발표 문장</span><p>ATS, 이력서 AI 개선과 Diff 승인, 텍스트 면접 세 기능을 실제 시연 대상으로 고정했습니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide flow-slide" data-title="사용자 이용 흐름" aria-labelledby="slide-title-5" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">05 / 10 <span class="slide-number-label">사용자 이용 흐름</span></div>
+          <h2 id="slide-title-5">근거를 확인하고 승인한 뒤,<br>면접은 별도로 시작합니다</h2>
+          <div class="flow-summary" aria-label="공고와 이력서에서 텍스트 면접까지의 흐름"><span>공고·이력서</span><i class="separator" aria-hidden="true"></i><span>ATS</span><i class="separator" aria-hidden="true"></i><span>AI 개선</span><i class="separator" aria-hidden="true"></i><span>Diff 승인</span><i class="separator" aria-hidden="true"></i><span>텍스트 면접</span></div>
+          <ol class="flow-grid">
+            <li class="flow-step"><span class="flow-index">01</span><h3>공고·이력서</h3><p>채용공고와 이력서 텍스트를 입력합니다.</p></li>
+            <li class="flow-step"><span class="flow-index">02</span><h3>ATS</h3><p>매칭 키워드와 누락 단서를 확인합니다.</p></li>
+            <li class="flow-step"><span class="flow-index">03</span><h3>AI 개선</h3><p>Gemini가 이력서 수정 제안을 생성합니다.</p></li>
+            <li class="flow-step approval"><span class="flow-index">04</span><h3>Diff 승인</h3><p>원문과 제안문을 비교하고 반영 여부를 결정합니다.</p></li>
+            <li class="flow-step interview"><span class="flow-index">05</span><h3>텍스트 면접</h3><p>저장 후 별도 화면에서 직무·난이도를 정해 대화합니다.</p></li>
+          </ol>
+          <p class="flow-note"><strong>사용자 판단 지점</strong> Diff 승인. 이력서 저장과 면접 시작은 별도 동작이며, 데이터가 다음 단계로 자동 전달된다고 말하지 않습니다.</p>
+          <div class="speaker-line" aria-label="사용자 이용 흐름 발표 문장"><span class="label">발표 문장</span><p>다섯 단계의 중심은 AI가 아니라 사용자가 변경을 확인하고 승인하는 순간입니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide architecture dense" data-title="AI·SW 활용 구조" aria-labelledby="slide-title-6" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">06 / 10 <span class="slide-number-label">AI·SW 활용 구조</span></div>
+          <h2 id="slide-title-6">기능별 역할을 나눈<br>실제 요청 경로</h2>
+          <p class="lead">화면 입력은 API Route를 거쳐 ATS 분석 또는 Gemini 생성 경로로 나뉘고, 결과와 세션은 데이터 저장 경로로 이어집니다.</p>
+          <div class="path-summary" aria-label="UI에서 데이터 저장까지의 요약 경로"><span>UI</span><i class="path-arrow" aria-hidden="true"></i><span>API Route</span><i class="path-arrow" aria-hidden="true"></i><span>ATS / Gemini</span><i class="path-arrow" aria-hidden="true"></i><span>Drizzle / PostgreSQL / pgvector</span></div>
+          <div class="architecture-diagram" aria-label="Kairos AI와 소프트웨어 구조도">
+            <div class="arch-node"><span class="arch-index">01 · 입력</span><strong>Next.js UI</strong><small>/ats<br>/resume/[id]<br>/interview/[id]</small></div>
+            <span class="arch-connector" aria-hidden="true"></span>
+            <div class="arch-node"><span class="arch-index">02 · 검증</span><strong>API Route</strong><small>입력 검증<br>세션·소유권 확인</small></div>
+            <span class="arch-connector" aria-hidden="true"></span>
+            <div class="arch-branch"><div class="branch-title">03 · 기능별 실행</div><div class="branch-grid"><div class="branch-item"><strong>ATS 휴리스틱</strong><small>키워드·스킬·경력·학력·밀도<br>LLM을 거치지 않음</small></div><div class="branch-item"><strong>Gemini REST</strong><small>이력서 구조화 개선<br>면접 텍스트 응답</small></div></div></div>
+          </div>
+          <div class="storage-line" aria-label="기능 결과 저장 경로"><span class="down" aria-hidden="true"></span><div class="storage-box"><div><strong>Drizzle ORM</strong><small>결과·세션 저장</small></div><div><strong>Neon PostgreSQL</strong><small>DATABASE_URL 설정 시 영속화</small></div><div><strong>pgvector</strong><small>경력 임베딩 검색 경로</small></div></div></div>
+          <div class="architecture-notes"><div class="architecture-note"><strong>ATS 점수</strong><p>회사별 합격 확률이 아닌 코드의 결정론적 비교 신호입니다.</p></div><div class="architecture-note"><strong>Gemini 역할</strong><p>이력서 개선 제안과 텍스트 면접 응답을 담당합니다.</p></div><div class="architecture-note"><strong>저장 조건</strong><p>DB 설정이 없으면 데모 응답으로 동작할 수 있습니다.</p></div></div>
+          <div class="speaker-line" aria-label="AI와 소프트웨어 구조 발표 문장"><span class="label">발표 문장</span><p>ATS는 휴리스틱으로, 생성과 대화는 Gemini로 분리해 결과의 출처를 설명할 수 있게 했습니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide demo dense" data-title="프로토타입 또는 시연 화면" aria-labelledby="slide-title-7" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">07 / 10 <span class="slide-number-label">프로토타입 또는 시연 화면</span></div>
+          <h2 id="slide-title-7">가짜 캡처 대신,<br>실제 실행 순서를 보여줍니다</h2>
+          <p class="lead">실제 화면 캡처가 없는 상태에서 캡처처럼 보이는 이미지를 만들지 않았습니다. 발표에서는 브라우저를 직접 열어 아래 세 경로를 시연합니다.</p>
+          <div class="demo-banner"><strong>실제 시연 경로</strong><span>실제 화면 캡처 아님 · 브라우저 직접 시연</span></div>
+          <div class="demo-routes">
+            <article class="demo-route"><span class="route-index">01 · ANALYZE</span><h3>ATS 휴리스틱 분석</h3><p>직무명·공고·이력서를 입력하고 매칭 점수, 발견·누락 키워드, 세부 진단을 확인합니다.</p><span class="route-code">/ats</span></article>
+            <article class="demo-route"><span class="route-index">02 · APPROVE</span><h3>AI 개선 · Diff 승인</h3><p>개선 요청 후 Diff를 비교하고, 사용자가 제안을 편집기에 반영한 뒤 저장합니다.</p><span class="route-code">/resume/[id]</span></article>
+            <article class="demo-route"><span class="route-index">03 · PRACTICE</span><h3>텍스트 기반 면접</h3><p>직무·난이도를 정하고 텍스트 답변을 보낸 뒤 면접을 종료해 세션을 정리합니다.</p><span class="route-code">/interview/[id]</span></article>
+          </div>
+          <div class="demo-lower">
+            <aside class="demo-panel" aria-label="실제 시연 조건"><h3>실제 AI와 저장 조건</h3><ul><li>실제 AI 모드: 로그인 세션과 <code>GOOGLE_GENERATIVE_AI_API_KEY</code> 필요</li><li>DB 영속화: <code>DATABASE_URL</code> 설정 필요</li><li>개발용 mock 계정 <code>testmockup / 12345</code>: localStorage fixture와 사전 응답, 실제 Gemini 아님</li></ul></aside>
+            <aside class="demo-panel" aria-label="대체 경로"><h3>대체 경로</h3><ul><li>브라우저·네트워크·키 문제 시 실제 세 단계 화면 녹화본 재생</li><li>녹화본도 없으면 실제 정적 캡처로 전환하고 대체 자료임을 먼저 고지</li><li>가짜 캡처나 mock 결과를 실시간 실제 AI 결과처럼 설명하지 않음</li></ul></aside>
+          </div>
+          <p class="demo-footnote">저장 후 면접 시작은 별도 동작입니다. 발표 전 운영 주소와 실제 대체 자료를 확인합니다.</p>
+          <div class="speaker-line" aria-label="시연 화면 발표 문장"><span class="label">발표 문장</span><p>세 경로를 실제 순서대로 보이고, 라이브 실패 시에도 대체 자료의 성격을 구분해 말하겠습니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide impact dense" data-title="기대효과 및 확장계획" aria-labelledby="slide-title-8" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">08 / 10 <span class="slide-number-label">기대효과 및 확장계획</span></div>
+          <h2 id="slide-title-8">합격률을 단정하지 않고,<br>준비 품질을 먼저 측정합니다</h2>
+          <p class="lead">현재는 사용자가 무엇을 고쳤는지 이해하고, 이력서를 저장한 뒤 텍스트 면접을 별도로 시작하는 경험을 만들었습니다. 효과의 크기는 사용자 테스트로 검증합니다.</p>
+          <div class="impact-grid">
+            <article class="impact-card"><span class="badge cyan">개인 · 기대효과</span><h3>수정 이유를 이해하고 승인하는 준비</h3><p>AI 제안을 그대로 받지 않고 원문·변경점을 비교해 반영 여부를 결정합니다.</p><div class="measure"><strong>검증할 변화</strong><span>Diff 승인율 · 수정 후 저장 완료율</span></div></article>
+            <article class="impact-card"><span class="badge lime">사회 · 기대효과</span><h3>실제 경험을 근거로 남기는 준비</h3><p>공고와 본인의 경험을 연결해 설명 가능한 문장을 만드는 가설입니다.</p><div class="measure"><strong>검증할 변화</strong><span>근거 확인 이해도 · 자기서술 자신감</span></div></article>
+            <article class="impact-card"><span class="badge violet">시장 · 기대효과</span><h3>공고·이력서·면접을 잇는 흐름</h3><p>분리된 준비 도구를 하나의 작업공간에서 이어 쓰는 제품 가설입니다.</p><div class="measure"><strong>검증할 변화</strong><span>기능 간 전환율 · 재방문·재사용률</span></div></article>
+          </div>
+          <div class="impact-lower">
+            <section class="kpi-panel" aria-label="측정 전 KPI"><h3>측정 전 KPI · 기준선부터 수집</h3><p class="micro">기대효과는 검증 전이며 제품 사용 행동과 시스템 품질부터 측정합니다.</p><div class="kpi-grid"><div class="kpi"><strong>측정 전</strong><span>ATS 분석 완료율</span></div><div class="kpi"><strong>측정 전</strong><span>Diff 승인율</span></div><div class="kpi"><strong>측정 전</strong><span>면접 종료율</span></div><div class="kpi"><strong>측정 전</strong><span>AI 완료율·p95 응답시간</span></div></div></section>
+            <section class="next-panel" aria-label="확장계획"><h3>확장계획 · 다음 검증</h3><ul class="next-list"><li>경력 기록과 공고 근거 연결</li><li>공고 자동 수집</li><li>음성·화상 면접</li><li>개인정보 보관·삭제 정책 고도화</li></ul></section>
+          </div>
+          <div class="speaker-line" aria-label="기대효과 발표 문장"><span class="label">발표 문장</span><p>현재 성과는 준비 품질 개선의 가설이며, KPI는 측정 전이라는 사실부터 공개하겠습니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide qa" data-title="Q&A" aria-labelledby="slide-title-9" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">09 / 10 <span class="slide-number-label">Q&amp;A</span></div>
+          <h2 id="slide-title-9">질문을 미리 답합니다<br>한계도 함께 공개합니다</h2>
+          <div class="qa-grid">
+            <article class="qa-card"><div class="question">개인정보는 어떻게 다루나요?</div><p class="answer">입력 본문은 실제 Gemini 요청에 포함될 수 있고 DB 설정 시 저장될 수 있습니다. 발표에서는 비식별 샘플을 사용하며 보관·삭제 정책은 고도화 대상입니다.</p></article>
+            <article class="qa-card"><div class="question">ATS 점수가 실제 합격 가능성인가요?</div><p class="answer">아닙니다. 키워드·경력·학력·밀도를 비교한 결정론적 신호이며 회사별 ATS나 채용 확률을 재현하지 않습니다.</p></article>
+            <article class="qa-card"><div class="question">실제 AI와 mock은 어떻게 구분하나요?</div><p class="answer">실제 모드는 Gemini REST와 환경변수를 사용합니다. mock 계정은 localStorage fixture와 사전 응답이므로 실제 AI나 운영 DB 영속성의 증거가 아닙니다.</p></article>
+            <article class="qa-card"><div class="question">미구현 범위는 무엇인가요?</div><p class="answer">자동 지원 제출, 음성·화상 면접, 회사별 합격 예측과 경력 기록 자동 연결은 현재 완성품이 아니며 다음 단계로만 설명합니다.</p></article>
+          </div>
+          <p class="qa-principle">답변 원칙: 구현 완료와 로드맵을 분리하고, 결과를 과장하지 않으며, 출처와 검증 계획을 함께 말합니다.</p>
+          <div class="speaker-line" aria-label="질의응답 발표 문장"><span class="label">발표 문장</span><p>개인정보, ATS 점수, 실제 AI와 mock의 차이, 미구현 범위까지 사실 기준으로 답변하겠습니다.</p></div>
+        </div>
+      </section>
+
+      <section class="slide checklist dense" data-title="제출 전 확인사항" aria-labelledby="slide-title-10" aria-hidden="true" inert>
+        <div class="slide-inner">
+          <div class="slide-kicker">10 / 10 <span class="slide-number-label">제출 전 확인사항</span></div>
+          <h2 id="slide-title-10">발표 전 최종 체크리스트</h2>
+          <div class="check-grid" aria-label="제출 전 확인 목록">
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>표지의 팀명·발표자·팀원명을 모두 <strong>[입력 필요]</strong> 상태로 확인했는가?</span></div>
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>세 통계의 모집단·기준시점·출처 URL을 함께 표시했는가?</span></div>
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>주요 기능을 ATS, 이력서 AI 개선·Diff 승인, 텍스트 면접으로 설명하는가?</span></div>
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>시연 순서가 <code>/ats</code> → <code>/resume/[id]</code> → <code>/interview/[id]</code>인가?</span></div>
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>실제 AI 조건과 mock·녹화본·정적 캡처 대체 경로를 구분하는가?</span></div>
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>가짜 캡처를 사용하지 않고 실제 시연 경로를 준비했는가?</span></div>
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>본문 5분과 별도 Q&amp;A 5분을 구분해 운영하는가?</span></div>
+            <div class="check-item"><span class="check-box" aria-hidden="true"></span><span>자동 지원 제출·음성 면접·회사별 합격 예측을 구현 완료처럼 말하지 않았는가?</span></div>
+          </div>
+          <p class="final-note">제출 전 입력 필요: 발표자 [입력 필요] · 팀명 [입력 필요] · 팀원명 [입력 필요]</p>
+          <aside class="final-sources" aria-label="발표 근거 출처 URL"><strong>발표 근거 출처 · Slide 3와 동일한 원문</strong><div class="source-links">
+            <a href="https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210" target="_blank" rel="noreferrer">https://kostat.go.kr/board.es?mid=a10301030200&amp;bid=210</a>
+            <a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847" target="_blank" rel="noreferrer">https://www.korea.kr/briefing/policyBriefingView.do?newsId=156771847</a>
+            <a href="https://www.donga.com/news/Economy/article/all/20260723/134350159/1" target="_blank" rel="noreferrer">https://www.donga.com/news/Economy/article/all/20260723/134350159/1</a>
+            <a href="https://v.daum.net/v/20260108160242419" target="_blank" rel="noreferrer">https://v.daum.net/v/20260108160242419</a>
+          </div></aside>
+          <div class="speaker-line" aria-label="제출 전 확인사항 발표 문장"><span class="label">발표 문장</span><p>입력 정보, 통계 근거, 실제 시연 조건을 확인하고 정확히 5분의 본문 발표를 시작합니다.</p></div>
+        </div>
+      </section>
+    </div>
+
+    <nav class="side-nav" aria-label="슬라이드 이동">
+      <button class="nav-button" id="previous" type="button" aria-label="이전 슬라이드">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" /></svg>
+      </button>
+      <button class="nav-button" id="next" type="button" aria-label="다음 슬라이드">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" /></svg>
+      </button>
+    </nav>
+
+    <footer class="statusbar" aria-label="슬라이드 상태">
+      <span class="slide-status" id="slide-status" aria-live="polite">01 / 10</span>
+      <div class="progress-track" role="progressbar" aria-label="발표 진행률" aria-valuemin="1" aria-valuemax="10" aria-valuenow="1"><div class="progress-fill" id="progress-fill"></div></div>
+      <span class="keyboard-hint">방향키로 이동 · F 전체화면</span>
+    </footer>
+    <div class="sr-only" id="slide-announcer" aria-live="polite">현재 슬라이드 1: 표지</div>
+  </main>
+
+  <script>
+    (() => {
+      const stage = document.getElementById('stage');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const status = document.getElementById('slide-status');
+      const progress = document.getElementById('progress-fill');
+      const progressTrack = document.querySelector('.progress-track');
+      const announcer = document.getElementById('slide-announcer');
+      const previous = document.getElementById('previous');
+      const next = document.getElementById('next');
+      let current = 0;
+      let touchStart = null;
+
+      function render(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === current;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+          if (active) slide.removeAttribute('inert');
+          else slide.setAttribute('inert', '');
+        });
+        const number = String(current + 1).padStart(2, '0');
+        status.textContent = number + ' / ' + String(slides.length).padStart(2, '0');
+        progress.style.width = (((current + 1) / slides.length) * 100) + '%';
+        progressTrack.setAttribute('aria-valuenow', String(current + 1));
+        announcer.textContent = '현재 슬라이드 ' + (current + 1) + ': ' + slides[current].dataset.title;
+      }
+
+      function goNext() { render(current + 1); }
+      function goPrevious() { render(current - 1); }
+
+      previous.addEventListener('click', (event) => { event.stopPropagation(); goPrevious(); });
+      next.addEventListener('click', (event) => { event.stopPropagation(); goNext(); });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); goNext(); }
+        else if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); goPrevious(); }
+        else if (event.key === 'Home') { event.preventDefault(); render(0); }
+        else if (event.key === 'End') { event.preventDefault(); render(slides.length - 1); }
+        else if (event.key.toLowerCase() === 'f') {
+          event.preventDefault();
+          if (!document.fullscreenElement) {
+            if (stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+            else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+          }
+        }
+      });
+
+      stage.addEventListener('click', (event) => {
+        if (event.target.closest('a, button')) return;
+        const bounds = stage.getBoundingClientRect();
+        if (event.clientX - bounds.left < bounds.width / 2) goPrevious();
+        else goNext();
+      });
+
+      stage.addEventListener('touchstart', (event) => {
+        const touch = event.changedTouches[0];
+        touchStart = { x: touch.clientX, y: touch.clientY };
+      }, { passive: true });
+
+      stage.addEventListener('touchend', (event) => {
+        if (!touchStart) return;
+        const touch = event.changedTouches[0];
+        const deltaX = touch.clientX - touchStart.x;
+        const deltaY = touch.clientY - touchStart.y;
+        touchStart = null;
+        if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+          if (deltaX < 0) goNext();
+          else goPrevious();
+        }
+      }, { passive: true });
+
+      render(0);
+    })();
+  </script>
+</body>
+</html>

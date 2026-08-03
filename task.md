@@ -463,3 +463,18 @@
 - [x] `.env`와 `.env.local`이 `.gitignore` 대상이고 `.env.example`만 예외인 것을 확인
 - [x] `git diff --check` 및 허용 파일 diff의 secret 패턴 검사
 - [x] `.env.example`, `README.md`, `task.md` 외 소스·계획서는 수정하지 않음
+
+---
+
+## 세션 17: 루트 정적 발표자료 제작 (2026-08-03)
+
+- [x] 루트 `발표자료` 폴더 생성
+- [x] `발표자료/index.html` 단일 파일에 공식 10슬라이드 구성
+- [x] 16:9 발표 화면·반응형 축소·프로젝터용 가독성 적용
+- [x] ArrowRight·ArrowLeft·PageUp·PageDown·Home·End·F 전체화면 조작 구현
+- [x] 마우스 클릭·터치 좌우 이동 구현
+- [x] 문제정의 통계·모집단·기준시점·출처 시각화
+- [x] ATS·이력서 Diff·텍스트 면접 흐름과 실제 아키텍처 시각화
+- [x] 이모지·외부 라이브러리·외부 폰트 없이 단독 실행 확인
+- [x] `</html>` 종료·10개 슬라이드·출처 URL·JavaScript 문법 검사
+- [x] 커밋 (push 안 함)
