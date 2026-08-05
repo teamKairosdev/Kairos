@@ -30,12 +30,12 @@ function matchesGoal(item: { goalId: string }, goalId: string): boolean {
 
 async function updateMilestone(
   req: NextRequest,
-  { params }: { params: Promise<{ goalId: string; milestoneId: string }> },
+  { params }: { params: Promise<{ id: string; milestoneId: string }> },
 ) {
   try {
     const session = await getSession(req);
     if (!session?.userId) return unauthorized();
-    const { goalId, milestoneId } = await params;
+    const { id: goalId, milestoneId } = await params;
     if (!goalId || !milestoneId) return badRequest('마일스톤 ID가 필요합니다.');
 
     let body: Record<string, unknown>;
@@ -131,12 +131,12 @@ async function updateMilestone(
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ goalId: string; milestoneId: string }> },
+  { params }: { params: Promise<{ id: string; milestoneId: string }> },
 ) {
   try {
     const session = await getSession(req);
     if (!session?.userId) return unauthorized();
-    const { goalId, milestoneId } = await params;
+    const { id: goalId, milestoneId } = await params;
     if (!goalId || !milestoneId) return badRequest('마일스톤 ID가 필요합니다.');
     const db = getDb();
     if (!db) {
@@ -159,22 +159,22 @@ export async function GET(
   }
 }
 
-export async function PUT(req: NextRequest, context: { params: Promise<{ goalId: string; milestoneId: string }> }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string; milestoneId: string }> }) {
   return updateMilestone(req, context);
 }
 
-export async function PATCH(req: NextRequest, context: { params: Promise<{ goalId: string; milestoneId: string }> }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string; milestoneId: string }> }) {
   return updateMilestone(req, context);
 }
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ goalId: string; milestoneId: string }> },
+  { params }: { params: Promise<{ id: string; milestoneId: string }> },
 ) {
   try {
     const session = await getSession(req);
     if (!session?.userId) return unauthorized();
-    const { goalId, milestoneId } = await params;
+    const { id: goalId, milestoneId } = await params;
     if (!goalId || !milestoneId) return badRequest('마일스톤 ID가 필요합니다.');
     const db = getDb();
     if (!db) {

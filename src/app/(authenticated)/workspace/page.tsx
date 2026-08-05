@@ -188,10 +188,13 @@ export default function WorkspacePage() {
     setWorkspaceLoading(true);
     setPageError(null);
     try {
+      const requestedWorkspaceId = typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search).get('workspace')
+        : null;
       if (mode) {
         const localData = readMockWorkspaceList();
         setWorkspaces(localData.map((item) => item.workspace));
-        const first = localData[0];
+        const first = localData.find((item) => item.workspace.id === requestedWorkspaceId) || localData[0];
         if (first) await openWorkspace(first.workspace.id, true);
         return;
       }
@@ -200,7 +203,8 @@ export default function WorkspacePage() {
       if (!response.ok) throw new Error(payloadError(payload, '워크스페이스 목록을 불러오지 못했습니다.'));
       const nextWorkspaces = payload?.workspaces || [];
       setWorkspaces(nextWorkspaces);
-      if (nextWorkspaces[0]) await openWorkspace(nextWorkspaces[0].id, false);
+      const first = nextWorkspaces.find((workspace) => workspace.id === requestedWorkspaceId) || nextWorkspaces[0];
+      if (first) await openWorkspace(first.id, false);
     } catch (error: unknown) {
       setPageError(error instanceof Error ? error.message : '워크스페이스를 불러오지 못했습니다.');
     } finally {

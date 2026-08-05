@@ -87,7 +87,7 @@ flowchart TB
 | **Styling** | Tailwind CSS v4 (CSS-first, @theme) · Freesentation 폰트 |
 | **Validation** | zod (LLM 구조화 응답 스키마) |
 | **UI 유틸** | sonner (토스트) · diff (단어 diff 렌더) |
-| **Testing** | Vitest (34개 테스트 파일 · 186 tests) |
+| **Testing** | Vitest (35개 테스트 파일 · 193 tests) |
 | **Deploy** | Vercel (icn1 서울 리전) · `.npmrc` legacy-peer-deps |
 
 ---
@@ -97,8 +97,8 @@ flowchart TB
 - **Schema tables**: `db/schema.ts`의 `export const ... = pgTable(...)` 기준 **44개**.
 - **API routes**: `src/app/api/**/route.ts` 파일 기준 **107개**.
 - **Pages**: `src/app/**/page.tsx` 파일 기준 **28개**.
-- **Tests**: `test/**/*.test.ts` **34개 파일**, Vitest 테스트 케이스 **186개**.
-- 위 수치는 생성된 `.next` 산출물이 아니라 현재 소스 파일을 센 값이며, 최신 `npm test` 결과 34개 파일·186개 통과와 일치한다.
+- **Tests**: `test/**/*.test.ts` **35개 파일**, Vitest 테스트 케이스 **193개**.
+- 위 수치는 생성된 `.next` 산출물이 아니라 현재 소스 파일을 센 값이며, 최신 `npm test` 결과 35개 파일·193개 통과와 일치한다.
 - 현재 `db/schema.ts`와 `src/server/embedding.ts`의 임베딩 차원은 **768d**이며, `drizzle/0006_clumsy_lake.sql`은 기존 경력 임베딩을 무효화하고 `vector(768)`로 변경한다.
 
 ---
@@ -113,6 +113,10 @@ flowchart TB
 | **Text Humanizer** | AI 문체 → 자연 한국어 변환 + 문체 점수 | `humanizer.ts` · LLM Structured |
 | **Q&A Generator** | 직무별 면접 질문/모범답변 세트 생성 | `qa.ts` · LLM Structured |
 | **Career Semantic Search** | pgvector 768d 코사인 유사도 경력 검색 | `embedding.ts` · `career.ts` |
+| **Context Sea** | 사용자 동의 기반 파일 import·Notion/GitHub·공공 API sync·검색·JSON/Markdown export | `contexts.ts` · `privateProviders.ts` · `publicProviders.ts` |
+| **Career Diary** | 경력 일기 CRUD와 목표·직무 탐색에 사용하는 계정 소유 기록 | `careerPlanning.ts` · `career-diary/*` |
+| **Agent Workspace** | local-only draft/rewrite/summarize/diff, artifact version·restore·feedback | `agentWorkspace.ts` · `workspace/*` |
+| **Community Matching** | 공개 가능한 career record 기반 유사도 매칭과 게시글 CRUD | `communityMatches.ts` · `community/*` |
 | **Company Intelligence** | 회사 WLB/문화/연봉 분석 (24h 캐시) | `companyMeta.ts` |
 | **AI Photo Studio** | Imagen 3.0 이미지 생성 + 업로드 갤러리 | `imageGen.ts` · `studio/*` |
 | **HWP/HWPX 문서** | 서버 텍스트 추출(업로드 영속화) · 웹 뷰어(SVG 페이지) · 웹 에디터(저장) | `HwpViewer.tsx` · `HwpEditor.tsx` · `hwpParser.ts` |
@@ -557,7 +561,7 @@ npm run db:migrate   # Apply migrations to the configured PostgreSQL database
 npm run db:studio    # Launch Drizzle Studio GUI
 
 # Tests
-  npm test             # Vitest · 186 tests (34개 파일)
+  npm test             # Vitest · 193 tests (35개 파일)
 ```
 
 ### Local PostgreSQL
@@ -607,7 +611,7 @@ kairos/
 ├── packages/                   # 플랫폼 브리지 목 스텁 (tauri-bridge, mobile-bridge, agent-cli)
 ├── public/                     # 브랜드 SVG 7종 · rhwp_bg.wasm (postinstall 산출물)
 ├── scripts/                    # copy-rhwp.mjs (WASM 복사)
-├── test/                       # Vitest · 테스트 34파일 · 186 tests
+├── test/                       # Vitest · 테스트 35파일 · 193 tests
 ├── drizzle/                    # SQL 마이그레이션
 ├── next.config.ts · vercel.json · drizzle.config.ts · vitest.config.ts · tsconfig.json
 ├── seed-design.json            # Seed Design CLI 설정 (컴포넌트 미생성)
@@ -692,4 +696,4 @@ kairos/
 
 ---
 
-*최종 수정: 2026-08-04 | 코드 인벤토리 44 tables · 107 API routes · 28 pages · 34 test files / 186 tests 기준*
+*최종 수정: 2026-08-05 | 코드 인벤토리 44 tables · 107 API routes · 28 pages · 35 test files / 193 tests 기준*

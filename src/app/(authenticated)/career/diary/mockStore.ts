@@ -72,6 +72,7 @@ export interface MockCandidate {
 }
 
 const STOP_WORDS = new Set(['그리고', '대한', '대해', '있는', '경험', '업무', '역량', '성과', '목표', '통해', '위한', '및', '등']);
+const USER_SCOPED_KEYS = new Set(['mock_career_diary', 'mock_career_goals', 'mock_career_matches']);
 
 export function isCareerMockMode(): boolean {
   return typeof window !== 'undefined' && window.localStorage.getItem('is_mock_mode') === 'true';
@@ -86,9 +87,13 @@ export function mockUserId(): string {
   }
 }
 
+export function mockStorageKey(key: string): string {
+  return USER_SCOPED_KEYS.has(key) ? `${key}:${mockUserId()}` : key;
+}
+
 export function readMockList<T>(key: string): T[] {
   try {
-    const value = JSON.parse(window.localStorage.getItem(key) || '[]');
+    const value = JSON.parse(window.localStorage.getItem(mockStorageKey(key)) || '[]');
     return Array.isArray(value) ? value as T[] : [];
   } catch {
     return [];
@@ -96,7 +101,7 @@ export function readMockList<T>(key: string): T[] {
 }
 
 export function writeMockList<T>(key: string, value: T[]): void {
-  window.localStorage.setItem(key, JSON.stringify(value));
+  window.localStorage.setItem(mockStorageKey(key), JSON.stringify(value));
 }
 
 export function mockId(prefix: string): string {

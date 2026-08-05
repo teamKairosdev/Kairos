@@ -3,7 +3,7 @@
  * Patches global fetch when is_mock_mode is set in localStorage.
  * Call initMockInterceptor() in a client-side useEffect.
  */
-import { getSimulatedLLMResponse } from '../data/mock/mockup';
+import { generateProfiles, getSimulatedLLMResponse } from '../data/mock/mockup';
 import { analyzeATSCompatibility } from '../server/ats';
 
 function deterministicScore(seed: string, min: number, max: number): number {
@@ -86,6 +86,57 @@ interface MockHumanizerEntry {
   createdAt: string;
 }
 
+interface MockContextProvider {
+  id: string;
+  providerType: string;
+  displayName: string;
+  connectionMode: 'official_api' | 'file_import';
+  status: 'not_connected' | 'ready' | 'import_only' | 'paused' | 'error';
+  connectionState: string;
+  officialApi: string;
+  officialApiConfigured: boolean;
+  consentScope: string[];
+  consentGranted: boolean;
+  lastSyncedAt: string | null;
+  lastErrorCode: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface MockContextItem {
+  id: string;
+  providerId: string;
+  providerType: string;
+  providerDisplayName: string;
+  itemType: string;
+  title: string;
+  content: string;
+  contentHash: string;
+  sourceReferenceHash: string | null;
+  occurredAt: string | null;
+  importedAt: string;
+  updatedAt: string;
+}
+
+interface MockExportJob {
+  id: string;
+  status: string;
+  format: string;
+  itemCount: number;
+  completedAt: string | null;
+}
+
+interface MockCommunityPost {
+  id: string;
+  userId: string;
+  title: string;
+  content: string;
+  category: 'interview_pass' | 'career_tip' | 'qna';
+  isAnonymous: boolean;
+  likesCount: number;
+  createdAt: string;
+}
+
 interface MockRequestBody {
   title?: string;
   originalContent?: string;
@@ -112,6 +163,21 @@ interface MockRequestBody {
   jobDescription?: string;
   resumeText?: string;
   resumeId?: string;
+  providerId?: string;
+  providerType?: string;
+  connectionMode?: 'official_api' | 'file_import';
+  consentGranted?: boolean;
+  format?: 'json' | 'markdown' | 'text';
+  content?: string;
+  items?: unknown[];
+  sourceReference?: string;
+  occurredAt?: string;
+  metadata?: Record<string, unknown>;
+  isAnonymous?: boolean;
+  category?: 'interview_pass' | 'career_tip' | 'qna';
+  missionId?: string;
+  download?: boolean;
+  q?: string;
 }
 
 const DB_NAME = 'kairos-mock';
@@ -130,6 +196,25 @@ function openDb(): Promise<IDBDatabase | null> {
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
+}
+
+function mockUserId(): string {
+  try {
+    const user = JSON.parse(localStorage.getItem('mock_user') || '{}') as { id?: string };
+    return user.id || 'mock-user-1';
+  } catch {
+    return 'mock-user-1';
+  }
+}
+
+function scopedMockKey(base: string): string {
+  return `${base}:${mockUserId()}`;
+}
+
+function mockHash(value: string): string {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) hash = (hash * 31 + value.charCodeAt(index)) | 0;
+  return `mock-${Math.abs(hash).toString(16)}`;
 }
 
 async function idbPut(key: string, value: unknown): Promise<void> {
@@ -210,6 +295,92 @@ export function initMockInterceptor() {
       const list = readArray<T>(key);
       localStorage.setItem(key, JSON.stringify(list.filter((item) => item.id !== id)));
     };
+    const readScopedArray = <T>(base: string): T[] => readArray<T>(scopedMockKey(base));
+    const writeScopedArray = <T>(base: string, value: T[]) => localStorage.setItem(scopedMockKey(base), JSON.stringify(value));
+    const ensureMockContext = () => {
+      const providers = readScopedArray<MockContextProvider>('mock_context_providers');
+      const items = readScopedArray<MockContextItem>('mock_context_items');
+      const now = new Date().toISOString();
+      const provider = providers[0] || {
+        id: `mock-context-provider-${mockUserId()}`,
+        providerType: 'notion',
+        displayName: 'Notion · 사용자 파일 import',
+        connectionMode: 'file_import' as const,
+        status: 'import_only' as const,
+        connectionState: 'file_import_ready',
+        officialApi: 'Notion API',
+        officialApiConfigured: false,
+        consentScope: ['provider metadata', 'user-selected context items', 'user-requested export'],
+        consentGranted: true,
+        lastSyncedAt: now,
+        lastErrorCode: null,
+        createdAt: now,
+        updatedAt: now,
+      } satisfies MockContextProvider;
+      if (!providers[0]) writeScopedArray('mock_context_providers', [provider]);
+      if (items.length === 0) {
+        const content = 'Kairos 프로젝트 회고\n오늘의 문제를 기록하고 다음 준비 작업의 근거로 연결합니다.';
+        writeScopedArray('mock_context_items', [{
+          id: `mock-context-item-${mockUserId()}`,
+          providerId: provider.id,
+          providerType: provider.providerType,
+          providerDisplayName: provider.displayName,
+          itemType: 'reflection',
+          title: 'Kairos 프로젝트 회고',
+          content,
+          contentHash: mockHash(content),
+          sourceReferenceHash: mockHash(`${provider.id}:reflection`),
+          occurredAt: now,
+          importedAt: now,
+          updatedAt: now,
+        } satisfies MockContextItem]);
+      }
+      if (!localStorage.getItem(scopedMockKey('mock_memory_exports'))) writeScopedArray('mock_memory_exports', []);
+    };
+    const ensureMockCommunity = () => {
+      const key = scopedMockKey('mock_community_posts');
+      if (localStorage.getItem(key)) return;
+      const profiles = generateProfiles();
+      const activeUserId = mockUserId();
+      const active = profiles.find((profile) => profile.user.id === activeUserId) || profiles[0];
+      const candidates = profiles.filter((profile) => profile.user.id !== active.user.id).slice(0, 4);
+      const now = Date.now();
+      const posts: MockCommunityPost[] = [
+        {
+          id: `mock-post-${active.user.id}-1`,
+          userId: active.user.id,
+          title: '프로젝트 경험을 공고 요구사항에 연결한 기록',
+          content: '공고의 핵심 키워드를 먼저 나누고, 내 경험에서 증거를 다시 찾아 이력서 문장으로 정리했습니다.',
+          category: 'career_tip',
+          isAnonymous: false,
+          likesCount: 4,
+          createdAt: new Date(now - 86_400_000).toISOString(),
+        },
+        ...candidates.slice(0, 3).map((profile, index) => ({
+          id: `mock-post-${profile.user.id}-1`,
+          userId: profile.user.id,
+          title: `${profile.careers[0]?.role || '커리어'} 준비 기록`,
+          content: `${profile.careers[0]?.description || '최근 경험을 다음 목표와 연결하고 있습니다.'}`,
+          category: (index === 0 ? 'interview_pass' : index === 1 ? 'career_tip' : 'qna') as MockCommunityPost['category'],
+          isAnonymous: index === 2,
+          likesCount: index + 2,
+          createdAt: new Date(now - (index + 2) * 86_400_000).toISOString(),
+        })),
+      ];
+      writeScopedArray('mock_community_posts', posts);
+      localStorage.setItem(scopedMockKey('mock_community_reputation'), JSON.stringify({ reputationPoints: 24, answerCount: 3, feedbackCount: 2 }));
+      localStorage.setItem(scopedMockKey('mock_community_mission'), JSON.stringify({ completedCount: 2, streakDays: 2 }));
+    };
+    const communityUser = (userId: string, anonymous: boolean) => {
+      if (anonymous) return null;
+      const profile = generateProfiles().find((item) => item.user.id === userId);
+      return profile ? { name: profile.user.name, avatarUrl: profile.user.avatarUrl } : null;
+    };
+    const communityPostResponse = (post: MockCommunityPost) => ({
+      ...post,
+      user: communityUser(post.userId, post.isAnonymous),
+      isOwner: post.userId === mockUserId(),
+    });
 
     // 1. Auth check
     if (url.includes('/api/auth/me') || url.includes('/api/auth/login')) {
@@ -217,7 +388,162 @@ export function initMockInterceptor() {
       return json({ user: storedUser ? JSON.parse(storedUser) : null });
     }
 
-    // 2. Resumes Endpoints
+    // 2. Context Sea Endpoints
+    if (pathname === '/api/contexts/providers' && method === 'GET') {
+      ensureMockContext();
+      return json(readScopedArray<MockContextProvider>('mock_context_providers'));
+    }
+
+    if (pathname === '/api/contexts/providers' && method === 'POST') {
+      ensureMockContext();
+      const body = getBody(init);
+      const providers = readScopedArray<MockContextProvider>('mock_context_providers');
+      const providerType = body.providerType || 'notion';
+      if (providers.some((provider) => provider.providerType === providerType)) return json({ error: '해당 provider가 이미 등록되어 있습니다.' }, 409);
+      const now = new Date().toISOString();
+      const provider: MockContextProvider = {
+        id: `mock-context-provider-${providerType}-${Date.now()}`,
+        providerType,
+        displayName: `${providerType} · mock 연결`,
+        connectionMode: body.connectionMode || 'file_import',
+        status: body.connectionMode === 'official_api' ? 'not_connected' : 'import_only',
+        connectionState: body.connectionMode === 'official_api' ? 'official_api_unconfigured' : 'file_import_ready',
+        officialApi: `${providerType} 공식 API`,
+        officialApiConfigured: false,
+        consentScope: ['provider metadata', 'user-selected context items', 'user-requested export'],
+        consentGranted: body.consentGranted !== false,
+        lastSyncedAt: null,
+        lastErrorCode: body.connectionMode === 'official_api' ? 'MOCK_API_CONFIGURATION_REQUIRED' : null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      writeScopedArray('mock_context_providers', [provider, ...providers]);
+      return json(provider, 201);
+    }
+
+    const contextProviderMatch = pathname.match(/^\/api\/contexts\/providers\/([^/]+)$/);
+    if (contextProviderMatch && method === 'PATCH') {
+      ensureMockContext();
+      const providers = readScopedArray<MockContextProvider>('mock_context_providers');
+      const id = decodeURIComponent(contextProviderMatch[1]);
+      const body = getBody(init);
+      const index = providers.findIndex((provider) => provider.id === id);
+      if (index === -1) return json({ error: 'provider를 찾을 수 없습니다.' }, 404);
+      providers[index] = {
+        ...providers[index],
+        status: body.status === 'paused' ? 'paused' : providers[index].connectionMode === 'file_import' ? 'import_only' : 'not_connected',
+        connectionState: body.status === 'paused' ? 'paused' : providers[index].connectionMode === 'file_import' ? 'file_import_ready' : 'official_api_unconfigured',
+        updatedAt: new Date().toISOString(),
+      };
+      writeScopedArray('mock_context_providers', providers);
+      return json(providers[index]);
+    }
+
+    if (pathname === '/api/contexts/items' && method === 'GET') {
+      ensureMockContext();
+      const query = new URL(url, window.location.origin).searchParams.get('q')?.trim().toLowerCase() || '';
+      const items = readScopedArray<MockContextItem>('mock_context_items').filter((item) => !query || `${item.title} ${item.content}`.toLowerCase().includes(query));
+      return json({ items, query, total: items.length });
+    }
+
+    if (pathname === '/api/contexts/items' && method === 'POST') {
+      ensureMockContext();
+      const body = getBody(init);
+      const providers = readScopedArray<MockContextProvider>('mock_context_providers');
+      const provider = providers.find((item) => item.id === body.providerId) || providers[0];
+      if (!provider) return json({ error: 'provider를 먼저 등록하세요.' }, 400);
+      const content = typeof body.content === 'string' ? body.content.trim() : '';
+      if (!content) return json({ error: 'content가 필요합니다.' }, 400);
+      const now = new Date().toISOString();
+      const item: MockContextItem = {
+        id: `mock-context-item-${Date.now()}`,
+        providerId: provider.id,
+        providerType: provider.providerType,
+        providerDisplayName: provider.displayName,
+        itemType: body.format || 'text',
+        title: body.title || '새 context 기록',
+        content,
+        contentHash: mockHash(content),
+        sourceReferenceHash: body.sourceReference ? mockHash(body.sourceReference) : null,
+        occurredAt: body.occurredAt || now,
+        importedAt: now,
+        updatedAt: now,
+      };
+      writeScopedArray('mock_context_items', [item, ...readScopedArray<MockContextItem>('mock_context_items')]);
+      return json({ provider, items: [item], importedCount: 1 }, 201);
+    }
+
+    if (pathname === '/api/contexts/import' && method === 'POST') {
+      ensureMockContext();
+      const form = init?.body instanceof FormData ? init.body : null;
+      const providerId = String(form?.get('providerId') || '');
+      const provider = readScopedArray<MockContextProvider>('mock_context_providers').find((item) => item.id === providerId);
+      const file = form?.get('file');
+      if (!provider || !(file instanceof File)) return json({ error: 'provider와 파일이 필요합니다.' }, 400);
+      const content = (await file.text()).trim();
+      if (!content) return json({ error: '파일 내용이 비어 있습니다.' }, 400);
+      const now = new Date().toISOString();
+      const item: MockContextItem = {
+        id: `mock-context-item-${Date.now()}`,
+        providerId: provider.id,
+        providerType: provider.providerType,
+        providerDisplayName: provider.displayName,
+        itemType: file.name.split('.').pop()?.toLowerCase() || 'text',
+        title: String(form?.get('title') || file.name),
+        content,
+        contentHash: mockHash(content),
+        sourceReferenceHash: mockHash(file.name),
+        occurredAt: now,
+        importedAt: now,
+        updatedAt: now,
+      };
+      writeScopedArray('mock_context_items', [item, ...readScopedArray<MockContextItem>('mock_context_items')]);
+      return json({ provider, items: [item], importedCount: 1 }, 201);
+    }
+
+    const contextItemMatch = pathname.match(/^\/api\/contexts\/items\/([^/]+)$/);
+    if (contextItemMatch && method === 'DELETE') {
+      const id = decodeURIComponent(contextItemMatch[1]);
+      const items = readScopedArray<MockContextItem>('mock_context_items');
+      writeScopedArray('mock_context_items', items.filter((item) => item.id !== id));
+      return json({ success: true });
+    }
+
+    if (pathname === '/api/contexts/sync' && method === 'POST') {
+      ensureMockContext();
+      const body = getBody(init);
+      const providers = readScopedArray<MockContextProvider>('mock_context_providers');
+      const provider = providers.find((item) => item.id === body.providerId) || providers.find((item) => item.providerType === body.providerType);
+      if (!provider) return json({ error: 'provider를 찾을 수 없습니다.' }, 404);
+      const now = new Date().toISOString();
+      if (provider.connectionMode !== 'official_api' || !provider.officialApiConfigured) {
+        return json({ providers: [{ providerId: provider.id, providerType: provider.providerType, status: 'configuration_required', providerStatus: provider.status, fetchedCount: 0, importedCount: 0, lastSyncedAt: now, errorCode: 'MOCK_API_CONFIGURATION_REQUIRED' }] });
+      }
+      return json({ providers: [{ providerId: provider.id, providerType: provider.providerType, status: 'synced', providerStatus: 'ready', fetchedCount: 0, importedCount: 0, lastSyncedAt: now, errorCode: null }] });
+    }
+
+    if (pathname === '/api/memory-exports' && method === 'GET') {
+      ensureMockContext();
+      return json(readScopedArray<MockExportJob>('mock_memory_exports'));
+    }
+
+    if (pathname === '/api/memory-exports' && method === 'POST') {
+      ensureMockContext();
+      const body = getBody(init);
+      const format = body.format === 'markdown' ? 'markdown' : 'json';
+      const query = body.q || '';
+      const items = readScopedArray<MockContextItem>('mock_context_items').filter((item) => !query || `${item.title} ${item.content}`.toLowerCase().includes(query.toLowerCase()));
+      const exported = format === 'markdown'
+        ? ['# Kairos Context Export', '', ...items.map((item) => `## ${item.title}\n\n${item.content}`)].join('\n')
+        : JSON.stringify({ formatVersion: 1, ownership: 'mock-user-owned-context-only', itemCount: items.length, items }, null, 2);
+      const job: MockExportJob = { id: `mock-export-${Date.now()}`, status: 'completed', format, itemCount: items.length, completedAt: new Date().toISOString() };
+      writeScopedArray('mock_memory_exports', [job, ...readScopedArray<MockExportJob>('mock_memory_exports')]);
+      const wantsDownload = new URL(url, window.location.origin).searchParams.get('download') === '1' || body.download === true;
+      if (wantsDownload) return new Response(exported, { headers: { 'Content-Type': format === 'json' ? 'application/json' : 'text/markdown', 'Content-Disposition': `attachment; filename="kairos-context-export.${format}"` } });
+      return json(job, 201);
+    }
+
+    // 3. Resumes Endpoints
     if (pathname === '/api/resumes' && method === 'GET') {
       return json(readArray('mock_resumes'));
     }
@@ -648,7 +974,108 @@ export function initMockInterceptor() {
       return json(entry);
     }
 
-    // 11. Chat save/get
+    // 11. Community and progress endpoints
+    if (pathname === '/api/community/matches' && method === 'GET') {
+      ensureMockCommunity();
+      const profiles = generateProfiles();
+      const active = profiles.find((profile) => profile.user.id === mockUserId()) || profiles[0];
+      const candidates = profiles.filter((profile) => profile.user.id !== active.user.id).slice(0, 3);
+      const posts = readScopedArray<MockCommunityPost>('mock_community_posts');
+      return json({
+        matches: candidates.map((profile, index) => ({
+          displayName: profile.user.name,
+          role: profile.careers[0]?.role || '커리어 사용자',
+          experienceLevel: '중간 경력',
+          score: deterministicScore(`${active.user.id}:${profile.user.id}`, 78, 94),
+          reasonCodes: ['ROLE_SIMILARITY', 'CAREER_THEME_SIMILARITY'],
+          reasons: ['비슷한 직무 경험이 있어요', '경력 설명에서 비슷한 관심사와 업무 흐름이 보여요'],
+          community: {
+            postCount: posts.filter((post) => post.userId === profile.user.id).length,
+            categories: Array.from(new Set(posts.filter((post) => post.userId === profile.user.id).map((post) => post.category))),
+          },
+          index,
+        })),
+        meta: { limit: 3, emptyReason: null },
+      });
+    }
+
+    if (pathname === '/api/community' && method === 'GET') {
+      ensureMockCommunity();
+      const search = new URL(url, window.location.origin).searchParams;
+      const page = Math.max(1, Number.parseInt(search.get('page') || '1', 10));
+      const limit = Math.min(20, Math.max(1, Number.parseInt(search.get('limit') || '10', 10)));
+      const category = search.get('category');
+      const posts = readScopedArray<MockCommunityPost>('mock_community_posts').filter((post) => !category || category === 'all' || post.category === category);
+      const start = (page - 1) * limit;
+      const visible = posts.slice(start, start + limit);
+      return json({
+        posts: visible.map(communityPostResponse),
+        pagination: { page, limit, total: posts.length, totalPages: Math.ceil(posts.length / limit) },
+      });
+    }
+
+    if (pathname === '/api/community' && method === 'POST') {
+      ensureMockCommunity();
+      const body = getBody(init);
+      if (!body.title?.trim() || !body.content?.trim()) return json({ error: '제목과 내용을 입력해주세요.' }, 400);
+      const post: MockCommunityPost = {
+        id: `mock-post-${Date.now()}`,
+        userId: mockUserId(),
+        title: body.title.trim(),
+        content: body.content.trim(),
+        category: body.category || 'career_tip',
+        isAnonymous: body.isAnonymous === true,
+        likesCount: 0,
+        createdAt: new Date().toISOString(),
+      };
+      writeScopedArray('mock_community_posts', [post, ...readScopedArray<MockCommunityPost>('mock_community_posts')]);
+      return json(communityPostResponse(post), 201);
+    }
+
+    const communityPostMatch = pathname.match(/^\/api\/community\/([^/]+)$/);
+    if (communityPostMatch && method === 'PATCH') {
+      const id = decodeURIComponent(communityPostMatch[1]);
+      const posts = readScopedArray<MockCommunityPost>('mock_community_posts');
+      const index = posts.findIndex((post) => post.id === id && post.userId === mockUserId());
+      if (index === -1) return json({ error: '게시글을 찾을 수 없거나 수정 권한이 없습니다.' }, 403);
+      const body = getBody(init);
+      posts[index] = {
+        ...posts[index],
+        title: body.title?.trim() || posts[index].title,
+        content: body.content?.trim() || posts[index].content,
+        category: body.category || posts[index].category,
+        isAnonymous: body.isAnonymous === true,
+      };
+      writeScopedArray('mock_community_posts', posts);
+      return json({ success: true, id });
+    }
+    if (communityPostMatch && method === 'DELETE') {
+      const id = decodeURIComponent(communityPostMatch[1]);
+      const posts = readScopedArray<MockCommunityPost>('mock_community_posts');
+      writeScopedArray('mock_community_posts', posts.filter((post) => post.id !== id || post.userId !== mockUserId()));
+      return json({ success: true });
+    }
+
+    if (pathname === '/api/community/reputation' && method === 'GET') {
+      ensureMockCommunity();
+      return json(JSON.parse(localStorage.getItem(scopedMockKey('mock_community_reputation')) || '{"reputationPoints":0,"answerCount":0,"feedbackCount":0}'));
+    }
+
+    if (pathname === '/api/growth-events/check-ins' && method === 'GET') {
+      ensureMockCommunity();
+      const progress = JSON.parse(localStorage.getItem(scopedMockKey('mock_community_mission')) || '{"completedCount":0,"streakDays":0}') as { completedCount: number; streakDays: number };
+      return json({ mission: { id: 'daily_economy_news', title: '매일 경제뉴스 읽기', verification: 'user_check_in' }, ...progress, reward: { status: 'policy_pending', label: '보상 정책 대기' } });
+    }
+
+    if (pathname === '/api/growth-events/check-ins' && method === 'POST') {
+      ensureMockCommunity();
+      const previous = JSON.parse(localStorage.getItem(scopedMockKey('mock_community_mission')) || '{"completedCount":0,"streakDays":0}') as { completedCount: number; streakDays: number };
+      const progress = { completedCount: previous.completedCount + 1, streakDays: previous.streakDays + 1 };
+      localStorage.setItem(scopedMockKey('mock_community_mission'), JSON.stringify(progress));
+      return json({ mission: { id: 'daily_economy_news', title: '매일 경제뉴스 읽기', verification: 'user_check_in' }, ...progress, reward: { status: 'policy_pending', label: '보상 정책 대기' } });
+    }
+
+    // 12. Chat save/get
     if (url.includes('/api/chat/save') && method === 'POST') {
       const chatId = `mock-chat-${Date.now()}`;
       return json({ url: `/r/${chatId}`, id: chatId });

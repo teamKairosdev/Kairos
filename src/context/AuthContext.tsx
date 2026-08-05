@@ -3,9 +3,30 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import { toast } from 'sonner';
 import type { User, AuthResponse } from '../../shared/types';
+import { initMockInterceptor } from '../lib/mockInterceptor';
 
 const FETCH_TIMEOUT_MS = 10_000;
 const MOCK_SESSION_COOKIE = 'kairos_mock_session';
+const MOCK_STORAGE_FAMILIES = [
+  'mock_career_diary',
+  'mock_career_goals',
+  'mock_career_matches',
+  'kairos_agent_workspace_mvp',
+  'mock_context_providers',
+  'mock_context_items',
+  'mock_memory_exports',
+  'mock_community_posts',
+  'mock_community_reputation',
+  'mock_community_mission',
+] as const;
+
+function clearMockStorage() {
+  for (const key of Object.keys(localStorage)) {
+    if (MOCK_STORAGE_FAMILIES.some((family) => key === family || key.startsWith(`${family}:`))) {
+      localStorage.removeItem(key);
+    }
+  }
+}
 
 function setMockSessionCookie(enabled: boolean) {
   if (typeof document === 'undefined' || process.env.NODE_ENV === 'production') return;
@@ -60,7 +81,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     if (typeof window !== 'undefined' && localStorage.getItem('is_mock_mode') === 'true') {
-      const { initMockInterceptor } = await import('../lib/mockInterceptor');
       initMockInterceptor();
       try {
         const storedUser = localStorage.getItem('mock_user');
@@ -118,7 +138,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem('mock_qa', JSON.stringify(activeProfile.qaSets));
         setMockSessionCookie(true);
 
-        const { initMockInterceptor } = await import('../lib/mockInterceptor');
         initMockInterceptor();
 
         setState({ user: mockUser, authenticated: true, loading: false, error: null, mfaRequired: false });
@@ -181,6 +200,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (typeof window !== 'undefined' && localStorage.getItem('is_mock_mode') === 'true') {
       ['is_mock_mode', 'mock_profile_idx', 'mock_user', 'mock_resumes', 'mock_careers',
        'mock_interviews', 'mock_chats', 'mock_docs', 'mock_qa', 'mock_humanizer'].forEach(k => localStorage.removeItem(k));
+      clearMockStorage();
       setMockSessionCookie(false);
       clearAuthState();
       window.location.href = '/auth/login';

@@ -158,6 +158,7 @@ export default function CommunityPage() {
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<CommunityPost | null>(null);
 
   useEffect(() => {
@@ -258,6 +259,19 @@ export default function CommunityPage() {
 
   function openProgressComposer() {
     setNewCategory('career_tip');
+    setEditingPostId(null);
+    setTitle('');
+    setContent('');
+    setIsAnonymous(false);
+    setShowForm(true);
+  }
+
+  function openEditPost(post: CommunityPost) {
+    setEditingPostId(post.id);
+    setTitle(post.title);
+    setContent(post.content);
+    setNewCategory(post.category);
+    setIsAnonymous(post.isAnonymous);
     setShowForm(true);
   }
 
@@ -291,8 +305,8 @@ export default function CommunityPage() {
     }
     setSubmitting(true);
     try {
-      const res = await fetch('/api/community', {
-        method: 'POST',
+      const res = await fetch(editingPostId ? `/api/community/${editingPostId}` : '/api/community', {
+        method: editingPostId ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: title.trim(),
@@ -303,26 +317,28 @@ export default function CommunityPage() {
       });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
-        toastRef.current.add({ title: '작성에 실패했습니다.', description: data?.error, color: 'red' });
+        toastRef.current.add({ title: editingPostId ? '수정에 실패했습니다.' : '작성에 실패했습니다.', description: data?.error, color: 'red' });
         return;
       }
-      const post = await res.json();
-      const withUser = {
-        ...post,
-        user: post.isAnonymous
-          ? null
-          : { name: state.user?.name ?? null, avatarUrl: state.user?.avatarUrl ?? null },
-      } as CommunityPost;
-      if (category === 'all' || category === post.category) {
-        setPosts(prev => [withUser, ...prev]);
-      } else {
-        loadPosts(1, category, false);
+      const post = await res.json().catch(() => null) as Partial<CommunityPost> | null;
+      if (editingPostId) {
+        await loadPosts(1, category, false);
+      } else if (post) {
+        const withUser = {
+          ...post,
+          user: post.isAnonymous
+            ? null
+            : { name: state.user?.name ?? null, avatarUrl: state.user?.avatarUrl ?? null },
+        } as CommunityPost;
+        if (category === 'all' || category === post.category) setPosts(prev => [withUser, ...prev]);
+        else await loadPosts(1, category, false);
       }
       setTitle('');
       setContent('');
       setIsAnonymous(false);
+      setEditingPostId(null);
       setShowForm(false);
-      toastRef.current.add({ title: '게시글이 등록되었습니다.', color: 'green' });
+      toastRef.current.add({ title: editingPostId ? '게시글이 수정되었습니다.' : '게시글이 등록되었습니다.', color: 'green' });
     } catch (err: unknown) {
       toastRef.current.add({ title: '작성에 실패했습니다.', description: (err as Error).message, color: 'red' });
     } finally {
@@ -526,7 +542,7 @@ export default function CommunityPage() {
 
       {showForm && (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-xs p-5 space-y-4 animate-fade-in-up">
-          <h2 className="text-sm font-semibold text-gray-700">새 글 작성</h2>
+          <h2 className="text-sm font-semibold text-gray-700">{editingPostId ? '게시글 수정' : '새 글 작성'}</h2>
           <div>
             <label className="block text-xs font-semibold text-gray-500 mb-1.5">카테고리</label>
             <div className="flex flex-wrap gap-2">
@@ -589,7 +605,7 @@ export default function CommunityPage() {
               className="px-5 py-2.5 min-h-[44px] bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-40 flex items-center gap-2 active:scale-[0.98]"
             >
               {submitting && <Spinner className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
-              {submitting ? '등록 중…' : '등록'}
+              {submitting ? (editingPostId ? '수정 중…' : '등록 중…') : (editingPostId ? '수정' : '등록')}
             </button>
           </div>
         </div>
@@ -678,6 +694,12 @@ export default function CommunityPage() {
                     <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap break-words">{post.content}</p>
                     {post.isOwner && (
                       <div className="flex justify-end">
+                        <button
+                          onClick={() => openEditPost(post)}
+                          className="mr-2 px-3 py-1.5 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                        >
+                          수정
+                        </button>
                         <button
                           onClick={() => setConfirmDelete(post)}
                           disabled={deletingId === post.id}

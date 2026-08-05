@@ -124,6 +124,8 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
           setEditingTitle(result.resume.title || '');
           setEditingContent(result.resume.originalContent || '');
           setOriginalContent(result.resume.originalContent || '');
+          const latestImproved = result.refinementHistory?.[0]?.improvedContent?.trim() || '';
+          setSuggestedContent(latestImproved && latestImproved !== result.resume.originalContent ? latestImproved : '');
         }
       }
     } catch {
@@ -203,6 +205,7 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
         setSuggestedContent('');
         toast.add({ title: '이력서 저장 성공', description: '변경 사항이 안전하게 반영되었습니다.', color: 'green' });
         await fetchResume();
+        setSuggestedContent('');
         await fetchComparison();
       }
     } catch (err: unknown) {

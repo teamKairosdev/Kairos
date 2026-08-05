@@ -9,6 +9,7 @@ export const CONTEXT_PROVIDER_TYPES = [
   'worknet',
   'dart',
   'employment24',
+  'qnet',
 ] as const;
 
 export type ContextProviderType = (typeof CONTEXT_PROVIDER_TYPES)[number];
@@ -93,6 +94,13 @@ export const CONTEXT_PROVIDER_DEFINITIONS: readonly ContextProviderDefinition[] 
     officialApi: '고용24 Open API',
     envKeys: ['EMPLOYMENT24_API_KEY', 'EMP24_API_KEY', 'WORK24_API_KEY'],
     description: '고용24 공식 API 또는 사용자가 내보낸 파일을 사용합니다.',
+  },
+  {
+    type: 'qnet',
+    label: '큐넷',
+    officialApi: '한국산업인력공단 큐넷 Open API',
+    envKeys: ['QNET_API_KEY', 'QNET_SERVICE_KEY'],
+    description: '큐넷 공식 API 또는 사용자가 내보낸 파일을 사용합니다.',
   },
 ];
 

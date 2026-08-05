@@ -30,12 +30,12 @@ function completionValue(body: Record<string, unknown>, fallback = 'pending'): s
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ goalId: string }> },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getSession(req);
     if (!session?.userId) return unauthorized();
-    const { goalId } = await params;
+    const { id: goalId } = await params;
     if (!goalId) return badRequest('목표 ID가 필요합니다.');
 
     const db = getDb();
@@ -64,12 +64,12 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ goalId: string }> },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getSession(req);
     if (!session?.userId) return unauthorized();
-    const { goalId } = await params;
+    const { id: goalId } = await params;
     if (!goalId) return badRequest('목표 ID가 필요합니다.');
 
     let body: Record<string, unknown>;

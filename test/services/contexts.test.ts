@@ -71,7 +71,7 @@ describe('Sea of Contexts server policies', () => {
   });
 
   it('exposes only the supported official provider types', () => {
-    expect(CONTEXT_PROVIDER_TYPES).toEqual(['notion', 'github', 'worknet', 'dart', 'employment24']);
+    expect(CONTEXT_PROVIDER_TYPES).toEqual(['notion', 'github', 'worknet', 'dart', 'employment24', 'qnet']);
     expect(CONTEXT_PROVIDER_TYPES).not.toContain('linkedin');
     expect(CONTEXT_PROVIDER_TYPES).not.toContain('samsung_notes');
     expect(CONTEXT_PROVIDER_TYPES).not.toContain('jobkorea');

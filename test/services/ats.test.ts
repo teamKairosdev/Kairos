@@ -56,6 +56,19 @@ describe('analyzeATSCompatibility', () => {
     expect(result.foundKeywords).toContain('typescript')
   })
 
+  it('keeps Korean education and experience signals', () => {
+    const resume = '학사 졸업, 3년 경력의 프론트엔드 개발자입니다.'
+    const jd = '학사 이상, 2년 경력 및 React 경험 필수'
+    const result = analyzeATSCompatibility(resume, jd)
+    expect(result.detailedBreakdown.educationScore).toBe(90)
+    expect(result.detailedBreakdown.experienceScore).toBe(100)
+  })
+
+  it('does not match short skills inside unrelated words', () => {
+    const result = analyzeATSCompatibility('Google Cloud 사용자', 'Go 개발 경험')
+    expect(result.foundKeywords).not.toContain('go')
+  })
+
   it('calculates experience score proportionally', () => {
     const resume = '5 years of experience as a software engineer'
     const jd = '7+ years of experience required'

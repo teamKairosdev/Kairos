@@ -60,7 +60,16 @@ const SKILL_TAXONOMY: Record<string, { category: string; aliases: string[] }> = 
 };
 
 function normalize(text: string): string {
-  return text.toLowerCase().replace(/[^a-z0-9\s#.+/-]/g, ' ').replace(/\s+/g, ' ').trim();
+  return text.toLocaleLowerCase('ko-KR').replace(/[^\p{L}\p{N}\s#.+/\-]/gu, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function countWholeWordMatches(text: string, form: string): number {
+  const escaped = form.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+  // English skill names may be followed by Korean particles ("React와"),
+  // while short names such as "go" must not match inside "Google".
+  const boundary = /[가-힣]/u.test(form) ? '\\p{L}\\p{N}' : 'A-Za-z0-9';
+  const pattern = new RegExp(`(?:^|[^${boundary}])${escaped}(?=$|[^${boundary}])`, 'giu');
+  return text.match(pattern)?.length || 0;
 }
 
 function detectSkills(text: string): Map<string, number> {
@@ -72,13 +81,7 @@ function detectSkills(text: string): Map<string, number> {
     const allForms = [normalizedCanonical, ...entry.aliases.map(normalize)];
     let count = 0;
     for (const form of allForms) {
-      let pos = 0;
-      while (true) {
-        const idx = normalized.indexOf(form, pos);
-        if (idx === -1) break;
-        count++;
-        pos = idx + form.length;
-      }
+      count += countWholeWordMatches(normalized, form);
     }
     if (count > 0) skills.set(canonical, count);
   }
@@ -87,9 +90,9 @@ function detectSkills(text: string): Map<string, number> {
 
 function extractEducationLevel(text: string): number {
   const normalized = normalize(text);
-  if (/\b(phd|doctor|박사)\b/.test(normalized)) return 3;
-  if (/\b(master|석사|m\.s|m\.a|msc)\b/.test(normalized)) return 2;
-  if (/\b(bachelor|학사|b\.s|b\.a)\b/.test(normalized)) return 1;
+  if (/(?:^|[^\p{L}\p{N}])(phd|doctor|박사)(?=$|[^\p{L}\p{N}])/u.test(normalized)) return 3;
+  if (/(?:^|[^\p{L}\p{N}])(master|석사|m\.s|m\.a|msc)(?=$|[^\p{L}\p{N}])/u.test(normalized)) return 2;
+  if (/(?:^|[^\p{L}\p{N}])(bachelor|학사|b\.s|b\.a)(?=$|[^\p{L}\p{N}])/u.test(normalized)) return 1;
   return 0;
 }
 
@@ -98,6 +101,7 @@ function extractYearsOfExperience(text: string): number {
   const patterns = [
     /(\d+)[+]?\s*(?:years?|yrs?|년)\s*(?:of\s+)?experience/i,
     /experience\s*(?:of\s+)?(\d+)[+]?\s*(?:years?|yrs?|년)/i,
+    /(\d+)[+]?\s*(?:years?|yrs?|년)/i,
   ];
   for (const pat of patterns) {
     const match = normalized.match(pat);

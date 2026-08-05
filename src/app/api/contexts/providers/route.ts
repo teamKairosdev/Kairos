@@ -161,7 +161,7 @@ export async function POST(req: NextRequest) {
 
     const providerTypeValue = body.providerType;
     if (!isRegisteredProviderType(providerTypeValue)) {
-      return badRequest(`지원하는 provider는 ${[...CONTEXT_PROVIDER_TYPES, 'qnet'].join(', ')}입니다.`);
+      return badRequest(`지원하는 provider는 ${[...CONTEXT_PROVIDER_TYPES].join(', ')}입니다.`);
     }
     const providerType: RegisteredProviderType = providerTypeValue;
 

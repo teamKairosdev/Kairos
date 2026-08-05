@@ -690,3 +690,27 @@
 - [x] 계획서 형식 검증에서 `#`·`##` 제목, `《》`, 체크리스트 본문, 이모지 금지와 금지 마크다운 문법을 재확인
 - [x] 사용자가 병행 작업 중인 코드·환경변수·발표자료 변경은 되돌리거나 수정하지 않음
 - [x] 이번 세션에서 직접 수정한 파일은 문서뿐이며 병행 작업의 코드·환경변수·발표자료 변경은 그대로 두고 커밋·push를 수행하지 않음
+
+## 세션 28: Context·Career·Workspace 실제 시연 경로 보완 (2026-08-05)
+
+### 1. 구현 범위
+- [x] Context Sea에 Notion·GitHub 공식 API adapter를 추가하고 서버 환경변수·timeout·응답 크기·원문 비저장 경계를 적용
+- [x] Context provider 타입에 큐넷을 포함하고 Context sync가 private provider와 public provider를 같은 소유권·동의 흐름으로 처리하도록 정합화
+- [x] `testmockup` Mock interceptor에 Context provider·item import·검색·삭제·export, Community 게시글·매칭·reputation·check-in 요청 경로를 추가
+- [x] Mock interceptor를 AuthContext에서 동기 설치해 새로고침 직후 첫 API 요청이 실제 401/503으로 빠지지 않도록 수정
+- [x] Career Diary·Career goals·Career matches와 Agent Workspace Mock localStorage를 사용자별 key로 분리하고 Mock logout 시 저장소 family를 정리
+- [x] Agent Workspace가 URL의 `?workspace=` 선택값을 새로고침 후 복원하도록 수정
+- [x] Community 게시글 수정 API와 UI를 추가해 생성·조회·수정·삭제 흐름을 완성
+- [x] ATS 한글 학력·경력 보존, 영어 짧은 기술명 부분문자열 오탐 방지, 이력서 Diff 재진입 복원 수정
+- [x] career-goals 동적 route segment 이름 충돌(`[id]`·`[goalId]`)을 `[id]`로 통일해 production start 500을 해결
+- [x] README·`.env.example`·수정본 발표자료의 현재 기능·공식 API·테스트 수·상태 설명을 갱신
+
+### 2. 검증
+- [x] `npm test` — **35개 파일, 193/193 통과**
+- [x] `npx tsc --noEmit --incremental false` 통과
+- [x] `npx drizzle-kit check` 통과
+- [x] `npm run build` 통과
+- [x] `next start --hostname 127.0.0.1 --port 3003` production 기동 및 `/auth/login` HTTP 200 확인
+- [x] Dev Mock smoke test — 새로고침 후 `/contexts` seed provider·item, `/community` 게시글·유사도 match, Context import·export, Community PATCH 확인
+- [x] 발표자료 JavaScript 문법·14장 slide·상대경로 media import 0·팀 정보·chart hook 정적 검사 통과
+- [x] `git diff --check` 통과

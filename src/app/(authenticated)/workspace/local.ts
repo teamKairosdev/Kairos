@@ -13,6 +13,20 @@ import type {
 
 export const MOCK_WORKSPACE_KEY = 'kairos_agent_workspace_mvp';
 
+function mockUserId(): string {
+  if (typeof window === 'undefined') return 'mock-user';
+  try {
+    const user = JSON.parse(localStorage.getItem('mock_user') || '{}') as { id?: string };
+    return user.id || 'mock-user';
+  } catch {
+    return 'mock-user';
+  }
+}
+
+export function mockWorkspaceStorageKey(): string {
+  return `${MOCK_WORKSPACE_KEY}:${mockUserId()}`;
+}
+
 const TOOL_DEFINITIONS = [
   {
     name: 'text-editor',
@@ -114,7 +128,7 @@ export function createMockWorkspaceData(name = 'Mock Canvas', workspaceId = 'moc
 export function readMockWorkspaceList(): WorkspaceData[] {
   if (typeof window === 'undefined') return [createMockWorkspaceData()];
   try {
-    const stored = localStorage.getItem(MOCK_WORKSPACE_KEY);
+    const stored = localStorage.getItem(mockWorkspaceStorageKey());
     if (!stored) return [createMockWorkspaceData()];
     const parsed = JSON.parse(stored) as WorkspaceData | { workspaces?: WorkspaceData[] };
     if ('workspaces' in parsed && Array.isArray(parsed.workspaces)) {
@@ -138,12 +152,12 @@ export function readMockWorkspaceData(): WorkspaceData {
 export function writeMockWorkspaceData(data: WorkspaceData): void {
   if (typeof window === 'undefined') return;
   const workspaces = readMockWorkspaceList().filter((item) => item.workspace.id !== data.workspace.id);
-  localStorage.setItem(MOCK_WORKSPACE_KEY, JSON.stringify({ workspaces: [data, ...workspaces] }));
+  localStorage.setItem(mockWorkspaceStorageKey(), JSON.stringify({ workspaces: [data, ...workspaces] }));
 }
 
 export function writeMockWorkspaceList(data: WorkspaceData[]): void {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(MOCK_WORKSPACE_KEY, JSON.stringify({ workspaces: data }));
+  localStorage.setItem(mockWorkspaceStorageKey(), JSON.stringify({ workspaces: data }));
 }
 
 function localOutput(input: {

@@ -93,8 +93,12 @@
       <!-- 9. Q&A -->
       <section class="slide" data-title="9. Q &amp; A" aria-labelledby="slide-title-9" aria-hidden="true" inert>
         <div class="slide-inner dense"><div class="kicker">09 / 14 <span class="slide-number">Q&amp;A</span></div><h2 id="slide-title-9">무엇이 다르고,<br>어디까지 왔나.</h2><p class="qa-lead">Kairos의 범위는 서비스 비전, 현재 코드, 다음 검증을 나누어 답합니다.</p><div class="qa-layout"><div class="object-scene qa-scene" aria-hidden="true"><div class="orb-object"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div><span class="orb-point a"></span><span class="orb-point c"></span></div></div><div class="qa-questions"><article class="qa-item"><span class="number">01</span><div><strong>AI 자소서 서비스와 무엇이 다른가?</strong><p>자소서 한 장이 아니라 삶·경력·일상 context를 모아 어떤 커리어 작업으로든 이어갑니다.</p></div></article><article class="qa-item"><span class="number">02</span><div><strong>왜 기존 플랫폼으로 부족한가?</strong><p>채용 순간의 도구를 대체한다고 주장하지 않습니다. 흩어진 기록과 다음 행동 사이를 연결하는 가설입니다.</p></div></article><article class="qa-item"><span class="number">03</span><div><strong>맥락 데이터는 어떻게 보호하는가?</strong><p>사용자 동의, 소유권 조건, 선택 import, 삭제와 memory export를 기준으로 다룹니다.</p></div></article><article class="qa-item"><span class="number">04</span><div><strong>현재 구현과 미래 기능은?</strong><p>ATS·resume Diff·텍스트 면접은 실제 루프입니다. 자동 수집, 원격 runtime, SLLM·VM 실행은 설정과 추가 검증이 필요합니다.</p></div></article></div></div></div>
-      </section>
-      <!-- 11. 전체 기능 연결 지도 -->
+       </section>
+       <!-- 10. 제출 전 확인사항 -->
+       <section class="slide" data-title="10. 제출 전 확인사항" aria-labelledby="slide-title-10" aria-hidden="true" inert>
+         <div class="slide-inner dense"><div class="kicker">10 / 14 <span class="slide-number">제출 전 확인사항</span></div><h2 id="slide-title-10">발표 직전,<br>이 여섯 가지만 확인합니다.</h2><p class="checklist-lead">공식 본문 1~10과 Appendix 11~14의 경계까지 한 번 더 확인합니다.</p><div class="checklist-layout"><div class="checklist" aria-label="제출 전 확인 체크리스트"><div class="check-item"><span class="check-number">01</span><p>Kairos가 단일 문서 도구로만 읽히지 않는가?</p></div><div class="check-item"><span class="check-number">02</span><p>공식 1~10 순서와 Appendix 11~14가 맞는가?</p></div><div class="check-item"><span class="check-number">03</span><p>11.3개월·48.6%·64.4%에 출처 URL이 붙었는가?</p></div><div class="check-item"><span class="check-number">04</span><p>Slide 7의 세 데모와 실제 코드 경로를 구분했는가?</p></div><div class="check-item"><span class="check-number">05</span><p>SLLM·VM을 설정 전 활성 기능처럼 말하지 않는가?</p></div><div class="check-item"><span class="check-number">06</span><p>팀명·팀원·멘토 정보를 확인했는가?</p></div></div><div class="object-scene check-scene" aria-hidden="true"><div class="orb-object"><div class="orb-ring one"></div><div class="orb-ring two"></div><div class="orb-ring three"></div><div class="orb-core"></div></div><div class="glass-card check-card"><strong>사실의 경계</strong><p>구현된 것, 연결 조건이 필요한 것, 앞으로 검증할 것을 나누어 말합니다.</p></div></div></div></div>
+       </section>
+       <!-- 11. 전체 기능 연결 지도 -->
       <section class="slide" data-title="11. Appendix · 전체 기능 연결 지도" aria-labelledby="slide-title-11" aria-hidden="true" inert>
         <div class="slide-inner dense"><div class="kicker">11 / 14 <span class="slide-number">Appendix · 전체 기능 연결 지도</span></div><div class="appendix-head"><h2 id="slide-title-11">전체 제품은<br>이 연결로 확장됩니다.</h2><p>화면 경로와 현재 상태를 한 장에 함께 봅니다.</p></div><div class="map-grid"><article class="map-row"><div><h3>Context Sea</h3><p>개인 context 보관함</p></div><div><span class="status">화면·API 경로 확인</span><p>공식 API 준비, 사용자 파일 import, 검색, JSON·Markdown export</p><code>src/app/(authenticated)/contexts/page.tsx</code></div></article><article class="map-row"><div><h3>Career Diary &amp; Growth</h3><p>기록과 성장 계획</p></div><div><span class="status">일기·로드맵 경로 확인</span><p>경력 일기 CRUD, 목표·과제·완료 지표. RIASEC·Mandalart는 확장 범위</p><code>career/diary · mentor</code></div></article><article class="map-row"><div><h3>Agent Workspace</h3><p>작업을 쌓는 캔버스</p></div><div><span class="status">local MVP 경로 확인</span><p>텍스트 작업, 결과, version, Diff, feedback. 외부 실행은 조건 전 비활성</p><code>src/app/(authenticated)/workspace/page.tsx</code></div></article><article class="map-row"><div><h3>Preparation Loop</h3><p>첫 번째 검증 루프</p></div><div><span class="status">실제 데모 3종</span><p>ATS 결정론적 분석, resume 개선·Diff 승인, 텍스트 면접 종료 저장</p><code>/ats · /resume/[id] · /interview/[id]</code></div></article><article class="map-row"><div><h3>Community</h3><p>진전 공유와 유사 방향</p></div><div><span class="status">CRUD·match 경로 확인</span><p>게시글, 익명 작성, 본인 삭제, 커리어 유사도 매칭과 활동 기록</p><code>src/app/(authenticated)/community/page.tsx</code></div></article><article class="map-row"><div><h3>Documents &amp; media</h3><p>확장 작업 영역</p></div><div><span class="status">일부 경로 확인</span><p>HWP/HWPX 문서 흐름과 면접 미디어 저장·재생. 영상·음성 분석은 제공하지 않음</p><code>docs · interview/[id]</code></div></article></div><p class="map-note">상태 표시는 실제 코드 경로의 존재를 뜻하며, 사용자 효과나 운영 안정성을 이미 검증했다는 의미는 아닙니다.</p></div>
       </section>
@@ -136,13 +140,18 @@
     .embedded-visual{flex:0 0 clamp(180px,24cqw,330px);align-self:center;margin-left:auto;opacity:.94}.embedded-visual.compact{flex-basis:220px}.embedded-visual svg{display:block;width:100%;height:auto;overflow:visible}.appendix-head:has(.embedded-visual) p{max-width:28cqw}
     [data-title="12. Appendix · 아이디어 1~11 맥락 map"] h2{font-size:clamp(43px,3.2cqw,62px)}
     @media(max-width:680px){.source-cards{grid-template-columns:1fr}.slide-inner,.slide-inner.dense{padding-top:92px}.journey-item{grid-template-columns:86px minmax(0,1fr)}.journey-item:before{left:70px}.flow-scene .glass-card{width:78%}}
-  </style>
-  <script>
+   </style>
+   <style>
+     .problem-chart{margin-top:14px;padding:14px 16px;border:1px solid rgba(178,233,255,.28);background:rgba(8,18,59,.72);box-shadow:0 14px 32px rgba(0,0,0,.14)}
+     .problem-chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}.problem-chart-title strong{display:block;color:var(--white);font-size:clamp(20px,1.02cqw,24px)}.problem-chart-title span{display:block;margin-top:4px;color:var(--faint);font-size:clamp(16px,.78cqw,19px)}.problem-chart-badge{padding:5px 8px;border:1px solid rgba(178,233,255,.28);color:var(--sky);font-size:clamp(15px,.72cqw,17px);font-weight:800;white-space:nowrap}
+     .problem-chart-rows{display:grid;gap:10px}.problem-chart-row{display:grid;grid-template-columns:minmax(118px,.72fr) minmax(150px,1.55fr) auto;align-items:center;gap:12px;min-width:0}.problem-chart-label strong{display:block;color:var(--white);font-size:clamp(17px,.82cqw,20px)}.problem-chart-label span{display:block;margin-top:3px;color:var(--faint);font-size:clamp(15px,.7cqw,17px)}.problem-chart-track-wrap{min-width:0}.problem-chart-track{height:10px;overflow:hidden;border-radius:999px;background:rgba(178,233,255,.14)}.problem-chart-fill{display:block;width:100%;height:100%;border-radius:inherit;background:var(--sky);transform:scaleX(0);transform-origin:left center}.problem-chart-row:nth-child(2) .problem-chart-fill{background:var(--coral)}.problem-chart-row:nth-child(3) .problem-chart-fill{background:var(--mint)}.problem-chart.chart-live .problem-chart-fill{animation:problem-chart-grow 1100ms cubic-bezier(.22,1,.36,1) forwards}.problem-chart-row:nth-child(2) .problem-chart-fill{animation-delay:120ms}.problem-chart-row:nth-child(3) .problem-chart-fill{animation-delay:240ms}.problem-chart-scale{display:block;margin-top:4px;color:var(--faint);font-size:clamp(14px,.66cqw,16px)}.problem-chart-value{min-width:66px;color:var(--white);font-family:Consolas,"Courier New",monospace;font-size:clamp(20px,1.08cqw,26px);text-align:right;white-space:nowrap;opacity:.35}.problem-chart-value small{margin-left:3px;color:var(--muted);font-family:inherit;font-size:clamp(14px,.68cqw,17px);font-weight:800}.problem-chart.chart-live .problem-chart-value{animation:problem-chart-value-in 500ms ease-out forwards;animation-delay:700ms}.problem-chart-note{margin-top:10px;color:var(--faint);font-size:clamp(14px,.68cqw,17px);line-height:1.3}.team-credit{padding-top:12px;border-top:1px solid var(--line);color:var(--muted);font-size:clamp(17px,.84cqw,20px);line-height:1.55}.team-credit strong{color:var(--sky)}@keyframes problem-chart-grow{to{transform:scaleX(var(--chart-value))}}@keyframes problem-chart-value-in{to{opacity:1;transform:translateX(0)}}
+     @media(max-width:680px){.problem-chart-head{flex-direction:column}.problem-chart-row{grid-template-columns:minmax(0,1fr) auto;gap:7px 10px}.problem-chart-track-wrap{grid-column:1/-1;grid-row:2}.problem-chart-value{grid-column:2;grid-row:1}.problem-chart-scale{font-size:14px}}
+     @media(prefers-reduced-motion:reduce){.problem-chart .problem-chart-fill{transform:scaleX(var(--chart-value));animation:none!important}.problem-chart .problem-chart-value{opacity:1;animation:none!important}}
+   </style>
+   <script>
     (() => {
       const stage = document.getElementById('stage');
-      const removed = document.querySelector('[data-title="10. 제출 전 확인사항"]');
-      if (removed) removed.remove();
-      const slides = Array.from(document.querySelectorAll('.slide'));
+       const slides = Array.from(document.querySelectorAll('.slide'));
       slides.forEach((slide, index) => {
         const kicker = slide.querySelector('.kicker');
         if (kicker) kicker.childNodes[0].nodeValue = `${String(index + 1).padStart(2, '0')} / ${slides.length} `;
@@ -156,7 +165,7 @@
         const node = document.querySelector(selector);
         if (node) node.innerHTML = html;
       };
-      setText('.cover-meta', 'Kairos · AI 서비스톤');
+       setHTML('.cover-meta', '<span>팀 Kairos</span><span>팀원 김동예 · 이호세</span><span>멘토 이정환 · 김건우</span>');
       setText('.topbar-context', '삶의 맥락을 다음 행동으로');
       setText('.context-step:nth-child(1) p', '하루에 겪은 일과 배운 점');
       setText('.source-card:nth-child(1) .source-link', '통계 원문 바로 보기');
@@ -217,11 +226,25 @@
       setText('.module-area:nth-child(3) h3', '작업 공간');
       setText('.module-area:nth-child(4) h3', '취업 준비');
       setText('.module-area:nth-child(1) code', '/contexts');
-      setText('.module-area:nth-child(2) code', '/career/diary · /mentor');
-      setText('.module-area:nth-child(3) code', '/workspace');
-      setText('.module-area:nth-child(4) code', '/ats · /resume · /interview');
-      setText('[data-title="8. 기대효과 및 확장계획"] .effect-row:nth-child(1) p', '기록과 context가 다음 작업의 출발점이 됩니다.');
-      setText('.impact-card p', '기록과 작업을 연결하고, 사용자 동의와 내보내기를 분명하게 합니다.');
+       setText('.module-area:nth-child(2) code', '/career/diary · /mentor');
+       setText('.module-area:nth-child(3) code', '/workspace');
+       setText('.module-area:nth-child(4) code', '/ats · /resume · /interview');
+       setText('.module-area:nth-child(1) p', '파일·Notion·GitHub·공공 API 데이터를 선택해 모읍니다.');
+       setText('[data-title="11. Appendix · 전체 기능 연결 지도"] .map-row:nth-child(1) .status', 'import·공식 API sync·export 경로');
+       setText('[data-title="11. Appendix · 전체 기능 연결 지도"] .map-row:nth-child(1) p', 'Notion·GitHub·워크넷·고용24·큐넷·DART 동기화와 사용자 파일 import, 검색, JSON·Markdown export');
+       setText('[data-title="11. Appendix · 전체 기능 연결 지도"] .map-row:nth-child(2) .status', 'CRUD·Mock·DB 경로');
+       setText('[data-title="11. Appendix · 전체 기능 연결 지도"] .map-row:nth-child(5) .status', '게시글 CRUD·Mock/DB match');
+       setText('[data-title="11. Appendix · 전체 기능 연결 지도"] .map-row:nth-child(5) p', '게시글 생성·조회·수정·삭제, 익명 작성, Mock·DB 기반 커리어 유사도 매칭과 활동 기록');
+       setText('[data-title="8. 기대효과 및 확장계획"] .effect-row:nth-child(1) p', '기록과 context가 다음 작업의 출발점이 됩니다.');
+       setText('.impact-card p', '기록과 작업을 연결하고, 사용자 동의와 내보내기를 분명하게 합니다.');
+       const problemStatsPanel = document.querySelector('[data-title="3. 문제 배경 및 타깃 사용자"] .stats-panel');
+       if (problemStatsPanel) {
+         problemStatsPanel.insertAdjacentHTML('beforeend', '<div class="problem-chart" data-problem-chart role="img" aria-label="첫 취업 소요기간, 장기 미취업, 자기소개서 AI 작성 의심 문제를 단위별로 보여주는 애니메이션 차트"><div class="problem-chart-head"><div class="problem-chart-title"><strong>문제 신호를 한눈에</strong><span>각 지표의 단위별 기준으로 읽습니다</span></div><span class="problem-chart-badge">외부 조사 · 성과 아님</span></div><div class="problem-chart-rows"><div class="problem-chart-row"><div class="problem-chart-label"><strong>첫 취업</strong><span>평균 소요기간</span></div><div class="problem-chart-track-wrap"><div class="problem-chart-track"><span class="problem-chart-fill" style="--chart-value:94.2%"></span></div><span class="problem-chart-scale">0–12개월 기준</span></div><strong class="problem-chart-value">11.3<small>개월</small></strong></div><div class="problem-chart-row"><div class="problem-chart-label"><strong>1년 이상 미취업</strong><span>졸업 후 미취업 기간</span></div><div class="problem-chart-track-wrap"><div class="problem-chart-track"><span class="problem-chart-fill" style="--chart-value:48.6%"></span></div><span class="problem-chart-scale">0–100% 기준</span></div><strong class="problem-chart-value">48.6<small>%</small></strong></div><div class="problem-chart-row"><div class="problem-chart-label"><strong>AI 작성 의심</strong><span>제출 자기소개서</span></div><div class="problem-chart-track-wrap"><div class="problem-chart-track"><span class="problem-chart-fill" style="--chart-value:64.4%"></span></div><span class="problem-chart-scale">0–100% 기준</span></div><strong class="problem-chart-value">64.4<small>%</small></strong></div></div><p class="problem-chart-note">모집단·기준시점·단위가 서로 다르므로 막대 길이를 서로 비교하거나 인과관계로 읽지 않습니다.</p></div>');
+       }
+       const brandPanel = document.querySelector('[data-title="14. Appendix · 출처·폰트·브랜드·팀 정보"] .brand-panel');
+       if (brandPanel && !brandPanel.querySelector('.team-credit')) {
+         brandPanel.insertAdjacentHTML('beforeend', '<p class="team-credit"><strong>팀</strong> Kairos<br><strong>팀원</strong> 김동예 · 이호세<br><strong>멘토</strong> 이정환 · 김건우</p>');
+       }
       const ideaSlideForImage = document.querySelector('[data-title="12. Appendix · 아이디어 1~11 맥락 map"]');
       const positioningSlideForImage = document.querySelector('[data-title="13. Appendix · 경쟁 포지셔닝"]');
       const ideaVisual = '<div class="embedded-visual" aria-label="아이디어가 하나의 맥락으로 연결되는 인라인 SVG"><svg viewBox="0 0 420 150" role="img" aria-hidden="true"><defs><linearGradient id="ideaGlow" x1="0" x2="1"><stop stop-color="#b2e9ff"/><stop offset="1" stop-color="#2f20f7"/></linearGradient></defs><path d="M34 98 C110 24 170 126 244 54 S344 38 388 68" fill="none" stroke="url(#ideaGlow)" stroke-width="3"/><circle cx="34" cy="98" r="10" fill="#2f20f7" stroke="#b2e9ff" stroke-width="2"/><circle cx="134" cy="67" r="8" fill="#a7f0da"/><circle cx="244" cy="54" r="10" fill="#ff8b76"/><circle cx="330" cy="72" r="8" fill="#a7f0da"/><circle cx="388" cy="68" r="12" fill="#2f20f7" stroke="#b2e9ff" stroke-width="2"/><text x="18" y="130" fill="#b2e9ff" font-size="14">기록</text><text x="117" y="42" fill="#dbefff" font-size="14">경험</text><text x="226" y="30" fill="#dbefff" font-size="14">판단</text><text x="310" y="112" fill="#dbefff" font-size="14">작업</text><text x="358" y="42" fill="#b2e9ff" font-size="14">다음 행동</text></svg></div>';
@@ -259,8 +282,15 @@
       let touchStartX = 0;
       let touchStartY = 0;
       let wheelLock = false;
-      const qs = (selector) => document.querySelector(selector);
-      const qsa = (selector) => Array.from(document.querySelectorAll(selector));
+       const qs = (selector) => document.querySelector(selector);
+       const qsa = (selector) => Array.from(document.querySelectorAll(selector));
+       const replayProblemChart = () => {
+         const chart = qs('[data-problem-chart]');
+         if (!chart) return;
+         chart.classList.remove('chart-live');
+         void chart.offsetWidth;
+         chart.classList.add('chart-live');
+       };
 
       const readHash = () => {
         const value = Number.parseInt(window.location.hash.slice(1), 10);
@@ -278,9 +308,10 @@
           if (active) slide.removeAttribute('inert');
           else slide.setAttribute('inert', '');
         });
-        if (status) status.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-        if (progress) progress.style.transform = `scaleX(${(current + 1) / slides.length})`;
-        if (updateHash) window.history.replaceState(null, '', `#${current + 1}`);
+         if (status) status.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+         if (progress) progress.style.transform = `scaleX(${(current + 1) / slides.length})`;
+         if (slides[current]?.dataset.title?.startsWith('3.')) replayProblemChart();
+         if (updateHash) window.history.replaceState(null, '', `#${current + 1}`);
       };
       const move = (step) => setSlide(current + step);
        const isTypingTarget = (target) => target instanceof Element && Boolean(target.closest('input, textarea, select, [contenteditable="true"], [role="textbox"]'));

@@ -58,7 +58,7 @@ const PROVIDERS: Array<{ type: ProviderType; label: string; api: string }> = [
   { type: 'qnet', label: '큐넷', api: '한국산업인력공단 큐넷 Open API' },
 ];
 
-const PUBLIC_PROVIDER_TYPES: ProviderType[] = ['worknet', 'employment24', 'qnet', 'dart'];
+const SYNCABLE_PROVIDER_TYPES: ProviderType[] = ['notion', 'github', 'worknet', 'employment24', 'qnet', 'dart'];
 
 const STATUS_LABELS: Record<ProviderStatus, string> = {
   not_connected: '미연결',
@@ -218,12 +218,12 @@ export default function ContextsPage() {
       if (result?.status === 'configuration_required') {
         toast.add({ title: '공식 API 설정이 필요합니다.', description: '서버 환경변수 설정 후 다시 동기화하세요.', color: 'yellow' });
       } else if (result?.status === 'error') {
-        toast.add({ title: '공공 API 동기화 실패', description: result.errorCode || '오류 코드 없음', color: 'red' });
+        toast.add({ title: '공식 API 동기화 실패', description: result.errorCode || '오류 코드 없음', color: 'red' });
       } else {
         toast.add({ title: `${result?.importedCount || 0}개 context item을 동기화했습니다.`, color: 'green' });
       }
     } catch (error: unknown) {
-      toast.add({ title: '공공 API 동기화 실패', description: error instanceof Error ? error.message : undefined, color: 'red' });
+      toast.add({ title: '공식 API 동기화 실패', description: error instanceof Error ? error.message : undefined, color: 'red' });
     } finally {
       setSyncingProviderId(null);
     }
@@ -416,7 +416,7 @@ export default function ContextsPage() {
               </div>
               {provider && (
                 <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {PUBLIC_PROVIDER_TYPES.includes(provider.providerType) && (
+                  {SYNCABLE_PROVIDER_TYPES.includes(provider.providerType) && (
                     <button
                       type="button"
                       onClick={() => syncProvider(provider)}

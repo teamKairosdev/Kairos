@@ -8,11 +8,19 @@ import {
   MAX_CONTEXT_PROVIDER_REQUEST_BYTES,
   contentHash,
   isContextConnectionMode,
+  deriveProviderStatus,
   readLimitedJsonBody,
   sanitizeContextItemForStorage,
   sanitizeForExport,
   sourceReferenceHash,
 } from '@/server/contexts';
+import {
+  PrivateProviderError,
+  fetchPrivateProvider,
+  isPrivateProviderType,
+  privateApiConfigured,
+  type PrivateProviderType,
+} from '@/server/privateProviders';
 import {
   PublicProviderError,
   PUBLIC_PROVIDER_MAX_RESPONSE_BYTES,
@@ -50,6 +58,12 @@ interface SyncResult {
   }>;
 }
 
+type SyncProviderType = PublicProviderType | PrivateProviderType;
+
+function isSyncProviderType(value: unknown): value is SyncProviderType {
+  return isPublicProviderType(value) || isPrivateProviderType(value);
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -77,8 +91,18 @@ function parseOccurredAt(value: string | null): Date | null {
 }
 
 function errorCode(error: unknown): string {
-  if (error instanceof PublicProviderError) return error.code;
+  if (error instanceof PublicProviderError || error instanceof PrivateProviderError) return error.code;
   return 'SYNC_FAILED';
+}
+
+function providerApiConfigured(providerType: SyncProviderType): boolean {
+  return isPublicProviderType(providerType) ? publicApiConfigured(providerType) : privateApiConfigured(providerType);
+}
+
+function providerStatus(providerType: SyncProviderType, mode: 'official_api' | 'file_import', currentStatus?: string | null) {
+  return isPublicProviderType(providerType)
+    ? derivePublicProviderStatus(providerType, mode, currentStatus)
+    : deriveProviderStatus(providerType, mode, currentStatus);
 }
 
 function syncSettings(
@@ -121,7 +145,7 @@ async function syncOneProvider(
   userId: string,
 ): Promise<SyncResult> {
   const attemptedAt = new Date();
-  const providerType = provider.providerType as PublicProviderType;
+  const providerType = provider.providerType as SyncProviderType;
   const settings = settingsOf(provider.settings);
   const mode = connectionMode(settings);
 
@@ -165,7 +189,7 @@ async function syncOneProvider(
     };
   }
 
-  if (!publicApiConfigured(providerType)) {
+  if (!providerApiConfigured(providerType)) {
     const updated = await updateOwnedProvider(db, provider, userId, {
       status: 'not_connected',
       lastErrorCode: 'CONFIGURATION_REQUIRED',
@@ -186,7 +210,9 @@ async function syncOneProvider(
   }
 
   try {
-    const fetched = await fetchPublicProvider(providerType, { now: attemptedAt });
+    const fetched = isPublicProviderType(providerType)
+      ? await fetchPublicProvider(providerType, { now: attemptedAt })
+      : await fetchPrivateProvider(providerType, { now: attemptedAt });
     const candidates = fetched.items
       .map((item) => sanitizeContextItemForStorage(item))
       .filter((item) => Boolean(item.content));
@@ -231,7 +257,7 @@ async function syncOneProvider(
       ? await db.insert(importedContextItems).values(values).returning()
       : [];
     const updated = await updateOwnedProvider(db, provider, userId, {
-      status: derivePublicProviderStatus(providerType, mode, provider.status === 'paused' ? 'paused' : undefined),
+      status: providerStatus(providerType, mode, provider.status === 'paused' ? 'paused' : undefined),
       lastErrorCode: null,
       lastSyncedAt: attemptedAt,
       settings: syncSettings(settings, 'synced', attemptedAt),
@@ -285,8 +311,8 @@ async function ownedProviders(
 ) {
   const providerId = typeof body.providerId === 'string' ? body.providerId.trim() : '';
   const providerType = body.providerType === undefined ? null : body.providerType;
-  if (providerType !== null && !isPublicProviderType(providerType)) {
-    throw new Error('지원하는 public providerType이 필요합니다.');
+  if (providerType !== null && !isSyncProviderType(providerType)) {
+    throw new Error('지원하는 providerType이 필요합니다.');
   }
 
   if (providerId) {
@@ -320,8 +346,8 @@ export async function POST(req: NextRequest) {
     if (body.providerId !== undefined && typeof body.providerId !== 'string') {
       return badRequest('providerId는 문자열이어야 합니다.');
     }
-    if (body.providerType !== undefined && !isPublicProviderType(body.providerType)) {
-      return badRequest('providerType은 worknet, employment24, qnet, dart 중 하나여야 합니다.');
+    if (body.providerType !== undefined && !isSyncProviderType(body.providerType)) {
+      return badRequest('providerType은 notion, github, worknet, employment24, qnet, dart 중 하나여야 합니다.');
     }
 
     const db = getDb();
@@ -329,18 +355,18 @@ export async function POST(req: NextRequest) {
     const providers = await ownedProviders(db, session.userId, body);
     if (typeof body.providerId === 'string' || body.providerType !== undefined) {
       if (!providers[0]) return notFound('provider를 찾을 수 없거나 권한이 없습니다.');
-      if (!isRegisteredProviderType(providers[0].providerType) || !isPublicProviderType(providers[0].providerType)) {
-        return badRequest('공공 API 동기화 대상 provider가 아닙니다.');
+      if (!isRegisteredProviderType(providers[0].providerType) || !isSyncProviderType(providers[0].providerType)) {
+        return badRequest('공식 API 동기화 대상 provider가 아닙니다.');
       }
     }
 
-    const publicProviders = providers.filter((provider) => isPublicProviderType(provider.providerType));
-    if (publicProviders.some((provider) => !hasConsent(settingsOf(provider.settings)))) {
+    const syncProviders = providers.filter((provider) => isSyncProviderType(provider.providerType));
+    if (syncProviders.some((provider) => !hasConsent(settingsOf(provider.settings)))) {
       return forbidden('공식 API 동기화에 대한 사용자 동의가 필요합니다.');
     }
 
     const results: SyncResult[] = [];
-    for (const provider of publicProviders) {
+    for (const provider of syncProviders) {
       results.push(await syncOneProvider(db, provider, session.userId));
     }
 
@@ -352,7 +378,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: unknown) {
     if (error instanceof ContextPayloadTooLargeError) return payloadTooLarge(error.message);
-    if (error instanceof Error && error.message.includes('public providerType')) return badRequest(error.message);
-    return internalError(error, '공공 API context 동기화에 실패했습니다.');
+    if (error instanceof Error && error.message.includes('providerType')) return badRequest(error.message);
+    return internalError(error, '공식 API context 동기화에 실패했습니다.');
   }
 }
