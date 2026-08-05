@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { callLLMStructured, streamLLMText } from '@/server/llm';
-import { z } from 'zod';
+import { streamLLMText } from '@/server/llm';
 import { getSession } from '@/server/getSession';
 import { getDb } from '@/db';
 import { resumes } from '@/db/schema';
@@ -77,17 +76,34 @@ ${message}
           if (!responseText.trim()) throw new Error('EMPTY_RESPONSE');
 
           try {
-            const result = await callLLMStructured<{ suggestedContent?: string }>({
+            const suggestionStream = await streamLLMText({
               prompt: suggestionPrompt,
-              schema: z.object({ suggestedContent: z.string().optional() }),
+              temperature: 0.3,
             });
-            const guardrail = result.suggestedContent ? checkOutputAsyncGuardrail(result.suggestedContent) : null;
-            const suggestedContent = guardrail?.sanitizedContent || result.suggestedContent;
-            if (suggestedContent) {
-              controller.enqueue(streamEvent({ type: 'suggestion_start' }));
-              for (let index = 0; index < suggestedContent.length; index += 96) {
-                controller.enqueue(streamEvent({ type: 'suggestion_delta', value: suggestedContent.slice(index, index + 96) }));
+            const suggestionReader = suggestionStream.getReader();
+            let suggestedContent = '';
+            let sentSuggestionLength = 0;
+            controller.enqueue(streamEvent({ type: 'suggestion_start' }));
+            while (true) {
+              const { done, value } = await suggestionReader.read();
+              if (done) break;
+              const text = decoder.decode(value, { stream: true });
+              if (!text) continue;
+              suggestedContent += text;
+              const guardrail = checkOutputAsyncGuardrail(suggestedContent);
+              const safeContent = guardrail.sanitizedContent || suggestedContent;
+              if (safeContent.length > sentSuggestionLength) {
+                controller.enqueue(streamEvent({ type: 'suggestion_delta', value: safeContent.slice(sentSuggestionLength) }));
+                sentSuggestionLength = safeContent.length;
               }
+            }
+            suggestedContent += decoder.decode();
+            const finalGuardrail = checkOutputAsyncGuardrail(suggestedContent);
+            const finalContent = finalGuardrail.sanitizedContent || suggestedContent;
+            if (finalContent.length > sentSuggestionLength) {
+              controller.enqueue(streamEvent({ type: 'suggestion_delta', value: finalContent.slice(sentSuggestionLength) }));
+            }
+            if (finalContent.trim()) {
               controller.enqueue(streamEvent({ type: 'suggestion_done' }));
             }
           } catch {
