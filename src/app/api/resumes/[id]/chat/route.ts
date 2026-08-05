@@ -83,7 +83,13 @@ ${message}
             });
             const guardrail = result.suggestedContent ? checkOutputAsyncGuardrail(result.suggestedContent) : null;
             const suggestedContent = guardrail?.sanitizedContent || result.suggestedContent;
-            if (suggestedContent) controller.enqueue(streamEvent({ type: 'suggestion', value: suggestedContent }));
+            if (suggestedContent) {
+              controller.enqueue(streamEvent({ type: 'suggestion_start' }));
+              for (let index = 0; index < suggestedContent.length; index += 96) {
+                controller.enqueue(streamEvent({ type: 'suggestion_delta', value: suggestedContent.slice(index, index + 96) }));
+              }
+              controller.enqueue(streamEvent({ type: 'suggestion_done' }));
+            }
           } catch {
             controller.enqueue(streamEvent({ type: 'suggestion_error', value: '개선 초안을 생성하지 못했습니다.' }));
           }

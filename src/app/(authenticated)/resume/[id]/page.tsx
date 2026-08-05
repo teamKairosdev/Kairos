@@ -41,7 +41,7 @@ interface ChatApiResponse {
 }
 
 interface ResumeChatStreamEvent {
-  type: 'start' | 'text' | 'suggestion' | 'suggestion_error' | 'done' | 'error';
+  type: 'start' | 'text' | 'suggestion' | 'suggestion_start' | 'suggestion_delta' | 'suggestion_done' | 'suggestion_error' | 'done' | 'error';
   value?: string;
 }
 
@@ -281,7 +281,9 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
           const event = JSON.parse(line) as ResumeChatStreamEvent;
           if (event.type === 'text') assistantText += event.value || '';
           if (event.type === 'suggestion') suggestedContent = event.value;
-          if (event.type === 'text' || event.type === 'suggestion') upsertAssistant();
+          if (event.type === 'suggestion_start') suggestedContent = '';
+          if (event.type === 'suggestion_delta') suggestedContent = `${suggestedContent || ''}${event.value || ''}`;
+          if (event.type === 'text' || event.type === 'suggestion' || event.type === 'suggestion_delta') upsertAssistant();
           if (event.type === 'suggestion_error') toast.add({ title: 'AI 개선 초안 안내', description: event.value, color: 'yellow' });
           if (event.type === 'error') throw new Error(event.value || 'AI 응답을 받지 못했습니다.');
         };

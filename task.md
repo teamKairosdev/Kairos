@@ -727,9 +727,9 @@
 
 ### 2. 실제 AI 스트리밍
 - [x] `/api/resumes/[id]/chat`을 구조화 JSON 단일 응답에서 NDJSON 이벤트 스트림으로 변경
-- [x] 이력서 AI 답변은 text 이벤트를 즉시 전달하고 개선 초안은 suggestion 이벤트로 완료 시 Diff에 연결
-- [x] resume 화면이 NDJSON text·suggestion 이벤트를 누적 렌더링하고 기존 JSON 오류 응답도 처리
-- [x] Mock resume chat도 동일한 NDJSON text·suggestion·done 이벤트와 35ms 간격 진행을 사용
+- [x] 이력서 AI 답변은 text 이벤트를 즉시 전달하고 개선 초안은 suggestion_start·suggestion_delta·suggestion_done 이벤트로 Diff에 연결
+- [x] resume 화면이 NDJSON text·suggestion_delta 이벤트를 누적 렌더링하고 기존 JSON 오류 응답도 처리
+- [x] Mock resume chat도 동일한 NDJSON text·suggestion_delta·done 이벤트와 35ms 간격 진행을 사용
 - [x] resume chat 인증·스트리밍 이벤트 테스트 2개 추가
 
 ### 3. 검증

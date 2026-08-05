@@ -56,9 +56,9 @@ describe('resume chat streaming API', () => {
 
     const events = (await response.text()).trim().split('\n').map((line) => JSON.parse(line) as { type: string; value?: string });
     expect(response.headers.get('content-type')).toContain('application/x-ndjson');
-    expect(events.map((event) => event.type)).toEqual(['start', 'text', 'text', 'suggestion', 'done']);
+    expect(events.map((event) => event.type)).toEqual(['start', 'text', 'text', 'suggestion_start', 'suggestion_delta', 'suggestion_done', 'done']);
     expect(events.filter((event) => event.type === 'text').map((event) => event.value).join('')).toBe('첫 번째 응답입니다.');
-    expect(events.find((event) => event.type === 'suggestion')?.value).toBe('개선된 이력서 문장');
+    expect(events.filter((event) => event.type === 'suggestion_delta').map((event) => event.value).join('')).toBe('개선된 이력서 문장');
     expect(mocks.callLLMStructured).toHaveBeenCalledOnce();
   });
 

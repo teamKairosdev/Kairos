@@ -590,7 +590,9 @@ export function initMockInterceptor() {
       const events = [
         JSON.stringify({ type: 'start' }),
         ...Array.from({ length: Math.ceil(responseText.length / 4) }, (_, index) => JSON.stringify({ type: 'text', value: responseText.slice(index * 4, index * 4 + 4) })),
-        JSON.stringify({ type: 'suggestion', value: suggestedContent }),
+        JSON.stringify({ type: 'suggestion_start' }),
+        ...Array.from({ length: Math.ceil((suggestedContent || '').length / 24) }, (_, index) => JSON.stringify({ type: 'suggestion_delta', value: (suggestedContent || '').slice(index * 24, index * 24 + 24) })),
+        JSON.stringify({ type: 'suggestion_done' }),
         JSON.stringify({ type: 'done' }),
       ].map((event) => `${event}\n`);
       const stream = new ReadableStream<Uint8Array>({
