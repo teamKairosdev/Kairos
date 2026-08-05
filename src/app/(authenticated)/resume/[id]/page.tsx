@@ -40,6 +40,11 @@ interface ChatApiResponse {
   suggestedContent?: string;
 }
 
+interface ResumeChatStreamEvent {
+  type: 'start' | 'text' | 'suggestion' | 'suggestion_error' | 'done' | 'error';
+  value?: string;
+}
+
 interface ResumeCompareResponse {
   current: {
     sectionCompleteness: {
@@ -252,15 +257,56 @@ export default function ResumeDetailPage({ params }: { params: Promise<{ id: str
           currentContent: editingContent,
         }),
       });
-      const result = (await res.json()) as ChatApiResponse;
-      setChatHistory(prev => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: result.responseText,
-          suggestedContent: result.suggestedContent,
-        },
-      ]);
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/x-ndjson') && res.body) {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let assistantText = '';
+        let suggestedContent: string | undefined;
+
+        const upsertAssistant = () => {
+          setChatHistory((current) => {
+            const next = [...current];
+            const last = next[next.length - 1];
+            const message = { role: 'assistant' as const, content: assistantText, suggestedContent };
+            if (last?.role === 'assistant') next[next.length - 1] = message;
+            else next.push(message);
+            return next;
+          });
+        };
+
+        const handleLine = (line: string) => {
+          if (!line.trim()) return;
+          const event = JSON.parse(line) as ResumeChatStreamEvent;
+          if (event.type === 'text') assistantText += event.value || '';
+          if (event.type === 'suggestion') suggestedContent = event.value;
+          if (event.type === 'text' || event.type === 'suggestion') upsertAssistant();
+          if (event.type === 'suggestion_error') toast.add({ title: 'AI 개선 초안 안내', description: event.value, color: 'yellow' });
+          if (event.type === 'error') throw new Error(event.value || 'AI 응답을 받지 못했습니다.');
+        };
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split(/\r?\n/);
+          buffer = lines.pop() || '';
+          lines.forEach(handleLine);
+        }
+        buffer += decoder.decode();
+        handleLine(buffer);
+      } else {
+        const result = (await res.json()) as ChatApiResponse;
+        setChatHistory(prev => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: result.responseText,
+            suggestedContent: result.suggestedContent,
+          },
+        ]);
+      }
     } catch {
       setChatHistory(prev => [
         ...prev,

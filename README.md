@@ -87,7 +87,7 @@ flowchart TB
 | **Styling** | Tailwind CSS v4 (CSS-first, @theme) · Freesentation 폰트 |
 | **Validation** | zod (LLM 구조화 응답 스키마) |
 | **UI 유틸** | sonner (토스트) · diff (단어 diff 렌더) |
-| **Testing** | Vitest (35개 테스트 파일 · 193 tests) |
+| **Testing** | Vitest (36개 테스트 파일 · 195 tests) |
 | **Deploy** | Vercel (icn1 서울 리전) · `.npmrc` legacy-peer-deps |
 
 ---
@@ -97,8 +97,8 @@ flowchart TB
 - **Schema tables**: `db/schema.ts`의 `export const ... = pgTable(...)` 기준 **44개**.
 - **API routes**: `src/app/api/**/route.ts` 파일 기준 **107개**.
 - **Pages**: `src/app/**/page.tsx` 파일 기준 **28개**.
-- **Tests**: `test/**/*.test.ts` **35개 파일**, Vitest 테스트 케이스 **193개**.
-- 위 수치는 생성된 `.next` 산출물이 아니라 현재 소스 파일을 센 값이며, 최신 `npm test` 결과 35개 파일·193개 통과와 일치한다.
+- **Tests**: `test/**/*.test.ts` **36개 파일**, Vitest 테스트 케이스 **195개**.
+- 위 수치는 생성된 `.next` 산출물이 아니라 현재 소스 파일을 센 값이며, 최신 `npm test` 결과 36개 파일·195개 통과와 일치한다.
 - 현재 `db/schema.ts`와 `src/server/embedding.ts`의 임베딩 차원은 **768d**이며, `drizzle/0006_clumsy_lake.sql`은 기존 경력 임베딩을 무효화하고 `vector(768)`로 변경한다.
 
 ---
@@ -561,7 +561,7 @@ npm run db:migrate   # Apply migrations to the configured PostgreSQL database
 npm run db:studio    # Launch Drizzle Studio GUI
 
 # Tests
-  npm test             # Vitest · 193 tests (35개 파일)
+  npm test             # Vitest · 195 tests (36개 파일)
 ```
 
 ### Local PostgreSQL
@@ -611,7 +611,7 @@ kairos/
 ├── packages/                   # 플랫폼 브리지 목 스텁 (tauri-bridge, mobile-bridge, agent-cli)
 ├── public/                     # 브랜드 SVG 7종 · rhwp_bg.wasm (postinstall 산출물)
 ├── scripts/                    # copy-rhwp.mjs (WASM 복사)
-├── test/                       # Vitest · 테스트 35파일 · 193 tests
+├── test/                       # Vitest · 테스트 36파일 · 195 tests
 ├── drizzle/                    # SQL 마이그레이션
 ├── next.config.ts · vercel.json · drizzle.config.ts · vitest.config.ts · tsconfig.json
 ├── seed-design.json            # Seed Design CLI 설정 (컴포넌트 미생성)
@@ -696,4 +696,4 @@ kairos/
 
 ---
 
-*최종 수정: 2026-08-05 | 코드 인벤토리 44 tables · 107 API routes · 28 pages · 35 test files / 193 tests 기준*
+*최종 수정: 2026-08-05 | 코드 인벤토리 44 tables · 107 API routes · 28 pages · 36 test files / 195 tests 기준*

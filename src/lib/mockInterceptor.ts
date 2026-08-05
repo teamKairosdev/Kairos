@@ -587,7 +587,27 @@ export function initMockInterceptor() {
       const msg = body.message || '';
       const currentContent = body.currentContent || '';
       const { responseText, suggestedContent } = getSimulatedLLMResponse(msg, currentContent);
-      return json({ responseText, suggestedContent });
+      const events = [
+        JSON.stringify({ type: 'start' }),
+        ...Array.from({ length: Math.ceil(responseText.length / 4) }, (_, index) => JSON.stringify({ type: 'text', value: responseText.slice(index * 4, index * 4 + 4) })),
+        JSON.stringify({ type: 'suggestion', value: suggestedContent }),
+        JSON.stringify({ type: 'done' }),
+      ].map((event) => `${event}\n`);
+      const stream = new ReadableStream<Uint8Array>({
+        start(controller) {
+          const encoder = new TextEncoder();
+          let index = 0;
+          const timer = window.setInterval(() => {
+            if (index >= events.length) {
+              window.clearInterval(timer);
+              controller.close();
+              return;
+            }
+            controller.enqueue(encoder.encode(events[index++]));
+          }, 35);
+        },
+      });
+      return new Response(stream, { headers: { 'Cache-Control': 'no-cache', 'Content-Type': 'application/x-ndjson; charset=utf-8' } });
     }
 
     if (url.match(/\/api\/resumes\/[^/]+/) && method === 'PUT') {

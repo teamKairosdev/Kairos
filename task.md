@@ -714,3 +714,28 @@
 - [x] Dev Mock smoke test — 새로고침 후 `/contexts` seed provider·item, `/community` 게시글·유사도 match, Context import·export, Community PATCH 확인
 - [x] 발표자료 JavaScript 문법·14장 slide·상대경로 media import 0·팀 정보·chart hook 정적 검사 통과
 - [x] `git diff --check` 통과
+
+## 세션 29: 발표 데모 스트리밍·지속 진행 표시 강화 (2026-08-05)
+
+### 1. 발표자료
+- [x] 수정본의 본문·Appendix에서 미완성으로 읽히는 표현을 제품 상태·안전 경계·확장 방향 중심의 문장으로 재작성
+- [x] 브라우저 프로토타입에 입력·분석·생성·승인·저장 상태와 연속 progress bar를 추가
+- [x] ATS 점수·세부 진단을 단계적으로 증가시키고 Diff 제안 문장과 면접 응답을 character stream처럼 갱신
+- [x] 미리 정의한 20개 직무·공고·이력서·Diff·면접 시나리오 중 매 재생마다 다른 시나리오를 선택
+- [x] 시나리오 번호·진행률·현재 단계가 데모 chrome에서 지속 표시되도록 구현
+- [x] 발표자료의 인터랙티브 프로토타입 문구와 Appendix 상태 표현을 실제 코드·Mock 경계에 맞춰 갱신
+
+### 2. 실제 AI 스트리밍
+- [x] `/api/resumes/[id]/chat`을 구조화 JSON 단일 응답에서 NDJSON 이벤트 스트림으로 변경
+- [x] 이력서 AI 답변은 text 이벤트를 즉시 전달하고 개선 초안은 suggestion 이벤트로 완료 시 Diff에 연결
+- [x] resume 화면이 NDJSON text·suggestion 이벤트를 누적 렌더링하고 기존 JSON 오류 응답도 처리
+- [x] Mock resume chat도 동일한 NDJSON text·suggestion·done 이벤트와 35ms 간격 진행을 사용
+- [x] resume chat 인증·스트리밍 이벤트 테스트 2개 추가
+
+### 3. 검증
+- [x] `npm test` — **36개 파일, 195/195 통과**
+- [x] `npx tsc --noEmit --incremental false` 통과
+- [x] `npm run build` 통과
+- [x] 수정본 HTML JavaScript 3개 문법, 14장 slide, 시나리오 20개, progress hook 정적 검사 통과
+- [x] Chrome smoke test에서 progress 변화·시나리오 랜덤 선택·면접 응답 중간 스트리밍 확인
+- [x] `git diff --check` 통과
